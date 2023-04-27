@@ -1,0 +1,111 @@
+extends Node
+
+const adjacent_tiles = [Vector2(16, 0), Vector2(-16, 0), Vector2(0, 16), Vector2(0, -16)]
+
+var controller_type: String # Type of controller being used (keyboard, mouse, or controller)
+var _debug_constants = { # Constants used in the debug menu.
+	unit_wait = true, # Whether units are unable to move after movement.
+	display_map_borders = false, # Whether map borders are displayed
+	display_map_terrain = false,
+}
+var _config_file := ConfigFile.new() # File used for saving and loading of configuration settings.
+var _screen_size: Vector2 : get = get_screen_size
+# Variables to access nodes that are commonly referenced.
+# Change these references at your own risk.
+var _game_controller: Control = preload("res://game_controller.tscn").instantiate() : get = get_game_controller, set = set_game_controller
+var _cursor = preload("res://cursor.tscn").instantiate()
+var _map = preload("res://Maps/map_base.tscn").instantiate()
+
+
+func _ready() -> void:
+	_load_config()
+	var width: int = ProjectSettings.get_setting("display/window/size/viewport_width")
+	var height: int = ProjectSettings.get_setting("display/window/size/viewport_height")
+	_screen_size = Vector2(width, height)
+
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseButton or event is InputEventMouseMotion:
+		controller_type = "Mouse"
+	elif event is InputEventKey:
+		controller_type = "Keyboard"
+
+	if event.is_action_pressed("ui_fullscreen"):
+		get_window().mode = Window.MODE_EXCLUSIVE_FULLSCREEN if (not(((get_window().mode == Window.MODE_EXCLUSIVE_FULLSCREEN) or (get_window().mode == Window.MODE_FULLSCREEN)))) else Window.MODE_WINDOWED
+
+	elif event.is_action_pressed("ui_debug"):
+		get_cursor_area().monitoring = false
+		get_cursor_area().monitoring = true
+
+
+func _exit_tree() -> void:
+	save_config()
+
+
+func get_screen_size() -> Vector2:
+	return _screen_size
+
+
+func set_game_controller(game_controller: Control) -> void:
+	_game_controller = game_controller
+
+
+func get_game_controller() -> Control:
+	return _game_controller
+
+
+func set_cursor(new_cursor: Cursor) -> void:
+	_cursor = new_cursor
+
+
+func get_cursor() -> Cursor:
+	return _cursor
+
+
+func set_map(map: Map) -> void:
+	_map = map
+
+
+func get_map() -> Map:
+	return _map
+
+
+func get_cursor_area() -> Area2D:
+	# Returns the cursor area.
+	return get_map().get_node("CursorArea") as Area2D
+
+
+func get_tick_timer() -> float:
+	# Returns the amount of elapsed ticks.
+	# 60 ticks/second.
+	return Time.get_ticks_msec() / 1000.0 * 60
+
+
+func save_config() -> void:
+	# Saves configuration.
+	for constant in _debug_constants:
+		_config_file.set_value("Debug", constant, get_debug_constant(constant))
+	# warning-ignore:return_value_discarded
+	_config_file.save("user://config.ini")
+
+
+func get_debug_constant(constant: String):
+	return _debug_constants[constant]
+
+
+func set_debug_constant(constant: String, value) -> void:
+	_debug_constants[constant] = value
+	save_config()
+
+
+func invert_debug_constant(constant: String) -> void:
+	set_debug_constant(constant, not(get_debug_constant(constant)))
+
+
+func _load_config() -> void:
+	# Loads configuration
+	# warning-ignore:return_value_discarded
+	_config_file.load("user://config.ini")
+	for constant in _debug_constants:
+		var new_constant = get_debug_constant(constant)
+		_debug_constants[constant] = _config_file.get_value("Debug", constant, new_constant)

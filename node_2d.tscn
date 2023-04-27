@@ -1,0 +1,200 @@
+[gd_scene load_steps=29 format=3 uid="uid://bydeu6yubhua0"]
+
+[ext_resource type="Texture2D" uid="uid://bj27xsfrvrml" path="res://Font/full_text.png" id="1_7i5xs"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qgtjj"]
+texture = ExtResource("1_7i5xs")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+8:0/0 = 0
+9:0/0 = 0
+10:0/0 = 0
+11:0/0 = 0
+12:0/0 = 0
+13:0/0 = 0
+14:0/0 = 0
+15:0/0 = 0
+16:0/0 = 0
+17:0/0 = 0
+18:0/0 = 0
+19:0/0 = 0
+20:0/0 = 0
+21:0/0 = 0
+22:0/0 = 0
+23:0/0 = 0
+24:0/0 = 0
+25:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+8:1/0 = 0
+9:1/0 = 0
+10:1/0 = 0
+11:1/0 = 0
+12:1/0 = 0
+13:1/0 = 0
+14:1/0 = 0
+15:1/0 = 0
+16:1/0 = 0
+17:1/0 = 0
+18:1/0 = 0
+19:1/0 = 0
+20:1/0 = 0
+21:1/0 = 0
+22:1/0 = 0
+23:1/0 = 0
+24:1/0 = 0
+25:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+8:2/0 = 0
+9:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+7:3/0 = 0
+8:3/0 = 0
+9:3/0 = 0
+10:3/0 = 0
+11:3/0 = 0
+12:3/0 = 0
+13:3/0 = 0
+14:3/0 = 0
+15:3/0 = 0
+16:3/0 = 0
+17:3/0 = 0
+18:3/0 = 0
+19:3/0 = 0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_gsm46"]
+load_path = "res://.godot/imported/FontItemア_4183.png-e1d1c66135d93afad2d12d79090f64a3.ctex"
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7h8c5"]
+texture = SubResource("CompressedTexture2D_gsm46")
+0:0/0 = 0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_nua1p"]
+load_path = "res://.godot/imported/FontItem__D582.png-376cdb446c05d0fc745027f73cc9fd90.ctex"
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_iwdao"]
+texture = SubResource("CompressedTexture2D_nua1p")
+0:0/next_alternative_id = 2
+0:0/0 = 0
+0:0/1 = 1
+0:0/1/flip_v = true
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_pbjsn"]
+load_path = "res://.godot/imported/FontItem__E582.png-fdeab0bcf54321ae8c09943f81faa51c.ctex"
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tvalg"]
+texture = SubResource("CompressedTexture2D_pbjsn")
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lbtxj"]
+texture = SubResource("CompressedTexture2D_gsm46")
+0:0/0 = 0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ws08c"]
+load_path = "res://.godot/imported/FontItem!_BA82.png-ea610392725740a34e95c0000cf26363.ctex"
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bpf1t"]
+texture = SubResource("CompressedTexture2D_ws08c")
+0:0/0 = 0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_h4430"]
+load_path = "res://.godot/imported/FontItem__4E83.png-b5663bbd50d2613661746a4e111fa90e.ctex"
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ccpmn"]
+texture = SubResource("CompressedTexture2D_h4430")
+0:0/0 = 0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_q4th8"]
+load_path = "res://.godot/imported/FontItem__5A83.png-1936aa843952a096b9cec8eba9988126.ctex"
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_68yyp"]
+texture = SubResource("CompressedTexture2D_q4th8")
+0:0/0 = 0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7mueq"]
+load_path = "res://.godot/imported/FontItem__4383.png-b0bef2f54913fe3117e840cb00d44f49.ctex"
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1ybdr"]
+texture = SubResource("CompressedTexture2D_7mueq")
+0:0/0 = 0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_2pl3r"]
+load_path = "res://.godot/imported/FontItem__4783.png-dc7fa428859f8e91ddce3579add07975.ctex"
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_e3kwd"]
+texture = SubResource("CompressedTexture2D_2pl3r")
+0:0/0 = 0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_recsx"]
+load_path = "res://.godot/imported/FontItem__4983.png-f5f199ebd64d490f7da5db089555bb12.ctex"
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dw8xv"]
+texture = SubResource("CompressedTexture2D_recsx")
+0:0/0 = 0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_lqvg3"]
+load_path = "res://.godot/imported/FontItem__5483.png-f6bdfab06fd83cfc40805de526f426ba.ctex"
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ytb3s"]
+texture = SubResource("CompressedTexture2D_lqvg3")
+0:0/0 = 0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_5gicn"]
+load_path = "res://.godot/imported/FontItem__BC82.png-d28a84d9af57528a6c3a7e092038fe34.ctex"
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_i5x4i"]
+texture = SubResource("CompressedTexture2D_5gicn")
+0:0/0 = 0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_yvy8h"]
+load_path = "res://.godot/imported/FontItem__D482.png-6a40626e10f2c7f51bc180e2ff1e19d3.ctex"
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gie38"]
+texture = SubResource("CompressedTexture2D_yvy8h")
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_y6dbq"]
+sources/0 = SubResource("TileSetAtlasSource_qgtjj")
+sources/1 = SubResource("TileSetAtlasSource_7h8c5")
+sources/2 = SubResource("TileSetAtlasSource_ccpmn")
+sources/3 = SubResource("TileSetAtlasSource_68yyp")
+sources/4 = SubResource("TileSetAtlasSource_1ybdr")
+sources/5 = SubResource("TileSetAtlasSource_e3kwd")
+sources/6 = SubResource("TileSetAtlasSource_dw8xv")
+sources/7 = SubResource("TileSetAtlasSource_ytb3s")
+sources/8 = SubResource("TileSetAtlasSource_i5x4i")
+sources/9 = SubResource("TileSetAtlasSource_gie38")
+sources/10 = SubResource("TileSetAtlasSource_iwdao")
+sources/11 = SubResource("TileSetAtlasSource_tvalg")
+sources/12 = SubResource("TileSetAtlasSource_lbtxj")
+sources/13 = SubResource("TileSetAtlasSource_bpf1t")
+
+[node name="Node2D" type="TileMap"]
+tile_set = SubResource("TileSet_y6dbq")
+format = 2
+layer_0/tile_data = PackedInt32Array(0, 0, 0, 65536, 0, 1, 131072, 0, 2, 1, 65536, 0, 65537, 65536, 1, 131073, 65536, 2, 2, 131072, 0, 65538, 131072, 1, 131074, 131072, 2, 3, 196608, 0, 65539, 196608, 1, 131075, 196608, 2, 4, 262144, 0, 65540, 262144, 1, 131076, 262144, 2, 5, 327680, 0, 65541, 327680, 1, 131077, 327680, 2, 6, 393216, 0, 65542, 393216, 1, 131078, 393216, 2, 7, 458752, 0, 65543, 458752, 1, 131079, 458752, 2, 8, 524288, 0, 65544, 524288, 1, 131080, 524288, 2, 9, 589824, 0, 65545, 589824, 1, 131081, 589824, 2, 10, 655360, 0, 65546, 655360, 1, 11, 720896, 0, 65547, 720896, 1, 12, 786432, 0, 65548, 786432, 1, 13, 851968, 0, 65549, 851968, 1, 14, 917504, 0, 65550, 917504, 1, 15, 983040, 0, 65551, 983040, 1, 16, 1048576, 0, 65552, 1048576, 1, 17, 1114112, 0, 65553, 1114112, 1, 18, 1179648, 0, 65554, 1179648, 1, 19, 1245184, 0, 65555, 1245184, 1, 20, 1310720, 0, 65556, 1310720, 1, 21, 1376256, 0, 65557, 1376256, 1, 22, 1441792, 0, 65558, 1441792, 1, 23, 1507328, 0, 65559, 1507328, 1, 24, 1572864, 0, 65560, 1572864, 1, 25, 1638400, 0, 65561, 1638400, 1, 131082, 13, 0, 131083, 8, 0, 131084, 0, 3, 131085, 65536, 3, 131086, 131072, 3, 131087, 196608, 3, 131088, 262144, 3, 131089, 327680, 3, 131090, 393216, 3, 131091, 9, 0, 131092, 458752, 3, 131093, 524288, 3, 131094, 589824, 3, 131095, 655360, 3, 131096, 10, 0, 131097, 11, 0, 196608, 12, 0, 196609, 4, 0, 196610, 720896, 3, 196611, 5, 0, 196612, 6, 0, 196613, 786432, 3, 196614, 851968, 3, 196615, 10, 65536, 196616, 917504, 3, 196617, 983040, 3, 196618, 7, 0, 196619, 1048576, 3, 196620, 3, 0, 196621, 1114112, 3, 196622, 1179648, 3, 196623, 1245184, 3)

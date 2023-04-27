@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Unit Classes/base_fe.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Map Sprites/lance_knight.png" type="Texture2D" id=2]
+[ext_resource path="res://Unit Classes/lance_knight.gd" type="Script" id=3]
+
+[node name="Lance Knight" instance=ExtResource( 1 )]
+texture = ExtResource( 2 )
+script = ExtResource( 3 )
+movement = 4
+init_items = [  ]

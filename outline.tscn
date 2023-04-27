@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://g5w1ssm8t6q0"]
+
+[ext_resource type="Script" path="res://outline.gd" id="1_uaybv"]
+
+[node name="Outline" type="Node2D"]
+scale = Vector2(10, 10)
+script = ExtResource("1_uaybv")

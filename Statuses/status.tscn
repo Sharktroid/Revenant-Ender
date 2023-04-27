@@ -1,0 +1,6 @@
+[gd_scene format=2]
+
+[node name="Status" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+centered = false

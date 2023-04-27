@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://b4a6n61tdijwj"]
+
+[ext_resource type="Theme" uid="uid://5iql263qnldx" path="res://Menus/Map Menus/map_menu.tres" id="1_cjgdr"]
+[ext_resource type="Texture2D" uid="uid://ch8tv43kw8yv4" path="res://UI/Binding Blade/menu.png" id="1_orqlm"]
+[ext_resource type="Script" path="res://Menus/Map Menus/base_map_menu.gd" id="2_g1l6c"]
+[ext_resource type="Script" path="res://Menus/Map Menus/base_button.gd" id="3_rxiol"]
+
+[node name="Base Map Menu" type="NinePatchRect"]
+offset_right = 41.0
+offset_bottom = 41.0
+theme = ExtResource("1_cjgdr")
+texture = ExtResource("1_orqlm")
+region_rect = Rect2(0, 0, 25.0251, 25.0526)
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 5
+patch_margin_bottom = 5
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+script = ExtResource("2_g1l6c")
+
+[node name="Items" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 4.0
+offset_bottom = 4.0
+theme_override_constants/separation = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="Base Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 16.0
+offset_bottom = 16.0
+theme = ExtResource("1_cjgdr")
+script = ExtResource("3_rxiol")
+
+[connection signal="been_pressed" from="Base Button" to="." method="_on_button_pressed"]

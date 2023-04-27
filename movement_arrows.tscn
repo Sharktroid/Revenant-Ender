@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://movement_arrows.png" type="Texture2D" id=1]
+
+[node name="MovementArrows" type="Sprite2D"]
+position = Vector2( -80, -32 )
+texture = ExtResource( 1 )
+centered = false
+hframes = 7
+vframes = 2

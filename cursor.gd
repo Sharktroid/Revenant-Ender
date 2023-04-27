@@ -1,0 +1,130 @@
+class_name Cursor
+extends Sprite2D
+
+signal moved
+
+var _rel_pos: Vector2i
+var true_origin: Vector2
+
+
+func _ready() -> void:
+#	transform.origin.x = 16
+	set_rel_pos(transform.get_origin())
+#	GenVars.set_cursor(self)
+	set_process_input(true)
+
+
+#func _input(event: InputEvent) -> void:
+#	pass
+#	if event is InputEventMouseMotion:
+		# moves cursor
+
+#	elif event.is_action_pressed("ui_debug"):
+#		print_debug(get_true_pos().y)
+
+
+func _process(_delta):
+	var tick_timer: int = int(GenVars.get_tick_timer()) % 32
+	if tick_timer <= 20:
+		frame = 0
+	elif tick_timer <= 22 or tick_timer > 30:
+		frame = 1
+	else:
+		frame = 2
+
+
+func _physics_process(_delta: float) -> void:
+#	var old_pos: Vector2 = get_true_pos()
+	if GenVars.get_game_controller().controller_type == "Mouse" and is_processing_input():
+		var destination: Vector2 = GenVars.get_map_camera().get_destination()
+		if destination == GenVars.get_map_camera().transform.get_origin():
+			var mouse_position = get_viewport().get_mouse_position()
+			var universal_scale = GenVars.get_game_controller().get_scaling()
+			set_rel_pos((mouse_position/universal_scale) - Vector2((GenVars.get_map_camera() as MapCamera).map_offset))
+	else:
+		var new_pos := Vector2i()
+#		var map_pos := Vector2i()
+		if get_rel_pos() == (true_origin as Vector2i) and is_processing_input():
+			if Input.is_action_pressed("ui_left"):
+				new_pos.x -= 16
+			elif Input.is_action_pressed("ui_right") and not Input.is_action_pressed("ui_left"):
+				new_pos.x += 16
+			if Input.is_action_pressed("ui_up"):
+				new_pos.y -= 16
+			elif Input.is_action_pressed("ui_down") and not Input.is_action_pressed("ui_up"):
+				new_pos.y += 16
+#		if map_pos != Vector2i():
+#			GenVars.get_map().move(map_pos)
+#		if new_pos != Vector2i():
+		move(new_pos)
+	if (transform.get_origin()) != Vector2(_rel_pos + GenVars.get_map_camera().map_offset):
+		true_origin = true_origin.move_toward(get_rel_pos(),
+				max(1, true_origin.distance_to(get_rel_pos())/16) * 4)
+		transform.origin = true_origin + Vector2(GenVars.get_map_camera().map_offset)
+
+
+func set_true_pos(new_pos: Vector2i) -> void:
+	# Sets cursor position relative to the map
+	set_rel_pos(new_pos - Vector2i(GenVars.get_map_camera().true_origin))
+
+
+func get_true_pos() -> Vector2i:
+	return get_rel_pos() + Vector2i(GenVars.get_map_camera().true_origin)
+
+
+func set_rel_pos(new_pos: Vector2i) -> void:
+	var top_bounds: Vector2i = Vector2i(4, 4)
+	var bottom_bounds: Vector2i = GenVars.get_screen_size() - Vector2i(4, 4)
+	new_pos = GenFunc.round_coords_to_tile(new_pos)
+	var map_move := Vector2i()
+	for i in 2:
+		if (GenVars.get_map() as Map).get_rel_upper_border()[i] >= 0:
+			top_bounds[i] = GenVars.get_map().get_rel_upper_border()[i]
+		if (GenVars.get_map() as Map).get_rel_lower_border()[i] >= 0:
+			bottom_bounds[i] = GenVars.get_screen_size()[i] - GenVars.get_map().get_rel_lower_border()[i]
+
+		while new_pos[i] <= -16:
+			new_pos[i] += 16
+		while new_pos[i] + 16 >= GenVars.get_screen_size()[i] + 16:
+			new_pos[i] -= 16
+
+#		print_debug(get_true_pos())
+		while top_bounds[i] > new_pos[i]:
+			map_move[i] -= 16
+			new_pos[i] += 16
+		while bottom_bounds[i] < new_pos[i] + 16:
+			map_move[i] += 16
+			new_pos[i] -= 16
+
+	if map_move != Vector2i():
+		GenVars.get_map_camera().move(map_move)
+#		set_rel_pos(GenFunc.clamp_vector(new_pos, top_bounds, bottom_bounds))
+	if _rel_pos != new_pos:
+		_rel_pos = new_pos
+#	var upper_border: Vector2i = GenVars.get_map().upper_border
+#	var lower_border: Vector2i = GenVars.get_map().get_size() - GenVars.get_map().lower_border
+		emit_signal("moved")
+
+
+func get_rel_pos() -> Vector2i:
+	return _rel_pos
+
+
+func move(new_pos: Vector2i) -> void:
+	set_rel_pos(new_pos + get_rel_pos())
+
+
+func can_move(new_pos: Vector2i) -> bool:
+	var old_pos: Vector2i = get_rel_pos()
+	move(new_pos)
+	var answer: bool
+	if get_rel_pos() == old_pos:
+		answer = false
+	else:
+		answer = true
+	set_rel_pos(old_pos)
+	return answer
+
+
+#func _get_map_offset() -> Vector2i:
+#	return GenVars.get_map().get_parent().global_canvas_transform.get_origin()

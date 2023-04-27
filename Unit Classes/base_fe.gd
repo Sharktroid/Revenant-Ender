@@ -1,0 +1,185 @@
+@tool
+class_name FEUnit
+extends "res://Unit Classes/unit_base.gd"
+
+enum items_enum {RAPIER, IRON_LANCE, IRON_AXE, IRON_BOW}
+
+@export var init_items: Array[items_enum] # No way to load weapons directly via export variable.
+@export var personal_movement: int : get = get_movement, set = set_movement
+
+var items: Array[Item]
+var weapon_levels: Dictionary
+var strength: int
+var defense: int
+var attack: int
+var base_movement: int
+
+var _default_palette: Array[Array] = [[Vector3(), Vector3()]]
+var _wait_palette: Array[Array] = [
+	[Vector3(24, 240, 248), Vector3(184, 184, 184)],
+	[Vector3(144, 184, 232), Vector3(120, 120, 120)],
+	[Vector3(248, 248, 64), Vector3(200, 200, 200)],
+	[Vector3(232, 16, 24), Vector3(112, 112, 112)],
+	[Vector3(56, 56, 144), Vector3(72, 72, 72)],
+	[Vector3(248, 248, 248), Vector3(208, 208, 208)],
+	[Vector3(56, 80, 224), Vector3(88, 88, 88)],
+	[Vector3(112, 96, 96), Vector3(80, 80, 80)],
+	[Vector3(248, 248, 208), Vector3(200, 200, 200)],
+	[Vector3(88, 72, 120), Vector3(64, 64, 64)],
+	[Vector3(216, 232, 240), Vector3(184, 184, 184)],
+	[Vector3(40, 160, 248), Vector3(152, 152, 152)],
+	[Vector3(176, 144, 88), Vector3(128, 128, 128)],
+]
+var _red_palette: Array[Array] = [
+	[Vector3(56, 56, 144), Vector3(96, 40, 32)],
+	[Vector3(56, 80, 224), Vector3(168, 48, 40)],
+	[Vector3(40, 160, 248), Vector3(224, 16, 16)],
+	[Vector3(24, 240, 248), Vector3(248, 80, 72)],
+	[Vector3(232, 16, 24), Vector3(56, 208, 48)],
+	[Vector3(88, 72, 120), Vector3(104, 72, 96)],
+	[Vector3(216, 232, 240), Vector3(224, 224, 224)],
+	[Vector3(144, 184, 232), Vector3(192, 168, 184)],
+]
+var _green_palette: Array[Array] = [
+	[Vector3(56, 56, 144), Vector3(32, 80, 16)],
+	[Vector3(56, 80, 224), Vector3(8, 144, 0)],
+	[Vector3(40, 160, 248), Vector3(24, 208, 16)],
+	[Vector3(24, 240, 248), Vector3(80, 248, 56)],
+	[Vector3(232, 16, 24), Vector3(0, 120, 200)],
+	[Vector3(88, 72, 120), Vector3(56, 80, 56)],
+	[Vector3(144, 184, 232), Vector3(152, 200, 158)],
+	[Vector3(216, 232, 240), Vector3(216, 248, 184)],
+	[Vector3(112, 96, 96), Vector3(88, 88, 80)],
+	[Vector3(176, 144, 88), Vector3(160, 136, 64)],
+	[Vector3(248, 248, 208), Vector3(248, 248, 192)],
+	[Vector3(248, 248, 64), Vector3(224, 248, 40)],
+]
+var _purple_palette: Array[Array] = [
+	[Vector3(56, 56, 144), Vector3(88, 32, 96)],
+	[Vector3(56, 80, 224), Vector3(128, 48, 144)],
+	[Vector3(40, 160, 248), Vector3(184, 72, 224)],
+	[Vector3(24, 240, 248), Vector3(208, 96, 248)],
+	[Vector3(232, 16, 24), Vector3(56, 208, 48)],
+	[Vector3(88, 72, 120), Vector3(88, 64, 104)],
+	[Vector3(144, 184, 232), Vector3(168, 168, 232)],
+	[Vector3(64, 56, 56), Vector3(72, 40, 64)],
+]
+
+
+func _init():
+	for weapon in Weapon.types:
+		weapon_levels[weapon] = 0
+
+
+#func _enter_tree() -> void:
+#	print_debug(get_movement())
+#	print_debug(current_movement)
+
+func _ready() -> void:
+	material = material.duplicate()
+	current_movement = get_movement()
+	for item in init_items:
+		match item:
+			items_enum.RAPIER: items.append(Rapier.new())
+			items_enum.IRON_LANCE: items.append(Iron_Lance.new())
+			items_enum.IRON_AXE: items.append(Iron_Axe.new())
+			items_enum.IRON_BOW: items.append(Iron_Bow.new())
+	_update_palette()
+	if len(items) > 0:
+		max_range = items[0].max_range
+		min_range = items[0].min_range
+	attack = strength
+	if len(items) > 0:
+		attack += items[0].might
+	super()
+
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("debug"):
+		print_debug((material as ShaderMaterial).get_shader_parameter("conversion_array"))
+
+
+func set_movement(new_move) -> void:
+	personal_movement = new_move
+
+
+func get_movement() -> int:
+	return personal_movement + base_movement
+
+
+func wait() -> void:
+	super.wait()
+	_update_palette()
+
+
+func awaken() -> void:
+	super.awaken()
+	_update_palette()
+
+
+func _update_palette() -> void:
+	_set_palette(get_faction().color)
+
+
+func _update_sprite() -> void:
+
+	super._update_sprite()
+	if map_animation == animations.IDLE:
+		var frame_num: int = int(GenVars.get_tick_timer()) % 64
+		if (frame_num >= 16 and frame_num < 32) or frame_num >= 48:
+			frame = 1
+		elif frame_num >= 32 and frame_num < 48:
+			frame = 2
+		else:
+			frame = 0
+	else:
+		match map_animation:
+			animations.MOVING_RIGHT, animations.MOVING_LEFT: frame_coords.y = 1
+			animations.MOVING_DOWN: frame_coords.y = 2
+			animations.MOVING_UP: frame_coords.y = 3
+		var frame_num: float = 10
+		var frame_count: float = fmod(GenVars.get_tick_timer(), (frame_num * 4))
+		if frame_count >= frame_num and frame_count < (frame_num * 2):
+			frame_coords.x = 1
+		elif frame_count >= (frame_num * 2) and frame_count < (frame_num * 3):
+			frame_coords.x = 2
+		elif frame_count >= (frame_num * 3):
+			frame_coords.x = 3
+		else:
+			frame_coords.x = 0
+	if map_animation == animations.MOVING_LEFT:
+		flip_h = true
+	else:
+		flip_h = false
+
+
+func _set_palette(color: Faction.colors) -> void:
+	var palette: Array[Array]
+	match waiting:
+		true: palette = _wait_palette
+		false:
+			match color:
+				Faction.colors.RED: palette = _red_palette
+				Faction.colors.GREEN : palette = _green_palette
+				Faction.colors.BLUE: palette = _default_palette
+				Faction.colors.PURPLE: palette = _purple_palette
+				var invalid:
+					palette = _default_palette
+					push_error("Color %s does not have a palette." % invalid)
+	var old_colors: Array[Vector3] = []
+	var new_colors: Array[Vector3] = []
+	for color_set in palette:
+		old_colors.append(color_set[0])
+		new_colors.append(color_set[1])
+#	print_debug(get_faction().name)
+	(material as ShaderMaterial).set_shader_parameter("old_colors", old_colors)
+	(material as ShaderMaterial).set_shader_parameter("new_colors", new_colors)
+#	print_debug((material as ShaderMaterial).get_shader_parameter("old_colors"))
+
+
+func _get_damage(attacker: Unit, defender: Unit) -> float:
+	return max(0, attacker.attack - defender.defense)
+
+
+func _set_base_frame() -> void:
+	pass

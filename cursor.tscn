@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://6gj582uhmfru"]
+
+[ext_resource type="Texture2D" uid="uid://b5nv67181fv2l" path="res://cursor.png" id="1"]
+[ext_resource type="Script" path="res://cursor.gd" id="2"]
+
+[node name="Cursor" type="Sprite2D"]
+texture = ExtResource("1")
+centered = false
+offset = Vector2(-4, -4)
+hframes = 4
+vframes = 4
+frame = 2
+script = ExtResource("2")

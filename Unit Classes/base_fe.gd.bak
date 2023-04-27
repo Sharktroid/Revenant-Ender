@@ -1,0 +1,62 @@
+extends "res://Unit Classes/unit_base.gd"
+var _red_palette = [
+	[[56, 56, 144], [96, 40, 32]],
+	[[56, 80, 224], [168, 48, 40]],
+	[[40, 160, 248], [224, 16, 16]],
+	[[24, 240, 248], [248, 80, 72]],
+	[[232, 16, 24], [56, 208, 48]],
+	[[88, 72, 120], [104, 72, 96]],
+	[[216, 232, 240], [224, 224, 224]],
+	[[144, 184, 232], [192, 168, 184]],
+]
+var _green_palette = [
+	[[56, 56, 144], [32, 80, 16]],
+	[[56, 80, 224], [8, 144, 0]],
+	[[40, 160, 248], [24, 208, 16]],
+	[[24, 240, 248], [80, 248, 56]],
+	[[232, 16, 24], [0, 120, 200]],
+	[[88, 72, 120], [56, 80, 56]],
+	[[144, 184, 232], [152, 200, 158]],
+	[[216, 232, 240], [216, 248, 184]],
+	[[112, 96, 96], [88, 88, 80]],
+	[[176, 144, 88], [160, 136, 64]],
+	[[248, 248, 208], [248, 248, 192]],
+	[[248, 248, 64], [224, 248, 40]]]
+
+func _enter_tree() -> void:
+	var split_code: Array = material.shader.get_code().split('///')
+	var code_start: String = split_code[0]
+	var code_end: String = split_code[-1]
+	var code_mid: String = "// Third vec3 is filler\nconst mat3 conversion_array[] = {"
+	var palette: Array
+	match GenVars.get_map().get_unit_faction(faction).color:
+		"Red": palette = _red_palette
+		"Green": palette = _green_palette
+	var parsed_pallettes := []
+	for color in palette:
+		parsed_pallettes.append("mat3(vec3(%s), vec3(%s), vec3(0))" % [", ".join(color[0]), ", ".join(color[1])])
+	code_mid += ", ".join(parsed_pallettes)
+	code_mid += "};"
+	var code: String = code_start + code_mid + code_end
+	print_debug(code_mid)
+	material.shader.set_code(code)
+
+
+func _set_palette() -> void:
+	pass
+
+
+func _update_sprite() -> void:
+	._update_sprite()
+	if map_animation == "Idle":
+		var frame_num: int = int(GenVars.get_tick_timer()) % 64
+		if (frame_num >= 16 and frame_num < 32) or frame_num >= 48:
+			frame = 1
+		elif frame_num >= 32 and frame_num < 48:
+			frame = 2
+		else:
+			frame = 0
+
+
+func _set_base_frame() -> void:
+	pass

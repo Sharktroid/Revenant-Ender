@@ -1,0 +1,10 @@
+[gd_scene load_steps=4 format=3 uid="uid://l0kj2ag3mxow"]
+
+[ext_resource type="PackedScene" uid="uid://d0lluxm0kac0i" path="res://Unit Classes/base_fe.tscn" id="1"]
+[ext_resource type="Texture2D" uid="uid://dhm1yqcs0uc71" path="res://Map Sprites/archer.png" id="2"]
+[ext_resource type="Script" path="res://Unit Classes/archer.gd" id="3"]
+
+[node name="Archer" instance=ExtResource("1")]
+texture = ExtResource("2")
+script = ExtResource("3")
+init_items = Array[int]([3])

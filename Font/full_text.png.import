@@ -1,0 +1,21 @@
+[remap]
+
+importer="font_data_image"
+type="FontFile"
+uid="uid://bj27xsfrvrml"
+path="res://.godot/imported/full_text.png-4a87d5ec8eba563ad67c8f7278b68884.fontdata"
+
+[deps]
+
+source_file="res://Font/full_text.png"
+dest_files=["res://.godot/imported/full_text.png-4a87d5ec8eba563ad67c8f7278b68884.fontdata"]
+
+[params]
+
+character_ranges=PackedStringArray("\'a\'-\'z\'", "\'A\'-\'Z\'", "\'0\'-\'9\'", "\'!\'-\'/\'", "\':\'-\'@\'", "\'[\'-\'_\'", "\'{\'-\'~\'", "\'ε\'", "\' \'")
+columns=26
+rows=4
+image_margin=Rect2i(0, 0, 0, 0)
+character_margin=Rect2i(0, 0, 0, 0)
+fallbacks=[]
+compress=true

@@ -1,0 +1,58 @@
+[gd_scene load_steps=8 format=3 uid="uid://c3u8sd6ld0tlh"]
+
+[ext_resource type="Script" path="res://health_bar.gd" id="1"]
+
+[sub_resource type="Gradient" id="7"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.25098, 0.25098, 0.25098, 1)
+
+[sub_resource type="GradientTexture2D" id="8"]
+gradient = SubResource("7")
+
+[sub_resource type="Gradient" id="9"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="10"]
+gradient = SubResource("9")
+width = 14
+height = 1
+fill_to = Vector2(0.0586081, 0.987179)
+
+[sub_resource type="Gradient" id="11"]
+offsets = PackedFloat32Array(0.357798)
+colors = PackedColorArray(0, 1, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="12"]
+gradient = SubResource("11")
+width = 14
+height = 1
+
+[node name="Health Bar" type="Node2D"]
+z_index = 1
+script = ExtResource("1")
+
+[node name="Left" type="Sprite2D" parent="."]
+position = Vector2(-7.5, -0.5)
+scale = Vector2(0.015625, 0.015625)
+texture = SubResource("8")
+
+[node name="Top & Bottom" type="Sprite2D" parent="."]
+position = Vector2(1.72853e-06, -0.5)
+scale = Vector2(0.21875, 0.046875)
+texture = SubResource("8")
+
+[node name="Right" type="Sprite2D" parent="."]
+position = Vector2(7.5, -0.5)
+scale = Vector2(0.015625, 0.015625)
+texture = SubResource("8")
+
+[node name="Back" type="Sprite2D" parent="."]
+position = Vector2(-7, -1)
+texture = SubResource("10")
+centered = false
+
+[node name="Meter" type="Sprite2D" parent="."]
+position = Vector2(-7, -1)
+texture = SubResource("12")
+centered = false
