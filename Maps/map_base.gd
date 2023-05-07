@@ -90,6 +90,14 @@ func get_current_faction() -> Faction:
 	return faction_stack[curr_faction]
 
 
+func get_faction(faction_id: int) -> Faction:
+	if faction_id in faction_stack:
+		return faction_stack[faction_id]
+	else:
+		push_error("Could not find Faction")
+		return null
+
+
 #func get_unit_faction(faction_name: String) -> Faction:
 	# Returns the faction of the unit.
 	# faction_name: name of the unit's faction.

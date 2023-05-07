@@ -45,7 +45,11 @@ func get_game_controller() -> GameController:
 
 
 func get_level_controller() -> LevelController:
-	return (get_game_controller().get_node("Level Controller") as LevelController)
+	if get_game_controller():
+		return (get_game_controller().get_node("Level Controller") as LevelController)
+	else:
+		push_error("Could not find Level Controller")
+		return null
 
 
 #func set_cursor(new_cursor: Cursor) -> void:
@@ -61,16 +65,28 @@ func get_cursor() -> Cursor:
 
 
 func get_map() -> Map:
-	return get_map_camera().get_child(0) as Map
+	if get_map_camera():
+		return get_map_camera().get_child(0) as Map
+	else:
+		push_error("Could not find Map")
+		return null
 
 
 func get_map_camera() -> MapCamera:
-	return (get_level_controller().get_node("Map Camera") as MapCamera)
+	if get_level_controller():
+		return (get_level_controller().get_node("Map Camera") as MapCamera)
+	else:
+		push_error("Could not find Map Camera")
+		return null
 
 
 func get_cursor_area() -> Area2D:
 	# Returns the cursor area.
-	return get_map().get_node("Cursor Area")
+	if get_map():
+		return get_map().get_node("Cursor Area")
+	else:
+		push_error("Could not find Cursor Area")
+		return null
 
 
 #func get_scaling() -> int:

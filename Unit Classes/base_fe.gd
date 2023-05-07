@@ -117,12 +117,16 @@ func awaken() -> void:
 	_update_palette()
 
 
+func get_damage(defender: Unit) -> float:
+	return max(0, attack - defender.defense)
+
+
 func _update_palette() -> void:
-	_set_palette(get_faction().color)
+	if GenVars.get_map():
+		_set_palette(get_faction().color)
 
 
 func _update_sprite() -> void:
-
 	super._update_sprite()
 	if map_animation == animations.IDLE:
 		var frame_num: int = int(GenVars.get_tick_timer()) % 64
@@ -175,10 +179,6 @@ func _set_palette(color: Faction.colors) -> void:
 	(material as ShaderMaterial).set_shader_parameter("old_colors", old_colors)
 	(material as ShaderMaterial).set_shader_parameter("new_colors", new_colors)
 #	print_debug((material as ShaderMaterial).get_shader_parameter("old_colors"))
-
-
-func _get_damage(attacker: Unit, defender: Unit) -> float:
-	return max(0, attacker.attack - defender.defense)
 
 
 func _set_base_frame() -> void:

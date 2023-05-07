@@ -313,122 +313,6 @@ func refresh_tiles() -> void:
 				false: tile.modulate.a = .5
 
 
-func attack_unit(opponent: Unit) -> void:
-	GenVars.get_cursor_area().monitorable = false # Prevents things from happening that shouldn't.
-	GenVars.get_cursor_area().monitoring = false # Yes, both of these have to be disabled.
-	var starting_pos: Vector2 = position
-	var move_dest: Vector2 = (opponent.position - position)
-	await _map_attack_approach(position + move_dest.normalized() * 4)
-	opponent.add_current_health(-_get_damage(self, opponent), true)
-	if opponent.dead:
-		await opponent.tree_exited
-	await _map_attack_approach(starting_pos)
-	GenVars.get_cursor_area().monitorable = true
-	GenVars.get_cursor_area().monitoring = true
-
-
-#func get_menu_items(pos: Vector2) -> Array:
-#	# Gets the items for the unit menu.
-#	_adjacent_units = []
-#	_touching_unit = null
-#	var items = []
-#	# Gets all adjacent units
-#	for unit in get_tree().get_nodes_in_group("units"):
-#		if not unit.is_ghost:
-#			var unit_pos: Vector2 = unit.position
-#			if GenFunc.get_tile_distance(unit_pos, pos) == 0 \
-#					and not unit == self:
-#				_touching_unit = unit
-#			elif GenFunc.get_tile_distance(unit_pos, pos) == 1:
-#				_adjacent_units.append(unit)
-#
-#	# Whether unit can attack.
-#	for unit in get_tree().get_nodes_in_group("units"):
-#		var cursor_distance: float = GenFunc.get_tile_distance(pos, unit.position)
-#		if GenVars.get_map().diplomacy[faction][unit.faction] == "Enemy" \
-#				and ((unit.position in get_current_attack_tiles(pos) and pos in get_raw_movement_tiles()) \
-#				or (pos == unit.position and pos in get_all_attack_tiles())):
-#			items.append("Attack")
-#			break
-#
-#	# Whether unit can capture.
-#	if "Capture" in skills:
-#		if _touching_unit:
-#			if GenVars.get_map().diplomacy[faction][_touching_unit.faction] == "Enemy" \
-#					and all_tags.BUILDING in _touching_unit.tags:
-#				items.append("Capture")
-#	# Whether unit can wait.
-#	if get_movement() > 0 and pos in raw_movement_tiles:
-#		# Unit cannot wait on a non-building unit
-#		var touching_tags = [all_tags.BUILDING]
-#		if _touching_unit:
-#			touching_tags = _touching_unit.tags
-#		if all_tags.BUILDING in touching_tags:
-#			items.append("Wait")
-#	# Whether unit can creat other units.
-#	if "Produces" in skills:
-#		items.append("Create")
-#	if "View Items" in skills:
-#		items.append("Items")
-#	return items
-#
-#
-#func execute_action(action: String) -> bool:
-#	# Executes menu actions.
-#	match action:
-#		"Attack":
-#			var selected_unit = _select_unit()
-#			print_debug(GenVars.get_cursor().get_true_pos() in get_current_attack_tiles(position))
-#			if selected_unit is GDScriptFunctionState:
-#				selected_unit = await selected_unit.completed
-#			if selected_unit == null:
-#				print_debug(GenVars.get_level_controller().hovered_unit)
-#				return false
-#			else:
-#				move()
-#				await self.arrived
-#				await attack_unit(selected_unit).completed
-#				if is_instance_valid(selected_unit):
-#					selected_unit.attack_unit(self)
-#				wait()
-#				emit_signal("finished")
-#				return true
-#
-#		"Create":
-#			var pos: Vector2 = GenVars.get_cursor().get_true_pos() + Vector2(16, -8)
-#			var menu = GenFunc.create_map_menu(self, "Create", skills["Produces"], pos)
-#			GenVars.get_level_controller().get_node("UILayer/Unit Menu").set_active(false)
-#			await menu.menu_closed
-#			return false
-#
-#		"Wait":
-#			move()
-#			GenVars.get_level_controller().get_node("UILayer/Unit Menu").close()
-#			await self.arrived
-#			wait()
-#			emit_signal("finished")
-#			return true
-#
-#		"Capture":
-#			if _touching_unit:
-#				move()
-#				await self.arrived
-#				var reduction: float = -get_current_health() # Placeholder value; should be negative.
-#				if _touching_unit.get_current_health() + reduction:
-#					_touching_unit.change_faction(faction)
-#				_touching_unit.add_current_health(reduction)
-#				wait()
-#				return true
-#			else:
-#				push_error("Capturable object not found")
-#				return false
-#
-#		var item:
-#			push_error('"%s" is not a valid action' % item)
-#			return false
-
-
-
 ## Adds skill to this unit's skills.
 func add_skill(skill_name: String, extra_data = null):
 	_check_skill(skill_name)
@@ -461,7 +345,10 @@ func get_unit_path() -> Array[Vector2i]:
 
 
 func get_faction() -> Faction:
-	return (GenVars.get_map() as Map).faction_stack[faction_id]
+	if GenVars.get_map():
+		return (GenVars.get_map() as Map).faction_stack[faction_id]
+	else:
+		return null
 
 
 ## Changes unit's faction.
@@ -563,50 +450,17 @@ func get_all_attack_tiles() -> Array[Vector2i]:
 	return all_attack_tiles
 
 
-func _get_damage(_attacker: Unit, _defender: Unit) -> float:
-	return 0.0 # Not implemented here;
+func get_new_map_attack() -> MapAttack:
+	# Returns a new instance of the class's map attack animation
+	return load("res://map_attack.tscn").instantiate()
+
+
+func get_damage(_defender: Unit) -> float:
+	return 0.0 # Not implemented here
 
 
 func _render_status() -> void:
 	pass
-
-
-func _map_attack_approach(dest: Vector2) -> void:
-	var pixels_per_tick: float = 1
-	var previous_tick: float = GenVars.get_tick_timer()
-	while position != dest:
-		print_debug(dest)
-		print_debug(position)
-		previous_tick = GenVars.get_tick_timer()
-		await get_tree().physics_frame
-		var dist: float = (GenVars.get_tick_timer() - previous_tick) * pixels_per_tick
-		position = position.move_toward(dest, dist)
-
-
-#func _select_unit(self_selectable: bool = false) -> Unit:
-#	var starting_pos: Vector2 = GenVars.get_cursor().get_true_pos()
-#	GenVars.get_level_controller().handle_input(true)
-#	GenVars.get_level_controller().get_node("UILayer/Unit Menu").set_active(false)
-#	GenVars.get_level_controller().selected_unit = self
-#	hide_movement_tiles()
-#	display_current_attack_tiles(([position] + get_unit_path())[-1])
-##	_remove_path()
-#	var selected_unit = await GenVars.get_level_controller().unit_selected
-#	while not(self_selectable) and selected_unit == self:
-#		selected_unit = await GenVars.get_level_controller().unit_selected
-#	if selected_unit == null:
-#		GenVars.get_level_controller().handle_input(false)
-#		GenVars.get_level_controller().get_node("UILayer/Unit Menu").set_active(true)
-#		GenVars.get_cursor().set_true_pos(starting_pos)
-#		display_movement_tiles()
-#		show_path()
-#	else:
-#		GenVars.get_level_controller().get_node("UILayer/Unit Menu").close()
-##		if selected_unit.st
-##		selected_unit.statu
-#	GenVars.get_level_controller().selected_unit = null
-#	hide_current_attack_tiles()
-#	return selected_unit
 
 
 func _remove_path() -> void:
