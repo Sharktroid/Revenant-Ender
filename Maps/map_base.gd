@@ -105,8 +105,8 @@ func end_turn() -> void:
 
 
 func get_terrain_cost(unit: Unit, coords: Vector2) -> int:
-	# Gets the terrain cost of the tiles at "coords".
-	# unit: unit trying to move over "coords".
+	## Gets the terrain cost of the tiles at "coords".
+	## unit: unit trying to move over "coords".
 	var movement_type: String = unit.movement_type
 	if movement_type in movement_cost_dict.keys():
 		var movement_type_terrain_dict: Dictionary = movement_cost_dict[unit.movement_type]
@@ -176,7 +176,7 @@ func _get_terrain(coords: Vector2i, faction: Faction) -> String:
 			if "Doesn't Block" in unit.tags:
 				return unit.unit_class
 			else:
-				var blocking_stances: Array = [Faction.diplo_stances.ALLY, Faction.diplo_stances.SELF]
+				var blocking_stances: Array = [Faction.diplo_stances.PEACE, Faction.diplo_stances.ENEMY]
 				if faction.get_diplomacy_stance(unit.get_faction()) in blocking_stances:
 					return "Blocked"
 	var cell_id: TileData = $"Terrain Layer".get_cell_tile_data(0, coords/16)
