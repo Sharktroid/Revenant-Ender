@@ -77,10 +77,7 @@ func _on_button_pressed(button: Button) -> void:
 				print_debug(GenVars.get_level_controller().hovered_unit)
 			else:
 				connected_unit.move()
-				await connected_unit.arrived
-				await connected_unit.attack_unit(selected_unit)
-				if is_instance_valid(selected_unit) and Vector2i(connected_unit.position) in selected_unit.get_current_attack_tiles(selected_unit.get_unit_path()[-1]):
-					selected_unit.attack_unit(connected_unit)
+				await AttackHandler.combat(connected_unit, selected_unit)
 				connected_unit.wait()
 				close()
 
