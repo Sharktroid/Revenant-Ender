@@ -17,9 +17,10 @@ func _init(connected_unit: Unit = null, targeted_tile: Vector2i = Vector2i(0, 16
 
 
 func _ready() -> void:
-	var combat_sprite: Unit = preload("res://Unit Classes/lord_roy.tscn").instantiate()
+	var combat_sprite: Unit = unit.duplicate()
 	for child in combat_sprite.get_children():
 		(child as Node).queue_free()
+	combat_sprite.position = Vector2i()
 	add_child(combat_sprite)
 	position = unit.position
 	new_pos = position
@@ -31,7 +32,7 @@ func _physics_process(delta: float) -> void:
 
 
 func play_animation() -> void:
-	var movement: Vector2 = (target_tile as Vector2 - position).normalized() * 40
+	var movement: Vector2 = (target_tile as Vector2 - position).normalized() * 4
 	await _move(movement)
 	emit_signal("deal_damage")
 #	await proceed
