@@ -16,29 +16,14 @@ var true_pos: Vector2i # Position of the map, used for scrolling
 var curr_faction: int = 0
 
 
-#func _enter_tree():
-#	GenVars.set_map(self)
-
-
 func _ready() -> void:
 	upper_border = Vector2i(left_border, top_border)
 	lower_border = Vector2i(right_border, bottom_border)
 	_parse_movement_cost()
-#	_parse_diplomacy()
 	create_debug_borders() # Only shows up when collison shapes are enabled
-#	move(-(upper_border - lower_border + (get_size() - GenVars.get_screen_size() as Vector2i)/2))
-#	GenVars.get_map_camera().transform.origin
-#	GenVars.get_cursor().set_true_pos(true_pos + get_size()/2)
 	$"Terrain Layer".visible = GenVars.get_debug_constant("display_map_terrain")
 	$"Debug Border Overlay Container".visible = GenVars.get_debug_constant("display_map_borders")
 	$"Cursor Area".visible = GenVars.get_debug_constant("display_map_cursor")
-#	$Center.transform.origin = Vector2(get_size())/2
-
-
-#func _physics_process(_delta: float) -> void:
-#	for unit in get_tree().get_nodes_in_group("units"):
-#		if unit is FEUnit:
-#			unit._set_palette(Faction.colors)
 
 
 func unit_wait(_unit) -> void:
@@ -74,10 +59,10 @@ func next_faction() -> void:
 
 
 func change_diplomacy(primary_faction: Faction, other_faction: Faction, stance: int, both: bool = true) -> void:
-	# Changes the diplomacy of "primary_faction" and "other_faction".
-	# If "both" is true both sides are affected.
-	# "primary_faction" refers to the faction that posessed whatever is calling this function.
-	# Stance is the stance of the faction(s).
+	## Changes the diplomacy of "primary_faction" and "other_faction".
+	## If "both" is true both sides are affected.
+	## "primary_faction" refers to the faction that posessed whatever is calling this function.
+	## Stance is the stance of the faction(s).
 	if stance in ["Ally", "Peace", "Enemy"]:
 		primary_faction.set_diplomacy(other_faction.name, stance)
 		if both:
@@ -96,17 +81,6 @@ func get_faction(faction_id: int) -> Faction:
 	else:
 		push_error("Could not find Faction")
 		return null
-
-
-#func get_unit_faction(faction_name: String) -> Faction:
-	# Returns the faction of the unit.
-	# faction_name: name of the unit's faction.
-#	for i in faction_stack:
-#		if i.name == faction_name:
-#			return i
-	# When a faction is not found
-#	push_error('Faction name "%s" was not found.' % faction_name)
-#	return Faction.new("ERROR", Faction.colors.BLUE, Faction.player_types.NONE)
 
 
 func get_rel_upper_border() -> Vector2i:
@@ -167,17 +141,6 @@ func get_terrain_cost(unit: Unit, coords: Vector2) -> int:
 	else:
 		push_error('Movement type "%s" is invalid' % movement_type)
 	return 99
-
-
-#func move(new_pos: Vector2i) -> void:
-#	# Moves the map by "new pos". note that the map's movements are inverted
-#	if Vector2i(GenVars.get_map_transform()) == true_pos:
-#		var min_pos: Vector2i = -(get_size() - GenVars.get_screen_size()) + Vector2i(-1, 0)
-#		var raw_pos: Vector2i = GenFunc.clamp_vector(true_pos + new_pos, min_pos, Vector2i(0, 0))
-#		true_pos = GenFunc.round_coords_to_tile(raw_pos)
-#		for i in 2:
-#			if GenVars.get_screen_size()[i] > get_size()[i]:
-#				true_pos[i] = int(float(GenVars.get_screen_size()[i] - get_size()[i])/2)
 
 
 func create_debug_borders() -> void:
@@ -248,13 +211,3 @@ func _parse_movement_cost() -> void:
 		movement_cost_dict[type] = {}
 		for cost in len(split):
 			movement_cost_dict[type][header[cost]] = split[cost]
-
-
-#func _parse_diplomacy() -> void:
-#	# Creates the diplomacy dictionary
-#	for x in faction_stack:
-#		diplomacy[x.name] = {}
-#		for y in faction_stack:
-#			match y:
-#				x: diplomacy[x.name][y.name] = "Self"
-#				_: diplomacy[x.name][y.name] = "Enemy"
