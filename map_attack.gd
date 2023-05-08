@@ -22,6 +22,7 @@ func _ready() -> void:
 		(child as Node).queue_free()
 	add_child(combat_sprite)
 	position = unit.position
+	new_pos = position
 	wait()
 
 
@@ -30,7 +31,7 @@ func _physics_process(delta: float) -> void:
 
 
 func play_animation() -> void:
-	var movement: Vector2 = (target_tile as Vector2).normalized() * 40
+	var movement: Vector2 = (target_tile as Vector2 - position).normalized() * 40
 	await _move(movement)
 	emit_signal("deal_damage")
 #	await proceed
