@@ -58,19 +58,6 @@ func next_faction() -> void:
 		turn_banner_node.get_node("Banner Timer").emit_signal("timeout")
 
 
-func change_diplomacy(primary_faction: Faction, other_faction: Faction, stance: int, both: bool = true) -> void:
-	## Changes the diplomacy of "primary_faction" and "other_faction".
-	## If "both" is true both sides are affected.
-	## "primary_faction" refers to the faction that posessed whatever is calling this function.
-	## Stance is the stance of the faction(s).
-	if stance in ["Ally", "Peace", "Enemy"]:
-		primary_faction.set_diplomacy(other_faction.name, stance)
-		if both:
-			other_faction.set_diplomacy(primary_faction.name, stance)
-	else:
-		push_error("Invalid stance")
-
-
 func get_current_faction() -> Faction:
 	return faction_stack[curr_faction]
 
