@@ -99,16 +99,9 @@ var _char_frame: Dictionary = {
 
 func _ready() -> void:
 	var font: FontFile = preload("res://Font/full_text.png")
-#	font.set_glyph_advance(0, 16, 97, Vector2(6, 0))
-#	font.add_texture(texture)
 	for character in _char_frame.keys():
-#		var pos_x = _char_frame[character][0] % 28
-#		var pos_y = _char_frame[character][0] / 28
 		$RichTextLabel.text += character
-		var width = _char_frame[character] - 1
-#		var val: int = (character.unicode_at(0))
-#		font.chars
+		var width: int = _char_frame[character] - 1
 		font.set_glyph_advance(0, 16, character.unicode_at(0), Vector2(width, 0))
-#	font.add_char(ord("a"), 0, Rect2(2 * 10, 0 * 16, 7, 16))
 	$RichTextLabel.add_theme_font_override("normal_font", font)
 	ResourceSaver.save(font, "res://Font/item_font.tres")

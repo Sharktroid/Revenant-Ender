@@ -1,4 +1,3 @@
-#tool
 extends "res://Unit Classes/city.gd"
 
 

@@ -71,10 +71,6 @@ func _init():
 		weapon_levels[weapon] = 0
 
 
-#func _enter_tree() -> void:
-#	print_debug(get_movement())
-#	print_debug(current_movement)
-
 func _ready() -> void:
 	material = material.duplicate()
 	current_movement = get_movement()
@@ -175,10 +171,8 @@ func _set_palette(color: Faction.colors) -> void:
 	for color_set in palette:
 		old_colors.append(color_set[0])
 		new_colors.append(color_set[1])
-#	print_debug(get_faction().name)
 	(material as ShaderMaterial).set_shader_parameter("old_colors", old_colors)
 	(material as ShaderMaterial).set_shader_parameter("new_colors", new_colors)
-#	print_debug((material as ShaderMaterial).get_shader_parameter("old_colors"))
 
 
 func _set_base_frame() -> void:

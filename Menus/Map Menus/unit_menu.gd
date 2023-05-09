@@ -43,7 +43,7 @@ func get_menu_items() -> Array[String]:
 	# Whether unit can wait.
 	if connected_unit.get_movement() > 0 and pos in connected_unit.raw_movement_tiles:
 		# Unit cannot wait on a non-building unit
-		var touching_tags = [connected_unit.all_tags.BUILDING]
+		var touching_tags: Array[Unit.all_tags] = [Unit.all_tags.BUILDING]
 		if _touching_unit:
 			touching_tags = _touching_unit.tags
 		if not (_touching_unit != null and _touching_unit != connected_unit and connected_unit.all_tags.BUILDING in touching_tags):
@@ -59,7 +59,6 @@ func get_menu_items() -> Array[String]:
 func _can_attack() -> bool:
 	var pos: Vector2i = connected_unit.position
 	for unit in get_tree().get_nodes_in_group("units"):
-#		var cursor_distance: float = GenFunc.get_tile_distance(pos, unit.position)
 		if connected_unit.get_faction().get_diplomacy_stance((unit as Unit).get_faction()) == Faction.diplo_stances.ENEMY:
 			if ((Vector2i(unit.position) in connected_unit.get_current_attack_tiles(pos) and pos in connected_unit.get_raw_movement_tiles()) \
 					or (pos == Vector2i(unit.position) and pos in connected_unit.get_all_attack_tiles())):
@@ -70,9 +69,7 @@ func _can_attack() -> bool:
 func _on_button_pressed(button: Button) -> void:
 	match (button.text+":").split(":")[0]:
 		"Attack":
-#			print_debug(connected_unit)
 			var selected_unit = await _select_unit()
-#			print_debug(GenVars.get_cursor().get_true_pos() in connected_unit.get_current_attack_tiles(connected_unit.position))
 			if selected_unit == null:
 				print_debug(GenVars.get_level_controller().hovered_unit)
 			else:
@@ -109,7 +106,6 @@ func _on_button_pressed(button: Button) -> void:
 
 		var item:
 			push_error('"%s" is not a valid action' % item)
-#	super._on_button_pressed(button)
 
 
 func _select_unit(self_selectable: bool = false) -> Unit:
@@ -132,9 +128,6 @@ func _select_unit(self_selectable: bool = false) -> Unit:
 		GenVars.get_cursor().set_true_pos(starting_pos)
 		connected_unit.display_movement_tiles()
 		connected_unit.show_path()
-#	else:
-#		if selected_unit.st
-#		selected_unit.statu
 	GenVars.get_level_controller().selecting = false
 	connected_unit.hide_current_attack_tiles()
 	return selected_unit

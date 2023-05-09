@@ -1,8 +1,8 @@
-extends "res://Unit Classes/unit_base.gd"
+extends "res://Unit Classes/base_fe.gd"
 
 
 func _init():
 	super._init()
 	movement_type = "Foot"
-	movement = 6
+	base_movement = 6
 	unit_class = "Hero"

@@ -8,12 +8,10 @@ enum player_types {HUMAN, COMPUTER, NONE}
 enum colors {BLUE, RED, GREEN, PURPLE}
 enum diplo_stances {ALLY, PEACE, ENEMY, SELF}
 
-# warning-ignore:unused_class_variable
 var full_outline: bool = false # Whether the full outline is shown.
 var name: String # Faction's name.
 var color: int # Color of all units.
 var player_type: int
-# warning-ignore:unused_class_variable
 var outlined_units: Dictionary # The units that are outlined.
 
 var _diplomacy: Dictionary

@@ -7,6 +7,3 @@ func _init():
 		Faction.new("Enemy", Faction.colors.RED, Faction.player_types.HUMAN),
 	]
 
-
-#func get_size() -> Vector2:
-#	return $Fe6Chapter1.texture.get_size()

@@ -41,4 +41,3 @@ func set_scaling(size: Vector2i) -> void:
 func _on_size_changed() -> void:
 	set_scaling(get_viewport().size)
 	GenVars.get_map_camera().update_offset()
-#	get_viewport().size -= Vector2i(size.posmod(2))

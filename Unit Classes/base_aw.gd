@@ -8,17 +8,17 @@ var _variant_dict: Dictionary
 func _ready() -> void:
 	super._ready()
 	frame = _base_frame
-	_set_base_frame()
+#	_set_base_frame()
 
 
-func _set_base_frame() -> void:
+#func _set_base_frame() -> void:
 	# Sets the base frame
-	var faction_offset: int = _faction_dict.get(GenVars.get_map().get_unit_faction(faction).color, 0)
-	_base_frame = _starting_frame + faction_offset + _variant_dict.get(variant, 0)
+#	var faction_offset: int = _faction_dict.get(GenVars.get_map().get_unit_faction(faction).color, 0)
+#	_base_frame = _starting_frame + faction_offset + _variant_dict.get(variant, 0)
 
-func change_faction(new_faction) -> void:
-	super.change_faction(new_faction)
-	_set_base_frame()
+#func change_faction(new_faction) -> void:
+#	super.change_faction(new_faction)
+#	_set_base_frame()
 
 
 func _update_sprite() -> void:

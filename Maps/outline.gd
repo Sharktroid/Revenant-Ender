@@ -4,7 +4,6 @@ extends Node2D
 func _draw():
 	for unit in get_tree().get_nodes_in_group("units"):
 		unit.modulate = Color.WHITE
-#	for faction in faction
 	var outlined_units: Dictionary = GenVars.get_map().get_current_faction().outlined_units
 	var faction_stack: Array[Faction] = get_parent().get_parent().faction_stack
 	for outline_faction in faction_stack:
@@ -29,8 +28,8 @@ func _draw():
 		if current_faction.full_outline \
 				and outline_faction != current_faction:
 			for unit in get_tree().get_nodes_in_group("units"):
-				var unit_faction = (unit as Unit).get_faction()
-				var unit_stance = current_faction.get_diplomacy_stance(unit_faction)
+				var unit_faction: Faction = (unit as Unit).get_faction()
+				var unit_stance: Faction.diplo_stances = current_faction.get_diplomacy_stance(unit_faction)
 				if unit_stance == Faction.diplo_stances.ENEMY \
 						and len(unit.get_all_attack_tiles()) > 0:
 					for coord in (unit.get_all_attack_tiles() + unit.get_raw_movement_tiles()):
@@ -54,35 +53,17 @@ func _create_outline_tile(tile_color: Color, line_color: Color, coords: Vector2i
 	tile_color.a = 0.5
 	line_color.a = 0.5
 	draw_rect(Rect2(coords, Vector2i(16, 16)), tile_color, true)
-#	var tile = Polygon2D.new()
-#	tile.polygon = [Vector2i(0, 0), Vector2i(16, 0), Vector2i(16, 16), Vector2i(0, 16)]
-#	tile.color = tile_color
-#	tile.color.a = .5
-#	tile.transform.origin = coords as Vector2
 	for tile_offset in GenVars.adjacent_tiles:
 		if coords + tile_offset in all_coords:
 			pass
 		else:
-#			var line := Line2D.new()
-#			line.width = 1
-#			line.default_color = line_color
 			var offset: Vector2 = coords
 			match tile_offset:
 				Vector2i(-16, 0):
-#					line.add_point(Vector2i(0, 16))
-#					line.add_point(Vector2i(0, 0))
 					draw_line(Vector2(0.5, 0) + offset, Vector2(0.5, 16) + offset, line_color, 1)
 				Vector2i(0, -16):
-#					line.add_point(Vector2i(0, 0))
-#					line.add_point(Vector2i(16, 0))
 					draw_line(Vector2(0, 0.5) + offset, Vector2(16, 0.5) + offset, line_color, 1)
 				Vector2i(16, 0):
-#					line.add_point(Vector2i(16, 0))
-#					line.add_point(Vector2i(16, 16))
 					draw_line(Vector2(15.5, 0) + offset, Vector2(15.5, 16) + offset, line_color, 1)
 				Vector2i(0, 16):
-#					line.add_point(Vector2i(16, 16))
-#					line.add_point(Vector2i(0, 16))
 					draw_line(Vector2(0, 15.5) + offset, Vector2(16, 15.5) + offset, line_color, 1)
-#			tile.add_child(line)
-#	$"Base Layer/Outline".add_child(tile)

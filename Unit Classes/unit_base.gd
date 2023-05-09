@@ -12,7 +12,6 @@ enum animations {IDLE, MOVING_DOWN, MOVING_UP, MOVING_LEFT, MOVING_RIGHT}
 @export var faction_id: int
 @export var variant: String # Visual variant.
 # Unit stats.
-#export var _max_health: float : get = get_max_health, set = set_max_health
 
 var current_movement: int
 var map_animation: int = animations.IDLE
@@ -38,20 +37,14 @@ var _current_statuses: Array[statuses]
 var _target # Destination of the unit during movement.
 var _current_health: float: get = get_current_health, set = set_current_health
 var _movement_speed: float = 8 # Speed unit moves across the map.
-#var _true_attack_tiles: Array
 var _all_units: Dictionary # Lists all unit classes.
 # Dictionaries that convert faction/variant into animation modifier.
 var _movement_tiles: Dictionary # Movement tiles. Split by cost left.
 var _all_skills: Array[String] = ["Produces"] # All skills that are valid.
 # Resources to be loaded.
 var _attack_tile_node: Resource = load("attack_tile.tscn")
-var _base_movement: Resource = load("base_movement_tile.tscn")
+var _movement_tile_base: Resource = load("base_movement_tile.tscn")
 var _movement_arrows: Resource = load("movement_arrows.tscn")
-
-
-func _enter_tree() -> void:
-#	current_movement = get_movement()
-	pass
 
 
 func _ready():
@@ -64,7 +57,7 @@ func _ready():
 	# Setting up "_all_units"
 	var dir = DirAccess.open("res://Unit Classes/")
 	if dir:
-		dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
+		dir.list_dir_begin()
 		var file_name: String = dir.get_next()
 		while file_name != "":
 			if not dir.current_is_dir() and "gd" == file_name.get_slice(".", -1):
@@ -74,7 +67,6 @@ func _ready():
 			file_name = dir.get_next()
 	else:
 		push_error('An error occurred when trying to access the path "res://Unit Classes/".')
-	# warning-ignore:return_value_discarded
 	_all_units.erase('')
 
 
@@ -103,10 +95,6 @@ func _physics_process(_delta: float) -> void:
 func _process(_delta: float):
 	_render_status()
 	_update_sprite()
-#	if statuses.ATTACK in status:
-#		$Status.texture = preload("res://attack.png")
-#	else:
-#		$Status.texture = null
 #	if outline_highlight:
 #		modulate = Color.RED
 #	else:
@@ -167,7 +155,6 @@ func add_current_health(added_health: float, does_die: bool = false) -> void:
 
 ## Sets both "max_health" and "current_health" to "health".
 func set_all_health(health: float) -> void:
-#	print_debug(health)
 	set_max_health(health)
 	set_current_health(health)
 
@@ -229,19 +216,15 @@ func awaken() -> void:
 ## Displays the unit's movement tiles.
 func display_movement_tiles() -> void:
 	if GenVars.get_map():
-		var parent = Node2D.new()
+		var parent := Node2D.new()
 		parent.name = "%s Move Tiles" % name
 		# Gets movement tiles if not present.
 		if len(_movement_tiles) == 0:
 			_get_movement_tiles()
-		# Gets attack tiles if not present.
-#		if len(all_attack_tiles) == 0:
-#			_create_all_attack_tiles()
-			#_get_true_attack_tiles()
 		# Displays movement tiles
 		for k in _movement_tiles.keys():
 			for i in _movement_tiles[k]:
-				var tile: Sprite2D = _base_movement.instantiate()
+				var tile: Sprite2D = _movement_tile_base.instantiate()
 				tile.name = "Child Tile"
 				tile.position = Vector2(i)
 				if not selected:
@@ -285,9 +268,9 @@ func display_current_attack_tiles(pos: Vector2i) -> void:
 		if not(unit == self or unit.is_ghost):
 			unit_coords.append(Vector2i(unit.position))
 	unit_coords.erase(Vector2i(position))
-	var parent = Node2D.new()
+	var parent := Node2D.new()
 	parent.name = "%s Attack Tiles" % name
-	var current_attack_tiles = get_current_attack_tiles(pos)
+	var current_attack_tiles: Array[Vector2i] = get_current_attack_tiles(pos)
 	for coord in current_attack_tiles:
 		var tile: Sprite2D = _attack_tile_node.instantiate()
 		tile.name = "Child Tile"

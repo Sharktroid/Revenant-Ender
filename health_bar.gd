@@ -10,16 +10,15 @@ func _ready() -> void:
 
 
 func set_percent(new_percent: float) -> void:
-#	print_stack()
-	# Sets the displayed percent with "new_percent"
+	## Sets the displayed percent with "new_percent"
 	_percent = clamp(new_percent, 0, 100)
 	update_meter()
 	$Meter.texture.width = max(round(_percent * 0.14), 1)
 
 
 func get_color(num: float) -> Color:
-	# Gets the color for the meter
-	# num: the percent of health
+	## Gets the color for the meter
+	## num: the percent of health
 	# Colors used
 	var full_color = Color(0, 0.75, 0) # color at full health
 	var half_color = Color(0.9, 0.9, 0) # color at half health
@@ -36,7 +35,7 @@ func get_color(num: float) -> Color:
 
 
 func update_meter() -> void:
-	# Updates the color and visibility of the meter
+	## Updates the color and visibility of the meter
 	if _percent == 100:
 		visible = false
 	else:

@@ -35,7 +35,6 @@ func play_animation() -> void:
 	var movement: Vector2 = (target_tile as Vector2 - position).normalized() * 4
 	await _move(movement)
 	emit_signal("deal_damage")
-#	await proceed
 	await _move(-movement)
 	emit_signal("complete")
 

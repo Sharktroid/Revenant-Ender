@@ -10,7 +10,6 @@ var bottom_border: int
 var upper_border: Vector2i
 var lower_border: Vector2i
 var movement_cost_dict: Dictionary # Movement costs for every movement type
-#var diplomacy: Dictionary # Diplomacy of every current faction
 var faction_stack: Array[Faction] # All factions
 var true_pos: Vector2i # Position of the map, used for scrolling
 var curr_faction: int = 0
@@ -39,7 +38,7 @@ func next_faction() -> void:
 	var turn_banner_node: Sprite2D = GenVars.get_level_controller().get_node("UILayer/Turn Banner")
 	var faction_name: String = get_current_faction().name.to_lower()
 	var all_names: Array[String] = []
-	var dir = DirAccess.open("res://Turn Banners/")
+	var dir: DirAccess = DirAccess.open("res://Turn Banners/")
 	if dir:
 		dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 		var file_name: String = dir.get_next()
@@ -79,7 +78,7 @@ func get_rel_lower_border() -> Vector2i:
 
 
 func get_size() -> Vector2i:
-	# Returns size of the map.
+	## Returns size of the map.
 	return $"Base Layer".get_used_cells(0).max() * 16 + Vector2i(16, 16)
 
 
@@ -91,13 +90,13 @@ func is_touching_border(pos: Vector2i) -> bool:
 
 
 func start_turn() -> void:
-	# Starts new turn.
+	## Starts new turn.
 	if get_current_faction().player_type != Faction.player_types.HUMAN:
 		_wait_end_turn()
 
 
 func end_turn() -> void:
-	# Ends current turn.
+	## Ends current turn.
 	for unit in get_tree().get_nodes_in_group("units"):
 		unit.awaken()
 	next_faction()
@@ -163,20 +162,20 @@ func update_outline() -> void:
 
 
 func _wait_end_turn() -> void:
-	# Ends turn on the next frame; here so "start_turn" finishes before "end_turn" starts
+	## Ends turn on the next frame; here so "start_turn" finishes before "end_turn" starts
 	await get_tree().idle_frame
 	end_turn()
 
 
 func _get_terrain(coords: Vector2i, faction: Faction) -> String:
-	# Gets the name of the terrain at the tile at position "coords"
-	# faction: faction of the unit checking
+	## Gets the name of the terrain at the tile at position "coords"
+	## faction: faction of the unit checking
 	for unit in get_tree().get_nodes_in_group("units"): # for units
 		if coords == (unit.transform.get_origin() as Vector2i):
 			if "Doesn't Block" in unit.tags:
 				return unit.unit_class
 			else:
-				var blocking_stances: Array = [Faction.diplo_stances.PEACE, Faction.diplo_stances.ENEMY]
+				var blocking_stances: Array[Faction.diplo_stances] = [Faction.diplo_stances.PEACE, Faction.diplo_stances.ENEMY]
 				if faction.get_diplomacy_stance(unit.get_faction()) in blocking_stances:
 					return "Blocked"
 	var cell_id: TileData = $"Terrain Layer".get_cell_tile_data(0, coords/16)
@@ -190,11 +189,11 @@ func _parse_movement_cost() -> void:
 	if len(raw_movement_cost[-1]) == 0:
 		raw_movement_cost.erase("")
 	file.close()
-	var header: Array = raw_movement_cost.pop_at(0).split(",")
+	var header: Array[String] = raw_movement_cost.pop_at(0).split(",")
 	header.remove_at(0)
 	for full_type in raw_movement_cost:
-		var split: Array = full_type.split(",")
-		var type = split.pop_at(0)
+		var split: Array[String] = full_type.split(",")
+		var type: Array[String] = split.pop_at(0)
 		movement_cost_dict[type] = {}
 		for cost in len(split):
 			movement_cost_dict[type][header[cost]] = split[cost]

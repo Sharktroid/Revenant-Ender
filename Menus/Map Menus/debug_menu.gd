@@ -35,7 +35,7 @@ func _on_button_pressed(button: Button) -> void:
 			GenVars.get_cursor_area().visible = GenVars.get_debug_constant("display_map_cursor")
 
 		"Print Cursor Position":
-			var replacements = [
+			var replacements: Array[Vector2i] = [
 				GenVars.get_cursor().get_rel_pos(),
 				GenVars.get_cursor().get_true_pos()
 			]
@@ -43,10 +43,6 @@ func _on_button_pressed(button: Button) -> void:
 
 		var item: push_error("%s is not a valid menu item" % item)
 	GenVars.save_config()
-#	var index: int = get_node("UILayer/Debug Menu")._index
-#	get_node("UILayer/Debug Menu").queue_free()
-#	await get_node("UILayer/Debug Menu").tree_exited
-#	create_menu()
 	super._on_button_pressed(button)
 
 
