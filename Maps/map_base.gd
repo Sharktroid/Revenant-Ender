@@ -189,11 +189,11 @@ func _parse_movement_cost() -> void:
 	if len(raw_movement_cost[-1]) == 0:
 		raw_movement_cost.erase("")
 	file.close()
-	var header: Array[String] = raw_movement_cost.pop_at(0).split(",")
+	var header: PackedStringArray = (raw_movement_cost.pop_at(0).split(","))
 	header.remove_at(0)
 	for full_type in raw_movement_cost:
-		var split: Array[String] = full_type.split(",")
-		var type: Array[String] = split.pop_at(0)
+		var split: Array = (full_type.split(",") as Array)
+		var type: String = split.pop_at(0)
 		movement_cost_dict[type] = {}
 		for cost in len(split):
 			movement_cost_dict[type][header[cost]] = split[cost]
