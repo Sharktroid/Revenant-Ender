@@ -27,7 +27,7 @@ func _ready() -> void:
 	wait()
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	position = position.move_toward(new_pos, 1)
 
 

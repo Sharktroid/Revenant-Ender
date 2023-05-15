@@ -65,15 +65,6 @@ func get_map_camera() -> MapCamera:
 		return null
 
 
-func get_cursor_area() -> Area2D:
-	# Returns the cursor area.
-	if get_map():
-		return get_map().get_node("Cursor Area")
-	else:
-		push_error("Could not find Cursor Area")
-		return null
-
-
 func get_tick_timer() -> float:
 	## Returns the amount of elapsed ticks.
 	## 60 ticks/second.

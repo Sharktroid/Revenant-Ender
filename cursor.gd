@@ -8,19 +8,10 @@ var true_origin: Vector2
 
 
 func _ready() -> void:
-#	transform.origin.x = 16
 	set_rel_pos(transform.get_origin())
-#	GenVars.set_cursor(self)
 	set_process_input(true)
 
 
-#func _input(event: InputEvent) -> void:
-#	pass
-#	if event is InputEventMouseMotion:
-		# moves cursor
-
-#	elif event.is_action_pressed("ui_debug"):
-#		print_debug(get_true_pos().y)
 
 
 func _process(_delta):
@@ -34,7 +25,6 @@ func _process(_delta):
 
 
 func _physics_process(_delta: float) -> void:
-#	var old_pos: Vector2 = get_true_pos()
 	if GenVars.get_game_controller().controller_type == "Mouse" and is_processing_input():
 		var destination: Vector2 = GenVars.get_map_camera().get_destination()
 		if destination == GenVars.get_map_camera().transform.get_origin():
@@ -43,7 +33,6 @@ func _physics_process(_delta: float) -> void:
 			set_rel_pos((mouse_position/universal_scale) - Vector2((GenVars.get_map_camera() as MapCamera).map_offset))
 	else:
 		var new_pos := Vector2i()
-#		var map_pos := Vector2i()
 		if get_rel_pos() == (true_origin as Vector2i) and is_processing_input():
 			if Input.is_action_pressed("ui_left"):
 				new_pos.x -= 16
@@ -53,9 +42,6 @@ func _physics_process(_delta: float) -> void:
 				new_pos.y -= 16
 			elif Input.is_action_pressed("ui_down") and not Input.is_action_pressed("ui_up"):
 				new_pos.y += 16
-#		if map_pos != Vector2i():
-#			GenVars.get_map().move(map_pos)
-#		if new_pos != Vector2i():
 		move(new_pos)
 	if (transform.get_origin()) != Vector2(_rel_pos + GenVars.get_map_camera().map_offset):
 		true_origin = true_origin.move_toward(get_rel_pos(),
@@ -88,7 +74,6 @@ func set_rel_pos(new_pos: Vector2i) -> void:
 		while new_pos[i] + 16 >= GenVars.get_screen_size()[i] + 16:
 			new_pos[i] -= 16
 
-#		print_debug(get_true_pos())
 		while top_bounds[i] > new_pos[i]:
 			map_move[i] -= 16
 			new_pos[i] += 16
@@ -98,16 +83,22 @@ func set_rel_pos(new_pos: Vector2i) -> void:
 
 	if map_move != Vector2i():
 		GenVars.get_map_camera().move(map_move)
-#		set_rel_pos(GenFunc.clamp_vector(new_pos, top_bounds, bottom_bounds))
 	if _rel_pos != new_pos:
 		_rel_pos = new_pos
-#	var upper_border: Vector2i = GenVars.get_map().upper_border
-#	var lower_border: Vector2i = GenVars.get_map().get_size() - GenVars.get_map().lower_border
 		emit_signal("moved")
 
 
 func get_rel_pos() -> Vector2i:
 	return _rel_pos
+
+
+func get_area() -> Area2D:
+	# Returns the cursor area.
+	if GenVars.get_map():
+		return GenVars.get_map().get_node("Cursor Area")
+	else:
+		push_error("Could not find Cursor Area")
+		return null
 
 
 func move(new_pos: Vector2i) -> void:
@@ -124,7 +115,3 @@ func can_move(new_pos: Vector2i) -> bool:
 		answer = true
 	set_rel_pos(old_pos)
 	return answer
-
-
-#func _get_map_offset() -> Vector2i:
-#	return GenVars.get_map().get_parent().global_canvas_transform.get_origin()

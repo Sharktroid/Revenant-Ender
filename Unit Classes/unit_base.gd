@@ -147,7 +147,7 @@ func add_max_health(added_health: float) -> void:
 
 
 ## Increases "current_health" by "added_health".
-func add_current_health(added_health: float, does_die: bool = false) -> void:
+func add_current_health(added_health: float, does_die: bool = true) -> void:
 	set_current_health(get_current_health() + added_health)
 	if get_current_health() <= 0 and does_die:
 		die()
@@ -188,10 +188,10 @@ func die() -> void:
 	$Area2D.queue_free()
 	await $Area2D.area_exited
 	var starting_time: float = GenVars.get_tick_timer()
-	var duration: float = 20 # In ticks
+	var duration: float = 2000 # In ticks
 	while (modulate.a > 0):
 		modulate.a -= (GenVars.get_tick_timer() - starting_time)/duration
-		await get_tree().idle_frame
+		await get_tree().physics_frame
 	queue_free()
 
 
@@ -601,7 +601,7 @@ func _check_skill(skill_name: String):
 
 func _on_area2d_area_entered(area: Area2D):
 	# When cursor enters unit's area
-	if area == GenVars.get_cursor_area():
+	if area == (GenVars.get_cursor() as Cursor).get_area():
 		var selecting: bool = GenVars.get_level_controller().selecting
 		var can_be_selected: bool = true
 		if is_instance_valid(GenVars.get_level_controller().hovered_unit):
@@ -618,7 +618,7 @@ func _on_area2d_area_entered(area: Area2D):
 
 func _on_area2d_area_exited(area: Area2D):
 	# When cursor exits unit's area
-	if area == GenVars.get_cursor_area() and not selected:
+	if area == (GenVars.get_cursor() as Cursor).get_area() and not selected:
 		hide_movement_tiles()
 	if has_status(statuses.ATTACK):
 		remove_status(statuses.ATTACK)
