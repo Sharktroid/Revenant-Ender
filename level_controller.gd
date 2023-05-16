@@ -6,7 +6,6 @@ signal unit_selected
 @export var map_node: PackedScene
 
 var ghost_unit: Unit # Unit used for echo effect when a unit is selected.
-var hovered_unit: Unit = preload("res://Unit Classes/unit_base.tscn").instantiate() # Unit that is under the cursor.
 var selecting: bool = false # Unit that is selecting another unit for an action.
 
 
@@ -16,11 +15,9 @@ func _enter_tree() -> void:
 
 
 func _input(event: InputEvent) -> void:
-
-		else:
 	if event.is_action_pressed("ranges"):
 		if _is_cursor_over_hovered_unit():
-			GenVars.get_map().toggle_outline_unit(hovered_unit)
+			GenVars.get_map().toggle_outline_unit(GenVars.get_cursor().get_hovered_unit())
 		else:
 			GenVars.get_map().toggle_full_outline()
 
@@ -34,8 +31,8 @@ func _input(event: InputEvent) -> void:
 
 
 func _process(_delta: float) -> void:
-	if is_instance_valid(ghost_unit) and is_instance_valid(hovered_unit):
-		var parent: Unit = hovered_unit
+	if is_instance_valid(ghost_unit) and is_instance_valid(GenVars.get_cursor().get_hovered_unit()):
+		var parent: Unit = GenVars.get_cursor().get_hovered_unit()
 		ghost_unit.raw_movement_tiles = parent.raw_movement_tiles
 		var coords: Vector2i = ghost_unit.position
 		if not selecting:
@@ -90,8 +87,8 @@ func set_scaling(new_scaling: int) -> void:
 
 
 func _is_cursor_over_hovered_unit() -> bool:
-	if is_instance_valid(hovered_unit):
-		return hovered_unit.get_node("Area2D").overlaps_area(GenVars.get_cursor_area())
+	if is_instance_valid(GenVars.get_cursor().get_hovered_unit()):
+		return GenVars.get_cursor().get_hovered_unit().get_node("Area2D").overlaps_area(GenVars.get_cursor().get_area())
 	else:
 		return false
 
@@ -105,15 +102,9 @@ func _deselect_unit() -> void:
 	## Deselects the currently selected unit.
 	ghost_unit.queue_free()
 	await ghost_unit.tree_exited
-	await hovered_unit.deselect()
-	var cursor_area: Area2D = GenVars.get_cursor_area()
+	await GenVars.get_cursor().get_hovered_unit().deselect()
+	var cursor_area: Area2D = GenVars.get_cursor().get_area()
 	# Searches for another unit below the cursor.
-	if not(_is_cursor_over_hovered_unit()):
-		for unit in get_tree().get_nodes_in_group("units"):
-			if Vector2i(unit.position) == GenVars.get_cursor().get_true_pos():
-				hovered_unit = unit
-				hovered_unit.get_node("Area2D").emit_signal("area_entered", cursor_area)
-				break
 
 
 func _create_main_map_menu() -> void:
@@ -127,7 +118,7 @@ func _create_main_map_menu() -> void:
 func _create_unit_menu() -> void:
 	## Creates unit menu.
 	var menu: MapMenu = preload("res://Menus/Map Menus/unit_menu.tscn").instantiate()
-	menu.connected_unit = hovered_unit
+	menu.connected_unit = GenVars.get_cursor().get_hovered_unit()
 	menu.position = GenVars.get_cursor().get_rel_pos() + Vector2i(16, -8)
 	$UILayer.add_child(menu)
 	handle_input(false)
@@ -148,6 +139,6 @@ func _on_cursor_select() -> void:
 
 
 func _on_cursor_moved() -> void:
-	if is_instance_valid(hovered_unit) and hovered_unit.selected and not selecting:
-		hovered_unit.update_path(GenVars.get_cursor().get_true_pos())
-		hovered_unit.show_path()
+	if is_instance_valid(GenVars.get_cursor().get_hovered_unit()) and GenVars.get_cursor().get_hovered_unit().selected and not selecting:
+		GenVars.get_cursor().get_hovered_unit().update_path(GenVars.get_cursor().get_true_pos())
+		GenVars.get_cursor().get_hovered_unit().show_path()
