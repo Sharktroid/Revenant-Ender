@@ -12,7 +12,7 @@ func _enter_tree() -> void:
 
 func close() -> void:
 	super.close()
-	GenVars.get_level_controller().handle_input(true)
+	GenVars.get_cursor().set_active(true)
 	GenVars.get_cursor().connect_to(caller)
 
 
@@ -71,9 +71,12 @@ func _can_attack() -> bool:
 func _on_button_pressed(button: Button) -> void:
 	match (button.text+":").split(":")[0]:
 		"Attack":
-			var selected_unit = await _select_unit()
+			set_active(false)
+			var controller := UnitSelector.new(connected_unit)
+			add_child(controller)
+			var selected_unit = await controller.selected
 			if selected_unit == null:
-				print_debug(GenVars.get_level_controller().hovered_unit)
+				set_active(true)
 			else:
 				connected_unit.move()
 				await AttackHandler.combat(connected_unit, selected_unit)
@@ -108,28 +111,3 @@ func _on_button_pressed(button: Button) -> void:
 
 		var item:
 			push_error('"%s" is not a valid action' % item)
-
-
-func _select_unit(self_selectable: bool = false) -> Unit:
-	var starting_pos: Vector2i = GenVars.get_cursor().get_true_pos()
-	GenVars.get_level_controller().handle_input(true)
-	set_active(false)
-	GenVars.get_level_controller().selecting = true
-	connected_unit.hide_movement_tiles()
-	connected_unit.display_current_attack_tiles(connected_unit.get_unit_path()[-1])
-	connected_unit._remove_path()
-	GenVars.get_cursor_area().monitoring = false
-	GenVars.get_cursor_area().monitoring = true
-	var selected_unit = await GenVars.get_level_controller().unit_selected
-	while not(self_selectable) and selected_unit == connected_unit:
-		selected_unit = await GenVars.get_level_controller().unit_selected
-	GenVars.get_level_controller().selecting = true
-	if selected_unit == null:
-		GenVars.get_level_controller().handle_input(false)
-		set_active(true)
-		GenVars.get_cursor().set_true_pos(starting_pos)
-		connected_unit.display_movement_tiles()
-		connected_unit.show_path()
-	GenVars.get_level_controller().selecting = false
-	connected_unit.hide_current_attack_tiles()
-	return selected_unit

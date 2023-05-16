@@ -46,6 +46,7 @@ func _create_unit_menu() -> void:
 func _on_cursor_cancel() -> void:
 	_deselect_unit()
 	(GenVars.get_cursor() as Cursor).connect_to(GenVars.get_level_controller())
+	GenVars.get_level_controller().selecting = false
 
 
 func _deselect_unit() -> void:

@@ -609,10 +609,6 @@ func _on_area2d_area_entered(area: Area2D):
 		if can_be_selected:
 			if not(selected or selecting or waiting):
 				display_movement_tiles()
-			elif selecting:
-				var selected_unit: Unit = GenVars.get_level_controller().get_node("UILayer/Unit Menu").connected_unit
-				if Vector2i(position) in selected_unit.get_current_attack_tiles(selected_unit.get_unit_path()[-1]):
-					add_status(statuses.ATTACK)
 
 
 func _on_area2d_area_exited(area: Area2D):
