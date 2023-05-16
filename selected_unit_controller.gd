@@ -16,6 +16,14 @@ func _ready() -> void:
 	(GenVars.get_cursor() as Cursor).connect_to(self)
 
 
+func close() -> void:
+	## Deselects the currently selected unit.
+	await unit.deselect()
+	queue_free()
+	(GenVars.get_cursor() as Cursor).connect_to(GenVars.get_level_controller())
+	GenVars.get_level_controller().selecting = false
+
+
 func _on_cursor_moved() -> void:
 	if unit.selected:
 		unit.update_path(GenVars.get_cursor().get_true_pos())
@@ -44,13 +52,4 @@ func _create_unit_menu() -> void:
 
 
 func _on_cursor_cancel() -> void:
-	_deselect_unit()
-	(GenVars.get_cursor() as Cursor).connect_to(GenVars.get_level_controller())
-	GenVars.get_level_controller().selecting = false
-
-
-func _deselect_unit() -> void:
-	## Deselects the currently selected unit.
-	await unit.deselect()
-	var _cursor_area: Area2D = GenVars.get_cursor().get_area()
-	queue_free()
+	close()

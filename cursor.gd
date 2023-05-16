@@ -67,6 +67,8 @@ func get_true_pos() -> Vector2i:
 
 func set_active(active: bool) -> void:
 	set_process_input(active)
+	get_area().monitorable = active
+	get_area().monitoring = active
 
 
 func connect_to(caller: Object):

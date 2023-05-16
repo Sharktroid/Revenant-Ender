@@ -10,10 +10,19 @@ func _enter_tree() -> void:
 	items = get_menu_items()
 
 
-func close() -> void:
-	super.close()
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		close(true)
+	else:
+		super(event)
+
+
+func close(return_to_caller: bool = false) -> void:
+	super()
 	GenVars.get_cursor().set_active(true)
 	GenVars.get_cursor().connect_to(caller)
+	if not return_to_caller:
+		caller.close()
 
 
 func get_menu_items() -> Array[String]:

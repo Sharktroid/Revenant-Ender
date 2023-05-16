@@ -30,6 +30,7 @@ func _ready() -> void:
 	size = $Items.size + Vector2(9, 9)
 	$"Base Button".queue_free()
 
+
 func _input(event: InputEvent) -> void:
 #	if event.is_action_pressed("ui_up"):
 #		_move_selection(_index - 1)

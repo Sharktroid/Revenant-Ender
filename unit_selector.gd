@@ -25,7 +25,6 @@ func close() -> void:
 
 
 func _on_cursor_select() -> void:
-	var true_cursor_pos: Vector2i = GenVars.get_cursor().get_true_pos()
 	if GenVars.get_cursor().get_hovered_unit() != null:
 		emit_signal("selected", GenVars.get_cursor().get_hovered_unit())
 		close()
