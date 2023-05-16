@@ -202,7 +202,7 @@ func deselect() -> void:
 	selected = false
 	if GenVars.get_map().has_node("Base Layer/%s Move Tiles" % name):
 		await GenVars.get_map().get_node("Base Layer/%s Move Tiles" % name).tree_exited
-		if $Area2D.overlaps_area(GenVars.get_cursor_area()):
+		if $Area2D.overlaps_area(GenVars.get_cursor().get_area()):
 			display_movement_tiles()
 
 
@@ -247,7 +247,7 @@ func display_movement_tiles() -> void:
 func hide_movement_tiles() -> void:
 	if GenVars.get_map().has_node("Base Layer/%s Move Tiles" % name):
 		GenVars.get_map().get_node("Base Layer/%s Move Tiles" % name).queue_free()
-		_remove_path()
+		remove_path()
 
 
 func get_current_attack_tiles(pos: Vector2i) -> Array[Vector2i]:
@@ -380,7 +380,7 @@ func update_path(destination: Vector2i, num: int = current_movement) -> void:
 
 ## Displays the unit's path
 func show_path() -> void:
-	_remove_path()
+	remove_path()
 	if len(get_unit_path()) > 1:
 		for i in get_unit_path():
 			var tile: Sprite2D = _movement_arrows.instantiate()
@@ -442,15 +442,15 @@ func get_damage(_defender: Unit) -> float:
 	return 0.0 # Not implemented here
 
 
-func _render_status() -> void:
-	pass
-
-
-func _remove_path() -> void:
+func remove_path() -> void:
 	# Removes the unit's path
 	for child in GenVars.get_map().get_children():
 		if "MovementArrows" in child.name:
 			child.queue_free()
+
+
+func _render_status() -> void:
+	pass
 
 
 func _get_movement_tiles() -> void:
@@ -604,10 +604,9 @@ func _on_area2d_area_entered(area: Area2D):
 	if area == (GenVars.get_cursor() as Cursor).get_area():
 		var selecting: bool = GenVars.get_level_controller().selecting
 		var can_be_selected: bool = true
-		if is_instance_valid(GenVars.get_level_controller().hovered_unit):
-			can_be_selected = not GenVars.get_level_controller().hovered_unit.selected or selecting
+		if is_instance_valid(GenVars.get_cursor().get_hovered_unit()):
+			can_be_selected = not GenVars.get_cursor().get_hovered_unit().selected or selecting
 		if can_be_selected:
-			GenVars.get_level_controller().hovered_unit = self
 			if not(selected or selecting or waiting):
 				display_movement_tiles()
 			elif selecting:
@@ -629,7 +628,6 @@ func _on_create_menu_select_item(item: String) -> void:
 		var new_unit: Unit = _all_units[item].instantiate()
 		new_unit.position = position
 		new_unit.faction_id = faction_id
-#		new_unit.variant = get_faction().var
 		get_parent().add_child(new_unit)
 	GenVars.get_level_controller().get_node("UILayer/Unit Menu").close()
 
