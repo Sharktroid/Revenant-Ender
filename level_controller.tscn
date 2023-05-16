@@ -45,4 +45,3 @@ anchor_mode = 0
 script = ExtResource("4_doakt")
 
 [connection signal="timeout" from="UILayer/Turn Banner/Banner Timer" to="." method="_on_banner_timer_timeout"]
-[connection signal="moved" from="UILayer/Cursor" to="." method="_on_cursor_moved"]

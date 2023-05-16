@@ -2,6 +2,8 @@ class_name Cursor
 extends Sprite2D
 
 signal moved
+signal select
+signal cancel
 
 var _rel_pos: Vector2i
 var true_origin: Vector2
@@ -12,6 +14,11 @@ func _ready() -> void:
 	set_process_input(true)
 
 
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_accept"):
+		emit_signal("select")
+	elif event.is_action_pressed("ui_cancel"):
+		emit_signal("cancel")
 
 
 func _process(_delta):
@@ -56,6 +63,28 @@ func set_true_pos(new_pos: Vector2i) -> void:
 
 func get_true_pos() -> Vector2i:
 	return get_rel_pos() + Vector2i(GenVars.get_map_camera().true_origin)
+
+
+func set_active(active: bool) -> void:
+	set_process_input(active)
+
+
+func connect_to(caller: Object):
+	if caller.has_method("_on_cursor_select"):
+		connect("select", caller._on_cursor_select)
+	if caller.has_method("_on_cursor_cancel"):
+		connect("cancel", caller._on_cursor_cancel)
+	if caller.has_method("_on_cursor_moved"):
+		connect("moved", caller._on_cursor_moved)
+
+
+func disconnect_from(caller: Object):
+	if caller.has_method("_on_cursor_select"):
+		disconnect("select", caller._on_cursor_select)
+	if caller.has_method("_on_cursor_cancel"):
+		disconnect("cancel", caller._on_cursor_cancel)
+	if caller.has_method("_on_cursor_moved"):
+		disconnect("moved", caller._on_cursor_moved)
 
 
 func set_rel_pos(new_pos: Vector2i) -> void:

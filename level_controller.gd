@@ -6,54 +6,17 @@ signal unit_selected
 @export var map_node: PackedScene
 
 var ghost_unit: Unit # Unit used for echo effect when a unit is selected.
-var selecting: bool = false # Unit that is selecting another unit for an action.
+var selecting: bool = false # Whether a unit is currently selected.
 
 
 func _enter_tree() -> void:
 	var map: Map = map_node.instantiate()
 	$"Map Camera".add_child(map)
+	GenVars.get_cursor().connect_to(self)
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_accept"):
-		var true_cursor_pos: Vector2i = GenVars.get_cursor().get_true_pos()
-		# When a unit is selecting another unit.
-		if selecting:
-			var selected_unit: Unit = get_node("UILayer/Unit Menu").connected_unit
-			if true_cursor_pos in selected_unit.get_current_attack_tiles(selected_unit.get_unit_path()[-1]) \
-					and _is_cursor_over_hovered_unit():
-				emit_signal("unit_selected", GenVars.get_cursor().get_hovered_unit())
-
-		# When a unit has already been selected.
-		elif GenVars.get_cursor().get_hovered_unit().selected:
-			var all_tiles: Array = GenVars.get_cursor().get_hovered_unit().all_attack_tiles + GenVars.get_cursor().get_hovered_unit().raw_movement_tiles
-			# Creates menu if cursor in unit's tiles and is same faction as unit.
-			var unit_pos: Vector2i = GenVars.get_cursor().get_hovered_unit().position
-			if GenVars.get_cursor().get_hovered_unit().get_faction().name == GenVars.get_map().get_current_faction().name \
-					and (true_cursor_pos in all_tiles or unit_pos == true_cursor_pos):
-				_create_unit_menu()
-
-		# When hovering over a unit.
-		elif _is_cursor_over_hovered_unit() and GenVars.get_cursor().get_hovered_unit().selectable == true:
-			GenVars.get_cursor().get_hovered_unit().selected = true
-			GenVars.get_cursor().get_hovered_unit().update_path(GenVars.get_cursor().get_true_pos())
-			GenVars.get_cursor().get_hovered_unit().refresh_tiles()
-			ghost_unit = GenVars.get_cursor().get_hovered_unit().duplicate()
-			ghost_unit.make_ghost()
-			GenVars.get_cursor().get_hovered_unit().get_parent().add_child(ghost_unit)
-			GenVars.get_cursor().get_hovered_unit().map_animation = Unit.animations.MOVING_DOWN
-
-		else:
-			_create_main_map_menu()
-
-	elif event.is_action_pressed("ui_cancel"):
-		if selecting:
-			# Cancels the metaunit selection.
-			emit_signal("unit_selected", null)
-		elif GenVars.get_cursor().get_hovered_unit().selected == true:
-			await _deselect_unit()
-
-	elif event.is_action_pressed("ranges"):
+	if event.is_action_pressed("ranges"):
 		if _is_cursor_over_hovered_unit():
 			GenVars.get_map().toggle_outline_unit(GenVars.get_cursor().get_hovered_unit())
 		else:
@@ -110,13 +73,6 @@ func _process(_delta: float) -> void:
 					ghost_unit.map_animation = Unit.animations.MOVING_RIGHT
 
 
-func handle_input(process: bool) -> void:
-	## Turns on/off input of the game controller and cursor.
-	## process: value the input will be set too.
-	set_process_input(process)
-	GenVars.get_cursor().set_process_input(process)
-
-
 func set_scaling(new_scaling: int) -> void:
 	var new_scale := Vector2(new_scaling, new_scaling)
 	scale = new_scale
@@ -141,7 +97,6 @@ func _deselect_unit() -> void:
 	ghost_unit.queue_free()
 	await ghost_unit.tree_exited
 	await GenVars.get_cursor().get_hovered_unit().deselect()
-	var cursor_area: Area2D = GenVars.get_cursor().get_area()
 	# Searches for another unit below the cursor.
 
 
@@ -150,7 +105,7 @@ func _create_main_map_menu() -> void:
 	var menu: MapMenu = preload("res://Menus/Map Menus/main_map_menu.tscn").instantiate()
 	menu.position = GenVars.get_cursor().get_rel_pos() + Vector2i(16, -8)
 	$UILayer.add_child(menu)
-	handle_input(false)
+	GenVars.get_cursor().set_active(false)
 
 
 func _create_unit_menu() -> void:
@@ -159,7 +114,18 @@ func _create_unit_menu() -> void:
 	menu.connected_unit = GenVars.get_cursor().get_hovered_unit()
 	menu.position = GenVars.get_cursor().get_rel_pos() + Vector2i(16, -8)
 	$UILayer.add_child(menu)
-	handle_input(false)
+	GenVars.get_cursor().set_active(false)
+
+
+func _on_cursor_select() -> void:
+	if _is_cursor_over_hovered_unit() and GenVars.get_cursor().get_hovered_unit().selectable == true:
+		var controller = SelectedUnitController.new(GenVars.get_cursor().get_hovered_unit())
+		add_child(controller)
+		GenVars.get_cursor().disconnect_from(self)
+		selecting = true
+
+	else:
+		_create_main_map_menu()
 
 
 func _on_cursor_moved() -> void:
