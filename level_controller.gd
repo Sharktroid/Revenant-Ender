@@ -16,45 +16,9 @@ func _enter_tree() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_accept"):
-		var true_cursor_pos: Vector2i = GenVars.get_cursor().get_true_pos()
-		# When a unit is selecting another unit.
-		if selecting:
-			var selected_unit: Unit = get_node("UILayer/Unit Menu").connected_unit
-			if true_cursor_pos in selected_unit.get_current_attack_tiles(selected_unit.get_unit_path()[-1]) \
-					and _is_cursor_over_hovered_unit():
-				emit_signal("unit_selected", hovered_unit)
-
-		# When a unit has already been selected.
-		elif hovered_unit.selected:
-			var all_tiles: Array = hovered_unit.all_attack_tiles + hovered_unit.raw_movement_tiles
-			# Creates menu if cursor in unit's tiles and is same faction as unit.
-			var unit_pos: Vector2i = hovered_unit.position
-			if hovered_unit.get_faction().name == GenVars.get_map().get_current_faction().name \
-					and (true_cursor_pos in all_tiles or unit_pos == true_cursor_pos):
-				_create_unit_menu()
-
-		# When hovering over a unit.
-		elif _is_cursor_over_hovered_unit() and hovered_unit.selectable == true:
-			hovered_unit.selected = true
-			hovered_unit.update_path(GenVars.get_cursor().get_true_pos())
-			hovered_unit.refresh_tiles()
-			ghost_unit = hovered_unit.duplicate()
-			ghost_unit.make_ghost()
-			hovered_unit.get_parent().add_child(ghost_unit)
-			hovered_unit.map_animation = Unit.animations.MOVING_DOWN
 
 		else:
-			_create_main_map_menu()
-
-	elif event.is_action_pressed("ui_cancel"):
-		if selecting:
-			# Cancels the metaunit selection.
-			emit_signal("unit_selected", null)
-		elif hovered_unit.selected == true:
-			await _deselect_unit()
-
-	elif event.is_action_pressed("ranges"):
+	if event.is_action_pressed("ranges"):
 		if _is_cursor_over_hovered_unit():
 			GenVars.get_map().toggle_outline_unit(hovered_unit)
 		else:
@@ -167,6 +131,20 @@ func _create_unit_menu() -> void:
 	menu.position = GenVars.get_cursor().get_rel_pos() + Vector2i(16, -8)
 	$UILayer.add_child(menu)
 	handle_input(false)
+
+
+func _on_cursor_select() -> void:
+	if _is_cursor_over_hovered_unit() and GenVars.get_cursor().get_hovered_unit().selectable == true:
+		GenVars.get_cursor().get_hovered_unit().selected = true
+		GenVars.get_cursor().get_hovered_unit().update_path(GenVars.get_cursor().get_true_pos())
+		GenVars.get_cursor().get_hovered_unit().refresh_tiles()
+		ghost_unit = GenVars.get_cursor().get_hovered_unit().duplicate()
+		ghost_unit.make_ghost()
+		GenVars.get_cursor().get_hovered_unit().get_parent().add_child(ghost_unit)
+		GenVars.get_cursor().get_hovered_unit().map_animation = Unit.animations.MOVING_DOWN
+
+	else:
+		_create_main_map_menu()
 
 
 func _on_cursor_moved() -> void:
