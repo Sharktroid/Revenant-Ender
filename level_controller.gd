@@ -12,6 +12,7 @@ var selecting: bool = false # Unit that is selecting another unit for an action.
 func _enter_tree() -> void:
 	var map: Map = map_node.instantiate()
 	$"Map Camera".add_child(map)
+	GenVars.get_cursor().connect_to(self)
 
 
 func _input(event: InputEvent) -> void:
@@ -103,7 +104,6 @@ func _deselect_unit() -> void:
 	ghost_unit.queue_free()
 	await ghost_unit.tree_exited
 	await GenVars.get_cursor().get_hovered_unit().deselect()
-	var cursor_area: Area2D = GenVars.get_cursor().get_area()
 	# Searches for another unit below the cursor.
 
 
@@ -126,13 +126,9 @@ func _create_unit_menu() -> void:
 
 func _on_cursor_select() -> void:
 	if _is_cursor_over_hovered_unit() and GenVars.get_cursor().get_hovered_unit().selectable == true:
-		GenVars.get_cursor().get_hovered_unit().selected = true
-		GenVars.get_cursor().get_hovered_unit().update_path(GenVars.get_cursor().get_true_pos())
-		GenVars.get_cursor().get_hovered_unit().refresh_tiles()
-		ghost_unit = GenVars.get_cursor().get_hovered_unit().duplicate()
-		ghost_unit.make_ghost()
-		GenVars.get_cursor().get_hovered_unit().get_parent().add_child(ghost_unit)
-		GenVars.get_cursor().get_hovered_unit().map_animation = Unit.animations.MOVING_DOWN
+		var controller = SelectedUnitController.new(GenVars.get_cursor().get_hovered_unit())
+		add_child(controller)
+		GenVars.get_cursor().disconnect_from(self)
 
 	else:
 		_create_main_map_menu()

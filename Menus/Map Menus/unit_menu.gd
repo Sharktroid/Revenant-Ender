@@ -1,6 +1,7 @@
 extends "res://Menus/Map Menus/base_map_menu.gd"
 
 var connected_unit: Unit
+var caller: SelectedUnitController
 var _adjacent_units: Array[Unit]
 var _touching_unit: Unit
 
@@ -12,6 +13,7 @@ func _enter_tree() -> void:
 func close() -> void:
 	super.close()
 	GenVars.get_level_controller().handle_input(true)
+	GenVars.get_cursor().connect_to(caller)
 
 
 func get_menu_items() -> Array[String]:
