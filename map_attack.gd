@@ -8,21 +8,22 @@ signal proceed
 
 var new_pos: Vector2i
 var target_tile: Vector2i
-var unit: Unit
+var _unit: Unit
 
 
 func _init(connected_unit: Unit = null, targeted_tile: Vector2i = Vector2i(0, 16)) -> void:
-	self.unit = connected_unit
-	self.target_tile = targeted_tile
+	_unit = connected_unit
+	target_tile = targeted_tile
 
 
 func _ready() -> void:
-	var combat_sprite: Unit = unit.duplicate()
+	var combat_sprite: Unit = _unit.duplicate()
 	for child in combat_sprite.get_children():
 		(child as Node).queue_free()
 	combat_sprite.position = Vector2i()
+	combat_sprite.remove_from_group("units")
 	add_child(combat_sprite)
-	position = unit.position
+	position = _unit.position
 	new_pos = position
 	wait()
 
