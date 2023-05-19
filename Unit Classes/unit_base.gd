@@ -201,6 +201,7 @@ func die() -> void:
 func deselect() -> void:
 	map_animation = animations.IDLE
 	selected = false
+	remove_path()
 	if GenVars.get_cursor().get_hovered_unit() == self:
 		refresh_tiles()
 	else:
