@@ -3,6 +3,7 @@ extends Node
 
 var _ghost_unit: Unit
 var _unit: Unit
+var _ghost_unit: GhostUnit
 
 func _init(connected_unit: Unit) -> void:
 	_unit = connected_unit
@@ -13,13 +14,20 @@ func _ready() -> void:
 	_unit.selected = true
 	_unit.update_path(GenVars.get_cursor().get_true_pos())
 	_unit.refresh_tiles()
+	_ghost_unit = GhostUnit.new(_unit)
+	GenVars.get_map().add_child(_ghost_unit)
 	(GenVars.get_cursor() as Cursor).connect_to(self)
+
+
+func _process(delta: float) -> void:
+	_ghost_unit.position = _unit.get_unit_path()[-1]
 
 
 func close() -> void:
 	## Deselects the currently selected _unit.
 	_unit.deselect()
 	queue_free()
+	_ghost_unit.queue_free()
 	(GenVars.get_cursor() as Cursor).connect_to(GenVars.get_level_controller())
 	GenVars.get_level_controller().selecting = false
 

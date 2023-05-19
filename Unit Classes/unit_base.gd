@@ -167,15 +167,6 @@ func add_all_health(added_health: float):
 	add_max_health(added_health)
 
 
-## Makes unit a ghost.
-func make_ghost() -> void:
-	is_ghost = true
-	modulate.a = .5
-	$Area2D.queue_free()
-	_movement_speed = 1
-	remove_from_group("units")
-
-
 ## Causes unit to wait.
 func wait() -> void:
 	if GenVars.get_debug_constant("unit_wait"):
