@@ -200,12 +200,11 @@ func die() -> void:
 ## Deselects unit.
 func deselect() -> void:
 	map_animation = animations.IDLE
-	hide_movement_tiles()
 	selected = false
-	if GenVars.get_map().has_node("Base Layer/%s Move Tiles" % name):
-		await GenVars.get_map().get_node("Base Layer/%s Move Tiles" % name).tree_exited
-		if $Area2D.overlaps_area(GenVars.get_cursor().get_area()):
-			display_movement_tiles()
+	if GenVars.get_cursor().get_hovered_unit() == self:
+		refresh_tiles()
+	else:
+		hide_movement_tiles()
 
 
 ## Un-waits unit.
@@ -242,11 +241,13 @@ func display_movement_tiles() -> void:
 				tile.modulate.a = .5
 			tile.frame = int(GenVars.get_tick_timer()/3) % 16
 			_movement_tiles_node.add_child(tile)
+		GenVars.get_map().get_node("Base Layer").add_child(_movement_tiles_node)
 
 
 ## Hides the unit's movement tiles.
 func hide_movement_tiles() -> void:
-	_movement_tiles_node.queue_free()
+	if is_instance_valid(_movement_tiles_node):
+		_movement_tiles_node.queue_free()
 
 
 func get_current_attack_tiles(pos: Vector2i) -> Array[Vector2i]:
@@ -524,15 +525,6 @@ func _create_all_attack_tiles() -> void:
 					var distance: int = (GenFunc.get_tile_distance(tile, attack_tile)) as int
 					if distance in range(min_range, max_range + 1):
 						all_attack_tiles.append(attack_tile)
-
-
-#func _get_true_attack_tiles():
-#	# Gets the true attack tiles.
-#	for tile in all_attack_tiles:
-#		for unit in get_tree().get_nodes_in_group("units"):
-#			if GenFunc.get_tile_distance(tile, unit.position) <= _attack_range:
-#				_true_attack_tiles.append(tile)
-#				break
 
 
 func _update_sprite() -> void:

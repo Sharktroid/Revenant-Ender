@@ -6,7 +6,7 @@ signal select
 signal cancel
 
 var _rel_pos: Vector2i
-var true_origin: Vector2
+var _true_origin: Vector2
 
 
 func _ready() -> void:
@@ -40,7 +40,7 @@ func _physics_process(_delta: float) -> void:
 			set_rel_pos((mouse_position/universal_scale) - Vector2((GenVars.get_map_camera() as MapCamera).map_offset))
 	else:
 		var new_pos := Vector2i()
-		if get_rel_pos() == (true_origin as Vector2i) and is_processing_input():
+		if get_rel_pos() == (_true_origin as Vector2i) and is_processing_input():
 			if Input.is_action_pressed("ui_left"):
 				new_pos.x -= 16
 			elif Input.is_action_pressed("ui_right") and not Input.is_action_pressed("ui_left"):
@@ -51,9 +51,9 @@ func _physics_process(_delta: float) -> void:
 				new_pos.y += 16
 		move(new_pos)
 	if (transform.get_origin()) != Vector2(_rel_pos + GenVars.get_map_camera().map_offset):
-		true_origin = true_origin.move_toward(get_rel_pos(),
-				max(1, true_origin.distance_to(get_rel_pos())/16) * 4)
-		transform.origin = true_origin + Vector2(GenVars.get_map_camera().map_offset)
+		_true_origin = _true_origin.move_toward(get_rel_pos(),
+				max(1, _true_origin.distance_to(get_rel_pos())/16) * 4)
+		transform.origin = _true_origin + Vector2(GenVars.get_map_camera().map_offset)
 
 
 func set_true_pos(new_pos: Vector2i) -> void:

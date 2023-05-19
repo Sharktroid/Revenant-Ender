@@ -32,7 +32,7 @@ func _on_button_pressed(button: Button) -> void:
 
 		"Display Map Cursor":
 			GenVars.invert_debug_constant("display_map_cursor")
-			GenVars.get_cursor_area().visible = GenVars.get_debug_constant("display_map_cursor")
+			GenVars.get_cursor().get_area().visible = GenVars.get_debug_constant("display_map_cursor")
 
 		"Print Cursor Position":
 			var replacements: Array[Vector2i] = [

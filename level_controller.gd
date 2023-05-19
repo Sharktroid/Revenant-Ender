@@ -92,14 +92,6 @@ func _on_banner_timer_timeout() -> void:
 	GenVars.get_map().start_turn()
 
 
-func _deselect_unit() -> void:
-	## Deselects the currently selected unit.
-	ghost_unit.queue_free()
-	await ghost_unit.tree_exited
-	await GenVars.get_cursor().get_hovered_unit().deselect()
-	# Searches for another unit below the cursor.
-
-
 func _create_main_map_menu() -> void:
 	## Creates map menu.
 	var menu: MapMenu = preload("res://Menus/Map Menus/main_map_menu.tscn").instantiate()
