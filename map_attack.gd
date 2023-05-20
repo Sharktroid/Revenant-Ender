@@ -9,6 +9,7 @@ signal proceed
 var new_pos: Vector2i
 var target_tile: Vector2i
 var _unit: Unit
+var _combat_sprite: Unit
 
 
 func _init(connected_unit: Unit = null, targeted_tile: Vector2i = Vector2i(0, 16)) -> void:
@@ -17,14 +18,16 @@ func _init(connected_unit: Unit = null, targeted_tile: Vector2i = Vector2i(0, 16
 
 
 func _ready() -> void:
-	var combat_sprite: Unit = _unit.duplicate()
-	for child in combat_sprite.get_children():
+	_combat_sprite = _unit.duplicate()
+	for child in _combat_sprite.get_children():
 		(child as Node).queue_free()
-	combat_sprite.position = Vector2i()
-	combat_sprite.remove_from_group("units")
-	add_child(combat_sprite)
+	_combat_sprite.position = Vector2i()
+	_combat_sprite.remove_from_group("units")
+	add_child(_combat_sprite)
 	position = _unit.position
 	new_pos = position
+	(_combat_sprite as Unit).sprite_animated = false
+	(_combat_sprite as Unit).reset_map_anim()
 	wait()
 
 
@@ -33,11 +36,24 @@ func _physics_process(_delta: float) -> void:
 
 
 func play_animation() -> void:
+	(_combat_sprite as Unit).sprite_animated = true
 	var movement: Vector2 = (target_tile as Vector2 - position).normalized() * 4
+	var angle: float = (target_tile as Vector2 - position).angle()
+	var angle_adjusted = (angle * 4)/PI
+	if angle_adjusted <= 1 and angle_adjusted >= -1:
+		_combat_sprite.map_animation = Unit.animations.MOVING_LEFT
+	elif angle_adjusted > -3 and angle_adjusted < -1:
+		_combat_sprite.map_animation = Unit.animations.MOVING_UP
+	elif angle_adjusted > 1 and angle_adjusted < 3:
+		_combat_sprite.map_animation = Unit.animations.MOVING_DOWN
+	else:
+		_combat_sprite.map_animation = Unit.animations.MOVING_RIGHT
 	await _move(movement)
 	emit_signal("deal_damage")
 	await _move(-movement)
 	emit_signal("complete")
+	(_combat_sprite as Unit).sprite_animated = false
+	(_combat_sprite as Unit).reset_map_anim()
 
 
 func wait() -> void:

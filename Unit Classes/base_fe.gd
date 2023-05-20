@@ -104,12 +104,12 @@ func get_movement() -> int:
 
 
 func wait() -> void:
-	super.wait()
+	super()
 	_update_palette()
 
 
 func awaken() -> void:
-	super.awaken()
+	super()
 	_update_palette()
 
 
@@ -117,13 +117,17 @@ func get_damage(defender: Unit) -> float:
 	return max(0, attack - defender.defense)
 
 
+func reset_map_anim() -> void:
+	frame_coords.x = 0
+
+
 func _update_palette() -> void:
 	if GenVars.get_map():
 		_set_palette(get_faction().color)
 
 
-func _update_sprite() -> void:
-	super._update_sprite()
+func _animate_sprite() -> void:
+	super()
 	if map_animation == animations.IDLE:
 		var frame_num: int = int(GenVars.get_tick_timer()) % 64
 		if (frame_num >= 16 and frame_num < 32) or frame_num >= 48:

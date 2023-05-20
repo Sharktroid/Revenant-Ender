@@ -29,6 +29,7 @@ var is_ghost: bool = false # Whether the unit is used for the cursor.
 var selected: bool = false # Whether the unit is selected.
 var selectable: bool = true # Whether the unit can be selected.
 var waiting: bool = false
+var sprite_animated: bool = true
 
 var _max_health: float
 var _movement: int
@@ -54,7 +55,7 @@ func _ready():
 	for skill in skills:
 		_check_skill(skill)
 	set_all_health(_max_health)
-	_update_sprite()
+	_animate_sprite()
 	add_to_group("units")
 	# Setting up "_all_units"
 	var dir = DirAccess.open("res://Unit Classes/")
@@ -96,11 +97,13 @@ func _physics_process(_delta: float) -> void:
 
 func _process(_delta: float):
 	_render_status()
-	_update_sprite()
+	if sprite_animated:
+		_animate_sprite()
 #	if outline_highlight:
 #		modulate = Color.RED
 #	else:
 #		modulate = Color.WHITE
+
 
 func set_movement(new_move: int) -> void:
 	_movement = new_move
@@ -329,7 +332,7 @@ func get_faction() -> Faction:
 ## Changes unit's faction.
 func set_faction(new_faction: Faction) -> void:
 	faction_id = (GenVars.get_map() as Map).faction_stack.find(new_faction)
-	_update_sprite()
+	_animate_sprite()
 
 
 ## Gets the path of the unit.
@@ -441,6 +444,10 @@ func remove_path() -> void:
 			child.queue_free()
 
 
+func reset_map_anim() -> void:
+	pass
+
+
 func _render_status() -> void:
 	pass
 
@@ -519,7 +526,7 @@ func _create_all_attack_tiles() -> void:
 						all_attack_tiles.append(attack_tile)
 
 
-func _update_sprite() -> void:
+func _animate_sprite() -> void:
 	pass
 
 

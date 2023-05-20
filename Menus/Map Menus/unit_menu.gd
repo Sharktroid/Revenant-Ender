@@ -88,6 +88,7 @@ func _on_button_pressed(button: Button) -> void:
 				set_active(true)
 			else:
 				connected_unit.move()
+				await connected_unit.arrived
 				await AttackHandler.combat(connected_unit, selected_unit)
 				connected_unit.wait()
 				close()
