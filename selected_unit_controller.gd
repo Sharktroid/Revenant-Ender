@@ -24,16 +24,14 @@ func _process(_delta: float) -> void:
 		_ghost_unit.visible = false
 	else:
 		_ghost_unit.visible = true
-		if _unit.get_unit_path()[-1] - _unit.get_unit_path()[-2] == Vector2i(16, 0):
-			_ghost_unit.set_animation(Unit.animations.MOVING_LEFT)
-		elif _unit.get_unit_path()[-1] - _unit.get_unit_path()[-2] == Vector2i(-16, 0):
-			_ghost_unit.set_animation(Unit.animations.MOVING_RIGHT)
-		if _unit.get_unit_path()[-1] - _unit.get_unit_path()[-2] == Vector2i(0, 16):
-			_ghost_unit.set_animation(Unit.animations.MOVING_DOWN)
-		elif _unit.get_unit_path()[-1] - _unit.get_unit_path()[-2] == Vector2i(0, -16):
-			_ghost_unit.set_animation(Unit.animations.MOVING_UP)
-		else:
-			print_debug(_unit.get_unit_path()[-1] - _unit.get_unit_path()[-2])
+		var distance = Vector2i()
+		if len(_unit.get_unit_path()) >= 2:
+			distance = _unit.get_unit_path()[-1] - _unit.get_unit_path()[-2]
+		match distance:
+			Vector2i(16, 0): _ghost_unit.set_animation(Unit.animations.MOVING_LEFT)
+			Vector2i(-16, 0): _ghost_unit.set_animation(Unit.animations.MOVING_RIGHT)
+			Vector2i(0, -16): _ghost_unit.set_animation(Unit.animations.MOVING_UP)
+			_: _ghost_unit.set_animation(Unit.animations.MOVING_DOWN)
 
 
 func close() -> void:
