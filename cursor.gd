@@ -65,10 +65,12 @@ func get_true_pos() -> Vector2i:
 	return get_rel_pos() + Vector2i(GenVars.get_map_camera().true_origin)
 
 
-func set_active(active: bool) -> void:
-	set_process_input(active)
-	get_area().monitorable = active
-	get_area().monitoring = active
+func enable() -> void:
+	_set_active(true)
+
+
+func disable() -> void:
+	_set_active(false)
 
 
 func connect_to(caller: Object):
@@ -153,3 +155,9 @@ func get_hovered_unit() -> Unit:
 		if Vector2i((unit as Unit).position) == get_true_pos():
 			return unit
 	return null
+
+
+func _set_active(active: bool) -> void:
+	set_process_input(active)
+	get_area().monitorable = active
+	get_area().monitoring = active

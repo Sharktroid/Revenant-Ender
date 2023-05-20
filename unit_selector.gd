@@ -11,7 +11,7 @@ func _init(connected_unit: Unit) -> void:
 
 
 func _ready() -> void:
-	GenVars.get_cursor().set_active(true)
+	GenVars.get_cursor().enable()
 	GenVars.get_cursor().connect_to(self)
 	unit.hide_movement_tiles()
 	unit.display_current_attack_tiles(unit.get_unit_path()[-1])
@@ -32,7 +32,7 @@ func _on_cursor_select() -> void:
 
 func _on_cursor_cancel() -> void:
 	emit_signal("selected", null)
-	GenVars.get_cursor().set_active(false)
+	GenVars.get_cursor().disable()
 	unit.display_movement_tiles()
 	unit.show_path()
 	close()

@@ -19,7 +19,7 @@ func _input(event: InputEvent) -> void:
 
 func close(return_to_caller: bool = false) -> void:
 	super()
-	GenVars.get_cursor().set_active(true)
+	GenVars.get_cursor().enable()
 	GenVars.get_cursor().connect_to(caller)
 	if not return_to_caller:
 		caller.close()
