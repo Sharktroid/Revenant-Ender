@@ -15,3 +15,7 @@ func _ready() -> void:
 	_unit.remove_from_group("units")
 	_unit.modulate.a = 0.5
 	add_child(_unit)
+
+
+func set_animation(new_animation: Unit.animations) -> void:
+	_unit.map_animation = new_animation

@@ -1,7 +1,6 @@
 class_name SelectedUnitController
 extends Node
 
-var _ghost_unit: Unit
 var _unit: Unit
 var _ghost_unit: GhostUnit
 
@@ -19,8 +18,22 @@ func _ready() -> void:
 	(GenVars.get_cursor() as Cursor).connect_to(self)
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	_ghost_unit.position = _unit.get_unit_path()[-1]
+	if _ghost_unit.position == _unit.position:
+		_ghost_unit.visible = false
+	else:
+		_ghost_unit.visible = true
+		if _unit.get_unit_path()[-1] - _unit.get_unit_path()[-2] == Vector2i(16, 0):
+			_ghost_unit.set_animation(Unit.animations.MOVING_LEFT)
+		elif _unit.get_unit_path()[-1] - _unit.get_unit_path()[-2] == Vector2i(-16, 0):
+			_ghost_unit.set_animation(Unit.animations.MOVING_RIGHT)
+		if _unit.get_unit_path()[-1] - _unit.get_unit_path()[-2] == Vector2i(0, 16):
+			_ghost_unit.set_animation(Unit.animations.MOVING_DOWN)
+		elif _unit.get_unit_path()[-1] - _unit.get_unit_path()[-2] == Vector2i(0, -16):
+			_ghost_unit.set_animation(Unit.animations.MOVING_UP)
+		else:
+			print_debug(_unit.get_unit_path()[-1] - _unit.get_unit_path()[-2])
 
 
 func close() -> void:
