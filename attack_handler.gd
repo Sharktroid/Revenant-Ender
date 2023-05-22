@@ -3,7 +3,9 @@ extends RefCounted
 
 
 static func combat(attacker: Unit, defender: Unit) -> void:
+	GenVars.get_cursor().disable()
 	await map_combat(attacker, defender)
+	GenVars.get_cursor().enable()
 
 
 static func map_combat(attacker: Unit, defender: Unit) -> void:
@@ -13,16 +15,23 @@ static func map_combat(attacker: Unit, defender: Unit) -> void:
 	defender.get_parent().add_child(defender_animation)
 	attacker.visible = false
 	defender.visible = false
-	await _map_attack(attacker, defender, attacker_animation)
+	await _map_attack(attacker, defender, attacker_animation, defender_animation)
 	attacker.visible = true
 	attacker_animation.queue_free()
-	defender.visible = true
+	if is_instance_valid(defender):
+		defender.visible = true
 	defender_animation.queue_free()
 
 
-static func _map_attack(attacker: Unit, defender: Unit, attacker_animation: MapAttack) -> void:
+static func _map_attack(attacker: Unit, defender: Unit, attacker_animation: MapAttack, defender_animation: MapAttack) -> void:
 	attacker_animation.play_animation()
 	await attacker_animation.deal_damage
 	defender.add_current_health(-attacker.get_damage(defender))
+	if defender.dead:
+		var fade = FadeOut.new(20.0/60)
+		defender_animation.add_child(fade)
+		await fade.complete
+		defender.queue_free()
+	await attacker_animation.get_tree().process_frame
 	attacker_animation.emit_signal("proceed")
 	await attacker_animation.complete
