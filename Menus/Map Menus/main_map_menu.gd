@@ -19,5 +19,5 @@ func _on_button_pressed(button: Button) -> void:
 
 
 func close() -> void:
-	super.close()
-	GenVars.get_cursor().set_active(true)
+	super()
+	(GenVars.get_cursor() as Cursor).enable()

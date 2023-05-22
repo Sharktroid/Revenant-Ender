@@ -183,11 +183,9 @@ func die() -> void:
 	dead = true
 	$Area2D.queue_free()
 	await $Area2D.area_exited
-	var starting_time: float = GenVars.get_tick_timer()
-	var duration: float = 2000 # In ticks
-	while (modulate.a > 0):
-		modulate.a -= (GenVars.get_tick_timer() - starting_time)/duration
-		await get_tree().physics_frame
+	var fade = FadeOut.new(20.0/60)
+	add_child.call_deferred(fade)
+	await fade.complete
 	queue_free()
 
 

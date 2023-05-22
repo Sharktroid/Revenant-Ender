@@ -97,7 +97,7 @@ func _create_main_map_menu() -> void:
 	var menu: MapMenu = preload("res://Menus/Map Menus/main_map_menu.tscn").instantiate()
 	menu.position = GenVars.get_cursor().get_rel_pos() + Vector2i(16, -8)
 	$UILayer.add_child(menu)
-	GenVars.get_cursor().set_active(false)
+	GenVars.get_cursor().disable()
 
 
 func _create_unit_menu() -> void:
@@ -106,7 +106,7 @@ func _create_unit_menu() -> void:
 	menu.connected_unit = GenVars.get_cursor().get_hovered_unit()
 	menu.position = GenVars.get_cursor().get_rel_pos() + Vector2i(16, -8)
 	$UILayer.add_child(menu)
-	GenVars.get_cursor().set_active(false)
+	(GenVars.get_cursor() as Cursor).disable()
 
 
 func _on_cursor_select() -> void:
