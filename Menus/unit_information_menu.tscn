@@ -1,0 +1,73 @@
+[gd_scene load_steps=5 format=3 uid="uid://b0f1563miygye"]
+
+[ext_resource type="Texture2D" uid="uid://cpy5pea1o30t6" path="res://UI/Binding Blade/portrait.png" id="1_kg26u"]
+[ext_resource type="Theme" uid="uid://5iql263qnldx" path="res://Menus/Map Menus/map_menu.tres" id="2_eydro"]
+[ext_resource type="Texture2D" uid="uid://ch8tv43kw8yv4" path="res://UI/Binding Blade/menu.png" id="3_tp758"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8vmos"]
+bg_color = Color(0.12549, 0.235294, 0.345098, 0.498039)
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+anti_aliasing = false
+
+[node name="Control" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="Container" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 6
+
+[node name="Portrait" type="TextureRect" parent="VBoxContainer/Container"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("1_kg26u")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_bottom = 8
+
+[node name="Panel" type="Panel" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_8vmos")
+
+[node name="Control" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 35
+
+[node name="Base Map Menu" type="NinePatchRect" parent="Control"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_eydro")
+texture = ExtResource("3_tp758")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 5
+patch_margin_bottom = 5
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="Items" type="VBoxContainer" parent="Control/Base Map Menu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
