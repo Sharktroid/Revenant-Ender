@@ -28,6 +28,7 @@ gdscript/completion/autocomplete_setters_and_getters=true
 
 window/size/viewport_width=512
 window/size/viewport_height=288
+window/stretch/mode="canvas_items"
 
 [global]
 

@@ -30,7 +30,7 @@ func _exit_tree() -> void:
 
 
 func get_screen_size() -> Vector2i:
-	return (get_viewport().size as Vector2)/get_game_controller().get_scaling()
+	return default_screen_size
 
 
 func get_game_controller() -> GameController:
@@ -39,7 +39,7 @@ func get_game_controller() -> GameController:
 
 func get_level_controller() -> LevelController:
 	if get_game_controller():
-		return (get_game_controller().get_node("Level Controller") as LevelController)
+		return (get_game_controller().get_node("SubViewportContainer/SubViewport/Level Controller") as LevelController)
 	else:
 		push_error("Could not find Level Controller")
 		return null

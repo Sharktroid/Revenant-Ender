@@ -2,7 +2,6 @@ extends Node
 class_name GameController
 
 var controller_type: String # Type of controller being used (keyboard, mouse, or controller)
-var _scaling: int = 0
 
 
 func _ready() -> void:
@@ -26,18 +25,7 @@ func _input(event: InputEvent) -> void:
 		print_stack()
 
 
-func get_scaling() -> int:
-	if _scaling == 0:
-		set_scaling(get_viewport().size)
-	return _scaling
-
-
-func set_scaling(size: Vector2i) -> void:
-	var dividend: Vector2 = (size as Vector2)/(GenVars.default_screen_size as Vector2)
-	_scaling = ceil(max(dividend.x, dividend.y))
-	GenVars.get_level_controller().set_scaling(_scaling)
-
-
 func _on_size_changed() -> void:
-	set_scaling(get_viewport().size)
-	GenVars.get_map_camera().update_offset()
+	var scale_vector: Vector2 = DisplayServer.window_get_size()/GenVars.get_screen_size()
+	var scale: int = floor(min(scale_vector.x, scale_vector.y))
+	($SubViewportContainer.material as ShaderMaterial).set_shader_parameter("pixel_scale", scale)

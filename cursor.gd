@@ -36,8 +36,7 @@ func _physics_process(_delta: float) -> void:
 		var destination: Vector2 = GenVars.get_map_camera().get_destination()
 		if destination == GenVars.get_map_camera().transform.get_origin():
 			var mouse_position = get_viewport().get_mouse_position()
-			var universal_scale = GenVars.get_game_controller().get_scaling()
-			set_rel_pos((mouse_position/universal_scale) - Vector2((GenVars.get_map_camera() as MapCamera).map_offset))
+			set_rel_pos((mouse_position) - Vector2((GenVars.get_map_camera() as MapCamera).map_offset))
 	else:
 		var new_pos := Vector2i()
 		if get_rel_pos() == (_true_origin as Vector2i) and is_processing_input():
