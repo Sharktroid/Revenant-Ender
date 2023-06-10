@@ -5,6 +5,9 @@ signal moved
 signal select
 signal cancel
 
+enum icons {ATTACK}
+
+var _icon_sprite: Sprite2D
 var _rel_pos: Vector2i
 var _true_origin: Vector2
 
@@ -70,6 +73,21 @@ func enable() -> void:
 
 func disable() -> void:
 	_set_active(false)
+
+
+func draw_icon(icon: icons) -> void:
+	if not _icon_sprite:
+		_icon_sprite = Sprite2D.new()
+		_icon_sprite.centered = false
+		add_child(_icon_sprite)
+	match icon:
+		icons.ATTACK:
+			_icon_sprite.texture = preload("res://Cursor/attack.png")
+			_icon_sprite.position = Vector2i(0, -16)
+
+
+func remove_icon() -> void:
+	_icon_sprite.queue_free()
 
 
 func connect_to(caller: Object):
