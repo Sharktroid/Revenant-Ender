@@ -3,6 +3,8 @@ class_name Unit
 extends Sprite2D
 
 signal arrived # When unit arrives at its target
+signal hovered
+signal cursor_exited
 
 enum all_tags {INFANTRY, BUILDING, NOBLOCK}
 enum statuses {ATTACK}
@@ -597,14 +599,14 @@ func _on_area2d_area_entered(area: Area2D):
 		if can_be_selected:
 			if not(selected or selecting or waiting):
 				display_movement_tiles()
+		emit_signal("hovered")
 
 
 func _on_area2d_area_exited(area: Area2D):
 	# When cursor exits unit's area
 	if area == (GenVars.get_cursor() as Cursor).get_area() and not selected:
 		hide_movement_tiles()
-	if has_status(statuses.ATTACK):
-		remove_status(statuses.ATTACK)
+		emit_signal("cursor_exited")
 
 
 func _on_create_menu_select_item(item: String) -> void:

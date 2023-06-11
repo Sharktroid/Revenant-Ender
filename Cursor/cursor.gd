@@ -87,7 +87,8 @@ func draw_icon(icon: icons) -> void:
 
 
 func remove_icon() -> void:
-	_icon_sprite.queue_free()
+	if is_instance_valid(_icon_sprite):
+		_icon_sprite.queue_free()
 
 
 func connect_to(caller: Object):

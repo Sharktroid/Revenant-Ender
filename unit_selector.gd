@@ -18,6 +18,13 @@ func _ready() -> void:
 	unit.remove_path()
 
 
+func _process(delta: float) -> void:
+	if (GenVars.get_cursor() as Cursor).get_hovered_unit() == null:
+		(GenVars.get_cursor() as Cursor).remove_icon()
+	else:
+		(GenVars.get_cursor() as Cursor).draw_icon(Cursor.icons.ATTACK)
+
+
 func close() -> void:
 	unit.hide_current_attack_tiles()
 	unit.map_animation = unit.animations.IDLE
