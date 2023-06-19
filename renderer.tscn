@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://cs2kj38nx7al4"]
+
+[ext_resource type="Shader" path="res://bilinear-filtering.gdshader" id="1_k6lfl"]
+[ext_resource type="PackedScene" uid="uid://bk72bgg524mva" path="res://game_controller.tscn" id="2_sb1wk"]
+[ext_resource type="Script" path="res://renderer.gd" id="2_uf1gv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8qg76"]
+shader = ExtResource("1_k6lfl")
+shader_parameter/pixel_scale = 5.0
+
+[node name="SubViewportContainer" type="SubViewportContainer"]
+material = SubResource("ShaderMaterial_8qg76")
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_uf1gv")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+handle_input_locally = false
+size = Vector2i(512, 288)
+render_target_update_mode = 4
+
+[node name="Game Controller" parent="SubViewport" instance=ExtResource("2_sb1wk")]
