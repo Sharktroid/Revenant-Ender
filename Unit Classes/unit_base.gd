@@ -24,7 +24,6 @@ var raw_movement_tiles: Array[Vector2i] # All movement tiles without organizatio
 var tags: Array[all_tags] # Tags used to group units.
 var skills: Dictionary # Unit's skills. Each has an optional attribute.
 var movement_type: String # Movement class for handling moving over terrain.
-var unit_class: String # The class of the unit.
 var dead: bool = false
 var outline_highlight: bool = false
 var is_ghost: bool = false # Whether the unit is used for the cursor.
@@ -33,6 +32,7 @@ var selectable: bool = true # Whether the unit can be selected.
 var waiting: bool = false
 var sprite_animated: bool = true
 
+var _unit_class: String
 var _max_health: float
 var _movement: int
 var _path: Array[Vector2i] # Path the unit will follow when moving.
@@ -133,6 +133,10 @@ func set_max_health(health: float) -> void:
 
 func get_max_health() -> float:
 	return _max_health
+
+
+func get_class_name() -> String:
+	return _unit_class
 
 
 ## Sets units current health.

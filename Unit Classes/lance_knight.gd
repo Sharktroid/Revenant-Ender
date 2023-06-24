@@ -5,4 +5,5 @@ extends "res://Unit Classes/base_fe.gd"
 func _init():
 	movement_type = "Armor"
 	base_movement = 4
+	_unit_class = "Hoplite"
 
