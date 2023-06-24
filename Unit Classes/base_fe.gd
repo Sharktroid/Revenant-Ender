@@ -3,17 +3,25 @@ class_name FEUnit
 extends "res://Unit Classes/unit_base.gd"
 
 enum items_enum {RAPIER, IRON_LANCE, IRON_AXE, IRON_BOW}
+enum stats {
+	HITPOINTS, STRENGTH, PIERCE, MAGIC, SKILL, SPEED, LUCK, DEFENSE, DURABILITY,
+	RESISTANCE, MOVEMENT, CONSTITUTION
+}
 
 @export var init_items: Array[items_enum] # No way to load weapons directly via export variable.
-@export var personal_movement: int : get = get_movement, set = set_movement
+@export var level: Dictionary
+@export var personal_stat_caps: Dictionary
+@export var personal_end_stats: Dictionary
+@export var personal_base_stats: Dictionary
 
 var items: Array[Item]
 var weapon_levels: Dictionary
-var strength: int
-var defense: int
 var attack: int
-var base_movement: int
 
+var _class_base_stats: Dictionary
+var _class_end_stats: Dictionary
+var _class_stat_caps: Dictionary
+var _stat_boosts: Dictionary
 var _default_palette: Array[Array] = [[Vector3(), Vector3()]]
 var _wait_palette: Array[Array] = [
 	[Vector3(24, 240, 248), Vector3(184, 184, 184)],
@@ -84,7 +92,7 @@ func _ready() -> void:
 	if len(items) > 0:
 		max_range = items[0].max_range
 		min_range = items[0].min_range
-	attack = strength
+	attack = get_stat(stats.STRENGTH)
 	if len(items) > 0:
 		attack += items[0].might
 	super()
@@ -93,14 +101,6 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("debug"):
 		print_debug((material as ShaderMaterial).get_shader_parameter("conversion_array"))
-
-
-func set_movement(new_move) -> void:
-	personal_movement = new_move
-
-
-func get_movement() -> int:
-	return personal_movement + base_movement
 
 
 func wait() -> void:
@@ -119,6 +119,14 @@ func get_damage(defender: Unit) -> float:
 
 func reset_map_anim() -> void:
 	frame_coords.x = 0
+
+
+func get_stat(stat: stats) -> int:
+	return _class_base_stats[stat]
+
+
+func get_movement() -> int:
+	return get_stat(stats.MOVEMENT)
 
 
 func _update_palette() -> void:
