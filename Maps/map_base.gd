@@ -106,7 +106,7 @@ func end_turn() -> void:
 func get_terrain_cost(unit: Unit, coords: Vector2) -> int:
 	## Gets the terrain cost of the tiles at "coords".
 	## unit: unit trying to move over "coords".
-	var movement_type: String = unit.movement_type
+	var movement_type: Unit.movement_types = unit.movement_type
 	if movement_type in movement_cost_dict.keys():
 		var movement_type_terrain_dict: Dictionary = movement_cost_dict[unit.movement_type]
 		var terrain_name: String = _get_terrain(coords, unit.get_faction())
@@ -179,7 +179,8 @@ func _get_terrain(coords: Vector2i, faction: Faction) -> String:
 				if faction.get_diplomacy_stance(unit.get_faction()) in blocking_stances:
 					return "Blocked"
 	var cell_id: TileData = $"Terrain Layer".get_cell_tile_data(0, coords/16)
-	return cell_id.get_custom_data("Terrain Name")
+	var cell_name_string: String = cell_id.get_custom_data("Terrain Name")
+	return cell_name_string
 
 
 func _parse_movement_cost() -> void:
@@ -193,7 +194,21 @@ func _parse_movement_cost() -> void:
 	header.remove_at(0)
 	for full_type in raw_movement_cost:
 		var split: Array = (full_type.split(",") as Array)
-		var type: String = split.pop_at(0)
+		var type: Unit.movement_types
+		match split.pop_at(0):
+			"Foot": type = Unit.movement_types.FOOT
+			"Advanced Foot": type = Unit.movement_types.ADVANCED_FOOT
+			"Fighters": type = Unit.movement_types.FIGHTERS
+			"Armor": type = Unit.movement_types.ARMOR
+			"Bandits": type = Unit.movement_types.BANDITS
+			"Pirates": type = Unit.movement_types.PIRATES
+			"Berserker": type = Unit.movement_types.BERSERKER
+			"Mages": type = Unit.movement_types.MAGES
+			"Light Cavalry": type = Unit.movement_types.LIGHT_CAVALRY
+			"Advanced Light Cavalry": type = Unit.movement_types.ADVANCED_LIGHT_CAVALRY
+			"Heavy Cavalry": type = Unit.movement_types.HEAVY_CAVALRY
+			"Advanced Heavy Cavalry": type = Unit.movement_types.ADVANCED_HEAVY_CAVALRY
+			"Fliers": type = Unit.movement_types.FLIERS
 		movement_cost_dict[type] = {}
 		for cost in len(split):
 			movement_cost_dict[type][header[cost]] = split[cost]

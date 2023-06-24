@@ -9,6 +9,11 @@ signal cursor_exited
 enum all_tags {INFANTRY, BUILDING, NOBLOCK}
 enum statuses {ATTACK}
 enum animations {IDLE, MOVING_DOWN, MOVING_UP, MOVING_LEFT, MOVING_RIGHT}
+enum movement_types {
+	FOOT, ADVANCED_FOOT, FIGHTERS, ARMOR, BANDITS, PIRATES, BERSERKER, MAGES,
+	LIGHT_CAVALRY, ADVANCED_LIGHT_CAVALRY, HEAVY_CAVALRY, ADVANCED_HEAVY_CAVALRY,
+	FLIERS
+}
 
 ## Unit's faction. Should be in the map's Faction stack.
 @export var faction_id: int
@@ -23,7 +28,7 @@ var all_attack_tiles: Array[Vector2i] # Tiles displayed as attack tiles.
 var raw_movement_tiles: Array[Vector2i] # All movement tiles without organization.
 var tags: Array[all_tags] # Tags used to group units.
 var skills: Dictionary # Unit's skills. Each has an optional attribute.
-var movement_type: String # Movement class for handling moving over terrain.
+var movement_type: movement_types # Movement class for handling moving over terrain.
 var dead: bool = false
 var outline_highlight: bool = false
 var is_ghost: bool = false # Whether the unit is used for the cursor.

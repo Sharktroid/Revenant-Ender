@@ -3,6 +3,6 @@ extends "res://Unit Classes/base_fe.gd"
 
 # Unit-specific variables.
 func _init():
-	movement_type = "Foot"
 	base_movement = 5
 	_unit_class = "Archer"
+	movement_type = movement_types.FOOT
