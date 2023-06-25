@@ -9,13 +9,14 @@ enum types {
 	KNIFE,
 	WIND,
 	FIRE,
-	THUNDER,
+	LIGHTNING,
 	LIGHT,
 	DARK,
 	CRIMSON_STAFF,
 	COBALT_STAFF,
 }
-enum ranks {S = 251,
+enum ranks {
+	S = 251,
 	A = 181,
 	B = 121,
 	C = 71,
