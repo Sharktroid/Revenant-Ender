@@ -68,7 +68,7 @@ func get_menu_items() -> Array[String]:
 
 
 func _can_attack() -> bool:
-	var pos: Vector2i = connected_unit.position
+	var pos: Vector2i = (GenVars.get_cursor() as Cursor).get_true_pos()
 	for unit in get_tree().get_nodes_in_group("units"):
 		if connected_unit.get_faction().get_diplomacy_stance((unit as Unit).get_faction()) == Faction.diplo_stances.ENEMY:
 			if ((Vector2i(unit.position) in connected_unit.get_current_attack_tiles(pos) and pos in connected_unit.get_raw_movement_tiles()) \
