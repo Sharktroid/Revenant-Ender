@@ -114,7 +114,17 @@ func awaken() -> void:
 
 
 func get_damage(defender: Unit) -> float:
-	return max(0, attack - defender.defense)
+	return max(0, attack - defender.get_current_defence((items[0] as Weapon).get_damage_type()))
+
+
+func get_current_defence(attacker_weapon_type: Weapon.damage_types) -> int:
+	match attacker_weapon_type:
+		Weapon.damage_types.RANGED: return get_stat(stats.DURABILITY)
+		Weapon.damage_types.MAGIC: return get_stat(stats.RESISTANCE)
+		Weapon.damage_types.PHYSICAL: return get_stat(stats.DEFENSE)
+		_:
+			push_error("Damage Type %s Invalid" % attacker_weapon_type)
+			return 0
 
 
 func reset_map_anim() -> void:

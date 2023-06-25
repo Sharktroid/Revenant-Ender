@@ -18,7 +18,7 @@ func _ready() -> void:
 	unit.remove_path()
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if (GenVars.get_cursor() as Cursor).get_hovered_unit() == null:
 		(GenVars.get_cursor() as Cursor).remove_icon()
 	else:
