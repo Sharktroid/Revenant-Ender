@@ -5,11 +5,11 @@ extends "res://Unit Classes/unit_base.gd"
 enum items_enum {RAPIER, IRON_LANCE, IRON_AXE, IRON_BOW}
 enum stats {
 	HITPOINTS, STRENGTH, PIERCE, MAGIC, SKILL, SPEED, LUCK, DEFENSE, DURABILITY,
-	RESISTANCE, MOVEMENT, CONSTITUTION
+	RESISTANCE, MOVEMENT, CONSTITUTION, LEADERSHIP
 }
 
 @export var init_items: Array[items_enum] # No way to load weapons directly via export variable.
-@export var level: Dictionary
+@export var current_level: int = 1
 @export var personal_stat_caps: Dictionary
 @export var personal_end_stats: Dictionary
 @export var personal_base_stats: Dictionary
@@ -18,6 +18,7 @@ var items: Array[Item]
 var weapon_levels: Dictionary
 var attack: int
 
+var _max_level: int = 50
 var _class_base_stats: Dictionary
 var _class_end_stats: Dictionary
 var _class_stat_caps: Dictionary
@@ -74,9 +75,18 @@ var _purple_palette: Array[Array] = [
 ]
 
 
-func _init():
+func _enter_tree() -> void:
 	for weapon in Weapon.types:
 		weapon_levels[weapon] = 0
+	for stat in len(stats):
+		if not(stat in personal_base_stats):
+			personal_base_stats[stat] = 0
+		if not(stat in personal_end_stats):
+			personal_end_stats[stat] = 0
+		if not(stat in personal_stat_caps):
+			personal_stat_caps[stat] = 0
+		if not(stat in _stat_boosts):
+			_stat_boosts[stat] = 0
 
 
 func _ready() -> void:
@@ -131,8 +141,17 @@ func reset_map_anim() -> void:
 	frame_coords.x = 0
 
 
-func get_stat(stat: stats) -> int:
-	return _class_base_stats[stat]
+func get_stat_boost(stat: stats) -> int:
+	return _stat_boosts[stat]
+
+
+func get_stat(stat: stats, level: int = current_level) -> int:
+	var base_stat: int = _class_base_stats[stat] + personal_base_stats[stat]
+	var end_stat: int = _class_end_stats[stat] + personal_end_stats[stat]
+	var leveled_stats: int = end_stat - base_stat
+	var leveled_stat_boost: int = (leveled_stats * (level as float)/_max_level) as int
+	var max_stat: int = _class_stat_caps[stat] + personal_stat_caps[stat]
+	return clamp(base_stat + leveled_stat_boost + get_stat_boost(stat), 0, max_stat)
 
 
 func get_movement() -> int:
