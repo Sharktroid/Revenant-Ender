@@ -28,6 +28,7 @@ func _process(_delta: float) -> void:
 func close() -> void:
 	unit.hide_current_attack_tiles()
 	unit.map_animation = unit.animations.IDLE
+	(GenVars.get_cursor() as Cursor).remove_icon()
 	queue_free()
 
 
