@@ -4,6 +4,14 @@ class_name GameController
 var controller_type: String # Type of controller being used (keyboard, mouse, or controller)
 
 
+func _init() -> void:
+	seed(0) # Sets RNG to be deterministic
+
+
+func _physics_process(_delta: float) -> void:
+	randi() # Burns a random number every frame
+
+
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton or event is InputEventMouseMotion:
 		controller_type = "Mouse"
