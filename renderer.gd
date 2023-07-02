@@ -7,5 +7,5 @@ func _ready() -> void:
 
 func _on_size_changed() -> void:
 	var scale_vector: Vector2 = DisplayServer.window_get_size()/GenVars.get_screen_size()
-	var scale: int = floor(min(scale_vector.x, scale_vector.y))
-	(material as ShaderMaterial).set_shader_parameter("pixel_scale", scale)
+	var pixel_scale: int = floor(min(scale_vector.x, scale_vector.y))
+	(material as ShaderMaterial).set_shader_parameter("pixel_scale", pixel_scale)

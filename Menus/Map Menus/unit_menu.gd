@@ -34,11 +34,11 @@ func get_menu_items() -> Array[String]:
 	# Gets all adjacent units
 	for unit in get_tree().get_nodes_in_group("units"):
 		if not unit.is_ghost:
-			var unit_pos: Vector2i = unit.position
-			if GenFunc.get_tile_distance(unit_pos, connected_unit.get_position()) == 0 \
+			var cursor_pos: Vector2i = (GenVars.get_cursor() as Cursor).get_true_pos()
+			if GenFunc.get_tile_distance(cursor_pos, connected_unit.get_position()) == 0 \
 					and not unit == self:
 				_touching_unit = unit
-			elif GenFunc.get_tile_distance(unit_pos, connected_unit.get_position()) == 1:
+			elif GenFunc.get_tile_distance(cursor_pos, connected_unit.get_position()) == 1:
 				_adjacent_units.append(unit)
 
 	# Whether unit can attack.
@@ -46,24 +46,24 @@ func get_menu_items() -> Array[String]:
 		menu_items.append("Attack")
 
 	# Whether unit can capture.
-	if "Capture" in connected_unit.skills:
-		if _touching_unit \
-				and GenVars.get_map().diplomacy[connected_unit.faction][_touching_unit.faction] == "Enemy" \
-				and connected_unit.all_tags.BUILDING in _touching_unit.tags:
-			menu_items.append("Capture")
+#	if "Capture" in connected_unit.skills:
+#		if _touching_unit \
+#				and GenVars.get_map().diplomacy[connected_unit.faction][_touching_unit.faction] == "Enemy" \
+#				and connected_unit.all_tags.BUILDING in _touching_unit.tags:
+#			menu_items.append("Capture")
 	# Whether unit can wait.
-	if connected_unit.get_movement() > 0 and pos in connected_unit.raw_movement_tiles:
+	if connected_unit.get_stat(Unit.stats.MOVEMENT) > 0 and pos in connected_unit.raw_movement_tiles:
 		# Unit cannot wait on a non-building unit
-		var touching_tags: Array[Unit.all_tags] = [Unit.all_tags.BUILDING]
-		if _touching_unit:
-			touching_tags = _touching_unit.tags
-		if not (_touching_unit != null and _touching_unit != connected_unit and connected_unit.all_tags.BUILDING in touching_tags):
+#		var touching_tags: Array[Unit.all_tags] = [Unit.all_tags.BUILDING]
+#		if _touching_unit:
+#			touching_tags = _touching_unit.tags
+		if _touching_unit == null:
 			menu_items.append("Wait")
 	# Whether unit can creat other units.
-	if "Produces" in connected_unit.skills:
-		menu_items.append("Create")
-	if "View Items" in connected_unit.skills:
-		menu_items.append("Items")
+#	if "Produces" in connected_unit.skills:
+#		menu_items.append("Create")
+#	if "View Items" in connected_unit.skills:
+#		menu_items.append("Items")
 	return menu_items
 
 

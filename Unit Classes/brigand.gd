@@ -1,4 +1,5 @@
-extends FEUnit
+extends Unit
+
 
 # Unit-specific variables.
 func _init():

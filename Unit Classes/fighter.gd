@@ -1,4 +1,4 @@
-extends FEUnit
+extends Unit
 
 
 # Unit-specific variables.

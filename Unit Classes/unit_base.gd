@@ -1,4 +1,3 @@
-@tool
 class_name Unit
 extends Sprite2D
 
@@ -6,7 +5,6 @@ signal arrived # When unit arrives at its target
 signal hovered
 signal cursor_exited
 
-enum all_tags {INFANTRY, BUILDING, NOBLOCK}
 enum statuses {ATTACK}
 enum animations {IDLE, MOVING_DOWN, MOVING_UP, MOVING_LEFT, MOVING_RIGHT}
 enum movement_types {
@@ -14,11 +12,22 @@ enum movement_types {
 	LIGHT_CAVALRY, ADVANCED_LIGHT_CAVALRY, HEAVY_CAVALRY, ADVANCED_HEAVY_CAVALRY,
 	FLIERS
 }
+enum items_enum {RAPIER, IRON_LANCE, IRON_AXE, IRON_BOW}
+enum skills_enum {FOLLOW_UP}
+enum stats {
+	HITPOINTS, STRENGTH, PIERCE, MAGIC, SKILL, SPEED, LUCK, DEFENSE, DURABILITY,
+	RESISTANCE, MOVEMENT, CONSTITUTION, LEADERSHIP
+}
 
 ## Unit's faction. Should be in the map's Faction stack.
 @export var faction_id: int
 @export var variant: String # Visual variant.
-# Unit stats.
+@export var init_items: Array[items_enum] # No way to load weapons directly via export variable.
+@export var current_level: int = 1
+@export var personal_stat_caps: Dictionary
+@export var personal_end_stats: Dictionary
+@export var personal_base_stats: Dictionary
+@export var init_skills: Array[skills_enum] = [skills_enum.FOLLOW_UP]
 
 var current_movement: int
 var map_animation: int = animations.IDLE
@@ -26,8 +35,6 @@ var max_range: int
 var min_range: int
 var all_attack_tiles: Array[Vector2i] # Tiles displayed as attack tiles.
 var raw_movement_tiles: Array[Vector2i] # All movement tiles without organization.
-var tags: Array[all_tags] # Tags used to group units.
-var skills: Dictionary # Unit's skills. Each has an optional attribute.
 var movement_type: movement_types # Movement class for handling moving over terrain.
 var dead: bool = false
 var outline_highlight: bool = false
@@ -36,9 +43,12 @@ var selected: bool = false # Whether the unit is selected.
 var selectable: bool = true # Whether the unit can be selected.
 var waiting: bool = false
 var sprite_animated: bool = true
+var items: Array[Item]
+var weapon_levels: Dictionary
+var attack: int
+var skills: Array[Skill]
 
 var _unit_class: String
-var _max_health: float
 var _movement: int
 var _path: Array[Vector2i] # Path the unit will follow when moving.
 var _current_statuses: Array[statuses]
@@ -48,20 +58,100 @@ var _movement_speed: float = 8 # Speed unit moves across the map.
 var _all_units: Dictionary # Lists all unit classes.
 # Dictionaries that convert faction/variant into animation modifier.
 var _movement_tiles: Dictionary # Movement tiles. Split by cost left.
-var _all_skills: Array[String] = ["Produces"] # All skills that are valid.
 var _movement_tiles_node: Node2D
 var _current_attack_tiles_node: Node2D
 # Resources to be loaded.
 var _attack_tile_node: Resource = load("attack_tile.tscn")
 var _movement_tile_base: Resource = load("base_movement_tile.tscn")
 var _movement_arrows: Resource = load("movement_arrows.tscn")
+var _max_level: int = 50
+var _class_base_stats: Dictionary
+var _class_end_stats: Dictionary
+var _class_stat_caps: Dictionary
+var _stat_boosts: Dictionary
+var _default_palette: Array[Array] = [[Vector3(), Vector3()]]
+var _wait_palette: Array[Array] = [
+	[Vector3(24, 240, 248), Vector3(184, 184, 184)],
+	[Vector3(144, 184, 232), Vector3(120, 120, 120)],
+	[Vector3(248, 248, 64), Vector3(200, 200, 200)],
+	[Vector3(232, 16, 24), Vector3(112, 112, 112)],
+	[Vector3(56, 56, 144), Vector3(72, 72, 72)],
+	[Vector3(248, 248, 248), Vector3(208, 208, 208)],
+	[Vector3(56, 80, 224), Vector3(88, 88, 88)],
+	[Vector3(112, 96, 96), Vector3(80, 80, 80)],
+	[Vector3(248, 248, 208), Vector3(200, 200, 200)],
+	[Vector3(88, 72, 120), Vector3(64, 64, 64)],
+	[Vector3(216, 232, 240), Vector3(184, 184, 184)],
+	[Vector3(40, 160, 248), Vector3(152, 152, 152)],
+	[Vector3(176, 144, 88), Vector3(128, 128, 128)],
+]
+var _red_palette: Array[Array] = [
+	[Vector3(56, 56, 144), Vector3(96, 40, 32)],
+	[Vector3(56, 80, 224), Vector3(168, 48, 40)],
+	[Vector3(40, 160, 248), Vector3(224, 16, 16)],
+	[Vector3(24, 240, 248), Vector3(248, 80, 72)],
+	[Vector3(232, 16, 24), Vector3(56, 208, 48)],
+	[Vector3(88, 72, 120), Vector3(104, 72, 96)],
+	[Vector3(216, 232, 240), Vector3(224, 224, 224)],
+	[Vector3(144, 184, 232), Vector3(192, 168, 184)],
+]
+var _green_palette: Array[Array] = [
+	[Vector3(56, 56, 144), Vector3(32, 80, 16)],
+	[Vector3(56, 80, 224), Vector3(8, 144, 0)],
+	[Vector3(40, 160, 248), Vector3(24, 208, 16)],
+	[Vector3(24, 240, 248), Vector3(80, 248, 56)],
+	[Vector3(232, 16, 24), Vector3(0, 120, 200)],
+	[Vector3(88, 72, 120), Vector3(56, 80, 56)],
+	[Vector3(144, 184, 232), Vector3(152, 200, 158)],
+	[Vector3(216, 232, 240), Vector3(216, 248, 184)],
+	[Vector3(112, 96, 96), Vector3(88, 88, 80)],
+	[Vector3(176, 144, 88), Vector3(160, 136, 64)],
+	[Vector3(248, 248, 208), Vector3(248, 248, 192)],
+	[Vector3(248, 248, 64), Vector3(224, 248, 40)],
+]
+var _purple_palette: Array[Array] = [
+	[Vector3(56, 56, 144), Vector3(88, 32, 96)],
+	[Vector3(56, 80, 224), Vector3(128, 48, 144)],
+	[Vector3(40, 160, 248), Vector3(184, 72, 224)],
+	[Vector3(24, 240, 248), Vector3(208, 96, 248)],
+	[Vector3(232, 16, 24), Vector3(56, 208, 48)],
+	[Vector3(88, 72, 120), Vector3(88, 64, 104)],
+	[Vector3(144, 184, 232), Vector3(168, 168, 232)],
+	[Vector3(64, 56, 56), Vector3(72, 40, 64)],
+]
 
 
-func _ready():
-	# Initialization stuff
-	for skill in skills:
-		_check_skill(skill)
-	set_all_health(_max_health)
+func _enter_tree() -> void:
+	for weapon in Weapon.types:
+		weapon_levels[weapon] = 0
+	for stat in len(stats):
+		if not(stat in personal_base_stats):
+			personal_base_stats[stat] = 0
+		if not(stat in personal_end_stats):
+			personal_end_stats[stat] = 0
+		if not(stat in personal_stat_caps):
+			personal_stat_caps[stat] = 0
+		if not(stat in _stat_boosts):
+			_stat_boosts[stat] = 0
+
+
+func _ready() -> void:
+	material = material.duplicate()
+	current_movement = get_stat(stats.MOVEMENT)
+	for item in init_items:
+		match item:
+			items_enum.RAPIER: items.append(Rapier.new())
+			items_enum.IRON_LANCE: items.append(Iron_Lance.new())
+			items_enum.IRON_AXE: items.append(Iron_Axe.new())
+			items_enum.IRON_BOW: items.append(Iron_Bow.new())
+	_update_palette()
+	if len(items) > 0:
+		max_range = items[0].max_range
+		min_range = items[0].min_range
+	attack = get_stat(stats.STRENGTH)
+	if len(items) > 0:
+		attack += items[0].might
+	set_current_health(get_stat(stats.HITPOINTS))
 	_animate_sprite()
 	add_to_group("units")
 	# Setting up "_all_units"
@@ -112,12 +202,9 @@ func _process(_delta: float):
 #		modulate = Color.WHITE
 
 
-func set_movement(new_move: int) -> void:
-	_movement = new_move
-
-
-func get_movement() -> int:
-	return _movement
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("debug"):
+		print_debug((material as ShaderMaterial).get_shader_parameter("conversion_array"))
 
 
 func has_status(status: int) -> bool:
@@ -132,34 +219,25 @@ func remove_status(status: int) -> void:
 	_current_statuses.erase(status)
 
 
-func set_max_health(health: float) -> void:
-	_max_health = health
-
-
-func get_max_health() -> float:
-	return _max_health
-
-
 func get_class_name() -> String:
 	return _unit_class
 
 
+func get_damage(defender: Unit) -> float:
+	return max(0, attack - defender.get_current_defence((items[0] as Weapon).get_damage_type()))
+
+
 ## Sets units current health.
 func set_current_health(health: float) -> void:
-	_current_health = clamp(health, 0, _max_health)
-	if _max_health > 0:
-		$"Health Bar".set_percent(_current_health/_max_health * 100)
+	_current_health = clamp(health, 0, get_stat(stats.HITPOINTS))
+	if get_stat(stats.HITPOINTS) > 0:
+		$"Health Bar".set_percent(_current_health/get_stat(stats.HITPOINTS) * 100)
 	else:
 		$"Health Bar".set_percent(100.0)
 
 
 func get_current_health() -> float:
 	return _current_health
-
-
-## Increases "max_health" by "added_health".Z
-func add_max_health(added_health: float) -> void:
-	set_max_health(get_max_health() + added_health)
 
 
 ## Increases "current_health" by "added_health".
@@ -169,16 +247,38 @@ func add_current_health(added_health: float, does_die: bool = true) -> void:
 		die()
 
 
-## Sets both "max_health" and "current_health" to "health".
-func set_all_health(health: float) -> void:
-	set_max_health(health)
-	set_current_health(health)
+func reset_map_anim() -> void:
+	frame_coords.x = 0
 
 
-## Adds "added_health" to "max_health" and "current_health".
-func add_all_health(added_health: float):
-	add_max_health(added_health)
-	add_max_health(added_health)
+func get_stat_boost(stat: stats) -> int:
+	return _stat_boosts[stat]
+
+
+func get_stat(stat: stats, level: int = current_level) -> int:
+	var base_stat: int = _class_base_stats[stat] + personal_base_stats[stat]
+	var end_stat: int = _class_end_stats[stat] + personal_end_stats[stat]
+	var leveled_stats: int = end_stat - base_stat
+	var leveled_stat_boost: int = (leveled_stats * (level as float)/_max_level) as int
+	var max_stat: int = _class_stat_caps[stat] + personal_stat_caps[stat]
+	return clamp(base_stat + leveled_stat_boost + get_stat_boost(stat), 0, max_stat)
+
+
+func get_current_defence(attacker_weapon_type: Weapon.damage_types) -> int:
+	match attacker_weapon_type:
+		Weapon.damage_types.RANGED: return get_stat(stats.DURABILITY)
+		Weapon.damage_types.MAGIC: return get_stat(stats.RESISTANCE)
+		Weapon.damage_types.PHYSICAL: return get_stat(stats.DEFENSE)
+		_:
+			push_error("Damage Type %s Invalid" % attacker_weapon_type)
+			return 0
+
+
+func has_attribute(attrib: Skill.all_attributes) -> bool:
+	for skill in skills:
+		if attrib in (skill as Skill).attributes:
+			return true
+	return false
 
 
 ## Causes unit to wait.
@@ -188,6 +288,7 @@ func wait() -> void:
 		selectable = false
 		waiting = true
 	GenVars.get_map().unit_wait(self)
+	_update_palette()
 
 
 func die() -> void:
@@ -213,9 +314,10 @@ func deselect() -> void:
 
 ## Un-waits unit.
 func awaken() -> void:
-	current_movement = get_movement()
+	current_movement = get_stat(stats.MOVEMENT)
 	selectable = true
 	waiting = false
+	_update_palette()
 
 
 ## Displays the unit's movement tiles.
@@ -301,9 +403,8 @@ func refresh_tiles() -> void:
 
 
 ## Adds skill to this unit's skills.
-func add_skill(skill_name: String, extra_data = null):
-	_check_skill(skill_name)
-	skills[skill_name] = extra_data
+func add_skill(skill: Skill) -> void:
+	skills.append(skill)
 
 
 ## Moves unit to "move_target"
@@ -442,10 +543,6 @@ func get_new_map_attack() -> MapAttack:
 	return load("res://map_attack.tscn").instantiate()
 
 
-func get_damage(_defender: Unit) -> float:
-	return 0.0 # Not implemented here
-
-
 func remove_path() -> void:
 	# Removes the unit's path
 	for child in GenVars.get_map().get_children():
@@ -453,8 +550,9 @@ func remove_path() -> void:
 			child.queue_free()
 
 
-func reset_map_anim() -> void:
-	pass
+func _update_palette() -> void:
+	if GenVars.get_map():
+		_set_palette(get_faction().color)
 
 
 func _render_status() -> void:
@@ -536,7 +634,55 @@ func _create_all_attack_tiles() -> void:
 
 
 func _animate_sprite() -> void:
-	pass
+	if map_animation == animations.IDLE:
+		var frame_num: int = int(GenVars.get_tick_timer()) % 64
+		if (frame_num >= 16 and frame_num < 32) or frame_num >= 48:
+			frame = 1
+		elif frame_num >= 32 and frame_num < 48:
+			frame = 2
+		else:
+			frame = 0
+	else:
+		match map_animation:
+			animations.MOVING_RIGHT, animations.MOVING_LEFT: frame_coords.y = 1
+			animations.MOVING_DOWN: frame_coords.y = 2
+			animations.MOVING_UP: frame_coords.y = 3
+		var frame_num: float = 10
+		var frame_count: float = fmod(GenVars.get_tick_timer(), (frame_num * 4))
+		if frame_count >= frame_num and frame_count < (frame_num * 2):
+			frame_coords.x = 1
+		elif frame_count >= (frame_num * 2) and frame_count < (frame_num * 3):
+			frame_coords.x = 2
+		elif frame_count >= (frame_num * 3):
+			frame_coords.x = 3
+		else:
+			frame_coords.x = 0
+	if map_animation == animations.MOVING_LEFT:
+		flip_h = true
+	else:
+		flip_h = false
+
+
+func _set_palette(color: Faction.colors) -> void:
+	var palette: Array[Array]
+	match waiting:
+		true: palette = _wait_palette
+		false:
+			match color:
+				Faction.colors.RED: palette = _red_palette
+				Faction.colors.GREEN : palette = _green_palette
+				Faction.colors.BLUE: palette = _default_palette
+				Faction.colors.PURPLE: palette = _purple_palette
+				var invalid:
+					palette = _default_palette
+					push_error("Color %s does not have a palette." % invalid)
+	var old_colors: Array[Vector3] = []
+	var new_colors: Array[Vector3] = []
+	for color_set in palette:
+		old_colors.append(color_set[0])
+		new_colors.append(color_set[1])
+	(material as ShaderMaterial).set_shader_parameter("old_colors", old_colors)
+	(material as ShaderMaterial).set_shader_parameter("new_colors", new_colors)
 
 
 func _get_path_subfunc(num: int, moved: Vector2i, all_tiles: Array[Vector2i], moved_tiles: Array[Vector2i], destination: Vector2i):
@@ -590,12 +736,6 @@ func _get_path_subfunc(num: int, moved: Vector2i, all_tiles: Array[Vector2i], mo
 				var value = _get_path_subfunc(new_num, temp_moved, all_tiles, temp_moved_tiles, destination)
 				if value != null:
 					return value
-
-
-func _check_skill(skill_name: String):
-	# Checks that each skill is valid.
-	if not skill_name in _all_skills:
-		printerr('skill "%s" in Unit "%s" not in Array "_all_skills"' % [skill_name, name])
 
 
 func _on_area2d_area_entered(area: Area2D):

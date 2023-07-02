@@ -172,12 +172,12 @@ func _get_terrain(coords: Vector2i, faction: Faction) -> String:
 	## faction: faction of the unit checking
 	for unit in get_tree().get_nodes_in_group("units"): # for units
 		if coords == (unit.transform.get_origin() as Vector2i):
-			if "Doesn't Block" in unit.tags:
-				return unit.unit_class
-			else:
-				var blocking_stances: Array[Faction.diplo_stances] = [Faction.diplo_stances.PEACE, Faction.diplo_stances.ENEMY]
-				if faction.get_diplomacy_stance(unit.get_faction()) in blocking_stances:
-					return "Blocked"
+#			if "Doesn't Block" in unit.tags:
+#				return unit.unit_class
+#			else:
+			var blocking_stances: Array[Faction.diplo_stances] = [Faction.diplo_stances.PEACE, Faction.diplo_stances.ENEMY]
+			if faction.get_diplomacy_stance(unit.get_faction()) in blocking_stances:
+				return "Blocked"
 	var cell_id: TileData = $"Terrain Layer".get_cell_tile_data(0, coords/16)
 	var cell_name_string: String = cell_id.get_custom_data("Terrain Name")
 	return cell_name_string
