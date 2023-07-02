@@ -7,7 +7,3 @@
 [node name="Hoplite" instance=ExtResource("1")]
 texture = ExtResource("2")
 script = ExtResource("3")
-personal_stat_caps = {}
-personal_end_stats = {}
-personal_base_stats = {}
-skills = null

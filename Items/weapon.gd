@@ -1,5 +1,5 @@
 class_name Weapon
-extends "res://Items/base_item.gd"
+extends Item
 
 enum types {
 	SWORD,

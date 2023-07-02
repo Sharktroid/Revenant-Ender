@@ -12,8 +12,6 @@ enum movement_types {
 	LIGHT_CAVALRY, ADVANCED_LIGHT_CAVALRY, HEAVY_CAVALRY, ADVANCED_HEAVY_CAVALRY,
 	FLIERS
 }
-enum items_enum {RAPIER, IRON_LANCE, IRON_AXE, IRON_BOW}
-enum skills_enum {FOLLOW_UP}
 enum stats {
 	HITPOINTS, STRENGTH, PIERCE, MAGIC, SKILL, SPEED, LUCK, DEFENSE, DURABILITY,
 	RESISTANCE, MOVEMENT, CONSTITUTION, LEADERSHIP
@@ -22,12 +20,12 @@ enum stats {
 ## Unit's faction. Should be in the map's Faction stack.
 @export var faction_id: int
 @export var variant: String # Visual variant.
-@export var init_items: Array[items_enum] # No way to load weapons directly via export variable.
+@export var items: Array[Item] # No way to load weapons directly via export variable.
 @export var current_level: int = 1
 @export var personal_stat_caps: Dictionary
 @export var personal_end_stats: Dictionary
 @export var personal_base_stats: Dictionary
-@export var init_skills: Array[skills_enum] = [skills_enum.FOLLOW_UP]
+@export var skills: Array[Skill] = [Follow_Up.new()]
 
 var current_movement: int
 var map_animation: int = animations.IDLE
@@ -43,10 +41,8 @@ var selected: bool = false # Whether the unit is selected.
 var selectable: bool = true # Whether the unit can be selected.
 var waiting: bool = false
 var sprite_animated: bool = true
-var items: Array[Item]
 var weapon_levels: Dictionary
 var attack: int
-var skills: Array[Skill]
 
 var _unit_class: String
 var _movement: int
@@ -138,12 +134,6 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	material = material.duplicate()
 	current_movement = get_stat(stats.MOVEMENT)
-	for item in init_items:
-		match item:
-			items_enum.RAPIER: items.append(Rapier.new())
-			items_enum.IRON_LANCE: items.append(Iron_Lance.new())
-			items_enum.IRON_AXE: items.append(Iron_Axe.new())
-			items_enum.IRON_BOW: items.append(Iron_Bow.new())
 	_update_palette()
 	if len(items) > 0:
 		max_range = items[0].max_range

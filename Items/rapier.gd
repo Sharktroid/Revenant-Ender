@@ -1,5 +1,5 @@
 class_name Rapier
-extends "res://Items/weapon.gd"
+extends Weapon
 
 func _init():
 	level = ranks.E

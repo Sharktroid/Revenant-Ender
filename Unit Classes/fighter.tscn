@@ -7,7 +7,5 @@
 [node name="Fighter" instance=ExtResource("1")]
 texture = ExtResource("2")
 script = ExtResource("3")
-init_items = Array[int]([2])
-skills = null
 
 [node name="Move Tiles" type="Node2D" parent="." index="2"]

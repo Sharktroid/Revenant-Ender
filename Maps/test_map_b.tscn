@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cedsiyh04d75o"]
+[gd_scene load_steps=28 format=3 uid="uid://cedsiyh04d75o"]
 
 [ext_resource type="PackedScene" uid="uid://bhm3c7lcoufva" path="res://Maps/map_base.tscn" id="1"]
 [ext_resource type="Texture2D" uid="uid://drbehrx1xfpsp" path="res://Maps/fe6_chapter_1.png" id="2"]
@@ -6,12 +6,16 @@
 [ext_resource type="PackedScene" uid="uid://cmcpxhe2fef32" path="res://Unit Classes/lord_roy.tscn" id="5"]
 [ext_resource type="PackedScene" path="res://Unit Classes/lance_cavalier.tscn" id="6"]
 [ext_resource type="Shader" path="res://Unit Classes/base_fe.gdshader" id="6_b3112"]
-[ext_resource type="PackedScene" path="res://Unit Classes/lance_knight.tscn" id="7"]
+[ext_resource type="PackedScene" uid="uid://car6a8ov4yeh5" path="res://Unit Classes/lance_knight.tscn" id="7"]
+[ext_resource type="Script" path="res://Items/rapier.gd" id="7_fmc2i"]
 [ext_resource type="PackedScene" path="res://Unit Classes/paladin.tscn" id="8"]
 [ext_resource type="PackedScene" uid="uid://l0kj2ag3mxow" path="res://Unit Classes/archer.tscn" id="9"]
+[ext_resource type="Script" path="res://Items/iron_lance.gd" id="9_8r5d0"]
 [ext_resource type="Shader" uid="uid://cp75l4w5um2sh" path="res://GBA_color.tres" id="10"]
 [ext_resource type="PackedScene" uid="uid://b6od83nm5qexp" path="res://Unit Classes/fighter.tscn" id="11"]
 [ext_resource type="PackedScene" uid="uid://bk6jjspxhm6h6" path="res://Unit Classes/brigand.tscn" id="12"]
+[ext_resource type="Script" path="res://Items/iron_bow.gd" id="13_elloh"]
+[ext_resource type="Script" path="res://Items/iron_axe.gd" id="15_obpia"]
 
 [sub_resource type="ShaderMaterial" id="3"]
 shader = ExtResource("10")
@@ -346,6 +350,27 @@ shader_parameter/old_colors = PackedVector3Array()
 shader_parameter/new_colors = PackedVector3Array()
 shader_parameter/darken_screen = 0.5
 
+[sub_resource type="Resource" id="Resource_jk2cp"]
+script = ExtResource("7_fmc2i")
+
+[sub_resource type="Resource" id="Resource_88ess"]
+script = ExtResource("9_8r5d0")
+
+[sub_resource type="Resource" id="Resource_e3kbr"]
+script = ExtResource("9_8r5d0")
+
+[sub_resource type="Resource" id="Resource_trhkc"]
+script = ExtResource("9_8r5d0")
+
+[sub_resource type="Resource" id="Resource_p3lq7"]
+script = ExtResource("13_elloh")
+
+[sub_resource type="Resource" id="Resource_8by28"]
+script = ExtResource("15_obpia")
+
+[sub_resource type="Resource" id="Resource_118h7"]
+script = ExtResource("13_elloh")
+
 [node name="Test Map B" instance=ExtResource("1")]
 script = ExtResource("4")
 
@@ -362,26 +387,32 @@ z_index = 1
 [node name="Roy Lord" parent="Base Layer/Units/Player" index="0" instance=ExtResource("5")]
 material = SubResource("2")
 position = Vector2(128, 304)
+items = Array[Resource("res://Items/base_item.gd")]([SubResource("Resource_jk2cp")])
 
 [node name="Lance Cavalier" parent="Base Layer/Units/Player" index="1" instance=ExtResource("6")]
 material = SubResource("2")
 position = Vector2(48, 272)
+items = Array[Resource("res://Items/base_item.gd")]([SubResource("Resource_88ess")])
 
 [node name="Lance Cavalier2" parent="Base Layer/Units/Player" index="2" instance=ExtResource("6")]
 material = SubResource("2")
 position = Vector2(64, 288)
+items = Array[Resource("res://Items/base_item.gd")]([SubResource("Resource_88ess")])
 
 [node name="Lance Knight" parent="Base Layer/Units/Player" index="3" instance=ExtResource("7")]
 material = SubResource("2")
 position = Vector2(48, 304)
+items = Array[Resource("res://Items/base_item.gd")]([SubResource("Resource_e3kbr")])
 
 [node name="Paladin" parent="Base Layer/Units/Player" index="4" instance=ExtResource("8")]
 material = SubResource("2")
 position = Vector2(16, 272)
+items = Array[Resource("res://Items/base_item.gd")]([SubResource("Resource_trhkc")])
 
 [node name="Archer" parent="Base Layer/Units/Player" index="5" instance=ExtResource("9")]
 material = SubResource("2")
 position = Vector2(32, 256)
+items = Array[Resource("res://Items/base_item.gd")]([SubResource("Resource_p3lq7")])
 
 [node name="Enemy" type="Node2D" parent="Base Layer/Units" index="1"]
 
@@ -389,71 +420,85 @@ position = Vector2(32, 256)
 material = SubResource("2")
 position = Vector2(80, 64)
 faction_id = 1
+items = Array[Resource("res://Items/base_item.gd")]([SubResource("Resource_8by28")])
 
 [node name="Fighter2" parent="Base Layer/Units/Enemy" index="1" instance=ExtResource("11")]
 material = SubResource("2")
 position = Vector2(64, 80)
 faction_id = 1
+items = Array[Resource("res://Items/base_item.gd")]([SubResource("Resource_8by28")])
 
 [node name="Fighter3" parent="Base Layer/Units/Enemy" index="2" instance=ExtResource("11")]
 material = SubResource("2")
 position = Vector2(96, 80)
 faction_id = 1
+items = Array[Resource("res://Items/base_item.gd")]([SubResource("Resource_8by28")])
 
 [node name="Fighter4" parent="Base Layer/Units/Enemy" index="3" instance=ExtResource("11")]
 material = SubResource("2")
 position = Vector2(16, 48)
 faction_id = 1
+items = Array[Resource("res://Items/base_item.gd")]([SubResource("Resource_8by28")])
 
 [node name="Fighter5" parent="Base Layer/Units/Enemy" index="4" instance=ExtResource("11")]
 material = SubResource("2")
 position = Vector2(176, 112)
 faction_id = 1
+items = Array[Resource("res://Items/base_item.gd")]([SubResource("Resource_8by28")])
 
 [node name="Fighter6" parent="Base Layer/Units/Enemy" index="5" instance=ExtResource("11")]
 material = SubResource("2")
 position = Vector2(144, 144)
 faction_id = 1
+items = Array[Resource("res://Items/base_item.gd")]([SubResource("Resource_8by28")])
 
 [node name="Fighter7" parent="Base Layer/Units/Enemy" index="6" instance=ExtResource("11")]
 material = SubResource("2")
 position = Vector2(128, 144)
 faction_id = 1
+items = Array[Resource("res://Items/base_item.gd")]([SubResource("Resource_8by28")])
 
 [node name="Fighter8" parent="Base Layer/Units/Enemy" index="7" instance=ExtResource("11")]
 material = SubResource("2")
 position = Vector2(192, 208)
 faction_id = 1
+items = Array[Resource("res://Items/base_item.gd")]([SubResource("Resource_8by28")])
 
 [node name="Fighter9" parent="Base Layer/Units/Enemy" index="8" instance=ExtResource("11")]
 material = SubResource("2")
 position = Vector2(112, 240)
 faction_id = 1
+items = Array[Resource("res://Items/base_item.gd")]([SubResource("Resource_8by28")])
 
 [node name="Fighter10" parent="Base Layer/Units/Enemy" index="9" instance=ExtResource("11")]
 material = SubResource("2")
 position = Vector2(128, 224)
 faction_id = 1
+items = Array[Resource("res://Items/base_item.gd")]([SubResource("Resource_8by28")])
 
 [node name="Fighter11" parent="Base Layer/Units/Enemy" index="10" instance=ExtResource("11")]
 material = SubResource("2")
 position = Vector2(128, 288)
 faction_id = 1
+items = Array[Resource("res://Items/base_item.gd")]([SubResource("Resource_8by28")])
 
 [node name="Brigand" parent="Base Layer/Units/Enemy" index="11" instance=ExtResource("12")]
 material = SubResource("2")
 position = Vector2(64, 144)
 faction_id = 1
+items = Array[Resource("res://Items/base_item.gd")]([SubResource("Resource_8by28")])
 
 [node name="Archer" parent="Base Layer/Units/Enemy" index="12" instance=ExtResource("9")]
 material = SubResource("2")
 position = Vector2(16, 32)
 faction_id = 1
+items = Array[Resource("res://Items/base_item.gd")]([SubResource("Resource_118h7")])
 
 [node name="Archer2" parent="Base Layer/Units/Enemy" index="13" instance=ExtResource("9")]
 material = SubResource("2")
 position = Vector2(160, 160)
 faction_id = 1
+items = Array[Resource("res://Items/base_item.gd")]([SubResource("Resource_118h7")])
 
 [node name="Terrain Layer" parent="." index="1"]
 visible = false

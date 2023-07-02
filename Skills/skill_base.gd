@@ -1,5 +1,5 @@
 class_name Skill
-extends RefCounted
+extends Resource
 
 enum all_variants {ALPHA, BETA, GAMMA, OMEGA}
 enum all_attributes {

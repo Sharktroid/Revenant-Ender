@@ -1,5 +1,5 @@
 class_name Iron_Bow
-extends "res://Items/weapon.gd"
+extends Weapon
 
 
 # Weapon-specific variables.

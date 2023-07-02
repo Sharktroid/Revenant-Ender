@@ -7,8 +7,3 @@
 [node name="Roy Lord" instance=ExtResource("1")]
 texture = ExtResource("3")
 script = ExtResource("2")
-init_items = Array[int]([0])
-personal_stat_caps = {}
-personal_end_stats = {}
-personal_base_stats = {}
-skills = null

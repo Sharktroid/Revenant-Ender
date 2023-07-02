@@ -1,10 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://dhqtkg2sn2gwn"]
 
-[ext_resource path="res://Unit Classes/unit_base.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Map Sprites/paladin.png" type="Texture2D" id=2]
-[ext_resource path="res://Unit Classes/paladin.gd" type="Script" id=3]
+[ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://Unit Classes/unit_base.tscn" id="1"]
+[ext_resource type="Texture2D" uid="uid://d1cl2wgqqgs6d" path="res://Map Sprites/paladin.png" id="2"]
+[ext_resource type="Script" path="res://Unit Classes/paladin.gd" id="3"]
 
-[node name="Paladin" instance=ExtResource( 1 )]
-texture = ExtResource( 2 )
-script = ExtResource( 3 )
-movement = 8
+[node name="Paladin" instance=ExtResource("1")]
+texture = ExtResource("2")
+script = ExtResource("3")
