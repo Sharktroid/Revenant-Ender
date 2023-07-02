@@ -50,3 +50,4 @@ _TS__TS_stats.MOVEMENT: 0,
 _TS__TS_stats.CONSTITUTION: 0,
 _TS__TS_stats.LEADERSHIP: 0,
 _TS_}
+_TS_super()

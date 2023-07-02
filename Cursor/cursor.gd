@@ -2,9 +2,12 @@ class_name Cursor
 extends Sprite2D
 
 signal moved
+## Emitted when cursor selects unit.
 signal select
+## Emitted when the cursor deselects.
 signal cancel
 
+## Icons that can be displayed.
 enum icons {ATTACK}
 
 var _icon_sprite: Sprite2D
@@ -39,7 +42,7 @@ func _physics_process(_delta: float) -> void:
 		var destination: Vector2 = GenVars.get_map_camera().get_destination()
 		if destination == GenVars.get_map_camera().transform.get_origin():
 			var mouse_position = get_viewport().get_mouse_position()
-			set_rel_pos((mouse_position) - Vector2((GenVars.get_map_camera() as MapCamera).map_offset))
+			set_rel_pos((mouse_position) - Vector2(GenVars.get_map_camera().map_offset))
 	else:
 		var new_pos := Vector2i()
 		if get_rel_pos() == (_true_origin as Vector2i) and is_processing_input():
@@ -114,11 +117,12 @@ func set_rel_pos(new_pos: Vector2i) -> void:
 	var bottom_bounds: Vector2i = GenVars.get_screen_size() - Vector2i(4, 4)
 	new_pos = GenFunc.round_coords_to_tile(new_pos)
 	var map_move := Vector2i()
+	var lower_bound: Vector2i = GenVars.get_screen_size() - GenVars.get_map().get_rel_lower_border()
 	for i in 2:
 		if (GenVars.get_map() as Map).get_rel_upper_border()[i] >= 0:
 			top_bounds[i] = GenVars.get_map().get_rel_upper_border()[i]
 		if (GenVars.get_map() as Map).get_rel_lower_border()[i] >= 0:
-			bottom_bounds[i] = GenVars.get_screen_size()[i] - GenVars.get_map().get_rel_lower_border()[i]
+			bottom_bounds[i] = lower_bound[i]
 
 		while new_pos[i] <= -16:
 			new_pos[i] += 16

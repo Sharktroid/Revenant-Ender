@@ -225,7 +225,7 @@ func get_attack() -> int:
 
 
 func get_damage(defender: Unit) -> float:
-	return max(0, get_attack() - defender.get_current_defence((items[0] as Weapon).get_damage_type()))
+	return max(0, get_attack() - defender.get_current_defence(items[0].get_damage_type()))
 
 
 ## Sets units current health.
@@ -263,6 +263,10 @@ func get_stat(stat: stats, level: int = current_level) -> int:
 	var leveled_stat_boost: int = (leveled_stats * (level as float)/_max_level) as int
 	var max_stat: int = _class_stat_caps[stat] + personal_stat_caps[stat]
 	return clamp(base_stat + leveled_stat_boost + get_stat_boost(stat), 0, max_stat)
+
+
+func get_attack_speed() -> int:
+	return get_stat(stats.SPEED) - get_current_weapon().weight
 
 
 func get_current_defence(attacker_weapon_type: Weapon.damage_types) -> int:
@@ -362,7 +366,8 @@ func get_current_attack_tiles(pos: Vector2i) -> Array[Vector2i]:
 	for y in range(-max_range, max_range + 1):
 		var v: Array[Vector2i] = []
 		for x in range(-max_range, max_range + 1):
-			if (GenFunc.get_tile_distance(Vector2i(), Vector2i(x, y) * 16) as int) in range(min_range, max_range + 1):
+			var distance: int = (GenFunc.get_tile_distance(Vector2i(), Vector2i(x, y) * 16)) as int
+			if distance in range(min_range, max_range + 1):
 				v.append(Vector2i(pos) + Vector2i(x * 16, y * 16))
 		current_attack_tiles.append_array(v)
 	return current_attack_tiles
@@ -476,12 +481,15 @@ func update_path(destination: Vector2i, num: int = current_movement) -> void:
 				total_cost += GenVars.get_map().get_terrain_cost(self, tile)
 		if destination in _path:
 			_path = _path.slice(0, _path.find(destination) + 1)
-		elif total_cost <= current_movement and (destination - get_unit_path()[-1] in GenVars.adjacent_tiles):
-			_path.append(destination)
 		else:
-			var new_path = _get_path_subfunc(num, moved, raw_movement_tiles, moved_tiles, destination)
-			if new_path is Array[Vector2i]:
-				_path = new_path
+			var displaced_tile = destination - get_unit_path()[-1]
+			if total_cost <= current_movement and (displaced_tile in GenVars.adjacent_tiles):
+				_path.append(destination)
+			else:
+				var rmt = raw_movement_tiles # Abbreviation to make line fit.
+				var new_path = _get_path_subfunc(num, moved, rmt, moved_tiles, destination)
+				if new_path is Array[Vector2i]:
+					_path = new_path
 
 
 ## Displays the unit's path
@@ -575,7 +583,8 @@ func _get_movement_tiles() -> void:
 			h.append_array(v)
 		# Seperates by remaining movement
 		for x in h:
-			if x as Vector2 == GenFunc.clamp_vector(x, Vector2i(), GenVars.get_map().get_size() - Vector2i(16, 16)):
+			var boundary: Vector2i = GenVars.get_map().get_size() - Vector2i(16, 16)
+			if x as Vector2 == GenFunc.clamp_vector(x, Vector2i(), boundary):
 				var val = int(current_movement - (abs(x.x - start.x)/16 + abs(x.y - start.y)/16))
 				if not(val in tiles_first_pass):
 					tiles_first_pass[val] = []
@@ -627,7 +636,9 @@ func _create_all_attack_tiles() -> void:
 	for tile in get_raw_movement_tiles():
 		for y in range(-max_range, max_range + 1):
 			for x in range(-max_range, max_range + 1):
-				var attack_tile: Vector2i = GenFunc.clamp_vector(tile + Vector2i(x * 16, y * 16), Vector2i(0, 0), GenVars.get_map().get_size() - Vector2i(16, 16))
+				var tile_min: Vector2i = tile + Vector2i(x * 16, y * 16)
+				var attack_tile: Vector2i = GenVars.get_map().get_size() - Vector2i(16, 16)
+				attack_tile = GenFunc.clamp_vector(tile_min, Vector2i(0, 0), attack_tile)
 				if not(attack_tile in all_attack_tiles + raw_movement_tiles):
 					var distance: int = (GenFunc.get_tile_distance(tile, attack_tile)) as int
 					if distance in range(min_range, max_range + 1):
@@ -686,7 +697,8 @@ func _set_palette(color: Faction.colors) -> void:
 	(material as ShaderMaterial).set_shader_parameter("new_colors", new_colors)
 
 
-func _get_path_subfunc(num: int, moved: Vector2i, all_tiles: Array[Vector2i], moved_tiles: Array[Vector2i], destination: Vector2i):
+func _get_path_subfunc(num: int, moved: Vector2i, all_tiles: Array[Vector2i],
+		moved_tiles: Array[Vector2i], destination: Vector2i):
 	# Recursive function used for getting the path. Do not use outside of "get_path".
 	if num > 0:
 		# Sets the order the path is checked in.
@@ -733,8 +745,8 @@ func _get_path_subfunc(num: int, moved: Vector2i, all_tiles: Array[Vector2i], mo
 					moved_tiles = temp_moved_tiles
 					return moved_tiles
 				var new_num: int = num - GenVars.get_map().get_terrain_cost(self, temp_moved)
-				# No way to shorten the next line
-				var value = _get_path_subfunc(new_num, temp_moved, all_tiles, temp_moved_tiles, destination)
+				var tmt = temp_moved_tiles # Abbreviation
+				var value = _get_path_subfunc(new_num, temp_moved, all_tiles, tmt, destination)
 				if value != null:
 					return value
 

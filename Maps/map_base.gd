@@ -103,9 +103,9 @@ func end_turn() -> void:
 	update_outline()
 
 
+## Gets the terrain cost of the tiles at "coords".
+## unit: unit trying to move over "coords".
 func get_terrain_cost(unit: Unit, coords: Vector2) -> int:
-	## Gets the terrain cost of the tiles at "coords".
-	## unit: unit trying to move over "coords".
 	var movement_type: Unit.movement_types = unit.movement_type
 	if movement_type in movement_cost_dict.keys():
 		var movement_type_terrain_dict: Dictionary = movement_cost_dict[unit.movement_type]

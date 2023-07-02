@@ -53,7 +53,8 @@ func get_menu_items() -> Array[String]:
 #				and connected_unit.all_tags.BUILDING in _touching_unit.tags:
 #			menu_items.append("Capture")
 	# Whether unit can wait.
-	if connected_unit.get_stat(Unit.stats.MOVEMENT) > 0 and pos in connected_unit.raw_movement_tiles:
+	var movement: int = connected_unit.get_stat(Unit.stats.MOVEMENT)
+	if movement > 0 and pos in connected_unit.raw_movement_tiles:
 		# Unit cannot wait on a non-building unit
 #		var touching_tags: Array[Unit.all_tags] = [Unit.all_tags.BUILDING]
 #		if _touching_unit:
@@ -71,9 +72,14 @@ func get_menu_items() -> Array[String]:
 func _can_attack() -> bool:
 	var pos: Vector2i = (GenVars.get_cursor() as Cursor).get_true_pos()
 	for unit in get_tree().get_nodes_in_group("units"):
-		if connected_unit.get_faction().get_diplomacy_stance((unit as Unit).get_faction()) == Faction.diplo_stances.ENEMY:
-			if ((Vector2i(unit.position) in connected_unit.get_current_attack_tiles(pos) and pos in connected_unit.get_raw_movement_tiles()) \
-					or (pos == Vector2i(unit.position) and pos in connected_unit.get_all_attack_tiles())):
+		var faction: Faction = (unit as Unit).get_faction()
+		var diplo_stance := connected_unit.get_faction().get_diplomacy_stance(faction)
+		if diplo_stance == Faction.diplo_stances.ENEMY:
+			var current_tiles: Array[Vector2i] = connected_unit.get_current_attack_tiles(pos)
+			var raw_tiles: Array[Vector2i] = connected_unit.get_raw_movement_tiles()
+			var attack_tiles: Array[Vector2i] = connected_unit.get_all_attack_tiles()
+			if ((unit.position in current_tiles and pos in raw_tiles) \
+					or (pos == unit.position and pos in attack_tiles)):
 				return true
 	return false
 

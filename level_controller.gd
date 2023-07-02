@@ -81,8 +81,9 @@ func set_scaling(new_scaling: int) -> void:
 
 
 func _is_cursor_over_hovered_unit() -> bool:
-	if is_instance_valid(GenVars.get_cursor().get_hovered_unit()):
-		return GenVars.get_cursor().get_hovered_unit().get_node("Area2D").overlaps_area(GenVars.get_cursor().get_area())
+	var hovered_unit: Unit = GenVars.get_cursor().get_hovered_unit()
+	if is_instance_valid(hovered_unit):
+		return hovered_unit.get_node("Area2D").overlaps_area(GenVars.get_cursor().get_area())
 	else:
 		return false
 
@@ -110,8 +111,9 @@ func _create_unit_menu() -> void:
 
 
 func _on_cursor_select() -> void:
-	if _is_cursor_over_hovered_unit() and GenVars.get_cursor().get_hovered_unit().selectable == true:
-		var controller = SelectedUnitController.new(GenVars.get_cursor().get_hovered_unit())
+	var hovered_unit: Unit = GenVars.get_cursor().get_hovered_unit()
+	if _is_cursor_over_hovered_unit() and hovered_unit.selectable == true:
+		var controller = SelectedUnitController.new(hovered_unit)
 		add_child(controller)
 		GenVars.get_cursor().disconnect_from(self)
 		selecting = true
@@ -121,6 +123,7 @@ func _on_cursor_select() -> void:
 
 
 func _on_cursor_moved() -> void:
-	if is_instance_valid(GenVars.get_cursor().get_hovered_unit()) and GenVars.get_cursor().get_hovered_unit().selected and not selecting:
-		GenVars.get_cursor().get_hovered_unit().update_path(GenVars.get_cursor().get_true_pos())
-		GenVars.get_cursor().get_hovered_unit().show_path()
+	var hovered_unit: Unit = GenVars.get_cursor().get_hovered_unit()
+	if is_instance_valid(hovered_unit) and hovered_unit.selected and not selecting:
+		hovered_unit.update_path(GenVars.get_cursor().get_true_pos())
+		hovered_unit.show_path()

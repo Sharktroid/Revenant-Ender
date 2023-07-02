@@ -4,11 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://drbehrx1xfpsp" path="res://Maps/fe6_chapter_1.png" id="2"]
 [ext_resource type="Script" path="res://Maps/test_map_b.gd" id="4"]
 [ext_resource type="PackedScene" uid="uid://cmcpxhe2fef32" path="res://Unit Classes/lord_roy.tscn" id="5"]
-[ext_resource type="PackedScene" path="res://Unit Classes/lance_cavalier.tscn" id="6"]
+[ext_resource type="PackedScene" uid="uid://dihel54pj5rks" path="res://Unit Classes/lance_cavalier.tscn" id="6"]
 [ext_resource type="Shader" path="res://Unit Classes/base_fe.gdshader" id="6_b3112"]
 [ext_resource type="PackedScene" uid="uid://car6a8ov4yeh5" path="res://Unit Classes/lance_knight.tscn" id="7"]
 [ext_resource type="Script" path="res://Items/rapier.gd" id="7_fmc2i"]
-[ext_resource type="PackedScene" path="res://Unit Classes/paladin.tscn" id="8"]
+[ext_resource type="PackedScene" uid="uid://dhqtkg2sn2gwn" path="res://Unit Classes/paladin.tscn" id="8"]
 [ext_resource type="PackedScene" uid="uid://l0kj2ag3mxow" path="res://Unit Classes/archer.tscn" id="9"]
 [ext_resource type="Script" path="res://Items/iron_lance.gd" id="9_8r5d0"]
 [ext_resource type="Shader" uid="uid://cp75l4w5um2sh" path="res://GBA_color.tres" id="10"]
@@ -386,7 +386,7 @@ z_index = 1
 
 [node name="Roy Lord" parent="Base Layer/Units/Player" index="0" instance=ExtResource("5")]
 material = SubResource("2")
-position = Vector2(128, 304)
+position = Vector2(160, 192)
 items = Array[Resource("res://Items/base_item.gd")]([SubResource("Resource_jk2cp")])
 
 [node name="Lance Cavalier" parent="Base Layer/Units/Player" index="1" instance=ExtResource("6")]

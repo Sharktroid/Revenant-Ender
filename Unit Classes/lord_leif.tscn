@@ -6,5 +6,3 @@
 [node name="Lord Leif" instance=ExtResource("1_hoar8")]
 texture = ExtResource("2_fga8i")
 frame = 2
-faction_id = null
-variant = null

@@ -36,7 +36,8 @@ static func map_combat(attacker: Unit, defender: Unit, attack_queue: Array[int])
 	defender_animation.queue_free()
 
 
-static func _map_attack(attacker: Unit, defender: Unit, attacker_animation: MapAttack, defender_animation: MapAttack) -> void:
+static func _map_attack(attacker: Unit, defender: Unit, attacker_animation: MapAttack,
+	defender_animation: MapAttack) -> void:
 	attacker_animation.play_animation()
 	await attacker_animation.deal_damage
 	defender.add_current_health(-attacker.get_damage(defender))

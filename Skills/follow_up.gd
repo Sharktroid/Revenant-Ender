@@ -6,3 +6,4 @@ func _init() -> void:
 	attributes = [
 		all_attributes.FOLLOW_UP
 	]
+	super()
