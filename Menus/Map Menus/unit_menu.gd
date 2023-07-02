@@ -8,6 +8,7 @@ var _touching_unit: Unit
 
 func _enter_tree() -> void:
 	items = get_menu_items()
+	connected_unit.tree_exited.connect(_on_unit_death)
 
 
 func _input(event: InputEvent) -> void:
@@ -121,3 +122,7 @@ func _on_button_pressed(button: Button) -> void:
 
 		var item:
 			push_error('"%s" is not a valid action' % item)
+
+
+func _on_unit_death() -> void:
+	close()

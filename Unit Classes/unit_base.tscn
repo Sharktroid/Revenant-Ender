@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(7, 7)
 
-[node name="Unit Base" type="Sprite2D"]
+[node name="Unit Base" type="Sprite2D" groups=["unit"]]
 centered = false
 offset = Vector2(-8, -16)
 hframes = 4

@@ -13,6 +13,7 @@ func _ready() -> void:
 	_unit.selected = true
 	_unit.update_path(GenVars.get_cursor().get_true_pos())
 	_unit.refresh_tiles()
+	_unit.tree_exited.connect(_on_unit_death)
 	_ghost_unit = GhostUnit.new(_unit)
 	GenVars.get_map().add_child(_ghost_unit)
 	(GenVars.get_cursor() as Cursor).connect_to(self)
@@ -71,4 +72,8 @@ func _create_unit_menu() -> void:
 
 
 func _on_cursor_cancel() -> void:
+	close()
+
+
+func _on_unit_death() -> void:
 	close()

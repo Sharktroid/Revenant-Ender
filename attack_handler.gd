@@ -1,22 +1,34 @@
 class_name AttackHandler
 extends RefCounted
 
+enum {ATTACKER, DEFENDER}
 
 static func combat(attacker: Unit, defender: Unit) -> void:
 	GenVars.get_cursor().disable()
-	await map_combat(attacker, defender)
+	var attack_queue: Array[int] = [ATTACKER]
+	if defender.get_current_weapon() != null:
+		attack_queue.append(DEFENDER)
+	if attacker.has_attribute(Skill.all_attributes.FOLLOW_UP):
+		attack_queue.append(ATTACKER)
+	await map_combat(attacker, defender, attack_queue)
 	GenVars.get_cursor().enable()
 
 
-static func map_combat(attacker: Unit, defender: Unit) -> void:
+static func map_combat(attacker: Unit, defender: Unit, attack_queue: Array[int]) -> void:
 	var attacker_animation: MapAttack = MapAttack.new(attacker, defender.position)
 	attacker.get_parent().add_child(attacker_animation)
 	var defender_animation: MapAttack = MapAttack.new(defender, attacker.position)
 	defender.get_parent().add_child(defender_animation)
 	attacker.visible = false
 	defender.visible = false
-	await _map_attack(attacker, defender, attacker_animation, defender_animation)
-	attacker.visible = true
+	for combat_round in attack_queue:
+		match combat_round:
+			ATTACKER: await _map_attack(attacker, defender, attacker_animation, defender_animation)
+			DEFENDER: await _map_attack(defender, attacker, defender_animation, attacker_animation)
+		if not(is_instance_valid(attacker) and is_instance_valid(defender)):
+			break
+	if is_instance_valid(attacker):
+		attacker.visible = true
 	attacker_animation.queue_free()
 	if is_instance_valid(defender):
 		defender.visible = true

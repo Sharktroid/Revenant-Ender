@@ -42,10 +42,8 @@ var selectable: bool = true # Whether the unit can be selected.
 var waiting: bool = false
 var sprite_animated: bool = true
 var weapon_levels: Dictionary
-var attack: int
 
 var _unit_class: String
-var _movement: int
 var _path: Array[Vector2i] # Path the unit will follow when moving.
 var _current_statuses: Array[statuses]
 var _target # Destination of the unit during movement.
@@ -138,9 +136,6 @@ func _ready() -> void:
 	if len(items) > 0:
 		max_range = items[0].max_range
 		min_range = items[0].min_range
-	attack = get_stat(stats.STRENGTH)
-	if len(items) > 0:
-		attack += items[0].might
 	set_current_health(get_stat(stats.HITPOINTS))
 	_animate_sprite()
 	add_to_group("units")
@@ -213,8 +208,24 @@ func get_class_name() -> String:
 	return _unit_class
 
 
+func get_current_weapon() -> Weapon:
+	for item in items:
+		if item is Weapon:
+			return item
+	return null
+
+
+func get_attack() -> int:
+	var current_attack: int
+	match get_current_weapon().get_damage_type():
+		Weapon.damage_types.PHYSICAL: current_attack = get_stat(stats.STRENGTH)
+		Weapon.damage_types.RANGED: current_attack = get_stat(stats.PIERCE)
+		Weapon.damage_types.MAGIC: current_attack = get_stat(stats.MAGIC)
+	return get_current_weapon().might + current_attack
+
+
 func get_damage(defender: Unit) -> float:
-	return max(0, attack - defender.get_current_defence((items[0] as Weapon).get_damage_type()))
+	return max(0, get_attack() - defender.get_current_defence((items[0] as Weapon).get_damage_type()))
 
 
 ## Sets units current health.

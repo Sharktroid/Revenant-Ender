@@ -93,20 +93,20 @@ func remove_icon() -> void:
 
 func connect_to(caller: Object):
 	if caller.has_method("_on_cursor_select"):
-		connect("select", caller._on_cursor_select)
+		select.connect(caller._on_cursor_select)
 	if caller.has_method("_on_cursor_cancel"):
-		connect("cancel", caller._on_cursor_cancel)
+		cancel.connect(caller._on_cursor_cancel)
 	if caller.has_method("_on_cursor_moved"):
-		connect("moved", caller._on_cursor_moved)
+		moved.connect(caller._on_cursor_moved)
 
 
 func disconnect_from(caller: Object):
 	if caller.has_method("_on_cursor_select"):
-		disconnect("select", caller._on_cursor_select)
+		select.disconnect(caller._on_cursor_select)
 	if caller.has_method("_on_cursor_cancel"):
-		disconnect("cancel", caller._on_cursor_cancel)
+		cancel.disconnect(caller._on_cursor_cancel)
 	if caller.has_method("_on_cursor_moved"):
-		disconnect("moved", caller._on_cursor_moved)
+		moved.disconnect(caller._on_cursor_moved)
 
 
 func set_rel_pos(new_pos: Vector2i) -> void:
