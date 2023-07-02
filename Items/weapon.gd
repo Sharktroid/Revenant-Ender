@@ -44,7 +44,7 @@ var weapon_experience: int
 var effective_classes: int
 var type: types
 var _damage_type: damage_types
-var _damage_type_ranged
+var _damage_type_ranged: damage_types
 
 func _init() -> void:
 	if not _damage_type:
@@ -52,7 +52,7 @@ func _init() -> void:
 			types.SWORD, types.AXE, types.KNIFE, types.LANCE: _damage_type = damage_types.PHYSICAL
 			types.BOW: _damage_type = damage_types.RANGED
 			types.COBALT_STAFF, types.CRIMSON_STAFF, types.LIGHT, types.DARK, \
-			types.FIRE, types.WIND, types.LIGHTNING: _damage_type = damage_types.PHYSICAL
+			types.FIRE, types.WIND, types.LIGHTNING: _damage_type = damage_types.MAGIC
 	if not _damage_type_ranged:
 		_damage_type_ranged = _damage_type
 

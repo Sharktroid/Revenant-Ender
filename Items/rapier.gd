@@ -2,6 +2,8 @@ class_name Rapier
 extends Weapon
 
 func _init():
+	name = "Rapier"
+	type = types.SWORD
 	level = ranks.E
 	might = 7
 	weight = 5
@@ -14,3 +16,4 @@ func _init():
 	price = 6000
 	weapon_experience = 2
 #	effective_classes
+	super()

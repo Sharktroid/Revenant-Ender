@@ -15,3 +15,4 @@ func _init():
 	current_durability = 45
 	price = 270
 	weapon_experience = 1
+	super()

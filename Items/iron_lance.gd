@@ -16,3 +16,4 @@ func _init():
 #	price
 #	weapon_experience
 #	effective_classes
+	super()
