@@ -10,14 +10,14 @@ var _debug_constants: Dictionary = { # Constants used in the debug menu.
 	display_map_cursor = false,
 }
 var _config_file := ConfigFile.new() # File used for saving and loading of configuration settings.
-var default_screen_size: Vector2i
+var _default_screen_size: Vector2i
 
 
 func _ready() -> void:
 	_load_config()
 	var width: int = ProjectSettings.get_setting("display/window/size/viewport_width")
 	var height: int = ProjectSettings.get_setting("display/window/size/viewport_height")
-	default_screen_size = Vector2i(width, height)
+	_default_screen_size = Vector2i(width, height)
 
 #	elif event.is_action_pressed("debug"):
 #		get_cursor_area().monitoring = false
@@ -31,7 +31,7 @@ func _exit_tree() -> void:
 
 
 func get_screen_size() -> Vector2i:
-	return default_screen_size
+	return _default_screen_size
 
 
 func get_game_controller() -> GameController:
@@ -47,7 +47,7 @@ func get_level_controller() -> LevelController:
 
 
 func get_cursor() -> Cursor:
-	return get_level_controller().get_node("UILayer/Cursor")
+	return get_level_controller().get_node("UI Layer/Cursor")
 
 
 func get_map() -> Map:

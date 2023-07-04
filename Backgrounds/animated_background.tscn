@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://b5rhtmfvnnqvb"]
+
+[node name="Animated Background" type="SubViewportContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SubViewport" type="SubViewport" parent="."]
+handle_input_locally = false
+size = Vector2i(512, 288)
+render_target_update_mode = 4
+
+[node name="Base Color" type="Polygon2D" parent="SubViewport"]
+color = Color(0, 0, 0.25098, 1)
+polygon = PackedVector2Array(0, 0, 512, 0, 512, 288, 0, 288)
