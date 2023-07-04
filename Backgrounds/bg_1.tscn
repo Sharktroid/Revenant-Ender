@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://dsg0v8jfjv2q6"]
+
+[ext_resource type="PackedScene" uid="uid://dnhly0ep5sh1c" path="res://Backgrounds/gradient_squares_bg.tscn" id="1_nafvo"]
+[ext_resource type="Shader" path="res://Backgrounds/horizontal_distortion.gdshader" id="2_mbw3w"]
+[ext_resource type="Script" path="res://Backgrounds/bg_1.gd" id="2_u04pu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r0df3"]
+shader = ExtResource("2_mbw3w")
+shader_parameter/amplitude = 16.0
+shader_parameter/y_frequency = 0.2
+shader_parameter/time_frequency = 0.5
+shader_parameter/split = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_on4f5"]
+shader = ExtResource("2_mbw3w")
+shader_parameter/amplitude = -16.0
+shader_parameter/y_frequency = 0.2
+shader_parameter/time_frequency = 0.5
+shader_parameter/split = false
+
+[node name="BG 1" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_u04pu")
+
+[node name="Gradient Squares BG" parent="." instance=ExtResource("1_nafvo")]
+material = SubResource("ShaderMaterial_r0df3")
+layout_mode = 0
+hue_min = 0.25
+hue_max = 0.6
+
+[node name="Gradient Squares BG2" parent="." instance=ExtResource("1_nafvo")]
+modulate = Color(1, 1, 1, 0.498039)
+material = SubResource("ShaderMaterial_on4f5")
+layout_mode = 0
+hue_min = 0.25
+hue_max = 0.6
