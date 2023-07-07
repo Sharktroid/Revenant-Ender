@@ -1,4 +1,5 @@
-extends SubViewportContainer
+@tool
+extends Control
 
 @export_range(0, 1) var hue_min: float = 0
 @export_range(0, 1) var hue_max: float = 1
@@ -15,12 +16,19 @@ func _process(_delta: float) -> void:
 	_update_hue()
 
 
-
 func _update_hue() -> void:
-	for child in $"SubViewport/Base Color".get_children():
-		var child_pos: Vector2i = (child as Polygon2D).position
-		var child_offset: int = (((child_pos.x*16 + child_pos.y) as float)/32) as int
-		var new_hue: float = fmod((child_offset + GenVars.get_tick_timer()) * (hue_max - hue_min) / 60 / duration,
-				hue_max - hue_min) + hue_min
-#		print_debug(new_hue)
-		(child as Polygon2D).color.h = new_hue
+	for child in $Features.get_children():
+		if child is Polygon2D:
+			var child_pos: Vector2i = (child as Polygon2D).position
+			var child_offset: int = (((child_pos.x*16 + child_pos.y) as float)/32) as int
+			var new_hue: float = fmod(((child_offset as float)/10 + _get_time_in_seconds()) * (hue_max - hue_min) / duration,
+					hue_max - hue_min) + hue_min
+	#		print_debug(new_hue)
+			(child as Polygon2D).color.h = new_hue
+
+
+func _get_time_in_seconds() -> float:
+	if Engine.is_editor_hint():
+		return (Time.get_ticks_msec() as float) / 1000
+	else:
+		return GenVars.get_tick_timer() / 60
