@@ -28,7 +28,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_hj53u")
 [node name="Features" type="CanvasGroup" parent="."]
 material = SubResource("ShaderMaterial_774e6")
 
-[node name="Panel" type="Panel" parent="Features"]
+[node name="Placeholder Panel" type="Panel" parent="Features"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

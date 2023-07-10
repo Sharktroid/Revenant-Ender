@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dnhly0ep5sh1c"]
+[gd_scene load_steps=5 format=3 uid="uid://dnhly0ep5sh1c"]
 
 [ext_resource type="PackedScene" uid="uid://b5rhtmfvnnqvb" path="res://Backgrounds/animated_background.tscn" id="1_okkpa"]
 [ext_resource type="Shader" path="res://Backgrounds/horizontal_distortion.gdshader" id="2_vp38p"]
@@ -10,9 +10,7 @@ shader_parameter/amplitude = 10.0
 shader_parameter/y_frequency = 1.0
 shader_parameter/time_frequency = 1.0
 shader_parameter/split = false
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tt3ne"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
+shader_parameter/wrap_around = true
 
 [node name="Gradient Squares BG" instance=ExtResource("1_okkpa")]
 script = ExtResource("3_0kjv6")
@@ -20,65 +18,62 @@ script = ExtResource("3_0kjv6")
 [node name="Features" parent="." index="1"]
 material = SubResource("ShaderMaterial_1f5bo")
 
-[node name="Control@Features@Polygon2D" type="Polygon2D" parent="Features" index="0"]
+[node name="Polygon2D" type="Polygon2D" parent="Features" index="0"]
 position = Vector2(32, 96)
-color = Color(1, 0, 0.699, 1)
+color = Color(1, 0, 0.231, 1)
 polygon = PackedVector2Array(0, 0, 32, 0, 32, 32, 0, 32)
 
-[node name="Control@Features@Polygon2D2" type="Polygon2D" parent="Features" index="1"]
+[node name="Polygon2D2" type="Polygon2D" parent="Features" index="1"]
 position = Vector2(176, 192)
-color = Color(0, 0.199, 1, 1)
+color = Color(0.269, 0, 1, 1)
 polygon = PackedVector2Array(0, 0, 32, 0, 32, 32, 0, 32)
 
-[node name="Control@Features@Polygon2D3" type="Polygon2D" parent="Features" index="2"]
+[node name="Polygon2D3" type="Polygon2D" parent="Features" index="2"]
 position = Vector2(224, 48)
-color = Color(0, 0.499, 1, 1)
+color = Color(0, 0.0310001, 1, 1)
 polygon = PackedVector2Array(0, 0, 32, 0, 32, 32, 0, 32)
 
-[node name="Control@Features@Polygon2D4" type="Polygon2D" parent="Features" index="3"]
+[node name="Polygon2D4" type="Polygon2D" parent="Features" index="3"]
 position = Vector2(128, 112)
-color = Color(0.299, 1, 0, 1)
+color = Color(0, 1, 0.169, 1)
 polygon = PackedVector2Array(0, 0, 32, 0, 32, 32, 0, 32)
 
-[node name="Control@Features@Polygon2D5" type="Polygon2D" parent="Features" index="4"]
+[node name="Polygon2D5" type="Polygon2D" parent="Features" index="4"]
 position = Vector2(64, 224)
-color = Color(1, 0, 0.699, 1)
+color = Color(1, 0, 0.231, 1)
 polygon = PackedVector2Array(0, 0, 32, 0, 32, 32, 0, 32)
 
-[node name="Control@Features@Polygon2D6" type="Polygon2D" parent="Features" index="5"]
+[node name="Polygon2D6" type="Polygon2D" parent="Features" index="5"]
 position = Vector2(320, 240)
-color = Color(0.299, 1, 0, 1)
+color = Color(0, 1, 0.169, 1)
 polygon = PackedVector2Array(0, 0, 32, 0, 32, 32, 0, 32)
 
-[node name="Control@Features@Polygon2D7" type="Polygon2D" parent="Features" index="6"]
+[node name="Polygon2D7" type="Polygon2D" parent="Features" index="6"]
 position = Vector2(256, 144)
-color = Color(0, 0.799, 1, 1)
+color = Color(0, 0.331, 1, 1)
 polygon = PackedVector2Array(0, 0, 32, 0, 32, 32, 0, 32)
 
-[node name="Control@Features@Polygon2D8" type="Polygon2D" parent="Features" index="7"]
+[node name="Polygon2D8" type="Polygon2D" parent="Features" index="7"]
 position = Vector2(336, 64)
-color = Color(0, 1, 0.601, 1)
+color = Color(0, 0.931, 1, 1)
 polygon = PackedVector2Array(0, 0, 32, 0, 32, 32, 0, 32)
 
-[node name="Control@Features@Polygon2D9" type="Polygon2D" parent="Features" index="8"]
+[node name="Polygon2D9" type="Polygon2D" parent="Features" index="8"]
 position = Vector2(416, 207)
-color = Color(0, 0.199, 1, 1)
+color = Color(0.269, 0, 1, 1)
 polygon = PackedVector2Array(0, 0, 32, 0, 32, 32, 0, 32)
 
-[node name="Control@Features@Polygon2D10" type="Polygon2D" parent="Features" index="9"]
+[node name="Polygon2D10" type="Polygon2D" parent="Features" index="9"]
 position = Vector2(448, 16)
-color = Color(1, 0.801, 0, 1)
+color = Color(0.731, 1, 0, 1)
 polygon = PackedVector2Array(0, 0, 32, 0, 32, 32, 0, 32)
 
-[node name="Control@Features@Polygon2D11" type="Polygon2D" parent="Features" index="10"]
+[node name="Polygon2D11" type="Polygon2D" parent="Features" index="10"]
 position = Vector2(400, 128)
-color = Color(1, 0.801, 0, 1)
+color = Color(0.731, 1, 0, 1)
 polygon = PackedVector2Array(0, 0, 32, 0, 32, 32, 0, 32)
 
-[node name="Control@Features@Polygon2D12" type="Polygon2D" parent="Features" index="11"]
+[node name="Polygon2D12" type="Polygon2D" parent="Features" index="11"]
 position = Vector2(80, 32)
-color = Color(1, 0, 0.099, 1)
+color = Color(1, 0.369, 0, 1)
 polygon = PackedVector2Array(0, 0, 32, 0, 32, 32, 0, 32)
-
-[node name="Panel" parent="Features" index="12"]
-theme_override_styles/panel = SubResource("StyleBoxFlat_tt3ne")
