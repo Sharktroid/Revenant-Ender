@@ -113,6 +113,7 @@ var _purple_palette: Array[Array] = [
 	[Vector3(144, 184, 232), Vector3(168, 168, 232)],
 	[Vector3(64, 56, 56), Vector3(72, 40, 64)],
 ]
+var _arrows_container: CanvasGroup
 
 
 func _enter_tree() -> void:
@@ -495,7 +496,9 @@ func update_path(destination: Vector2i, num: int = current_movement) -> void:
 
 ## Displays the unit's path
 func show_path() -> void:
-	remove_path()
+	if is_instance_valid(_arrows_container):
+		_arrows_container.queue_free()
+	_arrows_container = CanvasGroup.new()
 	if len(get_unit_path()) > 1:
 		for i in get_unit_path():
 			var tile: Sprite2D = _movement_arrows.instantiate()
@@ -533,7 +536,8 @@ func show_path() -> void:
 				elif Vector2i(0, 16) in [prev, next] and Vector2i(0, -16) in [prev, next]:
 					tile.frame = 6
 			tile.position = i as Vector2
-			GenVars.get_map().add_child(tile)
+			_arrows_container.add_child(tile)
+		GenVars.get_map().add_child(_arrows_container)
 
 
 func get_raw_movement_tiles() -> Array[Vector2i]:
@@ -555,9 +559,8 @@ func get_new_map_attack() -> MapAttack:
 
 func remove_path() -> void:
 	# Removes the unit's path
-	for child in GenVars.get_map().get_children():
-		if "MovementArrows" in child.name:
-			child.queue_free()
+	if is_instance_valid(_arrows_container):
+		_arrows_container.queue_free()
 
 
 func _update_palette() -> void:
