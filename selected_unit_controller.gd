@@ -66,7 +66,7 @@ func _create_unit_menu() -> void:
 	menu.connected_unit = _unit
 	menu.position = GenVars.get_cursor().get_rel_pos() + Vector2i(16, -8)
 	menu.caller = self
-	GenVars.get_level_controller().get_node("UILayer").add_child(menu)
+	GenVars.get_level_controller().get_node("UI Layer").add_child(menu)
 	GenVars.get_cursor().disable()
 	(GenVars.get_cursor() as Cursor).disconnect_from(self)
 

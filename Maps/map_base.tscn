@@ -62,12 +62,12 @@ script = ExtResource("2")
 [node name="Base Layer" type="TileMap" parent="."]
 format = 2
 
-[node name="Buildings" type="Node2D" parent="Base Layer"]
+[node name="Buildings" type="CanvasGroup" parent="Base Layer"]
 
-[node name="Outline" type="Node2D" parent="Base Layer"]
+[node name="Outline" type="CanvasGroup" parent="Base Layer"]
 script = ExtResource("2_fpsax")
 
-[node name="Units" type="Node2D" parent="Base Layer"]
+[node name="Units" type="CanvasGroup" parent="Base Layer"]
 
 [node name="Terrain Layer" type="TileMap" parent="."]
 tile_set = SubResource("10")
@@ -93,4 +93,4 @@ modulate = Color(0.95, 1, 0, 1)
 texture = ExtResource("1")
 centered = false
 
-[node name="Debug Border Overlay Container" type="Node2D" parent="."]
+[node name="Debug Border Overlay Container" type="CanvasGroup" parent="."]

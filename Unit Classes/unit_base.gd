@@ -49,7 +49,7 @@ var _current_statuses: Array[statuses]
 var _target # Destination of the unit during movement.
 var _current_health: float: get = get_current_health, set = set_current_health
 var _movement_speed: float = 8 # Speed unit moves across the map.
-var _all_units: Dictionary # Lists all unit classes.
+static var _all_units: Dictionary # Lists all unit classes.
 # Dictionaries that convert faction/variant into animation modifier.
 var _movement_tiles: Dictionary # Movement tiles. Split by cost left.
 var _movement_tiles_node: Node2D
@@ -140,19 +140,20 @@ func _ready() -> void:
 	_animate_sprite()
 	add_to_group("units")
 	# Setting up "_all_units"
-	var dir = DirAccess.open("res://Unit Classes/")
-	if dir:
-		dir.list_dir_begin()
-		var file_name: String = dir.get_next()
-		while file_name != "":
-			if not dir.current_is_dir() and "gd" == file_name.get_slice(".", -1):
-				var file = load("res://Unit Classes/%s" % file_name).new()
-				var scene_name: String = "res://Unit Classes/%s.tscn" % file_name.get_slice('.', 0)
-				_all_units[file.unit_class] = load(scene_name)
-			file_name = dir.get_next()
-	else:
-		push_error('An error occurred when trying to access the path "res://Unit Classes/".')
-	_all_units.erase('')
+	if not _all_units:
+		var dir = DirAccess.open("res://Unit Classes/")
+		if dir:
+			dir.list_dir_begin()
+			var file_name: String = dir.get_next()
+			while file_name != "":
+				if not dir.current_is_dir() and "gd" == file_name.get_slice(".", -1):
+					var file = load("res://Unit Classes/%s" % file_name).new()
+					var scene_name: String = "res://Unit Classes/%s.tscn" % file_name.get_slice('.', 0)
+					_all_units[file.unit_class] = load(scene_name)
+				file_name = dir.get_next()
+		else:
+			push_error('An error occurred when trying to access the path "res://Unit Classes/".')
+		_all_units.erase('')
 
 
 func _physics_process(_delta: float) -> void:

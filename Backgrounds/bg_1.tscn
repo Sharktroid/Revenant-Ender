@@ -30,39 +30,39 @@ hue_max = 0.6
 material = SubResource("ShaderMaterial_4hk4e")
 
 [node name="Polygon2D" parent="Gradient Squares BG/Features" index="0"]
-color = Color(0, 1, 0.949, 1)
+color = Color(0, 1, 0.21295, 1)
 
 [node name="Polygon2D2" parent="Gradient Squares BG/Features" index="1"]
-color = Color(0, 1, 0.424, 1)
+color = Color(0.31205, 1, 0, 1)
 
 [node name="Polygon2D3" parent="Gradient Squares BG/Features" index="2"]
-color = Color(0, 1, 0.319, 1)
+color = Color(0.41705, 1, 0, 1)
 
 [node name="Polygon2D4" parent="Gradient Squares BG/Features" index="3"]
-color = Color(0.311, 1, 0, 1)
+color = Color(0, 0.94705, 1, 1)
 
 [node name="Polygon2D5" parent="Gradient Squares BG/Features" index="4"]
-color = Color(0, 1, 0.949, 1)
+color = Color(0, 1, 0.21295, 1)
 
 [node name="Polygon2D6" parent="Gradient Squares BG/Features" index="5"]
-color = Color(0.311, 1, 0, 1)
+color = Color(0, 0.94705, 1, 1)
 
 [node name="Polygon2D7" parent="Gradient Squares BG/Features" index="6"]
-color = Color(0, 1, 0.214, 1)
+color = Color(0, 0.42205, 1, 1)
 
 [node name="Polygon2D8" parent="Gradient Squares BG/Features" index="7"]
-color = Color(0, 1, 0.00399995, 1)
+color = Color(0, 0.63205, 1, 1)
 
 [node name="Polygon2D9" parent="Gradient Squares BG/Features" index="8"]
-color = Color(0, 1, 0.424, 1)
+color = Color(0.31205, 1, 0, 1)
 
 [node name="Polygon2D10" parent="Gradient Squares BG/Features" index="9"]
-color = Color(0, 0.526, 1, 1)
+color = Color(0, 1, 0.73795, 1)
 
 [node name="Polygon2D11" parent="Gradient Squares BG/Features" index="10"]
-color = Color(0, 0.526, 1, 1)
+color = Color(0, 1, 0.73795, 1)
 
 [node name="Polygon2D12" parent="Gradient Squares BG/Features" index="11"]
-color = Color(0, 0.841, 1, 1)
+color = Color(0, 1, 0.42295, 1)
 
 [editable path="Gradient Squares BG"]
