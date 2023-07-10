@@ -1,7 +1,0 @@
-extends %BASE%
-
-
-# Unit-specific variables.
-func _ready()%VOID_RETURN%:
-#	movement_type = "Foot"
-
