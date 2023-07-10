@@ -1,0 +1,90 @@
+[gd_scene load_steps=12 format=3 uid="uid://bm8qo5r81mo2y"]
+
+[ext_resource type="PackedScene" uid="uid://b5rhtmfvnnqvb" path="res://Backgrounds/animated_background.tscn" id="1_8xr0r"]
+[ext_resource type="Shader" path="res://Backgrounds/horizontal_distortion.gdshader" id="2_fxdsw"]
+[ext_resource type="Script" path="res://Backgrounds/gradient_lines_bg.gd" id="3_lvlf4"]
+[ext_resource type="Shader" path="res://Backgrounds/gradient.gdshader" id="4_e1cjp"]
+[ext_resource type="Shader" path="res://Backgrounds/scrolling_bg.gdshader" id="4_ne7kf"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dt0ek"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vqmsm"]
+shader = ExtResource("4_ne7kf")
+shader_parameter/start = Vector2(0, 0)
+shader_parameter/end = Vector2(0.125, 0.222)
+shader_parameter/scroll = Vector2(0, 0)
+shader_parameter/starting_offset = Vector2(0, -0.056)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gfwqa"]
+shader = ExtResource("4_e1cjp")
+shader_parameter/gradient_speed = 1.0
+shader_parameter/use_screen_texture = false
+
+[sub_resource type="Gradient" id="Gradient_tc1cb"]
+offsets = PackedFloat32Array(0, 0.1, 0.5, 0.9, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ftjtc"]
+shader = ExtResource("2_fxdsw")
+shader_parameter/amplitude = 32.0
+shader_parameter/y_frequency = 2.0
+shader_parameter/time_frequency = 0.65
+shader_parameter/split = false
+shader_parameter/wrap_around = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pbu75"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[node name="Gradient Lines BG" instance=ExtResource("1_8xr0r")]
+script = ExtResource("3_lvlf4")
+
+[node name="Base Color" parent="." index="0"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_dt0ek")
+
+[node name="Features" parent="." index="1"]
+material = SubResource("ShaderMaterial_vqmsm")
+
+[node name="Line Container" type="Node2D" parent="Features" index="0"]
+material = SubResource("ShaderMaterial_gfwqa")
+
+[node name="Line2D" type="Line2D" parent="Features/Line Container" index="0"]
+use_parent_material = true
+points = PackedVector2Array(0, 0, 2, 2, 16, 16, 30, 30, 32, 32)
+width = 2.0
+gradient = SubResource("Gradient_tc1cb")
+
+[node name="Line2D2" type="Line2D" parent="Features/Line Container" index="1"]
+use_parent_material = true
+position = Vector2(64, 0)
+rotation = 1.5708
+points = PackedVector2Array(0, 0, 2, 2, 16, 16, 30, 30, 32, 32)
+width = 2.0
+gradient = SubResource("Gradient_tc1cb")
+
+[node name="Line2D3" type="Line2D" parent="Features/Line Container" index="2"]
+use_parent_material = true
+position = Vector2(32, 32)
+rotation = 1.5708
+points = PackedVector2Array(0, 0, 2, 2, 16, 16, 30, 30, 32, 32)
+width = 2.0
+gradient = SubResource("Gradient_tc1cb")
+
+[node name="Line2D4" type="Line2D" parent="Features/Line Container" index="3"]
+use_parent_material = true
+position = Vector2(32, 32)
+points = PackedVector2Array(0, 0, 2, 2, 16, 16, 30, 30, 32, 32)
+width = 2.0
+gradient = SubResource("Gradient_tc1cb")
+
+[node name="Panel" type="Panel" parent="." index="2"]
+material = SubResource("ShaderMaterial_ftjtc")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 512.0
+offset_bottom = 288.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pbu75")
