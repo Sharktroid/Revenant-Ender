@@ -78,8 +78,8 @@ func _can_attack() -> bool:
 			var current_tiles: Array[Vector2i] = connected_unit.get_current_attack_tiles(pos)
 			var raw_tiles: Array[Vector2i] = connected_unit.get_raw_movement_tiles()
 			var attack_tiles: Array[Vector2i] = connected_unit.get_all_attack_tiles()
-			if ((unit.position in current_tiles and pos in raw_tiles) \
-					or (pos == unit.position and pos in attack_tiles)):
+			if ((Vector2i(unit.position) in current_tiles and pos in raw_tiles) \
+					or (pos == Vector2i(unit.position) and pos in attack_tiles)):
 				return true
 	return false
 

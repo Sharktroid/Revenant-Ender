@@ -19,6 +19,7 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	var new_size = Vector2()
+	var map_offset: Vector2i = (GenVars.get_map_camera() as MapCamera).map_offset
 	for item in items:
 		var button: Button = $"Base Button".duplicate()
 		button.text = item
@@ -28,6 +29,7 @@ func _ready() -> void:
 		new_size.x = max(new_size.x, button.size.x * scale.x + 4)
 	$Items.size = new_size
 	size = $Items.size + Vector2(9, 9)
+	set_map_position((GenVars.get_cursor() as Cursor).get_true_pos() + map_offset + Vector2i(16, -16))
 	$"Base Button".queue_free()
 
 
@@ -58,6 +60,12 @@ func set_active(is_active: bool) -> void:
 	# Sets whether this menu is currently active.
 	set_process_input(is_active)
 	visible = is_active
+
+
+func set_map_position(new_position: Vector2i) -> void:
+	if new_position.x >= float(GenVars.get_screen_size().x)/2:
+		new_position.x -= ceil((16 + size.x))
+	position = GenFunc.clamp_vector(new_position, Vector2i(), GenVars.get_screen_size() - Vector2i(size))
 
 
 func _on_button_pressed(button: Button) -> void:

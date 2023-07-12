@@ -23,10 +23,10 @@ func _input(event: InputEvent) -> void:
 			GenVars.get_map().toggle_full_outline()
 
 #	elif event.is_action_pressed("debug"):
-#		$UILayer/Temp.queue_redraw()
+#		$"UI Layer"/Temp.queue_redraw()
 #		var bottom = get_viewport().size.y/GenVars.scaling
-#		$UILayer/Top.polygon = [Vector2(0, 0), Vector2(GenVars.get_map().get_size().x, 0), Vector2(GenVars.get_map().get_size().x, 16), Vector2(0, 16)]
-#		$UILayer/Bottom.polygon = [Vector2(0, bottom - 16), Vector2(GenVars.get_map().get_size().x, bottom - 16), Vector2(GenVars.get_map().get_size().x, bottom), Vector2(0, bottom)]
+#		$"UI Layer"/Top.polygon = [Vector2(0, 0), Vector2(GenVars.get_map().get_size().x, 0), Vector2(GenVars.get_map().get_size().x, 16), Vector2(0, 16)]
+#		$"UI Layer"/Bottom.polygon = [Vector2(0, bottom - 16), Vector2(GenVars.get_map().get_size().x, bottom - 16), Vector2(GenVars.get_map().get_size().x, bottom), Vector2(0, bottom)]
 #		draw_line(Vector2(0, 16), Vector2(GenVars.get_map().get_size().x, 16), Color.BLUE, 2.0)
 #		draw_line(Vector2(0, bottom), Vector2(GenVars.get_map().get_size().x, bottom), Color.BLUE, 2.0)
 
@@ -96,8 +96,7 @@ func _on_banner_timer_timeout() -> void:
 func _create_main_map_menu() -> void:
 	## Creates map menu.
 	var menu: MapMenu = preload("res://Menus/Map Menus/main_map_menu.tscn").instantiate()
-	menu.position = GenVars.get_cursor().get_rel_pos() + Vector2i(16, -8)
-	$UILayer.add_child(menu)
+	$"UI Layer".add_child(menu)
 	GenVars.get_cursor().disable()
 
 
@@ -105,8 +104,7 @@ func _create_unit_menu() -> void:
 	## Creates unit menu.
 	var menu: MapMenu = preload("res://Menus/Map Menus/unit_menu.tscn").instantiate()
 	menu.connected_unit = GenVars.get_cursor().get_hovered_unit()
-	menu.position = GenVars.get_cursor().get_rel_pos() + Vector2i(16, -8)
-	$UILayer.add_child(menu)
+	$"UI Layer".add_child(menu)
 	(GenVars.get_cursor() as Cursor).disable()
 
 
