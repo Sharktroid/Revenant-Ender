@@ -173,9 +173,10 @@ func can_move(new_pos: Vector2i) -> bool:
 
 
 func get_hovered_unit() -> Unit:
-	for unit in get_tree().get_nodes_in_group("units"):
-		if Vector2i((unit as Unit).position) == get_true_pos():
-			return unit
+	if get_tree():
+		for unit in get_tree().get_nodes_in_group("units"):
+			if Vector2i((unit as Unit).position) == get_true_pos():
+				return unit
 	return null
 
 
