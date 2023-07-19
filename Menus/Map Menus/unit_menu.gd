@@ -1,4 +1,4 @@
-extends "res://Menus/Map Menus/base_map_menu.gd"
+extends MapMenu
 
 var connected_unit: Unit
 var caller: SelectedUnitController
@@ -7,7 +7,6 @@ var _touching_unit: Unit
 
 
 func _enter_tree() -> void:
-	items = get_menu_items()
 	connected_unit.tree_exited.connect(_on_unit_death)
 
 
@@ -26,7 +25,7 @@ func close(return_to_caller: bool = false) -> void:
 		caller.close()
 
 
-func get_menu_items() -> Array[String]:
+func get_items() -> Dictionary:
 	# Gets the items for the unit menu.
 	_adjacent_units = []
 	_touching_unit = null
@@ -48,8 +47,9 @@ func get_menu_items() -> Array[String]:
 
 	# Whether unit can capture.
 #	if "Capture" in connected_unit.skills:
+#		var faction_diplo GenVars.get_map().diplomacy[connected_unit.faction]
 #		if _touching_unit \
-#				and GenVars.get_map().diplomacy[connected_unit.faction][_touching_unit.faction] == "Enemy" \
+#				and faction_diplo[_touching_unit.faction] == "Enemy" \
 #				and connected_unit.all_tags.BUILDING in _touching_unit.tags:
 #			menu_items.append("Capture")
 	# Whether unit can wait.
@@ -66,26 +66,12 @@ func get_menu_items() -> Array[String]:
 #		menu_items.append("Create")
 #	if "View Items" in connected_unit.skills:
 #		menu_items.append("Items")
-	return menu_items
+	item_keys = menu_items
+	return super()
 
 
-func _can_attack() -> bool:
-	var pos: Vector2i = (GenVars.get_cursor() as Cursor).get_true_pos()
-	for unit in get_tree().get_nodes_in_group("units"):
-		var faction: Faction = (unit as Unit).get_faction()
-		var diplo_stance := connected_unit.get_faction().get_diplomacy_stance(faction)
-		if diplo_stance == Faction.diplo_stances.ENEMY:
-			var current_tiles: Array[Vector2i] = connected_unit.get_current_attack_tiles(pos)
-			var raw_tiles: Array[Vector2i] = connected_unit.get_raw_movement_tiles()
-			var attack_tiles: Array[Vector2i] = connected_unit.get_all_attack_tiles()
-			if ((Vector2i(unit.position) in current_tiles and pos in raw_tiles) \
-					or (pos == Vector2i(unit.position) and pos in attack_tiles)):
-				return true
-	return false
-
-
-func _on_button_pressed(button: Button) -> void:
-	match (button.text+":").split(":")[0]:
+func select_item(item: String) -> void:
+	match item:
 		"Attack":
 			set_active(false)
 			var controller := UnitSelector.new(connected_unit)
@@ -118,7 +104,8 @@ func _on_button_pressed(button: Button) -> void:
 			if _touching_unit:
 				connected_unit.move()
 				await self.arrived
-				var reduction: float = -connected_unit.get_current_health() # Placeholder value; should be negative.
+				# Placeholder value; should be negative.
+				var reduction: float = -connected_unit.get_current_health()
 				if _touching_unit.get_current_health() + reduction:
 					_touching_unit.change_faction(connected_unit.faction)
 				_touching_unit.add_current_health(reduction)
@@ -126,8 +113,23 @@ func _on_button_pressed(button: Button) -> void:
 			else:
 				push_error("Capturable object not found")
 
-		var item:
-			push_error('"%s" is not a valid action' % item)
+		_: push_error('"%s" is not a valid action' % item)
+
+
+func _can_attack() -> bool:
+	var pos: Vector2i = (GenVars.get_cursor() as Cursor).get_true_pos()
+	for unit in get_tree().get_nodes_in_group("units"):
+		var faction: Faction = (unit as Unit).get_faction()
+		var diplo_stance := connected_unit.get_faction().get_diplomacy_stance(faction)
+		if diplo_stance == Faction.diplo_stances.ENEMY:
+			var current_tiles: Array[Vector2i] = connected_unit.get_current_attack_tiles(pos)
+			var raw_tiles: Array[Vector2i] = connected_unit.get_raw_movement_tiles()
+			var attack_tiles: Array[Vector2i] = connected_unit.get_all_attack_tiles()
+			if ((Vector2i(unit.position) in current_tiles and pos in raw_tiles) \
+					or (pos == Vector2i(unit.position) and pos in attack_tiles)):
+				return true
+	return false
+
 
 
 func _on_unit_death() -> void:

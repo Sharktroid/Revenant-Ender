@@ -8,6 +8,8 @@
 [node name="Base Map Menu" type="NinePatchRect"]
 offset_right = 41.0
 offset_bottom = 41.0
+focus_mode = 2
+mouse_filter = 1
 theme = ExtResource("1_cjgdr")
 texture = ExtResource("1_orqlm")
 region_rect = Rect2(0, 0, 25.0251, 25.0526)
@@ -34,7 +36,6 @@ offset_left = 16.0
 offset_top = 16.0
 offset_right = 16.0
 offset_bottom = 16.0
+mouse_filter = 1
 theme = ExtResource("1_cjgdr")
 script = ExtResource("3_rxiol")
-
-[connection signal="been_pressed" from="Base Button" to="." method="_on_button_pressed"]

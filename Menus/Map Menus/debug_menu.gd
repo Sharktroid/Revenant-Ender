@@ -1,21 +1,18 @@
-extends "res://Menus/Map Menus/base_map_menu.gd"
-
-func _init():
-	items = get_items()
+extends MapMenu
 
 
-func get_items() -> Array[String]:
-	return [
-		"Unit Wait: %s" % GenVars.get_debug_constant("unit_wait"),
-		"Display Borders: %s" % GenVars.get_debug_constant("display_map_borders"),
-		"Display Terrain: %s" % GenVars.get_debug_constant("display_map_terrain"),
-		"Display Map Cursor: %s" % GenVars.get_debug_constant("display_map_cursor"),
-		"Print Cursor Position",
-	]
+func get_items() -> Dictionary:
+	return {
+		"Unit Wait": GenVars.get_debug_constant("unit_wait"),
+		"Display Borders": GenVars.get_debug_constant("display_map_borders"),
+		"Display Terrain": GenVars.get_debug_constant("display_map_terrain"),
+		"Display Map Cursor": GenVars.get_debug_constant("display_map_cursor"),
+		"Print Cursor Position": null,
+	}
 
 
-func _on_button_pressed(button: Button) -> void:
-	match (button.text+":").split(":")[0]:
+func select_item(item: String) -> void:
+	match item:
 		"Unit Wait":
 			GenVars.invert_debug_constant("unit_wait")
 
@@ -42,11 +39,10 @@ func _on_button_pressed(button: Button) -> void:
 			]
 			print("Position relative to UI: %s\nPosition relative to map: %s" % replacements)
 
-		var item: push_error("%s is not a valid menu item" % item)
+		_: push_error("%s is not a valid menu item" % item)
 	GenVars.save_config()
-	super._on_button_pressed(button)
 
 
 func close() -> void:
-	super.close()
-	GenVars.get_level_controller().get_node("UILayer/Main Map Menu").set_active(true)
+	super()
+	parent_menu.set_active(true)
