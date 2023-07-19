@@ -1,11 +1,14 @@
 extends Node
 class_name GameController
 
-var controller_type: String # Type of controller being used (keyboard, mouse, or controller)
+enum controller_types {MOUSE, KEYBOARD}
+
+var controller_type: controller_types # Type of controller being used (keyboard, mouse, or controller)
 
 
 func _init() -> void:
 	seed(0) # Sets RNG to be deterministic
+	controller_type = controller_types.MOUSE
 
 
 func _physics_process(_delta: float) -> void:
@@ -13,10 +16,11 @@ func _physics_process(_delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventMouseButton or event is InputEventMouseMotion:
-		controller_type = "Mouse"
+	if (controller_type != controller_types.MOUSE) and (event is InputEventMouseButton or event is InputEventMouseMotion):
+		controller_type = controller_types.MOUSE
+		Input.parse_input_event(event)
 	elif event is InputEventKey:
-		controller_type = "Keyboard"
+		controller_type = controller_types.KEYBOARD
 
 	if event.is_action_pressed("fullscreen"):
 		match get_window().mode:

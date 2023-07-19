@@ -1,11 +1,12 @@
 class_name SelectedUnitController
-extends Node
+extends Control
 
 var _unit: Unit
 var _ghost_unit: GhostUnit
 
 func _init(connected_unit: Unit) -> void:
 	_unit = connected_unit
+	name = "Selected Unit Controller"
 
 
 func _ready() -> void:
@@ -16,7 +17,10 @@ func _ready() -> void:
 	_unit.tree_exited.connect(_on_unit_death)
 	_ghost_unit = GhostUnit.new(_unit)
 	GenVars.get_map().add_child(_ghost_unit)
-	(GenVars.get_cursor() as Cursor).connect_to(self)
+	(GenVars.get_cursor() as Cursor).moved.connect(_on_cursor_moved)
+	set_focus_mode(Control.FOCUS_ALL)
+	GenVars.get_level_controller().set_focus_mode(Control.FOCUS_NONE)
+	grab_focus()
 
 
 func _process(_delta: float) -> void:
@@ -35,22 +39,35 @@ func _process(_delta: float) -> void:
 			_: _ghost_unit.set_animation(Unit.animations.MOVING_DOWN)
 
 
+func _has_point(_point: Vector2) -> bool:
+	return true
+
+
+func _gui_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_accept"):
+		_position_selected()
+		accept_event()
+	elif event.is_action_pressed("ui_cancel"):
+		_canceled()
+
+
 func close() -> void:
 	## Deselects the currently selected _unit.
 	_unit.deselect()
 	queue_free()
 	_ghost_unit.queue_free()
-	(GenVars.get_cursor() as Cursor).connect_to(GenVars.get_level_controller())
 	GenVars.get_level_controller().selecting = false
+	GenVars.get_level_controller().set_focus_mode(Control.FOCUS_ALL)
+	GenVars.get_level_controller().grab_focus()
 
 
 func _on_cursor_moved() -> void:
-	if _unit.selected:
+	if has_focus():
 		_unit.update_path(GenVars.get_cursor().get_true_pos())
 		_unit.show_path()
 
 
-func _on_cursor_select() -> void:
+func _position_selected() -> void:
 	# Creates menu if cursor in _unit's tiles and is same faction as _unit.
 	var true_cursor_pos: Vector2i = GenVars.get_cursor().get_true_pos()
 	var all_tiles: Array = _unit.all_attack_tiles + _unit.raw_movement_tiles
@@ -67,11 +84,11 @@ func _create_unit_menu() -> void:
 	menu.position = GenVars.get_cursor().get_rel_pos() + Vector2i(16, -8)
 	menu.caller = self
 	GenVars.get_level_controller().get_node("UI Layer").add_child(menu)
+	set_focus_mode(Control.FOCUS_NONE)
 	GenVars.get_cursor().disable()
-	(GenVars.get_cursor() as Cursor).disconnect_from(self)
 
 
-func _on_cursor_cancel() -> void:
+func _canceled() -> void:
 	close()
 
 

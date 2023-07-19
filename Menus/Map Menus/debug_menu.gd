@@ -45,4 +45,5 @@ func select_item(item: String) -> void:
 
 func close() -> void:
 	super()
-	parent_menu.set_active(true)
+	parent_menu.grab_focus()
+	parent_menu.visible = true

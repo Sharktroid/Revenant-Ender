@@ -1,11 +1,7 @@
 class_name Cursor
-extends Sprite2D
+extends Control
 
 signal moved
-## Emitted when cursor selects unit.
-signal select
-## Emitted when the cursor deselects.
-signal cancel
 
 ## Icons that can be displayed.
 enum icons {ATTACK}
@@ -16,31 +12,24 @@ var _true_origin: Vector2
 
 
 func _ready() -> void:
-	set_rel_pos(transform.get_origin())
+	set_rel_pos(position)
 	set_process_input(true)
-
-
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_accept"):
-		emit_signal("select")
-	elif event.is_action_pressed("ui_cancel"):
-		emit_signal("cancel")
 
 
 func _process(_delta):
 	var tick_timer: int = int(GenVars.get_tick_timer()) % 32
 	if tick_timer <= 20:
-		frame = 0
+		$Icon.frame = 0
 	elif tick_timer <= 22 or tick_timer > 30:
-		frame = 1
+		$Icon.frame = 1
 	else:
-		frame = 2
+		$Icon.frame = 2
 
 
 func _physics_process(_delta: float) -> void:
-	if GenVars.get_game_controller().controller_type == "Mouse" and is_processing_input():
+	if GenVars.get_game_controller().controller_type == GenVars.get_game_controller().controller_types.MOUSE and is_processing_input():
 		var destination: Vector2 = GenVars.get_map_camera().get_destination()
-		if destination == GenVars.get_map_camera().transform.get_origin():
+		if destination == GenVars.get_map_camera().position:
 			var mouse_position = get_viewport().get_mouse_position()
 			set_rel_pos((mouse_position) - Vector2(GenVars.get_map_camera().map_offset))
 	else:
@@ -55,10 +44,10 @@ func _physics_process(_delta: float) -> void:
 			elif Input.is_action_pressed("ui_down") and not Input.is_action_pressed("ui_up"):
 				new_pos.y += 16
 		move(new_pos)
-	if (transform.get_origin()) != Vector2(_rel_pos + GenVars.get_map_camera().map_offset):
+	if position != Vector2(_rel_pos + GenVars.get_map_camera().map_offset):
 		_true_origin = _true_origin.move_toward(get_rel_pos(),
 				max(1, _true_origin.distance_to(get_rel_pos())/16) * 4)
-		transform.origin = _true_origin + Vector2(GenVars.get_map_camera().map_offset)
+		position = _true_origin + Vector2(GenVars.get_map_camera().map_offset)
 
 
 func set_true_pos(new_pos: Vector2i) -> void:
@@ -92,24 +81,6 @@ func draw_icon(icon: icons) -> void:
 func remove_icon() -> void:
 	if is_instance_valid(_icon_sprite):
 		_icon_sprite.queue_free()
-
-
-func connect_to(caller: Object):
-	if caller.has_method("_on_cursor_select"):
-		select.connect(caller._on_cursor_select)
-	if caller.has_method("_on_cursor_cancel"):
-		cancel.connect(caller._on_cursor_cancel)
-	if caller.has_method("_on_cursor_moved"):
-		moved.connect(caller._on_cursor_moved)
-
-
-func disconnect_from(caller: Object):
-	if caller.has_method("_on_cursor_select"):
-		select.disconnect(caller._on_cursor_select)
-	if caller.has_method("_on_cursor_cancel"):
-		cancel.disconnect(caller._on_cursor_cancel)
-	if caller.has_method("_on_cursor_moved"):
-		moved.disconnect(caller._on_cursor_moved)
 
 
 func set_rel_pos(new_pos: Vector2i) -> void:
