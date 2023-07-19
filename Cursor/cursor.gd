@@ -38,7 +38,7 @@ func _process(_delta):
 
 
 func _physics_process(_delta: float) -> void:
-	if GenVars.get_game_controller().controller_type == "Mouse" and is_processing_input():
+	if GenVars.get_game_controller().controller_type == GenVars.get_game_controller().controller_types.MOUSE and is_processing_input():
 		var destination: Vector2 = GenVars.get_map_camera().get_destination()
 		if destination == GenVars.get_map_camera().transform.get_origin():
 			var mouse_position = get_viewport().get_mouse_position()
