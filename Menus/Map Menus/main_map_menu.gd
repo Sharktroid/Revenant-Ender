@@ -12,7 +12,7 @@ func select_item(item: String) -> void:
 			menu.position = position
 			menu.parent_menu = self
 			GenVars.get_level_controller().get_node("UI Layer").add_child(menu)
-			set_active(false)
+			visible = false
 		"End":
 			close()
 			GenVars.get_map().end_turn()

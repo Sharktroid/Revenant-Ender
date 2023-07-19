@@ -18,7 +18,7 @@ void GBA_color(inout vec4 color) {
 	vec4 screen = pow(color, vec4(target_gamma + darken_screen)).rgba;
 	vec4 avglum = vec4(0.5);
 	screen = mix(screen, avglum, (1.0 - contrast));
- 
+
 	mat4 modified_color = mat4(	vec4(r.r,	r.g,	r.b,	0.0),
 						vec4(g.r,	g.g,	g.b,	0.0),
 						vec4(b.r,	b.g,	b.b,	0.0),
@@ -31,7 +31,7 @@ void GBA_color(inout vec4 color) {
 	screen = clamp(screen * lum, 0.0, 1.0);
 	screen = modified_color * screen;
 	color = pow(screen, vec4(1.0 / display_gamma + (darken_screen * 0.125)));
-	
+
 	}
 
 void fragment() {

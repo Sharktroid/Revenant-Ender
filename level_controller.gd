@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 class_name LevelController
 
 signal unit_selected
@@ -12,16 +12,20 @@ var selecting: bool = false # Whether a unit is currently selected.
 func _enter_tree() -> void:
 	var map: Map = map_node.instantiate()
 	$"Map Camera".add_child(map)
-	GenVars.get_cursor().connect_to(self)
 
 
-func _input(event: InputEvent) -> void:
+func _ready() -> void:
+	grab_focus()
+
+
+func _gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ranges"):
 		if _is_cursor_over_hovered_unit():
 			GenVars.get_map().toggle_outline_unit(GenVars.get_cursor().get_hovered_unit())
 		else:
 			GenVars.get_map().toggle_full_outline()
-
+	elif event.is_action_pressed("ui_select"):
+		_on_cursor_select()
 #	elif event.is_action_pressed("debug"):
 #		$"UI Layer"/Temp.queue_redraw()
 #		var bottom = get_viewport().size.y/GenVars.scaling
@@ -89,7 +93,7 @@ func _is_cursor_over_hovered_unit() -> bool:
 
 
 func _on_banner_timer_timeout() -> void:
-	$"UILayer/Turn Banner".texture = null
+	$"UI Layer/Turn Banner".texture = null
 	GenVars.get_map().start_turn()
 
 
@@ -113,7 +117,6 @@ func _on_cursor_select() -> void:
 	if _is_cursor_over_hovered_unit() and hovered_unit.selectable == true:
 		var controller = SelectedUnitController.new(hovered_unit)
 		add_child(controller)
-		GenVars.get_cursor().disconnect_from(self)
 		selecting = true
 
 	else:

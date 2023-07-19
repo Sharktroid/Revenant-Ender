@@ -39,19 +39,40 @@ func _ready() -> void:
 		size = $Items.size + Vector2(9, 9)
 		set_map_position((GenVars.get_cursor() as Cursor).get_true_pos() + map_offset + Vector2i(16, -16))
 		$"Base Button".queue_free()
+		grab_focus()
 
 
-func _input(event: InputEvent) -> void:
-#	if event.is_action_pressed("ui_up"):
-#		_move_selection(_index - 1)
-#
-#	elif event.is_action_pressed("ui_down"):
-#		_move_selection(_index + 1)
-#
-#	if event.is_action_pressed("ui_accept"):
-#		select_item()
+func _process(_delta: float) -> void:
+	if has_focus():
+		if not(_debug_display in _get_current_button().get_children()):
+			if not _debug_display:
+				_debug_display = Polygon2D.new()
+				_debug_display.polygon = [Vector2i(), Vector2i(0, 16), Vector2i(16, 16), Vector2i(16, 0)]
+			else:
+				_debug_display.get_parent().remove_child(_debug_display)
+			_get_current_button().add_child(_debug_display)
 
-	if event.is_action_pressed("ui_cancel"):
+	else:
+		if is_instance_valid(_debug_display):
+			_debug_display.queue_free()
+
+
+func _has_point(_point: Vector2) -> bool:
+	return true
+
+
+func _gui_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_up"):
+		_current_button_index -= 1
+
+	elif event.is_action_pressed("ui_down"):
+		_current_button_index += 1
+
+	if event.is_action_pressed("ui_accept"):
+		select_item(_get_current_button().item)
+		accept_event()
+
+	elif event.is_action_pressed("ui_cancel"):
 		close()
 
 
@@ -65,12 +86,7 @@ func get_items() -> Dictionary:
 func close() -> void:
 	# Closes the menu
 	queue_free()
-
-
-func set_active(is_active: bool) -> void:
-	# Sets whether this menu is currently active.
-	set_process_input(is_active)
-	visible = is_active
+	GenVars.get_level_controller().grab_focus()
 
 
 func set_map_position(new_position: Vector2i) -> void:
@@ -81,3 +97,8 @@ func set_map_position(new_position: Vector2i) -> void:
 
 func select_item(_item: String) -> void:
 	pass
+
+
+func _get_current_button() -> Button:
+	_current_button_index %= len($Items.get_children())
+	return $Items.get_child(_current_button_index)

@@ -15,8 +15,15 @@ texture_region_size = Vector2i(8, 8)
 tile_size = Vector2i(8, 8)
 sources/0 = SubResource("TileSetAtlasSource_vlgn5")
 
-[node name="Level Controller" type="Node2D"]
-z_index = 1
+[node name="Level Controller" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 2
+mouse_filter = 1
 script = ExtResource("1_ldj01")
 map_node = ExtResource("2_im01b")
 
@@ -40,6 +47,7 @@ wait_time = 1.368
 one_shot = true
 
 [node name="Cursor" parent="UI Layer" instance=ExtResource("3_nham5")]
+metadata/_edit_use_anchors_ = true
 
 [node name="Map Camera" type="Camera2D" parent="."]
 anchor_mode = 0

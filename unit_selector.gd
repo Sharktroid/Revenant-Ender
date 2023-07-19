@@ -1,5 +1,5 @@
 class_name UnitSelector
-extends Node
+extends Control
 
 signal selected(unit: Unit)
 signal canceled
@@ -8,14 +8,16 @@ var unit: Unit
 
 func _init(connected_unit: Unit) -> void:
 	unit = connected_unit
+	name = "Unit Selector"
 
 
 func _ready() -> void:
 	GenVars.get_cursor().enable()
-	GenVars.get_cursor().connect_to(self)
 	unit.hide_movement_tiles()
 	unit.display_current_attack_tiles(unit.get_unit_path()[-1])
 	unit.remove_path()
+	set_focus_mode(Control.FOCUS_ALL)
+	grab_focus()
 
 
 func _process(_delta: float) -> void:
@@ -25,6 +27,17 @@ func _process(_delta: float) -> void:
 		(GenVars.get_cursor() as Cursor).draw_icon(Cursor.icons.ATTACK)
 
 
+func _gui_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_accept"):
+		_position_selected()
+	elif event.is_action_pressed("ui_cancel"):
+		_canceled()
+
+
+func _has_point(_point: Vector2) -> bool:
+	return true
+
+
 func close() -> void:
 	unit.hide_current_attack_tiles()
 	unit.map_animation = unit.animations.IDLE
@@ -32,13 +45,13 @@ func close() -> void:
 	queue_free()
 
 
-func _on_cursor_select() -> void:
+func _position_selected() -> void:
 	if GenVars.get_cursor().get_hovered_unit() != null:
 		emit_signal("selected", GenVars.get_cursor().get_hovered_unit())
 		close()
 
 
-func _on_cursor_cancel() -> void:
+func _canceled() -> void:
 	emit_signal("selected", null)
 	GenVars.get_cursor().disable()
 	unit.display_movement_tiles()

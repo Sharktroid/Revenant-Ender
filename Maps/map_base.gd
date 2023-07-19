@@ -35,7 +35,7 @@ func unit_wait(_unit) -> void:
 func next_faction() -> void:
 	# Sets the faction to the next faction.
 	curr_faction = (curr_faction + 1) % len(faction_stack)
-	var turn_banner_node: Sprite2D = GenVars.get_level_controller().get_node("UILayer/Turn Banner")
+	var turn_banner_node: Sprite2D = GenVars.get_level_controller().get_node("UI Layer/Turn Banner")
 	var faction_name: String = get_current_faction().name.to_lower()
 	var all_names: Array[String] = []
 	var dir: DirAccess = DirAccess.open("res://Turn Banners/")

@@ -10,7 +10,7 @@ func _enter_tree() -> void:
 	connected_unit.tree_exited.connect(_on_unit_death)
 
 
-func _input(event: InputEvent) -> void:
+func _gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		close(true)
 	else:
@@ -18,10 +18,12 @@ func _input(event: InputEvent) -> void:
 
 
 func close(return_to_caller: bool = false) -> void:
-	super()
+	queue_free()
 	GenVars.get_cursor().enable()
-	GenVars.get_cursor().connect_to(caller)
-	if not return_to_caller:
+	if return_to_caller:
+		caller.set_focus_mode(Control.FOCUS_ALL)
+		caller.grab_focus()
+	else:
 		caller.close()
 
 
@@ -73,12 +75,14 @@ func get_items() -> Dictionary:
 func select_item(item: String) -> void:
 	match item:
 		"Attack":
-			set_active(false)
 			var controller := UnitSelector.new(connected_unit)
-			add_child(controller)
+			caller.add_sibling(controller)
+			visible = false
+			assert(controller.has_focus())
 			var selected_unit = await controller.selected
 			if selected_unit == null:
-				set_active(true)
+				visible = true
+				grab_focus()
 			else:
 				connected_unit.move()
 				await connected_unit.arrived
@@ -95,7 +99,6 @@ func select_item(item: String) -> void:
 
 		"Wait":
 			connected_unit.move()
-			set_active(false)
 			await connected_unit.arrived
 			connected_unit.wait()
 			close()
