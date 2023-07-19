@@ -1,7 +1,8 @@
 extends Button
 
-signal been_pressed(emitter: Button)
+var item: String
+var parent_menu: MapMenu
 
 
 func _pressed():
-	been_pressed.emit(self)
+	parent_menu.select_item(item)

@@ -3,13 +3,12 @@ extends NinePatchRect
 
 enum types {SACRED_STONES, BINDING_BLADE}
 
-var items: Array[String]
+var item_keys: Array[String]
+var parent_menu: MapMenu
 var _start_offset: int
 var _end_offset: int
-
-
-func _init():
-	items = get_items()
+var _current_button_index: int = 0
+var _debug_display: Polygon2D
 
 
 func _enter_tree() -> void:
@@ -20,13 +19,19 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	var new_size = Vector2()
 	var map_offset: Vector2i = (GenVars.get_map_camera() as MapCamera).map_offset
+	var items = get_items()
 	if len(items) == 0:
 		close()
 	else:
 		for item in items:
 			var button: Button = $"Base Button".duplicate()
-			button.text = item
+			if items[item] == null:
+				button.text = item
+			else:
+				button.text = "%s: %s" % [item, items[item]]
 			button.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+			button.item = item
+			button.parent_menu = self
 			new_size.y += 16
 			$Items.add_child(button)
 			new_size.x = max(new_size.x, button.size.x * scale.x + 4)
@@ -50,8 +55,11 @@ func _input(event: InputEvent) -> void:
 		close()
 
 
-func get_items() -> Array[String]:
-	return []
+func get_items() -> Dictionary:
+	var items := {}
+	for item in item_keys:
+		items[item] = null
+	return items
 
 
 func close() -> void:
@@ -71,7 +79,5 @@ func set_map_position(new_position: Vector2i) -> void:
 	position = GenFunc.clamp_vector(new_position, Vector2i(), GenVars.get_screen_size() - Vector2i(size))
 
 
-func _on_button_pressed(button: Button) -> void:
-	var index: int = items.find(button.text)
-	items = get_items()
-	button.text = items[index]
+func select_item(_item: String) -> void:
+	pass
