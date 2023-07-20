@@ -1,8 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=7 format=3]
 
-[ext_resource path="res://Utilities/map_sprite_parser.gd" type="Script" id=1]
-[ext_resource path="res://Map Sprites/Brigand (M) Axe {IS}-stand.png" type="Texture2D" id=2]
-[ext_resource path="res://Map Sprites/Brigand (M) Axe {IS}-walk.png" type="Texture2D" id=3]
+[ext_resource type="Script" path="res://utilities/map_sprite_parser.gd" id="1"]
+[ext_resource type="Texture2D" path="res://Map Sprites/Brigand (M) Axe {IS}-stand.png" id="2"]
+[ext_resource type="Texture2D" path="res://Map Sprites/Brigand (M) Axe {IS}-walk.png" id="3"]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;

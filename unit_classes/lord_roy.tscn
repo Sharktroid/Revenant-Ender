@@ -1,0 +1,9 @@
+[gd_scene load_steps=4 format=3 uid="uid://cmcpxhe2fef32"]
+
+[ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://unit_classes/unit_base.tscn" id="1"]
+[ext_resource type="Script" path="res://unit_classes/lord_roy.gd" id="2"]
+[ext_resource type="Texture2D" uid="uid://dtexaf8rj3l56" path="res://map_sprites/lord_roy.png" id="3"]
+
+[node name="Roy Lord" instance=ExtResource("1")]
+texture = ExtResource("3")
+script = ExtResource("2")

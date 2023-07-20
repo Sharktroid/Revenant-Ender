@@ -1,0 +1,9 @@
+[gd_scene load_steps=4 format=3 uid="uid://dhqtkg2sn2gwn"]
+
+[ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://unit_classes/unit_base.tscn" id="1"]
+[ext_resource type="Texture2D" uid="uid://d1cl2wgqqgs6d" path="res://map_sprites/paladin.png" id="2"]
+[ext_resource type="Script" path="res://unit_classes/paladin.gd" id="3"]
+
+[node name="Paladin" instance=ExtResource("1")]
+texture = ExtResource("2")
+script = ExtResource("3")

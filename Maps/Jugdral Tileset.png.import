@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b2lewxvj148x8"
-path="res://.godot/imported/Jugdral Tileset.png-e9b80db4b6d8c263c998d57f7c171839.ctex"
+path="res://.godot/imported/Jugdral Tileset.png-057eb52fda1ec18af96491e72bd89839.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Maps/Jugdral Tileset.png"
-dest_files=["res://.godot/imported/Jugdral Tileset.png-e9b80db4b6d8c263c998d57f7c171839.ctex"]
+source_file="res://maps/Jugdral Tileset.png"
+dest_files=["res://.godot/imported/Jugdral Tileset.png-057eb52fda1ec18af96491e72bd89839.ctex"]
 
 [params]
 

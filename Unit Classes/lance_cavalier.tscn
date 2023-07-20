@@ -1,9 +1,0 @@
-[gd_scene load_steps=4 format=3 uid="uid://dihel54pj5rks"]
-
-[ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://Unit Classes/unit_base.tscn" id="1"]
-[ext_resource type="Texture2D" uid="uid://dcbp6yac31ins" path="res://Map Sprites/lance_cavalier.png" id="2"]
-[ext_resource type="Script" path="res://Unit Classes/lance_cavalier.gd" id="3"]
-
-[node name="Lance Cavalier" instance=ExtResource("1")]
-texture = ExtResource("2")
-script = ExtResource("3")

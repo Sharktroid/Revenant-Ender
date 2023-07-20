@@ -1,8 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://cppp0etuktjqq"]
-
-[ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://Unit Classes/unit_base.tscn" id="1_hoar8"]
-[ext_resource type="Texture2D" uid="uid://cmhfiso5t0t0t" path="res://Map Sprites/Lord Leif/movement.png" id="2_fga8i"]
-
-[node name="Lord Leif" instance=ExtResource("1_hoar8")]
-texture = ExtResource("2_fga8i")
-frame = 2

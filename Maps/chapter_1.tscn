@@ -1,7 +1,7 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=4 format=3]
 
-[ext_resource path="res://Tilesets/fe8_village 2.png" type="Texture2D" id=1]
-[ext_resource path="res://Maps/chapter_1.gd" type="Script" id=2]
+[ext_resource type="Texture2D" uid="uid://cgn52f13vu3pv" path="res://tilesets/fe8_village 2.png" id="1"]
+[ext_resource type="Script" path="res://maps/chapter_1.gd" id="2"]
 
 [sub_resource type="TileSet" id=1]
 0/name = "FE8 Village 2.png 0"

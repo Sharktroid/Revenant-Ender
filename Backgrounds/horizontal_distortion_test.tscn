@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://ddinmx7heha32"]
 
-[ext_resource type="PackedScene" uid="uid://b5rhtmfvnnqvb" path="res://Backgrounds/animated_background.tscn" id="1_86syr"]
-[ext_resource type="Shader" path="res://Backgrounds/horizontal_distortion.gdshader" id="2_5xkkh"]
+[ext_resource type="PackedScene" uid="uid://b5rhtmfvnnqvb" path="res://backgrounds/animated_background.tscn" id="1_86syr"]
+[ext_resource type="Shader" path="res://backgrounds/horizontal_distortion.gdshader" id="2_5xkkh"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_uogkq"]
 shader = ExtResource("2_5xkkh")

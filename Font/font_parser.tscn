@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bjcy0lm5h6kbk"]
 
-[ext_resource type="Script" path="res://Font/font_parser.gd" id="1"]
-[ext_resource type="FontFile" uid="uid://b41m8ooqollu6" path="res://Font/item_font.tres" id="2_hqdam"]
+[ext_resource type="Script" path="res://font/font_parser.gd" id="1"]
+[ext_resource type="FontFile" uid="uid://b41m8ooqollu6" path="res://font/item_font.tres" id="2_hqdam"]
 
 [node name="Control" type="Control"]
 layout_mode = 3

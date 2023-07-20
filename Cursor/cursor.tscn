@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://ec5p41y2pfqp"]
 
-[ext_resource type="Texture2D" uid="uid://b5nv67181fv2l" path="res://Cursor/cursor.png" id="1_y73rc"]
-[ext_resource type="Script" path="res://Cursor/cursor.gd" id="2_o2xwq"]
+[ext_resource type="Script" path="res://cursor/cursor.gd" id="1_comwu"]
+[ext_resource type="Texture2D" uid="uid://b5nv67181fv2l" path="res://cursor/cursor.png" id="2_jncmw"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_p66rh"]
 
@@ -10,10 +10,10 @@ offset_right = 16.0
 offset_bottom = 16.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_p66rh")
-script = ExtResource("2_o2xwq")
+script = ExtResource("1_comwu")
 
 [node name="Icon" type="Sprite2D" parent="."]
-texture = ExtResource("1_y73rc")
+texture = ExtResource("2_jncmw")
 centered = false
 offset = Vector2(-4, -4)
 hframes = 4

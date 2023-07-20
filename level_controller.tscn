@@ -1,9 +1,9 @@
 [gd_scene load_steps=8 format=3 uid="uid://bvenomss5y5i2"]
 
 [ext_resource type="Script" path="res://level_controller.gd" id="1_ldj01"]
-[ext_resource type="PackedScene" uid="uid://cedsiyh04d75o" path="res://Maps/test_map_b.tscn" id="2_im01b"]
+[ext_resource type="PackedScene" uid="uid://cedsiyh04d75o" path="res://maps/test_map_b.tscn" id="2_im01b"]
 [ext_resource type="Texture2D" uid="uid://ditlrwvu2jhoc" path="res://placeholder.png" id="2_r7guj"]
-[ext_resource type="PackedScene" uid="uid://ec5p41y2pfqp" path="res://Cursor/cursor.tscn" id="3_nham5"]
+[ext_resource type="PackedScene" uid="uid://ec5p41y2pfqp" path="res://cursor/cursor.tscn" id="3_nham5"]
 [ext_resource type="Script" path="res://map_camera.gd" id="4_doakt"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vlgn5"]

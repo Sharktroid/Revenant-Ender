@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Texture2D" uid="uid://deebsfa7bcoa8" path="res://map_sprites/aw_buildings.png" id="1"]
+[ext_resource type="Script" path="res://Unit Classes/city.gd" id="2"]
+[ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://Unit Classes/unit_base.tscn" id="3"]
+
+[node name="City" instance=ExtResource( 3 )]
+texture = ExtResource( 1 )
+centered = false
+offset = Vector2( 0, -16 )
+hframes = 40
+vframes = 9
+script = ExtResource( 2 )
+_max_health = 10.0

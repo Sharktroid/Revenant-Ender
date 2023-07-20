@@ -1,8 +1,8 @@
 [gd_scene load_steps=28 format=3 uid="uid://cedsiyh04d75o"]
 
-[ext_resource type="PackedScene" uid="uid://bhm3c7lcoufva" path="res://Maps/map_base.tscn" id="1"]
-[ext_resource type="Texture2D" uid="uid://drbehrx1xfpsp" path="res://Maps/fe6_chapter_1.png" id="2"]
-[ext_resource type="Script" path="res://Maps/test_map_b.gd" id="4"]
+[ext_resource type="PackedScene" uid="uid://bhm3c7lcoufva" path="res://maps/map_base.tscn" id="1"]
+[ext_resource type="Texture2D" uid="uid://drbehrx1xfpsp" path="res://maps/fe6_chapter_1.png" id="2"]
+[ext_resource type="Script" path="res://maps/test_map_b.gd" id="4"]
 [ext_resource type="PackedScene" uid="uid://cmcpxhe2fef32" path="res://Unit Classes/lord_roy.tscn" id="5"]
 [ext_resource type="PackedScene" uid="uid://dihel54pj5rks" path="res://Unit Classes/lance_cavalier.tscn" id="6"]
 [ext_resource type="Shader" path="res://Unit Classes/base_fe.gdshader" id="6_b3112"]

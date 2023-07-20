@@ -3,12 +3,12 @@
 importer="font_data_image"
 type="FontFile"
 uid="uid://bj27xsfrvrml"
-path="res://.godot/imported/full_text.png-4a87d5ec8eba563ad67c8f7278b68884.fontdata"
+path="res://.godot/imported/full_text.png-577769c43fc99a999a38bc9e949f6d7e.fontdata"
 
 [deps]
 
-source_file="res://Font/full_text.png"
-dest_files=["res://.godot/imported/full_text.png-4a87d5ec8eba563ad67c8f7278b68884.fontdata"]
+source_file="res://font/full_text.png"
+dest_files=["res://.godot/imported/full_text.png-577769c43fc99a999a38bc9e949f6d7e.fontdata"]
 
 [params]
 

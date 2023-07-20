@@ -1,6 +1,6 @@
-[gd_resource type="TileSet" load_steps=3 format=2]
+[gd_resource type="TileSet" load_steps=3 format=3]
 
-[ext_resource path="res://Tilesets/advance_wars.png" type="Texture2D" id=1]
+[ext_resource type="Texture2D" uid="uid://cf0kr5c6vir6n" path="res://tilesets/advance_wars.png" id="1"]
 
 [sub_resource type="GDScript" id=2]
 

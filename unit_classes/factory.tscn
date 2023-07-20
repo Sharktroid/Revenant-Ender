@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://unit_classes/city.tscn" id="1"]
+[ext_resource type="Texture2D" uid="uid://deebsfa7bcoa8" path="res://map_sprites/aw_buildings.png" id="2"]
+[ext_resource type="Script" path="res://unit_classes/factory.gd" id="3"]
+
+[node name="Factory" instance=ExtResource( 1 )]
+script = ExtResource( 3 )
+
+[node name="Smoke" type="Sprite2D" parent="." index="0"]
+position = Vector2( 0, -16 )
+texture = ExtResource( 2 )
+centered = false
+hframes = 40
+vframes = 9
+frame = 283

@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://dsg0v8jfjv2q6"]
 
-[ext_resource type="PackedScene" uid="uid://dnhly0ep5sh1c" path="res://Backgrounds/gradient_squares_bg.tscn" id="1_nafvo"]
-[ext_resource type="Shader" path="res://Backgrounds/horizontal_distortion.gdshader" id="2_mbw3w"]
-[ext_resource type="Script" path="res://Backgrounds/bg_1.gd" id="2_u04pu"]
+[ext_resource type="PackedScene" uid="uid://dnhly0ep5sh1c" path="res://backgrounds/gradient_squares_bg.tscn" id="1_nafvo"]
+[ext_resource type="Shader" path="res://backgrounds/horizontal_distortion.gdshader" id="2_mbw3w"]
+[ext_resource type="Script" path="res://backgrounds/bg_1.gd" id="2_u04pu"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4hk4e"]
 shader = ExtResource("2_mbw3w")
