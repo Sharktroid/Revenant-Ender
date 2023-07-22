@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dwm5c7i2toem5"]
+
+[ext_resource type="Script" path="res://controllers/map_controller/ghost_unit/ghost_unit.gd" id="1_i8hfj"]
+
+[node name="Ghost Unit" type="Node2D"]
+script = ExtResource("1_i8hfj")

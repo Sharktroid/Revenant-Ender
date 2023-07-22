@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://c2xbtsc8bnoy5"]
+
+[ext_resource type="PackedScene" path="res://controllers/map_controller/map_tiles/base_movement_tile.tscn" id="1"]
+[ext_resource type="Texture2D" uid="uid://citkgor63dq50" path="res://controllers/map_controller/map_tiles/highlight_red.png" id="1_ms2wl"]
+
+[node name="Attack Tile"]
+texture = ExtResource("1_ms2wl")

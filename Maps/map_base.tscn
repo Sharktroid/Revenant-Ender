@@ -1,10 +1,10 @@
 [gd_scene load_steps=9 format=3 uid="uid://bhm3c7lcoufva"]
 
-[ext_resource type="Texture2D" uid="uid://dfflqex64ee06" path="res://collision_overlay_template.png" id="1"]
-[ext_resource type="Script" path="res://Maps/map_base.gd" id="2"]
-[ext_resource type="Script" path="res://Maps/outline.gd" id="2_fpsax"]
-[ext_resource type="Texture2D" uid="uid://danddgqa5wdg" path="res://terrain.png" id="2_mr7yy"]
-[ext_resource type="Script" path="res://Maps/cursor_area.gd" id="3_qdi6q"]
+[ext_resource type="Script" path="res://maps/map_base.gd" id="2"]
+[ext_resource type="Script" path="res://maps/outline.gd" id="2_fpsax"]
+[ext_resource type="Texture2D" uid="uid://danddgqa5wdg" path="res://maps/terrain.png" id="2_mr7yy"]
+[ext_resource type="Script" path="res://maps/cursor_area.gd" id="3_qdi6q"]
+[ext_resource type="Texture2D" uid="uid://dfflqex64ee06" path="res://controllers/map_controller/collision_overlay_template.png" id="5_6l8pp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sd4j4"]
 texture = ExtResource("2_mr7yy")
@@ -90,7 +90,7 @@ polygon = PackedVector2Array(0, 0, 16, 0, 16, 16, 0, 16)
 [node name="Debug Border Overlay Tile Base" type="Sprite2D" parent="."]
 visible = false
 modulate = Color(0.95, 1, 0, 1)
-texture = ExtResource("1")
+texture = ExtResource("5_6l8pp")
 centered = false
 
 [node name="Debug Border Overlay Container" type="CanvasGroup" parent="."]

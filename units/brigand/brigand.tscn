@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=3 uid="uid://bk6jjspxhm6h6"]
+
+[ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit_base.tscn" id="1"]
+[ext_resource type="Texture2D" uid="uid://k4v4jr2yobm1" path="res://units/brigand/brigand.png" id="2"]
+[ext_resource type="Script" path="res://units/brigand/brigand.gd" id="3"]
+
+[node name="Brigand" instance=ExtResource("1")]
+texture = ExtResource("2")
+script = ExtResource("3")
+
+[node name="Move Tiles" type="Node2D" parent="." index="2"]

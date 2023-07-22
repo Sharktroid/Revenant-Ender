@@ -1,7 +1,9 @@
-[gd_resource type="Shader" format=3 uid="uid://cp75l4w5um2sh"]
+shader_type canvas_item;
 
-[resource]
-code = "shader_type canvas_item;
+uniform vec3 old_colors[64];
+uniform vec3 new_colors[64];
+
+// Start of GBA shader code
 uniform float darken_screen = 0.500;
 const float target_gamma = 2.2;
 const float display_gamma = 2.5;
@@ -27,14 +29,26 @@ void GBA_color(inout vec4 color) {
 				vec4((1.0 - sat) * 0.6094,		(1.0 - sat) * 0.6094 + sat,	(1.0 - sat) * 0.6094,		1.0),
 				vec4((1.0 - sat) * 0.0820,		(1.0 - sat) * 0.0820,		(1.0 - sat) * 0.0820 + sat,	1.0),
 				vec4(0.0,				0.0,				0.0,				1.0));
-	modified_color *= adjust;
+	color *= adjust;
 	screen = clamp(screen * lum, 0.0, 1.0);
 	screen = modified_color * screen;
 	color = pow(screen, vec4(1.0 / display_gamma + (darken_screen * 0.125)));
 
 	}
+// End of GBA shader code
+
+void convert(inout vec4 color, vec3 starting_colors, vec3 resulting_colors) {
+	if (color.rgb * 255.0 == starting_colors.rgb) {
+		color.rgb = resulting_colors/255.0;
+	}
+}
+
 
 void fragment() {
+
+	for (int i = 0; i < old_colors.length(); i++){
+		convert(COLOR, old_colors[i], new_colors[i]);
+	}
 	GBA_color(COLOR);
+//	COLOR.rgb = old_colors[0];
 }
-"

@@ -35,13 +35,13 @@ func _physics_process(_delta: float) -> void:
 	else:
 		var new_pos := Vector2i()
 		if get_rel_pos() == (_true_origin as Vector2i) and is_processing_input():
-			if Input.is_action_pressed("ui_left"):
+			if Input.is_action_pressed("left"):
 				new_pos.x -= 16
-			elif Input.is_action_pressed("ui_right") and not Input.is_action_pressed("ui_left"):
+			elif Input.is_action_pressed("right") and not Input.is_action_pressed("left"):
 				new_pos.x += 16
-			if Input.is_action_pressed("ui_up"):
+			if Input.is_action_pressed("up"):
 				new_pos.y -= 16
-			elif Input.is_action_pressed("ui_down") and not Input.is_action_pressed("ui_up"):
+			elif Input.is_action_pressed("down") and not Input.is_action_pressed("up"):
 				new_pos.y += 16
 		move(new_pos)
 	if position != Vector2(_rel_pos + GenVars.get_map_camera().map_offset):

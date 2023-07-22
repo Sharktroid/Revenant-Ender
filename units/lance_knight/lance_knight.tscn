@@ -1,0 +1,9 @@
+[gd_scene load_steps=4 format=3 uid="uid://car6a8ov4yeh5"]
+
+[ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit_base.tscn" id="1"]
+[ext_resource type="Texture2D" uid="uid://ybdk2ivoxxyj" path="res://units/lance_knight/lance_knight.png" id="2"]
+[ext_resource type="Script" path="res://units/lance_knight/lance_knight.gd" id="3"]
+
+[node name="Hoplite" instance=ExtResource("1")]
+texture = ExtResource("2")
+script = ExtResource("3")

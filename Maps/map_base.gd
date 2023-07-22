@@ -185,7 +185,7 @@ func _get_terrain(coords: Vector2i, faction: Faction) -> String:
 
 func _parse_movement_cost() -> void:
 	# Reads the movement cost from the .csv file
-	var file = FileAccess.open("res://movement_cost.csv", FileAccess.READ)
+	var file = FileAccess.open("units/movement_cost.csv", FileAccess.READ)
 	var raw_movement_cost: Array = file.get_as_text().split("\n")
 	if len(raw_movement_cost[-1]) == 0:
 		raw_movement_cost.erase("")
