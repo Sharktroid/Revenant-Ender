@@ -78,6 +78,10 @@ func _process(_delta: float) -> void:
 					ghost_unit.map_animation = Unit.animations.MOVING_RIGHT
 
 
+func _has_point(point: Vector2) -> bool:
+	return true
+
+
 func set_scaling(new_scaling: int) -> void:
 	var new_scale := Vector2(new_scaling, new_scaling)
 	scale = new_scale

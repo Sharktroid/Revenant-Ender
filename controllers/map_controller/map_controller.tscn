@@ -17,11 +17,7 @@ sources/0 = SubResource("TileSetAtlasSource_vlgn5")
 
 [node name="Map Controller" type="Control"]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
 focus_mode = 2
 mouse_filter = 1
 script = ExtResource("1_ldj01")
