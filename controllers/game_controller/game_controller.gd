@@ -11,6 +11,10 @@ func _init() -> void:
 	controller_type = controller_types.MOUSE
 
 
+func _enter_tree() -> void:
+	GenVars.game_controller = self
+
+
 func _physics_process(_delta: float) -> void:
 	randi() # Burns a random number every frame
 

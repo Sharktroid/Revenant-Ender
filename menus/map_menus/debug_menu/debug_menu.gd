@@ -18,24 +18,24 @@ func select_item(item: String) -> void:
 
 		"Display Borders":
 			GenVars.invert_debug_constant("display_map_borders")
-			var map_borders: Node2D = GenVars.get_map().get_node("Debug Border Overlay Container")
+			var map_borders: Node2D = GenVars.map.get_node("Debug Border Overlay Container")
 			map_borders.visible = GenVars.get_debug_constant("display_map_borders")
 
 		"Display Terrain":
 			GenVars.invert_debug_constant("display_map_terrain")
 			print_debug(GenVars.get_debug_constant("display_map_terrain"))
-			var terrain_layer: TileMap = GenVars.get_map().get_node("Terrain Layer")
+			var terrain_layer: TileMap = GenVars.map.get_node("Terrain Layer")
 			terrain_layer.visible = GenVars.get_debug_constant("display_map_terrain")
 
 		"Display Map Cursor":
 			GenVars.invert_debug_constant("display_map_cursor")
-			var cursor_area: Area2D = GenVars.get_cursor().get_area()
+			var cursor_area: Area2D = GenVars.cursor.get_area()
 			cursor_area.visible = GenVars.get_debug_constant("display_map_cursor")
 
 		"Print Cursor Position":
 			var replacements: Array[Vector2i] = [
-				GenVars.get_cursor().get_rel_pos(),
-				GenVars.get_cursor().get_true_pos()
+				GenVars.cursor.get_rel_pos(),
+				GenVars.cursor.get_true_pos()
 			]
 			print("Position relative to UI: %s\nPosition relative to map: %s" % replacements)
 

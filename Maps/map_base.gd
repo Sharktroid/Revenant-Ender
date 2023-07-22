@@ -15,6 +15,10 @@ var true_pos: Vector2i # Position of the map, used for scrolling
 var curr_faction: int = 0
 
 
+func _enter_tree() -> void:
+	GenVars.map = self
+
+
 func _ready() -> void:
 	upper_border = Vector2i(left_border, top_border)
 	lower_border = Vector2i(right_border, bottom_border)
@@ -35,7 +39,7 @@ func unit_wait(_unit) -> void:
 func next_faction() -> void:
 	# Sets the faction to the next faction.
 	curr_faction = (curr_faction + 1) % len(faction_stack)
-	var turn_banner_node: Sprite2D = GenVars.get_level_controller().get_node("UI Layer/Turn Banner")
+	var turn_banner_node: Sprite2D = GenVars.map_controller.get_node("UI Layer/Turn Banner")
 	var faction_name: String = get_current_faction().name.to_lower()
 	var all_names: Array[String] = []
 	var dir: DirAccess = DirAccess.open("res://Turn Banners/")
@@ -70,11 +74,11 @@ func get_faction(faction_id: int) -> Faction:
 
 
 func get_rel_upper_border() -> Vector2i:
-	return upper_border - (GenVars.get_map_camera() as MapCamera).map_position
+	return upper_border - (GenVars.map_camera as MapCamera).map_position
 
 
 func get_rel_lower_border() -> Vector2i:
-	return lower_border - (GenVars.get_map_camera() as MapCamera).get_low_map_position()
+	return lower_border - (GenVars.map_camera as MapCamera).get_low_map_position()
 
 
 func get_size() -> Vector2i:

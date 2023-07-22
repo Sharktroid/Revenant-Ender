@@ -4,7 +4,7 @@ extends Node2D
 func _draw():
 	for unit in get_tree().get_nodes_in_group("units"):
 		unit.modulate = Color.WHITE
-	var outlined_units: Dictionary = GenVars.get_map().get_current_faction().outlined_units
+	var outlined_units: Dictionary = GenVars.map.get_current_faction().outlined_units
 	var faction_stack: Array[Faction] = get_parent().get_parent().faction_stack
 	for outline_faction in faction_stack:
 		var current_outlined_units = []

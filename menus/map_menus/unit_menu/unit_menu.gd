@@ -19,7 +19,7 @@ func _gui_input(event: InputEvent) -> void:
 
 func close(return_to_caller: bool = false) -> void:
 	queue_free()
-	GenVars.get_cursor().enable()
+	GenVars.cursor.enable()
 	if return_to_caller:
 		caller.set_focus_mode(Control.FOCUS_ALL)
 		caller.grab_focus()
@@ -36,7 +36,7 @@ func get_items() -> Dictionary:
 	# Gets all adjacent units
 	for unit in get_tree().get_nodes_in_group("units"):
 		if not unit.is_ghost:
-			var cursor_pos: Vector2i = (GenVars.get_cursor() as Cursor).get_true_pos()
+			var cursor_pos: Vector2i = (GenVars.cursor as Cursor).get_true_pos()
 			if GenFunc.get_tile_distance(cursor_pos, connected_unit.get_position()) == 0 \
 					and not unit == self:
 				_touching_unit = unit
@@ -49,7 +49,7 @@ func get_items() -> Dictionary:
 
 	# Whether unit can capture.
 #	if "Capture" in connected_unit.skills:
-#		var faction_diplo GenVars.get_map().diplomacy[connected_unit.faction]
+#		var faction_diplo GenVars.map.diplomacy[connected_unit.faction]
 #		if _touching_unit \
 #				and faction_diplo[_touching_unit.faction] == "Enemy" \
 #				and connected_unit.all_tags.BUILDING in _touching_unit.tags:
@@ -90,9 +90,9 @@ func select_item(item: String) -> void:
 				close()
 
 #		"Create":
-#			var pos: Vector2 = GenVars.get_cursor().get_true_pos() + Vector2(16, -8)
+#			var pos: Vector2 = GenVars.cursor.get_true_pos() + Vector2(16, -8)
 #			var menu = GenFunc.create_map_menu(self, "Create", skills["Produces"], pos)
-#			GenVars.get_level_controller().get_node("UILayer/Unit Menu").set_active(false)
+#			GenVars.map_controller.get_node("UILayer/Unit Menu").set_active(false)
 #			await menu.menu_closed
 #			return false
 
@@ -119,7 +119,7 @@ func select_item(item: String) -> void:
 
 
 func _can_attack() -> bool:
-	var pos: Vector2i = (GenVars.get_cursor() as Cursor).get_true_pos()
+	var pos: Vector2i = (GenVars.cursor as Cursor).get_true_pos()
 	for unit in get_tree().get_nodes_in_group("units"):
 		var faction: Faction = (unit as Unit).get_faction()
 		var diplo_stance := connected_unit.get_faction().get_diplomacy_stance(faction)

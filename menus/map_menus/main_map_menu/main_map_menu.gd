@@ -11,14 +11,14 @@ func select_item(item: String) -> void:
 			var menu: MapMenu = load("uid://c0mmbk17nyqii").instantiate()
 			menu.position = position
 			menu.parent_menu = self
-			GenVars.get_level_controller().get_node("UI Layer").add_child(menu)
+			GenVars.map_controller.get_node("UI Layer").add_child(menu)
 			visible = false
 		"End":
 			close()
-			GenVars.get_map().end_turn()
+			GenVars.map.end_turn()
 		_: push_error("%s is not a valid menu item" % item)
 
 
 func close() -> void:
 	super()
-	(GenVars.get_cursor() as Cursor).enable()
+	(GenVars.cursor as Cursor).enable()

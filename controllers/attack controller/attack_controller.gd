@@ -4,7 +4,7 @@ extends RefCounted
 enum {ATTACKER, DEFENDER}
 
 static func combat(attacker: Unit, defender: Unit) -> void:
-	GenVars.get_cursor().disable()
+	GenVars.cursor.disable()
 	var attack_queue: Array[int] = [ATTACKER]
 	if defender.get_current_weapon() != null:
 		attack_queue.append(DEFENDER)
@@ -12,7 +12,7 @@ static func combat(attacker: Unit, defender: Unit) -> void:
 	if attacker.has_attribute(Skill.all_attributes.FOLLOW_UP) and attack_speed_check:
 		attack_queue.append(ATTACKER)
 	await map_combat(attacker, defender, attack_queue)
-	GenVars.get_cursor().enable()
+	GenVars.cursor.enable()
 
 
 static func map_combat(attacker: Unit, defender: Unit, attack_queue: Array[int]) -> void:

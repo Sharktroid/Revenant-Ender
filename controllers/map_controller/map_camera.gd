@@ -6,6 +6,10 @@ var map_position: Vector2i
 var true_origin: Vector2
 
 
+func _enter_tree() -> void:
+	GenVars.map_camera = self
+
+
 func _ready():
 	update_offset()
 	true_origin = map_position
@@ -24,7 +28,7 @@ func _input(event):
 
 func set_map_position(new_map_position: Vector2i):
 	if Vector2(get_destination()) == transform.get_origin():
-		var map_size: Vector2i = GenVars.get_map().get_size()
+		var map_size: Vector2i = GenVars.map.get_size()
 		var screen_size: Vector2i = GenVars.get_screen_size()
 		for i in 2:
 			if map_size[i] < screen_size[i]:
@@ -42,17 +46,17 @@ func move(new_map_position: Vector2i):
 
 
 func get_low_map_position() -> Vector2i:
-	return (GenVars.get_map().get_size() - GenVars.get_screen_size()) - map_position
+	return (GenVars.map.get_size() - GenVars.get_screen_size()) - map_position
 
 
 func update_offset() -> void:
-	var map_size: Vector2i = GenVars.get_map().get_size()
+	var map_size: Vector2i = GenVars.map.get_size()
 	var screen_size: Vector2i = GenVars.get_screen_size()
 	map_offset = GenVars.get_screen_size() % 16 / 2
 	for i in 2:
 		if map_size[i] < screen_size[i]:
 			map_offset[i] = round(screen_size[i] - map_size[i])/2
-	GenVars.get_cursor().move(Vector2i())
+	GenVars.cursor.move(Vector2i())
 
 
 func get_destination() -> Vector2i:

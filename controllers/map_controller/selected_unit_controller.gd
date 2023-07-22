@@ -12,14 +12,14 @@ func _init(connected_unit: Unit) -> void:
 func _ready() -> void:
 	_unit.map_animation = Unit.animations.MOVING_DOWN
 	_unit.selected = true
-	_unit.update_path(GenVars.get_cursor().get_true_pos())
+	_unit.update_path(GenVars.cursor.get_true_pos())
 	_unit.refresh_tiles()
 	_unit.tree_exited.connect(_on_unit_death)
 	_ghost_unit = GhostUnit.new(_unit)
-	GenVars.get_map().add_child(_ghost_unit)
-	(GenVars.get_cursor() as Cursor).moved.connect(_on_cursor_moved)
+	GenVars.map.add_child(_ghost_unit)
+	(GenVars.cursor as Cursor).moved.connect(_on_cursor_moved)
 	set_focus_mode(Control.FOCUS_ALL)
-	GenVars.get_level_controller().set_focus_mode(Control.FOCUS_NONE)
+	GenVars.map_controller.set_focus_mode(Control.FOCUS_NONE)
 	grab_focus()
 
 
@@ -56,23 +56,23 @@ func close() -> void:
 	_unit.deselect()
 	queue_free()
 	_ghost_unit.queue_free()
-	GenVars.get_level_controller().selecting = false
-	GenVars.get_level_controller().set_focus_mode(Control.FOCUS_ALL)
-	GenVars.get_level_controller().grab_focus()
+	GenVars.map_controller.selecting = false
+	GenVars.map_controller.set_focus_mode(Control.FOCUS_ALL)
+	GenVars.map_controller.grab_focus()
 
 
 func _on_cursor_moved() -> void:
 	if has_focus():
-		_unit.update_path(GenVars.get_cursor().get_true_pos())
+		_unit.update_path(GenVars.cursor.get_true_pos())
 		_unit.show_path()
 
 
 func _position_selected() -> void:
 	# Creates menu if cursor in _unit's tiles and is same faction as _unit.
-	var true_cursor_pos: Vector2i = GenVars.get_cursor().get_true_pos()
+	var true_cursor_pos: Vector2i = GenVars.cursor.get_true_pos()
 	var all_tiles: Array = _unit.all_attack_tiles + _unit.raw_movement_tiles
 	var unit_pos: Vector2i = _unit.position
-	if _unit.get_faction().name == GenVars.get_map().get_current_faction().name \
+	if _unit.get_faction().name == GenVars.map.get_current_faction().name \
 			and (true_cursor_pos in all_tiles or unit_pos == true_cursor_pos):
 		_create_unit_menu()
 
@@ -81,11 +81,11 @@ func _create_unit_menu() -> void:
 	## Creates _unit menu.
 	var menu: MapMenu = load("uid://i3a0mes5l4au").instantiate()
 	menu.connected_unit = _unit
-	menu.position = GenVars.get_cursor().get_rel_pos() + Vector2i(16, -8)
+	menu.position = GenVars.cursor.get_rel_pos() + Vector2i(16, -8)
 	menu.caller = self
-	GenVars.get_level_controller().get_node("UI Layer").add_child(menu)
+	GenVars.map_controller.get_node("UI Layer").add_child(menu)
 	set_focus_mode(Control.FOCUS_NONE)
-	GenVars.get_cursor().disable()
+	GenVars.cursor.disable()
 
 
 func _canceled() -> void:

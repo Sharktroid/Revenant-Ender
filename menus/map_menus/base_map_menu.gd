@@ -18,7 +18,7 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	var new_size = Vector2()
-	var map_offset: Vector2i = (GenVars.get_map_camera() as MapCamera).map_offset
+	var map_offset: Vector2i = (GenVars.map_camera as MapCamera).map_offset
 	var items = get_items()
 	if len(items) == 0:
 		close()
@@ -37,7 +37,7 @@ func _ready() -> void:
 			new_size.x = max(new_size.x, button.size.x * scale.x + 4)
 		$Items.size = new_size
 		size = $Items.size + Vector2(9, 9)
-		set_map_position((GenVars.get_cursor() as Cursor).get_true_pos() + map_offset + Vector2i(16, -16))
+		set_map_position((GenVars.cursor as Cursor).get_true_pos() + map_offset + Vector2i(16, -16))
 		$"Base Button".queue_free()
 		grab_focus()
 
@@ -86,7 +86,7 @@ func get_items() -> Dictionary:
 func close() -> void:
 	# Closes the menu
 	queue_free()
-	GenVars.get_level_controller().grab_focus()
+	GenVars.map_controller.grab_focus()
 
 
 func set_map_position(new_position: Vector2i) -> void:

@@ -12,7 +12,7 @@ func _init(connected_unit: Unit) -> void:
 
 
 func _ready() -> void:
-	GenVars.get_cursor().enable()
+	GenVars.cursor.enable()
 	unit.hide_movement_tiles()
 	unit.display_current_attack_tiles(unit.get_unit_path()[-1])
 	unit.remove_path()
@@ -21,10 +21,10 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	if (GenVars.get_cursor() as Cursor).get_hovered_unit() == null:
-		(GenVars.get_cursor() as Cursor).remove_icon()
+	if (GenVars.cursor as Cursor).get_hovered_unit() == null:
+		(GenVars.cursor as Cursor).remove_icon()
 	else:
-		(GenVars.get_cursor() as Cursor).draw_icon(Cursor.icons.ATTACK)
+		(GenVars.cursor as Cursor).draw_icon(Cursor.icons.ATTACK)
 
 
 func _gui_input(event: InputEvent) -> void:
@@ -41,19 +41,19 @@ func _has_point(_point: Vector2) -> bool:
 func close() -> void:
 	unit.hide_current_attack_tiles()
 	unit.map_animation = unit.animations.IDLE
-	(GenVars.get_cursor() as Cursor).remove_icon()
+	(GenVars.cursor as Cursor).remove_icon()
 	queue_free()
 
 
 func _position_selected() -> void:
-	if GenVars.get_cursor().get_hovered_unit() != null:
-		emit_signal("selected", GenVars.get_cursor().get_hovered_unit())
+	if GenVars.cursor.get_hovered_unit() != null:
+		emit_signal("selected", GenVars.cursor.get_hovered_unit())
 		close()
 
 
 func _canceled() -> void:
 	emit_signal("selected", null)
-	GenVars.get_cursor().disable()
+	GenVars.cursor.disable()
 	unit.display_movement_tiles()
 	unit.show_path()
 	close()

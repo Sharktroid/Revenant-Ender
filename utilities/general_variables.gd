@@ -3,6 +3,12 @@ extends Node
 const adjacent_tiles: Array[Vector2i] = [Vector2i(16, 0), Vector2i(-16, 0),
 	Vector2i(0, 16), Vector2i(0, -16)]
 
+var game_controller := GameController.new()
+var map_controller := LevelController.new()
+var cursor := Cursor.new()
+var map_camera := MapCamera.new()
+var map := Map.new()
+
 var _debug_constants: Dictionary = { # Constants used in the debug menu.
 	unit_wait = true, # Whether units are unable to move after movement.
 	display_map_borders = false, # Whether map borders are displayed
@@ -23,7 +29,7 @@ func _ready() -> void:
 #		get_cursor_area().monitoring = false
 #		get_cursor_area().monitoring = true
 #		ProjectSettings.set_setting("display/window/stretch/scale", 3)
-#		get_level_controller().set_scaling(10)
+#		map_controller.set_scaling(10)
 
 
 func _exit_tree() -> void:
@@ -32,38 +38,6 @@ func _exit_tree() -> void:
 
 func get_screen_size() -> Vector2i:
 	return _default_screen_size
-
-
-func get_game_controller() -> GameController:
-	return get_parent().get_node("SubViewportContainer/SubViewport/Game Controller")
-
-
-func get_level_controller() -> LevelController:
-	if get_game_controller():
-		return (get_game_controller().get_node("Level Controller") as LevelController)
-	else:
-		push_error("Could not find Level Controller")
-		return null
-
-
-func get_cursor() -> Cursor:
-	return get_level_controller().get_node("UI Layer/Cursor")
-
-
-func get_map() -> Map:
-	if get_map_camera():
-		return get_map_camera().get_child(0) as Map
-	else:
-		push_error("Could not find Map")
-		return null
-
-
-func get_map_camera() -> MapCamera:
-	if get_level_controller():
-		return (get_level_controller().get_node("Map Camera") as MapCamera)
-	else:
-		push_error("Could not find Map Camera")
-		return null
 
 
 func get_tick_timer() -> float:

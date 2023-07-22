@@ -294,7 +294,7 @@ func wait() -> void:
 		current_movement = 0
 		selectable = false
 		waiting = true
-	GenVars.get_map().unit_wait(self)
+	GenVars.map.unit_wait(self)
 	_update_palette()
 
 
@@ -313,7 +313,7 @@ func deselect() -> void:
 	map_animation = animations.IDLE
 	selected = false
 	remove_path()
-	if GenVars.get_cursor().get_hovered_unit() == self:
+	if GenVars.cursor.get_hovered_unit() == self:
 		refresh_tiles()
 	else:
 		hide_movement_tiles()
@@ -329,7 +329,7 @@ func awaken() -> void:
 
 ## Displays the unit's movement tiles.
 func display_movement_tiles() -> void:
-	if GenVars.get_map():
+	if GenVars.map:
 		_movement_tiles_node = Node2D.new()
 		_movement_tiles_node.name = "%s Move Tiles" % name
 		# Gets movement tiles if not present.
@@ -354,7 +354,7 @@ func display_movement_tiles() -> void:
 				tile.modulate.a = .5
 			tile.frame = int(GenVars.get_tick_timer()/3) % 16
 			_movement_tiles_node.add_child(tile)
-		GenVars.get_map().get_node("Base Layer").add_child(_movement_tiles_node)
+		GenVars.map.get_node("Base Layer").add_child(_movement_tiles_node)
 
 
 ## Hides the unit's movement tiles.
@@ -393,7 +393,7 @@ func display_current_attack_tiles(pos: Vector2i) -> void:
 			tile.modulate.a = .5
 		tile.frame = int(GenVars.get_tick_timer()/3) % 16
 		_current_attack_tiles_node.add_child(tile)
-	GenVars.get_map().get_node("Base Layer").add_child(_current_attack_tiles_node)
+	GenVars.map.get_node("Base Layer").add_child(_current_attack_tiles_node)
 
 
 ## Hides current attack tiles.
@@ -403,8 +403,8 @@ func hide_current_attack_tiles() -> void:
 
 ## Refreshes tiles
 func refresh_tiles() -> void:
-	if GenVars.get_map().has_node("Base Layer/%s Move Tiles" % name):
-		for tile in GenVars.get_map().get_node("Base Layer/%s Move Tiles" % name).get_children():
+	if GenVars.map.has_node("Base Layer/%s Move Tiles" % name):
+		for tile in GenVars.map.get_node("Base Layer/%s Move Tiles" % name).get_children():
 			match selected:
 				true: tile.modulate.a = 1
 				false: tile.modulate.a = .5
@@ -441,15 +441,15 @@ func get_unit_path() -> Array[Vector2i]:
 
 
 func get_faction() -> Faction:
-	if GenVars.get_map():
-		return (GenVars.get_map() as Map).faction_stack[faction_id]
+	if GenVars.map:
+		return (GenVars.map as Map).faction_stack[faction_id]
 	else:
 		return null
 
 
 ## Changes unit's faction.
 func set_faction(new_faction: Faction) -> void:
-	faction_id = (GenVars.get_map() as Map).faction_stack.find(new_faction)
+	faction_id = (GenVars.map as Map).faction_stack.find(new_faction)
 	_animate_sprite()
 
 
@@ -480,7 +480,7 @@ func update_path(destination: Vector2i, num: int = current_movement) -> void:
 		var total_cost = 0
 		for tile in _path:
 			if tile != Vector2i(position):
-				total_cost += GenVars.get_map().get_terrain_cost(self, tile)
+				total_cost += GenVars.map.get_terrain_cost(self, tile)
 		if destination in _path:
 			_path = _path.slice(0, _path.find(destination) + 1)
 		else:
@@ -537,7 +537,7 @@ func show_path() -> void:
 					tile.frame = 6
 			tile.position = i as Vector2
 			_arrows_container.add_child(tile)
-		GenVars.get_map().add_child(_arrows_container)
+		GenVars.map.add_child(_arrows_container)
 
 
 func get_raw_movement_tiles() -> Array[Vector2i]:
@@ -564,7 +564,7 @@ func remove_path() -> void:
 
 
 func _update_palette() -> void:
-	if GenVars.get_map():
+	if GenVars.map:
 		_set_palette(get_faction().color)
 
 
@@ -587,7 +587,7 @@ func _get_movement_tiles() -> void:
 			h.append_array(v)
 		# Seperates by remaining movement
 		for x in h:
-			var boundary: Vector2i = GenVars.get_map().get_size() - Vector2i(16, 16)
+			var boundary: Vector2i = GenVars.map.get_size() - Vector2i(16, 16)
 			if x as Vector2 == GenFunc.clamp_vector(x, Vector2i(), boundary):
 				var val = int(current_movement - (abs(x.x - start.x)/16 + abs(x.y - start.y)/16))
 				if not(val in tiles_first_pass):
@@ -599,7 +599,7 @@ func _get_movement_tiles() -> void:
 			for i in v:
 				var val = k
 				if i != start:
-					var cost = (GenVars.get_map().get_terrain_cost(self, i)) - 1
+					var cost = (GenVars.map.get_terrain_cost(self, i)) - 1
 					val -= cost
 				if not(val in tiles_second_pass.keys()):
 					tiles_second_pass[val] = []
@@ -610,7 +610,7 @@ func _get_movement_tiles() -> void:
 			if k in tiles_second_pass.keys():
 				var v = tiles_second_pass[k]
 				for tile in v:
-					var cost = (GenVars.get_map().get_terrain_cost(self, tile))
+					var cost = (GenVars.map.get_terrain_cost(self, tile))
 					var val = k
 					var valid = false
 					if tile != start:
@@ -641,7 +641,7 @@ func _create_all_attack_tiles() -> void:
 		for y in range(-max_range, max_range + 1):
 			for x in range(-max_range, max_range + 1):
 				var tile_min: Vector2i = tile + Vector2i(x * 16, y * 16)
-				var attack_tile: Vector2i = GenVars.get_map().get_size() - Vector2i(16, 16)
+				var attack_tile: Vector2i = GenVars.map.get_size() - Vector2i(16, 16)
 				attack_tile = GenFunc.clamp_vector(tile_min, Vector2i(0, 0), attack_tile)
 				if not(attack_tile in all_attack_tiles + raw_movement_tiles):
 					var distance: int = (GenFunc.get_tile_distance(tile, attack_tile)) as int
@@ -748,7 +748,7 @@ func _get_path_subfunc(num: int, moved: Vector2i, all_tiles: Array[Vector2i],
 				if temp_moved == destination:
 					moved_tiles = temp_moved_tiles
 					return moved_tiles
-				var new_num: int = num - GenVars.get_map().get_terrain_cost(self, temp_moved)
+				var new_num: int = num - GenVars.map.get_terrain_cost(self, temp_moved)
 				var tmt = temp_moved_tiles # Abbreviation
 				var value = _get_path_subfunc(new_num, temp_moved, all_tiles, tmt, destination)
 				if value != null:
@@ -757,11 +757,11 @@ func _get_path_subfunc(num: int, moved: Vector2i, all_tiles: Array[Vector2i],
 
 func _on_area2d_area_entered(area: Area2D):
 	# When cursor enters unit's area
-	if area == (GenVars.get_cursor() as Cursor).get_area():
-		var selecting: bool = GenVars.get_level_controller().selecting
+	if area == (GenVars.cursor as Cursor).get_area():
+		var selecting: bool = GenVars.map_controller.selecting
 		var can_be_selected: bool = true
-		if is_instance_valid(GenVars.get_cursor().get_hovered_unit()):
-			can_be_selected = not GenVars.get_cursor().get_hovered_unit().selected or selecting
+		if is_instance_valid(GenVars.cursor.get_hovered_unit()):
+			can_be_selected = not GenVars.cursor.get_hovered_unit().selected or selecting
 		if can_be_selected:
 			if not(selected or selecting or waiting):
 				display_movement_tiles()
@@ -770,7 +770,7 @@ func _on_area2d_area_entered(area: Area2D):
 
 func _on_area2d_area_exited(area: Area2D):
 	# When cursor exits unit's area
-	if area == (GenVars.get_cursor() as Cursor).get_area() and not selected:
+	if area == (GenVars.cursor as Cursor).get_area() and not selected:
 		hide_movement_tiles()
 		emit_signal("cursor_exited")
 
@@ -781,8 +781,8 @@ func _on_create_menu_select_item(item: String) -> void:
 		new_unit.position = position
 		new_unit.faction_id = faction_id
 		get_parent().add_child(new_unit)
-	GenVars.get_level_controller().get_node("UILayer/Unit Menu").close()
+	GenVars.map_controller.get_node("UILayer/Unit Menu").close()
 
 
 func _on_create_menu_closed() -> void:
-	GenVars.get_level_controller().get_node("UILayer/Unit Menu").set_active(true)
+	GenVars.map_controller.get_node("UILayer/Unit Menu").set_active(true)
