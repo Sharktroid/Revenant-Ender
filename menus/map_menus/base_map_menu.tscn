@@ -32,10 +32,10 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Base Item" type="Label" parent="."]
 layout_mode = 0
-offset_left = 16.0
-offset_top = 16.0
-offset_right = 16.0
-offset_bottom = 16.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 5.0
+offset_bottom = 20.0
 mouse_filter = 1
 theme = ExtResource("1_b4043")
 script = ExtResource("4_rgeva")

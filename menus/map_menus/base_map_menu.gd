@@ -26,6 +26,9 @@ func _ready() -> void:
 			var item_node: Control = $"Base Item".duplicate()
 			if items[item] == null:
 				item_node.text = item
+			elif items[item] is Callable:
+				item_node.update_text = func(): item_node.text = "%s: %s" % [item, items[item].call()]
+				item_node.update_text.call()
 			else:
 				item_node.text = "%s: %s" % [item, items[item]]
 			item_node.name = item
@@ -56,7 +59,7 @@ func _gui_input(event: InputEvent) -> void:
 		_current_item_index += 1
 
 	if event.is_action_pressed("ui_accept"):
-		select_item(get_current_item().item)
+		select_item(get_current_item_node().item)
 		accept_event()
 
 	elif event.is_action_pressed("ui_cancel"):
@@ -83,13 +86,13 @@ func set_map_position(new_position: Vector2i) -> void:
 
 
 func select_item(_item: String) -> void:
-	pass
+	get_current_item_node().update_text.call()
 
 
-func set_current_item(item: Label) -> void:
+func set_current_item_node(item: Label) -> void:
 	_current_item_index = item.get_index()
 
 
-func get_current_item() -> Label:
+func get_current_item_node() -> Label:
 	_current_item_index %= len($Items.get_children())
 	return $Items.get_child(_current_item_index)

@@ -3,10 +3,10 @@ extends MapMenu
 
 func get_items() -> Dictionary:
 	return {
-		"Unit Wait": GenVars.get_debug_constant("unit_wait"),
-		"Display Borders": GenVars.get_debug_constant("display_map_borders"),
-		"Display Terrain": GenVars.get_debug_constant("display_map_terrain"),
-		"Display Map Cursor": GenVars.get_debug_constant("display_map_cursor"),
+		"Unit Wait": func (): return GenVars.get_debug_constant("unit_wait"),
+		"Display Borders": func (): return GenVars.get_debug_constant("display_map_borders"),
+		"Display Terrain": func (): return GenVars.get_debug_constant("display_map_terrain"),
+		"Display Map Cursor": func (): return GenVars.get_debug_constant("display_map_cursor"),
 		"Print Cursor Position": null,
 	}
 
@@ -23,7 +23,6 @@ func select_item(item: String) -> void:
 
 		"Display Terrain":
 			GenVars.invert_debug_constant("display_map_terrain")
-			print_debug(GenVars.get_debug_constant("display_map_terrain"))
 			var terrain_layer: TileMap = GenVars.map.get_node("Terrain Layer")
 			terrain_layer.visible = GenVars.get_debug_constant("display_map_terrain")
 
@@ -41,6 +40,7 @@ func select_item(item: String) -> void:
 
 		_: push_error("%s is not a valid menu item" % item)
 	GenVars.save_config()
+	super(item)
 
 
 func close() -> void:
