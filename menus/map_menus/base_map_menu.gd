@@ -7,8 +7,7 @@ var item_keys: Array[String]
 var parent_menu: MapMenu
 var _start_offset: int
 var _end_offset: int
-var _current_button_index: int = 0
-var _debug_display: Polygon2D
+var _current_item_index: int = 0
 
 
 func _enter_tree() -> void:
@@ -24,37 +23,25 @@ func _ready() -> void:
 		close()
 	else:
 		for item in items:
-			var button: Button = $"Base Button".duplicate()
+			var item_node: Control = $"Base Item".duplicate()
 			if items[item] == null:
-				button.text = item
+				item_node.text = item
 			else:
-				button.text = "%s: %s" % [item, items[item]]
-			button.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
-			button.item = item
-			button.parent_menu = self
+				item_node.text = "%s: %s" % [item, items[item]]
+			item_node.name = item
+			item_node.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+			item_node.item = item
+			item_node.parent_menu = self
 			new_size.y += 16
-			$Items.add_child(button)
-			new_size.x = max(new_size.x, button.size.x * scale.x + 4)
+			$Items.add_child(item_node)
+			new_size.x = max(new_size.x, item_node.size.x * scale.x + 4)
+		for item in $Items.get_children():
+			(item as Label).custom_minimum_size.x = new_size.x
 		$Items.size = new_size
 		size = $Items.size + Vector2(9, 9)
 		set_map_position((GenVars.cursor as Cursor).get_true_pos() + map_offset + Vector2i(16, -16))
-		$"Base Button".queue_free()
+		$"Base Item".queue_free()
 		grab_focus()
-
-
-func _process(_delta: float) -> void:
-	if has_focus():
-		if not(_debug_display in _get_current_button().get_children()):
-			if not _debug_display:
-				_debug_display = Polygon2D.new()
-				_debug_display.polygon = [Vector2i(), Vector2i(0, 16), Vector2i(16, 16), Vector2i(16, 0)]
-			else:
-				_debug_display.get_parent().remove_child(_debug_display)
-			_get_current_button().add_child(_debug_display)
-
-	else:
-		if is_instance_valid(_debug_display):
-			_debug_display.queue_free()
 
 
 func _has_point(_point: Vector2) -> bool:
@@ -62,14 +49,14 @@ func _has_point(_point: Vector2) -> bool:
 
 
 func _gui_input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_up"):
-		_current_button_index -= 1
+	if event.is_action_pressed("up"):
+		_current_item_index -= 1
 
-	elif event.is_action_pressed("ui_down"):
-		_current_button_index += 1
+	elif event.is_action_pressed("down"):
+		_current_item_index += 1
 
 	if event.is_action_pressed("ui_accept"):
-		select_item(_get_current_button().item)
+		select_item(get_current_item().item)
 		accept_event()
 
 	elif event.is_action_pressed("ui_cancel"):
@@ -99,6 +86,10 @@ func select_item(_item: String) -> void:
 	pass
 
 
-func _get_current_button() -> Button:
-	_current_button_index %= len($Items.get_children())
-	return $Items.get_child(_current_button_index)
+func set_current_item(item: Label) -> void:
+	_current_item_index = item.get_index()
+
+
+func get_current_item() -> Label:
+	_current_item_index %= len($Items.get_children())
+	return $Items.get_child(_current_item_index)

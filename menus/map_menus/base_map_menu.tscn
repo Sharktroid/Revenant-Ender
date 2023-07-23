@@ -3,7 +3,7 @@
 [ext_resource type="Theme" uid="uid://5iql263qnldx" path="res://menus/map_menus/map_menu.tres" id="1_b4043"]
 [ext_resource type="Texture2D" uid="uid://ch8tv43kw8yv4" path="res://ui/binding_blade/menu.png" id="2_gua0g"]
 [ext_resource type="Script" path="res://menus/map_menus/base_map_menu.gd" id="3_tybdo"]
-[ext_resource type="Script" path="res://menus/map_menus/base_button.gd" id="4_tyrmr"]
+[ext_resource type="Script" path="res://menus/map_menus/base_item.gd" id="4_rgeva"]
 
 [node name="Base Map Menu" type="NinePatchRect"]
 offset_right = 41.0
@@ -30,7 +30,7 @@ offset_bottom = 4.0
 theme_override_constants/separation = 0
 metadata/_edit_use_anchors_ = true
 
-[node name="Base Button" type="Button" parent="."]
+[node name="Base Item" type="Label" parent="."]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 16.0
@@ -38,4 +38,6 @@ offset_right = 16.0
 offset_bottom = 16.0
 mouse_filter = 1
 theme = ExtResource("1_b4043")
-script = ExtResource("4_tyrmr")
+script = ExtResource("4_rgeva")
+
+[connection signal="mouse_entered" from="Base Item" to="Base Item" method="_on_mouse_entered"]
