@@ -110,9 +110,9 @@ func end_turn() -> void:
 ## Gets the terrain cost of the tiles at "coords".
 ## unit: unit trying to move over "coords".
 func get_terrain_cost(unit: Unit, coords: Vector2) -> int:
-	var movement_type: Unit.movement_types = unit.movement_type
+	var movement_type: UnitClass.movement_types = unit.unit_class.movement_type
 	if movement_type in movement_cost_dict.keys():
-		var movement_type_terrain_dict: Dictionary = movement_cost_dict[unit.movement_type]
+		var movement_type_terrain_dict: Dictionary = movement_cost_dict[unit.unit_class.movement_type]
 		var terrain_name: String = _get_terrain(coords, unit.get_faction())
 		# Combines several terrain names for compactness.
 		match terrain_name:
@@ -198,21 +198,21 @@ func _parse_movement_cost() -> void:
 	header.remove_at(0)
 	for full_type in raw_movement_cost:
 		var split: Array = (full_type.split(",") as Array)
-		var type: Unit.movement_types
+		var type: UnitClass.movement_types
 		match split.pop_at(0):
-			"Foot": type = Unit.movement_types.FOOT
-			"Advanced Foot": type = Unit.movement_types.ADVANCED_FOOT
-			"Fighters": type = Unit.movement_types.FIGHTERS
-			"Armor": type = Unit.movement_types.ARMOR
-			"Bandits": type = Unit.movement_types.BANDITS
-			"Pirates": type = Unit.movement_types.PIRATES
-			"Berserker": type = Unit.movement_types.BERSERKER
-			"Mages": type = Unit.movement_types.MAGES
-			"Light Cavalry": type = Unit.movement_types.LIGHT_CAVALRY
-			"Advanced Light Cavalry": type = Unit.movement_types.ADVANCED_LIGHT_CAVALRY
-			"Heavy Cavalry": type = Unit.movement_types.HEAVY_CAVALRY
-			"Advanced Heavy Cavalry": type = Unit.movement_types.ADVANCED_HEAVY_CAVALRY
-			"Fliers": type = Unit.movement_types.FLIERS
+			"Foot": type = UnitClass.movement_types.FOOT
+			"Advanced Foot": type = UnitClass.movement_types.ADVANCED_FOOT
+			"Fighters": type = UnitClass.movement_types.FIGHTERS
+			"Armor": type = UnitClass.movement_types.ARMOR
+			"Bandits": type = UnitClass.movement_types.BANDITS
+			"Pirates": type = UnitClass.movement_types.PIRATES
+			"Berserker": type = UnitClass.movement_types.BERSERKER
+			"Mages": type = UnitClass.movement_types.MAGES
+			"Light Cavalry": type = UnitClass.movement_types.LIGHT_CAVALRY
+			"Advanced Light Cavalry": type = UnitClass.movement_types.ADVANCED_LIGHT_CAVALRY
+			"Heavy Cavalry": type = UnitClass.movement_types.HEAVY_CAVALRY
+			"Advanced Heavy Cavalry": type = UnitClass.movement_types.ADVANCED_HEAVY_CAVALRY
+			"Fliers": type = UnitClass.movement_types.FLIERS
 		movement_cost_dict[type] = {}
 		for cost in len(split):
 			movement_cost_dict[type][header[cost]] = split[cost]

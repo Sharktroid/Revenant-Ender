@@ -1,21 +1,22 @@
-[gd_scene load_steps=25 format=3 uid="uid://cedsiyh04d75o"]
+[gd_scene load_steps=53 format=3 uid="uid://cedsiyh04d75o"]
 
 [ext_resource type="PackedScene" uid="uid://bhm3c7lcoufva" path="res://maps/map_base.tscn" id="1_kb152"]
 [ext_resource type="Script" path="res://maps/test_map_b/test_map_b.gd" id="2_cy6k6"]
 [ext_resource type="Shader" uid="uid://cp75l4w5um2sh" path="res://gba_color.tres" id="3_c2fl4"]
 [ext_resource type="Texture2D" uid="uid://drbehrx1xfpsp" path="res://tilesets/fe6_chapter_1.png" id="4_5oxrk"]
-[ext_resource type="PackedScene" uid="uid://cmcpxhe2fef32" path="res://units/lord_roy/lord_roy.tscn" id="5_37gib"]
 [ext_resource type="Shader" path="res://units/pallete.gdshader" id="6_kyten"]
-[ext_resource type="PackedScene" uid="uid://dihel54pj5rks" path="res://units/lance_cavalier/lance_cavalier.tscn" id="7_fbgie"]
 [ext_resource type="Script" path="res://items/weapons/swords/rapier.gd" id="7_hr67e"]
-[ext_resource type="PackedScene" uid="uid://car6a8ov4yeh5" path="res://units/lance_knight/lance_knight.tscn" id="8_2go17"]
-[ext_resource type="PackedScene" uid="uid://dhqtkg2sn2gwn" path="res://units/paladin/paladin.tscn" id="9_h4cbp"]
+[ext_resource type="Script" path="res://units/unit_classes/lord_roy/lord_roy.gd" id="8_a8gn5"]
 [ext_resource type="Script" path="res://items/weapons/lances/iron_lance.gd" id="9_xfkid"]
-[ext_resource type="PackedScene" uid="uid://l0kj2ag3mxow" path="res://units/archer/archer.tscn" id="10_g0esg"]
-[ext_resource type="PackedScene" uid="uid://b6od83nm5qexp" path="res://units/fighter/fighter.tscn" id="11_76j07"]
-[ext_resource type="PackedScene" uid="uid://bk6jjspxhm6h6" path="res://units/brigand/brigand.tscn" id="12_5jwed"]
+[ext_resource type="Script" path="res://units/unit_classes/social_knight/social_knight.gd" id="10_0vid6"]
+[ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit.tscn" id="10_g0esg"]
+[ext_resource type="Script" path="res://units/unit_classes/hoplite/hoplite.gd" id="11_o6rkn"]
+[ext_resource type="Script" path="res://units/unit_classes/paladin/paladin.gd" id="12_7jsn7"]
 [ext_resource type="Script" path="res://items/weapons/bows/iron_bow.gd" id="13_sdkt3"]
+[ext_resource type="Script" path="res://units/unit_classes/archer/archer.gd" id="14_a6bhl"]
 [ext_resource type="Script" path="res://items/weapons/axes/iron_axe.gd" id="15_hrkn3"]
+[ext_resource type="Script" path="res://units/unit_classes/fighter/fighter.gd" id="16_si68w"]
+[ext_resource type="Script" path="res://units/unit_classes/brigand/brigand.gd" id="17_2jg7w"]
 
 [sub_resource type="ShaderMaterial" id="3"]
 shader = ExtResource("3_c2fl4")
@@ -344,7 +345,7 @@ custom_data_layer_0/name = "Terrain"
 custom_data_layer_0/type = 2
 sources/0 = SubResource("TileSetAtlasSource_4j03v")
 
-[sub_resource type="ShaderMaterial" id="2"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l6rlq"]
 shader = ExtResource("6_kyten")
 shader_parameter/old_colors = null
 shader_parameter/new_colors = null
@@ -353,14 +354,152 @@ shader_parameter/darken_screen = 0.5
 [sub_resource type="Resource" id="Resource_87cmu"]
 script = ExtResource("7_hr67e")
 
+[sub_resource type="Resource" id="Resource_4yrle"]
+script = ExtResource("8_a8gn5")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_51n4q"]
+shader = ExtResource("6_kyten")
+shader_parameter/old_colors = null
+shader_parameter/new_colors = null
+shader_parameter/darken_screen = 0.5
+
 [sub_resource type="Resource" id="Resource_to038"]
 script = ExtResource("9_xfkid")
+
+[sub_resource type="Resource" id="Resource_tp555"]
+script = ExtResource("10_0vid6")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7ut4x"]
+shader = ExtResource("6_kyten")
+shader_parameter/old_colors = null
+shader_parameter/new_colors = null
+shader_parameter/darken_screen = 0.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hk4xl"]
+shader = ExtResource("6_kyten")
+shader_parameter/old_colors = null
+shader_parameter/new_colors = null
+shader_parameter/darken_screen = 0.5
+
+[sub_resource type="Resource" id="Resource_eh7fe"]
+script = ExtResource("11_o6rkn")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_saqy7"]
+shader = ExtResource("6_kyten")
+shader_parameter/old_colors = null
+shader_parameter/new_colors = null
+shader_parameter/darken_screen = 0.5
+
+[sub_resource type="Resource" id="Resource_0t75g"]
+script = ExtResource("12_7jsn7")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_taxnr"]
+shader = ExtResource("6_kyten")
+shader_parameter/old_colors = null
+shader_parameter/new_colors = null
+shader_parameter/darken_screen = 0.5
 
 [sub_resource type="Resource" id="Resource_o510q"]
 script = ExtResource("13_sdkt3")
 
+[sub_resource type="Resource" id="Resource_gk7re"]
+script = ExtResource("14_a6bhl")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8wkrg"]
+shader = ExtResource("6_kyten")
+shader_parameter/old_colors = null
+shader_parameter/new_colors = null
+shader_parameter/darken_screen = 0.5
+
 [sub_resource type="Resource" id="Resource_1m48w"]
 script = ExtResource("15_hrkn3")
+
+[sub_resource type="Resource" id="Resource_6ahce"]
+script = ExtResource("16_si68w")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4naym"]
+shader = ExtResource("6_kyten")
+shader_parameter/old_colors = null
+shader_parameter/new_colors = null
+shader_parameter/darken_screen = 0.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y5kmg"]
+shader = ExtResource("6_kyten")
+shader_parameter/old_colors = null
+shader_parameter/new_colors = null
+shader_parameter/darken_screen = 0.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n6sv2"]
+shader = ExtResource("6_kyten")
+shader_parameter/old_colors = null
+shader_parameter/new_colors = null
+shader_parameter/darken_screen = 0.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_h57y3"]
+shader = ExtResource("6_kyten")
+shader_parameter/old_colors = null
+shader_parameter/new_colors = null
+shader_parameter/darken_screen = 0.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eyhfi"]
+shader = ExtResource("6_kyten")
+shader_parameter/old_colors = null
+shader_parameter/new_colors = null
+shader_parameter/darken_screen = 0.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_06wug"]
+shader = ExtResource("6_kyten")
+shader_parameter/old_colors = null
+shader_parameter/new_colors = null
+shader_parameter/darken_screen = 0.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_62k6a"]
+shader = ExtResource("6_kyten")
+shader_parameter/old_colors = null
+shader_parameter/new_colors = null
+shader_parameter/darken_screen = 0.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vtp8w"]
+shader = ExtResource("6_kyten")
+shader_parameter/old_colors = null
+shader_parameter/new_colors = null
+shader_parameter/darken_screen = 0.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3ggab"]
+shader = ExtResource("6_kyten")
+shader_parameter/old_colors = null
+shader_parameter/new_colors = null
+shader_parameter/darken_screen = 0.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5d7rc"]
+shader = ExtResource("6_kyten")
+shader_parameter/old_colors = null
+shader_parameter/new_colors = null
+shader_parameter/darken_screen = 0.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qnc80"]
+shader = ExtResource("6_kyten")
+shader_parameter/old_colors = null
+shader_parameter/new_colors = null
+shader_parameter/darken_screen = 0.5
+
+[sub_resource type="Resource" id="Resource_v6ipr"]
+script = ExtResource("17_2jg7w")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0a0rv"]
+shader = ExtResource("6_kyten")
+shader_parameter/old_colors = null
+shader_parameter/new_colors = null
+shader_parameter/darken_screen = 0.5
+
+[sub_resource type="Resource" id="Resource_bfbd5"]
+script = ExtResource("14_a6bhl")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i6lbi"]
+shader = ExtResource("6_kyten")
+shader_parameter/old_colors = null
+shader_parameter/new_colors = null
+shader_parameter/darken_screen = 0.5
 
 [node name="Test Map B" instance=ExtResource("1_kb152")]
 script = ExtResource("2_cy6k6")
@@ -375,121 +514,161 @@ z_index = 1
 
 [node name="Player" type="Node2D" parent="Base Layer/Units" index="0"]
 
-[node name="Roy Lord" parent="Base Layer/Units/Player" index="0" instance=ExtResource("5_37gib")]
-material = SubResource("2")
+[node name="Roy Lord" parent="Base Layer/Units/Player" index="0" instance=ExtResource("10_g0esg")]
+material = SubResource("ShaderMaterial_l6rlq")
 position = Vector2(160, 192)
+frame = 2
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_87cmu")])
+unit_class = SubResource("Resource_4yrle")
 
-[node name="Lance Cavalier" parent="Base Layer/Units/Player" index="1" instance=ExtResource("7_fbgie")]
-material = SubResource("2")
+[node name="Lance Cavalier" parent="Base Layer/Units/Player" index="1" instance=ExtResource("10_g0esg")]
+material = SubResource("ShaderMaterial_51n4q")
 position = Vector2(48, 272)
+frame = 2
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_to038")])
+unit_class = SubResource("Resource_tp555")
 
-[node name="Lance Cavalier2" parent="Base Layer/Units/Player" index="2" instance=ExtResource("7_fbgie")]
-material = SubResource("2")
+[node name="Lance Cavalier2" parent="Base Layer/Units/Player" index="2" instance=ExtResource("10_g0esg")]
+material = SubResource("ShaderMaterial_7ut4x")
 position = Vector2(64, 288)
+frame = 2
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_to038")])
+unit_class = SubResource("Resource_tp555")
 
-[node name="Lance Knight" parent="Base Layer/Units/Player" index="3" instance=ExtResource("8_2go17")]
-material = SubResource("2")
+[node name="Lance Knight" parent="Base Layer/Units/Player" index="3" instance=ExtResource("10_g0esg")]
+material = SubResource("ShaderMaterial_hk4xl")
 position = Vector2(48, 304)
+frame = 2
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_to038")])
+unit_class = SubResource("Resource_eh7fe")
 
-[node name="Paladin" parent="Base Layer/Units/Player" index="4" instance=ExtResource("9_h4cbp")]
-material = SubResource("2")
+[node name="Paladin" parent="Base Layer/Units/Player" index="4" instance=ExtResource("10_g0esg")]
+material = SubResource("ShaderMaterial_saqy7")
 position = Vector2(16, 272)
+frame = 2
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_to038")])
+unit_class = SubResource("Resource_0t75g")
 
 [node name="Archer" parent="Base Layer/Units/Player" index="5" instance=ExtResource("10_g0esg")]
-material = SubResource("2")
+material = SubResource("ShaderMaterial_taxnr")
 position = Vector2(32, 256)
+frame = 2
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_o510q")])
+unit_class = SubResource("Resource_gk7re")
 
 [node name="Enemy" type="Node2D" parent="Base Layer/Units" index="1"]
 
-[node name="Fighter" parent="Base Layer/Units/Enemy" index="0" instance=ExtResource("11_76j07")]
-material = SubResource("2")
+[node name="Fighter" parent="Base Layer/Units/Enemy" index="0" instance=ExtResource("10_g0esg")]
+material = SubResource("ShaderMaterial_8wkrg")
 position = Vector2(80, 64)
+frame = 2
 faction_id = 1
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_1m48w")])
+unit_class = SubResource("Resource_6ahce")
 
-[node name="Fighter2" parent="Base Layer/Units/Enemy" index="1" instance=ExtResource("11_76j07")]
-material = SubResource("2")
+[node name="Fighter2" parent="Base Layer/Units/Enemy" index="1" instance=ExtResource("10_g0esg")]
+material = SubResource("ShaderMaterial_4naym")
 position = Vector2(64, 80)
+frame = 2
 faction_id = 1
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_1m48w")])
+unit_class = SubResource("Resource_6ahce")
 
-[node name="Fighter3" parent="Base Layer/Units/Enemy" index="2" instance=ExtResource("11_76j07")]
-material = SubResource("2")
+[node name="Fighter3" parent="Base Layer/Units/Enemy" index="2" instance=ExtResource("10_g0esg")]
+material = SubResource("ShaderMaterial_y5kmg")
 position = Vector2(96, 80)
+frame = 2
 faction_id = 1
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_1m48w")])
+unit_class = SubResource("Resource_6ahce")
 
-[node name="Fighter4" parent="Base Layer/Units/Enemy" index="3" instance=ExtResource("11_76j07")]
-material = SubResource("2")
+[node name="Fighter4" parent="Base Layer/Units/Enemy" index="3" instance=ExtResource("10_g0esg")]
+material = SubResource("ShaderMaterial_n6sv2")
 position = Vector2(16, 48)
+frame = 2
 faction_id = 1
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_1m48w")])
+unit_class = SubResource("Resource_6ahce")
 
-[node name="Fighter5" parent="Base Layer/Units/Enemy" index="4" instance=ExtResource("11_76j07")]
-material = SubResource("2")
+[node name="Fighter5" parent="Base Layer/Units/Enemy" index="4" instance=ExtResource("10_g0esg")]
+material = SubResource("ShaderMaterial_h57y3")
 position = Vector2(176, 112)
+frame = 2
 faction_id = 1
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_1m48w")])
+unit_class = SubResource("Resource_6ahce")
 
-[node name="Fighter6" parent="Base Layer/Units/Enemy" index="5" instance=ExtResource("11_76j07")]
-material = SubResource("2")
+[node name="Fighter6" parent="Base Layer/Units/Enemy" index="5" instance=ExtResource("10_g0esg")]
+material = SubResource("ShaderMaterial_eyhfi")
 position = Vector2(144, 144)
+frame = 2
 faction_id = 1
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_1m48w")])
+unit_class = SubResource("Resource_6ahce")
 
-[node name="Fighter7" parent="Base Layer/Units/Enemy" index="6" instance=ExtResource("11_76j07")]
-material = SubResource("2")
+[node name="Fighter7" parent="Base Layer/Units/Enemy" index="6" instance=ExtResource("10_g0esg")]
+material = SubResource("ShaderMaterial_06wug")
 position = Vector2(128, 144)
+frame = 2
 faction_id = 1
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_1m48w")])
+unit_class = SubResource("Resource_6ahce")
 
-[node name="Fighter8" parent="Base Layer/Units/Enemy" index="7" instance=ExtResource("11_76j07")]
-material = SubResource("2")
+[node name="Fighter8" parent="Base Layer/Units/Enemy" index="7" instance=ExtResource("10_g0esg")]
+material = SubResource("ShaderMaterial_62k6a")
 position = Vector2(192, 208)
+frame = 2
 faction_id = 1
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_1m48w")])
+unit_class = SubResource("Resource_6ahce")
 
-[node name="Fighter9" parent="Base Layer/Units/Enemy" index="8" instance=ExtResource("11_76j07")]
-material = SubResource("2")
+[node name="Fighter9" parent="Base Layer/Units/Enemy" index="8" instance=ExtResource("10_g0esg")]
+material = SubResource("ShaderMaterial_vtp8w")
 position = Vector2(112, 240)
+frame = 2
 faction_id = 1
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_1m48w")])
+unit_class = SubResource("Resource_6ahce")
 
-[node name="Fighter10" parent="Base Layer/Units/Enemy" index="9" instance=ExtResource("11_76j07")]
-material = SubResource("2")
+[node name="Fighter10" parent="Base Layer/Units/Enemy" index="9" instance=ExtResource("10_g0esg")]
+material = SubResource("ShaderMaterial_3ggab")
 position = Vector2(128, 224)
+frame = 2
 faction_id = 1
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_1m48w")])
+unit_class = SubResource("Resource_6ahce")
 
-[node name="Fighter11" parent="Base Layer/Units/Enemy" index="10" instance=ExtResource("11_76j07")]
-material = SubResource("2")
+[node name="Fighter11" parent="Base Layer/Units/Enemy" index="10" instance=ExtResource("10_g0esg")]
+material = SubResource("ShaderMaterial_5d7rc")
 position = Vector2(128, 288)
+frame = 2
 faction_id = 1
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_1m48w")])
+unit_class = SubResource("Resource_6ahce")
 
-[node name="Brigand" parent="Base Layer/Units/Enemy" index="11" instance=ExtResource("12_5jwed")]
-material = SubResource("2")
+[node name="Brigand" parent="Base Layer/Units/Enemy" index="11" instance=ExtResource("10_g0esg")]
+material = SubResource("ShaderMaterial_qnc80")
 position = Vector2(64, 144)
+frame = 2
 faction_id = 1
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_1m48w")])
+unit_class = SubResource("Resource_v6ipr")
 
 [node name="Archer" parent="Base Layer/Units/Enemy" index="12" instance=ExtResource("10_g0esg")]
-material = SubResource("2")
+material = SubResource("ShaderMaterial_0a0rv")
 position = Vector2(16, 32)
+frame = 2
 faction_id = 1
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_o510q")])
+unit_class = SubResource("Resource_bfbd5")
 
 [node name="Archer2" parent="Base Layer/Units/Enemy" index="13" instance=ExtResource("10_g0esg")]
-material = SubResource("2")
+material = SubResource("ShaderMaterial_i6lbi")
 position = Vector2(160, 160)
+frame = 2
 faction_id = 1
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_o510q")])
+unit_class = SubResource("Resource_bfbd5")
 
 [node name="Terrain Layer" parent="." index="1"]
 visible = false

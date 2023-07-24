@@ -1,9 +1,0 @@
-[gd_scene load_steps=4 format=3 uid="uid://d3xyv4seucrsf"]
-
-[ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit_base.tscn" id="1"]
-[ext_resource type="Texture2D" uid="uid://d3e2c0q0vvgmj" path="res://units/hero/hero_m.png" id="2"]
-[ext_resource type="Script" path="res://units/hero/hero.gd" id="3"]
-
-[node name="Hero" instance=ExtResource("1")]
-texture = ExtResource("2")
-script = ExtResource("3")

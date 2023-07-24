@@ -1,3 +1,4 @@
+@tool
 extends Node
 
 const adjacent_tiles: Array[Vector2i] = [Vector2i(16, 0), Vector2i(-16, 0),
