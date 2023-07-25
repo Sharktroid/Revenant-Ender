@@ -20,15 +20,13 @@ func _update_hue() -> void:
 	for child in $Features.get_children():
 		if child is Polygon2D:
 			var child_pos: Vector2i = (child as Polygon2D).position
-			var child_offset: int = (((child_pos.x*16 + child_pos.y) as float)/32) as int
-			var new_hue: float = fmod(((child_offset as float)/10 + _get_time_in_seconds()) * (hue_max - hue_min) / duration,
-					hue_max - hue_min) + hue_min
+			var child_offset: float = child_pos.x*2 + child_pos.y
+			var modifed_offset: float = float(rand_from_seed((child_offset))[0])/(2**32)
+			var offset_weight: float = fmod((modifed_offset + _get_time_in_seconds()) / duration, 1)
+			var new_hue: float = lerp(hue_min, hue_max, offset_weight)
 	#		print_debug(new_hue)
 			(child as Polygon2D).color.h = new_hue
 
 
 func _get_time_in_seconds() -> float:
-	if Engine.is_editor_hint():
-		return (Time.get_ticks_msec() as float) / 1000
-	else:
-		return GenVars.get_tick_timer() / 60
+	return GenVars.get_tick_timer() / 60
