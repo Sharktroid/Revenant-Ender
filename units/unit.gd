@@ -639,7 +639,7 @@ func _create_all_attack_tiles() -> void:
 
 func _animate_sprite() -> void:
 	if map_animation == animations.IDLE:
-		var frame_num: int = int(GenVars.get_tick_timer() ) % 64
+		var frame_num: int = int(GenVars.get_tick_timer()) % 64
 		if (frame_num >= 16 and frame_num < 32) or frame_num >= 48:
 			frame = 1
 		elif frame_num >= 32 and frame_num < 48:

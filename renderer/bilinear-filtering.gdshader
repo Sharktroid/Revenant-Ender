@@ -1,35 +1,35 @@
 shader_type canvas_item;
 
-/*
-This can be used to keep pixels well defined at higher resolutions. Integer
-values will work best. Should only be greater than or equal to 1.
-*/
-uniform float pixel_scale = 1.0;
+uniform int pixel_size = 1;
 
-// Based on https://en.wikipedia.org/wiki/Bilinear_filtering
 void fragment()
 {
-	#define texSize vec2(vec2(textureSize(TEXTURE, 0)) * pixel_scale)
-	#define texturePosition vec2(UV * texSize - vec2(0.5))
-	#define x1 floor(texturePosition.x)
-	#define xFrac float(texturePosition.x - x1)
-	#define y1 floor(texturePosition.y)
-	#define yFrac float(texturePosition.y - y1)
-	#define x2 x1 + 1.0
-	#define y2 y1 + 1.0
+	ivec2 texture_size = textureSize(TEXTURE, 0) * pixel_size;
+	#define TEXTURE_SIZE_FLOAT vec2(texture_size)
 
-	#define x1Uv float(x1 + 0.5)/texSize.x
-	#define y1Uv float(y1 + 0.5)/texSize.y
-	#define x2Uv float(x2 + 0.5)/texSize.x
-	#define y2Uv float(y2 + 0.5)/texSize.y
+	vec2 pixel_position = UV * TEXTURE_SIZE_FLOAT - vec2(0.5);
+	#define X pixel_position.x
+	#define Y pixel_position.y
 
-	#define z11 texture(TEXTURE, vec2(x1Uv, y1Uv)).rgb
-	#define z12 texture(TEXTURE, vec2(x1Uv, y2Uv)).rgb
-	#define z21 texture(TEXTURE, vec2(x2Uv, y1Uv)).rgb
-	#define z22 texture(TEXTURE, vec2(x2Uv, y2Uv)).rgb
+	#define COORD_1(COORD) int(floor(COORD))
+	#define COORD_2(COORD) int(ceil(COORD))
 
-	#define f1Result vec3(z11 + yFrac * (z12 - z11))
-	#define f2Result vec3(z21 + yFrac * (z22 - z21))
+	int x_1 = COORD_1(X);
+	int x_2 = COORD_2(X);
+	int y_1 = COORD_1(Y);
+	int y_2 = COORD_2(Y);
 
-	COLOR.rgb = f1Result + xFrac * (f2Result - f1Result);
+	#define PIXEL_TO_UV(pixel, axis) (float(pixel) + 0.5) / TEXTURE_SIZE_FLOAT.axis
+	#define TO_UV(x_val, y_val) vec2(PIXEL_TO_UV(x_val, x), PIXEL_TO_UV(y_val, y))
+	#define COORD_TO_COLOR(x, y) texture(TEXTURE, TO_UV(x, y)).rgb
+
+	#define X_1_Y_1_COLOR COORD_TO_COLOR(x_1, y_1)
+	#define X_2_Y_1_COLOR COORD_TO_COLOR(x_2, y_1)
+	#define X_1_Y_2_COLOR COORD_TO_COLOR(x_1, y_2)
+	#define X_2_Y_2_COLOR COORD_TO_COLOR(x_2, y_2)
+
+	#define Y_1_COLOR mix(X_1_Y_1_COLOR, X_2_Y_1_COLOR, X-float(x_1))
+	#define Y_2_COLOR mix(X_1_Y_2_COLOR, X_2_Y_2_COLOR, X-float(x_1))
+
+	COLOR.rgb = mix(Y_1_COLOR, Y_2_COLOR, Y-float(y_1));
 }

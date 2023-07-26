@@ -6,7 +6,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8qg76"]
 shader = ExtResource("1_k6lfl")
-shader_parameter/pixel_scale = 5.0
+shader_parameter/pixel_size = 4
 
 [node name="SubViewportContainer" type="SubViewportContainer"]
 material = SubResource("ShaderMaterial_8qg76")
