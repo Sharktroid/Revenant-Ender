@@ -1,0 +1,21 @@
+[remap]
+
+importer="font_data_image"
+type="FontFile"
+uid="uid://bpdu3r5pmtsa1"
+path="res://.godot/imported/full_text_font.png-58c0595103a720aa9b9ead7f48414890.fontdata"
+
+[deps]
+
+source_file="res://font/full_text_font.png"
+dest_files=["res://.godot/imported/full_text_font.png-58c0595103a720aa9b9ead7f48414890.fontdata"]
+
+[params]
+
+character_ranges=PackedStringArray("\' \'-\'~\'", "\'Γ\'-\'Δ\'", "\'Θ\'", "\'Λ\'", "\'Ξ\'", "\'Π\'", "\'Σ\'", "\'Φ\'", "\'Ψ\'-\'Ω\'", "\'α\'-\'μ\'", "\'ν\'-\'ξ\'", "\'π\'-\'ω\'", "\'ϛ\'", "\'ϟ\'", "\'ϡ\'")
+columns=16
+rows=9
+image_margin=Rect2i(0, 0, 0, 0)
+character_margin=Rect2i(0, 0, 0, 0)
+fallbacks=[]
+compress=true
