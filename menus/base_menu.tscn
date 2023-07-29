@@ -1,0 +1,34 @@
+[gd_scene load_steps=3 format=3 uid="uid://dae1bljgti3kk"]
+
+[ext_resource type="Theme" uid="uid://5iql263qnldx" path="res://menus/map_menus/map_menu.tres" id="1_irjvj"]
+[ext_resource type="Texture2D" uid="uid://ch8tv43kw8yv4" path="res://ui/binding_blade/menu.png" id="2_rhn1b"]
+
+[node name="Base Menu" type="NinePatchRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+focus_mode = 2
+mouse_filter = 0
+theme = ExtResource("1_irjvj")
+texture = ExtResource("2_rhn1b")
+patch_margin_left = 4
+patch_margin_top = 4
+patch_margin_right = 5
+patch_margin_bottom = 5
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
