@@ -14,10 +14,12 @@ grow_horizontal = 1
 grow_vertical = 1
 
 [node name="Items" type="VBoxContainer" parent="MarginContainer" index="0"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="Base Item" type="Label" parent="MarginContainer" index="1"]
+unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 1
 theme = ExtResource("1_b4043")

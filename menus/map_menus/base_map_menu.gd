@@ -8,8 +8,6 @@ var parent_menu: MapMenu
 var _start_offset: int
 var _end_offset: int
 var _current_item_index: int = 0
-@onready var base_item = $"MarginContainer/Base Item"
-@onready var items_node = $"MarginContainer/Items"
 
 
 func _enter_tree() -> void:
@@ -25,7 +23,7 @@ func _ready() -> void:
 		close()
 	else:
 		for item in items:
-			var item_node: Control = base_item.duplicate()
+			var item_node: Control = %"Base Item".duplicate()
 			if items[item] == null:
 				item_node.text = item
 			elif items[item] is Callable:
@@ -38,14 +36,14 @@ func _ready() -> void:
 			item_node.item = item
 			item_node.parent_menu = self
 			new_size.y += 16
-			items_node.add_child(item_node)
+			%Items.add_child(item_node)
 			new_size.x = max(new_size.x, item_node.size.x * scale.x + 4)
-		for item in items_node.get_children():
+		for item in %Items.get_children():
 			(item as Label).custom_minimum_size.x = new_size.x
-		items_node.size = new_size
-		size = items_node.size + Vector2(9, 9)
+		%Items.size = new_size
+		size = %Items.size + Vector2(9, 9)
 		set_map_position((GenVars.cursor as Cursor).get_true_pos() + map_offset + Vector2i(16, -16))
-		base_item.queue_free()
+		%"Base Item".queue_free()
 		grab_focus()
 
 
@@ -96,5 +94,5 @@ func set_current_item_node(item: Label) -> void:
 
 
 func get_current_item_node() -> Label:
-	_current_item_index %= len(items_node.get_children())
-	return items_node.get_child(_current_item_index)
+	_current_item_index %= len(%Items.get_children())
+	return %Items.get_child(_current_item_index)
