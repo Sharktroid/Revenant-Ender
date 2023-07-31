@@ -1,19 +1,14 @@
-[gd_scene load_steps=7 format=3 uid="uid://b0f1563miygye"]
+[gd_scene load_steps=5 format=3 uid="uid://b0f1563miygye"]
 
 [ext_resource type="Theme" uid="uid://5iql263qnldx" path="res://menus/map_menus/map_menu.tres" id="1_g7bwf"]
 [ext_resource type="Texture2D" uid="uid://cpy5pea1o30t6" path="res://ui/binding_blade/portrait.png" id="2_0fpv3"]
-[ext_resource type="Texture2D" uid="uid://ch8tv43kw8yv4" path="res://ui/binding_blade/menu.png" id="3_l1yro"]
+[ext_resource type="PackedScene" uid="uid://jyd6v7dptm76" path="res://menus/status_menu/stat_background/stat_background.tscn" id="4_kn7iv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8vmos"]
 bg_color = Color(0.12549, 0.235294, 0.345098, 0.498039)
 corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 anti_aliasing = false
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uf5fr"]
-
-[sub_resource type="Theme" id="Theme_q2sju"]
-HSeparator/styles/separator = SubResource("StyleBoxEmpty_uf5fr")
 
 [node name="Unit Information Menu" type="HBoxContainer"]
 anchors_preset = 15
@@ -234,174 +229,8 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 35
 
-[node name="Stat Background" type="NinePatchRect" parent="Stats"]
-custom_minimum_size = Vector2(0, 120)
+[node name="Stat Background" parent="Stats" instance=ExtResource("4_kn7iv")]
 layout_mode = 2
-size_flags_horizontal = 3
-theme = ExtResource("1_g7bwf")
-texture = ExtResource("3_l1yro")
-patch_margin_left = 4
-patch_margin_top = 4
-patch_margin_right = 5
-patch_margin_bottom = 5
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-
-[node name="MarginContainer" type="MarginContainer" parent="Stats/Stat Background"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
-metadata/_edit_use_anchors_ = true
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Stats/Stat Background/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="BoxContainer" type="VBoxContainer" parent="Stats/Stat Background/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 2
-theme = SubResource("Theme_q2sju")
-theme_override_constants/separation = 0
-
-[node name="Strength" type="Label" parent="Stats/Stat Background/MarginContainer/HBoxContainer/BoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Strength"
-vertical_alignment = 1
-
-[node name="Pierce" type="Label" parent="Stats/Stat Background/MarginContainer/HBoxContainer/BoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Pierce"
-vertical_alignment = 1
-
-[node name="Magic" type="Label" parent="Stats/Stat Background/MarginContainer/HBoxContainer/BoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Magic"
-vertical_alignment = 1
-
-[node name="Skill" type="Label" parent="Stats/Stat Background/MarginContainer/HBoxContainer/BoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Skill"
-vertical_alignment = 1
-
-[node name="Speed" type="Label" parent="Stats/Stat Background/MarginContainer/HBoxContainer/BoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Speed"
-vertical_alignment = 1
-
-[node name="Luck" type="Label" parent="Stats/Stat Background/MarginContainer/HBoxContainer/BoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Luck"
-vertical_alignment = 1
-
-[node name="Defense" type="Label" parent="Stats/Stat Background/MarginContainer/HBoxContainer/BoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Defense"
-vertical_alignment = 1
-
-[node name="Durability" type="Label" parent="Stats/Stat Background/MarginContainer/HBoxContainer/BoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Durability"
-vertical_alignment = 1
-
-[node name="Resistance" type="Label" parent="Stats/Stat Background/MarginContainer/HBoxContainer/BoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Resistance"
-vertical_alignment = 1
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Stats/Stat Background/MarginContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 2
-theme_override_constants/separation = 0
-
-[node name="Movement" type="Label" parent="Stats/Stat Background/MarginContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Movement"
-vertical_alignment = 1
-
-[node name="Constitution" type="Label" parent="Stats/Stat Background/MarginContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Constitution"
-vertical_alignment = 1
-
-[node name="Aid" type="Label" parent="Stats/Stat Background/MarginContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Aid"
-vertical_alignment = 1
-
-[node name="Traveler" type="Label" parent="Stats/Stat Background/MarginContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Traveler"
-vertical_alignment = 1
-
-[node name="Affinity" type="Label" parent="Stats/Stat Background/MarginContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Affinity"
-vertical_alignment = 1
-
-[node name="Leadership" type="Label" parent="Stats/Stat Background/MarginContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Leadership"
-vertical_alignment = 1
-
-[node name="Status" type="Label" parent="Stats/Stat Background/MarginContainer/HBoxContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Status"
-vertical_alignment = 1
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 2
