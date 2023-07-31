@@ -1,25 +1,30 @@
-[gd_scene load_steps=4 format=3 uid="uid://dmt4g5w7v2me3"]
+[gd_scene load_steps=5 format=3 uid="uid://jyd6v7dptm76"]
 
 [ext_resource type="PackedScene" uid="uid://dae1bljgti3kk" path="res://menus/base_menu.tscn" id="1_jcf17"]
+[ext_resource type="PackedScene" uid="uid://cj8q35dlrc4ln" path="res://menus/status_menu/stat_background/stat_bar/stat_bar.tscn" id="2_hnjj5"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uf5fr"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i2lrd"]
 
-[sub_resource type="Theme" id="Theme_yk1w2"]
-HSeparator/styles/separator = SubResource("StyleBoxEmpty_uf5fr")
+[sub_resource type="Theme" id="Theme_ux5tw"]
+HSeparator/styles/separator = SubResource("StyleBoxEmpty_i2lrd")
 
-[node name="Base Menu" instance=ExtResource("1_jcf17")]
+[node name="Stat Background" instance=ExtResource("1_jcf17")]
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" index="0"]
+[node name="Columns" type="HBoxContainer" parent="MarginContainer" index="0"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="BoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer" index="0"]
+[node name="Column 1" type="HBoxContainer" parent="MarginContainer/Columns" index="0"]
 layout_mode = 2
-size_flags_horizontal = 2
-theme = SubResource("Theme_yk1w2")
+size_flags_horizontal = 3
+
+[node name="Names" type="VBoxContainer" parent="MarginContainer/Columns/Column 1" index="0"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme = SubResource("Theme_ux5tw")
 theme_override_constants/separation = 0
 
-[node name="Strength" type="Label" parent="MarginContainer/HBoxContainer/BoxContainer" index="0"]
+[node name="Strength" type="Label" parent="MarginContainer/Columns/Column 1/Names" index="0"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -27,7 +32,7 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Strength"
 vertical_alignment = 1
 
-[node name="Pierce" type="Label" parent="MarginContainer/HBoxContainer/BoxContainer" index="1"]
+[node name="Pierce" type="Label" parent="MarginContainer/Columns/Column 1/Names" index="1"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -35,7 +40,7 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Pierce"
 vertical_alignment = 1
 
-[node name="Magic" type="Label" parent="MarginContainer/HBoxContainer/BoxContainer" index="2"]
+[node name="Magic" type="Label" parent="MarginContainer/Columns/Column 1/Names" index="2"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -43,7 +48,7 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Magic"
 vertical_alignment = 1
 
-[node name="Skill" type="Label" parent="MarginContainer/HBoxContainer/BoxContainer" index="3"]
+[node name="Skill" type="Label" parent="MarginContainer/Columns/Column 1/Names" index="3"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -51,7 +56,7 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Skill"
 vertical_alignment = 1
 
-[node name="Speed" type="Label" parent="MarginContainer/HBoxContainer/BoxContainer" index="4"]
+[node name="Speed" type="Label" parent="MarginContainer/Columns/Column 1/Names" index="4"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -59,7 +64,7 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Speed"
 vertical_alignment = 1
 
-[node name="Luck" type="Label" parent="MarginContainer/HBoxContainer/BoxContainer" index="5"]
+[node name="Luck" type="Label" parent="MarginContainer/Columns/Column 1/Names" index="5"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -67,7 +72,7 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Luck"
 vertical_alignment = 1
 
-[node name="Defense" type="Label" parent="MarginContainer/HBoxContainer/BoxContainer" index="6"]
+[node name="Defense" type="Label" parent="MarginContainer/Columns/Column 1/Names" index="6"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -75,7 +80,7 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Defense"
 vertical_alignment = 1
 
-[node name="Durability" type="Label" parent="MarginContainer/HBoxContainer/BoxContainer" index="7"]
+[node name="Durability" type="Label" parent="MarginContainer/Columns/Column 1/Names" index="7"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -83,20 +88,56 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Durability"
 vertical_alignment = 1
 
-[node name="Resistance" type="Label" parent="MarginContainer/HBoxContainer/BoxContainer" index="8"]
+[node name="Resistance" type="Label" parent="MarginContainer/Columns/Column 1/Names" index="8"]
 layout_mode = 2
-size_flags_horizontal = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Resistance"
 vertical_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer" index="1"]
+[node name="Values" type="VBoxContainer" parent="MarginContainer/Columns/Column 1" index="1"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_ux5tw")
+theme_override_constants/separation = 0
+
+[node name="Strength Bar" parent="MarginContainer/Columns/Column 1/Values" index="0" instance=ExtResource("2_hnjj5")]
+layout_mode = 2
+
+[node name="Pierce Bar" parent="MarginContainer/Columns/Column 1/Values" index="1" instance=ExtResource("2_hnjj5")]
+layout_mode = 2
+
+[node name="Magic Bar" parent="MarginContainer/Columns/Column 1/Values" index="2" instance=ExtResource("2_hnjj5")]
+layout_mode = 2
+
+[node name="Skill Bar" parent="MarginContainer/Columns/Column 1/Values" index="3" instance=ExtResource("2_hnjj5")]
+layout_mode = 2
+
+[node name="Speed Bar" parent="MarginContainer/Columns/Column 1/Values" index="4" instance=ExtResource("2_hnjj5")]
+layout_mode = 2
+
+[node name="Luck Bar" parent="MarginContainer/Columns/Column 1/Values" index="5" instance=ExtResource("2_hnjj5")]
+layout_mode = 2
+
+[node name="Defense Bar" parent="MarginContainer/Columns/Column 1/Values" index="6" instance=ExtResource("2_hnjj5")]
+layout_mode = 2
+
+[node name="Durability Bar" parent="MarginContainer/Columns/Column 1/Values" index="7" instance=ExtResource("2_hnjj5")]
+layout_mode = 2
+
+[node name="Resistance Bar" parent="MarginContainer/Columns/Column 1/Values" index="8" instance=ExtResource("2_hnjj5")]
+layout_mode = 2
+
+[node name="Column 2" type="HBoxContainer" parent="MarginContainer/Columns" index="1"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Labels" type="VBoxContainer" parent="MarginContainer/Columns/Column 2" index="0"]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_override_constants/separation = 0
 
-[node name="Movement" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer" index="0"]
+[node name="Movement" type="Label" parent="MarginContainer/Columns/Column 2/Labels" index="0"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -104,39 +145,7 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Movement"
 vertical_alignment = 1
 
-[node name="Constitution" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer" index="1"]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Constitution"
-vertical_alignment = 1
-
-[node name="Aid" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer" index="2"]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Aid"
-vertical_alignment = 1
-
-[node name="Traveler" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer" index="3"]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Traveler"
-vertical_alignment = 1
-
-[node name="Affinity" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer" index="4"]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Affinity"
-vertical_alignment = 1
-
-[node name="Leadership" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer" index="5"]
+[node name="Leadership" type="Label" parent="MarginContainer/Columns/Column 2/Labels" index="1"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -144,7 +153,47 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Leadership"
 vertical_alignment = 1
 
-[node name="Status" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer" index="6"]
+[node name="Constitution" type="Label" parent="MarginContainer/Columns/Column 2/Labels" index="2"]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
+text = "Constitution"
+vertical_alignment = 1
+
+[node name="Weight" type="Label" parent="MarginContainer/Columns/Column 2/Labels" index="3"]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
+text = "Weight"
+vertical_alignment = 1
+
+[node name="Aid" type="Label" parent="MarginContainer/Columns/Column 2/Labels" index="4"]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
+text = "Aid"
+vertical_alignment = 1
+
+[node name="Traveler" type="Label" parent="MarginContainer/Columns/Column 2/Labels" index="5"]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
+text = "Traveler"
+vertical_alignment = 1
+
+[node name="Affinity" type="Label" parent="MarginContainer/Columns/Column 2/Labels" index="6"]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
+text = "Affinity"
+vertical_alignment = 1
+
+[node name="Status" type="Label" parent="MarginContainer/Columns/Column 2/Labels" index="7"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
