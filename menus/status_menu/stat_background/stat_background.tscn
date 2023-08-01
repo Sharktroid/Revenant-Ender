@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://jyd6v7dptm76"]
+[gd_scene load_steps=7 format=3 uid="uid://jyd6v7dptm76"]
 
 [ext_resource type="PackedScene" uid="uid://dae1bljgti3kk" path="res://menus/base_menu.tscn" id="1_jcf17"]
 [ext_resource type="PackedScene" uid="uid://cj8q35dlrc4ln" path="res://menus/status_menu/stat_background/stat_bar/stat_bar.tscn" id="2_hnjj5"]
+[ext_resource type="Theme" uid="uid://5iql263qnldx" path="res://menus/map_menus/map_menu.tres" id="3_3wk8s"]
+[ext_resource type="PackedScene" uid="uid://iuhdjformeos" path="res://menus/status_menu/stat_background/stars_label/stars_label.tscn" id="4_qja86"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i2lrd"]
 
@@ -17,6 +19,7 @@ theme_override_constants/separation = 0
 [node name="Column 1" type="HBoxContainer" parent="MarginContainer/Columns" index="0"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 0
 
 [node name="Names" type="VBoxContainer" parent="MarginContainer/Columns/Column 1" index="0"]
 layout_mode = 2
@@ -131,10 +134,11 @@ layout_mode = 2
 [node name="Column 2" type="HBoxContainer" parent="MarginContainer/Columns" index="1"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 0
 
 [node name="Labels" type="VBoxContainer" parent="MarginContainer/Columns/Column 2" index="0"]
 layout_mode = 2
-size_flags_horizontal = 2
+size_flags_horizontal = 0
 theme_override_constants/separation = 0
 
 [node name="Movement" type="Label" parent="MarginContainer/Columns/Column 2/Labels" index="0"]
@@ -145,15 +149,7 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Movement"
 vertical_alignment = 1
 
-[node name="Leadership" type="Label" parent="MarginContainer/Columns/Column 2/Labels" index="1"]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Leadership"
-vertical_alignment = 1
-
-[node name="Constitution" type="Label" parent="MarginContainer/Columns/Column 2/Labels" index="2"]
+[node name="Constitution" type="Label" parent="MarginContainer/Columns/Column 2/Labels" index="1"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -161,7 +157,7 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Constitution"
 vertical_alignment = 1
 
-[node name="Weight" type="Label" parent="MarginContainer/Columns/Column 2/Labels" index="3"]
+[node name="Weight" type="Label" parent="MarginContainer/Columns/Column 2/Labels" index="2"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -169,12 +165,20 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Weight"
 vertical_alignment = 1
 
-[node name="Aid" type="Label" parent="MarginContainer/Columns/Column 2/Labels" index="4"]
+[node name="Aid" type="Label" parent="MarginContainer/Columns/Column 2/Labels" index="3"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Aid"
+vertical_alignment = 1
+
+[node name="Leadership" type="Label" parent="MarginContainer/Columns/Column 2/Labels" index="4"]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
+text = "Leadership"
 vertical_alignment = 1
 
 [node name="Traveler" type="Label" parent="MarginContainer/Columns/Column 2/Labels" index="5"]
@@ -200,3 +204,41 @@ size_flags_vertical = 3
 theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Status"
 vertical_alignment = 1
+
+[node name="Values" type="VBoxContainer" parent="MarginContainer/Columns/Column 2" index="1"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_ux5tw")
+theme_override_constants/separation = 0
+
+[node name="Movement Bar" parent="MarginContainer/Columns/Column 2/Values" index="0" instance=ExtResource("2_hnjj5")]
+layout_mode = 2
+
+[node name="Constitution Bar" parent="MarginContainer/Columns/Column 2/Values" index="1" instance=ExtResource("2_hnjj5")]
+layout_mode = 2
+
+[node name="Weight Value" type="Label" parent="MarginContainer/Columns/Column 2/Values" index="2"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("3_3wk8s")
+
+[node name="Aid Value" type="Label" parent="MarginContainer/Columns/Column 2/Values" index="3"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("3_3wk8s")
+
+[node name="Stars Label" parent="MarginContainer/Columns/Column 2/Values" index="4" instance=ExtResource("4_qja86")]
+layout_mode = 2
+
+[node name="Traveler Name" type="Label" parent="MarginContainer/Columns/Column 2/Values" index="5"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("3_3wk8s")
+
+[node name="Affinity Icon" type="TextureRect" parent="MarginContainer/Columns/Column 2/Values" index="6"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Statuses" type="HBoxContainer" parent="MarginContainer/Columns/Column 2/Values" index="7"]
+layout_mode = 2
+size_flags_vertical = 3
