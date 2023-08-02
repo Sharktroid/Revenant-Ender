@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b46i1v8lh62ih"
-path="res://.godot/imported/selection_tile.png-0264121edb77ed2608a4ce31246271d7.ctex"
+uid="uid://rbiwmlrf6ww2"
+path="res://.godot/imported/menu_middle_no_item_mid.png-3b80d04a67ae5b74ad8cd8f9bfdb0f83.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/binding_blade/selection_tile.png"
-dest_files=["res://.godot/imported/selection_tile.png-0264121edb77ed2608a4ce31246271d7.ctex"]
+source_file="res://menus/variants/sacred_stones/menu_middle_no_item_mid.png"
+dest_files=["res://.godot/imported/menu_middle_no_item_mid.png-3b80d04a67ae5b74ad8cd8f9bfdb0f83.ctex"]
 
 [params]
 

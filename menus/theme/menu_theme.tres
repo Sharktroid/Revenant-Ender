@@ -1,6 +1,7 @@
-[gd_resource type="Theme" load_steps=7 format=3 uid="uid://oxxbk2i27pdc"]
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://ooaxrrui4g00"]
 
-[ext_resource type="FontFile" uid="uid://b41m8ooqollu6" path="res://font/item_font.tres" id="1_w0uxj"]
+[ext_resource type="StyleBox" uid="uid://441p5kjwr8b3" path="res://menus/theme/panel_background.tres" id="1_6j8ta"]
+[ext_resource type="FontFile" uid="uid://b41m8ooqollu6" path="res://font/item_font.tres" id="2_8j5vo"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ntfnw"]
 
@@ -13,7 +14,7 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pvyar"]
 
 [resource]
-default_font = ExtResource("1_w0uxj")
+default_font = ExtResource("2_8j5vo")
 Button/colors/font_color = Color(1, 1, 1, 1)
 Button/constants/h_separation = 0
 Button/font_sizes/font_size = 32
@@ -23,3 +24,4 @@ Button/styles/hover = SubResource("StyleBoxEmpty_qjmwt")
 Button/styles/normal = SubResource("StyleBoxEmpty_s5tun")
 Button/styles/pressed = SubResource("StyleBoxEmpty_pvyar")
 Label/constants/line_spacing = 0
+Panel/styles/panel = ExtResource("1_6j8ta")

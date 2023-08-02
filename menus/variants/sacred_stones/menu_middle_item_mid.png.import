@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://crfr0u4x5xmdw"
-path="res://.godot/imported/stat_bar.png-6127ef892895045c939bd862d800d19d.ctex"
+uid="uid://cds3tx7wspqui"
+path="res://.godot/imported/menu_middle_item_mid.png-a77408fe0a054f33f26889bc1bee5912.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/binding_blade/stat_bar.png"
-dest_files=["res://.godot/imported/stat_bar.png-6127ef892895045c939bd862d800d19d.ctex"]
+source_file="res://menus/variants/sacred_stones/menu_middle_item_mid.png"
+dest_files=["res://.godot/imported/menu_middle_item_mid.png-a77408fe0a054f33f26889bc1bee5912.ctex"]
 
 [params]
 

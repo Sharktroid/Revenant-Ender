@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bxdlipluabt4r"
-path="res://.godot/imported/menu_top_right.png-311e012062de3f6b84edca36cedd7833.ctex"
+path="res://.godot/imported/menu_top_right.png-0925d8b8c979b4b4c86200a3de04c425.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/sacred_stones/menu_top_right.png"
-dest_files=["res://.godot/imported/menu_top_right.png-311e012062de3f6b84edca36cedd7833.ctex"]
+source_file="res://menus/variants/sacred_stones/menu_top_right.png"
+dest_files=["res://.godot/imported/menu_top_right.png-0925d8b8c979b4b4c86200a3de04c425.ctex"]
 
 [params]
 
