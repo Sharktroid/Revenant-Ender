@@ -1,6 +1,5 @@
-[gd_scene load_steps=6 format=3 uid="uid://jyd6v7dptm76"]
+[gd_scene load_steps=5 format=3 uid="uid://jyd6v7dptm76"]
 
-[ext_resource type="Theme" uid="uid://ooaxrrui4g00" path="res://menus/theme/menu_theme.tres" id="1_qprm5"]
 [ext_resource type="PackedScene" uid="uid://cj8q35dlrc4ln" path="res://menus/status_menu/stat_background/stat_bar/stat_bar.tscn" id="2_hnjj5"]
 [ext_resource type="PackedScene" uid="uid://iuhdjformeos" path="res://menus/status_menu/stat_background/stars_label/stars_label.tscn" id="4_qja86"]
 
@@ -236,13 +235,14 @@ layout_mode = 2
 [node name="Weight Value" type="Label" parent="MarginContainer/Columns/Column 2/Values"]
 layout_mode = 2
 size_flags_vertical = 3
-theme = ExtResource("1_qprm5")
+theme_type_variation = &"BlueLabel"
 vertical_alignment = 1
 
 [node name="Aid Value" type="Label" parent="MarginContainer/Columns/Column 2/Values"]
 layout_mode = 2
 size_flags_vertical = 3
-theme = ExtResource("1_qprm5")
+theme_type_variation = &"BlueLabel"
+vertical_alignment = 1
 
 [node name="Stars Label" parent="MarginContainer/Columns/Column 2/Values" instance=ExtResource("4_qja86")]
 layout_mode = 2
@@ -250,7 +250,8 @@ layout_mode = 2
 [node name="Traveler Name" type="Label" parent="MarginContainer/Columns/Column 2/Values"]
 layout_mode = 2
 size_flags_vertical = 3
-theme = ExtResource("1_qprm5")
+theme_type_variation = &"BlueLabel"
+vertical_alignment = 1
 
 [node name="Affinity Icon" type="TextureRect" parent="MarginContainer/Columns/Column 2/Values"]
 layout_mode = 2
