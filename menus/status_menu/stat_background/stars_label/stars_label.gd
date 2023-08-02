@@ -1,7 +1,10 @@
 @tool
-extends CenterContainer
+extends HBoxContainer
 
-var stars: float = 1
+var stars: float = 1:
+	set(value):
+		stars = value
+		_update_stars()
 
 
 func _ready() -> void:
@@ -10,10 +13,11 @@ func _ready() -> void:
 
 func _update_stars() -> void:
 	var star_size: Vector2i = %"Stars Display".get_theme_stylebox("panel").texture.get_size()
+	print_debug(size.x)
 	if star_size.x * stars > size.x:
-		$"HBoxContainer/Number Label".text = str(stars)
+		$"Number Label".text = str(stars)
+		$"Number Label".visible = true
 		%"Stars Width".custom_minimum_size.x = star_size.x
 	else:
-		if not Engine.is_editor_hint():
-			$"HBoxContainer/Number Label".queue_free()
+		$"Number Label".visible = false
 		%"Stars Width".custom_minimum_size.x = stars * star_size.x
