@@ -1,6 +1,5 @@
-[gd_scene load_steps=5 format=3 uid="uid://b0f1563miygye"]
+[gd_scene load_steps=4 format=3 uid="uid://b0f1563miygye"]
 
-[ext_resource type="Theme" uid="uid://5iql263qnldx" path="res://menus/map_menus/map_menu.tres" id="1_g7bwf"]
 [ext_resource type="Texture2D" uid="uid://cpy5pea1o30t6" path="res://ui/binding_blade/portrait.png" id="2_0fpv3"]
 [ext_resource type="PackedScene" uid="uid://jyd6v7dptm76" path="res://menus/status_menu/stat_background/stat_background.tscn" id="4_kn7iv"]
 
@@ -16,7 +15,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_g7bwf")
 theme_override_constants/separation = 1
 
 [node name="Constant" type="VBoxContainer" parent="."]
@@ -35,7 +33,7 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 texture = ExtResource("2_0fpv3")
 
-[node name="Container" type="Control" parent="Constant"]
+[node name="Container" type="ReferenceRect" parent="Constant"]
 layout_mode = 2
 size_flags_vertical = 3
 
@@ -230,7 +228,4 @@ theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 35
 
 [node name="Stat Background" parent="Stats" instance=ExtResource("4_kn7iv")]
-layout_mode = 2
-
-[node name="Control" type="Control" parent="."]
 layout_mode = 2

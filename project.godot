@@ -35,6 +35,10 @@ window/stretch/mode="canvas_items"
 warning=false
 frame=false
 
+[gui]
+
+theme/custom="res://menus/map_menus/map_menu.tres"
+
 [importer_defaults]
 
 texture={
