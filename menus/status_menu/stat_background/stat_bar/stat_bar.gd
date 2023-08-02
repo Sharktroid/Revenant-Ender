@@ -27,7 +27,6 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _update() -> void:
 	%"Value Label".text = str((current_value as int))
-	$"Resize Handler".size.x = size.x * (float(max_value)/ABSOLUTE_MAX_VALUE)
-	current_value = min(current_value, max_value)
-	var percentage: float = float(current_value)/max_value
-	%Fill.size.x = ($"Resize Handler".size.x - margins.x) * percentage
+	%ProgressBar.max_value = max_value
+	%ProgressBar.value = current_value
+	$"Resize Handler".size.x = size.x * (float(max_value) / ABSOLUTE_MAX_VALUE)
