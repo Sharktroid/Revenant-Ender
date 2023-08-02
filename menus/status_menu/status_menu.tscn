@@ -220,12 +220,9 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.788235, 0.984314, 0.94902, 1)
 text = "21"
 
-[node name="Stats" type="MarginContainer" parent="."]
+[node name="Menu Tabs" type="TabContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 3
-theme_override_constants/margin_bottom = 35
 
-[node name="Stat Background" parent="Stats" instance=ExtResource("4_kn7iv")]
+[node name="Statistics" parent="Menu Tabs" instance=ExtResource("4_kn7iv")]
 layout_mode = 2
