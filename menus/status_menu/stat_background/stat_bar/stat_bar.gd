@@ -6,8 +6,14 @@ const ABSOLUTE_MAX_VALUE: float = 30
 
 var margins: Vector2i
 
-@export var current_value: float
-@export var max_value: float
+var current_value: float:
+	set(value):
+		current_value = value
+		_update()
+var max_value: float:
+	set(value):
+		max_value = value
+		_update()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -19,7 +25,7 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
+func _update() -> void:
 	%"Value Label".text = str((current_value as int))
 	$"Resize Handler".size.x = size.x * (float(max_value)/ABSOLUTE_MAX_VALUE)
 	current_value = min(current_value, max_value)
