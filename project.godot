@@ -37,7 +37,7 @@ frame=false
 
 [gui]
 
-theme/custom="res://menus/map_menus/map_menu.tres"
+theme/custom="res://menus/theme/menu_theme.tres"
 
 [importer_defaults]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b46i1v8lh62ih"
-path="res://.godot/imported/selection_tile.png-0264121edb77ed2608a4ce31246271d7.ctex"
+uid="uid://cpy5pea1o30t6"
+path="res://.godot/imported/portrait.png-978c9b04e750294d88d53d439b969c76.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/binding_blade/selection_tile.png"
-dest_files=["res://.godot/imported/selection_tile.png-0264121edb77ed2608a4ce31246271d7.ctex"]
+source_file="res://menus/variants/binding_blade/portrait.png"
+dest_files=["res://.godot/imported/portrait.png-978c9b04e750294d88d53d439b969c76.ctex"]
 
 [params]
 

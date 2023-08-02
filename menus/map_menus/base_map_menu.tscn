@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b4a6n61tdijwj"]
 
-[ext_resource type="Theme" uid="uid://5iql263qnldx" path="res://menus/map_menus/map_menu.tres" id="1_b4043"]
+[ext_resource type="Theme" uid="uid://5iql263qnldx" path="res://menus/theme/menu_theme.tres" id="1_okeqx"]
 [ext_resource type="Script" path="res://menus/map_menus/base_item.gd" id="4_rgeva"]
 
 [node name="Base Map Menu" type="Panel"]
@@ -8,7 +8,6 @@ offset_right = 9.0
 offset_bottom = 120.0
 size_flags_horizontal = 3
 focus_mode = 2
-theme = ExtResource("1_b4043")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -31,7 +30,7 @@ theme_override_constants/separation = 0
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 1
-theme = ExtResource("1_b4043")
+theme = ExtResource("1_okeqx")
 script = ExtResource("4_rgeva")
 
 [connection signal="mouse_entered" from="MarginContainer/Base Item" to="MarginContainer/Base Item" method="_on_mouse_entered"]
