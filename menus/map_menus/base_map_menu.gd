@@ -1,5 +1,5 @@
 class_name MapMenu
-extends NinePatchRect
+extends Panel
 
 enum types {SACRED_STONES, BINDING_BLADE}
 

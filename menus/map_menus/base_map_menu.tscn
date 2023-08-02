@@ -1,24 +1,33 @@
-[gd_scene load_steps=4 format=3 uid="uid://b4a6n61tdijwj"]
+[gd_scene load_steps=3 format=3 uid="uid://b4a6n61tdijwj"]
 
-[ext_resource type="PackedScene" uid="uid://dae1bljgti3kk" path="res://menus/base_menu.tscn" id="1_54dvt"]
 [ext_resource type="Theme" uid="uid://5iql263qnldx" path="res://menus/map_menus/map_menu.tres" id="1_b4043"]
 [ext_resource type="Script" path="res://menus/map_menus/base_item.gd" id="4_rgeva"]
 
-[node name="Base Map Menu" instance=ExtResource("1_54dvt")]
-anchors_preset = 0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="Base Map Menu" type="Panel"]
 offset_right = 9.0
 offset_bottom = 120.0
-grow_horizontal = 1
-grow_vertical = 1
+size_flags_horizontal = 3
+focus_mode = 2
+theme = ExtResource("1_b4043")
 
-[node name="Items" type="VBoxContainer" parent="MarginContainer" index="0"]
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Items" type="VBoxContainer" parent="MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Base Item" type="Label" parent="MarginContainer" index="1"]
+[node name="Base Item" type="Label" parent="MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 1
