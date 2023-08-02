@@ -1,5 +1,5 @@
 @tool
-extends Control
+extends ReferenceRect
 
 ## Highest value that can be ever displayed.
 const ABSOLUTE_MAX_VALUE: float = 30
@@ -15,16 +15,7 @@ var max_value: float:
 		max_value = value
 		_update()
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	var margin_container: MarginContainer = %"Fill Margins"
-	margin_container = (margin_container as MarginContainer)
-	var left_margin: int = margin_container.get_theme_constant("margin_left")
-	var right_margin: int = margin_container.get_theme_constant("margin_right")
-	margins.x = left_margin + right_margin
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _update() -> void:
 	%"Value Label".text = str((current_value as int))
 	%ProgressBar.max_value = max_value
