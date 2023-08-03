@@ -24,7 +24,7 @@ visible = false
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
 
-[node name="Stars Width" type="ReferenceRect" parent="."]
+[node name="Stars Width" type="Control" parent="."]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(8, 0)
 layout_mode = 2

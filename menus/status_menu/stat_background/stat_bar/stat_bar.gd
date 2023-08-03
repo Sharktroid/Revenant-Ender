@@ -1,5 +1,5 @@
 @tool
-extends ReferenceRect
+extends Control
 
 ## Highest value that can be ever displayed.
 const ABSOLUTE_MAX_VALUE: float = 30

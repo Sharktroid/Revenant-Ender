@@ -20,7 +20,8 @@ expand_margin_top = 1.0
 expand_margin_right = 2.0
 expand_margin_bottom = 2.0
 
-[node name="Stat Bar" type="ReferenceRect"]
+[node name="Stat Bar" type="Control"]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -29,7 +30,7 @@ grow_vertical = 2
 size_flags_vertical = 3
 script = ExtResource("2_wq8ko")
 
-[node name="Resize Handler" type="ReferenceRect" parent="."]
+[node name="Resize Handler" type="Control" parent="."]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 1
 anchors_preset = 14
@@ -38,7 +39,6 @@ anchor_right = 1.0
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
-border_color = Color(0, 0, 1, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="Resize Handler"]
 custom_minimum_size = Vector2(0, 2)
