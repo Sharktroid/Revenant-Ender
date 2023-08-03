@@ -3,30 +3,41 @@
 [ext_resource type="PackedScene" uid="uid://cj8q35dlrc4ln" path="res://menus/status_menu/stat_background/stat_bar/stat_bar.tscn" id="2_hnjj5"]
 [ext_resource type="PackedScene" uid="uid://iuhdjformeos" path="res://menus/status_menu/stat_background/stars_label/stars_label.tscn" id="4_qja86"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i2lrd"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3i0vf"]
 
 [sub_resource type="Theme" id="Theme_ux5tw"]
-HSeparator/styles/separator = SubResource("StyleBoxEmpty_i2lrd")
+HSeparator/styles/separator = SubResource("StyleBoxEmpty_3i0vf")
 
-[node name="Stat Background" type="PanelContainer"]
+[node name="Columns" type="Control"]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 3
-focus_mode = 2
+metadata/_edit_use_anchors_ = true
 
-[node name="Columns" type="HBoxContainer" parent="."]
+[node name="Offensive Stats" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 0.375
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Offensive Stats"]
 layout_mode = 2
 
-[node name="Names" type="VBoxContainer" parent="Columns"]
+[node name="Labels" type="VBoxContainer" parent="Offensive Stats/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 theme = SubResource("Theme_ux5tw")
 theme_override_constants/separation = 0
 
-[node name="Strength" type="Label" parent="Columns/Names"]
+[node name="Strength" type="Label" parent="Offensive Stats/HBoxContainer/Labels" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -34,7 +45,7 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Strength"
 vertical_alignment = 1
 
-[node name="Pierce" type="Label" parent="Columns/Names"]
+[node name="Pierce" type="Label" parent="Offensive Stats/HBoxContainer/Labels" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -42,7 +53,7 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Pierce"
 vertical_alignment = 1
 
-[node name="Magic" type="Label" parent="Columns/Names"]
+[node name="Magic" type="Label" parent="Offensive Stats/HBoxContainer/Labels" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -50,31 +61,43 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Magic"
 vertical_alignment = 1
 
-[node name="Skill" type="Label" parent="Columns/Names"]
+[node name="Values" type="VBoxContainer" parent="Offensive Stats/HBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Skill"
-vertical_alignment = 1
+size_flags_horizontal = 3
+theme = SubResource("Theme_ux5tw")
+theme_override_constants/separation = 0
 
-[node name="Speed" type="Label" parent="Columns/Names"]
+[node name="Strength Bar" parent="Offensive Stats/HBoxContainer/Values" instance=ExtResource("2_hnjj5")]
 layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Speed"
-vertical_alignment = 1
 
-[node name="Luck" type="Label" parent="Columns/Names"]
+[node name="Pierce Bar" parent="Offensive Stats/HBoxContainer/Values" instance=ExtResource("2_hnjj5")]
 layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Luck"
-vertical_alignment = 1
 
-[node name="Defense" type="Label" parent="Columns/Names"]
+[node name="Magic Bar" parent="Offensive Stats/HBoxContainer/Values" instance=ExtResource("2_hnjj5")]
+layout_mode = 2
+
+[node name="Defensive Stats" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.375
+offset_left = 2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Defensive Stats"]
+layout_mode = 2
+
+[node name="Labels" type="VBoxContainer" parent="Defensive Stats/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme = SubResource("Theme_ux5tw")
+theme_override_constants/separation = 0
+
+[node name="Defense" type="Label" parent="Defensive Stats/HBoxContainer/Labels" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -82,7 +105,7 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Defense"
 vertical_alignment = 1
 
-[node name="Durability" type="Label" parent="Columns/Names"]
+[node name="Durability" type="Label" parent="Defensive Stats/HBoxContainer/Labels" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -90,84 +113,74 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Durability"
 vertical_alignment = 1
 
-[node name="Resistance" type="Label" parent="Columns/Names"]
+[node name="Resistance" type="Label" parent="Defensive Stats/HBoxContainer/Labels" groups=["values"]]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Resistance"
 vertical_alignment = 1
 
-[node name="Values" type="VBoxContainer" parent="Columns"]
+[node name="Values" type="VBoxContainer" parent="Defensive Stats/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_ux5tw")
 theme_override_constants/separation = 0
 
-[node name="Strength Bar" parent="Columns/Values" instance=ExtResource("2_hnjj5")]
+[node name="Defense Bar" parent="Defensive Stats/HBoxContainer/Values" instance=ExtResource("2_hnjj5")]
 layout_mode = 2
 
-[node name="Pierce Bar" parent="Columns/Values" instance=ExtResource("2_hnjj5")]
+[node name="Durability Bar" parent="Defensive Stats/HBoxContainer/Values" instance=ExtResource("2_hnjj5")]
 layout_mode = 2
 
-[node name="Magic Bar" parent="Columns/Values" instance=ExtResource("2_hnjj5")]
+[node name="Resistance Bar" parent="Defensive Stats/HBoxContainer/Values" instance=ExtResource("2_hnjj5")]
 layout_mode = 2
 
-[node name="Skill Bar" parent="Columns/Values" instance=ExtResource("2_hnjj5")]
+[node name="Misc Stats" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.375
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_top = 2.0
+offset_right = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Misc Stats"]
 layout_mode = 2
 
-[node name="Speed Bar" parent="Columns/Values" instance=ExtResource("2_hnjj5")]
-layout_mode = 2
-
-[node name="Luck Bar" parent="Columns/Values" instance=ExtResource("2_hnjj5")]
-layout_mode = 2
-
-[node name="Defense Bar" parent="Columns/Values" instance=ExtResource("2_hnjj5")]
-layout_mode = 2
-
-[node name="Durability Bar" parent="Columns/Values" instance=ExtResource("2_hnjj5")]
-layout_mode = 2
-
-[node name="Resistance Bar" parent="Columns/Values" instance=ExtResource("2_hnjj5")]
-layout_mode = 2
-
-[node name="Labels" type="VBoxContainer" parent="Columns"]
+[node name="Labels" type="VBoxContainer" parent="Misc Stats/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 0
 
-[node name="Movement" type="Label" parent="Columns/Labels"]
+[node name="Skill" type="Label" parent="Misc Stats/HBoxContainer/Labels" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Movement"
+text = "Skill
+"
 vertical_alignment = 1
 
-[node name="Constitution" type="Label" parent="Columns/Labels"]
+[node name="Speed" type="Label" parent="Misc Stats/HBoxContainer/Labels" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Constitution"
+text = "Speed"
 vertical_alignment = 1
 
-[node name="Weight" type="Label" parent="Columns/Labels"]
+[node name="Luck" type="Label" parent="Misc Stats/HBoxContainer/Labels" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Weight"
+text = "Luck"
 vertical_alignment = 1
 
-[node name="Aid" type="Label" parent="Columns/Labels"]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Aid"
-vertical_alignment = 1
-
-[node name="Leadership" type="Label" parent="Columns/Labels"]
+[node name="Leadership" type="Label" parent="Misc Stats/HBoxContainer/Labels" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -175,23 +188,7 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Leadership"
 vertical_alignment = 1
 
-[node name="Traveler" type="Label" parent="Columns/Labels"]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Traveler"
-vertical_alignment = 1
-
-[node name="Affinity" type="Label" parent="Columns/Labels"]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Affinity"
-vertical_alignment = 1
-
-[node name="Status" type="Label" parent="Columns/Labels"]
+[node name="Status" type="Label" parent="Misc Stats/HBoxContainer/Labels" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -199,43 +196,115 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Status"
 vertical_alignment = 1
 
-[node name="Values2" type="VBoxContainer" parent="Columns"]
+[node name="Values" type="VBoxContainer" parent="Misc Stats/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_ux5tw")
 theme_override_constants/separation = 0
 
-[node name="Movement Bar" parent="Columns/Values2" instance=ExtResource("2_hnjj5")]
+[node name="Skill Bar" parent="Misc Stats/HBoxContainer/Values" instance=ExtResource("2_hnjj5")]
 layout_mode = 2
 
-[node name="Constitution Bar" parent="Columns/Values2" instance=ExtResource("2_hnjj5")]
+[node name="Speed Bar" parent="Misc Stats/HBoxContainer/Values" instance=ExtResource("2_hnjj5")]
 layout_mode = 2
 
-[node name="Weight Value" type="Label" parent="Columns/Values2"]
+[node name="Luck Bar" parent="Misc Stats/HBoxContainer/Values" instance=ExtResource("2_hnjj5")]
+layout_mode = 2
+
+[node name="Leadership Stars" parent="Misc Stats/HBoxContainer/Values" instance=ExtResource("4_qja86")]
+layout_mode = 2
+
+[node name="Statuses" type="HBoxContainer" parent="Misc Stats/HBoxContainer/Values"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Rescue Stats" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.375
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Rescue Stats"]
+layout_mode = 2
+
+[node name="Labels" type="VBoxContainer" parent="Rescue Stats/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 0
+
+[node name="Movement" type="Label" parent="Rescue Stats/HBoxContainer/Labels" groups=["values"]]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
+text = "Movement"
+vertical_alignment = 1
+
+[node name="Constitution" type="Label" parent="Rescue Stats/HBoxContainer/Labels" groups=["values"]]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
+text = "Constitution"
+vertical_alignment = 1
+
+[node name="Weight" type="Label" parent="Rescue Stats/HBoxContainer/Labels" groups=["values"]]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
+text = "Weight"
+vertical_alignment = 1
+
+[node name="Aid" type="Label" parent="Rescue Stats/HBoxContainer/Labels" groups=["values"]]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
+text = "Aid"
+vertical_alignment = 1
+
+[node name="Traveler" type="Label" parent="Rescue Stats/HBoxContainer/Labels" groups=["values"]]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
+text = "Traveler"
+vertical_alignment = 1
+
+[node name="Values" type="VBoxContainer" parent="Rescue Stats/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_ux5tw")
+theme_override_constants/separation = 0
+
+[node name="Movement Bar" parent="Rescue Stats/HBoxContainer/Values" instance=ExtResource("2_hnjj5")]
+layout_mode = 2
+
+[node name="Constitution Bar" parent="Rescue Stats/HBoxContainer/Values" instance=ExtResource("2_hnjj5")]
+layout_mode = 2
+
+[node name="Weight Value" type="Label" parent="Rescue Stats/HBoxContainer/Values"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"BlueLabel"
 vertical_alignment = 1
 
-[node name="Aid Value" type="Label" parent="Columns/Values2"]
+[node name="Aid Value" type="Label" parent="Rescue Stats/HBoxContainer/Values"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"BlueLabel"
 vertical_alignment = 1
 
-[node name="Stars Label" parent="Columns/Values2" instance=ExtResource("4_qja86")]
-layout_mode = 2
-
-[node name="Traveler Name" type="Label" parent="Columns/Values2"]
+[node name="Traveler Name" type="Label" parent="Rescue Stats/HBoxContainer/Values"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"BlueLabel"
 vertical_alignment = 1
-
-[node name="Affinity Icon" type="TextureRect" parent="Columns/Values2"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Statuses" type="HBoxContainer" parent="Columns/Values2"]
-layout_mode = 2
-size_flags_vertical = 3
