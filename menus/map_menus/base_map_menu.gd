@@ -1,5 +1,5 @@
 class_name MapMenu
-extends Panel
+extends PanelContainer
 
 enum types {SACRED_STONES, BINDING_BLADE}
 
