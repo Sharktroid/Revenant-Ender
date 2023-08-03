@@ -1,15 +1,15 @@
 [gd_scene load_steps=9 format=3 uid="uid://dfm25r0ju5214"]
 
-[ext_resource type="Shader" path="res://menus/status_menu/scrolling_bg.gdshader" id="1_unc47"]
-[ext_resource type="Texture2D" uid="uid://cpy5pea1o30t6" path="res://menus/variants/binding_blade/portrait.png" id="2_0fpv3"]
-[ext_resource type="Texture2D" uid="uid://dda11nhxypald" path="res://menus/theme/status_screen_background.png" id="2_5f3x0"]
-[ext_resource type="PackedScene" uid="uid://jyd6v7dptm76" path="res://menus/status_menu/stat_background/stat_background.tscn" id="4_kn7iv"]
+[ext_resource type="Shader" path="res://menus/status_menu/scrolling_bg.gdshader" id="1_ts3fr"]
+[ext_resource type="Texture2D" uid="uid://dda11nhxypald" path="res://menus/theme/status_screen_background.png" id="2_qf1jc"]
+[ext_resource type="Texture2D" uid="uid://cpy5pea1o30t6" path="res://menus/variants/binding_blade/portrait.png" id="3_wyd2p"]
+[ext_resource type="PackedScene" uid="uid://jyd6v7dptm76" path="res://menus/status_menu/stat_background/statistics.tscn" id="4_te604"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_obhcv"]
-shader = ExtResource("1_unc47")
+shader = ExtResource("1_ts3fr")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hhbm8"]
-texture = ExtResource("2_5f3x0")
+texture = ExtResource("2_qf1jc")
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 region_rect = Rect2(0, 0, 256, 160)
@@ -68,7 +68,7 @@ theme_override_constants/margin_right = 6
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
-texture = ExtResource("2_0fpv3")
+texture = ExtResource("3_wyd2p")
 
 [node name="Container" type="ReferenceRect" parent="Unit Information Menu/Constant"]
 layout_mode = 2
@@ -262,5 +262,5 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_5jo7u")
 
-[node name="Statistics" parent="Unit Information Menu/Menu Tabs" instance=ExtResource("4_kn7iv")]
+[node name="Statistics" parent="Unit Information Menu/Menu Tabs" instance=ExtResource("4_te604")]
 layout_mode = 2

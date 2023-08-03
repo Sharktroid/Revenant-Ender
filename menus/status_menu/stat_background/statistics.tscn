@@ -180,20 +180,20 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Luck"
 vertical_alignment = 1
 
-[node name="Leadership" type="Label" parent="Misc Stats/HBoxContainer/Labels" groups=["values"]]
+[node name="Constitution" type="Label" parent="Misc Stats/HBoxContainer/Labels" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Leadership"
+text = "Constitution"
 vertical_alignment = 1
 
-[node name="Status" type="Label" parent="Misc Stats/HBoxContainer/Labels" groups=["values"]]
+[node name="Movement" type="Label" parent="Misc Stats/HBoxContainer/Labels" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Status"
+text = "Movement"
 vertical_alignment = 1
 
 [node name="Values" type="VBoxContainer" parent="Misc Stats/HBoxContainer"]
@@ -211,14 +211,13 @@ layout_mode = 2
 [node name="Luck Bar" parent="Misc Stats/HBoxContainer/Values" instance=ExtResource("2_hnjj5")]
 layout_mode = 2
 
-[node name="Leadership Stars" parent="Misc Stats/HBoxContainer/Values" instance=ExtResource("4_qja86")]
+[node name="Movement Bar" parent="Misc Stats/HBoxContainer/Values" instance=ExtResource("2_hnjj5")]
 layout_mode = 2
 
-[node name="Statuses" type="HBoxContainer" parent="Misc Stats/HBoxContainer/Values"]
+[node name="Constitution Bar" parent="Misc Stats/HBoxContainer/Values" instance=ExtResource("2_hnjj5")]
 layout_mode = 2
-size_flags_vertical = 3
 
-[node name="Rescue Stats" type="PanelContainer" parent="."]
+[node name="Other" type="PanelContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -231,31 +230,23 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Rescue Stats"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Other"]
 layout_mode = 2
 
-[node name="Labels" type="VBoxContainer" parent="Rescue Stats/HBoxContainer"]
+[node name="Labels" type="VBoxContainer" parent="Other/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 0
 
-[node name="Movement" type="Label" parent="Rescue Stats/HBoxContainer/Labels" groups=["values"]]
+[node name="Leadership" type="Label" parent="Other/HBoxContainer/Labels" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Movement"
+text = "Leadership"
 vertical_alignment = 1
 
-[node name="Constitution" type="Label" parent="Rescue Stats/HBoxContainer/Labels" groups=["values"]]
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
-text = "Constitution"
-vertical_alignment = 1
-
-[node name="Weight" type="Label" parent="Rescue Stats/HBoxContainer/Labels" groups=["values"]]
+[node name="Weight" type="Label" parent="Other/HBoxContainer/Labels" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -263,7 +254,7 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Weight"
 vertical_alignment = 1
 
-[node name="Aid" type="Label" parent="Rescue Stats/HBoxContainer/Labels" groups=["values"]]
+[node name="Aid" type="Label" parent="Other/HBoxContainer/Labels" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -271,7 +262,7 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Aid"
 vertical_alignment = 1
 
-[node name="Traveler" type="Label" parent="Rescue Stats/HBoxContainer/Labels" groups=["values"]]
+[node name="Traveler" type="Label" parent="Other/HBoxContainer/Labels" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -279,32 +270,41 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Traveler"
 vertical_alignment = 1
 
-[node name="Values" type="VBoxContainer" parent="Rescue Stats/HBoxContainer"]
+[node name="Status" type="Label" parent="Other/HBoxContainer/Labels" groups=["values"]]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
+text = "Status"
+vertical_alignment = 1
+
+[node name="Values" type="VBoxContainer" parent="Other/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_ux5tw")
 theme_override_constants/separation = 0
 
-[node name="Movement Bar" parent="Rescue Stats/HBoxContainer/Values" instance=ExtResource("2_hnjj5")]
+[node name="Leadership Stars" parent="Other/HBoxContainer/Values" instance=ExtResource("4_qja86")]
 layout_mode = 2
 
-[node name="Constitution Bar" parent="Rescue Stats/HBoxContainer/Values" instance=ExtResource("2_hnjj5")]
-layout_mode = 2
-
-[node name="Weight Value" type="Label" parent="Rescue Stats/HBoxContainer/Values"]
+[node name="Weight Value" type="Label" parent="Other/HBoxContainer/Values"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"BlueLabel"
 vertical_alignment = 1
 
-[node name="Aid Value" type="Label" parent="Rescue Stats/HBoxContainer/Values"]
+[node name="Aid Value" type="Label" parent="Other/HBoxContainer/Values"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"BlueLabel"
 vertical_alignment = 1
 
-[node name="Traveler Name" type="Label" parent="Rescue Stats/HBoxContainer/Values"]
+[node name="Traveler Name" type="Label" parent="Other/HBoxContainer/Values"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"BlueLabel"
 vertical_alignment = 1
+
+[node name="Statuses" type="HBoxContainer" parent="Other/HBoxContainer/Values"]
+layout_mode = 2
+size_flags_vertical = 3
