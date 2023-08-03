@@ -19,19 +19,14 @@ focus_mode = 2
 
 [node name="Columns" type="HBoxContainer" parent="."]
 layout_mode = 2
-theme_override_constants/separation = 0
 
-[node name="Column 1" type="HBoxContainer" parent="Columns"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Names" type="VBoxContainer" parent="Columns/Column 1"]
+[node name="Names" type="VBoxContainer" parent="Columns"]
 layout_mode = 2
 size_flags_horizontal = 0
 theme = SubResource("Theme_ux5tw")
 theme_override_constants/separation = 0
 
-[node name="Strength" type="Label" parent="Columns/Column 1/Names"]
+[node name="Strength" type="Label" parent="Columns/Names"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -39,7 +34,7 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Strength"
 vertical_alignment = 1
 
-[node name="Pierce" type="Label" parent="Columns/Column 1/Names"]
+[node name="Pierce" type="Label" parent="Columns/Names"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -47,7 +42,7 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Pierce"
 vertical_alignment = 1
 
-[node name="Magic" type="Label" parent="Columns/Column 1/Names"]
+[node name="Magic" type="Label" parent="Columns/Names"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -55,7 +50,7 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Magic"
 vertical_alignment = 1
 
-[node name="Skill" type="Label" parent="Columns/Column 1/Names"]
+[node name="Skill" type="Label" parent="Columns/Names"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -63,7 +58,7 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Skill"
 vertical_alignment = 1
 
-[node name="Speed" type="Label" parent="Columns/Column 1/Names"]
+[node name="Speed" type="Label" parent="Columns/Names"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -71,7 +66,7 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Speed"
 vertical_alignment = 1
 
-[node name="Luck" type="Label" parent="Columns/Column 1/Names"]
+[node name="Luck" type="Label" parent="Columns/Names"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -79,7 +74,7 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Luck"
 vertical_alignment = 1
 
-[node name="Defense" type="Label" parent="Columns/Column 1/Names"]
+[node name="Defense" type="Label" parent="Columns/Names"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -87,7 +82,7 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Defense"
 vertical_alignment = 1
 
-[node name="Durability" type="Label" parent="Columns/Column 1/Names"]
+[node name="Durability" type="Label" parent="Columns/Names"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -95,56 +90,52 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Durability"
 vertical_alignment = 1
 
-[node name="Resistance" type="Label" parent="Columns/Column 1/Names"]
+[node name="Resistance" type="Label" parent="Columns/Names"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Resistance"
 vertical_alignment = 1
 
-[node name="Values" type="VBoxContainer" parent="Columns/Column 1"]
+[node name="Values" type="VBoxContainer" parent="Columns"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_ux5tw")
 theme_override_constants/separation = 0
 
-[node name="Strength Bar" parent="Columns/Column 1/Values" instance=ExtResource("2_hnjj5")]
+[node name="Strength Bar" parent="Columns/Values" instance=ExtResource("2_hnjj5")]
 layout_mode = 2
 
-[node name="Pierce Bar" parent="Columns/Column 1/Values" instance=ExtResource("2_hnjj5")]
+[node name="Pierce Bar" parent="Columns/Values" instance=ExtResource("2_hnjj5")]
 layout_mode = 2
 
-[node name="Magic Bar" parent="Columns/Column 1/Values" instance=ExtResource("2_hnjj5")]
+[node name="Magic Bar" parent="Columns/Values" instance=ExtResource("2_hnjj5")]
 layout_mode = 2
 
-[node name="Skill Bar" parent="Columns/Column 1/Values" instance=ExtResource("2_hnjj5")]
+[node name="Skill Bar" parent="Columns/Values" instance=ExtResource("2_hnjj5")]
 layout_mode = 2
 
-[node name="Speed Bar" parent="Columns/Column 1/Values" instance=ExtResource("2_hnjj5")]
+[node name="Speed Bar" parent="Columns/Values" instance=ExtResource("2_hnjj5")]
 layout_mode = 2
 
-[node name="Luck Bar" parent="Columns/Column 1/Values" instance=ExtResource("2_hnjj5")]
+[node name="Luck Bar" parent="Columns/Values" instance=ExtResource("2_hnjj5")]
 layout_mode = 2
 
-[node name="Defense Bar" parent="Columns/Column 1/Values" instance=ExtResource("2_hnjj5")]
+[node name="Defense Bar" parent="Columns/Values" instance=ExtResource("2_hnjj5")]
 layout_mode = 2
 
-[node name="Durability Bar" parent="Columns/Column 1/Values" instance=ExtResource("2_hnjj5")]
+[node name="Durability Bar" parent="Columns/Values" instance=ExtResource("2_hnjj5")]
 layout_mode = 2
 
-[node name="Resistance Bar" parent="Columns/Column 1/Values" instance=ExtResource("2_hnjj5")]
+[node name="Resistance Bar" parent="Columns/Values" instance=ExtResource("2_hnjj5")]
 layout_mode = 2
 
-[node name="Column 2" type="HBoxContainer" parent="Columns"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Labels" type="VBoxContainer" parent="Columns/Column 2"]
+[node name="Labels" type="VBoxContainer" parent="Columns"]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 0
 
-[node name="Movement" type="Label" parent="Columns/Column 2/Labels"]
+[node name="Movement" type="Label" parent="Columns/Labels"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -152,7 +143,7 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Movement"
 vertical_alignment = 1
 
-[node name="Constitution" type="Label" parent="Columns/Column 2/Labels"]
+[node name="Constitution" type="Label" parent="Columns/Labels"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -160,7 +151,7 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Constitution"
 vertical_alignment = 1
 
-[node name="Weight" type="Label" parent="Columns/Column 2/Labels"]
+[node name="Weight" type="Label" parent="Columns/Labels"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -168,7 +159,7 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Weight"
 vertical_alignment = 1
 
-[node name="Aid" type="Label" parent="Columns/Column 2/Labels"]
+[node name="Aid" type="Label" parent="Columns/Labels"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -176,7 +167,7 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Aid"
 vertical_alignment = 1
 
-[node name="Leadership" type="Label" parent="Columns/Column 2/Labels"]
+[node name="Leadership" type="Label" parent="Columns/Labels"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -184,7 +175,7 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Leadership"
 vertical_alignment = 1
 
-[node name="Traveler" type="Label" parent="Columns/Column 2/Labels"]
+[node name="Traveler" type="Label" parent="Columns/Labels"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -192,7 +183,7 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Traveler"
 vertical_alignment = 1
 
-[node name="Affinity" type="Label" parent="Columns/Column 2/Labels"]
+[node name="Affinity" type="Label" parent="Columns/Labels"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -200,7 +191,7 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Affinity"
 vertical_alignment = 1
 
-[node name="Status" type="Label" parent="Columns/Column 2/Labels"]
+[node name="Status" type="Label" parent="Columns/Labels"]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
@@ -208,43 +199,43 @@ theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Status"
 vertical_alignment = 1
 
-[node name="Values" type="VBoxContainer" parent="Columns/Column 2"]
+[node name="Values2" type="VBoxContainer" parent="Columns"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_ux5tw")
 theme_override_constants/separation = 0
 
-[node name="Movement Bar" parent="Columns/Column 2/Values" instance=ExtResource("2_hnjj5")]
+[node name="Movement Bar" parent="Columns/Values2" instance=ExtResource("2_hnjj5")]
 layout_mode = 2
 
-[node name="Constitution Bar" parent="Columns/Column 2/Values" instance=ExtResource("2_hnjj5")]
+[node name="Constitution Bar" parent="Columns/Values2" instance=ExtResource("2_hnjj5")]
 layout_mode = 2
 
-[node name="Weight Value" type="Label" parent="Columns/Column 2/Values"]
-layout_mode = 2
-size_flags_vertical = 3
-theme_type_variation = &"BlueLabel"
-vertical_alignment = 1
-
-[node name="Aid Value" type="Label" parent="Columns/Column 2/Values"]
+[node name="Weight Value" type="Label" parent="Columns/Values2"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"BlueLabel"
 vertical_alignment = 1
 
-[node name="Stars Label" parent="Columns/Column 2/Values" instance=ExtResource("4_qja86")]
-layout_mode = 2
-
-[node name="Traveler Name" type="Label" parent="Columns/Column 2/Values"]
+[node name="Aid Value" type="Label" parent="Columns/Values2"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"BlueLabel"
 vertical_alignment = 1
 
-[node name="Affinity Icon" type="TextureRect" parent="Columns/Column 2/Values"]
+[node name="Stars Label" parent="Columns/Values2" instance=ExtResource("4_qja86")]
+layout_mode = 2
+
+[node name="Traveler Name" type="Label" parent="Columns/Values2"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_type_variation = &"BlueLabel"
+vertical_alignment = 1
+
+[node name="Affinity Icon" type="TextureRect" parent="Columns/Values2"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Statuses" type="HBoxContainer" parent="Columns/Column 2/Values"]
+[node name="Statuses" type="HBoxContainer" parent="Columns/Values2"]
 layout_mode = 2
 size_flags_vertical = 3
