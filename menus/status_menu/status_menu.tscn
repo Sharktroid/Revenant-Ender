@@ -1,7 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://b0f1563miygye"]
+[gd_scene load_steps=9 format=3 uid="uid://dfm25r0ju5214"]
 
+[ext_resource type="Shader" path="res://menus/status_menu/scrolling_bg.gdshader" id="1_unc47"]
 [ext_resource type="Texture2D" uid="uid://cpy5pea1o30t6" path="res://menus/variants/binding_blade/portrait.png" id="2_0fpv3"]
+[ext_resource type="Texture2D" uid="uid://dda11nhxypald" path="res://menus/theme/status_screen_background.png" id="2_5f3x0"]
 [ext_resource type="PackedScene" uid="uid://jyd6v7dptm76" path="res://menus/status_menu/stat_background/stat_background.tscn" id="4_kn7iv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_obhcv"]
+shader = ExtResource("1_unc47")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hhbm8"]
+texture = ExtResource("2_5f3x0")
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+region_rect = Rect2(0, 0, 256, 160)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8vmos"]
 bg_color = Color(0.12549, 0.235294, 0.345098, 0.498039)
@@ -9,35 +20,61 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 anti_aliasing = false
 
-[node name="Unit Information Menu" type="HBoxContainer"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5jo7u"]
+content_margin_left = 3.0
+content_margin_top = 3.0
+content_margin_right = 3.0
+content_margin_bottom = 3.0
+bg_color = Color(0.184314, 0.184314, 0.184314, 0.498039)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.184314, 0.184314, 0.184314, 1)
+border_blend = true
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="Panel" type="Panel"]
+material = SubResource("ShaderMaterial_obhcv")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 1
+theme_override_styles/panel = SubResource("StyleBoxTexture_hhbm8")
 
-[node name="Constant" type="VBoxContainer" parent="."]
+[node name="Unit Information Menu" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Constant" type="VBoxContainer" parent="Unit Information Menu"]
 layout_mode = 2
 theme_override_constants/separation = 1
 
-[node name="Portrait Background Container" type="MarginContainer" parent="Constant"]
+[node name="Portrait Background Container" type="MarginContainer" parent="Unit Information Menu/Constant"]
 layout_mode = 2
 theme_override_constants/margin_left = 2
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 6
 
-[node name="Portrait Background" type="TextureRect" parent="Constant/Portrait Background Container"]
+[node name="Portrait Background" type="TextureRect" parent="Unit Information Menu/Constant/Portrait Background Container"]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 texture = ExtResource("2_0fpv3")
 
-[node name="Container" type="ReferenceRect" parent="Constant"]
+[node name="Container" type="ReferenceRect" parent="Unit Information Menu/Constant"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="High Stats Background" type="Panel" parent="Constant/Container"]
+[node name="High Stats Background" type="Panel" parent="Unit Information Menu/Constant/Container"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -48,7 +85,7 @@ size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_8vmos")
 metadata/_edit_use_anchors_ = true
 
-[node name="High Stats Margins" type="MarginContainer" parent="Constant/Container/High Stats Background"]
+[node name="High Stats Margins" type="MarginContainer" parent="Unit Information Menu/Constant/Container/High Stats Background"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -58,171 +95,172 @@ grow_vertical = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_bottom = -3
 
-[node name="High Stats Container" type="VBoxContainer" parent="Constant/Container/High Stats Background/High Stats Margins"]
+[node name="High Stats Container" type="VBoxContainer" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Class Name" type="Label" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
+[node name="Class Name" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
 size_flags_vertical = 1
 text = "Cavalier"
 
-[node name="Level + Exp Container" type="HBoxContainer" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
+[node name="Level + Exp Container" type="HBoxContainer" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_constants/separation = 0
 
-[node name="Level Label" type="Label" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Level + Exp Container"]
+[node name="Level Label" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Level + Exp Container"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "LV "
 
-[node name="Level Value" type="Label" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Level + Exp Container"]
+[node name="Level Value" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Level + Exp Container"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.788235, 0.984314, 0.94902, 1)
 text = "1"
 
-[node name="EXP Label" type="Label" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Level + Exp Container"]
+[node name="EXP Label" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Level + Exp Container"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = " E "
 
-[node name="EXP Value" type="Label" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Level + Exp Container"]
+[node name="EXP Value" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Level + Exp Container"]
 visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(0.788235, 0.984314, 0.94902, 1)
 text = "30"
 
-[node name="Health Container" type="HBoxContainer" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
+[node name="Health Container" type="HBoxContainer" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Health Label" type="Label" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container"]
+[node name="Health Label" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "LV "
 
-[node name="Current HP Value" type="Label" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container"]
+[node name="Current HP Value" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.788235, 0.984314, 0.94902, 1)
 text = "21"
 
-[node name="Seperator Margins" type="MarginContainer" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container"]
+[node name="Seperator Margins" type="MarginContainer" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container"]
 layout_mode = 2
 theme_override_constants/margin_left = 2
 theme_override_constants/margin_right = 2
 
-[node name="Seperator" type="Label" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container/Seperator Margins"]
+[node name="Seperator" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container/Seperator Margins"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "/"
 
-[node name="Max HP Value" type="Label" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container"]
+[node name="Max HP Value" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.788235, 0.984314, 0.94902, 1)
 text = "21"
 
-[node name="Health Container2" type="HBoxContainer" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
+[node name="Health Container2" type="HBoxContainer" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Health Label" type="Label" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container2"]
+[node name="Health Label" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container2"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Attack "
 
-[node name="Current HP Value" type="Label" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container2"]
+[node name="Current HP Value" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container2"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.788235, 0.984314, 0.94902, 1)
 text = "21"
 
-[node name="Health Container3" type="HBoxContainer" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
+[node name="Health Container3" type="HBoxContainer" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Health Label" type="Label" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container3"]
+[node name="Health Label" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container3"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Attack Speed "
 
-[node name="Current HP Value" type="Label" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container3"]
+[node name="Current HP Value" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container3"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.788235, 0.984314, 0.94902, 1)
 text = "21"
 
-[node name="Health Container4" type="HBoxContainer" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
+[node name="Health Container4" type="HBoxContainer" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Health Label" type="Label" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container4"]
+[node name="Health Label" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container4"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Hit "
 
-[node name="Current HP Value" type="Label" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container4"]
+[node name="Current HP Value" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container4"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.788235, 0.984314, 0.94902, 1)
 text = "21"
 
-[node name="Health Container7" type="HBoxContainer" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
+[node name="Health Container7" type="HBoxContainer" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Health Label" type="Label" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container7"]
+[node name="Health Label" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container7"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Avoid "
 
-[node name="Current HP Value" type="Label" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container7"]
+[node name="Current HP Value" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container7"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.788235, 0.984314, 0.94902, 1)
 text = "21"
 
-[node name="Health Container5" type="HBoxContainer" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
+[node name="Health Container5" type="HBoxContainer" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Health Label" type="Label" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container5"]
+[node name="Health Label" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container5"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Crit "
 
-[node name="Current HP Value" type="Label" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container5"]
+[node name="Current HP Value" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container5"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.788235, 0.984314, 0.94902, 1)
 text = "21"
 
-[node name="Health Container8" type="HBoxContainer" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
+[node name="Health Container8" type="HBoxContainer" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Health Label" type="Label" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container8"]
+[node name="Health Label" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container8"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Dodge "
 
-[node name="Current HP Value" type="Label" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container8"]
+[node name="Current HP Value" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container8"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.788235, 0.984314, 0.94902, 1)
 text = "21"
 
-[node name="Health Container6" type="HBoxContainer" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
+[node name="Health Container6" type="HBoxContainer" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Health Label" type="Label" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container6"]
+[node name="Health Label" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container6"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
 text = "Range "
 
-[node name="Current HP Value" type="Label" parent="Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container6"]
+[node name="Current HP Value" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Health Container6"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.788235, 0.984314, 0.94902, 1)
 text = "21"
 
-[node name="Menu Tabs" type="TabContainer" parent="."]
+[node name="Menu Tabs" type="TabContainer" parent="Unit Information Menu"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_5jo7u")
 
-[node name="Statistics" parent="Menu Tabs" instance=ExtResource("4_kn7iv")]
+[node name="Statistics" parent="Unit Information Menu/Menu Tabs" instance=ExtResource("4_kn7iv")]
 layout_mode = 2
