@@ -9,6 +9,7 @@ enum types {
 	KNIFE,
 	WIND,
 	FIRE,
+	WATER,
 	LIGHTNING,
 	LIGHT,
 	DARK,
