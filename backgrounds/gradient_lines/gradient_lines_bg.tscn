@@ -1,8 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://bm8qo5r81mo2y"]
+[gd_scene load_steps=11 format=3 uid="uid://bm8qo5r81mo2y"]
 
 [ext_resource type="PackedScene" uid="uid://b5rhtmfvnnqvb" path="res://backgrounds/animated_background.tscn" id="1_8xr0r"]
 [ext_resource type="Shader" path="res://backgrounds/horizontal_distortion.gdshader" id="2_fxdsw"]
-[ext_resource type="Script" path="res://backgrounds/gradient_lines_bg.gd" id="3_lvlf4"]
 [ext_resource type="Shader" path="res://backgrounds/gradient.gdshader" id="4_e1cjp"]
 [ext_resource type="Shader" path="res://backgrounds/scrolling_bg.gdshader" id="4_ne7kf"]
 
@@ -37,7 +36,6 @@ shader_parameter/wrap_around = true
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [node name="Gradient Lines BG" instance=ExtResource("1_8xr0r")]
-script = ExtResource("3_lvlf4")
 
 [node name="Base Color" parent="." index="0"]
 theme_override_styles/panel = SubResource("StyleBoxFlat_dt0ek")
