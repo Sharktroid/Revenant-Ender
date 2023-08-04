@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=3 uid="uid://b7h3kn7yes57v"]
+
+[ext_resource type="Shader" path="res://backgrounds/scrolling_bg.gdshader" id="2_8b6pk"]
+[ext_resource type="Texture2D" uid="uid://dda11nhxypald" path="res://menus/theme/status_screen_background.png" id="3_8fbbq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hj53u"]
+bg_color = Color(0, 0, 0.25098, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_paan6"]
+shader = ExtResource("2_8b6pk")
+shader_parameter/start = Vector2(0, 0)
+shader_parameter/end = Vector2(0.5, 0.556)
+shader_parameter/scroll = Vector2(0.05, 0)
+shader_parameter/starting_offset = Vector2(0, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pbu75"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[node name="Scrolling Image" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Base Color" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hj53u")
+
+[node name="Features" type="CanvasGroup" parent="."]
+material = SubResource("ShaderMaterial_paan6")
+
+[node name="Placeholder Panel" type="Panel" parent="Features"]
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 512.0
+offset_bottom = 288.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_pbu75")
+
+[node name="TextureRect" type="TextureRect" parent="Features"]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("3_8fbbq")
