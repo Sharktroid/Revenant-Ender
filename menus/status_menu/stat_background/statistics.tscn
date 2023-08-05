@@ -41,7 +41,7 @@ theme_override_constants/separation = 0
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
+theme_type_variation = &"YellowLabel"
 text = "Strength"
 vertical_alignment = 1
 
@@ -49,7 +49,7 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
+theme_type_variation = &"YellowLabel"
 text = "Pierce"
 vertical_alignment = 1
 
@@ -57,7 +57,7 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
+theme_type_variation = &"YellowLabel"
 text = "Magic"
 vertical_alignment = 1
 
@@ -101,7 +101,7 @@ theme_override_constants/separation = 0
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
+theme_type_variation = &"YellowLabel"
 text = "Defense"
 vertical_alignment = 1
 
@@ -109,14 +109,14 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
+theme_type_variation = &"YellowLabel"
 text = "Durability"
 vertical_alignment = 1
 
 [node name="Resistance" type="Label" parent="Defensive Stats/HBoxContainer/Labels" groups=["values"]]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
+theme_type_variation = &"YellowLabel"
 text = "Resistance"
 vertical_alignment = 1
 
@@ -159,7 +159,7 @@ theme_override_constants/separation = 0
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
+theme_type_variation = &"YellowLabel"
 text = "Skill
 "
 vertical_alignment = 1
@@ -168,7 +168,7 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
+theme_type_variation = &"YellowLabel"
 text = "Speed"
 vertical_alignment = 1
 
@@ -176,7 +176,7 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
+theme_type_variation = &"YellowLabel"
 text = "Luck"
 vertical_alignment = 1
 
@@ -184,7 +184,7 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
+theme_type_variation = &"YellowLabel"
 text = "Constitution"
 vertical_alignment = 1
 
@@ -192,7 +192,7 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
+theme_type_variation = &"YellowLabel"
 text = "Movement"
 vertical_alignment = 1
 
@@ -242,7 +242,7 @@ theme_override_constants/separation = 0
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
+theme_type_variation = &"YellowLabel"
 text = "Leadership"
 vertical_alignment = 1
 
@@ -250,7 +250,7 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
+theme_type_variation = &"YellowLabel"
 text = "Weight"
 vertical_alignment = 1
 
@@ -258,7 +258,7 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
+theme_type_variation = &"YellowLabel"
 text = "Aid"
 vertical_alignment = 1
 
@@ -266,7 +266,7 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
+theme_type_variation = &"YellowLabel"
 text = "Traveler"
 vertical_alignment = 1
 
@@ -274,7 +274,7 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.996078, 0.87451, 0.639216, 1)
+theme_type_variation = &"YellowLabel"
 text = "Status"
 vertical_alignment = 1
 
