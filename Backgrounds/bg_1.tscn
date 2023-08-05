@@ -1,10 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://dsg0v8jfjv2q6"]
+[gd_scene load_steps=4 format=3 uid="uid://dsg0v8jfjv2q6"]
 
 [ext_resource type="PackedScene" uid="uid://dnhly0ep5sh1c" path="res://backgrounds/gradient_squares/gradient_squares_bg.tscn" id="1_nafvo"]
 [ext_resource type="Shader" path="res://backgrounds/horizontal_distortion.gdshader" id="2_mbw3w"]
-[ext_resource type="Script" path="res://backgrounds/bg_1.gd" id="2_u04pu"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_4hk4e"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xmqhg"]
 shader = ExtResource("2_mbw3w")
 shader_parameter/amplitude = 32.0
 shader_parameter/y_frequency = 2.0
@@ -12,57 +11,9 @@ shader_parameter/time_frequency = 0.5
 shader_parameter/split = true
 shader_parameter/wrap_around = true
 
-[node name="BG 1" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("2_u04pu")
-
-[node name="Gradient Squares BG" parent="." instance=ExtResource("1_nafvo")]
-layout_mode = 1
+[node name="BG 1" instance=ExtResource("1_nafvo")]
 hue_min = 0.25
 hue_max = 0.6
 
-[node name="Features" parent="Gradient Squares BG" index="1"]
-material = SubResource("ShaderMaterial_4hk4e")
-
-[node name="Polygon2D" parent="Gradient Squares BG/Features" index="0"]
-color = Color(0.453064, 1, 0, 1)
-
-[node name="Polygon2D2" parent="Gradient Squares BG/Features" index="1"]
-color = Color(0.0682716, 1, 0, 1)
-
-[node name="Polygon2D3" parent="Gradient Squares BG/Features" index="2"]
-color = Color(0, 1, 0.277235, 1)
-
-[node name="Polygon2D4" parent="Gradient Squares BG/Features" index="3"]
-color = Color(0.274494, 1, 0, 1)
-
-[node name="Polygon2D5" parent="Gradient Squares BG/Features" index="4"]
-color = Color(0.239355, 1, 0, 1)
-
-[node name="Polygon2D6" parent="Gradient Squares BG/Features" index="5"]
-color = Color(0, 1, 0.249914, 1)
-
-[node name="Polygon2D7" parent="Gradient Squares BG/Features" index="6"]
-color = Color(0, 1, 0.0965164, 1)
-
-[node name="Polygon2D8" parent="Gradient Squares BG/Features" index="7"]
-color = Color(0.377534, 1, 0, 1)
-
-[node name="Polygon2D9" parent="Gradient Squares BG/Features" index="8"]
-color = Color(0.464543, 1, 0, 1)
-
-[node name="Polygon2D10" parent="Gradient Squares BG/Features" index="9"]
-color = Color(0, 1, 0.134919, 1)
-
-[node name="Polygon2D11" parent="Gradient Squares BG/Features" index="10"]
-color = Color(0.0752697, 1, 0, 1)
-
-[node name="Polygon2D12" parent="Gradient Squares BG/Features" index="11"]
-color = Color(0, 1, 0.183482, 1)
-
-[editable path="Gradient Squares BG"]
+[node name="Features" parent="." index="1"]
+material = SubResource("ShaderMaterial_xmqhg")
