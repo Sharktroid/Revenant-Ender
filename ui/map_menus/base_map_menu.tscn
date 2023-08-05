@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://b4a6n61tdijwj"]
+
+[ext_resource type="Theme" uid="uid://5iql263qnldx" path="res://ui/theme/menu_theme.tres" id="1_okeqx"]
+[ext_resource type="Script" path="res://ui/map_menus/base_item.gd" id="4_rgeva"]
+
+[node name="Base Map Menu" type="PanelContainer"]
+offset_right = 9.0
+offset_bottom = 120.0
+size_flags_horizontal = 3
+focus_mode = 2
+
+[node name="Items" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Base Item" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 1
+theme = ExtResource("1_okeqx")
+script = ExtResource("4_rgeva")
