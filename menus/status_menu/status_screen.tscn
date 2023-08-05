@@ -1,12 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://dfm25r0ju5214"]
+[gd_scene load_steps=5 format=3 uid="uid://dfm25r0ju5214"]
 
-[ext_resource type="Shader" path="res://backgrounds/scrolling_image/scrolling_bg.gdshader" id="1_onm2b"]
 [ext_resource type="PackedScene" uid="uid://b7h3kn7yes57v" path="res://backgrounds/scrolling_image/scrolling_image.tscn" id="2_lq1wv"]
 [ext_resource type="Texture2D" uid="uid://cpy5pea1o30t6" path="res://menus/variants/binding_blade/portrait.png" id="3_wyd2p"]
 [ext_resource type="PackedScene" uid="uid://jyd6v7dptm76" path="res://menus/status_menu/stat_background/statistics.tscn" id="4_te604"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_obhcv"]
-shader = ExtResource("1_onm2b")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8vmos"]
 bg_color = Color(0.12549, 0.235294, 0.345098, 0.498039)
@@ -14,25 +10,7 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 anti_aliasing = false
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5jo7u"]
-content_margin_left = 3.0
-content_margin_top = 3.0
-content_margin_right = 3.0
-content_margin_bottom = 3.0
-bg_color = Color(0.184314, 0.184314, 0.184314, 0.498039)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.184314, 0.184314, 0.184314, 1)
-border_blend = true
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-
 [node name="Panel" type="Control"]
-material = SubResource("ShaderMaterial_obhcv")
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -257,7 +235,6 @@ text = "21"
 [node name="Menu Tabs" type="TabContainer" parent="Unit Information Menu"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_5jo7u")
 
 [node name="Statistics" parent="Unit Information Menu/Menu Tabs" instance=ExtResource("4_te604")]
 layout_mode = 2
