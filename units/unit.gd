@@ -330,7 +330,6 @@ func display_movement_tiles() -> void:
 				tile.position = Vector2(i)
 				if not selected:
 					tile.modulate.a = .5
-				tile.frame = int(GenVars.get_tick_timer()/3) % 16
 				_movement_tiles_node.add_child(tile)
 		# Displays attack tile
 		for a in get_all_attack_tiles():
@@ -339,7 +338,6 @@ func display_movement_tiles() -> void:
 			tile.position = a as Vector2
 			if not selected:
 				tile.modulate.a = .5
-			tile.frame = int(GenVars.get_tick_timer()/3) % 16
 			_movement_tiles_node.add_child(tile)
 		GenVars.map.get_node("Base Layer").add_child(_movement_tiles_node)
 
@@ -378,7 +376,6 @@ func display_current_attack_tiles(pos: Vector2i) -> void:
 		tile.position = coord
 		if not coord in unit_coords:
 			tile.modulate.a = .5
-		tile.frame = int(GenVars.get_tick_timer()/3) % 16
 		_current_attack_tiles_node.add_child(tile)
 	GenVars.map.get_node("Base Layer").add_child(_current_attack_tiles_node)
 
@@ -638,7 +635,7 @@ func _create_all_attack_tiles() -> void:
 
 func _animate_sprite() -> void:
 	if map_animation == animations.IDLE:
-		var frame_num: int = int(GenVars.get_tick_timer()) % 64
+		var frame_num: int = get_tree().get_frame() % 64
 		if (frame_num >= 16 and frame_num < 32) or frame_num >= 48:
 			frame = 1
 		elif frame_num >= 32 and frame_num < 48:
@@ -651,7 +648,7 @@ func _animate_sprite() -> void:
 			animations.MOVING_DOWN: frame_coords.y = 2
 			animations.MOVING_UP: frame_coords.y = 3
 		var frame_num: float = 10
-		var frame_count: float = fmod(GenVars.get_tick_timer(), (frame_num * 4))
+		var frame_count: float = fmod(get_tree().get_frame(), (frame_num * 4))
 		if frame_count >= frame_num and frame_count < (frame_num * 2):
 			frame_coords.x = 1
 		elif frame_count >= (frame_num * 2) and frame_count < (frame_num * 3):

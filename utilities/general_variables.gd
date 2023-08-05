@@ -42,9 +42,8 @@ func get_screen_size() -> Vector2i:
 
 
 func get_tick_timer() -> float:
-	## Returns the amount of elapsed ticks.
-	## 60 ticks/second.
-	return Time.get_ticks_msec() / 1000.0 * 60
+	push_warning('Depreciated function. Use "get_tree().get_frame()" instead')
+	return get_tree().get_frame()
 
 
 func save_config() -> void:
