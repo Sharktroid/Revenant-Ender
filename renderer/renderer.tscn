@@ -2,7 +2,7 @@
 
 [ext_resource type="Shader" path="res://renderer/bilinear-filtering.gdshader" id="1_k6lfl"]
 [ext_resource type="Script" path="res://renderer/renderer.gd" id="2_uf1gv"]
-[ext_resource type="PackedScene" uid="uid://dfm25r0ju5214" path="res://menus/status_menu/status_screen.tscn" id="3_pqkp8"]
+[ext_resource type="PackedScene" uid="uid://bk72bgg524mva" path="res://controllers/game_controller/game_controller.tscn" id="3_d7vrf"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8qg76"]
 shader = ExtResource("1_k6lfl")
@@ -22,4 +22,4 @@ handle_input_locally = false
 size = Vector2i(512, 288)
 render_target_update_mode = 4
 
-[node name="Panel" parent="SubViewport" instance=ExtResource("3_pqkp8")]
+[node name="Game Controller" parent="SubViewport" instance=ExtResource("3_d7vrf")]
