@@ -176,11 +176,6 @@ func _process(_delta: float):
 #		modulate = Color.WHITE
 
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("debug"):
-		print_debug((material as ShaderMaterial).get_shader_parameter("conversion_array"))
-
-
 func has_status(status: int) -> bool:
 	return status in _current_statuses
 

@@ -1,5 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://dfm25r0ju5214"]
+[gd_scene load_steps=6 format=3 uid="uid://dfm25r0ju5214"]
 
+[ext_resource type="Script" path="res://ui/status_menu/status_screen.gd" id="1_2pcwt"]
 [ext_resource type="PackedScene" uid="uid://b7h3kn7yes57v" path="res://backgrounds/scrolling_image/scrolling_image.tscn" id="1_fu38b"]
 [ext_resource type="Texture2D" uid="uid://cpy5pea1o30t6" path="res://ui/variants/binding_blade/portrait.png" id="2_hydo1"]
 [ext_resource type="PackedScene" uid="uid://jyd6v7dptm76" path="res://ui/status_menu/stat_background/statistics.tscn" id="3_a0hin"]
@@ -10,13 +11,15 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 anti_aliasing = false
 
-[node name="Panel" type="Control"]
+[node name="Status Screen" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+focus_mode = 2
+script = ExtResource("1_2pcwt")
 
 [node name="Scrolling Image" parent="." instance=ExtResource("1_fu38b")]
 layout_mode = 1

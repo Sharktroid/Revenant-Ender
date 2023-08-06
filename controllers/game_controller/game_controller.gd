@@ -32,6 +32,3 @@ func _input(event: InputEvent) -> void:
 				get_window().mode = Window.MODE_WINDOWED
 			Window.MODE_MAXIMIZED, Window.MODE_MINIMIZED, Window.MODE_WINDOWED:
 				get_window().mode = Window.MODE_EXCLUSIVE_FULLSCREEN
-
-	if event.is_action_pressed("status"):
-		print_stack()

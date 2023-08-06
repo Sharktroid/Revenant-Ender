@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://b7h3kn7yes57v"]
 
 [ext_resource type="Shader" path="res://backgrounds/scrolling_bg.gdshader" id="2_8b6pk"]
-[ext_resource type="Texture2D" uid="uid://dda11nhxypald" path="res://menus/theme/status_screen_background.png" id="3_8fbbq"]
+[ext_resource type="Texture2D" uid="uid://dda11nhxypald" path="res://ui/theme/status_screen_background.png" id="2_g7y1c"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hj53u"]
 bg_color = Color(0, 0, 0.25098, 1)
@@ -38,7 +38,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_hj53u")
 material = SubResource("ShaderMaterial_paan6")
 
 [node name="Placeholder Panel" type="Panel" parent="Features"]
-anchors_preset = -1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = 512.0
@@ -48,4 +48,4 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_pbu75")
 [node name="TextureRect" type="TextureRect" parent="Features"]
 offset_right = 40.0
 offset_bottom = 40.0
-texture = ExtResource("3_8fbbq")
+texture = ExtResource("2_g7y1c")
