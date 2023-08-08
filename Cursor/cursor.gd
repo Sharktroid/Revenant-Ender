@@ -9,6 +9,7 @@ enum icons {ATTACK}
 var _icon_sprite: Sprite2D
 var _rel_pos: Vector2i
 var _true_origin: Vector2
+var _hovered_unit: Unit = load("uid://klwwp0vjyw6").instantiate()
 
 
 func _enter_tree() -> void:
@@ -147,12 +148,15 @@ func can_move(new_pos: Vector2i) -> bool:
 	return answer
 
 
+## Gets the unit under the cursor. Returns null if one is not there.
 func get_hovered_unit() -> Unit:
-	if get_tree():
-		for unit in get_tree().get_nodes_in_group("units"):
-			if Vector2i((unit as Unit).position) == get_true_pos():
-				return unit
+	if _hovered_unit.get_area().overlaps_area(get_area()):
+		return _hovered_unit
 	return null
+
+
+func set_hovered_unit(new_hovered_unit: Unit) -> void:
+	_hovered_unit = new_hovered_unit
 
 
 func _set_active(active: bool) -> void:

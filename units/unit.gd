@@ -3,7 +3,6 @@ class_name Unit
 extends Sprite2D
 
 signal arrived # When unit arrives at its target
-signal hovered
 signal cursor_exited
 
 enum statuses {ATTACK}
@@ -266,6 +265,10 @@ func get_current_defence(attacker_weapon_type: Weapon.damage_types) -> int:
 		_:
 			push_error("Damage Type %s Invalid" % attacker_weapon_type)
 			return 0
+
+
+func get_area() -> Area2D:
+	return $Area2D
 
 
 func has_attribute(attrib: Skill.all_attributes) -> bool:
@@ -749,7 +752,7 @@ func _on_area2d_area_entered(area: Area2D):
 		if can_be_selected:
 			if not(selected or selecting or waiting):
 				display_movement_tiles()
-		emit_signal("hovered")
+		GenVars.cursor.set_hovered_unit(self)
 
 
 func _on_area2d_area_exited(area: Area2D):
