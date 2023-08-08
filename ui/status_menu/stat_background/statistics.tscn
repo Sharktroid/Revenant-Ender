@@ -15,6 +15,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_vertical = 3
+mouse_filter = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="Offensive Stats" type="PanelContainer" parent="."]
@@ -27,6 +29,7 @@ offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
+mouse_filter = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Offensive Stats"]
 layout_mode = 2
@@ -87,6 +90,7 @@ offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
+mouse_filter = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Defensive Stats"]
 layout_mode = 2
@@ -146,6 +150,7 @@ offset_right = -2.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
+mouse_filter = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Misc Stats"]
 layout_mode = 2
@@ -229,6 +234,7 @@ offset_top = 2.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
+mouse_filter = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Other"]
 layout_mode = 2

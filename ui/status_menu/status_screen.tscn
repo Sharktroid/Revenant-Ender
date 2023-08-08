@@ -51,6 +51,7 @@ texture = ExtResource("2_hydo1")
 [node name="Container" type="ReferenceRect" parent="Unit Information Menu/Constant"]
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 1
 
 [node name="High Stats Background" type="Panel" parent="Unit Information Menu/Constant/Container"]
 layout_mode = 1
@@ -60,6 +61,7 @@ anchor_bottom = 0.891304
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
+mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_8vmos")
 metadata/_edit_use_anchors_ = true
 
@@ -240,4 +242,8 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Statistics" parent="Unit Information Menu/Menu Tabs" instance=ExtResource("3_a0hin")]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="Unit Information Menu/Menu Tabs"]
+visible = false
 layout_mode = 2
