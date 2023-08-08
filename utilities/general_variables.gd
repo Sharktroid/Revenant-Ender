@@ -5,7 +5,7 @@ const adjacent_tiles: Array[Vector2i] = [Vector2i(16, 0), Vector2i(-16, 0),
 	Vector2i(0, 16), Vector2i(0, -16)]
 
 var game_controller := GameController.new()
-var map_controller := LevelController.new()
+var map_controller := MapController.new()
 var cursor := Cursor.new()
 var map_camera := MapCamera.new()
 var map := Map.new()
@@ -42,9 +42,8 @@ func get_screen_size() -> Vector2i:
 
 
 func get_tick_timer() -> float:
-	## Returns the amount of elapsed ticks.
-	## 60 ticks/second.
-	return Time.get_ticks_msec() / 1000.0 * 60
+	push_warning('Depreciated function. Use "get_tree().get_frame()" instead')
+	return get_tree().get_frame()
 
 
 func save_config() -> void:

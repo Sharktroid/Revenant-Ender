@@ -1,5 +1,5 @@
 extends Control
-class_name LevelController
+class_name MapController
 
 signal unit_selected
 
@@ -21,7 +21,7 @@ func _ready() -> void:
 
 func _gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ranges"):
-		if _is_cursor_over_hovered_unit():
+		if GenVars.cursor.get_hovered_unit():
 			GenVars.map.toggle_outline_unit(GenVars.cursor.get_hovered_unit())
 		else:
 			GenVars.map.toggle_full_outline()
@@ -87,14 +87,6 @@ func set_scaling(new_scaling: int) -> void:
 	$"UILayer".scale = new_scale
 
 
-func _is_cursor_over_hovered_unit() -> bool:
-	var hovered_unit: Unit = GenVars.cursor.get_hovered_unit()
-	if is_instance_valid(hovered_unit):
-		return hovered_unit.get_node("Area2D").overlaps_area(GenVars.cursor.get_area())
-	else:
-		return false
-
-
 func _on_banner_timer_timeout() -> void:
 	$"UI Layer/Turn Banner".texture = null
 	GenVars.map.start_turn()
@@ -117,7 +109,7 @@ func _create_unit_menu() -> void:
 
 func _on_cursor_select() -> void:
 	var hovered_unit: Unit = GenVars.cursor.get_hovered_unit()
-	if _is_cursor_over_hovered_unit() and hovered_unit.selectable == true:
+	if hovered_unit and hovered_unit.selectable == true:
 		var controller = SelectedUnitController.new(hovered_unit)
 		add_child(controller)
 		selecting = true
