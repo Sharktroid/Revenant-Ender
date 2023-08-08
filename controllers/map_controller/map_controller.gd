@@ -1,5 +1,5 @@
 extends Control
-class_name LevelController
+class_name MapController
 
 signal unit_selected
 

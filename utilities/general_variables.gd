@@ -5,7 +5,7 @@ const adjacent_tiles: Array[Vector2i] = [Vector2i(16, 0), Vector2i(-16, 0),
 	Vector2i(0, 16), Vector2i(0, -16)]
 
 var game_controller := GameController.new()
-var map_controller := LevelController.new()
+var map_controller := MapController.new()
 var cursor := Cursor.new()
 var map_camera := MapCamera.new()
 var map := Map.new()
