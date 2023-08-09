@@ -575,7 +575,7 @@ func _get_movement_tiles() -> void:
 		# Seperates by remaining movement
 		for x in h:
 			var boundary: Vector2i = GenVars.map.get_size() - Vector2i(16, 16)
-			if x as Vector2 == GenFunc.clamp_vector(x, Vector2i(), boundary):
+			if x == x.clamp(Vector2i(), boundary):
 				var val = int(current_movement - (abs(x.x - start.x)/16 + abs(x.y - start.y)/16))
 				if not(val in tiles_first_pass):
 					tiles_first_pass[val] = []
@@ -629,7 +629,7 @@ func _create_all_attack_tiles() -> void:
 			for x in range(-get_current_weapon().max_range, get_current_weapon().max_range + 1):
 				var tile_min: Vector2i = tile + Vector2i(x * 16, y * 16)
 				var attack_tile: Vector2i = GenVars.map.get_size() - Vector2i(16, 16)
-				attack_tile = GenFunc.clamp_vector(tile_min, Vector2i(0, 0), attack_tile)
+				attack_tile = tile_min.clamp(Vector2i(0, 0), attack_tile)
 				if not(attack_tile in all_attack_tiles + raw_movement_tiles):
 					var distance: int = (GenFunc.get_tile_distance(tile, attack_tile)) as int
 					if distance in range(get_current_weapon().min_range, get_current_weapon().max_range + 1):
