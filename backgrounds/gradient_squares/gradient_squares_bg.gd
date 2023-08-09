@@ -29,4 +29,4 @@ func _update_hue() -> void:
 
 
 func _get_time_in_seconds() -> float:
-	return GenVars.get_tick_timer() / 60
+	return get_tree().get_frame() / 60

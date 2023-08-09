@@ -41,11 +41,6 @@ func get_screen_size() -> Vector2i:
 	return _default_screen_size
 
 
-func get_tick_timer() -> float:
-	push_warning('Depreciated function. Use "get_tree().get_frame()" instead')
-	return get_tree().get_frame()
-
-
 func save_config() -> void:
 	# Saves configuration.
 	for constant in _debug_constants:

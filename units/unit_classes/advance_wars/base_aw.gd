@@ -1,4 +1,4 @@
-extends "res://Unit Classes/unit_base.gd"
+extends Unit
 var _base_frame: int # Base frame for animation.
 var _starting_frame: int # Base frame for animation after modifiers.
 var _faction_dict: Dictionary
@@ -21,6 +21,6 @@ func _ready() -> void:
 #	_set_base_frame()
 
 
-func _update_sprite() -> void:
-	super._update_sprite()
-	frame = _base_frame
+#func _update_sprite() -> void:
+#	super._update_sprite()
+#	frame = _base_frame

@@ -1,9 +1,9 @@
 #tool
-extends "res://Unit Classes/city.gd"
+extends "res://units/unit_classes/advance_wars/city/city.gd"
 
 
-func _init():
-	unit_class = "HQ"
+#func _init():
+#	unit_class = "HQ"
 
 
 func _ready() -> void:
