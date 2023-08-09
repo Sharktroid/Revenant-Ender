@@ -29,4 +29,4 @@ func _update_hue() -> void:
 
 
 func _get_time_in_seconds() -> float:
-	return get_tree().get_frame() / 60
+	return Time.get_ticks_msec() / 1000

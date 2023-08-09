@@ -638,7 +638,7 @@ func _create_all_attack_tiles() -> void:
 
 func _animate_sprite() -> void:
 	if map_animation == animations.IDLE:
-		var frame_num: int = get_tree().get_frame() % 64
+		var frame_num: int = Engine.get_physics_frames() % 64
 		if (frame_num >= 16 and frame_num < 32) or frame_num >= 48:
 			frame = 1
 		elif frame_num >= 32 and frame_num < 48:
@@ -651,7 +651,7 @@ func _animate_sprite() -> void:
 			animations.MOVING_DOWN: frame_coords.y = 2
 			animations.MOVING_UP: frame_coords.y = 3
 		var frame_num: float = 10
-		var frame_count: float = fmod(get_tree().get_frame(), (frame_num * 4))
+		var frame_count: float = fmod(Engine.get_physics_frames(), (frame_num * 4))
 		if frame_count >= frame_num and frame_count < (frame_num * 2):
 			frame_coords.x = 1
 		elif frame_count >= (frame_num * 2) and frame_count < (frame_num * 3):

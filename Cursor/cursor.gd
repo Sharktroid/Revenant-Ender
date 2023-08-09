@@ -22,7 +22,7 @@ func _ready() -> void:
 
 
 func _process(_delta):
-	var tick_timer: int = get_tree().get_frame() % 32
+	var tick_timer: int = Engine.get_physics_frames() % 32
 	if tick_timer <= 20:
 		$Icon.frame = 0
 	elif tick_timer <= 22 or tick_timer > 30:
