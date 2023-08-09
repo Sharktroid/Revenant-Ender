@@ -26,9 +26,9 @@ func get_color(num: float) -> Color:
 	var final_color = Color()
 	# Deriving color from linear regresson
 	if num > 50:
-		final_color = half_color.lerp(full_color, (num - 50)/50)
+		final_color = half_color.lerp(full_color, inverse_lerp(50, 100, num))
 	else:
-		final_color = zero_color.lerp(half_color, num/50)
+		final_color = zero_color.lerp(half_color, inverse_lerp(0, 50, num))
 	return final_color
 
 
