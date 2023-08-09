@@ -24,7 +24,6 @@ func _ready() -> void:
 	add_child(_combat_sprite)
 	(_combat_sprite as Unit).sprite_animated = false
 	(_combat_sprite as Unit).reset_map_anim()
-	wait()
 
 
 func play_animation() -> void:
@@ -47,10 +46,6 @@ func play_animation() -> void:
 	emit_signal("complete")
 	(_combat_sprite as Unit).sprite_animated = false
 	(_combat_sprite as Unit).reset_map_anim()
-
-
-func wait() -> void:
-	pass
 
 
 func _move(movement: Vector2) -> void:
