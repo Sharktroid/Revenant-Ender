@@ -6,7 +6,6 @@ signal complete
 signal arrived
 signal proceed
 
-var new_pos: Vector2i
 var target_tile: Vector2i
 var _combat_sprite: Node2D
 
@@ -23,14 +22,9 @@ func _ready() -> void:
 	_combat_sprite.position = Vector2i()
 	_combat_sprite.remove_from_group("units")
 	add_child(_combat_sprite)
-	new_pos = position
 	(_combat_sprite as Unit).sprite_animated = false
 	(_combat_sprite as Unit).reset_map_anim()
 	wait()
-
-
-func _physics_process(_delta: float) -> void:
-	position = position.move_toward(new_pos, 1)
 
 
 func play_animation() -> void:
@@ -59,9 +53,10 @@ func wait() -> void:
 	pass
 
 
-func _move(pos: Vector2i) -> void:
-	new_pos += pos
-	while (position != (new_pos as Vector2)):
-		await (get_tree() as SceneTree).process_frame
+func _move(movement: Vector2) -> void:
+	var new_pos: Vector2 = position + movement
+	while (position != new_pos):
+		position = position.move_toward(new_pos, 1)
+		await (get_tree() as SceneTree).physics_frame
 	emit_signal("arrived")
 
