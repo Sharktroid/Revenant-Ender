@@ -13,7 +13,6 @@ func _ready() -> void:
 
 func _update_stars() -> void:
 	var star_size: Vector2i = %"Stars Display".get_theme_stylebox("panel").texture.get_size()
-	print_debug(size.x)
 	if star_size.x * stars > size.x:
 		$"Number Label".text = str(stars)
 		$"Number Label".visible = true
