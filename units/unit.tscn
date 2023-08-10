@@ -78,8 +78,7 @@ position = Vector2(8, 8)
 shape = SubResource("1")
 
 [node name="Health Bar" parent="." instance=ExtResource("2")]
-visible = false
-position = Vector2(8, 14)
+position = Vector2(0, 12)
 
 [node name="Status" type="Sprite2D" parent="."]
 position = Vector2(0, -16)
