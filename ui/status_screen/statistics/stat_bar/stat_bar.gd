@@ -1,4 +1,5 @@
 @tool
+class_name StatBar
 extends Control
 
 ## Highest value that can be ever displayed.

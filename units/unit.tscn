@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://units/unit.gd" id="1"]
 [ext_resource type="Shader" path="res://units/palette.gdshader" id="1_6ujht"]
-[ext_resource type="PackedScene" uid="uid://c3u8sd6ld0tlh" path="res://units/health_bar.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://units/health_bar.tscn" id="2"]
 [ext_resource type="Script" path="res://skills/follow_up.gd" id="2_py8tn"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6k0rt"]

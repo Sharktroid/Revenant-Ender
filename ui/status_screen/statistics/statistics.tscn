@@ -73,12 +73,15 @@ theme = SubResource("Theme_ux5tw")
 theme_override_constants/separation = 0
 
 [node name="Strength Bar" parent="Offensive Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Pierce Bar" parent="Offensive Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Magic Bar" parent="Offensive Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Defensive Stats" type="PanelContainer" parent="."]
@@ -133,12 +136,15 @@ theme = SubResource("Theme_ux5tw")
 theme_override_constants/separation = 0
 
 [node name="Defense Bar" parent="Defensive Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Durability Bar" parent="Defensive Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Resistance Bar" parent="Defensive Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Misc Stats" type="PanelContainer" parent="."]
@@ -210,18 +216,23 @@ theme = SubResource("Theme_ux5tw")
 theme_override_constants/separation = 0
 
 [node name="Skill Bar" parent="Misc Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Speed Bar" parent="Misc Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Luck Bar" parent="Misc Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
-layout_mode = 2
-
-[node name="Movement Bar" parent="Misc Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Constitution Bar" parent="Misc Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Movement Bar" parent="Misc Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Other" type="PanelContainer" parent="."]
@@ -293,24 +304,28 @@ theme = SubResource("Theme_ux5tw")
 theme_override_constants/separation = 0
 
 [node name="Leadership Stars" parent="Other/HBoxContainer/Values" instance=ExtResource("3_8euhf")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Weight Value" type="Label" parent="Other/HBoxContainer/Values"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"BlueLabel"
+text = "Not Yet Implemented"
 vertical_alignment = 1
 
 [node name="Aid Value" type="Label" parent="Other/HBoxContainer/Values"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"BlueLabel"
+text = "Not Yet Implemented"
 vertical_alignment = 1
 
 [node name="Traveler Name" type="Label" parent="Other/HBoxContainer/Values"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"BlueLabel"
+text = "Not Yet Implemented"
 vertical_alignment = 1
 
 [node name="Statuses" type="HBoxContainer" parent="Other/HBoxContainer/Values"]

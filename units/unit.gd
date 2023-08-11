@@ -265,6 +265,10 @@ func get_current_defence(attacker_weapon_type: Weapon.damage_types) -> int:
 			return 0
 
 
+func get_max_level() -> int:
+	return unit_class.max_level
+
+
 func get_area() -> Area2D:
 	return $Area2D
 

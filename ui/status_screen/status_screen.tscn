@@ -95,6 +95,7 @@ theme_type_variation = &"YellowLabel"
 text = "Level"
 
 [node name="Current Level" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Level Container"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "1"
@@ -105,6 +106,7 @@ theme_type_variation = &"YellowLabel"
 text = "/"
 
 [node name="Max Level" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Level Container"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "1"
@@ -120,8 +122,8 @@ text = "EXP"
 
 [node name="Current EXP" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/EXP Container"]
 layout_mode = 2
-text = "21"
 theme_type_variation = &"BlueLabel"
+text = "NYI"
 
 [node name="Seperator" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/EXP Container"]
 layout_mode = 2
@@ -142,6 +144,7 @@ theme_type_variation = &"YellowLabel"
 text = "Hit Points"
 
 [node name="Current HP" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/HP Container"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "21"
@@ -152,6 +155,7 @@ theme_type_variation = &"YellowLabel"
 text = "/"
 
 [node name="Max HP" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/HP Container"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "21"
@@ -165,6 +169,7 @@ theme_type_variation = &"YellowLabel"
 text = "Attack"
 
 [node name="Attack Value" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Attack Container"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "21"
@@ -178,6 +183,7 @@ theme_type_variation = &"YellowLabel"
 text = "Attack Speed"
 
 [node name="AS Value" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/AS Container"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "21"
@@ -193,7 +199,7 @@ text = "Hit Rate"
 [node name="Hit Value" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Hit Container"]
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
-text = "21"
+text = "NYI"
 
 [node name="Avoid Container" type="HBoxContainer" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
@@ -205,8 +211,8 @@ text = "Avoid Rate"
 
 [node name="Avoid Value" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Avoid Container"]
 layout_mode = 2
-text = "21"
 theme_type_variation = &"BlueLabel"
+text = "NYI"
 
 [node name="Crit Container" type="HBoxContainer" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
@@ -218,8 +224,8 @@ text = "Critical Rate"
 
 [node name="Crit Value" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Crit Container"]
 layout_mode = 2
-text = "21"
 theme_type_variation = &"BlueLabel"
+text = "NYI"
 
 [node name="Crit Avoid Container" type="HBoxContainer" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
@@ -231,8 +237,8 @@ text = "Crit Avoid Rate"
 
 [node name="Crit Avoid Value" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Crit Avoid Container"]
 layout_mode = 2
-text = "21"
 theme_type_variation = &"BlueLabel"
+text = "NYI"
 
 [node name="Range Container" type="HBoxContainer" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
@@ -243,16 +249,19 @@ theme_type_variation = &"YellowLabel"
 text = "Range"
 
 [node name="Min Range" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Range Container"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "1"
 
 [node name="Range Seperator" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Range Container"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"YellowLabel"
 text = "-"
 
 [node name="Max Range" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Range Container"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "2"
