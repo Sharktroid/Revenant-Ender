@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://iuhdjformeos"]
 
-[ext_resource type="Script" path="res://ui/status_screen/stat_background/stars_label/stars_label.gd" id="1_rsmud"]
-[ext_resource type="Texture2D" uid="uid://t0bbp8bbv1mb" path="res://ui/status_screen/stat_background/stars_label/star.png" id="2_6jqyi"]
+[ext_resource type="Script" path="res://ui/status_screen/statistics/stars_label/stars_label.gd" id="1_rsmud"]
+[ext_resource type="Texture2D" uid="uid://t0bbp8bbv1mb" path="res://ui/status_screen/statistics/stars_label/star.png" id="2_6jqyi"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_r1ljw"]
 texture = ExtResource("2_6jqyi")

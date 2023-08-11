@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://ddxis6ap1skmy" path="res://ui/variants/binding_blade/stat_bar_fill.png" id="2_80x3b"]
 [ext_resource type="Texture2D" uid="uid://crfr0u4x5xmdw" path="res://ui/variants/binding_blade/stat_bar_background.png" id="2_vw8b3"]
-[ext_resource type="Script" path="res://ui/status_screen/stat_background/stat_bar/stat_bar.gd" id="2_wq8ko"]
+[ext_resource type="Script" path="res://ui/status_screen/statistics/stat_bar/stat_bar.gd" id="2_wq8ko"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v4ulm"]
 
