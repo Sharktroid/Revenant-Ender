@@ -220,10 +220,7 @@ func get_damage(defender: Unit) -> float:
 func set_current_health(health: float) -> void:
 	_current_health = clamp(health, 0, get_stat(stats.HITPOINTS))
 	if not Engine.is_editor_hint():
-		if get_stat(stats.HITPOINTS) > 0:
-			$"Health Bar".set_percent(_current_health/get_stat(stats.HITPOINTS) * 100)
-		else:
-			$"Health Bar".set_percent(100.0)
+		$"Health Bar".update()
 
 
 func get_current_health() -> float:

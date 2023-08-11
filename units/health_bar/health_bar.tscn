@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://c3u8sd6ld0tlh"]
+
+[ext_resource type="Script" path="res://units/health_bar/health_bar.gd" id="1_4krek"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lpcvt"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tlhdi"]
+bg_color = Color(0, 0.75, 0, 1)
+
+[node name="Health Bar" type="ProgressBar"]
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 15.0
+offset_bottom = 2.0
+theme_override_styles/background = SubResource("StyleBoxFlat_lpcvt")
+theme_override_styles/fill = SubResource("StyleBoxFlat_tlhdi")
+max_value = 30.0
+step = 0.0
+value = 30.0
+show_percentage = false
+script = ExtResource("1_4krek")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+show_behind_parent = true
+color = Color(0.25, 0.25, 0.25, 1)
+polygon = PackedVector2Array(0, 0, 0, -1, 14, -1, 14, 0, 15, 0, 15, 1, 14, 1, 14, 2, 0, 2, 0, 1, -1, 1, -1, 0)
