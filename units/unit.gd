@@ -244,8 +244,11 @@ func get_stat(stat: stats, level: int = current_level) -> int:
 	var base_stat: int = unit_class.base_stats[stat] + personal_base_stats[stat]
 	var end_stat: int = unit_class.end_stats[stat] + personal_end_stats[stat]
 	var leveled_stat: int = lerp(base_stat, end_stat, (level as float)/unit_class.max_level)
-	var max_stat: int = unit_class.stat_caps[stat] + personal_stat_caps[stat]
-	return clamp(leveled_stat + get_stat_boost(stat), 0, max_stat)
+	return clamp(leveled_stat + get_stat_boost(stat), 0, get_stat_cap(stat))
+
+
+func get_stat_cap(stat: stats) -> int:
+	return unit_class.stat_caps[stat] + personal_stat_caps[stat]
 
 
 func get_attack_speed() -> int:
