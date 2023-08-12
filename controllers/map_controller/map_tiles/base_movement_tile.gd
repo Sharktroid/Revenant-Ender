@@ -10,4 +10,4 @@ func _process(_delta: float) -> void:
 
 
 func _update_frame() -> void:
-	frame = int(floor(float(Engine.get_physics_frames())/3)) % 16
+	frame = floori(float(Engine.get_physics_frames())/3) % 16

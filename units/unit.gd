@@ -157,7 +157,7 @@ func _physics_process(_delta: float) -> void:
 
 			else:
 				_target = _path.pop_at(0)
-				match int(position.angle_to_point(_target) / PI * 2) + 1:
+				match floori(position.angle_to_point(_target) / PI * 2) + 1:
 					0: map_animation = animations.MOVING_DOWN
 					1: map_animation = animations.MOVING_RIGHT
 					2: map_animation = animations.MOVING_UP
@@ -213,7 +213,7 @@ func get_damage(defender: Unit) -> float:
 
 ## Sets units current health.
 func set_current_health(health: float) -> void:
-	_current_health = clamp(health, 0, get_stat(stats.HITPOINTS))
+	_current_health = clampf(health, 0, get_stat(stats.HITPOINTS))
 	if not Engine.is_editor_hint():
 		$"Health Bar".update()
 
@@ -240,8 +240,8 @@ func get_stat_boost(stat: stats) -> int:
 func get_stat(stat: stats, level: int = current_level) -> int:
 	var base_stat: int = unit_class.base_stats[stat] + personal_base_stats[stat]
 	var end_stat: int = unit_class.end_stats[stat] + personal_end_stats[stat]
-	var leveled_stat: int = lerp(base_stat, end_stat, (level as float)/unit_class.max_level)
-	return clamp(leveled_stat + get_stat_boost(stat), 0, get_stat_cap(stat))
+	var leveled_stat: int = roundi(lerpf(base_stat, end_stat, (level as float)/unit_class.max_level))
+	return clampi(leveled_stat + get_stat_boost(stat), 0, get_stat_cap(stat))
 
 
 func get_stat_cap(stat: stats) -> int:
@@ -568,14 +568,14 @@ func _get_movement_tiles() -> void:
 		# Gets the initial grid
 		for y in range(-current_movement, current_movement + 1):
 			var v = []
-			for x in range(-(current_movement - abs(y)) , (current_movement - abs(y))+1):
+			for x in range(-(current_movement - absi(y)) , (current_movement - absi(y))+1):
 				v.append(start + Vector2i(x * 16, y * 16))
 			h.append_array(v)
 		# Seperates by remaining movement
 		for x in h:
 			var boundary: Vector2i = GenVars.map.get_size() - Vector2i(16, 16)
 			if x == x.clamp(Vector2i(), boundary):
-				var val = int(current_movement - (abs(x.x - start.x)/16 + abs(x.y - start.y)/16))
+				var val = floori(current_movement - (absf(x.x - start.x)/16 + absf(x.y - start.y)/16))
 				if not(val in tiles_first_pass):
 					tiles_first_pass[val] = []
 				tiles_first_pass[val].append(x)

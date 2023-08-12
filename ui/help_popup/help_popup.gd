@@ -11,6 +11,6 @@ func _ready() -> void:
 	var start_time: float = Time.get_ticks_msec()
 	while size != final_size:
 		var elapsed_time: float = Time.get_ticks_msec() - start_time
-		size = lerp(custom_minimum_size, final_size, min(elapsed_time/GROW_SHRINK_DURATION/1000, 1))
+		size = custom_minimum_size.lerp(final_size, min(elapsed_time/GROW_SHRINK_DURATION/1000, 1))
 		await get_tree().process_frame
 	text = final_text

@@ -67,7 +67,7 @@ func _process(_delta: float) -> void:
 				distance = coords - parent.get_unit_path()[parent.get_unit_path().find(coords) - 1]
 			var angle: float = distance.angle()/PI
 			# Converting the direction into proper animation.
-			if not abs(distance.x) == abs(distance.y):
+			if not absf(distance.x) == absf(distance.y):
 				if angle > 0.25 and angle < 0.75:
 					ghost_unit.map_animation = Unit.animations.MOVING_DOWN
 				elif angle < 0.25 and angle > -0.25:

@@ -9,11 +9,11 @@ static func slice_string(string: String, start: int, end: int) -> String:
 
 static func get_tile_distance(pos_a: Vector2, pos_b: Vector2) -> float:
 	# Gets the distance between two tiles in tiles.
-	return (abs(pos_a.x - pos_b.x) + abs(pos_a.y - pos_b.y))/16
+	return (absf(pos_a.x - pos_b.x) + absf(pos_a.y - pos_b.y))/16
 
 
 static func round_coords_to_tile(coords: Vector2, offset := Vector2()) -> Vector2i:
 	# Rounds "coords" to the nearest tile (16x16).
 	coords -= offset
-	coords = Vector2(floor(coords.x/16) * 16, floor(coords.y/16) * 16)
+	coords = Vector2(floori(coords.x/16) * 16, floori(coords.y/16) * 16)
 	return coords + offset

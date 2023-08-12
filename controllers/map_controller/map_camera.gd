@@ -55,7 +55,7 @@ func update_offset() -> void:
 	map_offset = GenVars.get_screen_size() % 16 / 2
 	for i in 2:
 		if map_size[i] < screen_size[i]:
-			map_offset[i] = round(screen_size[i] - map_size[i])/2
+			map_offset[i] = roundi(float(screen_size[i] - map_size[i])/2)
 	GenVars.cursor.move(Vector2i())
 
 

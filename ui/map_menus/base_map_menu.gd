@@ -81,7 +81,7 @@ func close() -> void:
 
 func set_map_position(new_position: Vector2i) -> void:
 	if new_position.x >= float(GenVars.get_screen_size().x)/2:
-		new_position.x -= ceil((16 + size.x))
+		new_position.x -= ceili(16 + size.x)
 	position = new_position.clamp(Vector2i(), GenVars.get_screen_size() - Vector2i(size))
 
 
