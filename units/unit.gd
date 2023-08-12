@@ -175,11 +175,6 @@ func _process(_delta: float):
 #		modulate = Color.WHITE
 
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("debug"):
-		print_debug((material as ShaderMaterial).get_shader_parameter("conversion_array"))
-
-
 func has_status(status: int) -> bool:
 	return status in _current_statuses
 
@@ -246,8 +241,11 @@ func get_stat(stat: stats, level: int = current_level) -> int:
 	var base_stat: int = unit_class.base_stats[stat] + personal_base_stats[stat]
 	var end_stat: int = unit_class.end_stats[stat] + personal_end_stats[stat]
 	var leveled_stat: int = lerp(base_stat, end_stat, (level as float)/unit_class.max_level)
-	var max_stat: int = unit_class.stat_caps[stat] + personal_stat_caps[stat]
-	return clamp(leveled_stat + get_stat_boost(stat), 0, max_stat)
+	return clamp(leveled_stat + get_stat_boost(stat), 0, get_stat_cap(stat))
+
+
+func get_stat_cap(stat: stats) -> int:
+	return unit_class.stat_caps[stat] + personal_stat_caps[stat]
 
 
 func get_attack_speed() -> int:
@@ -262,6 +260,10 @@ func get_current_defence(attacker_weapon_type: Weapon.damage_types) -> int:
 		_:
 			push_error("Damage Type %s Invalid" % attacker_weapon_type)
 			return 0
+
+
+func get_max_level() -> int:
+	return unit_class.max_level
 
 
 func get_area() -> Area2D:

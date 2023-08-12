@@ -20,7 +20,7 @@ func _init():
 		Unit.stats.DURABILITY: 0,
 		Unit.stats.RESISTANCE: 0,
 		Unit.stats.MOVEMENT: 5,
-		Unit.stats.CONSTITUTION: 0,
+		Unit.stats.CONSTITUTION: 6,
 		Unit.stats.LEADERSHIP: 0,
 	}
 	end_stats = {
@@ -35,7 +35,7 @@ func _init():
 		Unit.stats.DURABILITY: 0,
 		Unit.stats.RESISTANCE: 6,
 		Unit.stats.MOVEMENT: 5,
-		Unit.stats.CONSTITUTION: 0,
+		Unit.stats.CONSTITUTION: 6,
 		Unit.stats.LEADERSHIP: 0,
 	}
 	stat_caps = {
@@ -50,7 +50,7 @@ func _init():
 		Unit.stats.DURABILITY: 0,
 		Unit.stats.RESISTANCE: 25,
 		Unit.stats.MOVEMENT: 7,
-		Unit.stats.CONSTITUTION: 0,
-		Unit.stats.LEADERSHIP: 0,
+		Unit.stats.CONSTITUTION: 20,
+		Unit.stats.LEADERSHIP: 5,
 	}
 	map_sprite = load("uid://dtexaf8rj3l56")

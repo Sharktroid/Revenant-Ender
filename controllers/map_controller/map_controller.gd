@@ -25,15 +25,15 @@ func _gui_input(event: InputEvent) -> void:
 			GenVars.map.toggle_outline_unit(GenVars.cursor.get_hovered_unit())
 		else:
 			GenVars.map.toggle_full_outline()
+
 	elif event.is_action_pressed("ui_select"):
 		_on_cursor_select()
-#	elif event.is_action_pressed("debug"):
-#		$"UI Layer"/Temp.queue_redraw()
-#		var bottom = get_viewport().size.y/GenVars.scaling
-#		$"UI Layer"/Top.polygon = [Vector2(0, 0), Vector2(GenVars.map.get_size().x, 0), Vector2(GenVars.map.get_size().x, 16), Vector2(0, 16)]
-#		$"UI Layer"/Bottom.polygon = [Vector2(0, bottom - 16), Vector2(GenVars.map.get_size().x, bottom - 16), Vector2(GenVars.map.get_size().x, bottom), Vector2(0, bottom)]
-#		draw_line(Vector2(0, 16), Vector2(GenVars.map.get_size().x, 16), Color.BLUE, 2.0)
-#		draw_line(Vector2(0, bottom), Vector2(GenVars.map.get_size().x, bottom), Color.BLUE, 2.0)
+
+	elif event.is_action_pressed("status"):
+		if GenVars.cursor.get_hovered_unit():
+			var status_menu: Control = load("uid://dfm25r0ju5214").instantiate()
+			status_menu.observing_unit = GenVars.cursor.get_hovered_unit()
+			$"UI Layer".add_child(status_menu)
 
 
 func _process(_delta: float) -> void:
