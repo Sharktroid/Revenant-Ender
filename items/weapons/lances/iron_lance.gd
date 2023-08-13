@@ -11,8 +11,7 @@ func _init():
 #	crit
 	min_range = 1
 	max_range = 1
-#	max_durability
-#	current_durability
+#	max_uses
 #	price
 #	weapon_experience
 #	effective_classes

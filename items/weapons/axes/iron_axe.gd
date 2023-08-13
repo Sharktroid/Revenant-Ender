@@ -4,6 +4,7 @@ extends Weapon
 
 # Weapon-specific variables.
 func _init():
+	name = "Iron Axe"
 	level = ranks.E
 	might = 8
 	weight = 10
@@ -11,8 +12,7 @@ func _init():
 	crit = 0
 	min_range = 1
 	max_range = 1
-	max_durability = 45
-	current_durability = 45
+	max_uses = 45
 	price = 270
 	weapon_experience = 1
 	super()

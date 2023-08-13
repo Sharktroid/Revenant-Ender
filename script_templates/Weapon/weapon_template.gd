@@ -11,8 +11,7 @@ func _init() -> void:
 #_TS_crit =
 #_TS_min_range =
 #_TS_max_range =
-#_TS_max_durability =
-#_TS_current_durability =
+#_TS_max_uses =
 #_TS_price =
 #_TS_weapon_experience =
 #_TS_effective_classes =

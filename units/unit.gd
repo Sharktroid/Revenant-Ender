@@ -15,7 +15,7 @@ enum stats {
 ## Unit's faction. Should be in the map's Faction stack.
 @export var faction_id: int
 @export var variant: String # Visual variant.
-@export var items: Array[Item] # No way to load weapons directly via export variable.
+@export var items: Array[Item]
 @export var current_level: int = 1
 @export var personal_stat_caps: Dictionary
 @export var personal_end_stats: Dictionary
@@ -355,7 +355,7 @@ func get_current_attack_tiles(pos: Vector2i) -> Array[Vector2i]:
 	for y in range(-get_current_weapon().max_range, get_current_weapon().max_range + 1):
 		var v: Array[Vector2i] = []
 		for x in range(-get_current_weapon().max_range, get_current_weapon().max_range + 1):
-			var distance: int = (GenFunc.get_tile_distance(Vector2i(), Vector2i(x, y) * 16)) as int
+			var distance: int = floori(GenFunc.get_tile_distance(Vector2i(), Vector2i(x, y) * 16))
 			if distance in range(get_current_weapon().min_range, get_current_weapon().max_range + 1):
 				v.append(Vector2i(pos) + Vector2i(x * 16, y * 16))
 		current_attack_tiles.append_array(v)
@@ -630,7 +630,7 @@ func _create_all_attack_tiles() -> void:
 				var attack_tile: Vector2i = GenVars.map.get_size() - Vector2i(16, 16)
 				attack_tile = tile_min.clamp(Vector2i(0, 0), attack_tile)
 				if not(attack_tile in all_attack_tiles + raw_movement_tiles):
-					var distance: int = (GenFunc.get_tile_distance(tile, attack_tile)) as int
+					var distance: int = floori(GenFunc.get_tile_distance(tile, attack_tile))
 					if distance in range(get_current_weapon().min_range, get_current_weapon().max_range + 1):
 						all_attack_tiles.append(attack_tile)
 

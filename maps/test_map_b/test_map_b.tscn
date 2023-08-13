@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://drbehrx1xfpsp" path="res://tilesets/fe6_chapter_1.png" id="4_5oxrk"]
 [ext_resource type="Shader" path="res://units/palette.gdshader" id="6_jwyrt"]
 [ext_resource type="Texture2D" uid="uid://dtexaf8rj3l56" path="res://units/unit_classes/lord_roy/lord_roy.png" id="7_6ohto"]
-[ext_resource type="Script" path="res://items/weapons/swords/rapier.gd" id="7_hr67e"]
+[ext_resource type="Script" path="res://items/weapons/swords/rapier/rapier.gd" id="7_hr67e"]
 [ext_resource type="Script" path="res://units/unit_classes/lord_roy/lord_roy.gd" id="8_a8gn5"]
 [ext_resource type="Script" path="res://items/weapons/lances/iron_lance.gd" id="9_xfkid"]
 [ext_resource type="Script" path="res://units/unit_classes/social_knight/social_knight.gd" id="10_0vid6"]

@@ -38,9 +38,6 @@ var hit: int
 var crit: int
 var min_range: int
 var max_range: int
-var max_durability: int
-var current_durability: int
-var price: int
 var weapon_experience: int
 var effective_classes: int
 var type: types
@@ -56,6 +53,7 @@ func _init() -> void:
 			types.FIRE, types.WIND, types.LIGHTNING: _damage_type = damage_types.MAGIC
 	if not _damage_type_ranged:
 		_damage_type_ranged = _damage_type
+	super()
 
 
 func get_damage_type() -> damage_types:
