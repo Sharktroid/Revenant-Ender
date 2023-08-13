@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://dfm25r0ju5214"]
+[gd_scene load_steps=7 format=3 uid="uid://dfm25r0ju5214"]
 
 [ext_resource type="Script" path="res://ui/status_screen/status_screen.gd" id="1_2pcwt"]
 [ext_resource type="PackedScene" uid="uid://b7h3kn7yes57v" path="res://backgrounds/scrolling_image/scrolling_image.tscn" id="1_fu38b"]
 [ext_resource type="Texture2D" uid="uid://cpy5pea1o30t6" path="res://ui/variants/binding_blade/portrait.png" id="2_hydo1"]
 [ext_resource type="PackedScene" uid="uid://jyd6v7dptm76" path="res://ui/status_screen/statistics/statistics.tscn" id="3_a0hin"]
+[ext_resource type="PackedScene" uid="uid://bv0fufaguhv7n" path="res://ui/status_screen/item_screen/item_screen.tscn" id="5_ogdan"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8vmos"]
 bg_color = Color(0.12549, 0.235294, 0.345098, 0.498039)
@@ -100,7 +101,7 @@ layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "1"
 
-[node name="Seperator" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Level Container"]
+[node name="Separator" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Level Container"]
 layout_mode = 2
 theme_type_variation = &"YellowLabel"
 text = "/"
@@ -125,7 +126,7 @@ layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "NYI"
 
-[node name="Seperator" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/EXP Container"]
+[node name="Separator" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/EXP Container"]
 layout_mode = 2
 theme_type_variation = &"YellowLabel"
 text = "/"
@@ -149,7 +150,7 @@ layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "21"
 
-[node name="Seperator" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/HP Container"]
+[node name="Separator" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/HP Container"]
 layout_mode = 2
 theme_type_variation = &"YellowLabel"
 text = "/"
@@ -254,7 +255,7 @@ layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "1"
 
-[node name="Range Seperator" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Range Container"]
+[node name="Range Separator" type="Label" parent="Unit Information Menu/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Range Container"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"YellowLabel"
@@ -271,4 +272,8 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Statistics" parent="Unit Information Menu/Menu Tabs" instance=ExtResource("3_a0hin")]
+layout_mode = 2
+
+[node name="Items" parent="Unit Information Menu/Menu Tabs" instance=ExtResource("5_ogdan")]
+visible = false
 layout_mode = 2

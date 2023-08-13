@@ -5,6 +5,7 @@ var observing_unit: Unit
 
 func _enter_tree() -> void:
 	$"Unit Information Menu/Menu Tabs/Statistics".observing_unit = observing_unit
+	$"Unit Information Menu/Menu Tabs/Items".observing_unit = observing_unit
 
 func _ready() -> void:
 	grab_focus()
@@ -38,10 +39,10 @@ func _update() -> void:
 	var current_weapon: Weapon = observing_unit.get_current_weapon()
 	_set_label_text_to_number(%"Min Range", current_weapon.min_range)
 	if current_weapon.min_range == current_weapon.max_range:
-		%"Range Seperator".visible = false
+		%"Range Separator".visible = false
 		%"Max Range".text = ""
 	else:
-		%"Range Seperator".visible = true
+		%"Range Separator".visible = true
 		_set_label_text_to_number(%"Max Range", current_weapon.max_range)
 
 
