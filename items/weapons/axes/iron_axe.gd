@@ -6,6 +6,7 @@ extends Weapon
 func _init():
 	name = "Iron Axe"
 	level = ranks.E
+	type = types.AXE
 	might = 8
 	weight = 10
 	hit = 75
