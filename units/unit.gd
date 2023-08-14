@@ -34,7 +34,6 @@ var selected: bool = false # Whether the unit is selected.
 var selectable: bool = true # Whether the unit can be selected.
 var waiting: bool = false
 var sprite_animated: bool = true
-var weapon_levels: Dictionary
 
 var _path: Array[Vector2i] # Path the unit will follow when moving.
 var _current_statuses: Array[statuses]
@@ -105,8 +104,6 @@ var _arrows_container: CanvasGroup
 
 
 func _enter_tree() -> void:
-	for weapon in Weapon.types:
-		weapon_levels[weapon] = 0
 	for stat in len(stats):
 		if not(stat in personal_base_stats):
 			personal_base_stats[stat] = 0
@@ -270,11 +267,22 @@ func get_area() -> Area2D:
 	return $Area2D
 
 
+func get_weapon_level(weapon_type: Weapon.types) -> int:
+	if weapon_type in unit_class.weapon_levels.keys():
+		return unit_class.weapon_levels[weapon_type]
+	else:
+		return 0
+
+
 func has_attribute(attrib: Skill.all_attributes) -> bool:
 	for skill in skills:
 		if attrib in (skill as Skill).attributes:
 			return true
 	return false
+
+
+func can_use_weapon(weapon: Weapon) -> bool:
+	return weapon.level <= get_weapon_level(weapon.type)
 
 
 ## Causes unit to wait.
