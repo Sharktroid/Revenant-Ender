@@ -3,6 +3,7 @@ extends Control
 
 var _unit: Unit
 var _ghost_unit: GhostUnit
+var current_animation: Unit.animations = Unit.animations.IDLE
 
 func _init(connected_unit: Unit) -> void:
 	_unit = connected_unit
@@ -32,11 +33,15 @@ func _process(_delta: float) -> void:
 		var distance = Vector2i()
 		if len(_unit.get_unit_path()) >= 2:
 			distance = _unit.get_unit_path()[-1] - _unit.get_unit_path()[-2]
+		var next_animation: Unit.animations
 		match distance:
-			Vector2i(16, 0): _ghost_unit.set_animation(Unit.animations.MOVING_LEFT)
-			Vector2i(-16, 0): _ghost_unit.set_animation(Unit.animations.MOVING_RIGHT)
-			Vector2i(0, -16): _ghost_unit.set_animation(Unit.animations.MOVING_UP)
-			_: _ghost_unit.set_animation(Unit.animations.MOVING_DOWN)
+			Vector2i(16, 0): next_animation = Unit.animations.MOVING_RIGHT
+			Vector2i(-16, 0): next_animation = Unit.animations.MOVING_LEFT
+			Vector2i(0, -16): next_animation = Unit.animations.MOVING_UP
+			_: next_animation = Unit.animations.MOVING_DOWN
+		if current_animation != next_animation:
+			_ghost_unit.set_animation(next_animation)
+			current_animation = next_animation
 
 
 func _has_point(_point: Vector2) -> bool:

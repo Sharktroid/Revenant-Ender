@@ -17,3 +17,9 @@ static func round_coords_to_tile(coords: Vector2, offset := Vector2()) -> Vector
 	coords -= offset
 	coords = Vector2(floori(coords.x/16) * 16, floori(coords.y/16) * 16)
 	return coords + offset
+
+
+static func sync_animation(animation_player: AnimationPlayer) -> void:
+	var seconds: float = float(Time.get_ticks_msec())/1000
+	var seconds_mod: float = fmod(seconds, animation_player.current_animation_length)
+	animation_player.seek(seconds_mod)

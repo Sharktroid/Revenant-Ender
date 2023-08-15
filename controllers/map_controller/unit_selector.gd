@@ -40,7 +40,7 @@ func _has_point(_point: Vector2) -> bool:
 
 func close() -> void:
 	unit.hide_current_attack_tiles()
-	unit.map_animation = unit.animations.IDLE
+	unit.set_animation(unit.animations.IDLE)
 	(GenVars.cursor as Cursor).remove_icon()
 	queue_free()
 

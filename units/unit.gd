@@ -24,7 +24,6 @@ enum stats {
 @export var unit_class: UnitClass
 
 var current_movement: int
-var map_animation: int = animations.IDLE
 var all_attack_tiles: Array[Vector2i] # Tiles displayed as attack tiles.
 var raw_movement_tiles: Array[Vector2i] # All movement tiles without organization.
 var dead: bool = false
@@ -121,8 +120,13 @@ func _ready() -> void:
 	current_movement = get_stat(stats.MOVEMENT)
 	_update_palette()
 	set_current_health(get_stat(stats.HITPOINTS))
-	_animate_sprite()
 	add_to_group("units")
+
+	var animation_player: AnimationPlayer = ($AnimationPlayer as AnimationPlayer)
+	if animation_player.current_animation == '':
+		animation_player.play("idle")
+	GenFunc.sync_animation(animation_player)
+
 	# Setting up "_all_units"
 	if not _all_units:
 		var dir = DirAccess.open("res://units/")
@@ -148,24 +152,23 @@ func _physics_process(_delta: float) -> void:
 		if Vector2i(position) == _target:
 			if len(_path) == 0:
 				_target = null
-				map_animation = animations.IDLE
 				get_node("Area2D").monitoring = true
 				emit_signal("arrived")
 
 			else:
 				_target = _path.pop_at(0)
 				match floori(position.angle_to_point(_target) / PI * 2) + 1:
-					0: map_animation = animations.MOVING_DOWN
-					1: map_animation = animations.MOVING_RIGHT
-					2: map_animation = animations.MOVING_UP
-					3: map_animation = animations.MOVING_LEFT
-					_: map_animation = animations.IDLE
+					0: set_animation(animations.MOVING_DOWN)
+					1: set_animation(animations.MOVING_RIGHT)
+					2: set_animation(animations.MOVING_UP)
+					3: set_animation(animations.MOVING_LEFT)
+					_: set_animation(animations.IDLE)
 
 
 func _process(_delta: float):
 	_render_status()
-	if sprite_animated:
-		_animate_sprite()
+	if Engine.get_process_frames() % 60 == 0:
+		GenFunc.sync_animation($AnimationPlayer)
 #	if outline_highlight:
 #		modulate = Color.RED
 #	else:
@@ -226,8 +229,17 @@ func add_current_health(added_health: float, does_die: bool = true) -> void:
 		die()
 
 
-func reset_map_anim() -> void:
-	frame_coords.x = 0
+func set_animation(animation: animations) -> void:
+	var animation_player: AnimationPlayer = ($AnimationPlayer as AnimationPlayer)
+	animation_player.play("RESET")
+	animation_player.advance(0)
+	match animation:
+		animations.IDLE: animation_player.play("idle")
+		animations.MOVING_LEFT: animation_player.play("moving_left")
+		animations.MOVING_RIGHT: animation_player.play("moving_right")
+		animations.MOVING_UP: animation_player.play("moving_up")
+		animations.MOVING_DOWN: animation_player.play("moving_down")
+	GenFunc.sync_animation(animation_player)
 
 
 func get_stat_boost(stat: stats) -> int:
@@ -307,7 +319,7 @@ func die() -> void:
 
 ## Deselects unit.
 func deselect() -> void:
-	map_animation = animations.IDLE
+	set_animation(animations.IDLE)
 	selected = false
 	remove_path()
 	if GenVars.cursor.get_hovered_unit() == self:
@@ -444,7 +456,6 @@ func get_faction() -> Faction:
 ## Changes unit's faction.
 func set_faction(new_faction: Faction) -> void:
 	faction_id = (GenVars.map as Map).faction_stack.find(new_faction)
-	_animate_sprite()
 
 
 ## Gets the path of the unit.
@@ -641,36 +652,6 @@ func _create_all_attack_tiles() -> void:
 					var distance: int = floori(GenFunc.get_tile_distance(tile, attack_tile))
 					if distance in range(get_current_weapon().min_range, get_current_weapon().max_range + 1):
 						all_attack_tiles.append(attack_tile)
-
-
-func _animate_sprite() -> void:
-	if map_animation == animations.IDLE:
-		var frame_num: int = Engine.get_physics_frames() % 64
-		if (frame_num >= 16 and frame_num < 32) or frame_num >= 48:
-			frame = 1
-		elif frame_num >= 32 and frame_num < 48:
-			frame = 2
-		else:
-			frame = 0
-	else:
-		match map_animation:
-			animations.MOVING_RIGHT, animations.MOVING_LEFT: frame_coords.y = 1
-			animations.MOVING_DOWN: frame_coords.y = 2
-			animations.MOVING_UP: frame_coords.y = 3
-		var frame_num: float = 10
-		var frame_count: float = fmod(Engine.get_physics_frames(), (frame_num * 4))
-		if frame_count >= frame_num and frame_count < (frame_num * 2):
-			frame_coords.x = 1
-		elif frame_count >= (frame_num * 2) and frame_count < (frame_num * 3):
-			frame_coords.x = 2
-		elif frame_count >= (frame_num * 3):
-			frame_coords.x = 3
-		else:
-			frame_coords.x = 0
-	if map_animation == animations.MOVING_LEFT:
-		flip_h = true
-	else:
-		flip_h = false
 
 
 func _set_palette(color: Faction.colors) -> void:
