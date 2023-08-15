@@ -10,7 +10,7 @@ func _init(connected_unit: Unit) -> void:
 
 
 func _ready() -> void:
-	_unit.map_animation = Unit.animations.MOVING_DOWN
+	_unit.set_animation(Unit.animations.MOVING_DOWN)
 	_unit.selected = true
 	_unit.update_path(GenVars.cursor.get_true_pos())
 	_unit.refresh_tiles()
@@ -83,9 +83,9 @@ func _create_unit_menu() -> void:
 	menu.connected_unit = _unit
 	menu.position = GenVars.cursor.get_rel_pos() + Vector2i(16, -8)
 	menu.caller = self
-	GenVars.map_controller.get_node("UI Layer").add_child(menu)
 	set_focus_mode(Control.FOCUS_NONE)
 	GenVars.cursor.disable()
+	GenVars.map_controller.get_node("UI Layer").add_child(menu)
 
 
 func _canceled() -> void:
