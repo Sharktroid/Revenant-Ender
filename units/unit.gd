@@ -258,7 +258,7 @@ func get_stat_cap(stat: stats) -> int:
 
 
 func get_attack_speed() -> int:
-	return get_stat(stats.SPEED) - get_current_weapon().weight
+	return get_stat(stats.SPEED) - max(get_current_weapon().weight - get_stat(stats.CONSTITUTION), 0)
 
 
 func get_current_defence(attacker_weapon_type: Weapon.damage_types) -> int:
