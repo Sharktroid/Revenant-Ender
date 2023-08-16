@@ -27,23 +27,34 @@ func close() -> void:
 	queue_free()
 
 func _update() -> void:
+	%"Unit Name".text = observing_unit.name
+	%"Class Name".text = observing_unit.unit_class.name
+
 	_set_label_text_to_number(%"Current Level", observing_unit.current_level)
 	_set_label_text_to_number(%"Max Level", observing_unit.get_max_level())
 
 	_set_label_text_to_number(%"Current HP", roundi(observing_unit.get_current_health()))
 	_set_label_text_to_number(%"Max HP", observing_unit.get_stat(Unit.stats.HITPOINTS))
 
-	_set_label_text_to_number(%"Attack Value", observing_unit.get_attack())
+	if observing_unit.get_current_weapon():
+		_set_label_text_to_number(%"Attack Value", observing_unit.get_attack())
+	else:
+		%"Attack Value".text = "--"
 	_set_label_text_to_number(%"AS Value", observing_unit.get_attack_speed())
 
 	var current_weapon: Weapon = observing_unit.get_current_weapon()
-	_set_label_text_to_number(%"Min Range", current_weapon.min_range)
-	if current_weapon.min_range == current_weapon.max_range:
+	if current_weapon:
+		_set_label_text_to_number(%"Min Range", current_weapon.min_range)
+		if current_weapon.min_range == current_weapon.max_range:
+			%"Range Separator".visible = false
+			%"Max Range".text = ""
+		else:
+			%"Range Separator".visible = true
+			_set_label_text_to_number(%"Max Range", current_weapon.max_range)
+	else:
+		%"Min Range".text = "--"
 		%"Range Separator".visible = false
 		%"Max Range".text = ""
-	else:
-		%"Range Separator".visible = true
-		_set_label_text_to_number(%"Max Range", current_weapon.max_range)
 
 
 func _set_label_text_to_number(label: Label, num: int) -> void:
