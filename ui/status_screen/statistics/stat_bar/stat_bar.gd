@@ -3,7 +3,7 @@ class_name StatBar
 extends Control
 
 ## Highest value that can be ever displayed.
-const ABSOLUTE_MAX_VALUE: float = 30
+const ABSOLUTE_MAX_VALUE: float = 35
 
 var margins: Vector2i
 
