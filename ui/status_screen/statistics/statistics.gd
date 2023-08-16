@@ -5,6 +5,19 @@ var observing_unit: Unit
 func _ready() -> void:
 	await get_tree().process_frame
 	_update()
+	var offensive_labels: VBoxContainer = $"Offensive Stats/HBoxContainer/Labels"
+	var offensive_width: int = roundi(offensive_labels.size.x)
+	var defensive_labels: VBoxContainer = $"Defensive Stats/HBoxContainer/Labels"
+	var defensive_width: int = roundi(defensive_labels.size.x)
+	var misc_labels: VBoxContainer = $"Misc Stats/HBoxContainer/Labels"
+	var misc_width: int = roundi(misc_labels.size.x)
+	var other_labels: VBoxContainer = $"Other/HBoxContainer/Labels"
+	var other_width: int = roundi(other_labels.size.x)
+	var max_width: int = [offensive_width, defensive_width, misc_width, other_width].max()
+	offensive_labels.custom_minimum_size.x = max_width
+	defensive_labels.custom_minimum_size.x = max_width
+	misc_labels.custom_minimum_size.x = max_width
+	other_labels.custom_minimum_size.x = max_width
 
 
 func _update() -> void:
