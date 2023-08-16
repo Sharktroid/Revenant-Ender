@@ -3,7 +3,7 @@ class_name
 extends _BASE_
 
 
-# Unit-specific variables.
+# Unit class-specific variables.
 func _init() -> void:
 _TS_name = ""
 _TS_movement_type = movement_types.

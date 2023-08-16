@@ -6,6 +6,7 @@ extends UnitClass
 # Unit-specific variables.
 func _init():
 	name = "Lord"
+	max_level = 30
 	movement_type = movement_types.ADVANCED_FOOT
 	weapon_levels[Weapon.types.SWORD] = 1
 	base_stats = {

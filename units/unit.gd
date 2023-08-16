@@ -16,13 +16,14 @@ enum stats {
 @export var faction_id: int
 @export var variant: String # Visual variant.
 @export var items: Array[Item]
-@export var current_level: int = 1
+@export var base_level: int = 1
 @export var personal_stat_caps: Dictionary
 @export var personal_end_stats: Dictionary
 @export var personal_base_stats: Dictionary
 @export var skills: Array[Skill] = [Follow_Up.new()]
 @export var unit_class: UnitClass
 
+var current_level: int
 var current_movement: int
 var all_attack_tiles: Array[Vector2i] # Tiles displayed as attack tiles.
 var raw_movement_tiles: Array[Vector2i] # All movement tiles without organization.
@@ -100,18 +101,6 @@ var _purple_palette: Array[Array] = [
 	[Vector3(64, 56, 56), Vector3(72, 40, 64)],
 ]
 var _arrows_container: CanvasGroup
-
-
-func _enter_tree() -> void:
-	for stat in len(stats):
-		if not(stat in personal_base_stats):
-			personal_base_stats[stat] = 0
-		if not(stat in personal_end_stats):
-			personal_end_stats[stat] = 0
-		if not(stat in personal_stat_caps):
-			personal_stat_caps[stat] = 0
-		if not(stat in _stat_boosts):
-			_stat_boosts[stat] = 0
 
 
 func _ready() -> void:
@@ -199,12 +188,15 @@ func get_current_weapon() -> Weapon:
 
 
 func get_attack() -> int:
-	var current_attack: int
-	match get_current_weapon().get_damage_type():
-		Weapon.damage_types.PHYSICAL: current_attack = get_stat(stats.STRENGTH)
-		Weapon.damage_types.RANGED: current_attack = get_stat(stats.PIERCE)
-		Weapon.damage_types.MAGIC: current_attack = get_stat(stats.MAGIC)
-	return get_current_weapon().might + current_attack
+	if get_current_weapon():
+		var current_attack: int
+		match get_current_weapon().get_damage_type():
+			Weapon.damage_types.PHYSICAL: current_attack = get_stat(stats.STRENGTH)
+			Weapon.damage_types.RANGED: current_attack = get_stat(stats.PIERCE)
+			Weapon.damage_types.MAGIC: current_attack = get_stat(stats.MAGIC)
+		return get_current_weapon().might + current_attack
+	else:
+		return 0
 
 
 func get_damage(defender: Unit) -> float:
@@ -243,22 +235,25 @@ func set_animation(animation: animations) -> void:
 
 
 func get_stat_boost(stat: stats) -> int:
-	return _stat_boosts[stat]
+	return _stat_boosts.get(stat, 0)
 
 
 func get_stat(stat: stats, level: int = current_level) -> int:
-	var base_stat: int = unit_class.base_stats[stat] + personal_base_stats[stat]
-	var end_stat: int = unit_class.end_stats[stat] + personal_end_stats[stat]
-	var leveled_stat: int = roundi(lerpf(base_stat, end_stat, (level as float)/unit_class.max_level))
+	var base_stat: int = unit_class.base_stats[stat] + personal_base_stats.get(stat, 0)
+	var end_stat: int = unit_class.end_stats[stat] + personal_end_stats.get(stat, 0)
+	var leveled_stat: int = roundi(lerpf(base_stat, end_stat, float(level)/unit_class.max_level))
 	return clampi(leveled_stat + get_stat_boost(stat), 0, get_stat_cap(stat))
 
 
 func get_stat_cap(stat: stats) -> int:
-	return unit_class.stat_caps[stat] + personal_stat_caps[stat]
+	return unit_class.stat_caps[stat] + personal_stat_caps.get(stat, 0)
 
 
 func get_attack_speed() -> int:
-	return get_stat(stats.SPEED) - max(get_current_weapon().weight - get_stat(stats.CONSTITUTION), 0)
+	var weight: int = 0
+	if get_current_weapon():
+		weight = get_current_weapon().weight
+	return get_stat(stats.SPEED) - max(weight - get_stat(stats.CONSTITUTION), 0)
 
 
 func get_current_defence(attacker_weapon_type: Weapon.damage_types) -> int:
@@ -351,7 +346,7 @@ func display_movement_tiles() -> void:
 				tile.name = "Child Tile"
 				tile.position = Vector2(i)
 				if not selected:
-					tile.modulate.a = .5
+					tile.modulate.a = 0.5
 				_movement_tiles_node.add_child(tile)
 		# Displays attack tile
 		for a in get_all_attack_tiles():
@@ -359,7 +354,7 @@ func display_movement_tiles() -> void:
 			tile.name = "Child Tile"
 			tile.position = a as Vector2
 			if not selected:
-				tile.modulate.a = .5
+				tile.modulate.a = 0.5
 			_movement_tiles_node.add_child(tile)
 		GenVars.map.get_node("Base Layer").add_child(_movement_tiles_node)
 
@@ -376,7 +371,9 @@ func get_current_attack_tiles(pos: Vector2i) -> Array[Vector2i]:
 		var v: Array[Vector2i] = []
 		for x in range(-get_current_weapon().max_range, get_current_weapon().max_range + 1):
 			var distance: int = floori(GenFunc.get_tile_distance(Vector2i(), Vector2i(x, y) * 16))
-			if distance in range(get_current_weapon().min_range, get_current_weapon().max_range + 1):
+			var min_range: int = get_current_weapon().min_range
+			var max_range: int = get_current_weapon().max_range
+			if distance in range(min_range, max_range + 1):
 				v.append(Vector2i(pos) + Vector2i(x * 16, y * 16))
 		current_attack_tiles.append_array(v)
 	return current_attack_tiles
@@ -583,18 +580,18 @@ func _get_movement_tiles() -> void:
 	var tiles_first_pass = {}
 	var tiles_second_pass = {}
 	var start: Vector2i = (position)
-	if position == ((position/16).floor() * 16): # this stops the display from showing up off-center
+	if position == ((position/16).floor() * 16):
 		# Gets the initial grid
 		for y in range(-current_movement, current_movement + 1):
 			var v = []
-			for x in range(-(current_movement - absi(y)) , (current_movement - absi(y))+1):
+			for x in range(-(current_movement - absi(y)) , (current_movement - absi(y)) + 1):
 				v.append(start + Vector2i(x * 16, y * 16))
 			h.append_array(v)
 		# Seperates by remaining movement
 		for x in h:
 			var boundary: Vector2i = GenVars.map.get_size() - Vector2i(16, 16)
 			if x == x.clamp(Vector2i(), boundary):
-				var val = floori(current_movement - (absf(x.x - start.x)/16 + absf(x.y - start.y)/16))
+				var val = floori(current_movement - (absf(x.x - start.x) + absf(x.y - start.y))/16)
 				if not(val in tiles_first_pass):
 					tiles_first_pass[val] = []
 				tiles_first_pass[val].append(x)
@@ -642,16 +639,19 @@ func _get_movement_tiles() -> void:
 
 func _create_all_attack_tiles() -> void:
 	# Gets all the attack tiles
-	for tile in get_raw_movement_tiles():
-		for y in range(-get_current_weapon().max_range, get_current_weapon().max_range + 1):
-			for x in range(-get_current_weapon().max_range, get_current_weapon().max_range + 1):
-				var tile_min: Vector2i = tile + Vector2i(x * 16, y * 16)
-				var attack_tile: Vector2i = GenVars.map.get_size() - Vector2i(16, 16)
-				attack_tile = tile_min.clamp(Vector2i(0, 0), attack_tile)
-				if not(attack_tile in all_attack_tiles + raw_movement_tiles):
-					var distance: int = floori(GenFunc.get_tile_distance(tile, attack_tile))
-					if distance in range(get_current_weapon().min_range, get_current_weapon().max_range + 1):
-						all_attack_tiles.append(attack_tile)
+	if get_current_weapon():
+		for tile in get_raw_movement_tiles():
+			var min_range: int = get_current_weapon().min_range
+			var max_range: int = get_current_weapon().max_range
+			for y in range(-max_range, max_range + 1):
+				for x in range(-max_range, max_range + 1):
+					var tile_min: Vector2i = tile + Vector2i(x * 16, y * 16)
+					var attack_tile: Vector2i = GenVars.map.get_size() - Vector2i(16, 16)
+					attack_tile = tile_min.clamp(Vector2i(0, 0), attack_tile)
+					if not(attack_tile in all_attack_tiles + raw_movement_tiles):
+						var distance: int = floori(GenFunc.get_tile_distance(tile, attack_tile))
+						if distance in range(min_range, max_range + 1):
+							all_attack_tiles.append(attack_tile)
 
 
 func _set_palette(color: Faction.colors) -> void:

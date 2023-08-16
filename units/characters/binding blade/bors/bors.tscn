@@ -1,0 +1,26 @@
+[gd_scene load_steps=10 format=3 uid="uid://b4oirte2lakpd"]
+
+[ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit.tscn" id="1_duhq4"]
+[ext_resource type="Script" path="res://units/characters/binding blade/bors/bors.gd" id="2_887df"]
+[ext_resource type="Shader" path="res://units/palette.gdshader" id="2_tp66o"]
+[ext_resource type="Script" path="res://items/weapons/lances/iron_lance.gd" id="3_0p5s7"]
+[ext_resource type="Texture2D" uid="uid://ybdk2ivoxxyj" path="res://units/unit_classes/hoplite/hoplite.png" id="3_d6ayv"]
+[ext_resource type="Script" path="res://units/unit_classes/hoplite/hoplite.gd" id="4_x154b"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pfxv4"]
+shader = ExtResource("2_tp66o")
+shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
+shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
+
+[sub_resource type="Resource" id="Resource_jmavb"]
+script = ExtResource("3_0p5s7")
+
+[sub_resource type="Resource" id="Resource_ujcn0"]
+script = ExtResource("4_x154b")
+
+[node name="Bors" instance=ExtResource("1_duhq4")]
+material = SubResource("ShaderMaterial_pfxv4")
+texture = ExtResource("3_d6ayv")
+script = ExtResource("2_887df")
+items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_jmavb")])
+unit_class = SubResource("Resource_ujcn0")
