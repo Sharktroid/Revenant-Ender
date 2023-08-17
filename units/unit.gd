@@ -189,7 +189,8 @@ func get_class_name() -> String:
 func get_current_weapon() -> Weapon:
 	for item in items:
 		if item is Weapon:
-			return item
+			if can_use_weapon(item):
+				return item
 	return null
 
 
