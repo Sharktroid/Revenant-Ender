@@ -33,7 +33,13 @@ var is_ghost: bool = false # Whether the unit is used for the cursor.
 var selected: bool = false # Whether the unit is selected.
 var selectable: bool = true # Whether the unit can be selected.
 var waiting: bool = false
-var sprite_animated: bool = true
+var sprite_animated: bool = true:
+	set(value):
+		sprite_animated = value
+		if sprite_animated:
+			$AnimationPlayer.play($AnimationPlayer.current_animation)
+		else:
+			$AnimationPlayer.pause()
 
 var _path: Array[Vector2i] # Path the unit will follow when moving.
 var _current_statuses: Array[statuses]
@@ -231,7 +237,11 @@ func set_animation(animation: animations) -> void:
 		animations.MOVING_RIGHT: animation_player.play("moving_right")
 		animations.MOVING_UP: animation_player.play("moving_up")
 		animations.MOVING_DOWN: animation_player.play("moving_down")
-	GenFunc.sync_animation(animation_player)
+	if sprite_animated:
+		GenFunc.sync_animation(animation_player)
+	else:
+		animation_player.advance(0)
+		animation_player.pause()
 
 
 func get_stat_boost(stat: stats) -> int:

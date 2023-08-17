@@ -7,7 +7,7 @@ signal arrived
 signal proceed
 
 var target_tile: Vector2i
-var _combat_sprite: Node2D
+var _combat_sprite: Unit
 
 
 func _init(connected_unit: Unit = null, targeted_tile: Vector2i = Vector2i(0, 16)) -> void:
@@ -17,35 +17,35 @@ func _init(connected_unit: Unit = null, targeted_tile: Vector2i = Vector2i(0, 16
 
 func _ready() -> void:
 	for child in _combat_sprite.get_children():
-		(child as Node).queue_free()
+		if not child is AnimationPlayer:
+			(child as Node).queue_free()
 	position = _combat_sprite.position
 	_combat_sprite.position = Vector2i()
 	_combat_sprite.remove_from_group("units")
 	add_child(_combat_sprite)
-	(_combat_sprite as Unit).sprite_animated = false
-	(_combat_sprite as Unit).reset_map_anim()
+	_combat_sprite.sprite_animated = false
 
-
-func play_animation() -> void:
-	(_combat_sprite as Unit).sprite_animated = true
-	var movement: Vector2 = (target_tile as Vector2 - position).normalized() * 4
 	var angle: float = (target_tile as Vector2 - position).angle()
 	var angle_adjusted = (angle * 4)/PI
 	if angle_adjusted <= 1 and angle_adjusted >= -1:
-		_combat_sprite.map_animation = Unit.animations.MOVING_LEFT
+		_combat_sprite.set_animation(Unit.animations.MOVING_RIGHT)
 	elif angle_adjusted > -3 and angle_adjusted < -1:
-		_combat_sprite.map_animation = Unit.animations.MOVING_UP
+		_combat_sprite.set_animation(Unit.animations.MOVING_UP)
 	elif angle_adjusted > 1 and angle_adjusted < 3:
-		_combat_sprite.map_animation = Unit.animations.MOVING_DOWN
+		_combat_sprite.set_animation(Unit.animations.MOVING_DOWN)
 	else:
-		_combat_sprite.map_animation = Unit.animations.MOVING_RIGHT
+		_combat_sprite.set_animation(Unit.animations.MOVING_LEFT)
+
+
+func play_animation() -> void:
+	var movement: Vector2 = (target_tile as Vector2 - position).normalized() * 4
+	_combat_sprite.sprite_animated = true
 	await _move(movement)
 	emit_signal("deal_damage")
 	await proceed
 	await _move(-movement)
 	emit_signal("complete")
-	(_combat_sprite as Unit).sprite_animated = false
-	(_combat_sprite as Unit).reset_map_anim()
+	_combat_sprite.sprite_animated = false
 
 
 func _move(movement: Vector2) -> void:
