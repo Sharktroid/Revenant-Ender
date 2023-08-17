@@ -3,7 +3,7 @@ extends Item
 
 enum types {
 	SWORD,
-	LANCE,
+	SPEAR,
 	AXE,
 	BOW,
 	KNIFE,
@@ -47,7 +47,7 @@ var _damage_type_ranged: damage_types
 func _init() -> void:
 	if not _damage_type:
 		match type:
-			types.SWORD, types.AXE, types.KNIFE, types.LANCE: _damage_type = damage_types.PHYSICAL
+			types.SWORD, types.AXE, types.KNIFE, types.SPEAR: _damage_type = damage_types.PHYSICAL
 			types.BOW: _damage_type = damage_types.RANGED
 			types.COBALT_STAFF, types.CRIMSON_STAFF, types.LIGHT, types.DARK, \
 			types.FIRE, types.WIND, types.LIGHTNING: _damage_type = damage_types.MAGIC
