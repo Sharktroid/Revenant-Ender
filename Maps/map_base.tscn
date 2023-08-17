@@ -64,7 +64,7 @@ format = 2
 
 [node name="Buildings" type="CanvasGroup" parent="Base Layer"]
 
-[node name="Outline" type="CanvasGroup" parent="Base Layer"]
+[node name="Outline" type="Node2D" parent="Base Layer"]
 script = ExtResource("2_fpsax")
 
 [node name="Units" type="CanvasGroup" parent="Base Layer"]
