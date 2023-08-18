@@ -44,7 +44,7 @@ func next_faction() -> void:
 	var all_names: Array[String] = []
 	var dir: DirAccess = DirAccess.open("res://Turn Banners/")
 	if dir:
-		dir.list_dir_begin() # TODOGODOT4 fill missing arguments https://github.com/godotengine/godot/pull/40547
+		dir.list_dir_begin()
 		var file_name: String = dir.get_next()
 		while file_name != "":
 			all_names.append(file_name.split("_")[0])
@@ -120,7 +120,7 @@ func end_turn() -> void:
 func get_terrain_cost(unit: Unit, coords: Vector2) -> int:
 	var movement_type: UnitClass.movement_types = unit.unit_class.movement_type
 	if movement_type in movement_cost_dict.keys():
-		var movement_type_terrain_dict: Dictionary = movement_cost_dict[unit.unit_class.movement_type]
+		var movement_type_terrain_dict = movement_cost_dict[unit.unit_class.movement_type]
 		var terrain_name: String = _get_terrain(coords, unit.get_faction())
 		# Combines several terrain names for compactness.
 		match terrain_name:
@@ -187,7 +187,7 @@ func _get_terrain(coords: Vector2i, faction: Faction) -> String:
 #			if "Doesn't Block" in unit.tags:
 #				return unit.unit_class
 #			else:
-			var blocking_stances: Array[Faction.diplo_stances] = [Faction.diplo_stances.PEACE, Faction.diplo_stances.ENEMY]
+			var blocking_stances = [Faction.diplo_stances.PEACE, Faction.diplo_stances.ENEMY]
 			if faction.get_diplomacy_stance(unit.get_faction()) in blocking_stances:
 				return "Blocked"
 	var cell_id: TileData = $"Terrain Layer".get_cell_tile_data(0, coords/16)
