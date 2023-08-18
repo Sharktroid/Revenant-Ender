@@ -16,17 +16,19 @@ func _ready() -> void:
 	_update()
 
 
+func _process(delta: float) -> void:
+	if not _scroll_lock:
+		if Input.is_action_pressed("left"):
+			observing_unit = GenVars.map.get_previous_unit(observing_unit)
+			_move(1)
+		elif Input.is_action_pressed("right"):
+			observing_unit = GenVars.map.get_next_unit(observing_unit)
+			_move(-1)
+
+
 func _gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		close()
-	elif event.is_action_pressed("left"):
-		if not _scroll_lock:
-			observing_unit = GenVars.map.get_previous_unit(observing_unit)
-			_move(1)
-	elif event.is_action_pressed("right"):
-		if not _scroll_lock:
-			observing_unit = GenVars.map.get_next_unit(observing_unit)
-			_move(-1)
 
 
 func _has_point(_point: Vector2) -> bool:
