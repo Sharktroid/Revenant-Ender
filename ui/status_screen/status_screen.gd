@@ -2,10 +2,12 @@ extends Control
 
 var observing_unit: Unit
 
+var _scroll_lock: bool = false
+
 
 func _ready() -> void:
 	grab_focus()
-	var internal_tab_bar: TabBar = ($"Unit Information Menu/Menu Tabs".get_child(0, true))
+	var internal_tab_bar: TabBar = ($"Menu Screen/Menu Tabs".get_child(0, true))
 	internal_tab_bar.mouse_filter = Control.MOUSE_FILTER_PASS
 	var freeable_node := Node.new()
 	freeable_node.queue_free()
@@ -18,11 +20,13 @@ func _gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		close()
 	elif event.is_action_pressed("left"):
-		observing_unit = GenVars.map.get_previous_unit(observing_unit)
-		_update()
+		if not _scroll_lock:
+			observing_unit = GenVars.map.get_previous_unit(observing_unit)
+			_move(1)
 	elif event.is_action_pressed("right"):
-		observing_unit = GenVars.map.get_next_unit(observing_unit)
-		_update()
+		if not _scroll_lock:
+			observing_unit = GenVars.map.get_next_unit(observing_unit)
+			_move(-1)
 
 
 func _has_point(_point: Vector2) -> bool:
@@ -67,12 +71,39 @@ func _update() -> void:
 		%"Range Separator".visible = false
 		%"Max Range".text = ""
 
-	$"Unit Information Menu/Menu Tabs/Statistics".observing_unit = observing_unit
-	$"Unit Information Menu/Menu Tabs/Items".observing_unit = observing_unit
+	$"Menu Screen/Menu Tabs/Statistics".observing_unit = observing_unit
+	$"Menu Screen/Menu Tabs/Items".observing_unit = observing_unit
 
-	$"Unit Information Menu/Menu Tabs/Statistics".update()
-	$"Unit Information Menu/Menu Tabs/Items".update()
+	$"Menu Screen/Menu Tabs/Statistics".update()
+	$"Menu Screen/Menu Tabs/Items".update()
 
 
 func _set_label_text_to_number(label: Label, num: int) -> void:
 	label.text = str(num)
+
+
+func _move(dir: int) -> void:
+	_scroll_lock = true
+	const SPEED = 5
+	var dest: float = $"Menu Screen".size.x
+	var get_x: Callable = func(): return $"Menu Screen".position.x * dir
+	var velocity: Callable = func():
+		return $"Menu Screen".size.x * GenVars.get_frame_delta() * dir * SPEED
+	var fade_threshold: float = 1.0/2
+	var swap_threshold: float = 2.0/3
+
+	while get_x.call() <= dest * swap_threshold:
+		await get_tree().process_frame
+		$"Menu Screen".position.x += velocity.call()
+		$"Menu Screen".modulate.a = lerpf(1, 0, inverse_lerp(0, dest * fade_threshold, get_x.call()))
+
+	$"Menu Screen".position.x = -dest * dir * swap_threshold
+	_update()
+
+	while get_x.call() < 0:
+		await get_tree().process_frame
+		$"Menu Screen".position.x += velocity.call()
+		$"Menu Screen".modulate.a = lerpf(0, 1, inverse_lerp(-dest * fade_threshold, 0, get_x.call()))
+
+	$"Menu Screen".position.x = 0
+	_scroll_lock = false
