@@ -9,7 +9,7 @@
 [ext_resource type="Script" path="res://items/weapons/spears/silver_spear/silver_spear.gd" id="6_bxwmy"]
 [ext_resource type="Texture2D" uid="uid://e0vc7bx6b1su" path="res://units/characters/binding blade/marcus/portrait.png" id="8_m24r2"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_g3yq7"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gbmyy"]
 shader = ExtResource("2_j6t3w")
 shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
@@ -24,7 +24,7 @@ script = ExtResource("6_bxwmy")
 script = ExtResource("2_gom4l")
 
 [node name="Marcus" instance=ExtResource("1_lxmi0")]
-material = SubResource("ShaderMaterial_g3yq7")
+material = SubResource("ShaderMaterial_gbmyy")
 texture = ExtResource("3_jtyy6")
 script = ExtResource("2_716f4")
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_co5aq"), SubResource("Resource_67pnp")])

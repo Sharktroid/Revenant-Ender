@@ -17,13 +17,13 @@ enum stats {
 @export var variant: String # Visual variant.
 @export var items: Array[Item]
 @export var base_level: int = 1
-@export var personal_stat_caps: Dictionary
-@export var personal_end_stats: Dictionary
-@export var personal_base_stats: Dictionary
 @export var skills: Array[Skill] = [Follow_Up.new()]
 @export var unit_class: UnitClass
 @export var portrait: Texture2D
 
+var personal_stat_caps: Dictionary
+var personal_end_stats: Dictionary
+var personal_base_stats: Dictionary
 var current_level: int
 var current_movement: int
 var all_attack_tiles: Array[Vector2i] # Tiles displayed as attack tiles.
@@ -42,6 +42,7 @@ var sprite_animated: bool = true:
 		else:
 			$AnimationPlayer.pause()
 
+var weapon_levels: Dictionary
 var _path: Array[Vector2i] # Path the unit will follow when moving.
 var _current_statuses: Array[statuses]
 var _target # Destination of the unit during movement.
@@ -111,6 +112,9 @@ var _arrows_container: CanvasGroup
 
 
 func _ready() -> void:
+	for weapon_type in unit_class.weapon_levels.keys():
+		if weapon_type not in weapon_levels.keys():
+			weapon_levels[weapon_type] = unit_class.weapon_levels[weapon_type]
 	texture = (unit_class as UnitClass).map_sprite
 	material = material.duplicate()
 	current_movement = get_stat(stats.MOVEMENT)
@@ -287,13 +291,6 @@ func get_area() -> Area2D:
 	return $Area2D
 
 
-func get_weapon_level(weapon_type: Weapon.types) -> int:
-	if weapon_type in unit_class.weapon_levels.keys():
-		return unit_class.weapon_levels[weapon_type]
-	else:
-		return 0
-
-
 func get_portrait() -> Texture2D:
 	if portrait:
 		return portrait
@@ -316,7 +313,7 @@ func has_attribute(attrib: Skill.all_attributes) -> bool:
 
 
 func can_use_weapon(weapon: Weapon) -> bool:
-	return weapon.level <= get_weapon_level(weapon.type)
+	return weapon.level <= weapon_levels.get(weapon.type, 0)
 
 
 ## Causes unit to wait.
