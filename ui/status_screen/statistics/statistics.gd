@@ -2,9 +2,8 @@ extends Control
 
 var observing_unit: Unit
 
-func _ready() -> void:
-	await get_tree().process_frame
-	_update()
+
+func update() -> void:
 	var offensive_labels: VBoxContainer = $"Offensive Stats/HBoxContainer/Labels"
 	var offensive_width: int = roundi(offensive_labels.size.x)
 	var defensive_labels: VBoxContainer = $"Defensive Stats/HBoxContainer/Labels"
@@ -18,9 +17,6 @@ func _ready() -> void:
 	defensive_labels.custom_minimum_size.x = max_width
 	misc_labels.custom_minimum_size.x = max_width
 	other_labels.custom_minimum_size.x = max_width
-
-
-func _update() -> void:
 	_update_stat_bar(%"Strength Bar", Unit.stats.STRENGTH)
 	_update_stat_bar(%"Pierce Bar", Unit.stats.PIERCE)
 	_update_stat_bar(%"Magic Bar", Unit.stats.MAGIC)

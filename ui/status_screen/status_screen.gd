@@ -3,14 +3,14 @@ extends Control
 var observing_unit: Unit
 
 
-func _enter_tree() -> void:
-	$"Unit Information Menu/Menu Tabs/Statistics".observing_unit = observing_unit
-	$"Unit Information Menu/Menu Tabs/Items".observing_unit = observing_unit
-
 func _ready() -> void:
 	grab_focus()
 	var internal_tab_bar: TabBar = ($"Unit Information Menu/Menu Tabs".get_child(0, true))
 	internal_tab_bar.mouse_filter = Control.MOUSE_FILTER_PASS
+	var freeable_node := Node.new()
+	freeable_node.queue_free()
+	add_child(freeable_node)
+	await freeable_node.tree_exited
 	_update()
 
 
@@ -26,6 +26,7 @@ func _has_point(_point: Vector2) -> bool:
 func close() -> void:
 	GenVars.map_controller.grab_focus()
 	queue_free()
+
 
 func _update() -> void:
 	%"Unit Name".text = observing_unit.name
@@ -56,6 +57,12 @@ func _update() -> void:
 		%"Min Range".text = "--"
 		%"Range Separator".visible = false
 		%"Max Range".text = ""
+
+	$"Unit Information Menu/Menu Tabs/Statistics".observing_unit = observing_unit
+	$"Unit Information Menu/Menu Tabs/Items".observing_unit = observing_unit
+
+	$"Unit Information Menu/Menu Tabs/Statistics".update()
+	$"Unit Information Menu/Menu Tabs/Items".update()
 
 
 func _set_label_text_to_number(label: Label, num: int) -> void:

@@ -2,11 +2,8 @@ extends Panel
 
 var observing_unit: Unit
 
-func _ready() -> void:
-	_update()
 
-
-func _update() -> void:
+func update() -> void:
 	for child in $"Item Label Container".get_children():
 		for grandchild in child.get_children():
 			grandchild.queue_free()
