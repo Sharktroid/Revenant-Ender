@@ -73,6 +73,14 @@ func get_faction_from_id(faction_id: int) -> Faction:
 		return null
 
 
+func get_units_by_faction(faction_id: int) -> Array[Unit]:
+	var units: Array[Unit] = []
+	for unit in get_tree().get_nodes_in_group("unit"):
+		if unit.faction_id == faction_id:
+			units.append(unit)
+	return units
+
+
 func get_rel_upper_border() -> Vector2i:
 	return upper_border - (GenVars.map_camera as MapCamera).map_position
 
