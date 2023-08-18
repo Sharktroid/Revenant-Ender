@@ -116,6 +116,7 @@ func _ready() -> void:
 	_update_palette()
 	set_current_health(get_stat(stats.HITPOINTS))
 	add_to_group("units")
+	current_level = base_level
 
 	var animation_player: AnimationPlayer = ($AnimationPlayer as AnimationPlayer)
 	if animation_player.current_animation == '':
