@@ -10,6 +10,7 @@ var cursor := Cursor.new()
 var map_camera := MapCamera.new()
 var map := Map.new()
 
+var _frame_delta: float
 var _debug_constants: Dictionary = { # Constants used in the debug menu.
 	unit_wait = true, # Whether units are unable to move after movement.
 	display_map_borders = false, # Whether map borders are displayed
@@ -37,6 +38,10 @@ func _exit_tree() -> void:
 	save_config()
 
 
+func _process(delta: float) -> void:
+	_frame_delta = delta
+
+
 func get_screen_size() -> Vector2i:
 	return _default_screen_size
 
@@ -56,6 +61,11 @@ func get_debug_constant(constant: String):
 func set_debug_constant(constant: String, value) -> void:
 	_debug_constants[constant] = value
 	save_config()
+
+
+## Gets the amount of time that has elapsed since the previous frame.
+func get_frame_delta() -> float:
+	return _frame_delta
 
 
 func invert_debug_constant(constant: String) -> void:
