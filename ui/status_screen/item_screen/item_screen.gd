@@ -8,9 +8,9 @@ func update() -> void:
 		for grandchild in child.get_children():
 			grandchild.queue_free()
 	for item in observing_unit.items:
-		var equip_status := Control.new()
+		var equip_status := Label.new()
+		equip_status.text = " "
 		if item == observing_unit.get_current_weapon():
-			equip_status = Label.new()
 			equip_status.text = "W"
 			equip_status.add_theme_color_override("font_color", Color.ROYAL_BLUE)
 		$"Item Label Container/Equip Status".add_child(equip_status)
