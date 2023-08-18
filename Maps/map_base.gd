@@ -81,6 +81,14 @@ func get_units_by_faction(faction_id: int) -> Array[Unit]:
 	return units
 
 
+func get_next_unit(unit: Unit) -> Unit:
+	return _get_unit_relative(unit, 1)
+
+
+func get_previous_unit(unit: Unit) -> Unit:
+	return _get_unit_relative(unit, -1)
+
+
 func get_rel_upper_border() -> Vector2i:
 	return upper_border - (GenVars.map_camera as MapCamera).map_position
 
@@ -224,3 +232,10 @@ func _parse_movement_cost() -> void:
 		movement_cost_dict[type] = {}
 		for cost in len(split):
 			movement_cost_dict[type][header[cost]] = split[cost]
+
+
+func _get_unit_relative(unit: Unit, rel_index: int) -> Unit:
+	var faction_units: Array[Unit] = get_units_by_faction(unit.faction_id)
+	var unit_index: int = faction_units.find(unit)
+	var next_unit_index: int = (unit_index + rel_index) % len(faction_units)
+	return faction_units[next_unit_index]

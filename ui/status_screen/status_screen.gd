@@ -17,6 +17,12 @@ func _ready() -> void:
 func _gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		close()
+	elif event.is_action_pressed("left"):
+		observing_unit = GenVars.map.get_previous_unit(observing_unit)
+		_update()
+	elif event.is_action_pressed("right"):
+		observing_unit = GenVars.map.get_next_unit(observing_unit)
+		_update()
 
 
 func _has_point(_point: Vector2) -> bool:
