@@ -1,7 +1,7 @@
 extends Label
 
 var item: String
-var parent_menu: MapMenu
+var parent_menu := MapMenu.new()
 var update_text: Callable = func(): pass
 
 
