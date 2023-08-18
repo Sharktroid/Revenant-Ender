@@ -24,6 +24,7 @@ func _has_point(_point: Vector2) -> bool:
 
 
 func close() -> void:
+	GenVars.map_controller.grab_focus()
 	queue_free()
 
 func _update() -> void:
