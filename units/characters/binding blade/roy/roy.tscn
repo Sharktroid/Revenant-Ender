@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cuqamu0m16iep"]
+[gd_scene load_steps=11 format=3 uid="uid://cuqamu0m16iep"]
 
 [ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit.tscn" id="1_334ru"]
 [ext_resource type="Shader" path="res://units/palette.gdshader" id="2_ufcu0"]
@@ -6,8 +6,9 @@
 [ext_resource type="Script" path="res://units/characters/binding blade/roy/roy.gd" id="4_cii6r"]
 [ext_resource type="Script" path="res://items/weapons/swords/rapier/rapier.gd" id="5_1mii5"]
 [ext_resource type="Script" path="res://units/unit_classes/lord_roy/lord_roy.gd" id="5_uk2gd"]
+[ext_resource type="Texture2D" uid="uid://c2o6creo3f7ie" path="res://units/characters/binding blade/roy/portrait.png" id="7_1r7ge"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_68uha"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2fkm0"]
 shader = ExtResource("2_ufcu0")
 shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
@@ -19,8 +20,9 @@ script = ExtResource("5_1mii5")
 script = ExtResource("5_uk2gd")
 
 [node name="Roy" instance=ExtResource("1_334ru")]
-material = SubResource("ShaderMaterial_68uha")
+material = SubResource("ShaderMaterial_2fkm0")
 texture = ExtResource("3_xmnsj")
 script = ExtResource("4_cii6r")
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_rfe5k")])
 unit_class = SubResource("Resource_tt5sv")
+portrait = ExtResource("7_1r7ge")

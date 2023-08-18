@@ -35,6 +35,9 @@ func close() -> void:
 
 
 func _update() -> void:
+	%Portrait.texture = observing_unit.get_portrait()
+	%Portrait.position = observing_unit.get_portrait_offset()
+
 	%"Unit Name".text = observing_unit.name
 	%"Class Name".text = observing_unit.unit_class.name
 

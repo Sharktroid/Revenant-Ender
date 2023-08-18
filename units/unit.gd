@@ -22,6 +22,7 @@ enum stats {
 @export var personal_base_stats: Dictionary
 @export var skills: Array[Skill] = [Follow_Up.new()]
 @export var unit_class: UnitClass
+@export var portrait: Texture2D
 
 var current_level: int
 var current_movement: int
@@ -291,6 +292,20 @@ func get_weapon_level(weapon_type: Weapon.types) -> int:
 		return unit_class.weapon_levels[weapon_type]
 	else:
 		return 0
+
+
+func get_portrait() -> Texture2D:
+	if portrait:
+		return portrait
+	else:
+		return unit_class.default_portrait
+
+
+func get_portrait_offset() -> Vector2i:
+	if portrait:
+		return Vector2i(-8, 0)
+	else:
+		return Vector2i()
 
 
 func has_attribute(attrib: Skill.all_attributes) -> bool:

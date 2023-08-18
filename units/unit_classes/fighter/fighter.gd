@@ -55,3 +55,4 @@ func _init():
 		Unit.stats.LEADERSHIP: 0,
 	}
 	map_sprite = load("uid://dgli13fqa0m3n")
+	default_portrait = load("uid://cys4dxk41ybwl")

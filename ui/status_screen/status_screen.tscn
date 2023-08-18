@@ -56,8 +56,24 @@ offset_left = 29.0
 offset_top = 76.0
 offset_right = 86.0
 offset_bottom = 92.0
-text = "Marcus"
 horizontal_alignment = 1
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Unit Information Menu/Constant/Portrait Background Container/Portrait Background"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 4.0
+offset_right = 86.0
+offset_bottom = 76.0
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="Unit Information Menu/Constant/Portrait Background Container/Portrait Background/SubViewportContainer"]
+transparent_bg = true
+size = Vector2i(80, 72)
+
+[node name="Portrait" type="Sprite2D" parent="Unit Information Menu/Constant/Portrait Background Container/Portrait Background/SubViewportContainer/SubViewport"]
+unique_name_in_owner = true
+position = Vector2(0, 1)
+centered = false
 
 [node name="Container" type="ReferenceRect" parent="Unit Information Menu/Constant"]
 layout_mode = 2

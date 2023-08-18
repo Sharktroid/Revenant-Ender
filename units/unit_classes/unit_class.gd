@@ -16,3 +16,4 @@ var weapon_levels: Dictionary
 var max_level: int = 50
 var movement_type: movement_types # Movement class for handling moving over terrain.
 var map_sprite: CompressedTexture2D
+var default_portrait: Texture2D
