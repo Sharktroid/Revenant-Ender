@@ -65,7 +65,7 @@ func get_current_faction() -> Faction:
 	return faction_stack[curr_faction]
 
 
-func get_faction(faction_id: int) -> Faction:
+func get_faction_from_id(faction_id: int) -> Faction:
 	if faction_id in faction_stack:
 		return faction_stack[faction_id]
 	else:
