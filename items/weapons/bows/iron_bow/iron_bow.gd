@@ -1,21 +1,18 @@
 class_name Iron_Bow
-extends Weapon
+extends Bow
 
 
 # Weapon-specific variables.
 func _init():
 	name = "Iron Bow"
-	type = types.BOW
 	level = ranks.E
-	might = 8
-	weight = 5
-	hit = 80
+	might = 7
+	weight = 6
+	hit = 65
 	crit = 0
-	min_range = 2
-	max_range = 2
 	max_uses = 40
-#	current_durability
-#	price
-#	weapon_experience
+	price = 2200
+	weapon_experience = 1
 #	effective_classes
+	icon = load("uid://cdjtbe143l44v")
 	super()

@@ -7,6 +7,11 @@ func _init():
 	name = "Paladin"
 	max_level = 50
 	movement_type = movement_types.ADVANCED_HEAVY_CAVALRY
+	weapon_levels = {
+		Weapon.types.SWORD: Weapon.ranks.D,
+		Weapon.types.SPEAR: Weapon.ranks.C,
+		Weapon.types.AXE: Weapon.ranks.E,
+	}
 	base_stats = {
 		Unit.stats.HITPOINTS: 19,
 		Unit.stats.STRENGTH: 8,
@@ -19,7 +24,7 @@ func _init():
 		Unit.stats.DURABILITY: 6,
 		Unit.stats.RESISTANCE: 6,
 		Unit.stats.MOVEMENT: 8,
-		Unit.stats.CONSTITUTION: 0,
+		Unit.stats.CONSTITUTION: 11,
 		Unit.stats.LEADERSHIP: 0,
 	}
 	end_stats = {
@@ -34,7 +39,7 @@ func _init():
 		Unit.stats.DURABILITY: 27,
 		Unit.stats.RESISTANCE: 26,
 		Unit.stats.MOVEMENT: 8,
-		Unit.stats.CONSTITUTION: 0,
+		Unit.stats.CONSTITUTION: 11,
 		Unit.stats.LEADERSHIP: 0,
 	}
 	stat_caps = {
@@ -49,7 +54,7 @@ func _init():
 		Unit.stats.DURABILITY: 32,
 		Unit.stats.RESISTANCE: 32,
 		Unit.stats.MOVEMENT: 10,
-		Unit.stats.CONSTITUTION: 0,
+		Unit.stats.CONSTITUTION: 20,
 		Unit.stats.LEADERSHIP: 0,
 	}
 	map_sprite = load("uid://d1cl2wgqqgs6d")

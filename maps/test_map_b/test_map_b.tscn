@@ -11,13 +11,13 @@
 [ext_resource type="PackedScene" uid="uid://8f0f7er5vqbo" path="res://units/characters/binding blade/wolt/wolt.tscn" id="11_ify8r"]
 [ext_resource type="PackedScene" uid="uid://b4oirte2lakpd" path="res://units/characters/binding blade/bors/bors.tscn" id="13_1ke26"]
 [ext_resource type="PackedScene" uid="uid://cnrpvuqmny1m3" path="res://units/characters/binding blade/damas/damas.tscn" id="13_b2nf3"]
-[ext_resource type="Script" path="res://items/weapons/bows/iron_bow.gd" id="13_sdkt3"]
 [ext_resource type="Script" path="res://units/unit_classes/archer/archer.gd" id="14_a6bhl"]
-[ext_resource type="Script" path="res://items/weapons/axes/iron_axe.gd" id="15_hrkn3"]
+[ext_resource type="Script" path="res://items/weapons/axes/iron_axe/iron_axe.gd" id="14_kcchf"]
 [ext_resource type="Texture2D" uid="uid://dhm1yqcs0uc71" path="res://units/unit_classes/archer/archer.png" id="16_mu4wr"]
 [ext_resource type="Script" path="res://units/unit_classes/fighter/fighter.gd" id="16_si68w"]
 [ext_resource type="Script" path="res://units/unit_classes/brigand/brigand.gd" id="17_2jg7w"]
 [ext_resource type="PackedScene" uid="uid://blysgn0u4e6ar" path="res://units/characters/binding blade/lance/lance.tscn" id="17_lj7l3"]
+[ext_resource type="Script" path="res://items/weapons/bows/iron_bow/iron_bow.gd" id="19_do6v3"]
 [ext_resource type="Texture2D" uid="uid://dgli13fqa0m3n" path="res://units/unit_classes/fighter/fighter.png" id="19_wsf8a"]
 [ext_resource type="Texture2D" uid="uid://k4v4jr2yobm1" path="res://units/unit_classes/brigand/brigand.png" id="22_b7ojr"]
 
@@ -344,98 +344,98 @@ custom_data_layer_0/name = "Terrain"
 custom_data_layer_0/type = 2
 sources/0 = SubResource("TileSetAtlasSource_4j03v")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_dxrks"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tehf2"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ojtw2"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t7nbw"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_fmcov"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bc2bc"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_svp0o"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a6uc1"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jw0jl"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4mf8o"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_kjrtn"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_auvpq"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_7hnah"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uybgv"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_idnvm"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_x5mn3"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="Resource" id="Resource_1m48w"]
-script = ExtResource("15_hrkn3")
+[sub_resource type="Resource" id="Resource_ol35s"]
+script = ExtResource("14_kcchf")
 
 [sub_resource type="Resource" id="Resource_6ahce"]
 script = ExtResource("16_si68w")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jenlr"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jmqar"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_mo5dh"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fc75b"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_qxxao"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1ctxx"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_xctvj"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o33lg"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_phjyg"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o5efc"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_1amsu"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5yi23"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_8nld4"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pdd4k"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_xpja7"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xn1ik"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_pqo4b"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f1p2t"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_c0m6s"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cmony"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
@@ -443,18 +443,18 @@ shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 
 [sub_resource type="Resource" id="Resource_v6ipr"]
 script = ExtResource("17_2jg7w")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_v41vn"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gjhyj"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="Resource" id="Resource_o510q"]
-script = ExtResource("13_sdkt3")
+[sub_resource type="Resource" id="Resource_1fxxh"]
+script = ExtResource("19_do6v3")
 
 [sub_resource type="Resource" id="Resource_bfbd5"]
 script = ExtResource("14_a6bhl")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_gdkeu"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jhhhc"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
@@ -472,138 +472,137 @@ z_index = 1
 [node name="Player" type="Node2D" parent="Base Layer/Units" index="0"]
 
 [node name="Roy" parent="Base Layer/Units/Player" index="0" instance=ExtResource("4_vkjsj")]
-material = SubResource("ShaderMaterial_dxrks")
+material = SubResource("ShaderMaterial_tehf2")
 position = Vector2(32, 288)
 
 [node name="Marcus" parent="Base Layer/Units/Player" index="1" instance=ExtResource("6_41yfy")]
-material = SubResource("ShaderMaterial_ojtw2")
+material = SubResource("ShaderMaterial_t7nbw")
 position = Vector2(16, 272)
 
 [node name="Alen" parent="Base Layer/Units/Player" index="2" instance=ExtResource("10_um4bb")]
-material = SubResource("ShaderMaterial_fmcov")
+material = SubResource("ShaderMaterial_bc2bc")
 position = Vector2(48, 272)
 
 [node name="Lance" parent="Base Layer/Units/Player" index="3" instance=ExtResource("17_lj7l3")]
-material = SubResource("ShaderMaterial_svp0o")
+material = SubResource("ShaderMaterial_a6uc1")
 position = Vector2(64, 288)
 
 [node name="Wolt" parent="Base Layer/Units/Player" index="4" instance=ExtResource("11_ify8r")]
-material = SubResource("ShaderMaterial_jw0jl")
+material = SubResource("ShaderMaterial_4mf8o")
 position = Vector2(32, 256)
 
 [node name="Bors" parent="Base Layer/Units/Player" index="5" instance=ExtResource("13_1ke26")]
-material = SubResource("ShaderMaterial_kjrtn")
+material = SubResource("ShaderMaterial_auvpq")
 position = Vector2(48, 304)
 
 [node name="Enemy" type="Node2D" parent="Base Layer/Units" index="1"]
 
 [node name="Damas" parent="Base Layer/Units/Enemy" index="0" instance=ExtResource("13_b2nf3")]
-material = SubResource("ShaderMaterial_7hnah")
+material = SubResource("ShaderMaterial_uybgv")
 position = Vector2(80, 64)
-texture = ExtResource("19_wsf8a")
 
 [node name="Fighter2" parent="Base Layer/Units/Enemy" index="1" instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_idnvm")
+material = SubResource("ShaderMaterial_x5mn3")
 position = Vector2(64, 80)
 texture = ExtResource("19_wsf8a")
 faction_id = 1
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_1m48w")])
+items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
 unit_class = SubResource("Resource_6ahce")
 
 [node name="Fighter3" parent="Base Layer/Units/Enemy" index="2" instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_jenlr")
+material = SubResource("ShaderMaterial_jmqar")
 position = Vector2(96, 80)
 texture = ExtResource("19_wsf8a")
 faction_id = 1
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_1m48w")])
+items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
 unit_class = SubResource("Resource_6ahce")
 
 [node name="Fighter4" parent="Base Layer/Units/Enemy" index="3" instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_mo5dh")
+material = SubResource("ShaderMaterial_fc75b")
 position = Vector2(16, 48)
 texture = ExtResource("19_wsf8a")
 faction_id = 1
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_1m48w")])
+items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
 unit_class = SubResource("Resource_6ahce")
 
 [node name="Fighter5" parent="Base Layer/Units/Enemy" index="4" instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_qxxao")
+material = SubResource("ShaderMaterial_1ctxx")
 position = Vector2(176, 112)
 texture = ExtResource("19_wsf8a")
 faction_id = 1
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_1m48w")])
+items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
 unit_class = SubResource("Resource_6ahce")
 
 [node name="Fighter6" parent="Base Layer/Units/Enemy" index="5" instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_xctvj")
+material = SubResource("ShaderMaterial_o33lg")
 position = Vector2(144, 144)
 texture = ExtResource("19_wsf8a")
 faction_id = 1
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_1m48w")])
+items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
 unit_class = SubResource("Resource_6ahce")
 
 [node name="Fighter7" parent="Base Layer/Units/Enemy" index="6" instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_phjyg")
+material = SubResource("ShaderMaterial_o5efc")
 position = Vector2(128, 144)
 texture = ExtResource("19_wsf8a")
 faction_id = 1
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_1m48w")])
+items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
 unit_class = SubResource("Resource_6ahce")
 
 [node name="Fighter8" parent="Base Layer/Units/Enemy" index="7" instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_1amsu")
+material = SubResource("ShaderMaterial_5yi23")
 position = Vector2(192, 208)
 texture = ExtResource("19_wsf8a")
 faction_id = 1
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_1m48w")])
+items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
 unit_class = SubResource("Resource_6ahce")
 
 [node name="Fighter9" parent="Base Layer/Units/Enemy" index="8" instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_8nld4")
+material = SubResource("ShaderMaterial_pdd4k")
 position = Vector2(112, 240)
 texture = ExtResource("19_wsf8a")
 faction_id = 1
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_1m48w")])
+items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
 unit_class = SubResource("Resource_6ahce")
 
 [node name="Fighter10" parent="Base Layer/Units/Enemy" index="9" instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_xpja7")
+material = SubResource("ShaderMaterial_xn1ik")
 position = Vector2(128, 224)
 texture = ExtResource("19_wsf8a")
 faction_id = 1
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_1m48w")])
+items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
 unit_class = SubResource("Resource_6ahce")
 
 [node name="Fighter11" parent="Base Layer/Units/Enemy" index="10" instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_pqo4b")
+material = SubResource("ShaderMaterial_f1p2t")
 position = Vector2(128, 288)
 texture = ExtResource("19_wsf8a")
 faction_id = 1
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_1m48w")])
+items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
 unit_class = SubResource("Resource_6ahce")
 
 [node name="Brigand" parent="Base Layer/Units/Enemy" index="11" instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_c0m6s")
+material = SubResource("ShaderMaterial_cmony")
 position = Vector2(64, 144)
 texture = ExtResource("22_b7ojr")
 faction_id = 1
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_1m48w")])
+items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
 unit_class = SubResource("Resource_v6ipr")
 
 [node name="Archer" parent="Base Layer/Units/Enemy" index="12" instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_v41vn")
+material = SubResource("ShaderMaterial_gjhyj")
 position = Vector2(16, 32)
 texture = ExtResource("16_mu4wr")
 faction_id = 1
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_o510q")])
+items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_1fxxh")])
 unit_class = SubResource("Resource_bfbd5")
 
 [node name="Archer2" parent="Base Layer/Units/Enemy" index="13" instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_gdkeu")
+material = SubResource("ShaderMaterial_jhhhc")
 position = Vector2(160, 160)
 texture = ExtResource("16_mu4wr")
 faction_id = 1
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_o510q")])
+items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_1fxxh")])
 unit_class = SubResource("Resource_bfbd5")
 
 [node name="Terrain Layer" parent="." index="1"]

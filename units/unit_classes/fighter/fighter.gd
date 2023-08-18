@@ -8,6 +8,7 @@ func _init():
 	name = "Fighter"
 	max_level = 30
 	movement_type = movement_types.FIGHTERS
+	weapon_levels[Weapon.types.AXE] = Weapon.ranks.E
 	base_stats = {
 		Unit.stats.HITPOINTS: 19,
 		Unit.stats.STRENGTH: 7,
@@ -20,7 +21,7 @@ func _init():
 		Unit.stats.DURABILITY: 2,
 		Unit.stats.RESISTANCE: 1,
 		Unit.stats.MOVEMENT: 5,
-		Unit.stats.CONSTITUTION: 0,
+		Unit.stats.CONSTITUTION: 11,
 		Unit.stats.LEADERSHIP: 0,
 	}
 	end_stats = {
@@ -35,7 +36,7 @@ func _init():
 		Unit.stats.DURABILITY: 12,
 		Unit.stats.RESISTANCE: 10,
 		Unit.stats.MOVEMENT: 5,
-		Unit.stats.CONSTITUTION: 0,
+		Unit.stats.CONSTITUTION: 11,
 		Unit.stats.LEADERSHIP: 0,
 	}
 	stat_caps = {
@@ -50,7 +51,7 @@ func _init():
 		Unit.stats.DURABILITY: 18,
 		Unit.stats.RESISTANCE: 18,
 		Unit.stats.MOVEMENT: 7,
-		Unit.stats.CONSTITUTION: 0,
+		Unit.stats.CONSTITUTION: 20,
 		Unit.stats.LEADERSHIP: 0,
 	}
 	map_sprite = load("uid://dgli13fqa0m3n")

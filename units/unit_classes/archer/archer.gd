@@ -8,6 +8,7 @@ func _init():
 	name = "Archer"
 	max_level = 30
 	movement_type = movement_types.FOOT
+	weapon_levels[Weapon.types.BOW] = Weapon.ranks.D
 	base_stats = {
 		Unit.stats.HITPOINTS: 17,
 		Unit.stats.STRENGTH: 0,
@@ -20,7 +21,7 @@ func _init():
 		Unit.stats.DURABILITY: 5,
 		Unit.stats.RESISTANCE: 4,
 		Unit.stats.MOVEMENT: 5,
-		Unit.stats.CONSTITUTION: 0,
+		Unit.stats.CONSTITUTION: 7,
 		Unit.stats.LEADERSHIP: 0,
 	}
 	end_stats = {
@@ -35,7 +36,7 @@ func _init():
 		Unit.stats.DURABILITY: 21,
 		Unit.stats.RESISTANCE: 18,
 		Unit.stats.MOVEMENT: 5,
-		Unit.stats.CONSTITUTION: 0,
+		Unit.stats.CONSTITUTION: 7,
 		Unit.stats.LEADERSHIP: 0,
 	}
 	stat_caps = {
@@ -50,7 +51,7 @@ func _init():
 		Unit.stats.DURABILITY: 23,
 		Unit.stats.RESISTANCE: 21,
 		Unit.stats.MOVEMENT: 7,
-		Unit.stats.CONSTITUTION: 0,
+		Unit.stats.CONSTITUTION: 20,
 		Unit.stats.LEADERSHIP: 0,
 	}
 	map_sprite = load("uid://dhm1yqcs0uc71")

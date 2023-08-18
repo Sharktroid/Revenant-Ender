@@ -1,16 +1,13 @@
 class_name Rapier
-extends Weapon
+extends Sword
 
 func _init():
 	name = "Rapier"
-	type = types.SWORD
-	level = ranks.E
+	level = ranks.C
 	might = 7
 	weight = 5
 	hit = 95
 	crit = 10
-	min_range = 1
-	max_range = 1
 	max_uses = 40
 	price = 6000
 	weapon_experience = 2
