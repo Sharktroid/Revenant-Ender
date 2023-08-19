@@ -16,7 +16,7 @@ func _ready() -> void:
 	_update()
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if not _scroll_lock:
 		if Input.is_action_pressed("left"):
 			observing_unit = GenVars.map.get_previous_unit(observing_unit)
