@@ -19,6 +19,10 @@ var max_value: float:
 
 func _update() -> void:
 	%"Value Label".text = str(roundi(current_value))
-	%ProgressBar.max_value = max_value
-	%ProgressBar.value = current_value
+	if max_value <= 0:
+		%ProgressBar.visible = false
+	else:
+		%ProgressBar.visible = true
+		%ProgressBar.max_value = max_value
+		%ProgressBar.value = current_value
 	$"Resize Handler".size.x = size.x * (float(max_value) / ABSOLUTE_MAX_VALUE)
