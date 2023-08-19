@@ -4,11 +4,15 @@ var observing_unit: Unit
 
 var _scroll_lock: bool = false
 
+static var previous_tab: int = 0
+
 
 func _ready() -> void:
 	grab_focus()
+	$"Menu Screen/Menu Tabs".current_tab = previous_tab
 	var internal_tab_bar: TabBar = ($"Menu Screen/Menu Tabs".get_child(0, true))
 	internal_tab_bar.mouse_filter = Control.MOUSE_FILTER_PASS
+
 	var freeable_node := Node.new()
 	freeable_node.queue_free()
 	add_child(freeable_node)
@@ -38,6 +42,7 @@ func _has_point(_point: Vector2) -> bool:
 func close() -> void:
 	GenVars.map_controller.grab_focus()
 	queue_free()
+	previous_tab = $"Menu Screen/Menu Tabs".current_tab
 
 
 func _update() -> void:
