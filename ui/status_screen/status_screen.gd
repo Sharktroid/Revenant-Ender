@@ -18,10 +18,10 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if not _scroll_lock:
-		if Input.is_action_pressed("left"):
+		if Input.is_action_pressed("up"):
 			observing_unit = GenVars.map.get_previous_unit(observing_unit)
 			_move(1)
-		elif Input.is_action_pressed("right"):
+		elif Input.is_action_pressed("down"):
 			observing_unit = GenVars.map.get_next_unit(observing_unit)
 			_move(-1)
 
@@ -87,25 +87,25 @@ func _set_label_text_to_number(label: Label, num: int) -> void:
 func _move(dir: int) -> void:
 	_scroll_lock = true
 	const SPEED = 5
-	var dest: float = $"Menu Screen".size.x
-	var get_x: Callable = func(): return $"Menu Screen".position.x * dir
+	var dest: float = $"Menu Screen".size.y
+	var get_x: Callable = func(): return $"Menu Screen".position.y * dir
 	var velocity: Callable = func():
-		return $"Menu Screen".size.x * GenVars.get_frame_delta() * dir * SPEED
+		return $"Menu Screen".size.y * GenVars.get_frame_delta() * dir * SPEED
 	var fade_threshold: float = 1.0/2
 	var swap_threshold: float = 2.0/3
 
 	while get_x.call() <= dest * swap_threshold:
 		await get_tree().process_frame
-		$"Menu Screen".position.x += velocity.call()
+		$"Menu Screen".position.y += velocity.call()
 		$"Menu Screen".modulate.a = lerpf(1, 0, inverse_lerp(0, dest * fade_threshold, get_x.call()))
 
-	$"Menu Screen".position.x = -dest * dir * swap_threshold
+	$"Menu Screen".position.y = -dest * dir * swap_threshold
 	_update()
 
 	while get_x.call() < 0:
 		await get_tree().process_frame
-		$"Menu Screen".position.x += velocity.call()
+		$"Menu Screen".position.y += velocity.call()
 		$"Menu Screen".modulate.a = lerpf(0, 1, inverse_lerp(-dest * fade_threshold, 0, get_x.call()))
 
-	$"Menu Screen".position.x = 0
+	$"Menu Screen".position.y = 0
 	_scroll_lock = false
