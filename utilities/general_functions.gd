@@ -23,3 +23,8 @@ static func sync_animation(animation_player: AnimationPlayer) -> void:
 	var seconds: float = float(Time.get_ticks_msec())/1000
 	var seconds_mod: float = fmod(seconds, animation_player.current_animation_length)
 	animation_player.seek(seconds_mod)
+
+
+static func switch_tab(tab_container: TabContainer, move_to: int) -> void:
+	var next_tab: int = tab_container.current_tab + move_to
+	tab_container.current_tab = posmod(next_tab, tab_container.get_tab_count())

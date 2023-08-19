@@ -33,6 +33,10 @@ func _process(_delta: float) -> void:
 func _gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		close()
+	elif event.is_action_pressed("left"):
+		GenFunc.switch_tab($"Menu Screen/Menu Tabs", -1)
+	elif event.is_action_pressed("right"):
+		GenFunc.switch_tab($"Menu Screen/Menu Tabs", 1)
 
 
 func _has_point(_point: Vector2) -> bool:
