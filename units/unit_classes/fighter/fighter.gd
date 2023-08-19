@@ -8,7 +8,7 @@ func _init():
 	name = "Fighter"
 	max_level = 30
 	movement_type = movement_types.FIGHTERS
-	weapon_levels[Weapon.types.AXE] = Weapon.ranks.E
+	weapon_levels[Weapon.types.AXE] = Weapon.ranks.D
 	base_stats = {
 		Unit.stats.HITPOINTS: 19,
 		Unit.stats.STRENGTH: 7,

@@ -15,6 +15,8 @@ enum types {
 	DARK,
 	CRIMSON_STAFF,
 	COBALT_STAFF,
+	SIEGE,
+	CLAW,
 }
 enum ranks {
 	S = 251,
