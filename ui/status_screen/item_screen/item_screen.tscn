@@ -105,17 +105,17 @@ icon = ExtResource("5_xjv2e")
 layout_mode = 2
 icon = ExtResource("13_2vcxs")
 
-[node name="Lightning Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
+[node name="Fire Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
-icon = ExtResource("6_b8bfx")
+icon = ExtResource("10_soxcp")
 
 [node name="Knife Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
 icon = ExtResource("4_ih0af")
 
-[node name="Fire Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
+[node name="Lightning Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
-icon = ExtResource("10_soxcp")
+icon = ExtResource("6_b8bfx")
 
 [node name="Bow Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2

@@ -306,6 +306,14 @@ func get_portrait_offset() -> Vector2i:
 		return Vector2i()
 
 
+func get_aid() -> int:
+	var aid_mod: int = unit_class.aid_modifier
+	if aid_mod <= 0:
+		return get_stat(stats.CONSTITUTION) + aid_mod
+	else:
+		return aid_mod - get_stat(stats.CONSTITUTION)
+
+
 func has_attribute(attrib: Skill.all_attributes) -> bool:
 	for skill in skills:
 		if attrib in (skill as Skill).attributes:

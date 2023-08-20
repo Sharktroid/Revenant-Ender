@@ -1,6 +1,6 @@
 @tool
 class_name Paladin
-extends UnitClass
+extends BaseMounted
 
 
 func _init():
@@ -58,3 +58,4 @@ func _init():
 		Unit.stats.LEADERSHIP: 0,
 	}
 	map_sprite = load("uid://d1cl2wgqqgs6d")
+	super()

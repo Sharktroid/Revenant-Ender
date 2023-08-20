@@ -28,6 +28,10 @@ func update() -> void:
 	_update_stat_bar(%"Luck Bar", Unit.stats.LUCK)
 	_update_stat_bar(%"Constitution Bar", Unit.stats.CONSTITUTION)
 	_update_stat_bar(%"Movement Bar", Unit.stats.MOVEMENT)
+	if observing_unit.get_aid() < 0:
+		%"Aid Value".text = "-"
+	else:
+		%"Aid Value".text = str(observing_unit.get_aid())
 	%"Leadership Stars".stars = observing_unit.get_stat(Unit.stats.LEADERSHIP)
 
 

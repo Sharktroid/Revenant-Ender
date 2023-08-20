@@ -17,3 +17,7 @@ var max_level: int = 50
 var movement_type: movement_types # Movement class for handling moving over terrain.
 var map_sprite: CompressedTexture2D
 var default_portrait: Texture2D
+## Modifier applied to constitution when calculating aid.
+## Negative values means aid is (con - abs(aid_modifier));
+## positive values means aid is (aid_modifier - con); zero means aid is con
+var aid_modifier: int = -1

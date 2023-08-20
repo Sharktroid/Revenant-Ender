@@ -1,6 +1,6 @@
 @tool
 class_name SocialKnight
-extends UnitClass
+extends BaseMounted
 
 
 # Unit-specific variables.
@@ -58,3 +58,4 @@ func _init():
 		Unit.stats.LEADERSHIP: 0,
 	}
 	map_sprite = load("uid://dcbp6yac31ins")
+	super()
