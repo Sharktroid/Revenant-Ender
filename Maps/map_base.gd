@@ -57,8 +57,7 @@ func next_faction() -> void:
 		turn_banner_node.get_node("Banner Timer").start()
 	# When there is no banner.
 	else:
-		await get_tree().idle_frame
-		turn_banner_node.get_node("Banner Timer").emit_signal("timeout")
+		turn_banner_node.get_node("Banner Timer").emit_signal.call_deferred("timeout")
 
 
 func get_current_faction() -> Faction:
@@ -112,7 +111,7 @@ func is_touching_border(pos: Vector2i) -> bool:
 func start_turn() -> void:
 	## Starts new turn.
 	if get_current_faction().player_type != Faction.player_types.HUMAN:
-		_wait_end_turn()
+		end_turn.call_deferred()
 
 
 func end_turn() -> void:
@@ -179,12 +178,6 @@ func toggle_outline_unit(unit: Unit) -> void:
 
 func update_outline() -> void:
 	$"Base Layer/Outline".queue_redraw()
-
-
-func _wait_end_turn() -> void:
-	## Ends turn on the next frame; here so "start_turn" finishes before "end_turn" starts
-	await get_tree().idle_frame
-	end_turn()
 
 
 func _get_terrain(coords: Vector2i, faction: Faction) -> String:

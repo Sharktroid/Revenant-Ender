@@ -15,7 +15,6 @@ func _process(_delta: float) -> void:
 
 
 func _on_button_pressed() -> void:
-	await get_tree().idle_frame
 	var text: String = $Panel/TextEdit.text
 	text = text.to_lower().replace(" ", "_")
 	var image = $Parser.get_texture().get_data()
