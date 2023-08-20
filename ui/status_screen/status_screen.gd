@@ -94,14 +94,16 @@ func _set_label_text_to_number(label: Label, num: int) -> void:
 
 
 func _move(dir: int) -> void:
+	var starting_time: float = Time.get_ticks_msec()
 	_scroll_lock = true
-	const SPEED = 5
+	const DURATION = 1.0/6
 	var dest: float = $"Menu Screen".size.y
+	var fade_threshold: float = 1.0/4
+	var swap_threshold: float = 1.0/3
 	var get_x: Callable = func(): return $"Menu Screen".position.y * dir
 	var velocity: Callable = func():
-		return $"Menu Screen".size.y * GenVars.get_frame_delta() * dir * SPEED
-	var fade_threshold: float = 1.0/2
-	var swap_threshold: float = 2.0/3
+		var dist: float = $"Menu Screen".size.y * swap_threshold
+		return dist * 2 * GenVars.get_frame_delta() * dir / DURATION
 
 	while get_x.call() <= dest * swap_threshold:
 		await get_tree().process_frame
