@@ -13,11 +13,7 @@ func _ready() -> void:
 	var internal_tab_bar: TabBar = ($"Menu Screen/Menu Tabs".get_child(0, true))
 	internal_tab_bar.mouse_filter = Control.MOUSE_FILTER_PASS
 
-	var freeable_node := Node.new()
-	freeable_node.queue_free()
-	add_child(freeable_node)
-	await freeable_node.tree_exited
-	_update()
+	_update.call_deferred()
 
 
 func _process(_delta: float) -> void:
@@ -94,7 +90,6 @@ func _set_label_text_to_number(label: Label, num: int) -> void:
 
 
 func _move(dir: int) -> void:
-	var starting_time: float = Time.get_ticks_msec()
 	_scroll_lock = true
 	const DURATION = 1.0/6
 	var dest: float = $"Menu Screen".size.y
@@ -108,7 +103,8 @@ func _move(dir: int) -> void:
 	while get_x.call() <= dest * swap_threshold:
 		await get_tree().process_frame
 		$"Menu Screen".position.y += velocity.call()
-		$"Menu Screen".modulate.a = lerpf(1, 0, inverse_lerp(0, dest * fade_threshold, get_x.call()))
+		var weight: float = inverse_lerp(0, dest * fade_threshold, get_x.call())
+		$"Menu Screen".modulate.a = lerpf(1, 0, weight)
 
 	$"Menu Screen".position.y = -dest * dir * swap_threshold
 	_update()
@@ -116,7 +112,8 @@ func _move(dir: int) -> void:
 	while get_x.call() < 0:
 		await get_tree().process_frame
 		$"Menu Screen".position.y += velocity.call()
-		$"Menu Screen".modulate.a = lerpf(0, 1, inverse_lerp(-dest * fade_threshold, 0, get_x.call()))
+		var weight: float = inverse_lerp(-dest * fade_threshold, 0, get_x.call())
+		$"Menu Screen".modulate.a = lerpf(0, 1, weight)
 
 	$"Menu Screen".position.y = 0
 	_scroll_lock = false
