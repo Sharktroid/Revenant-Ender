@@ -1,10 +1,9 @@
-[gd_resource type="Theme" load_steps=17 format=3 uid="uid://5iql263qnldx"]
+[gd_resource type="Theme" load_steps=18 format=3 uid="uid://5iql263qnldx"]
 
 [ext_resource type="StyleBox" uid="uid://441p5kjwr8b3" path="res://ui/theme/panel_background.tres" id="1_6j8ta"]
 [ext_resource type="Texture2D" uid="uid://crfr0u4x5xmdw" path="res://ui/variants/binding_blade/stat_bar_background.png" id="2_6etq5"]
 [ext_resource type="FontFile" uid="uid://b41m8ooqollu6" path="res://font/item_font.tres" id="2_8j5vo"]
 [ext_resource type="Texture2D" uid="uid://ch8tv43kw8yv4" path="res://ui/variants/binding_blade/menu.png" id="2_r3nqx"]
-[ext_resource type="Texture2D" uid="uid://ddxis6ap1skmy" path="res://ui/variants/binding_blade/stat_bar_fill.png" id="3_ej4gi"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ntfnw"]
 
@@ -27,8 +26,17 @@ expand_margin_top = 1.0
 expand_margin_right = 1.0
 expand_margin_bottom = 2.0
 
+[sub_resource type="Gradient" id="Gradient_a351x"]
+colors = PackedColorArray(0.933333, 0.972549, 0.972549, 1, 0.956863, 0.831373, 0.576471, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_stojy"]
+gradient = SubResource("Gradient_a351x")
+width = 1
+height = 2
+fill_to = Vector2(0, 1)
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_y8q4a"]
-texture = ExtResource("3_ej4gi")
+texture = SubResource("GradientTexture2D_stojy")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7di2r"]
 bg_color = Color(0, 0, 0, 0.498039)
