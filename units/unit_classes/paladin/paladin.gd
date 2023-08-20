@@ -25,7 +25,7 @@ func _init():
 		Unit.stats.RESISTANCE: 6,
 		Unit.stats.MOVEMENT: 8,
 		Unit.stats.CONSTITUTION: 11,
-		Unit.stats.LEADERSHIP: 0,
+		Unit.stats.AUTHORITY: 0,
 	}
 	end_stats = {
 		Unit.stats.HITPOINTS: 51,
@@ -40,7 +40,7 @@ func _init():
 		Unit.stats.RESISTANCE: 26,
 		Unit.stats.MOVEMENT: 8,
 		Unit.stats.CONSTITUTION: 11,
-		Unit.stats.LEADERSHIP: 0,
+		Unit.stats.AUTHORITY: 0,
 	}
 	stat_caps = {
 		Unit.stats.HITPOINTS: 60,
@@ -55,7 +55,7 @@ func _init():
 		Unit.stats.RESISTANCE: 32,
 		Unit.stats.MOVEMENT: 10,
 		Unit.stats.CONSTITUTION: 20,
-		Unit.stats.LEADERSHIP: 0,
+		Unit.stats.AUTHORITY: 0,
 	}
 	map_sprite = load("uid://d1cl2wgqqgs6d")
 	super()

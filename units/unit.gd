@@ -9,7 +9,7 @@ enum statuses {ATTACK}
 enum animations {IDLE, MOVING_DOWN, MOVING_UP, MOVING_LEFT, MOVING_RIGHT}
 enum stats {
 	HITPOINTS, STRENGTH, PIERCE, MAGIC, SKILL, SPEED, LUCK, DEFENSE, DURABILITY,
-	RESISTANCE, MOVEMENT, CONSTITUTION, LEADERSHIP
+	RESISTANCE, MOVEMENT, CONSTITUTION, AUTHORITY
 }
 
 ## Unit's faction. Should be in the map's Faction stack.
@@ -256,15 +256,15 @@ func get_stat_boost(stat: stats) -> int:
 
 
 func get_stat(stat: stats, level: int = current_level) -> int:
-	var base_stat: int = unit_class.base_stats[stat] + personal_base_stats.get(stat, 0)
-	var end_stat: int = unit_class.end_stats[stat] + personal_end_stats.get(stat, 0)
+	var base_stat: int = unit_class.base_stats.get(stat, 0) + personal_base_stats.get(stat, 0)
+	var end_stat: int = unit_class.end_stats.get(stat, 0) + personal_end_stats.get(stat, 0)
 	var weight: float = inverse_lerp(1, unit_class.max_level, level)
 	var leveled_stat: int = roundi(lerpf(base_stat, end_stat, weight))
 	return clampi(leveled_stat + get_stat_boost(stat), 0, get_stat_cap(stat))
 
 
 func get_stat_cap(stat: stats) -> int:
-	return unit_class.stat_caps[stat] + personal_stat_caps.get(stat, 0)
+	return unit_class.stat_caps.get(stat, 0) + personal_stat_caps.get(stat, 0)
 
 
 func get_attack_speed() -> int:

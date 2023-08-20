@@ -262,7 +262,7 @@ layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
 theme_type_variation = &"YellowLabel"
-text = "Leadership"
+text = "Authority"
 vertical_alignment = 1
 
 [node name="Weight" type="Label" parent="Other/HBoxContainer/Labels" groups=["values"]]
@@ -303,7 +303,7 @@ size_flags_horizontal = 3
 theme = SubResource("Theme_ux5tw")
 theme_override_constants/separation = 0
 
-[node name="Leadership Stars" parent="Other/HBoxContainer/Values" instance=ExtResource("3_8euhf")]
+[node name="Authority Stars" parent="Other/HBoxContainer/Values" instance=ExtResource("3_8euhf")]
 unique_name_in_owner = true
 layout_mode = 2
 

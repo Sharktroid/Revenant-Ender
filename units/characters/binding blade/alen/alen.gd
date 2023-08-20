@@ -17,7 +17,7 @@ func _init() -> void:
 		Unit.stats.RESISTANCE: 0,
 		Unit.stats.MOVEMENT: 0,
 		Unit.stats.CONSTITUTION: 0,
-		Unit.stats.LEADERSHIP: 0,
+		Unit.stats.AUTHORITY: 0,
 	}
 	personal_end_stats = {
 		Unit.stats.HITPOINTS: 1,
@@ -32,7 +32,7 @@ func _init() -> void:
 		Unit.stats.RESISTANCE: 0,
 		Unit.stats.MOVEMENT: 0,
 		Unit.stats.CONSTITUTION: 0,
-		Unit.stats.LEADERSHIP: 0,
+		Unit.stats.AUTHORITY: 0,
 	}
 	personal_stat_caps = {
 		Unit.stats.HITPOINTS: 0,
@@ -47,6 +47,6 @@ func _init() -> void:
 		Unit.stats.RESISTANCE: 0,
 		Unit.stats.MOVEMENT: 0,
 		Unit.stats.CONSTITUTION: 0,
-		Unit.stats.LEADERSHIP: 0,
+		Unit.stats.AUTHORITY: 0,
 	}
 

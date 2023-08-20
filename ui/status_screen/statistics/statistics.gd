@@ -32,7 +32,7 @@ func update() -> void:
 		%"Aid Value".text = "-"
 	else:
 		%"Aid Value".text = str(observing_unit.get_aid())
-	%"Leadership Stars".stars = observing_unit.get_stat(Unit.stats.LEADERSHIP)
+	%"Authority Stars".stars = observing_unit.get_stat(Unit.stats.AUTHORITY)
 
 
 
