@@ -7,11 +7,14 @@ func _init():
 	name = "Paladin"
 	max_level = 50
 	movement_type = movement_types.ADVANCED_HEAVY_CAVALRY
+	weight_modifier = 25
+
 	weapon_levels = {
 		Weapon.types.SWORD: Weapon.ranks.D,
 		Weapon.types.SPEAR: Weapon.ranks.C,
 		Weapon.types.AXE: Weapon.ranks.E,
 	}
+
 	base_stats = {
 		Unit.stats.HITPOINTS: 19,
 		Unit.stats.STRENGTH: 8,

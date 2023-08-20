@@ -314,6 +314,10 @@ func get_aid() -> int:
 		return aid_mod - get_stat(stats.CONSTITUTION)
 
 
+func get_weight() -> int:
+	return get_stat(stats.CONSTITUTION) + unit_class.weight_modifier
+
+
 func has_attribute(attrib: Skill.all_attributes) -> bool:
 	for skill in skills:
 		if attrib in (skill as Skill).attributes:

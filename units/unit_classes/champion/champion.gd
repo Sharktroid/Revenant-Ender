@@ -7,10 +7,13 @@ func _init():
 	name = "Champion"
 	max_level = 50
 	movement_type = movement_types.ADVANCED_FOOT
+	weight_modifier = 1
+
 	weapon_levels = {
 		Weapon.types.SWORD: Weapon.ranks.C,
 		Weapon.types.AXE: Weapon.ranks.D,
 	}
+
 	base_stats = {
 		Unit.stats.HITPOINTS: 20,
 		Unit.stats.STRENGTH: 8,
@@ -56,4 +59,5 @@ func _init():
 		Unit.stats.CONSTITUTION: 20,
 		Unit.stats.AUTHORITY: 0,
 	}
+
 	map_sprite = load("uid://d3e2c0q0vvgmj")

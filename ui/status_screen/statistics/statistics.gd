@@ -28,6 +28,7 @@ func update() -> void:
 	_update_stat_bar(%"Luck Bar", Unit.stats.LUCK)
 	_update_stat_bar(%"Constitution Bar", Unit.stats.CONSTITUTION)
 	_update_stat_bar(%"Movement Bar", Unit.stats.MOVEMENT)
+	%"Weight Value".text = str(observing_unit.get_weight())
 	if observing_unit.get_aid() < 0:
 		%"Aid Value".text = "-"
 	else:

@@ -8,10 +8,13 @@ func _init():
 	name = "Social Knight"
 	max_level = 30
 	movement_type = movement_types.HEAVY_CAVALRY
+	weight_modifier = 25
+
 	weapon_levels = {
 		Weapon.types.SWORD: Weapon.ranks.E,
 		Weapon.types.SPEAR: Weapon.ranks.D,
 	}
+
 	base_stats = {
 		Unit.stats.HITPOINTS: 17,
 		Unit.stats.STRENGTH: 6,

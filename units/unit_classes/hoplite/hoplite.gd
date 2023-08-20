@@ -8,7 +8,10 @@ func _init():
 	name = "Hoplite"
 	max_level = 30
 	movement_type = movement_types.ARMOR
+	weight_modifier = 5
+
 	weapon_levels[Weapon.types.SPEAR] = Weapon.ranks.D
+
 	base_stats = {
 		Unit.stats.HITPOINTS: 19,
 		Unit.stats.STRENGTH: 8,

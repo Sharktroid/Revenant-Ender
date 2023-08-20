@@ -21,3 +21,4 @@ var default_portrait: Texture2D
 ## Negative values means aid is (con - abs(aid_modifier));
 ## positive values means aid is (aid_modifier - con); zero means aid is con
 var aid_modifier: int = -1
+var weight_modifier: int = 0
