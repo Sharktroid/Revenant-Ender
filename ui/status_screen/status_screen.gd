@@ -16,16 +16,6 @@ func _ready() -> void:
 	_update.call_deferred()
 
 
-func _process(_delta: float) -> void:
-	if not _scroll_lock:
-		if Input.is_action_pressed("up"):
-			observing_unit = GenVars.map.get_previous_unit(observing_unit)
-			_move(1)
-		elif Input.is_action_pressed("down"):
-			observing_unit = GenVars.map.get_next_unit(observing_unit)
-			_move(-1)
-
-
 func _gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		close()
@@ -33,6 +23,13 @@ func _gui_input(event: InputEvent) -> void:
 		GenFunc.switch_tab($"Menu Screen/Menu Tabs", -1)
 	elif event.is_action_pressed("right"):
 		GenFunc.switch_tab($"Menu Screen/Menu Tabs", 1)
+	elif not _scroll_lock:
+		if Input.is_action_pressed("up"):
+			observing_unit = GenVars.map.get_previous_unit(observing_unit)
+			_move(1)
+		elif Input.is_action_pressed("down"):
+			observing_unit = GenVars.map.get_next_unit(observing_unit)
+			_move(-1)
 
 
 func _has_point(_point: Vector2) -> bool:
