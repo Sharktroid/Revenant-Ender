@@ -27,7 +27,7 @@ grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_qkrfo")
 
-[node name="Item Panel" type="Panel" parent="."]
+[node name="Item Panel" type="PanelContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.667
@@ -38,16 +38,7 @@ mouse_filter = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="Item Label Container" type="HBoxContainer" parent="Item Panel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 4.0
-offset_top = 4.0
-offset_right = -4.0
-offset_bottom = -4.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="Equip Status" type="VBoxContainer" parent="Item Panel/Item Label Container"]
@@ -79,7 +70,7 @@ theme_override_constants/separation = 0
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Weapon Ranks" type="Panel" parent="."]
+[node name="Weapon Ranks" type="PanelContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.667
@@ -91,16 +82,7 @@ grow_vertical = 2
 mouse_filter = 1
 
 [node name="GridContainer" type="GridContainer" parent="Weapon Ranks"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 4.0
-offset_top = 4.0
-offset_right = -4.0
-offset_bottom = -4.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 columns = 2
 
 [node name="Sword Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
