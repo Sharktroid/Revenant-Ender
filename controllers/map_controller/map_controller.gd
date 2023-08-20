@@ -30,7 +30,7 @@ func _gui_input(event: InputEvent) -> void:
 		_on_cursor_select()
 
 	elif event.is_action_pressed("status"):
-		if GenVars.cursor.get_hovered_unit():
+		if GenVars.cursor.get_hovered_unit() and has_focus():
 			var status_menu: Control = load("uid://dfm25r0ju5214").instantiate()
 			status_menu.observing_unit = GenVars.cursor.get_hovered_unit()
 			$"UI Layer".add_child(status_menu)
