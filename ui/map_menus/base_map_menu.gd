@@ -35,7 +35,6 @@ func _ready() -> void:
 		%Items.size = new_size
 		size = %Items.size + Vector2(9, 9)
 		set_map_position((GenVars.cursor as Cursor).get_true_pos() + map_offset + Vector2i(16, -16))
-		%"Base Item".queue_free()
 		grab_focus()
 
 

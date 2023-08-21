@@ -5,6 +5,11 @@ var parent_menu: MapMenu
 var update_text: Callable = func(): pass
 
 
+func _ready() -> void:
+	mouse_filter = Control.MOUSE_FILTER_PASS
+	mouse_entered.connect(_on_mouse_entered)
+
+
 func _process(_delta: float) -> void:
 	if self == parent_menu.get_current_item_node():
 		if not has_theme_color_override("font_color"):
