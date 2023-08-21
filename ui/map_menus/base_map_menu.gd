@@ -5,14 +5,9 @@ enum types {SACRED_STONES, BINDING_BLADE}
 
 var item_keys: Array[String]
 var parent_menu: MapMenu
-var _start_offset: int
-var _end_offset: int
+
+var _base_item_node: GDScript = preload("res://ui/map_menus/base_item.gd")
 var _current_item_index: int = 0
-
-
-func _enter_tree() -> void:
-	_start_offset = 4
-	_end_offset = 5
 
 
 func _ready() -> void:
@@ -23,7 +18,7 @@ func _ready() -> void:
 		close()
 	else:
 		for item in items:
-			var item_node: Control = %"Base Item".duplicate()
+			var item_node: Control = _base_item_node.new()
 			if items[item] == null:
 				item_node.text = item
 			elif items[item] is Callable:
@@ -32,12 +27,9 @@ func _ready() -> void:
 			else:
 				item_node.text = "%s: %s" % [item, items[item]]
 			item_node.name = item
-			item_node.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 			item_node.item = item
 			item_node.parent_menu = self
-			new_size.y += 16
 			%Items.add_child(item_node)
-			new_size.x = max(new_size.x, item_node.size.x * scale.x + 4)
 		for item in %Items.get_children():
 			(item as Label).custom_minimum_size.x = new_size.x
 		%Items.size = new_size

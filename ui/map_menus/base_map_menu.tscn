@@ -1,5 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://b4a6n61tdijwj"]
+[gd_scene load_steps=4 format=3 uid="uid://b4a6n61tdijwj"]
 
+[ext_resource type="Script" path="res://ui/map_menus/base_map_menu.gd" id="1_8yiax"]
 [ext_resource type="Theme" uid="uid://5iql263qnldx" path="res://ui/theme/menu_theme.tres" id="1_okeqx"]
 [ext_resource type="Script" path="res://ui/map_menus/base_item.gd" id="4_rgeva"]
 
@@ -8,6 +9,7 @@ offset_right = 9.0
 offset_bottom = 120.0
 size_flags_horizontal = 3
 focus_mode = 2
+script = ExtResource("1_8yiax")
 
 [node name="Items" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
