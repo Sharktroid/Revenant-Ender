@@ -47,27 +47,10 @@ func get_items() -> Dictionary:
 	if _can_attack():
 		menu_items.append("Attack")
 
-	# Whether unit can capture.
-#	if "Capture" in connected_unit.skills:
-#		var faction_diplo GenVars.map.diplomacy[connected_unit.faction]
-#		if _touching_unit \
-#				and faction_diplo[_touching_unit.faction] == "Enemy" \
-#				and connected_unit.all_tags.BUILDING in _touching_unit.tags:
-#			menu_items.append("Capture")
-	# Whether unit can wait.
 	var movement: int = connected_unit.get_stat(Unit.stats.MOVEMENT)
 	if movement > 0 and pos in connected_unit.raw_movement_tiles:
-		# Unit cannot wait on a non-building unit
-#		var touching_tags: Array[Unit.all_tags] = [Unit.all_tags.BUILDING]
-#		if _touching_unit:
-#			touching_tags = _touching_unit.tags
 		if _touching_unit == null:
 			menu_items.append("Wait")
-	# Whether unit can creat other units.
-#	if "Produces" in connected_unit.skills:
-#		menu_items.append("Create")
-#	if "View Items" in connected_unit.skills:
-#		menu_items.append("Items")
 	item_keys = menu_items
 	return super()
 
@@ -89,33 +72,11 @@ func select_item(item: String) -> void:
 				connected_unit.wait()
 				close()
 
-#		"Create":
-#			var pos: Vector2 = GenVars.cursor.get_true_pos() + Vector2(16, -8)
-#			var menu = GenFunc.create_map_menu(self, "Create", skills["Produces"], pos)
-#			GenVars.map_controller.get_node("UILayer/Unit Menu").set_active(false)
-#			await menu.menu_closed
-#			return false
-
 		"Wait":
 			connected_unit.move()
 			await connected_unit.arrived
 			connected_unit.wait()
 			close()
-
-		"Capture":
-			if _touching_unit:
-				connected_unit.move()
-				await self.arrived
-				# Placeholder value; should be negative.
-				var reduction: float = -connected_unit.get_current_health()
-				if _touching_unit.get_current_health() + reduction:
-					_touching_unit.change_faction(connected_unit.faction)
-				_touching_unit.add_current_health(reduction)
-				connected_unit.wait()
-			else:
-				push_error("Capturable object not found")
-
-		_: push_error('"%s" is not a valid action' % item)
 
 
 func _can_attack() -> bool:
