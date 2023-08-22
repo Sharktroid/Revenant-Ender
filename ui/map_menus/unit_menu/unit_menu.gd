@@ -58,7 +58,8 @@ func get_items() -> Dictionary:
 func select_item(item: String) -> void:
 	match item:
 		"Attack":
-			var controller := UnitSelector.new(connected_unit)
+			var weapon: Weapon = connected_unit.get_current_weapon()
+			var controller := UnitSelector.new(connected_unit, weapon.min_range, weapon.max_range)
 			caller.add_sibling(controller)
 			connected_unit.display_current_attack_tiles(connected_unit.get_unit_path()[-1])
 			visible = false

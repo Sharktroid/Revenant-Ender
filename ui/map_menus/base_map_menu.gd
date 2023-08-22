@@ -34,7 +34,7 @@ func _ready() -> void:
 			(item as Label).custom_minimum_size.x = new_size.x
 		%Items.size = new_size
 		size = %Items.size + Vector2(9, 9)
-		set_map_position((GenVars.cursor as Cursor).get_true_pos() + map_offset + Vector2i(16, -16))
+		set_map_position(GenVars.cursor.get_true_pos() + map_offset + Vector2i(16, -16))
 		grab_focus()
 
 

@@ -6,8 +6,14 @@ signal canceled
 
 var unit: Unit
 
-func _init(connected_unit: Unit) -> void:
+var _minimum_range: int
+var _maximum_range: int
+@onready var _selecting_position: Vector2i = unit.get_unit_path()[-1]
+
+func _init(connected_unit: Unit, min_range: int, max_range: int) -> void:
 	unit = connected_unit
+	_minimum_range = min_range
+	_maximum_range = max_range
 	name = "Unit Selector"
 
 
@@ -20,10 +26,10 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	if (GenVars.cursor as Cursor).get_hovered_unit() == null:
-		(GenVars.cursor as Cursor).remove_icon()
+	if _within_range():
+		GenVars.cursor.draw_icon(Cursor.icons.ATTACK)
 	else:
-		(GenVars.cursor as Cursor).draw_icon(Cursor.icons.ATTACK)
+		GenVars.cursor.remove_icon()
 
 
 func _gui_input(event: InputEvent) -> void:
@@ -44,9 +50,18 @@ func close() -> void:
 
 
 func _position_selected() -> void:
-	if GenVars.cursor.get_hovered_unit() != null:
+	if _within_range():
 		emit_signal("selected", GenVars.cursor.get_hovered_unit())
 		close()
+
+
+func _within_range() -> bool:
+	if GenVars.cursor.get_hovered_unit() != null:
+		var hovered_unit_pos: Vector2i = GenVars.cursor.get_hovered_unit().position
+		var dist: int = GenFunc.get_tile_distance(hovered_unit_pos, _selecting_position)
+		return dist >= _minimum_range and dist <= _maximum_range
+	else:
+		return false
 
 
 func _canceled() -> void:
