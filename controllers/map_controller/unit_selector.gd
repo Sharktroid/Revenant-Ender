@@ -14,7 +14,6 @@ func _init(connected_unit: Unit) -> void:
 func _ready() -> void:
 	GenVars.cursor.enable()
 	unit.hide_movement_tiles()
-	unit.display_current_attack_tiles(unit.get_unit_path()[-1])
 	unit.remove_path()
 	set_focus_mode(Control.FOCUS_ALL)
 	grab_focus()
@@ -39,7 +38,6 @@ func _has_point(_point: Vector2) -> bool:
 
 
 func close() -> void:
-	unit.hide_current_attack_tiles()
 	unit.set_animation(unit.animations.IDLE)
 	(GenVars.cursor as Cursor).remove_icon()
 	queue_free()

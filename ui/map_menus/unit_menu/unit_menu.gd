@@ -60,8 +60,10 @@ func select_item(item: String) -> void:
 		"Attack":
 			var controller := UnitSelector.new(connected_unit)
 			caller.add_sibling(controller)
+			connected_unit.display_current_attack_tiles(connected_unit.get_unit_path()[-1])
 			visible = false
 			var selected_unit = await controller.selected
+			connected_unit.hide_current_attack_tiles()
 			if selected_unit == null:
 				visible = true
 				grab_focus()
