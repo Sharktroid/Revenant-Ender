@@ -59,6 +59,14 @@ func get_items() -> Dictionary:
 		if can_wait.call():
 			menu_items.append("Wait")
 
+	for unit in _adjacent_units:
+		if connected_unit.can_rescue(unit):
+			menu_items.append("Rescue")
+			break
+
+	if connected_unit.traveler:
+		menu_items.append("Drop")
+
 	item_keys = menu_items
 	return super()
 
@@ -92,6 +100,32 @@ func select_item(item: String) -> void:
 			await connected_unit.arrived
 			connected_unit.wait()
 			close()
+
+		"Rescue":
+			var controller := UnitSelector.new(connected_unit, 1, 1, connected_unit.can_rescue)
+			caller.add_sibling(controller)
+			visible = false
+			var selected_unit: Unit = await controller.selected
+			if selected_unit == null:
+				visible = true
+				grab_focus()
+			else:
+				connected_unit.move()
+				await connected_unit.arrived
+				selected_unit.visible = false
+				connected_unit.traveler = selected_unit
+				connected_unit.wait()
+				close()
+
+		"Drop":
+			connected_unit.move()
+			await connected_unit.arrived
+			connected_unit.traveler.visible = true
+			connected_unit.traveler.position = connected_unit.position + Vector2(16, 0)
+			connected_unit.traveler = null
+			connected_unit.wait()
+			close()
+
 
 
 func _can_attack() -> bool:

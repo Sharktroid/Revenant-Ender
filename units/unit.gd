@@ -42,6 +42,7 @@ var sprite_animated: bool = true:
 		else:
 			$AnimationPlayer.pause()
 var weapon_levels: Dictionary
+var traveler: Unit
 
 var _path: Array[Vector2i] # Path the unit will follow when moving.
 var _current_statuses: Array[statuses]
@@ -327,6 +328,10 @@ func has_attribute(attrib: Skill.all_attributes) -> bool:
 
 func can_use_weapon(weapon: Weapon) -> bool:
 	return weapon.level <= weapon_levels.get(weapon.type, 0)
+
+
+func can_rescue(unit: Unit) -> bool:
+	return unit.get_weight() < get_aid() and is_friend(unit) and not traveler
 
 
 ## Causes unit to wait.
