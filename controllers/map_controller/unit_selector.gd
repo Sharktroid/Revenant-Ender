@@ -6,14 +6,16 @@ signal canceled
 
 var unit: Unit
 
+var _condition: Callable
 var _minimum_range: int
 var _maximum_range: int
 @onready var _selecting_position: Vector2i = unit.get_unit_path()[-1]
 
-func _init(connected_unit: Unit, min_range: int, max_range: int) -> void:
+func _init(connected_unit: Unit, min_range: int, max_range: int, condition: Callable) -> void:
 	unit = connected_unit
 	_minimum_range = min_range
 	_maximum_range = max_range
+	_condition = condition
 	name = "Unit Selector"
 
 
@@ -26,7 +28,7 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	if _within_range():
+	if _can_select():
 		GenVars.cursor.draw_icon(Cursor.icons.ATTACK)
 	else:
 		GenVars.cursor.remove_icon()
@@ -50,9 +52,13 @@ func close() -> void:
 
 
 func _position_selected() -> void:
-	if _within_range():
+	if _can_select():
 		emit_signal("selected", GenVars.cursor.get_hovered_unit())
 		close()
+
+
+func _can_select() -> bool:
+	return _within_range() and _condition.call(GenVars.cursor.get_hovered_unit())
 
 
 func _within_range() -> bool:

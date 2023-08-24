@@ -41,8 +41,8 @@ var sprite_animated: bool = true:
 			$AnimationPlayer.play($AnimationPlayer.current_animation)
 		else:
 			$AnimationPlayer.pause()
-
 var weapon_levels: Dictionary
+
 var _path: Array[Vector2i] # Path the unit will follow when moving.
 var _current_statuses: Array[statuses]
 var _target # Destination of the unit during movement.
@@ -420,7 +420,7 @@ func get_current_attack_tiles(pos: Vector2i) -> Array[Vector2i]:
 func display_current_attack_tiles(pos: Vector2i) -> void:
 	var unit_coords: Array[Vector2i] = []
 	for unit in get_tree().get_nodes_in_group("units"):
-		if not(unit == self or unit.is_ghost):
+		if not(unit == self or unit.is_ghost or unit.visible or is_friend(unit)):
 			unit_coords.append(Vector2i(unit.position))
 	unit_coords.erase(Vector2i(position))
 	_current_attack_tiles_node = Node2D.new()
@@ -603,8 +603,7 @@ func remove_path() -> void:
 
 
 func is_friend(other_unit: Unit):
-	var diplo_stance = self.get_faction().get_diplomacy_stance(other_unit.get_faction())
-	return get_faction().is
+	return get_faction().is_friend(other_unit.get_faction())
 
 
 func _update_palette() -> void:

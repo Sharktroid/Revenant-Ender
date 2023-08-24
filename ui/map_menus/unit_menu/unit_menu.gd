@@ -58,8 +58,7 @@ func get_items() -> Dictionary:
 				return true
 		if can_wait.call():
 			menu_items.append("Wait")
-	for unit in _adjacent_units:
-		if unit in [Faction.diplo_stances.ALLY, Faction.diplo_stances.SELF] and unit.get_weight() < connected_unit.
+
 	item_keys = menu_items
 	return super()
 
@@ -68,7 +67,11 @@ func select_item(item: String) -> void:
 	match item:
 		"Attack":
 			var weapon: Weapon = connected_unit.get_current_weapon()
-			var controller := UnitSelector.new(connected_unit, weapon.min_range, weapon.max_range)
+			var is_enemy: Callable = func can_attack(unit: Unit):
+				return not connected_unit.is_friend(unit)
+			var min_range: int = weapon.min_range
+			var max_range: int = weapon.max_range
+			var controller := UnitSelector.new(connected_unit, min_range, max_range, is_enemy)
 			caller.add_sibling(controller)
 			connected_unit.display_current_attack_tiles(connected_unit.get_unit_path()[-1])
 			visible = false
