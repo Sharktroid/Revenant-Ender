@@ -1,7 +1,6 @@
-class_name UnitSelector
+class_name BaseSelector
 extends Control
 
-signal selected(unit: Unit)
 signal canceled
 
 var unit: Unit
@@ -16,7 +15,6 @@ func _init(connected_unit: Unit, min_range: int, max_range: int, condition: Call
 	_minimum_range = min_range
 	_maximum_range = max_range
 	_condition = condition
-	name = "Unit Selector"
 
 
 func _ready() -> void:
@@ -52,26 +50,20 @@ func close() -> void:
 
 
 func _position_selected() -> void:
-	if _can_select():
-		emit_signal("selected", GenVars.cursor.get_hovered_unit())
-		close()
+	pass # Abstract
 
 
 func _can_select() -> bool:
-	return _within_range() and _condition.call(GenVars.cursor.get_hovered_unit())
+	return false # Abstract
 
 
 func _within_range() -> bool:
-	if GenVars.cursor.get_hovered_unit() != null:
-		var hovered_unit_pos: Vector2i = GenVars.cursor.get_hovered_unit().position
-		var dist: float = GenFunc.get_tile_distance(hovered_unit_pos, _selecting_position)
-		return dist >= _minimum_range and dist <= _maximum_range
-	else:
-		return false
+	var hovered_unit_pos: Vector2i = GenVars.cursor.get_hovered_unit().position
+	var dist: float = GenFunc.get_tile_distance(hovered_unit_pos, _selecting_position)
+	return dist >= _minimum_range and dist <= _maximum_range
 
 
 func _canceled() -> void:
-	emit_signal("selected", null)
 	GenVars.cursor.disable()
 	unit.display_movement_tiles()
 	unit.show_path()
