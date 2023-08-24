@@ -34,3 +34,8 @@ func get_diplomacy_stance(faction: Faction) -> diplo_stances:
 
 func set_diplomacy_stance(faction: Faction, new_stance: diplo_stances) -> void:
 	_diplomacy[faction] = new_stance
+
+
+## Returns true if the other faction is friendly (is self or ally).
+func is_friend(other_faction: Faction) -> bool:
+	return get_diplomacy_stance(other_faction) in [diplo_stances.SELF, diplo_stances.ALLY]

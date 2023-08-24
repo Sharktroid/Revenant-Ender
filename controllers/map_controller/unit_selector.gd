@@ -58,7 +58,7 @@ func _position_selected() -> void:
 func _within_range() -> bool:
 	if GenVars.cursor.get_hovered_unit() != null:
 		var hovered_unit_pos: Vector2i = GenVars.cursor.get_hovered_unit().position
-		var dist: int = GenFunc.get_tile_distance(hovered_unit_pos, _selecting_position)
+		var dist: float = GenFunc.get_tile_distance(hovered_unit_pos, _selecting_position)
 		return dist >= _minimum_range and dist <= _maximum_range
 	else:
 		return false

@@ -602,6 +602,11 @@ func remove_path() -> void:
 		_arrows_container.queue_free()
 
 
+func is_friend(other_unit: Unit):
+	var diplo_stance = self.get_faction().get_diplomacy_stance(other_unit.get_faction())
+	return get_faction().is
+
+
 func _update_palette() -> void:
 	if get_faction():
 		_set_palette(get_faction().color)

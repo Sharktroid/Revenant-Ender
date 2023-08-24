@@ -2,8 +2,6 @@ extends MapMenu
 
 var connected_unit: Unit
 var caller: SelectedUnitController
-var _adjacent_units: Array[Unit]
-var _touching_unit: Unit
 
 
 func _enter_tree() -> void:
@@ -29,8 +27,8 @@ func close(return_to_caller: bool = false) -> void:
 
 func get_items() -> Dictionary:
 	# Gets the items for the unit menu.
-	_adjacent_units = []
-	_touching_unit = null
+	var _adjacent_units: Array[Unit] = []
+	var _touching_unit: Unit
 	var menu_items: Array[String] = []
 	var pos: Vector2i = connected_unit.get_position()
 	# Gets all adjacent units
@@ -49,8 +47,19 @@ func get_items() -> Dictionary:
 
 	var movement: int = connected_unit.get_stat(Unit.stats.MOVEMENT)
 	if movement > 0 and pos in connected_unit.raw_movement_tiles:
-		if _touching_unit == null:
+		var can_wait: Callable = func():
+			if _touching_unit:
+				var touching_faction: Faction = _touching_unit.get_faction()
+				var get_touching_stance: Callable = touching_faction.get_diplomacy_stance
+				var current_faction: Faction = connected_unit.get_faction()
+				var stance: Faction.diplo_stances = get_touching_stance.call(current_faction)
+				return stance in [Faction.diplo_stances.ALLY, Faction.diplo_stances.SELF]
+			else:
+				return true
+		if can_wait.call():
 			menu_items.append("Wait")
+	for unit in _adjacent_units:
+		if unit in [Faction.diplo_stances.ALLY, Faction.diplo_stances.SELF] and unit.get_weight() < connected_unit.
 	item_keys = menu_items
 	return super()
 
