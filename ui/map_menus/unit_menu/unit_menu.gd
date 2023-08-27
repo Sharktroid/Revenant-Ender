@@ -118,13 +118,22 @@ func select_item(item: String) -> void:
 				close()
 
 		"Drop":
-			connected_unit.move()
-			await connected_unit.arrived
-			connected_unit.traveler.visible = true
-			connected_unit.traveler.position = connected_unit.position + Vector2(16, 0)
-			connected_unit.traveler = null
-			connected_unit.wait()
-			close()
+			var condition: Callable = func(pos: Vector2i): return true
+			var controller := TileSelector.new(connected_unit, 1, 1, condition)
+			caller.add_sibling(controller)
+			visible = false
+			var drop_pos = await controller.selected
+			if drop_pos == null:
+				visible = true
+				grab_focus()
+			else:
+				connected_unit.move()
+				await connected_unit.arrived
+				connected_unit.traveler.visible = true
+				connected_unit.traveler.position = drop_pos
+				connected_unit.traveler = null
+				connected_unit.wait()
+				close()
 
 
 
