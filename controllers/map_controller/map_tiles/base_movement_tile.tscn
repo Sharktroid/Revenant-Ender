@@ -1,10 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://c8vpqlssnmggo"]
 
-[ext_resource type="Texture2D" uid="uid://qsmb33bhrilu" path="res://controllers/map_controller/map_tiles/highlight_blue.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://bdv7k8j5wvch0" path="res://controllers/map_controller/map_tiles/blue_tile.png" id="1_iv67k"]
 [ext_resource type="Script" path="res://controllers/map_controller/map_tiles/base_movement_tile.gd" id="2"]
 
 [node name="Base Movement Tile" type="Sprite2D"]
-texture = ExtResource("1")
+texture = ExtResource("1_iv67k")
 centered = false
 hframes = 16
 script = ExtResource("2")
