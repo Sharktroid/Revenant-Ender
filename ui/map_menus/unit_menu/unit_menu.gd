@@ -118,7 +118,9 @@ func select_item(item: String) -> void:
 				close()
 
 		"Drop":
-			var condition: Callable = func(pos: Vector2i): return true
+			var condition: Callable = func(pos: Vector2i):
+				var terrain_cost: int = GenVars.map.get_terrain_cost(connected_unit.traveler, pos)
+				return terrain_cost <= connected_unit.traveler.get_stat(Unit.stats.MOVEMENT)
 			var controller := TileSelector.new(connected_unit, 1, 1, condition)
 			caller.add_sibling(controller)
 			visible = false
