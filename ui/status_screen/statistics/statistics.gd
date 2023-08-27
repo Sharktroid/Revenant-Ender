@@ -17,6 +17,7 @@ func update() -> void:
 	defensive_labels.custom_minimum_size.x = max_width
 	misc_labels.custom_minimum_size.x = max_width
 	other_labels.custom_minimum_size.x = max_width
+
 	_update_stat_bar(%"Strength Bar", Unit.stats.STRENGTH)
 	_update_stat_bar(%"Pierce Bar", Unit.stats.PIERCE)
 	_update_stat_bar(%"Magic Bar", Unit.stats.MAGIC)
@@ -28,12 +29,17 @@ func update() -> void:
 	_update_stat_bar(%"Luck Bar", Unit.stats.LUCK)
 	_update_stat_bar(%"Constitution Bar", Unit.stats.CONSTITUTION)
 	_update_stat_bar(%"Movement Bar", Unit.stats.MOVEMENT)
+
 	%"Weight Value".text = str(observing_unit.get_weight())
 	if observing_unit.get_aid() < 0:
 		%"Aid Value".text = "-"
 	else:
 		%"Aid Value".text = str(observing_unit.get_aid())
 	%"Authority Stars".stars = observing_unit.get_stat(Unit.stats.AUTHORITY)
+	if observing_unit.traveler:
+		%"Traveler Name".text = observing_unit.traveler.name
+	else:
+		%"Traveler Name".text = "-"
 
 
 
