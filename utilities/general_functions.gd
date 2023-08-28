@@ -28,3 +28,8 @@ static func sync_animation(animation_player: AnimationPlayer) -> void:
 static func switch_tab(tab_container: TabContainer, move_to: int) -> void:
 	var next_tab: int = tab_container.current_tab + move_to
 	tab_container.current_tab = posmod(next_tab, tab_container.get_tab_count())
+
+
+static func xor(condition_a: bool, condition_b: bool) -> bool:
+	var result = bool(int(condition_a) ^ int(condition_b))
+	return result
