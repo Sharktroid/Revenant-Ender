@@ -1,6 +1,8 @@
 class_name Map
 extends CanvasLayer
 
+enum tile_types {ATTACK, MOVEMENT, SUPPORT}
+
 # Border boundaries of the map. units should not exceed these unless aethetic
 var left_border: int
 var right_border: int
@@ -13,6 +15,10 @@ var movement_cost_dict: Dictionary # Movement costs for every movement type
 var faction_stack: Array[Faction] # All factions
 var true_pos: Vector2i # Position of the map, used for scrolling
 var curr_faction: int = 0
+
+var _attack_tile_node: Resource = load("uid://c2xbtsc8bnoy5")
+var _movement_tile_node: Resource = load("uid://c8vpqlssnmggo")
+var _support_tile_node: Resource = load("uid://m1ftciv3g7t1")
 
 
 func _enter_tree() -> void:
@@ -178,6 +184,24 @@ func toggle_outline_unit(unit: Unit) -> void:
 
 func update_outline() -> void:
 	$"Base Layer/Outline".queue_redraw()
+
+
+func display_tiles(tiles: Array, type: tile_types, modulation: float = 1.0) -> Node2D:
+	var tiles_node := Node2D.new()
+	tiles_node.name = "%s Move Tiles" % name
+	var current_tile_base: PackedScene
+	match type:
+		tile_types.ATTACK: current_tile_base = _attack_tile_node
+		tile_types.MOVEMENT: current_tile_base = _movement_tile_node
+		tile_types.SUPPORT: current_tile_base = _support_tile_node
+	for i in tiles:
+		var tile: Sprite2D = current_tile_base.instantiate()
+		tile.name = "Tile"
+		tile.position = Vector2(i)
+		tile.modulate.a = modulation
+		tiles_node.add_child(tile)
+	get_node("Base Layer").add_child(tiles_node)
+	return tiles_node
 
 
 func _get_terrain(coords: Vector2i, faction: Faction) -> String:

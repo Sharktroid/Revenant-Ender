@@ -53,10 +53,9 @@ static var _all_units: Dictionary # Lists all unit classes.
 # Dictionaries that convert faction/variant into animation modifier.
 var _movement_tiles: Dictionary # Movement tiles. Split by cost left.
 var _movement_tiles_node: Node2D
+var _attack_tile_node: Node2D
 var _current_attack_tiles_node: Node2D
 # Resources to be loaded.
-var _attack_tile_node: Resource = load("uid://c2xbtsc8bnoy5")
-var _movement_tile_base: Resource = load("uid://c8vpqlssnmggo")
 var _movement_arrows: Resource = load("uid://8h4ym31xu44m")
 var _stat_boosts: Dictionary
 var _default_palette: Array[Array] = [[Vector3(), Vector3()]]
@@ -375,36 +374,19 @@ func awaken() -> void:
 
 ## Displays the unit's movement tiles.
 func display_movement_tiles() -> void:
-	if GenVars.map:
-		_movement_tiles_node = Node2D.new()
-		_movement_tiles_node.name = "%s Move Tiles" % name
-		# Gets movement tiles if not present.
-		if len(_movement_tiles) == 0:
-			_get_movement_tiles()
-		# Displays movement tiles
-		for k in _movement_tiles.keys():
-			for i in _movement_tiles[k]:
-				var tile: Sprite2D = _movement_tile_base.instantiate()
-				tile.name = "Child Tile"
-				tile.position = Vector2(i)
-				if not selected:
-					tile.modulate.a = 0.5
-				_movement_tiles_node.add_child(tile)
-		# Displays attack tile
-		for a in get_all_attack_tiles():
-			var tile: Sprite2D = _attack_tile_node.instantiate()
-			tile.name = "Child Tile"
-			tile.position = a as Vector2
-			if not selected:
-				tile.modulate.a = 0.5
-			_movement_tiles_node.add_child(tile)
-		GenVars.map.get_node("Base Layer").add_child(_movement_tiles_node)
+	var modu: float = 1.0
+	if not selected:
+		modu = 0.5
+	var display: Callable = GenVars.map.display_tiles
+	_movement_tiles_node = display.call(get_raw_movement_tiles(), Map.tile_types.MOVEMENT, modu)
+	_attack_tile_node = display.call(get_all_attack_tiles(), Map.tile_types.ATTACK, modu)
 
 
 ## Hides the unit's movement tiles.
 func hide_movement_tiles() -> void:
 	if is_instance_valid(_movement_tiles_node):
 		_movement_tiles_node.queue_free()
+		_attack_tile_node.queue_free()
 
 
 func get_current_attack_tiles(pos: Vector2i) -> Array[Vector2i]:
@@ -428,17 +410,8 @@ func display_current_attack_tiles(pos: Vector2i) -> void:
 		if not(unit == self or unit.is_ghost or unit.visible or is_friend(unit)):
 			unit_coords.append(Vector2i(unit.position))
 	unit_coords.erase(Vector2i(position))
-	_current_attack_tiles_node = Node2D.new()
-	_current_attack_tiles_node.name = "%s Attack Tiles" % name
 	var current_attack_tiles: Array[Vector2i] = get_current_attack_tiles(pos)
-	for coord in current_attack_tiles:
-		var tile: Sprite2D = _attack_tile_node.instantiate()
-		tile.name = "Child Tile"
-		tile.position = coord
-		if not coord in unit_coords:
-			tile.modulate.a = .5
-		_current_attack_tiles_node.add_child(tile)
-	GenVars.map.get_node("Base Layer").add_child(_current_attack_tiles_node)
+	_current_attack_tiles_node = GenVars.map.display_tiles(current_attack_tiles, Map.tile_types.ATTACK)
 
 
 ## Hides current attack tiles.

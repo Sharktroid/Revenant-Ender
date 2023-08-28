@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ducmtx4iqvs5c"
-path="res://.godot/imported/movement_arrows.png-5ff84d67b80c48272a85f16d4ac14cb9.ctex"
+uid="uid://bdv7k8j5wvch0"
+path="res://.godot/imported/blue_tile.png-f8084e736dc3fb4a524646ff1feec9b7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://controllers/map_controller/map_tiles/movement_arrows.png"
-dest_files=["res://.godot/imported/movement_arrows.png-5ff84d67b80c48272a85f16d4ac14cb9.ctex"]
+source_file="res://maps/map_tiles/blue_tile.png"
+dest_files=["res://.godot/imported/blue_tile.png-f8084e736dc3fb4a524646ff1feec9b7.ctex"]
 
 [params]
 

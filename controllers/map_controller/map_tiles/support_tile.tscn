@@ -1,7 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://m1ftciv3g7t1"]
-
-[ext_resource type="PackedScene" uid="uid://c8vpqlssnmggo" path="res://controllers/map_controller/map_tiles/base_movement_tile.tscn" id="1_xv2r7"]
-[ext_resource type="Texture2D" uid="uid://cg8bmiuqqwk72" path="res://controllers/map_controller/map_tiles/green_tile.png" id="2_nvysc"]
-
-[node name="Support Tile" instance=ExtResource("1_xv2r7")]
-texture = ExtResource("2_nvysc")

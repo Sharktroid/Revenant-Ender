@@ -1,7 +1,5 @@
 [gd_scene load_steps=3 format=3 uid="uid://c2xbtsc8bnoy5"]
-
 [ext_resource type="PackedScene" uid="uid://c8vpqlssnmggo" path="res://controllers/map_controller/map_tiles/base_movement_tile.tscn" id="1"]
 [ext_resource type="Texture2D" uid="uid://bmjy8ot661jfl" path="res://controllers/map_controller/map_tiles/red_tile.png" id="2_rjhaq"]
-
 [node name="Attack Tile" instance=ExtResource("1")]
 texture = ExtResource("2_rjhaq")
