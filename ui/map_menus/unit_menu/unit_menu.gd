@@ -75,25 +75,22 @@ func select_item(item: String) -> void:
 	match item:
 		"Attack":
 			var weapon: Weapon = connected_unit.get_current_weapon()
-			var is_enemy: Callable = func can_attack(unit: Unit):
-				return not connected_unit.is_friend(unit)
 			var min_range: int = weapon.min_range
 			var max_range: int = weapon.max_range
-			var controller := UnitSelector.new(connected_unit, min_range, max_range, is_enemy)
-			caller.add_sibling(controller)
-			connected_unit.display_current_attack_tiles(connected_unit.get_unit_path()[-1])
-			visible = false
-			var selected_unit = await controller.selected
-			connected_unit.hide_current_attack_tiles()
-			if selected_unit == null:
-				visible = true
-				grab_focus()
-			else:
+			var is_enemy: Callable = func can_attack(unit: Unit):
+				return not connected_unit.is_friend(unit)
+			var selector := UnitSelector.new(connected_unit, min_range, max_range, is_enemy)
+			var display: Callable = GenVars.map.display_highlighted_tiles
+			var get_attack_tiles: Callable = connected_unit.get_current_attack_tiles
+			var tiles: Array[Vector2i] = get_attack_tiles.call(connected_unit.get_unit_path()[-1])
+			var tiles_node: Node2D = display.call(tiles, connected_unit, Map.tile_types.ATTACK)
+			var attack: Callable = func(selected_unit: Unit) -> void:
 				connected_unit.move()
 				await connected_unit.arrived
 				await AttackHandler.combat(connected_unit, selected_unit)
 				connected_unit.wait()
 				close()
+			_select_map(selector, tiles_node, attack)
 
 		"Wait":
 			connected_unit.move()
@@ -102,47 +99,53 @@ func select_item(item: String) -> void:
 			close()
 
 		"Rescue":
-			var controller := UnitSelector.new(connected_unit, 1, 1, connected_unit.can_rescue)
-			caller.add_sibling(controller)
-			visible = false
-			var display: Callable = GenVars.map.display_surrounding_tiles
-			var rescue_tiles: Node2D = display.call(connected_unit, GenVars.map.tile_types.SUPPORT)
-			var selected_unit: Unit = await controller.selected
-			rescue_tiles.queue_free()
-			if selected_unit == null:
-				visible = true
-				grab_focus()
-			else:
+			var selector := UnitSelector.new(connected_unit, 1, 1, connected_unit.can_rescue)
+			var display: Callable = GenVars.map.display_highlighted_tiles
+			var get_adjacent_tiles: Callable = connected_unit.get_adjacent_tiles
+			var current_pos: Vector2i = connected_unit.get_unit_path()[-1]
+			var tiles: Array[Vector2i] = get_adjacent_tiles.call(current_pos, 1, 1)
+			var tiles_node: Node2D = display.call(tiles, connected_unit, Map.tile_types.SUPPORT)
+			var rescue: Callable = func(selected_unit: Unit) -> void:
 				connected_unit.move()
 				await connected_unit.arrived
 				selected_unit.visible = false
 				connected_unit.traveler = selected_unit
 				connected_unit.wait()
 				close()
+			_select_map(selector, tiles_node, rescue)
 
 		"Drop":
 			var condition: Callable = func(pos: Vector2i):
 				var terrain_cost: int = GenVars.map.get_terrain_cost(connected_unit.traveler, pos)
 				return terrain_cost <= connected_unit.traveler.get_stat(Unit.stats.MOVEMENT)
-			var controller := TileSelector.new(connected_unit, 1, 1, condition)
-			caller.add_sibling(controller)
-			visible = false
-			var display: Callable = GenVars.map.display_surrounding_tiles
-			var drop_tiles: Node2D = display.call(connected_unit, GenVars.map.tile_types.SUPPORT)
-			var drop_pos = await controller.selected
-			drop_tiles.queue_free()
-			if drop_pos == null:
-				visible = true
-				grab_focus()
-			else:
+			var selector := TileSelector.new(connected_unit, 1, 1, condition)
+			var get_adjacent_tiles: Callable = connected_unit.get_adjacent_tiles
+			var current_pos: Vector2i = connected_unit.get_unit_path()[-1]
+			var tiles: Array[Vector2i] = get_adjacent_tiles.call(current_pos, 1, 1)
+			var tiles_node: Node2D = GenVars.map.display_tiles(tiles, Map.tile_types.SUPPORT)
+			var drop: Callable = func(dropped_tile: Vector2i) -> void:
 				connected_unit.move()
 				await connected_unit.arrived
 				connected_unit.traveler.visible = true
-				connected_unit.traveler.position = drop_pos
+				connected_unit.traveler.position = dropped_tile
 				connected_unit.traveler = null
 				connected_unit.wait()
 				close()
+			_select_map(selector, tiles_node, drop)
 
+
+func _select_map(selector: BaseSelector, tiles_node: Node2D, selected: Callable,
+		canceled: Callable = func(): pass) -> void:
+	caller.add_sibling(selector)
+	visible = false
+	var selection = await selector.selected
+	tiles_node.queue_free()
+	if selection == null:
+		canceled.call()
+		visible = true
+		grab_focus()
+	else:
+		selected.call(selection)
 
 
 func _can_attack() -> bool:
