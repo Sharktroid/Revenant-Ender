@@ -150,13 +150,13 @@ func _select_map(selector: BaseSelector, tiles_node: Node2D, selected: Callable,
 
 func _can_attack() -> bool:
 	var pos: Vector2i = (GenVars.cursor as Cursor).get_true_pos()
+	var current_tiles: Array[Vector2i] = connected_unit.get_current_attack_tiles(pos)
+	var raw_tiles: Array[Vector2i] = connected_unit.get_raw_movement_tiles()
+	var attack_tiles: Array[Vector2i] = connected_unit.get_all_attack_tiles()
 	for unit in get_tree().get_nodes_in_group("units"):
 		var faction: Faction = (unit as Unit).get_faction()
 		var diplo_stance := connected_unit.get_faction().get_diplomacy_stance(faction)
 		if diplo_stance == Faction.diplo_stances.ENEMY:
-			var current_tiles: Array[Vector2i] = connected_unit.get_current_attack_tiles(pos)
-			var raw_tiles: Array[Vector2i] = connected_unit.get_raw_movement_tiles()
-			var attack_tiles: Array[Vector2i] = connected_unit.get_all_attack_tiles()
 			if ((Vector2i(unit.position) in current_tiles and pos in raw_tiles) \
 					or (pos == Vector2i(unit.position) and pos in attack_tiles)):
 				return true
