@@ -27,12 +27,6 @@ func _ready() -> void:
 	var height: int = ProjectSettings.get_setting("display/window/size/viewport_height")
 	_default_screen_size = Vector2i(width, height)
 
-#	elif event.is_action_pressed("debug"):
-#		get_cursor_area().monitoring = false
-#		get_cursor_area().monitoring = true
-#		ProjectSettings.set_setting("display/window/stretch/scale", 3)
-#		map_controller.set_scaling(10)
-
 
 func _exit_tree() -> void:
 	save_config()

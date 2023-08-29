@@ -559,9 +559,9 @@ func show_path() -> void:
 		GenVars.map.add_child(_arrows_container)
 
 
-func get_raw_movement_tiles() -> Array[Vector2i]:
+func get_raw_movement_tiles(custom_movement: int = current_movement) -> Array[Vector2i]:
 	if len(raw_movement_tiles) < 1:
-		_get_movement_tiles()
+		_get_movement_tiles(custom_movement)
 	return raw_movement_tiles
 
 
@@ -595,7 +595,7 @@ func _render_status() -> void:
 	pass
 
 
-func _get_movement_tiles() -> void:
+func _get_movement_tiles(movement: int) -> void:
 	# Gets the movement tiles of the unit
 	var h = []
 	var tiles_first_pass = {}
@@ -603,16 +603,16 @@ func _get_movement_tiles() -> void:
 	var start: Vector2i = (position)
 	if position == ((position/16).floor() * 16):
 		# Gets the initial grid
-		for y in range(-current_movement, current_movement + 1):
+		for y in range(-movement, movement + 1):
 			var v = []
-			for x in range(-(current_movement - absi(y)) , (current_movement - absi(y)) + 1):
+			for x in range(-(movement - absi(y)) , (movement - absi(y)) + 1):
 				v.append(start + Vector2i(x * 16, y * 16))
 			h.append_array(v)
 		# Seperates by remaining movement
 		for x in h:
 			var boundary: Vector2i = GenVars.map.get_size() - Vector2i(16, 16)
 			if x == x.clamp(Vector2i(), boundary):
-				var val = floori(current_movement - (absf(x.x - start.x) + absf(x.y - start.y))/16)
+				var val = floori(movement - (absf(x.x - start.x) + absf(x.y - start.y))/16)
 				if not(val in tiles_first_pass):
 					tiles_first_pass[val] = []
 				tiles_first_pass[val].append(x)

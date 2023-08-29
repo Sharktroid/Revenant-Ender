@@ -115,14 +115,14 @@ func select_item(item: String) -> void:
 			_select_map(selector, tiles_node, rescue)
 
 		"Drop":
-			var condition: Callable = func(pos: Vector2i):
-				var terrain_cost: int = GenVars.map.get_terrain_cost(connected_unit.traveler, pos)
-				return terrain_cost <= connected_unit.traveler.get_stat(Unit.stats.MOVEMENT)
-			var selector := TileSelector.new(connected_unit, 1, 1, condition)
-			var get_adjacent_tiles: Callable = connected_unit.get_adjacent_tiles
-			var current_pos: Vector2i = connected_unit.get_unit_path()[-1]
-			var tiles: Array[Vector2i] = get_adjacent_tiles.call(current_pos, 1, 1)
+			var current_position: Vector2i = connected_unit.get_unit_path()[-1]
+			connected_unit.traveler.position = current_position
+			var tiles: Array[Vector2i] = connected_unit.traveler.get_raw_movement_tiles(1)
+			tiles.erase(current_position)
 			var tiles_node: Node2D = GenVars.map.display_tiles(tiles, Map.tile_types.SUPPORT)
+			var condition: Callable = func(pos: Vector2i):
+				return pos in tiles
+			var selector := TileSelector.new(connected_unit, 1, 1, condition)
 			var drop: Callable = func(dropped_tile: Vector2i) -> void:
 				connected_unit.move()
 				await connected_unit.arrived
