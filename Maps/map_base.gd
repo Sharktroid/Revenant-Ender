@@ -38,8 +38,6 @@ func _ready() -> void:
 func unit_wait(_unit) -> void:
 	# Called whenever a unit waits.
 	update_outline()
-	for unit in get_tree().get_nodes_in_group("units"):
-		unit.reset_tiles()
 
 
 func next_faction() -> void:

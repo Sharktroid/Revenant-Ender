@@ -443,14 +443,6 @@ func move(move_target: Vector2i = get_unit_path()[-1]) -> void:
 	if move_target in get_unit_path():
 		_target = _path.pop_at(0)
 	selected = false
-	reset_tiles()
-
-
-func reset_tiles() -> void:
-	_movement_tiles = {}
-	all_attack_tiles = []
-	raw_movement_tiles = []
-#	_true_attack_tiles
 
 
 func get_unit_path() -> Array[Vector2i]:
@@ -560,14 +552,12 @@ func show_path() -> void:
 
 
 func get_raw_movement_tiles(custom_movement: int = current_movement) -> Array[Vector2i]:
-	if len(raw_movement_tiles) < 1:
-		_get_movement_tiles(custom_movement)
+	_get_movement_tiles(custom_movement)
 	return raw_movement_tiles
 
 
 func get_all_attack_tiles() -> Array[Vector2i]:
-	if len(all_attack_tiles) < 1:
-		_create_all_attack_tiles()
+	_create_all_attack_tiles()
 	return all_attack_tiles
 
 
@@ -601,6 +591,7 @@ func _get_movement_tiles(movement: int) -> void:
 	var tiles_first_pass = {}
 	var tiles_second_pass = {}
 	var start: Vector2i = (position)
+	_movement_tiles = {}
 	if position == ((position/16).floor() * 16):
 		# Gets the initial grid
 		for y in range(-movement, movement + 1):
@@ -660,6 +651,7 @@ func _get_movement_tiles(movement: int) -> void:
 
 func _create_all_attack_tiles() -> void:
 	# Gets all the attack tiles
+	all_attack_tiles = []
 	if get_current_weapon():
 		for tile in get_raw_movement_tiles():
 			var min_range: int = get_current_weapon().min_range
