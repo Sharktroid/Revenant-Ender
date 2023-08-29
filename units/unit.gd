@@ -374,12 +374,12 @@ func awaken() -> void:
 
 ## Displays the unit's movement tiles.
 func display_movement_tiles() -> void:
-	var modu: float = 1.0
-	if not selected:
-		modu = 0.5
 	var display: Callable = GenVars.map.display_tiles
-	_movement_tiles_node = display.call(get_raw_movement_tiles(), Map.tile_types.MOVEMENT, modu)
-	_attack_tile_node = display.call(get_all_attack_tiles(), Map.tile_types.ATTACK, modu)
+	_movement_tiles_node = display.call(get_raw_movement_tiles(), Map.tile_types.MOVEMENT, 1)
+	_attack_tile_node = display.call(get_all_attack_tiles(), Map.tile_types.ATTACK, 1)
+	if not selected:
+		_movement_tiles_node.modulate.a = 0.5
+		_attack_tile_node.modulate.a = 0.5
 
 
 ## Hides the unit's movement tiles.
@@ -389,29 +389,28 @@ func hide_movement_tiles() -> void:
 		_attack_tile_node.queue_free()
 
 
-func get_current_attack_tiles(pos: Vector2i) -> Array[Vector2i]:
-	var current_attack_tiles: Array[Vector2i] = []
-	for y in range(-get_current_weapon().max_range, get_current_weapon().max_range + 1):
+func get_adjacent_tiles(pos: Vector2i, min_range: int, max_range: int) -> Array[Vector2i]:
+	var adjacent_tiles: Array[Vector2i] = []
+	for y in range(-max_range, max_range + 1):
 		var v: Array[Vector2i] = []
-		for x in range(-get_current_weapon().max_range, get_current_weapon().max_range + 1):
+		for x in range(-max_range, max_range + 1):
 			var distance: int = floori(GenFunc.get_tile_distance(Vector2i(), Vector2i(x, y) * 16))
-			var min_range: int = get_current_weapon().min_range
-			var max_range: int = get_current_weapon().max_range
 			if distance in range(min_range, max_range + 1):
 				v.append(Vector2i(pos) + Vector2i(x * 16, y * 16))
-		current_attack_tiles.append_array(v)
-	return current_attack_tiles
+		adjacent_tiles.append_array(v)
+	return adjacent_tiles
+
+
+func get_current_attack_tiles(pos: Vector2i) -> Array[Vector2i]:
+	return get_adjacent_tiles(pos, get_current_weapon().min_range, get_current_weapon().max_range)
 
 
 ## Shows off the tiles the unit can attack from its current position.
 func display_current_attack_tiles(pos: Vector2i) -> void:
-	var unit_coords: Array[Vector2i] = []
-	for unit in get_tree().get_nodes_in_group("units"):
-		if not(unit == self or unit.is_ghost or unit.visible or is_friend(unit)):
-			unit_coords.append(Vector2i(unit.position))
-	unit_coords.erase(Vector2i(position))
-	var current_attack_tiles: Array[Vector2i] = get_current_attack_tiles(pos)
-	_current_attack_tiles_node = GenVars.map.display_tiles(current_attack_tiles, Map.tile_types.ATTACK)
+	var current_tiles: Array[Vector2i] = get_current_attack_tiles(pos)
+	var display_tiles: Callable = GenVars.map.display_highlighted_tiles
+	var attack_type: Map.tile_types = Map.tile_types.ATTACK
+	_current_attack_tiles_node = display_tiles.call(current_tiles, self, attack_type)
 
 
 ## Hides current attack tiles.
@@ -421,11 +420,14 @@ func hide_current_attack_tiles() -> void:
 
 ## Refreshes tiles
 func refresh_tiles() -> void:
-	if GenVars.map.has_node("Base Layer/%s Move Tiles" % name):
-		for tile in GenVars.map.get_node("Base Layer/%s Move Tiles" % name).get_children():
-			match selected:
-				true: tile.modulate.a = 1
-				false: tile.modulate.a = .5
+	if is_instance_valid(_movement_tiles_node):
+		match selected:
+			true:
+				_movement_tiles_node.modulate.a = 1
+				_attack_tile_node.modulate.a = 1
+			false:
+				_movement_tiles_node.modulate.a = .5
+				_attack_tile_node.modulate.a = .5
 
 
 ## Adds skill to this unit's skills.

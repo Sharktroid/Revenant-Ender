@@ -105,7 +105,10 @@ func select_item(item: String) -> void:
 			var controller := UnitSelector.new(connected_unit, 1, 1, connected_unit.can_rescue)
 			caller.add_sibling(controller)
 			visible = false
+			var display: Callable = GenVars.map.display_surrounding_tiles
+			var rescue_tiles: Node2D = display.call(connected_unit, GenVars.map.tile_types.SUPPORT)
 			var selected_unit: Unit = await controller.selected
+			rescue_tiles.queue_free()
 			if selected_unit == null:
 				visible = true
 				grab_focus()
@@ -124,7 +127,10 @@ func select_item(item: String) -> void:
 			var controller := TileSelector.new(connected_unit, 1, 1, condition)
 			caller.add_sibling(controller)
 			visible = false
+			var display: Callable = GenVars.map.display_surrounding_tiles
+			var drop_tiles: Node2D = display.call(connected_unit, GenVars.map.tile_types.SUPPORT)
 			var drop_pos = await controller.selected
+			drop_tiles.queue_free()
 			if drop_pos == null:
 				visible = true
 				grab_focus()

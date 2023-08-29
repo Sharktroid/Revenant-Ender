@@ -186,7 +186,8 @@ func update_outline() -> void:
 	$"Base Layer/Outline".queue_redraw()
 
 
-func display_tiles(tiles: Array, type: tile_types, modulation: float = 1.0) -> Node2D:
+func display_tiles(tiles: Array[Vector2i], type: tile_types, modulation: float = 0.5,
+		modulate_blacklist: Array[Vector2i] = [], blacklist_as_whitelist: bool = false) -> Node2D:
 	var tiles_node := Node2D.new()
 	tiles_node.name = "%s Move Tiles" % name
 	var current_tile_base: PackedScene
@@ -198,10 +199,19 @@ func display_tiles(tiles: Array, type: tile_types, modulation: float = 1.0) -> N
 		var tile: Sprite2D = current_tile_base.instantiate()
 		tile.name = "Tile"
 		tile.position = Vector2(i)
-		tile.modulate.a = modulation
+		if GenFunc.xor(not(i in modulate_blacklist), blacklist_as_whitelist):
+			tile.modulate.a = modulation
 		tiles_node.add_child(tile)
 	get_node("Base Layer").add_child(tiles_node)
 	return tiles_node
+
+
+func display_highlighted_tiles(tiles: Array[Vector2i], unit: Unit, type: tile_types) -> Node2D:
+	var unit_coords: Array[Vector2i] = []
+	for e_unit in get_tree().get_nodes_in_group("units"):
+		if not(e_unit.is_ghost or unit.is_friend(e_unit)) and e_unit.visible:
+			unit_coords.append(Vector2i(e_unit.position))
+	return display_tiles(tiles, type, 0.5, unit_coords)
 
 
 func _get_terrain(coords: Vector2i, faction: Faction) -> String:
