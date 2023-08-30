@@ -76,16 +76,14 @@ func select_item(item: String) -> void:
 			var tiles: Array[Vector2i] = get_attack_tiles.call(connected_unit.get_unit_path()[-1])
 			var tiles_node: Node2D = display.call(tiles, connected_unit, Map.tile_types.ATTACK)
 			var attack: Callable = func(selected_unit: Unit) -> void:
-				connected_unit.move()
-				await connected_unit.arrived
+				await connected_unit.move()
 				await AttackHandler.combat(connected_unit, selected_unit)
 				connected_unit.wait()
 				close()
 			_select_map(selector, tiles_node, attack)
 
 		"Wait":
-			connected_unit.move()
-			await connected_unit.arrived
+			await connected_unit.move()
 			connected_unit.wait()
 			close()
 
@@ -97,8 +95,7 @@ func select_item(item: String) -> void:
 			var tiles: Array[Vector2i] = get_adjacent_tiles.call(current_pos, 1, 1)
 			var tiles_node: Node2D = display.call(tiles, connected_unit, Map.tile_types.SUPPORT)
 			var rescue: Callable = func(selected_unit: Unit) -> void:
-				connected_unit.move()
-				await connected_unit.arrived
+				await connected_unit.move()
 				selected_unit.visible = false
 				connected_unit.traveler = selected_unit
 				connected_unit.wait()
@@ -115,8 +112,7 @@ func select_item(item: String) -> void:
 				return pos in tiles
 			var selector := TileSelector.new(connected_unit, 1, 1, condition)
 			var drop: Callable = func(dropped_tile: Vector2i) -> void:
-				connected_unit.move()
-				await connected_unit.arrived
+				await connected_unit.move()
 				connected_unit.traveler.visible = true
 				connected_unit.traveler.position = dropped_tile
 				connected_unit.traveler = null

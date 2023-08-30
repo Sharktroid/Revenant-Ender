@@ -45,7 +45,6 @@ var traveler: Unit
 var _raw_movement_tiles: Array[Vector2i] # All movement tiles without organization.
 var _path: Array[Vector2i] # Path the unit will follow when moving.
 var _current_statuses: Array[statuses]
-var _target # Destination of the unit during movement.
 var _current_health: float: get = get_current_health, set = set_current_health
 var _movement_speed: float = 8 # Speed unit moves across the map.
 static var _all_units: Dictionary # Lists all unit classes.
@@ -142,27 +141,6 @@ func _ready() -> void:
 		else:
 			push_error('An error occurred when trying to access the path "res://units/".')
 		_all_units.erase('')
-
-
-func _physics_process(_delta: float) -> void:
-	# Moving the unit.
-	if _target != null:
-		get_node("Area2D").monitoring = false
-		position = position.move_toward(_target, _movement_speed)
-		if Vector2i(position) == _target:
-			if len(_path) == 0:
-				_target = null
-				get_node("Area2D").monitoring = true
-				emit_signal("arrived")
-
-			else:
-				_target = _path.pop_at(0)
-				match floori(position.angle_to_point(_target) / PI * 2) + 1:
-					0: set_animation(animations.MOVING_DOWN)
-					1: set_animation(animations.MOVING_RIGHT)
-					2: set_animation(animations.MOVING_UP)
-					3: set_animation(animations.MOVING_LEFT)
-					_: set_animation(animations.IDLE)
 
 
 func _process(_delta: float):
@@ -440,8 +418,23 @@ func move(move_target: Vector2i = get_unit_path()[-1]) -> void:
 	if not(move_target in get_unit_path()):
 		update_path(move_target)
 	if move_target in get_unit_path():
-		_target = _path.pop_at(0)
-	selected = false
+		remove_path()
+		var path: Array[Vector2i] = get_unit_path()
+		get_node("Area2D").monitoring = false
+		while len(path) > 0:
+			var _target: Vector2 = path.pop_at(0)
+			match _target - position:
+				Vector2(16, 0): set_animation(animations.MOVING_RIGHT)
+				Vector2(-16, 0): set_animation(animations.MOVING_LEFT)
+				Vector2(0, 16): set_animation(animations.MOVING_DOWN)
+				Vector2(0, -16): set_animation(animations.MOVING_UP)
+				_: set_animation(animations.IDLE)
+
+			while position != _target:
+				position = position.move_toward(_target, _movement_speed)
+				await get_tree().physics_frame
+		get_node("Area2D").monitoring = true
+		set_animation(animations.IDLE)
 
 
 func get_unit_path() -> Array[Vector2i]:
@@ -747,7 +740,7 @@ func _on_area2d_area_entered(area: Area2D):
 		var can_be_selected: bool = true
 		if is_instance_valid(GenVars.cursor.get_hovered_unit()):
 			can_be_selected = not GenVars.cursor.get_hovered_unit().selected or selecting
-		if not(selected or selecting or waiting):
+		if can_be_selected and not(selected or selecting or waiting):
 			display_movement_tiles()
 		GenVars.cursor.set_hovered_unit(self)
 
