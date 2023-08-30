@@ -8,13 +8,16 @@ var unit: Unit
 var _condition: Callable
 var _minimum_range: int
 var _maximum_range: int
+var _icon: Cursor.icons
 @onready var _selecting_position: Vector2i = unit.get_unit_path()[-1]
 
-func _init(connected_unit: Unit, min_range: int, max_range: int, condition: Callable) -> void:
+func _init(connected_unit: Unit, min_range: int, max_range: int, condition: Callable,
+		icon: Cursor.icons = Cursor.icons.NONE) -> void:
 	unit = connected_unit
 	_minimum_range = min_range
 	_maximum_range = max_range
 	_condition = condition
+	_icon = icon
 
 
 func _ready() -> void:
@@ -27,7 +30,7 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if _can_select():
-		GenVars.cursor.draw_icon(Cursor.icons.ATTACK)
+		GenVars.cursor.draw_icon(_icon)
 	else:
 		GenVars.cursor.remove_icon()
 

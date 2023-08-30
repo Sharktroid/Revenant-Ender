@@ -4,7 +4,7 @@ extends Control
 signal moved
 
 ## Icons that can be displayed.
-enum icons {ATTACK}
+enum icons {ATTACK, NONE}
 
 var _icon_sprite: Sprite2D
 var _rel_pos: Vector2i

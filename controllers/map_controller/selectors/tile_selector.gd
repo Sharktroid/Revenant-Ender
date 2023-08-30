@@ -3,9 +3,10 @@ extends BaseSelector
 
 signal selected(position: Vector2i)
 
-func _init(connected_unit: Unit, min_range: int, max_range: int, condition: Callable) -> void:
+func _init(connected_unit: Unit, min_range: int, max_range: int, condition: Callable,
+		icon: Cursor.icons = Cursor.icons.NONE) -> void:
 	name = "Tile Selector"
-	super(connected_unit, min_range, max_range, condition)
+	super(connected_unit, min_range, max_range, condition, icon)
 
 
 func _position_selected() -> void:
