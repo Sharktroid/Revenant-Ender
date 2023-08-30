@@ -66,12 +66,12 @@ func select_item(item: String) -> void:
 	match item:
 		"Attack":
 			var weapon: Weapon = connected_unit.get_current_weapon()
-			var min: int = weapon.min_range
-			var max: int = weapon.max_range
+			var minmum: int = weapon.min_range
+			var maxmum: int = weapon.max_range
 			var is_enemy: Callable = func can_attack(unit: Unit):
 				return not connected_unit.is_friend(unit)
 			var attack_icon := Cursor.icons.ATTACK
-			var selector := UnitSelector.new(connected_unit, min, max, is_enemy, attack_icon)
+			var selector := UnitSelector.new(connected_unit, minmum, maxmum, is_enemy, attack_icon)
 			var display: Callable = GenVars.map.display_highlighted_tiles
 			var get_attack_tiles: Callable = connected_unit.get_current_attack_tiles
 			var tiles: Array[Vector2i] = get_attack_tiles.call(connected_unit.get_unit_path()[-1])

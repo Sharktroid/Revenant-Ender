@@ -147,10 +147,7 @@ func _process(_delta: float):
 	_render_status()
 	if Engine.get_process_frames() % 60 == 0:
 		GenFunc.sync_animation($AnimationPlayer)
-#	if outline_highlight:
-#		modulate = Color.RED
-#	else:
-#		modulate = Color.WHITE
+	z_index = GenFunc.round_coords_to_tile(position).y
 
 
 func has_status(status: int) -> bool:
