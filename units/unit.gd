@@ -742,20 +742,19 @@ func _get_path_subfunc(num: int, moved: Vector2i, all_tiles: Array[Vector2i],
 
 func _on_area2d_area_entered(area: Area2D):
 	# When cursor enters unit's area
-	if area == (GenVars.cursor as Cursor).get_area():
+	if area == (GenVars.cursor as Cursor).get_area() and visible:
 		var selecting: bool = GenVars.map_controller.selecting
 		var can_be_selected: bool = true
 		if is_instance_valid(GenVars.cursor.get_hovered_unit()):
 			can_be_selected = not GenVars.cursor.get_hovered_unit().selected or selecting
-		if can_be_selected:
-			if not(selected or selecting or waiting):
-				display_movement_tiles()
+		if not(selected or selecting or waiting):
+			display_movement_tiles()
 		GenVars.cursor.set_hovered_unit(self)
 
 
 func _on_area2d_area_exited(area: Area2D):
 	# When cursor exits unit's area
-	if area == (GenVars.cursor as Cursor).get_area() and not selected:
+	if area == GenVars.cursor.get_area() and not selected:
 		hide_movement_tiles()
 		emit_signal("cursor_exited")
 
