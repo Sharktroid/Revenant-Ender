@@ -26,8 +26,6 @@ var personal_end_stats: Dictionary
 var personal_base_stats: Dictionary
 var current_level: int
 var current_movement: int
-var all_attack_tiles: Array[Vector2i] # Tiles displayed as attack tiles.
-var raw_movement_tiles: Array[Vector2i] # All movement tiles without organization.
 var dead: bool = false
 var outline_highlight: bool = false
 var is_ghost: bool = false # Whether the unit is used for the cursor.
@@ -44,6 +42,7 @@ var sprite_animated: bool = true:
 var weapon_levels: Dictionary
 var traveler: Unit
 
+var _raw_movement_tiles: Array[Vector2i] # All movement tiles without organization.
 var _path: Array[Vector2i] # Path the unit will follow when moving.
 var _current_statuses: Array[statuses]
 var _target # Destination of the unit during movement.
@@ -471,6 +470,8 @@ func update_path(destination: Vector2i, num: int = current_movement) -> void:
 	if len(_path) == 0:
 		_path.append(Vector2i(position))
 	# Sets destination to an adjacent tile to a unit if a unit is hovered and over an attack tile.
+	var raw_movement_tiles = get_raw_movement_tiles()
+	var all_attack_tiles = get_all_attack_tiles()
 	if not destination in raw_movement_tiles \
 			and destination in all_attack_tiles \
 			and GenFunc.get_tile_distance(get_unit_path()[-1], destination) > 1:
@@ -553,11 +554,25 @@ func show_path() -> void:
 
 func get_raw_movement_tiles(custom_movement: int = current_movement) -> Array[Vector2i]:
 	_get_movement_tiles(custom_movement)
-	return raw_movement_tiles
+	return _raw_movement_tiles
 
 
 func get_all_attack_tiles() -> Array[Vector2i]:
-	_create_all_attack_tiles()
+	var all_attack_tiles: Array[Vector2i] = []
+	var raw_movement_tiles = get_raw_movement_tiles()
+	if get_current_weapon():
+		for tile in raw_movement_tiles:
+			var min_range: int = get_current_weapon().min_range
+			var max_range: int = get_current_weapon().max_range
+			for y in range(-max_range, max_range + 1):
+				for x in range(-max_range, max_range + 1):
+					var tile_min: Vector2i = tile + Vector2i(x * 16, y * 16)
+					var attack_tile: Vector2i = GenVars.map.get_size() - Vector2i(16, 16)
+					attack_tile = tile_min.clamp(Vector2i(0, 0), attack_tile)
+					if not(attack_tile in all_attack_tiles + raw_movement_tiles):
+						var distance: int = floori(GenFunc.get_tile_distance(tile, attack_tile))
+						if distance in range(min_range, max_range + 1):
+							all_attack_tiles.append(attack_tile)
 	return all_attack_tiles
 
 
@@ -644,27 +659,9 @@ func _get_movement_tiles(movement: int) -> void:
 						if not(val in tiles_second_pass.keys()):
 							tiles_second_pass[val] = []
 						tiles_second_pass[val].append(tile)
-		raw_movement_tiles = []
+		_raw_movement_tiles = []
 		for v in _movement_tiles.values():
-			raw_movement_tiles.append_array(v)
-
-
-func _create_all_attack_tiles() -> void:
-	# Gets all the attack tiles
-	all_attack_tiles = []
-	if get_current_weapon():
-		for tile in get_raw_movement_tiles():
-			var min_range: int = get_current_weapon().min_range
-			var max_range: int = get_current_weapon().max_range
-			for y in range(-max_range, max_range + 1):
-				for x in range(-max_range, max_range + 1):
-					var tile_min: Vector2i = tile + Vector2i(x * 16, y * 16)
-					var attack_tile: Vector2i = GenVars.map.get_size() - Vector2i(16, 16)
-					attack_tile = tile_min.clamp(Vector2i(0, 0), attack_tile)
-					if not(attack_tile in all_attack_tiles + raw_movement_tiles):
-						var distance: int = floori(GenFunc.get_tile_distance(tile, attack_tile))
-						if distance in range(min_range, max_range + 1):
-							all_attack_tiles.append(attack_tile)
+			_raw_movement_tiles.append_array(v)
 
 
 func _set_palette(color: Faction.colors) -> void:

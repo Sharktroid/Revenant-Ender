@@ -3,6 +3,7 @@ extends Control
 
 var _unit: Unit
 var _ghost_unit: GhostUnit
+var _menu_node: PackedScene = load("uid://i3a0mes5l4au")
 var current_animation: Unit.animations = Unit.animations.IDLE
 
 func _init(connected_unit: Unit) -> void:
@@ -75,7 +76,7 @@ func _on_cursor_moved() -> void:
 func _position_selected() -> void:
 	# Creates menu if cursor in _unit's tiles and is same faction as _unit.
 	var true_cursor_pos: Vector2i = GenVars.cursor.get_true_pos()
-	var all_tiles: Array = _unit.all_attack_tiles + _unit.raw_movement_tiles
+	var all_tiles: Array = _unit.get_all_attack_tiles() + _unit.get_raw_movement_tiles()
 	var unit_pos: Vector2i = _unit.position
 	if _unit.get_faction().name == GenVars.map.get_current_faction().name \
 			and (true_cursor_pos in all_tiles or unit_pos == true_cursor_pos):
@@ -84,7 +85,7 @@ func _position_selected() -> void:
 
 func _create_unit_menu() -> void:
 	## Creates _unit menu.
-	var menu: MapMenu = load("uid://i3a0mes5l4au").instantiate()
+	var menu: MapMenu = _menu_node.instantiate()
 	menu.connected_unit = _unit
 	menu.position = GenVars.cursor.get_rel_pos() + Vector2i(16, -8)
 	menu.caller = self
