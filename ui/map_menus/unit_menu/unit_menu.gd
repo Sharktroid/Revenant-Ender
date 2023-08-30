@@ -46,17 +46,8 @@ func get_items() -> Dictionary:
 		menu_items.append("Attack")
 
 	var movement: int = connected_unit.get_stat(Unit.stats.MOVEMENT)
-	if movement > 0 and pos in connected_unit.raw_movement_tiles:
-		var can_wait: Callable = func():
-			if _touching_unit:
-				var touching_faction: Faction = _touching_unit.get_faction()
-				var get_touching_stance: Callable = touching_faction.get_diplomacy_stance
-				var current_faction: Faction = connected_unit.get_faction()
-				var stance: Faction.diplo_stances = get_touching_stance.call(current_faction)
-				return stance in [Faction.diplo_stances.ALLY, Faction.diplo_stances.SELF]
-			else:
-				return true
-		if can_wait.call():
+	if movement > 0 and pos in connected_unit.get_raw_movement_tiles():
+		if not _touching_unit:
 			menu_items.append("Wait")
 
 	for unit in _adjacent_units:
