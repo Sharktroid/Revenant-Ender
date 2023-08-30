@@ -96,6 +96,7 @@ func select_item(item: String) -> void:
 			var tiles_node: Node2D = display.call(tiles, connected_unit, Map.tile_types.SUPPORT)
 			var rescue: Callable = func(selected_unit: Unit) -> void:
 				await connected_unit.move()
+				await selected_unit.move(connected_unit.position)
 				selected_unit.visible = false
 				connected_unit.traveler = selected_unit
 				connected_unit.wait()
@@ -114,7 +115,8 @@ func select_item(item: String) -> void:
 			var drop: Callable = func(dropped_tile: Vector2i) -> void:
 				await connected_unit.move()
 				connected_unit.traveler.visible = true
-				connected_unit.traveler.position = dropped_tile
+				connected_unit.traveler.position = connected_unit.position
+				await connected_unit.traveler.move(dropped_tile)
 				connected_unit.traveler = null
 				connected_unit.wait()
 				close()
