@@ -40,7 +40,14 @@ var sprite_animated: bool = true:
 		else:
 			$AnimationPlayer.pause()
 var weapon_levels: Dictionary
-var traveler: Unit
+var traveler: Unit:
+	set(value):
+		traveler = value
+		if traveler:
+			$"Traveler Icon/AnimationPlayer".play("display")
+		else:
+			$"Traveler Icon/AnimationPlayer".play("RESET")
+
 
 var _raw_movement_tiles: Array[Vector2i] # All movement tiles without organization.
 var _path: Array[Vector2i] # Path the unit will follow when moving.
