@@ -36,7 +36,7 @@ func get_items() -> Dictionary:
 		if not unit.is_ghost:
 			var cursor_pos: Vector2i = (GenVars.cursor as Cursor).get_true_pos()
 			if GenFunc.get_tile_distance(cursor_pos, unit.get_position()) == 0 \
-					and not unit == self:
+					and not unit == connected_unit:
 				_touching_unit = unit
 			elif GenFunc.get_tile_distance(cursor_pos, unit.get_position()) == 1:
 				_adjacent_units.append(unit)
