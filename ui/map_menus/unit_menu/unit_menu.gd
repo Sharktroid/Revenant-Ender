@@ -27,14 +27,13 @@ func close(return_to_caller: bool = false) -> void:
 
 func get_items() -> Dictionary:
 	# Gets the items for the unit menu.
-	var _adjacent_units: Array[Unit] = []
-	var _touching_unit: Unit
 	var pos: Vector2i = connected_unit.get_position()
+	var movement: int = connected_unit.get_stat(Unit.stats.MOVEMENT)
 	_items = {
 		Attack = false,
-		Wait = false,
+		Wait = movement > 0 and pos in connected_unit.get_raw_movement_tiles(),
 		Rescue = false,
-		Drop = false,
+		Drop = connected_unit.traveler != null,
 	}
 	# Gets all adjacent units
 	for unit in get_tree().get_nodes_in_group("units"):
@@ -42,26 +41,15 @@ func get_items() -> Dictionary:
 			var cursor_pos: Vector2i = (GenVars.cursor as Cursor).get_true_pos()
 			if GenFunc.get_tile_distance(cursor_pos, unit.get_position()) == 0 \
 					and not unit == connected_unit:
-				_touching_unit = unit
+				# Units occupying the same tile
+				if unit != connected_unit:
+					_items.Wait = false
 			elif GenFunc.get_tile_distance(cursor_pos, unit.get_position()) == 1:
-				_adjacent_units.append(unit)
-
-	# Whether unit can attack.
-	if _can_attack():
-		_items.Attack = true
-
-	var movement: int = connected_unit.get_stat(Unit.stats.MOVEMENT)
-	if movement > 0 and pos in connected_unit.get_raw_movement_tiles():
-		if not _touching_unit:
-			_items.Wait = true
-
-	for unit in _adjacent_units:
-		if connected_unit.can_rescue(unit):
-			_items.Rescue = true
-			break
-
-	if connected_unit.traveler:
-		_items.Drop = true
+				# Adjacent units
+				if _can_attack(unit):
+					_items.Attack = true
+				if connected_unit.can_rescue(unit):
+					_items.Rescue = true
 	return super()
 
 
@@ -145,18 +133,17 @@ func _select_map(selector: BaseSelector, tiles_node: Node2D, selected: Callable,
 		selected.call(selection)
 
 
-func _can_attack() -> bool:
+func _can_attack(unit: Unit) -> bool:
 	var pos: Vector2i = (GenVars.cursor as Cursor).get_true_pos()
 	var current_tiles: Array[Vector2i] = connected_unit.get_current_attack_tiles(pos)
 	var raw_tiles: Array[Vector2i] = connected_unit.get_raw_movement_tiles()
 	var attack_tiles: Array[Vector2i] = connected_unit.get_all_attack_tiles()
-	for unit in get_tree().get_nodes_in_group("units"):
-		var faction: Faction = (unit as Unit).get_faction()
-		var diplo_stance := connected_unit.get_faction().get_diplomacy_stance(faction)
-		if diplo_stance == Faction.diplo_stances.ENEMY:
-			if ((Vector2i(unit.position) in current_tiles and pos in raw_tiles) \
-					or (pos == Vector2i(unit.position) and pos in attack_tiles)):
-				return true
+	var faction: Faction = (unit as Unit).get_faction()
+	var diplo_stance := connected_unit.get_faction().get_diplomacy_stance(faction)
+	if diplo_stance == Faction.diplo_stances.ENEMY:
+		if ((Vector2i(unit.position) in current_tiles and pos in raw_tiles) \
+				or (pos == Vector2i(unit.position) and pos in attack_tiles)):
+			return true
 	return false
 
 

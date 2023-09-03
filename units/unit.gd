@@ -564,8 +564,8 @@ func get_all_attack_tiles() -> Array[Vector2i]:
 		for tile in raw_movement_tiles:
 			for y in range(-max_range, max_range + 1):
 				for x in range(-max_range, max_range + 1):
-					var tile_min: Vector2i = tile + Vector2i(x * 16, y * 16)
-					var attack_tile = tile_min.clamp(Vector2i(0, 0), map_size)
+					var attack_tile: Vector2i = tile + Vector2i(x * 16, y * 16)
+					attack_tile = attack_tile.clamp(Vector2i(0, 0), map_size)
 					if not(attack_tile in all_attack_tiles + raw_movement_tiles):
 						var distance: int = floori(GenFunc.get_tile_distance(tile, attack_tile))
 						if distance in range(min_range, max_range + 1):
