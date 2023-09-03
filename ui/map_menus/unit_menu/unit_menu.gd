@@ -29,8 +29,13 @@ func get_items() -> Dictionary:
 	# Gets the items for the unit menu.
 	var _adjacent_units: Array[Unit] = []
 	var _touching_unit: Unit
-	var menu_items: Array[String] = []
 	var pos: Vector2i = connected_unit.get_position()
+	_items = {
+		Attack = false,
+		Wait = false,
+		Rescue = false,
+		Drop = false,
+	}
 	# Gets all adjacent units
 	for unit in get_tree().get_nodes_in_group("units"):
 		if not unit.is_ghost:
@@ -43,22 +48,20 @@ func get_items() -> Dictionary:
 
 	# Whether unit can attack.
 	if _can_attack():
-		menu_items.append("Attack")
+		_items.Attack = true
 
 	var movement: int = connected_unit.get_stat(Unit.stats.MOVEMENT)
 	if movement > 0 and pos in connected_unit.get_raw_movement_tiles():
 		if not _touching_unit:
-			menu_items.append("Wait")
+			_items.Wait = true
 
 	for unit in _adjacent_units:
 		if connected_unit.can_rescue(unit):
-			menu_items.append("Rescue")
+			_items.Rescue = true
 			break
 
 	if connected_unit.traveler:
-		menu_items.append("Drop")
-
-	item_keys = menu_items
+		_items.Drop = true
 	return super()
 
 

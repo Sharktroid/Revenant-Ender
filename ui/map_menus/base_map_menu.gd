@@ -3,9 +3,9 @@ extends PanelContainer
 
 enum types {SACRED_STONES, BINDING_BLADE}
 
-var item_keys: Array[String]
 var parent_menu: MapMenu
 
+var _items: Dictionary
 var _base_item_node: GDScript = preload("res://ui/map_menus/base_item.gd")
 var _current_item_index: int = 0
 
@@ -58,10 +58,14 @@ func _gui_input(event: InputEvent) -> void:
 
 
 func get_items() -> Dictionary:
-	var items := {}
-	for item in item_keys:
-		items[item] = null
-	return items
+	var parsed_items: Dictionary = {}
+	for item in _items:
+		var value = _items[item]
+		if value is bool and value:
+			parsed_items[item] = null
+		elif (value is String and value != "") or value is Callable:
+			parsed_items[item] = value
+	return parsed_items
 
 
 func close() -> void:

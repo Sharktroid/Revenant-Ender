@@ -1,8 +1,16 @@
 extends MapMenu
 
 
-func _init():
-	item_keys = ["Debug", "Unit", "Status","Guide","Options","Suspend", "End"]
+func get_items():
+	return {
+		Debug = null,
+		Unit = null,
+		Status = null,
+		Guide = null,
+		Options = null,
+		Suspend = null,
+		End = null,
+	}
 
 
 func select_item(item: String) -> void:
