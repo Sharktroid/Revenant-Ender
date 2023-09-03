@@ -556,16 +556,16 @@ func get_raw_movement_tiles(custom_movement: int = current_movement) -> Array[Ve
 
 func get_all_attack_tiles() -> Array[Vector2i]:
 	var all_attack_tiles: Array[Vector2i] = []
-	var raw_movement_tiles = get_raw_movement_tiles()
 	if get_current_weapon():
+		var raw_movement_tiles = get_raw_movement_tiles()
+		var map_size: Vector2i = GenVars.map.get_size() - Vector2i(16, 16)
+		var min_range: int = get_current_weapon().min_range
+		var max_range: int = get_current_weapon().max_range
 		for tile in raw_movement_tiles:
-			var min_range: int = get_current_weapon().min_range
-			var max_range: int = get_current_weapon().max_range
 			for y in range(-max_range, max_range + 1):
 				for x in range(-max_range, max_range + 1):
 					var tile_min: Vector2i = tile + Vector2i(x * 16, y * 16)
-					var attack_tile: Vector2i = GenVars.map.get_size() - Vector2i(16, 16)
-					attack_tile = tile_min.clamp(Vector2i(0, 0), attack_tile)
+					var attack_tile = tile_min.clamp(Vector2i(0, 0), map_size)
 					if not(attack_tile in all_attack_tiles + raw_movement_tiles):
 						var distance: int = floori(GenFunc.get_tile_distance(tile, attack_tile))
 						if distance in range(min_range, max_range + 1):
