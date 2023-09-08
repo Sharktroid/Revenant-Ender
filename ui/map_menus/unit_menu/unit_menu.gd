@@ -52,8 +52,8 @@ func get_items() -> Dictionary:
 					if not unit.traveler:
 						if connected_unit.can_rescue(unit):
 							_items.Rescue = true
-				elif _can_attack(unit):
-					_items.Attack = true
+			if _can_attack(unit):
+				_items.Attack = true
 	return super()
 
 
