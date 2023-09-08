@@ -31,10 +31,12 @@ func get_items() -> Dictionary:
 	var movement: int = connected_unit.get_stat(Unit.stats.MOVEMENT)
 	_items = {
 		Attack = false,
-		Wait = movement > 0 and pos in connected_unit.get_raw_movement_tiles(),
+		Wait = true,
 		Rescue = false,
-		Drop = connected_unit.traveler != null,
+		Drop = false,
 	}
+	_items.Wait = movement > 0 and pos in connected_unit.get_raw_movement_tiles()
+	_items.Drop = connected_unit.traveler != null
 	# Gets all adjacent units
 	for unit in get_tree().get_nodes_in_group("units"):
 		if not unit.is_ghost:
@@ -46,10 +48,12 @@ func get_items() -> Dictionary:
 					_items.Wait = false
 			elif GenFunc.get_tile_distance(cursor_pos, unit.get_position()) == 1:
 				# Adjacent units
-				if _can_attack(unit):
+				if connected_unit.is_friend(unit):
+					if not unit.traveler:
+						if connected_unit.can_rescue(unit):
+							_items.Rescue = true
+				elif _can_attack(unit):
 					_items.Attack = true
-				if connected_unit.can_rescue(unit):
-					_items.Rescue = true
 	return super()
 
 
@@ -59,10 +63,8 @@ func select_item(item: String) -> void:
 			var weapon: Weapon = connected_unit.get_current_weapon()
 			var minmum: int = weapon.min_range
 			var maxmum: int = weapon.max_range
-			var is_enemy: Callable = func can_attack(unit: Unit):
-				return not connected_unit.is_friend(unit)
 			var attack_icon := Cursor.icons.ATTACK
-			var selector := UnitSelector.new(connected_unit, minmum, maxmum, is_enemy, attack_icon)
+			var selector := UnitSelector.new(connected_unit, minmum, maxmum, _can_attack, attack_icon)
 			var display: Callable = GenVars.map.display_highlighted_tiles
 			var get_attack_tiles: Callable = connected_unit.get_current_attack_tiles
 			var tiles: Array[Vector2i] = get_attack_tiles.call(connected_unit.get_unit_path()[-1])
@@ -97,17 +99,10 @@ func select_item(item: String) -> void:
 
 		"Drop":
 			var traveler: Unit = connected_unit.traveler
-			var current_position: Vector2i = connected_unit.get_unit_path()[-1]
-			traveler.position = current_position
-			var get_adjacent_tiles: Callable = traveler.get_adjacent_tiles
-			var tiles: Array[Vector2i] = get_adjacent_tiles.call(current_position, 1, 1)
-			for tile in tiles:
-				if GenVars.map.get_terrain_cost(traveler, tile) > traveler.get_stat(Unit.stats.MOVEMENT):
-					tiles.erase(tile)
+			traveler.position = _get_current_position()
+			var tiles: Array[Vector2i] = _get_drop_tiles()
 			var tiles_node: Node2D = GenVars.map.display_tiles(tiles, Map.tile_types.SUPPORT)
-			var condition: Callable = func(pos: Vector2i):
-				return pos in tiles
-			var selector := TileSelector.new(connected_unit, 1, 1, condition)
+			var selector := TileSelector.new(connected_unit, 1, 1, _can_drop)
 			var drop: Callable = func(dropped_tile: Vector2i) -> void:
 				await connected_unit.move()
 				traveler.visible = true
@@ -146,6 +141,24 @@ func _can_attack(unit: Unit) -> bool:
 			return true
 	return false
 
+
+func _can_drop(pos: Vector2i) -> bool:
+	return pos in _get_drop_tiles()
+
+
+func _get_current_position() -> Vector2i:
+	return connected_unit.get_unit_path()[-1]
+
+
+func _get_drop_tiles() -> Array[Vector2i]:
+	var traveler: Unit = connected_unit.traveler
+	var tiles: Array[Vector2i] = []
+	for tile in connected_unit.get_adjacent_tiles(_get_current_position(), 1, 1):
+		var cost: int = GenVars.map.get_terrain_cost(traveler, tile)
+		var movement: int = traveler.get_stat(Unit.stats.MOVEMENT)
+		if cost <= movement:
+			tiles.append(tile)
+	return tiles
 
 
 func _on_unit_death() -> void:
