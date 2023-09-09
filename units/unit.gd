@@ -355,9 +355,10 @@ func awaken() -> void:
 
 ## Displays the unit's movement tiles.
 func display_movement_tiles() -> void:
-	var display: Callable = GenVars.map.display_tiles
-	_movement_tiles_node = display.call(get_raw_movement_tiles(), Map.tile_types.MOVEMENT, 1)
-	_attack_tile_node = display.call(get_all_attack_tiles(), Map.tile_types.ATTACK, 1)
+	_movement_tiles_node = GenVars.map.display_tiles(get_raw_movement_tiles(),
+			Map.tile_types.MOVEMENT, 1)
+	_attack_tile_node = GenVars.map.display_tiles(get_all_attack_tiles(),
+			Map.tile_types.ATTACK, 1)
 	if not selected:
 		_movement_tiles_node.modulate.a = 0.5
 		_attack_tile_node.modulate.a = 0.5
@@ -473,8 +474,7 @@ func update_path(destination: Vector2i, num: int = current_movement) -> void:
 			and destination in all_attack_tiles \
 			and GenFunc.get_tile_distance(get_unit_path()[-1], destination) > 1:
 		for unit in get_tree().get_nodes_in_group("units"):
-			var unit_origin: Vector2i = unit.position
-			if unit_origin in all_attack_tiles and unit_origin == destination:
+			if unit.position in all_attack_tiles and unit.position == destination:
 				var adjacent_movement_tiles: Array[Vector2i] = []
 				for tile_offset in GenVars.adjacent_tiles:
 					if Vector2i(unit.position) + tile_offset in raw_movement_tiles:
@@ -493,12 +493,12 @@ func update_path(destination: Vector2i, num: int = current_movement) -> void:
 		if destination in _path:
 			_path = _path.slice(0, _path.find(destination) + 1)
 		else:
-			var displaced_tile = destination - get_unit_path()[-1]
-			if total_cost <= current_movement and (displaced_tile in GenVars.adjacent_tiles):
+			if (total_cost <= current_movement and
+					destination - get_unit_path()[-1] in GenVars.adjacent_tiles):
 				_path.append(destination)
 			else:
-				var rmt = raw_movement_tiles # Abbreviation to make line fit.
-				var new_path = _get_path_subfunc(num, moved, rmt, moved_tiles, destination)
+				var new_path = _get_path_subfunc(num, moved, raw_movement_tiles, moved_tiles,
+						destination)
 				if new_path is Array[Vector2i]:
 					_path = new_path
 

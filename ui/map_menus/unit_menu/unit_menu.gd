@@ -66,14 +66,12 @@ func select_item(item: String) -> void:
 	match item:
 		"Attack":
 			var weapon: Weapon = connected_unit.get_current_weapon()
-			var minmum: int = weapon.min_range
-			var maxmum: int = weapon.max_range
-			var attack_icon := Cursor.icons.ATTACK
-			var selector := UnitSelector.new(connected_unit, minmum, maxmum, _can_attack, attack_icon)
-			var display: Callable = GenVars.map.display_highlighted_tiles
-			var get_attack_tiles: Callable = connected_unit.get_current_attack_tiles
-			var tiles: Array[Vector2i] = get_attack_tiles.call(connected_unit.get_unit_path()[-1])
-			var tiles_node: Node2D = display.call(tiles, connected_unit, Map.tile_types.ATTACK)
+			var selector := UnitSelector.new(connected_unit, weapon.min_range, weapon.max_range,
+					_can_attack, Cursor.icons.ATTACK)
+			var tiles: Array[Vector2i] = connected_unit.get_current_attack_tiles(
+					connected_unit.get_unit_path()[-1])
+			var tiles_node: Node2D = GenVars.map.display_highlighted_tiles(tiles, connected_unit,
+					Map.tile_types.ATTACK)
 			var attack: Callable = func(selected_unit: Unit) -> void:
 				await connected_unit.move()
 				await AttackHandler.combat(connected_unit, selected_unit)
@@ -88,11 +86,10 @@ func select_item(item: String) -> void:
 
 		"Rescue":
 			var selector := UnitSelector.new(connected_unit, 1, 1, connected_unit.can_rescue)
-			var display: Callable = GenVars.map.display_highlighted_tiles
-			var get_adjacent_tiles: Callable = connected_unit.get_adjacent_tiles
-			var current_pos: Vector2i = connected_unit.get_unit_path()[-1]
-			var tiles: Array[Vector2i] = get_adjacent_tiles.call(current_pos, 1, 1)
-			var tiles_node: Node2D = display.call(tiles, connected_unit, Map.tile_types.SUPPORT)
+			var tiles: Array[Vector2i] = connected_unit.get_adjacent_tiles(
+					connected_unit.get_unit_path()[-1], 1, 1)
+			var tiles_node: Node2D = GenVars.map.display_highlighted_tiles(tiles, connected_unit,
+					Map.tile_types.SUPPORT)
 			var rescue: Callable = func(selected_unit: Unit) -> void:
 				await connected_unit.move()
 				await selected_unit.move(connected_unit.position)
@@ -105,9 +102,8 @@ func select_item(item: String) -> void:
 		"Drop":
 			var traveler: Unit = connected_unit.traveler
 			traveler.position = _get_current_position()
-			var tiles: Array[Vector2i] = _get_drop_tiles()
-			var tiles_node: Node2D = GenVars.map.display_tiles(tiles, Map.tile_types.SUPPORT)
-			var selector := TileSelector.new(connected_unit, 1, 1, _can_drop)
+			var tiles_node: Node2D = GenVars.map.display_tiles(_get_drop_tiles(),
+					Map.tile_types.SUPPORT)
 			var drop: Callable = func(dropped_tile: Vector2i) -> void:
 				await connected_unit.move()
 				traveler.visible = true
@@ -116,7 +112,7 @@ func select_item(item: String) -> void:
 				await traveler.move(dropped_tile)
 				connected_unit.wait()
 				close()
-			_select_map(selector, tiles_node, drop)
+			_select_map(TileSelector.new(connected_unit, 1, 1, _can_drop), tiles_node, drop)
 
 
 func _select_map(selector: BaseSelector, tiles_node: Node2D, selected: Callable,
