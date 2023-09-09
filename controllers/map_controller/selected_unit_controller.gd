@@ -75,12 +75,10 @@ func _on_cursor_moved() -> void:
 
 func _position_selected() -> void:
 	# Creates menu if cursor in _unit's tiles and is same faction as _unit.
-	var true_cursor_pos: Vector2i = GenVars.cursor.get_true_pos()
-	var all_tiles: Array = _unit.get_all_attack_tiles() + _unit.get_raw_movement_tiles()
-	var unit_pos: Vector2i = _unit.position
-	if _unit.get_faction().name == GenVars.map.get_current_faction().name \
-			and (true_cursor_pos in all_tiles or unit_pos == true_cursor_pos):
+	if _unit.get_faction().name == GenVars.map.get_current_faction().name:
 		_create_unit_menu()
+	else:
+		close()
 
 
 func _create_unit_menu() -> void:

@@ -27,33 +27,38 @@ func close(return_to_caller: bool = false) -> void:
 
 func get_items() -> Dictionary:
 	# Gets the items for the unit menu.
-	var pos: Vector2i = connected_unit.get_position()
+	var pos: Vector2i = _get_current_position()
 	var movement: int = connected_unit.get_stat(Unit.stats.MOVEMENT)
+	var raw_movement_tiles: Array[Vector2i] = connected_unit.get_raw_movement_tiles()
 	_items = {
 		Attack = false,
-		Wait = true,
+		Wait = false,
 		Rescue = false,
 		Drop = false,
 	}
-	_items.Wait = movement > 0 and pos in connected_unit.get_raw_movement_tiles()
-	_items.Drop = connected_unit.traveler != null
-	# Gets all adjacent units
-	for unit in get_tree().get_nodes_in_group("units"):
-		if not unit.is_ghost:
-			var cursor_pos: Vector2i = (GenVars.cursor as Cursor).get_true_pos()
-			if GenFunc.get_tile_distance(cursor_pos, unit.get_position()) == 0 \
-					and not unit == connected_unit:
-				# Units occupying the same tile
-				if unit != connected_unit:
-					_items.Wait = false
-			elif GenFunc.get_tile_distance(cursor_pos, unit.get_position()) == 1:
-				# Adjacent units
-				if connected_unit.is_friend(unit):
-					if not unit.traveler:
-						if connected_unit.can_rescue(unit):
-							_items.Rescue = true
-			if _can_attack(unit):
-				_items.Attack = true
+	if GenVars.cursor.get_true_pos() in raw_movement_tiles:
+		_items.Wait = movement > 0 and pos in raw_movement_tiles
+		_items.Drop = connected_unit.traveler != null
+		# Gets all adjacent units
+		for unit in get_tree().get_nodes_in_group("units"):
+			if not unit.is_ghost:
+				var cursor_pos: Vector2i = (GenVars.cursor as Cursor).get_true_pos()
+				if GenFunc.get_tile_distance(cursor_pos, unit.get_position()) == 0 \
+						and not unit == connected_unit:
+					# Units occupying the same tile
+					if unit != connected_unit:
+						_items.Wait = false
+				elif GenFunc.get_tile_distance(cursor_pos, unit.get_position()) == 1:
+					# Adjacent units
+					if connected_unit.is_friend(unit):
+						if not unit.traveler:
+							if connected_unit.can_rescue(unit):
+								_items.Rescue = true
+				if _can_attack(unit):
+					_items.Attack = true
+	else:
+		if GenVars.cursor.get_hovered_unit() and _can_attack(GenVars.cursor.get_hovered_unit()):
+			_items.Attack = true
 	return super()
 
 
