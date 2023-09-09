@@ -7,7 +7,9 @@ static func combat(attacker: Unit, defender: Unit) -> void:
 	GenVars.cursor.disable()
 	var attack_queue: Array[int] = [ATTACKER]
 	if defender.get_current_weapon() != null:
-		attack_queue.append(DEFENDER)
+		var distance: int = roundi(GenFunc.get_tile_distance(attacker.position, defender.position))
+		if distance in defender.get_current_weapon().get_range():
+			attack_queue.append(DEFENDER)
 	var attack_speed_check: bool = attacker.get_attack_speed() >= 5 + defender.get_attack_speed()
 	if attacker.has_attribute(Skill.all_attributes.FOLLOW_UP) and attack_speed_check:
 		attack_queue.append(ATTACKER)

@@ -60,3 +60,7 @@ func _init() -> void:
 
 func get_damage_type() -> damage_types:
 	return _damage_type
+
+
+func get_range() -> Array:
+	return range(min_range, max_range + 1)
