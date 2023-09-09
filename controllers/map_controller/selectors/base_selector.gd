@@ -47,7 +47,6 @@ func _has_point(_point: Vector2) -> bool:
 
 
 func close() -> void:
-	unit.set_animation(unit.animations.IDLE)
 	(GenVars.cursor as Cursor).remove_icon()
 	queue_free()
 
