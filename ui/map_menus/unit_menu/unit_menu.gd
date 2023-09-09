@@ -41,7 +41,7 @@ func get_items() -> Dictionary:
 		_items.Drop = connected_unit.traveler != null
 		# Gets all adjacent units
 		for unit in get_tree().get_nodes_in_group("units"):
-			if not unit.is_ghost:
+			if not unit.is_ghost and unit != connected_unit and unit.visible == true:
 				var cursor_pos: Vector2i = (GenVars.cursor as Cursor).get_true_pos()
 				if GenFunc.get_tile_distance(cursor_pos, unit.get_position()) == 0 \
 						and not unit == connected_unit:
