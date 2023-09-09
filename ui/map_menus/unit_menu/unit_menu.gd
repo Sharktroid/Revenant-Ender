@@ -86,10 +86,6 @@ func select_item(item: String) -> void:
 
 		"Rescue":
 			var selector := UnitSelector.new(connected_unit, 1, 1, connected_unit.can_rescue)
-			var tiles: Array[Vector2i] = connected_unit.get_adjacent_tiles(
-					connected_unit.get_unit_path()[-1], 1, 1)
-			var tiles_node: Node2D = GenVars.map.display_highlighted_tiles(tiles, connected_unit,
-					Map.tile_types.SUPPORT)
 			var rescue: Callable = func(selected_unit: Unit) -> void:
 				await connected_unit.move()
 				await selected_unit.move(connected_unit.position)
@@ -97,7 +93,7 @@ func select_item(item: String) -> void:
 				connected_unit.traveler = selected_unit
 				connected_unit.wait()
 				close()
-			_select_map(selector, tiles_node, rescue)
+			_select_map(selector, _display_adjacent_support_tiles(), rescue)
 
 		"Drop":
 			var traveler: Unit = connected_unit.traveler
@@ -156,6 +152,12 @@ func _get_drop_tiles() -> Array[Vector2i]:
 		if cost <= movement:
 			tiles.append(tile)
 	return tiles
+
+
+func _display_adjacent_support_tiles() -> Node2D:
+	var tiles: Array[Vector2i] = connected_unit.get_adjacent_tiles(_get_current_position(),
+			1, 1)
+	return GenVars.map.display_highlighted_tiles(tiles, connected_unit, Map.tile_types.SUPPORT)
 
 
 func _on_unit_death() -> void:
