@@ -96,11 +96,10 @@ func select_item(item: String) -> void:
 			_select_map(selector, _display_adjacent_support_tiles(), rescue)
 
 		"Drop":
-			var traveler: Unit = connected_unit.traveler
-			traveler.position = _get_current_position()
 			var tiles_node: Node2D = GenVars.map.display_tiles(_get_drop_tiles(),
 					Map.tile_types.SUPPORT)
 			var drop: Callable = func(dropped_tile: Vector2i) -> void:
+				var traveler: Unit = connected_unit.traveler
 				await connected_unit.move()
 				traveler.visible = true
 				traveler.position = connected_unit.position

@@ -151,6 +151,8 @@ func _ready() -> void:
 
 
 func _process(_delta: float):
+	if traveler:
+		traveler.position = position
 	_render_status()
 	if Engine.get_process_frames() % 60 == 0:
 		GenFunc.sync_animation($AnimationPlayer)
