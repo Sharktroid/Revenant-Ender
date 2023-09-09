@@ -34,7 +34,10 @@ func get_items() -> Dictionary:
 		Attack = false,
 		Wait = false,
 		Rescue = false,
+		Take = false,
 		Drop = false,
+		Give = false,
+		Swap = false,
 	}
 	if GenVars.cursor.get_true_pos() in raw_movement_tiles:
 		_items.Wait = movement > 0 and pos in raw_movement_tiles
@@ -51,8 +54,15 @@ func get_items() -> Dictionary:
 				elif GenFunc.get_tile_distance(cursor_pos, unit.get_position()) == 1:
 					# Adjacent units
 					if connected_unit.is_friend(unit):
-						if not unit.traveler:
-							if connected_unit.can_rescue(unit):
+						if unit.traveler:
+							if connected_unit.traveler:
+								_items.Swap = true
+							else:
+								_items.Take = true
+						else:
+							if connected_unit.traveler:
+								_items.Give = true
+							elif connected_unit.can_rescue(unit):
 								_items.Rescue = true
 				if _can_attack(unit):
 					_items.Attack = true
@@ -108,6 +118,58 @@ func select_item(item: String) -> void:
 				connected_unit.wait()
 				close()
 			_select_map(TileSelector.new(connected_unit, 1, 1, _can_drop), tiles_node, drop)
+
+		"Take":
+			var can_take: Callable = func(unit: Unit):
+				return connected_unit.is_friend(unit) and unit.traveler
+			var take: Callable = func(unit: Unit):
+				await connected_unit.move()
+				var traveler: Unit = unit.traveler
+				connected_unit.traveler = traveler
+				unit.traveler = null
+				traveler.visible = true
+				await traveler.move(connected_unit.position)
+				traveler.visible = false
+				connected_unit.wait()
+				close()
+			_select_map(UnitSelector.new(connected_unit, 1, 1, can_take),
+					_display_adjacent_support_tiles(), take)
+
+		"Give":
+			var can_give: Callable = func(unit: Unit):
+				return connected_unit.is_friend(unit) and not unit.traveler
+			var give: Callable = func(unit: Unit):
+				await connected_unit.move()
+				var traveler: Unit = connected_unit.traveler
+				unit.traveler = traveler
+				connected_unit.traveler = null
+				traveler.visible = true
+				await traveler.move(unit.position)
+				traveler.visible = false
+				connected_unit.wait()
+				close()
+			_select_map(UnitSelector.new(connected_unit, 1, 1, can_give),
+					_display_adjacent_support_tiles(), give)
+
+		"Swap":
+			var can_swap: Callable = func(unit: Unit):
+				return connected_unit.is_friend(unit) and unit.traveler
+			var swap: Callable = func(unit: Unit):
+				await connected_unit.move()
+				var old_traveler = connected_unit.traveler
+				var new_traveler = unit.traveler
+				connected_unit.traveler = new_traveler
+				unit.traveler = old_traveler
+				old_traveler.visible = true
+				new_traveler.visible = true
+				old_traveler.move(unit.position)
+				await new_traveler.move(connected_unit.position)
+				old_traveler.visible = false
+				new_traveler.visible = false
+				connected_unit.wait()
+				close()
+			_select_map(UnitSelector.new(connected_unit, 1, 1, can_swap),
+					_display_adjacent_support_tiles(), swap)
 
 
 func _select_map(selector: BaseSelector, tiles_node: Node2D, selected: Callable,
