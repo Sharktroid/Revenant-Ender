@@ -129,7 +129,7 @@ func _select_map(selector: BaseSelector, tiles_node: Node2D, selected: Callable,
 
 
 func _can_attack(unit: Unit) -> bool:
-	var pos: Vector2i = (GenVars.cursor as Cursor).get_true_pos()
+	var pos: Vector2i = _get_current_position()
 	var current_tiles: Array[Vector2i] = connected_unit.get_current_attack_tiles(pos)
 	var faction: Faction = (unit as Unit).get_faction()
 	var diplo_stance := connected_unit.get_faction().get_diplomacy_stance(faction)
