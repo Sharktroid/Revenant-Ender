@@ -150,7 +150,7 @@ func can_move(new_pos: Vector2i) -> bool:
 
 ## Gets the unit under the cursor. Returns null if one is not there.
 func get_hovered_unit() -> Unit:
-	if _hovered_unit.get_area().overlaps_area(get_area()):
+	if is_instance_valid(_hovered_unit) and _hovered_unit.get_area().overlaps_area(get_area()):
 		return _hovered_unit
 	return null
 
