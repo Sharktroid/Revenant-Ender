@@ -26,7 +26,7 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	_ghost_unit.position = _unit.get_unit_path()[-1]
+	_ghost_unit.position = _unit.get_path_last_pos()
 	if _ghost_unit.position == _unit.position:
 		_ghost_unit.visible = false
 	else:

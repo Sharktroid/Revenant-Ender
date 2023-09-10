@@ -301,6 +301,19 @@ func get_weight() -> int:
 	return get_stat(stats.CONSTITUTION) + unit_class.weight_modifier
 
 
+func get_path_last_pos() -> Vector2i:
+	var path: Array[Vector2i] = get_unit_path()
+	var unit_positions: Array[Vector2i] = []
+	for unit in get_tree().get_nodes_in_group("unit"):
+		unit_positions.append(Vector2i(unit.position))
+	while len(path) > 0:
+		if path[-1] in unit_positions:
+			path.erase(path[-1])
+			continue
+		return path[-1]
+	return position
+
+
 func has_attribute(attrib: Skill.all_attributes) -> bool:
 	for skill in skills:
 		if attrib in (skill as Skill).attributes:

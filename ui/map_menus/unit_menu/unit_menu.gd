@@ -27,7 +27,7 @@ func close(return_to_caller: bool = false) -> void:
 
 func get_items() -> Dictionary:
 	# Gets the items for the unit menu.
-	var pos: Vector2i = _get_current_position()
+	var pos: Vector2i = connected_unit.get_path_last_pos()
 	var movement: int = connected_unit.get_stat(Unit.stats.MOVEMENT)
 	var raw_movement_tiles: Array[Vector2i] = connected_unit.get_raw_movement_tiles()
 	_items = {
@@ -79,7 +79,7 @@ func select_item(item: String) -> void:
 			var selector := UnitSelector.new(connected_unit, weapon.min_range, weapon.max_range,
 					_can_attack, Cursor.icons.ATTACK)
 			var tiles: Array[Vector2i] = connected_unit.get_current_attack_tiles(
-					connected_unit.get_unit_path()[-1])
+					connected_unit.get_path_last_pos())
 			var tiles_node: Node2D = GenVars.map.display_highlighted_tiles(tiles, connected_unit,
 					Map.tile_types.ATTACK)
 			var attack: Callable = func(selected_unit: Unit) -> void:
@@ -187,7 +187,7 @@ func _select_map(selector: BaseSelector, tiles_node: Node2D, selected: Callable,
 
 
 func _can_attack(unit: Unit) -> bool:
-	var pos: Vector2i = _get_current_position()
+	var pos: Vector2i = connected_unit.get_path_last_pos()
 	var current_tiles: Array[Vector2i] = connected_unit.get_current_attack_tiles(pos)
 	var faction: Faction = (unit as Unit).get_faction()
 	var diplo_stance := connected_unit.get_faction().get_diplomacy_stance(faction)
@@ -200,14 +200,10 @@ func _can_drop(pos: Vector2i) -> bool:
 	return pos in _get_drop_tiles()
 
 
-func _get_current_position() -> Vector2i:
-	return connected_unit.get_unit_path()[-1]
-
-
 func _get_drop_tiles() -> Array[Vector2i]:
 	var traveler: Unit = connected_unit.traveler
 	var tiles: Array[Vector2i] = []
-	for tile in connected_unit.get_adjacent_tiles(_get_current_position(), 1, 1):
+	for tile in connected_unit.get_adjacent_tiles(connected_unit.get_path_last_pos(), 1, 1):
 		var cost: int = GenVars.map.get_terrain_cost(traveler, tile)
 		var movement: int = traveler.get_stat(Unit.stats.MOVEMENT)
 		if cost <= movement:
@@ -216,7 +212,7 @@ func _get_drop_tiles() -> Array[Vector2i]:
 
 
 func _display_adjacent_support_tiles() -> Node2D:
-	var tiles: Array[Vector2i] = connected_unit.get_adjacent_tiles(_get_current_position(),
+	var tiles: Array[Vector2i] = connected_unit.get_adjacent_tiles(connected_unit.get_path_last_pos(),
 			1, 1)
 	return GenVars.map.display_highlighted_tiles(tiles, connected_unit, Map.tile_types.SUPPORT)
 
