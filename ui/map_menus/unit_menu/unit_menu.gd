@@ -8,6 +8,13 @@ func _enter_tree() -> void:
 	connected_unit.tree_exited.connect(_on_unit_death)
 
 
+func _ready() -> void:
+	if len(get_items()) == 0:
+		close(true)
+	else:
+		super()
+
+
 func _gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		close(true)
