@@ -17,6 +17,7 @@ config/features=PackedStringArray("4.1")
 [autoload]
 
 GenVars="*res://utilities/general_variables.gd"
+HelpPopupController="*res://ui/help_popup/help_popup_controller.gd"
 
 [debug]
 

@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://bvenomss5y5i2"]
+[gd_scene load_steps=9 format=3 uid="uid://bvenomss5y5i2"]
 
 [ext_resource type="Script" path="res://controllers/map_controller/map_controller.gd" id="1_ldj01"]
 [ext_resource type="PackedScene" uid="uid://cedsiyh04d75o" path="res://maps/test_map_b/test_map_b.tscn" id="2_im01b"]
 [ext_resource type="Texture2D" uid="uid://ditlrwvu2jhoc" path="res://controllers/map_controller/placeholder.png" id="2_r7guj"]
 [ext_resource type="PackedScene" uid="uid://ec5p41y2pfqp" path="res://cursor/cursor.tscn" id="3_nham5"]
 [ext_resource type="Script" path="res://controllers/map_controller/map_camera.gd" id="4_doakt"]
+[ext_resource type="PackedScene" uid="uid://dno116i3j6du0" path="res://ui/help_popup/help_popup.tscn" id="5_np1y3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vlgn5"]
 texture = ExtResource("2_r7guj")
@@ -35,6 +36,9 @@ layer_0/tile_data = PackedInt32Array(0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0
 [node name="UI Layer" type="CanvasLayer" parent="."]
 layer = 3
 
+[node name="Cursor" parent="UI Layer" instance=ExtResource("3_nham5")]
+metadata/_edit_use_anchors_ = true
+
 [node name="Turn Banner" type="Sprite2D" parent="UI Layer"]
 position = Vector2(256, 144)
 
@@ -42,8 +46,8 @@ position = Vector2(256, 144)
 wait_time = 1.368
 one_shot = true
 
-[node name="Cursor" parent="UI Layer" instance=ExtResource("3_nham5")]
-metadata/_edit_use_anchors_ = true
+[node name="Help Popup" parent="UI Layer" instance=ExtResource("5_np1y3")]
+z_index = 1
 
 [node name="Map Camera" type="Camera2D" parent="."]
 anchor_mode = 0

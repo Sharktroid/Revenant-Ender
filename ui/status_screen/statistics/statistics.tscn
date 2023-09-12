@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://jyd6v7dptm76"]
+[gd_scene load_steps=7 format=3 uid="uid://jyd6v7dptm76"]
 
 [ext_resource type="Script" path="res://ui/status_screen/statistics/statistics.gd" id="1_7tuvq"]
+[ext_resource type="Script" path="res://ui/help_popup/help_container.gd" id="2_6g5y4"]
 [ext_resource type="PackedScene" uid="uid://cj8q35dlrc4ln" path="res://ui/status_screen/statistics/stat_bar/stat_bar.tscn" id="2_ess3a"]
 [ext_resource type="PackedScene" uid="uid://iuhdjformeos" path="res://ui/status_screen/statistics/stars_label/stars_label.tscn" id="3_8euhf"]
 
@@ -42,23 +43,41 @@ size_flags_horizontal = 0
 theme = SubResource("Theme_ux5tw")
 theme_override_constants/separation = 0
 
-[node name="Strength" type="Label" parent="Offensive Stats/HBoxContainer/Labels" groups=["values"]]
+[node name="HelpContainer" type="BoxContainer" parent="Offensive Stats/HBoxContainer/Labels"]
 layout_mode = 2
-size_flags_horizontal = 2
 size_flags_vertical = 3
+script = ExtResource("2_6g5y4")
+help_description = "TEST (Strength)"
+
+[node name="Strength" type="Label" parent="Offensive Stats/HBoxContainer/Labels/HelpContainer" groups=["values"]]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
 theme_type_variation = &"YellowLabel"
 text = "Strength"
 vertical_alignment = 1
 
-[node name="Pierce" type="Label" parent="Offensive Stats/HBoxContainer/Labels" groups=["values"]]
+[node name="HelpContainer2" type="BoxContainer" parent="Offensive Stats/HBoxContainer/Labels"]
 layout_mode = 2
-size_flags_horizontal = 2
+size_flags_vertical = 3
+script = ExtResource("2_6g5y4")
+help_description = "TEST (Pierce)"
+
+[node name="Pierce" type="Label" parent="Offensive Stats/HBoxContainer/Labels/HelpContainer2" groups=["values"]]
+layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_type_variation = &"YellowLabel"
 text = "Pierce"
 vertical_alignment = 1
 
-[node name="Magic" type="Label" parent="Offensive Stats/HBoxContainer/Labels" groups=["values"]]
+[node name="HelpContainer3" type="BoxContainer" parent="Offensive Stats/HBoxContainer/Labels"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_6g5y4")
+help_description = "TEST (magic)"
+
+[node name="Magic" type="Label" parent="Offensive Stats/HBoxContainer/Labels/HelpContainer3" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 3
