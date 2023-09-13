@@ -15,9 +15,9 @@ func _ready():
 	true_origin = map_position
 
 
-func _physics_process(_delta):
+func _process(delta):
 	var speed: float = max(4, (true_origin.distance_to(map_position))/16)
-	true_origin = true_origin.move_toward(map_position, speed)
+	true_origin = true_origin.move_toward(map_position, speed * 60 * delta)
 	transform.origin = true_origin - Vector2(map_offset)
 
 

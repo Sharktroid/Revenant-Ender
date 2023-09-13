@@ -451,8 +451,8 @@ func move(move_target: Vector2i = get_unit_path()[-1]) -> void:
 				_: set_animation(animations.IDLE)
 
 			while position != _target:
-				position = position.move_toward(_target, _movement_speed)
-				await get_tree().physics_frame
+				position = position.move_toward(_target, _movement_speed * 60 * GenVars.get_frame_delta())
+				await get_tree().process_frame
 		get_node("Area2D").monitoring = true
 		set_animation(animations.IDLE)
 
