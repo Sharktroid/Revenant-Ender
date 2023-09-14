@@ -93,7 +93,7 @@ func get_previous_unit(unit: Unit) -> Unit:
 
 
 func get_rel_upper_border() -> Vector2i:
-	return upper_border - (GenVars.map_camera as MapCamera).map_position
+	return upper_border - MapController.get_map_camera().map_position
 
 
 func get_rel_lower_border() -> Vector2i:
@@ -216,7 +216,7 @@ func _get_terrain(coords: Vector2i, faction: Faction) -> String:
 	## Gets the name of the terrain at the tile at position "coords"
 	## faction: faction of the unit checking
 	for unit in get_tree().get_nodes_in_group("units"): # for units
-		if coords == (unit.transform.get_origin() as Vector2i):
+		if coords == Vector2i(unit.transform.get_origin()):
 #			if "Doesn't Block" in unit.tags:
 #				return unit.unit_class
 #			else:

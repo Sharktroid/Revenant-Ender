@@ -18,14 +18,14 @@ func _init(connected_unit: Unit = null, targeted_tile: Vector2i = Vector2i(0, 16
 func _ready() -> void:
 	for child in _combat_sprite.get_children():
 		if not child is AnimationPlayer:
-			(child as Node).queue_free()
+			child.queue_free()
 	position = _combat_sprite.position
 	_combat_sprite.position = Vector2i()
 	_combat_sprite.remove_from_group("units")
 	add_child(_combat_sprite)
 	_combat_sprite.sprite_animated = false
 
-	var angle: float = (target_tile as Vector2 - position).angle()
+	var angle: float = (Vector2(target_tile) - position).angle()
 	var angle_adjusted = (angle * 4)/PI
 	if angle_adjusted <= 1 and angle_adjusted >= -1:
 		_combat_sprite.set_animation(Unit.animations.MOVING_RIGHT)
@@ -38,7 +38,7 @@ func _ready() -> void:
 
 
 func play_animation() -> void:
-	var movement: Vector2 = (target_tile as Vector2 - position).normalized() * 4
+	var movement: Vector2 = (Vector2(target_tile) - position).normalized() * 4
 	_combat_sprite.sprite_animated = true
 	await _move(movement)
 	emit_signal("deal_damage")
@@ -52,6 +52,6 @@ func _move(movement: Vector2) -> void:
 	var new_pos: Vector2 = position + movement
 	while (position != new_pos):
 		position = position.move_toward(new_pos, 1)
-		await (get_tree() as SceneTree).physics_frame
+		await get_tree().physics_frame
 	emit_signal("arrived")
 

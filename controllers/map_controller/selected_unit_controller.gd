@@ -19,7 +19,7 @@ func _ready() -> void:
 	_unit.tree_exited.connect(_on_unit_death)
 	_ghost_unit = GhostUnit.new(_unit)
 	GenVars.map.add_child(_ghost_unit)
-	(GenVars.cursor as Cursor).moved.connect(_on_cursor_moved)
+	MapController.get_cursor().moved.connect(_on_cursor_moved)
 	set_focus_mode(Control.FOCUS_ALL)
 	GenVars.map_controller.set_focus_mode(Control.FOCUS_NONE)
 	grab_focus()

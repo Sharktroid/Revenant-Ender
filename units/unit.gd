@@ -120,7 +120,7 @@ func _ready() -> void:
 	for weapon_type in unit_class.weapon_levels.keys():
 		if weapon_type not in weapon_levels.keys():
 			weapon_levels[weapon_type] = unit_class.weapon_levels[weapon_type]
-	texture = (unit_class as UnitClass).map_sprite
+	texture = unit_class.map_sprite
 	material = material.duplicate()
 	current_level = base_level
 	current_movement = get_stat(stats.MOVEMENT)
@@ -128,7 +128,7 @@ func _ready() -> void:
 	set_current_health(get_stat(stats.HITPOINTS))
 	add_to_group("units")
 
-	var animation_player: AnimationPlayer = ($AnimationPlayer as AnimationPlayer)
+	var animation_player: AnimationPlayer = $AnimationPlayer
 	if animation_player.current_animation == '':
 		animation_player.play("idle")
 	GenFunc.sync_animation(animation_player)
@@ -218,7 +218,7 @@ func add_current_health(added_health: float, does_die: bool = true) -> void:
 
 
 func set_animation(animation: animations) -> void:
-	var animation_player: AnimationPlayer = ($AnimationPlayer as AnimationPlayer)
+	var animation_player: AnimationPlayer = $AnimationPlayer
 	animation_player.play("RESET")
 	animation_player.advance(0)
 	match animation:
@@ -316,7 +316,7 @@ func get_path_last_pos() -> Vector2i:
 
 func has_attribute(attrib: Skill.all_attributes) -> bool:
 	for skill in skills:
-		if attrib in (skill as Skill).attributes:
+		if attrib in skill.attributes:
 			return true
 	return false
 
@@ -466,14 +466,14 @@ func get_unit_path() -> Array[Vector2i]:
 
 func get_faction() -> Faction:
 	if len(GenVars.map.faction_stack) > 0:
-		return (GenVars.map as Map).faction_stack[faction_id]
+		return MapController.map.faction_stack[faction_id]
 	else:
 		return null
 
 
 ## Changes unit's faction.
 func set_faction(new_faction: Faction) -> void:
-	faction_id = (GenVars.map as Map).faction_stack.find(new_faction)
+	faction_id = MapController.map.faction_stack.find(new_faction)
 
 
 ## Gets the path of the unit.
@@ -559,7 +559,7 @@ func show_path() -> void:
 					tile.frame = 9
 				elif Vector2i(0, 16) in [prev, next] and Vector2i(0, -16) in [prev, next]:
 					tile.frame = 6
-			tile.position = i as Vector2
+			tile.position = Vector2(i)
 			_arrows_container.add_child(tile)
 		GenVars.map.add_child(_arrows_container)
 

@@ -28,7 +28,7 @@ func _draw():
 		if current_faction.full_outline \
 				and outline_faction != current_faction:
 			for unit in get_tree().get_nodes_in_group("units"):
-				var unit_faction: Faction = (unit as Unit).get_faction()
+				var unit_faction: Faction = unit.get_faction()
 				var unit_stance: Faction.diplo_stances = current_faction.get_diplomacy_stance(unit_faction)
 				if unit_stance == Faction.diplo_stances.ENEMY \
 						and len(unit.get_all_attack_tiles()) > 0:

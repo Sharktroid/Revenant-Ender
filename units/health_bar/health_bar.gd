@@ -16,7 +16,7 @@ func update() -> void:
 		visible = false
 	else:
 		visible = true
-		(get_theme_stylebox("fill") as StyleBoxFlat).bg_color = _get_color()
+		get_theme_stylebox("fill").bg_color = _get_color()
 
 
 func _get_color() -> Color:

@@ -39,7 +39,7 @@ func _physics_process(_delta: float) -> void:
 			set_rel_pos((mouse_position) - Vector2(GenVars.map_camera.map_offset))
 	else:
 		var new_pos := Vector2i()
-		if get_rel_pos() == (_true_origin as Vector2i) and is_processing_input():
+		if get_rel_pos() == Vector2i(_true_origin) and is_processing_input():
 			if Input.is_action_pressed("left"):
 				new_pos.x -= 16
 			elif Input.is_action_pressed("right") and not Input.is_action_pressed("left"):
@@ -95,9 +95,9 @@ func set_rel_pos(new_pos: Vector2i) -> void:
 	var map_move := Vector2i()
 	var lower_bound: Vector2i = GenVars.get_screen_size() - GenVars.map.get_rel_lower_border()
 	for i in 2:
-		if (GenVars.map as Map).get_rel_upper_border()[i] >= 0:
 			top_bounds[i] = GenVars.map.get_rel_upper_border()[i]
-		if (GenVars.map as Map).get_rel_lower_border()[i] >= 0:
+		if MapController.map.get_rel_upper_border()[i] >= 0:
+		if MapController.map.get_rel_lower_border()[i] >= 0:
 			bottom_bounds[i] = lower_bound[i]
 
 		while new_pos[i] <= -16:

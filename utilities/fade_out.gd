@@ -13,7 +13,7 @@ func _init(duration: float, end_alpha: float = 0) -> void:
 
 
 func _process(delta: float) -> void:
-	(get_parent() as CanvasItem).modulate.a -= delta * (1/_duration)
-	if (get_parent() as CanvasItem).modulate.a <= _end_alpha:
+	get_parent().modulate.a -= delta * (1/_duration)
+	if get_parent().modulate.a <= _end_alpha:
 		emit_signal("complete")
 		queue_free()
