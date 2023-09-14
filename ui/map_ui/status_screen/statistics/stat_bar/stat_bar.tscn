@@ -1,0 +1,67 @@
+[gd_scene load_steps=2 format=3 uid="uid://cj8q35dlrc4ln"]
+
+[ext_resource type="Script" path="res://ui/map_ui/status_screen/statistics/stat_bar/stat_bar.gd" id="1_1r07s"]
+
+[node name="Stat Bar" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+mouse_filter = 1
+script = ExtResource("1_1r07s")
+
+[node name="Resize Handler" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -8.0
+offset_bottom = 8.0
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="Resize Handler"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -2.0
+offset_top = -1.0
+offset_right = 4.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="Resize Handler/MarginContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+size_flags_vertical = 1
+mouse_filter = 1
+max_value = 2.0
+value = 1.0
+show_percentage = false
+
+[node name="Value Label" type="Label" parent="Resize Handler"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 14.0
+offset_top = -8.0
+offset_right = 24.0
+offset_bottom = 8.0
+grow_vertical = 2
+theme_type_variation = &"BlueLabel"
+text = "0"

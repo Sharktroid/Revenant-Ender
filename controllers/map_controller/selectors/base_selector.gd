@@ -21,7 +21,7 @@ func _init(connected_unit: Unit, min_range: int, max_range: int, condition: Call
 
 
 func _ready() -> void:
-	GenVars.cursor.enable()
+	MapController.get_cursor().enable()
 	unit.hide_movement_tiles()
 	unit.remove_path()
 	set_focus_mode(Control.FOCUS_ALL)
@@ -30,9 +30,9 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if _can_select():
-		GenVars.cursor.draw_icon(_icon)
+		MapController.get_cursor().draw_icon(_icon)
 	else:
-		GenVars.cursor.remove_icon()
+		MapController.get_cursor().remove_icon()
 
 
 func _gui_input(event: InputEvent) -> void:
@@ -47,7 +47,7 @@ func _has_point(_point: Vector2) -> bool:
 
 
 func close() -> void:
-	(GenVars.cursor as Cursor).remove_icon()
+	MapController.get_cursor().remove_icon()
 	queue_free()
 
 
@@ -60,13 +60,13 @@ func _can_select() -> bool:
 
 
 func _within_range() -> bool:
-	var hovered_unit_pos: Vector2i = GenVars.cursor.get_hovered_unit().position
+	var hovered_unit_pos: Vector2i = MapController.get_cursor().get_hovered_unit().position
 	var dist: float = GenFunc.get_tile_distance(hovered_unit_pos, _selecting_position)
 	return dist >= _minimum_range and dist <= _maximum_range
 
 
 func _canceled() -> void:
-	GenVars.cursor.disable()
+	MapController.get_cursor().disable()
 	unit.display_movement_tiles()
 	unit.show_path()
 	close()

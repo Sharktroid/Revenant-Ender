@@ -1,7 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://dqvj6gc7ykdcp"]
-
-[ext_resource type="PackedScene" uid="uid://b4a6n61tdijwj" path="res://ui/map_menus/base_map_menu.tscn" id="1"]
-[ext_resource type="Script" path="res://ui/map_menus/main_map_menu/main_map_menu.gd" id="2"]
-
-[node name="Main Map Menu" instance=ExtResource("1")]
-script = ExtResource("2")

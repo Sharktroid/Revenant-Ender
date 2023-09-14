@@ -37,7 +37,7 @@ func is_active() -> bool:
 
 
 func get_popup_node() -> Label:
-	return MapController.get_node("UI Layer/Help Popup")
+	return MapController.get_ui().get_node("Help Popup")
 
 
 func _expand(text: String) -> void:

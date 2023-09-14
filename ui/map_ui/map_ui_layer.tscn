@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://cwisegbmuxssj"]
+
+[ext_resource type="Script" path="res://ui/map_ui/map_ui_layer.gd" id="1_3rerv"]
+[ext_resource type="PackedScene" uid="uid://ec5p41y2pfqp" path="res://cursor/cursor.tscn" id="1_opi3l"]
+[ext_resource type="PackedScene" uid="uid://dno116i3j6du0" path="res://ui/help_popup/help_popup.tscn" id="2_7qlus"]
+
+[node name="Map UI Layer" type="CanvasLayer"]
+script = ExtResource("1_3rerv")
+
+[node name="Cursor" parent="." instance=ExtResource("1_opi3l")]
+
+[node name="Turn Banner" type="Sprite2D" parent="."]
+position = Vector2(256, 144)
+
+[node name="Banner Timer" type="Timer" parent="Turn Banner"]
+wait_time = 1.368
+one_shot = true
+
+[node name="Help Popup" parent="." instance=ExtResource("2_7qlus")]
+z_index = 1

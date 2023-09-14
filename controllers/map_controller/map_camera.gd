@@ -1,34 +1,23 @@
 extends Camera2D
 class_name MapCamera
 
-var map_offset := Vector2i()
 var map_position: Vector2i
 var true_origin: Vector2
 
 
-func _enter_tree() -> void:
-	GenVars.map_camera = self
-
-
 func _ready():
-	update_offset()
 	true_origin = map_position
 
 
 func _process(delta):
 	var speed: float = max(4, (true_origin.distance_to(map_position))/16)
 	true_origin = true_origin.move_toward(map_position, speed * 60 * delta)
-	transform.origin = true_origin - Vector2(map_offset)
-
-
-func _input(event):
-	if event.is_action_pressed("debug"):
-		update_offset()
+	transform.origin = (true_origin - Vector2(get_map_offset())).round()
 
 
 func set_map_position(new_map_position: Vector2i):
 	if Vector2(get_destination()) == transform.get_origin():
-		var map_size: Vector2i = GenVars.map.get_size()
+		var map_size: Vector2i = MapController.map.get_size()
 		var screen_size: Vector2i = GenVars.get_screen_size()
 		for i in 2:
 			if map_size[i] < screen_size[i]:
@@ -46,21 +35,21 @@ func move(new_map_position: Vector2i):
 
 
 func get_low_map_position() -> Vector2i:
-	return (GenVars.map.get_size() - GenVars.get_screen_size()) - map_position
+	return (Vector2i(MapController.map.get_size()) - GenVars.get_screen_size()) - map_position
 
 
-func update_offset() -> void:
-	var map_size: Vector2i = GenVars.map.get_size()
+func get_map_offset() -> Vector2i:
+	var map_size: Vector2i = MapController.map.get_size()
 	var screen_size: Vector2i = GenVars.get_screen_size()
-	map_offset = GenVars.get_screen_size() % 16 / 2
+	var map_offset: Vector2i = GenVars.get_screen_size() % 16 / 2
 	for i in 2:
 		if map_size[i] < screen_size[i]:
 			map_offset[i] = roundi(float(screen_size[i] - map_size[i])/2)
-	GenVars.cursor.move(Vector2i())
+	return map_offset
 
 
 func get_destination() -> Vector2i:
-	return map_position - map_offset
+	return map_position - get_map_offset()
 
 
 func can_move(new_dest: Vector2i) -> bool:

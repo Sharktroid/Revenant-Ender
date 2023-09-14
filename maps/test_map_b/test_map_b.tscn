@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bhm3c7lcoufva" path="res://maps/map_base.tscn" id="1_kb152"]
 [ext_resource type="Script" path="res://maps/test_map_b/test_map_b.gd" id="2_cy6k6"]
-[ext_resource type="Texture2D" uid="uid://drbehrx1xfpsp" path="res://tilesets/fe6_chapter_1.png" id="4_5oxrk"]
+[ext_resource type="Texture2D" uid="uid://drbehrx1xfpsp" path="res://maps/test_map_b/fe6_chapter_1.png" id="3_ylwuq"]
 [ext_resource type="PackedScene" uid="uid://cuqamu0m16iep" path="res://units/characters/binding blade/roy/roy.tscn" id="4_vkjsj"]
 [ext_resource type="PackedScene" uid="uid://dvkbmwwrt5mmo" path="res://units/characters/binding blade/marcus/marcus.tscn" id="6_41yfy"]
 [ext_resource type="Shader" path="res://units/palette.gdshader" id="6_jwyrt"]
@@ -21,8 +21,8 @@
 [ext_resource type="Texture2D" uid="uid://dgli13fqa0m3n" path="res://units/unit_classes/fighter/fighter.png" id="19_wsf8a"]
 [ext_resource type="Texture2D" uid="uid://k4v4jr2yobm1" path="res://units/unit_classes/brigand/brigand.png" id="22_b7ojr"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4j03v"]
-texture = ExtResource("4_5oxrk")
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o2x6g"]
+texture = ExtResource("3_ylwuq")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
@@ -339,47 +339,45 @@ texture = ExtResource("4_5oxrk")
 13:20/0 = 0
 14:20/0 = 0
 
-[sub_resource type="TileSet" id="1"]
-custom_data_layer_0/name = "Terrain"
-custom_data_layer_0/type = 2
-sources/0 = SubResource("TileSetAtlasSource_4j03v")
+[sub_resource type="TileSet" id="TileSet_mmpoq"]
+sources/0 = SubResource("TileSetAtlasSource_o2x6g")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_g0rvr"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sh4kq"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6aseo"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tymwc"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_gk55t"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qo68a"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_c8r1g"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_puqh6"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_lum8a"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b3hgs"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_44reb"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cwy6h"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_bbkvj"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y1605"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_k6g7x"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_107oy"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
@@ -390,52 +388,52 @@ script = ExtResource("14_kcchf")
 [sub_resource type="Resource" id="Resource_6ahce"]
 script = ExtResource("16_si68w")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_2880a"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_omk5d"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_7d4n7"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yttpr"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_hp1d0"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_60fjk"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_c5mxp"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ks6ux"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_hjdcn"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fpghe"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_04kuk"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_60a87"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ayu11"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ot7df"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_em32h"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_oo8s5"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_hqa1l"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mfmtv"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_nqr0i"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y58pu"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
@@ -443,7 +441,7 @@ shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 
 [sub_resource type="Resource" id="Resource_v6ipr"]
 script = ExtResource("17_2jg7w")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_xppx7"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cqpjy"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
@@ -454,160 +452,180 @@ script = ExtResource("19_do6v3")
 [sub_resource type="Resource" id="Resource_bfbd5"]
 script = ExtResource("14_a6bhl")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_005jr"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fol3o"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
 [node name="Test Map B" instance=ExtResource("1_kb152")]
+offset_right = 240.0
+offset_bottom = 336.0
+focus_mode = 2
 script = ExtResource("2_cy6k6")
 
-[node name="Base Layer" parent="." index="0"]
-tile_set = SubResource("1")
-layer_0/tile_data = PackedInt32Array(458755, 196608, 7, 524291, 196608, 8, 589827, 196608, 9, 458756, 262144, 7, 524292, 262144, 8, 589828, 262144, 9, 458757, 327680, 7, 524293, 327680, 8, 589829, 327680, 9, 1114123, 720896, 17, 1179659, 720896, 18, 1245195, 720896, 19, 1114124, 786432, 17, 1179660, 786432, 18, 1245196, 786432, 19, 1114125, 851968, 17, 1179661, 851968, 18, 1245197, 851968, 19, 131076, 262144, 2, 196612, 262144, 3, 262148, 262144, 4, 131077, 327680, 2, 196613, 327680, 3, 262149, 327680, 4, 131078, 393216, 2, 196614, 393216, 3, 262150, 393216, 4, 0, 0, 0, 65537, 65536, 1, 65536, 0, 1, 1, 65536, 0, 2, 131072, 0, 3, 196608, 0, 65539, 196608, 1, 65540, 262144, 1, 65541, 327680, 1, 65542, 393216, 1, 65543, 458752, 1, 131079, 458752, 2, 131080, 524288, 2, 196615, 458752, 3, 262151, 458752, 4, 262152, 524288, 4, 4, 262144, 0, 5, 327680, 0, 6, 393216, 0, 7, 458752, 0, 8, 524288, 0, 9, 589824, 0, 10, 655360, 0, 11, 720896, 0, 12, 786432, 0, 131072, 0, 2, 196608, 0, 3, 262144, 0, 4, 327680, 0, 5, 393216, 0, 6, 458752, 0, 7, 524288, 0, 8, 589824, 0, 9, 655360, 0, 10, 720896, 0, 11, 786432, 0, 12, 851968, 0, 13, 917504, 0, 14, 983040, 0, 15, 1048576, 0, 16, 1114112, 0, 17, 1179648, 0, 18, 1245184, 0, 19, 1310720, 0, 20, 131073, 65536, 2, 196609, 65536, 3, 262145, 65536, 4, 327681, 65536, 5, 393217, 65536, 6, 458753, 65536, 7, 524289, 65536, 8, 589825, 65536, 9, 655361, 65536, 10, 720897, 65536, 11, 786433, 65536, 12, 851969, 65536, 13, 917505, 65536, 14, 983041, 65536, 15, 1048577, 65536, 16, 1114113, 65536, 17, 1179649, 65536, 18, 1245185, 65536, 19, 1310721, 65536, 20, 65538, 131072, 1, 131074, 131072, 2, 196610, 131072, 3, 262146, 131072, 4, 327682, 131072, 5, 393218, 131072, 6, 458754, 131072, 7, 524290, 131072, 8, 589826, 131072, 9, 655362, 131072, 10, 720898, 131072, 11, 786434, 131072, 12, 851970, 131072, 13, 917506, 131072, 14, 983042, 131072, 15, 1048578, 131072, 16, 1114114, 131072, 17, 1179650, 131072, 18, 1245186, 131072, 19, 1310722, 131072, 20, 131075, 196608, 2, 196611, 196608, 3, 262147, 196608, 4, 327683, 196608, 5, 393219, 196608, 6, 655363, 196608, 10, 720899, 196608, 11, 786435, 196608, 12, 851971, 196608, 13, 917507, 196608, 14, 983043, 196608, 15, 1048579, 196608, 16, 1114115, 196608, 17, 1179651, 196608, 18, 1245187, 196608, 19, 1310723, 196608, 20, 327684, 262144, 5, 393220, 262144, 6, 655364, 262144, 10, 720900, 262144, 11, 786436, 262144, 12, 851972, 262144, 13, 917508, 262144, 14, 983044, 262144, 15, 1048580, 262144, 16, 1114116, 262144, 17, 1179652, 262144, 18, 1245188, 262144, 19, 1310724, 262144, 20, 327685, 327680, 5, 393221, 327680, 6, 655365, 327680, 10, 720901, 327680, 11, 786437, 327680, 12, 851973, 327680, 13, 917509, 327680, 14, 983045, 327680, 15, 1048581, 327680, 16, 1114117, 327680, 17, 1179653, 327680, 18, 1245189, 327680, 19, 1310725, 327680, 20, 327686, 393216, 5, 393222, 393216, 6, 458758, 393216, 7, 524294, 393216, 8, 589830, 393216, 9, 655366, 393216, 10, 720902, 393216, 11, 786438, 393216, 12, 851974, 393216, 13, 917510, 393216, 14, 983046, 393216, 15, 1048582, 393216, 16, 1114118, 393216, 17, 1179654, 393216, 18, 1245190, 393216, 19, 1310726, 393216, 20, 327687, 458752, 5, 393223, 458752, 6, 458759, 458752, 7, 524295, 458752, 8, 589831, 458752, 9, 655367, 458752, 10, 720903, 458752, 11, 786439, 458752, 12, 851975, 458752, 13, 917511, 458752, 14, 983047, 458752, 15, 1048583, 458752, 16, 1114119, 458752, 17, 1179655, 458752, 18, 1245191, 458752, 19, 1310727, 458752, 20, 65544, 524288, 1, 196616, 524288, 3, 327688, 524288, 5, 393224, 524288, 6, 458760, 524288, 7, 524296, 524288, 8, 589832, 524288, 9, 655368, 524288, 10, 720904, 524288, 11, 786440, 524288, 12, 851976, 524288, 13, 917512, 524288, 14, 983048, 524288, 15, 1048584, 524288, 16, 1114120, 524288, 17, 1179656, 524288, 18, 1245192, 524288, 19, 1310728, 524288, 20, 65545, 589824, 1, 131081, 589824, 2, 196617, 589824, 3, 262153, 589824, 4, 327689, 589824, 5, 393225, 589824, 6, 458761, 589824, 7, 524297, 589824, 8, 589833, 589824, 9, 655369, 589824, 10, 720905, 589824, 11, 786441, 589824, 12, 851977, 589824, 13, 917513, 589824, 14, 983049, 589824, 15, 1048585, 589824, 16, 1114121, 589824, 17, 1179657, 589824, 18, 1245193, 589824, 19, 1310729, 589824, 20, 65546, 655360, 1, 131082, 655360, 2, 196618, 655360, 3, 262154, 655360, 4, 327690, 655360, 5, 393226, 655360, 6, 458762, 655360, 7, 524298, 655360, 8, 589834, 655360, 9, 655370, 655360, 10, 720906, 655360, 11, 786442, 655360, 12, 851978, 655360, 13, 917514, 655360, 14, 983050, 655360, 15, 1048586, 655360, 16, 1114122, 655360, 17, 1179658, 655360, 18, 1245194, 655360, 19, 1310730, 655360, 20, 65547, 720896, 1, 131083, 720896, 2, 196619, 720896, 3, 262155, 720896, 4, 327691, 720896, 5, 393227, 720896, 6, 458763, 720896, 7, 524299, 720896, 8, 589835, 720896, 9, 655371, 720896, 10, 720907, 720896, 11, 786443, 720896, 12, 851979, 720896, 13, 917515, 720896, 14, 983051, 720896, 15, 1048587, 720896, 16, 1310731, 720896, 20, 65548, 786432, 1, 131084, 786432, 2, 196620, 786432, 3, 262156, 786432, 4, 327692, 786432, 5, 393228, 786432, 6, 458764, 786432, 7, 524300, 786432, 8, 589836, 786432, 9, 655372, 786432, 10, 720908, 786432, 11, 786444, 786432, 12, 851980, 786432, 13, 917516, 786432, 14, 983052, 786432, 15, 1048588, 786432, 16, 1310732, 786432, 20, 13, 851968, 0, 65549, 851968, 1, 131085, 851968, 2, 196621, 851968, 3, 262157, 851968, 4, 327693, 851968, 5, 393229, 851968, 6, 458765, 851968, 7, 524301, 851968, 8, 589837, 851968, 9, 655373, 851968, 10, 720909, 851968, 11, 786445, 851968, 12, 851981, 851968, 13, 917517, 851968, 14, 983053, 851968, 15, 1048589, 851968, 16, 1310733, 851968, 20, 14, 917504, 0, 65550, 917504, 1, 131086, 917504, 2, 196622, 917504, 3, 262158, 917504, 4, 327694, 917504, 5, 393230, 917504, 6, 458766, 917504, 7, 524302, 917504, 8, 589838, 917504, 9, 655374, 917504, 10, 720910, 917504, 11, 786446, 917504, 12, 851982, 917504, 13, 917518, 917504, 14, 983054, 917504, 15, 1048590, 917504, 16, 1114126, 917504, 17, 1179662, 917504, 18, 1245198, 917504, 19, 1310734, 917504, 20)
+[node name="Base Layer" parent="Map Layer" index="0"]
+tile_set = SubResource("TileSet_mmpoq")
+layer_0/tile_data = PackedInt32Array(0, 0, 0, 65536, 0, 1, 131072, 0, 2, 196608, 0, 3, 262144, 0, 4, 327680, 0, 5, 393216, 0, 6, 458752, 0, 7, 524288, 0, 8, 589824, 0, 9, 655360, 0, 10, 720896, 0, 11, 786432, 0, 12, 851968, 0, 13, 917504, 0, 14, 983040, 0, 15, 1048576, 0, 16, 1114112, 0, 17, 1179648, 0, 18, 1245184, 0, 19, 1310720, 0, 20, 1, 65536, 0, 65537, 65536, 1, 131073, 65536, 2, 196609, 65536, 3, 262145, 65536, 4, 327681, 65536, 5, 393217, 65536, 6, 458753, 65536, 7, 524289, 65536, 8, 589825, 65536, 9, 655361, 65536, 10, 720897, 65536, 11, 786433, 65536, 12, 851969, 65536, 13, 917505, 65536, 14, 983041, 65536, 15, 1048577, 65536, 16, 1114113, 65536, 17, 1179649, 65536, 18, 1245185, 65536, 19, 1310721, 65536, 20, 2, 131072, 0, 65538, 131072, 1, 131074, 131072, 2, 196610, 131072, 3, 262146, 131072, 4, 327682, 131072, 5, 393218, 131072, 6, 458754, 131072, 7, 524290, 131072, 8, 589826, 131072, 9, 655362, 131072, 10, 720898, 131072, 11, 786434, 131072, 12, 851970, 131072, 13, 917506, 131072, 14, 983042, 131072, 15, 1048578, 131072, 16, 1114114, 131072, 17, 1179650, 131072, 18, 1245186, 131072, 19, 1310722, 131072, 20, 3, 196608, 0, 65539, 196608, 1, 131075, 196608, 2, 196611, 196608, 3, 262147, 196608, 4, 327683, 196608, 5, 393219, 196608, 6, 458755, 196608, 7, 524291, 196608, 8, 589827, 196608, 9, 655363, 196608, 10, 720899, 196608, 11, 786435, 196608, 12, 851971, 196608, 13, 917507, 196608, 14, 983043, 196608, 15, 1048579, 196608, 16, 1114115, 196608, 17, 1179651, 196608, 18, 1245187, 196608, 19, 1310723, 196608, 20, 4, 262144, 0, 65540, 262144, 1, 131076, 262144, 2, 196612, 262144, 3, 262148, 262144, 4, 327684, 262144, 5, 393220, 262144, 6, 458756, 262144, 7, 524292, 262144, 8, 589828, 262144, 9, 655364, 262144, 10, 720900, 262144, 11, 786436, 262144, 12, 851972, 262144, 13, 917508, 262144, 14, 983044, 262144, 15, 1048580, 262144, 16, 1114116, 262144, 17, 1179652, 262144, 18, 1245188, 262144, 19, 1310724, 262144, 20, 5, 327680, 0, 65541, 327680, 1, 131077, 327680, 2, 196613, 327680, 3, 262149, 327680, 4, 327685, 327680, 5, 393221, 327680, 6, 458757, 327680, 7, 524293, 327680, 8, 589829, 327680, 9, 655365, 327680, 10, 720901, 327680, 11, 786437, 327680, 12, 851973, 327680, 13, 917509, 327680, 14, 983045, 327680, 15, 1048581, 327680, 16, 1114117, 327680, 17, 1179653, 327680, 18, 1245189, 327680, 19, 1310725, 327680, 20, 6, 393216, 0, 65542, 393216, 1, 131078, 393216, 2, 196614, 393216, 3, 262150, 393216, 4, 327686, 393216, 5, 393222, 393216, 6, 458758, 393216, 7, 524294, 393216, 8, 589830, 393216, 9, 655366, 393216, 10, 720902, 393216, 11, 786438, 393216, 12, 851974, 393216, 13, 917510, 393216, 14, 983046, 393216, 15, 1048582, 393216, 16, 1114118, 393216, 17, 1179654, 393216, 18, 1245190, 393216, 19, 1310726, 393216, 20, 7, 458752, 0, 65543, 458752, 1, 131079, 458752, 2, 196615, 458752, 3, 262151, 458752, 4, 327687, 458752, 5, 393223, 458752, 6, 458759, 458752, 7, 524295, 458752, 8, 589831, 458752, 9, 655367, 458752, 10, 720903, 458752, 11, 786439, 458752, 12, 851975, 458752, 13, 917511, 458752, 14, 983047, 458752, 15, 1048583, 458752, 16, 1114119, 458752, 17, 1179655, 458752, 18, 1245191, 458752, 19, 1310727, 458752, 20, 8, 524288, 0, 65544, 524288, 1, 131080, 524288, 2, 196616, 524288, 3, 262152, 524288, 4, 327688, 524288, 5, 393224, 524288, 6, 458760, 524288, 7, 524296, 524288, 8, 589832, 524288, 9, 655368, 524288, 10, 720904, 524288, 11, 786440, 524288, 12, 851976, 524288, 13, 917512, 524288, 14, 983048, 524288, 15, 1048584, 524288, 16, 1114120, 524288, 17, 1179656, 524288, 18, 1245192, 524288, 19, 1310728, 524288, 20, 9, 589824, 0, 65545, 589824, 1, 131081, 589824, 2, 196617, 589824, 3, 262153, 589824, 4, 327689, 589824, 5, 393225, 589824, 6, 458761, 589824, 7, 524297, 589824, 8, 589833, 589824, 9, 655369, 589824, 10, 720905, 589824, 11, 786441, 589824, 12, 851977, 589824, 13, 917513, 589824, 14, 983049, 589824, 15, 1048585, 589824, 16, 1114121, 589824, 17, 1179657, 589824, 18, 1245193, 589824, 19, 1310729, 589824, 20, 10, 655360, 0, 65546, 655360, 1, 131082, 655360, 2, 196618, 655360, 3, 262154, 655360, 4, 327690, 655360, 5, 393226, 655360, 6, 458762, 655360, 7, 524298, 655360, 8, 589834, 655360, 9, 655370, 655360, 10, 720906, 655360, 11, 786442, 655360, 12, 851978, 655360, 13, 917514, 655360, 14, 983050, 655360, 15, 1048586, 655360, 16, 1114122, 655360, 17, 1179658, 655360, 18, 1245194, 655360, 19, 1310730, 655360, 20, 11, 720896, 0, 65547, 720896, 1, 131083, 720896, 2, 196619, 720896, 3, 262155, 720896, 4, 327691, 720896, 5, 393227, 720896, 6, 458763, 720896, 7, 524299, 720896, 8, 589835, 720896, 9, 655371, 720896, 10, 720907, 720896, 11, 786443, 720896, 12, 851979, 720896, 13, 917515, 720896, 14, 983051, 720896, 15, 1048587, 720896, 16, 1114123, 720896, 17, 1179659, 720896, 18, 1245195, 720896, 19, 1310731, 720896, 20, 12, 786432, 0, 65548, 786432, 1, 131084, 786432, 2, 196620, 786432, 3, 262156, 786432, 4, 327692, 786432, 5, 393228, 786432, 6, 458764, 786432, 7, 524300, 786432, 8, 589836, 786432, 9, 655372, 786432, 10, 720908, 786432, 11, 786444, 786432, 12, 851980, 786432, 13, 917516, 786432, 14, 983052, 786432, 15, 1048588, 786432, 16, 1114124, 786432, 17, 1179660, 786432, 18, 1245196, 786432, 19, 1310732, 786432, 20, 13, 851968, 0, 65549, 851968, 1, 131085, 851968, 2, 196621, 851968, 3, 262157, 851968, 4, 327693, 851968, 5, 393229, 851968, 6, 458765, 851968, 7, 524301, 851968, 8, 589837, 851968, 9, 655373, 851968, 10, 720909, 851968, 11, 786445, 851968, 12, 851981, 851968, 13, 917517, 851968, 14, 983053, 851968, 15, 1048589, 851968, 16, 1114125, 851968, 17, 1179661, 851968, 18, 1245197, 851968, 19, 1310733, 851968, 20, 14, 917504, 0, 65550, 917504, 1, 131086, 917504, 2, 196622, 917504, 3, 262158, 917504, 4, 327694, 917504, 5, 393230, 917504, 6, 458766, 917504, 7, 524302, 917504, 8, 589838, 917504, 9, 655374, 917504, 10, 720910, 917504, 11, 786446, 917504, 12, 851982, 917504, 13, 917518, 917504, 14, 983054, 917504, 15, 1048590, 917504, 16, 1114126, 917504, 17, 1179662, 917504, 18, 1245198, 917504, 19, 1310734, 917504, 20)
 
-[node name="Units" parent="Base Layer" index="2"]
-z_index = 1
+[node name="Terrain Layer" parent="Map Layer" index="1"]
+visible = false
+layer_0/tile_data = PackedInt32Array(0, 14, 0, 65536, 14, 0, 131072, 14, 0, 196608, 14, 0, 262144, 14, 0, 327680, 14, 0, 393216, 14, 0, 393217, 14, 0, 393218, 14, 0, 393219, 14, 0, 327683, 14, 0, 262147, 14, 0, 196611, 14, 0, 131075, 14, 0, 65539, 14, 0, 3, 14, 0, 2, 14, 0, 1, 14, 0, 65537, 14, 0, 131074, 14, 0, 196610, 14, 0, 262146, 14, 0, 327682, 14, 0, 196609, 14, 0, 262145, 14, 0, 327681, 14, 0, 458754, 14, 0, 524290, 14, 0, 589826, 14, 0, 655363, 14, 0, 720899, 14, 0, 720898, 14, 0, 655364, 14, 0, 655365, 14, 0, 655366, 14, 0, 655367, 14, 0, 589830, 14, 0, 524294, 14, 0, 458758, 14, 0, 393222, 14, 0, 327686, 14, 0, 327685, 14, 0, 327684, 14, 0, 393220, 14, 0, 393221, 14, 0, 65540, 14, 0, 65541, 14, 0, 65542, 14, 0, 65543, 14, 0, 131079, 14, 0, 196615, 14, 0, 262151, 14, 0, 327687, 14, 0, 393223, 14, 0, 458759, 14, 0, 524295, 14, 0, 458760, 14, 0, 393224, 14, 0, 327688, 14, 0, 262152, 14, 0, 131080, 14, 0, 327689, 14, 0, 393225, 14, 0, 458761, 14, 0, 393226, 14, 0, 458762, 14, 0, 327691, 14, 0, 393227, 14, 0, 458763, 14, 0, 524299, 14, 0, 589835, 14, 0, 655371, 14, 0, 720907, 14, 0, 786443, 14, 0, 851979, 14, 0, 917515, 14, 0, 983051, 14, 0, 1048587, 14, 0, 1048586, 14, 0, 1114122, 14, 0, 1179658, 14, 0, 1245194, 14, 0, 1310730, 14, 0, 1310731, 14, 0, 1310732, 14, 0, 1310733, 14, 0, 1310734, 14, 0, 1179662, 14, 0, 1245198, 14, 0, 1048588, 14, 0, 1048589, 14, 0, 983053, 14, 0, 917517, 14, 0, 983054, 14, 0, 917518, 14, 0, 851982, 14, 0, 786446, 14, 0, 720910, 14, 0, 655374, 14, 0, 589838, 14, 0, 851981, 14, 0, 851980, 14, 0, 917516, 14, 0, 786444, 14, 0, 786445, 14, 0, 720908, 14, 0, 720909, 14, 0, 655372, 14, 0, 524300, 14, 0, 458764, 14, 0, 393228, 14, 0, 327692, 14, 0, 393229, 14, 0, 589834, 14, 0, 655370, 14, 0, 720906, 14, 0, 786442, 14, 0, 851978, 14, 0, 917514, 14, 0, 983049, 14, 0, 917513, 14, 0, 851977, 14, 0, 786441, 14, 0, 720905, 14, 0, 655369, 14, 0, 589833, 14, 0, 589832, 14, 0, 720904, 14, 0, 786440, 14, 0, 851976, 14, 0, 917512, 14, 0, 983048, 14, 0, 917511, 14, 0, 983047, 14, 0, 1048583, 14, 0, 1114119, 14, 0, 1179655, 14, 0, 1245191, 14, 0, 1310727, 14, 0, 1114120, 14, 0, 1179656, 14, 0, 1245192, 14, 0, 1310728, 14, 0, 1310729, 14, 0, 1114121, 14, 0, 1310726, 14, 0, 1310725, 14, 0, 1310724, 14, 0, 1310721, 14, 0, 1245185, 14, 0, 1179649, 14, 0, 1114113, 14, 0, 1048577, 14, 0, 1048576, 14, 0, 1114112, 14, 0, 1179648, 14, 0, 1245184, 14, 0, 983041, 14, 0, 983042, 14, 0, 1048578, 14, 0, 1114114, 14, 0, 1179650, 14, 0, 1179651, 14, 0, 1114115, 14, 0, 1245188, 14, 0, 1245189, 14, 0, 1245190, 14, 0, 1179654, 14, 0, 1114117, 14, 0, 1048581, 14, 0, 983045, 14, 0, 983046, 14, 0, 1048582, 14, 0, 1048580, 14, 0, 983044, 14, 0, 983043, 14, 0, 1245187, 65550, 0, 1310723, 65550, 0, 1310722, 65550, 0, 1310720, 65550, 0, 1048584, 65550, 0, 983050, 65550, 0, 1048590, 65550, 0, 1114126, 65550, 0, 655373, 65550, 0, 589837, 65550, 0, 524301, 65550, 0, 589836, 65550, 0, 524298, 65550, 0, 524297, 65550, 0, 655368, 65550, 0, 327690, 65550, 0, 262153, 65550, 0, 131081, 65550, 0, 65538, 65550, 0, 131073, 65550, 0, 589825, 65550, 0, 655360, 65550, 0, 720897, 65550, 0, 983040, 131086, 0, 917505, 131086, 0, 917506, 131086, 0, 917507, 131086, 0, 917508, 131086, 0, 917509, 131086, 0, 917510, 131086, 0, 851975, 131086, 0, 786439, 131086, 0, 720903, 131086, 0, 720902, 131086, 0, 720901, 131086, 0, 720900, 131086, 0, 786435, 131086, 0, 786434, 131086, 0, 786433, 131086, 0, 655362, 131086, 0, 655361, 131086, 0, 720896, 131086, 0, 589824, 131086, 0, 524289, 131086, 0, 458753, 131086, 0, 458752, 131086, 0, 589831, 131086, 0, 524296, 131086, 0, 196616, 131086, 0, 196617, 131086, 0, 1114116, 131086, 0, 1179652, 131086, 0, 1179653, 131086, 0, 1114118, 131086, 0, 1048579, 131086, 0, 1245186, 131086, 0, 1179657, 14, 0, 917504, 655374, 0, 851968, 655374, 0, 786432, 655374, 0, 524288, 655374, 0, 851969, 655374, 0, 851970, 655374, 0, 851971, 655374, 0, 851972, 655374, 0, 851973, 655374, 0, 851974, 655374, 0, 786438, 655374, 0, 786437, 655374, 0, 786436, 655374, 0, 589828, 524302, 0, 1245196, 524302, 0, 1048585, 589838, 0, 1245193, 589838, 0, 983052, 589838, 0, 1245195, 458766, 0, 1179659, 458766, 0, 1114123, 458766, 0, 1114124, 458766, 0, 1114125, 458766, 0, 1179661, 458766, 0, 1245197, 458766, 0, 1179660, 458766, 0, 589827, 458766, 0, 524291, 458766, 0, 458755, 458766, 0, 458756, 458766, 0, 458757, 458766, 0, 524293, 458766, 0, 589829, 458766, 0, 524292, 458766, 0, 262148, 458766, 0, 196612, 458766, 0, 131076, 458766, 0, 131077, 458766, 0, 131078, 458766, 0, 196614, 458766, 0, 262150, 458766, 0, 196613, 458766, 0, 262149, 720910, 0, 196618, 14, 0, 524302, 393230, 0, 458766, 393230, 0, 393230, 393230, 0, 327694, 393230, 0, 262158, 393230, 0, 262157, 393230, 0, 262156, 393230, 0, 196620, 393230, 0, 196619, 393230, 0, 131083, 393230, 0, 131082, 393230, 0, 65546, 393230, 0, 65545, 393230, 0, 6, 393230, 0, 7, 393230, 0, 8, 393230, 0, 9, 393230, 0, 10, 393230, 0, 11, 393230, 0, 12, 393230, 0, 13, 393230, 0, 14, 393230, 0, 65550, 393230, 0, 131086, 393230, 0, 196622, 393230, 0, 196621, 393230, 0, 131085, 393230, 0, 131084, 393230, 0, 65548, 393230, 0, 65547, 393230, 0, 65549, 393230, 0, 458765, 327694, 0, 327693, 327694, 0, 262154, 327694, 0, 262155, 327694, 0, 65544, 327694, 0, 4, 327694, 0, 5, 327694, 0)
 
-[node name="Player" type="Node2D" parent="Base Layer/Units" index="0"]
+[node name="Player" type="Node2D" parent="Map Layer/Units" index="0"]
 
-[node name="Roy" parent="Base Layer/Units/Player" index="0" instance=ExtResource("4_vkjsj")]
-material = SubResource("ShaderMaterial_g0rvr")
+[node name="Roy" parent="Map Layer/Units/Player" index="0" instance=ExtResource("4_vkjsj")]
+z_index = 288
+material = SubResource("ShaderMaterial_sh4kq")
 position = Vector2(32, 288)
 
-[node name="Marcus" parent="Base Layer/Units/Player" index="1" instance=ExtResource("6_41yfy")]
-material = SubResource("ShaderMaterial_6aseo")
+[node name="Marcus" parent="Map Layer/Units/Player" index="1" instance=ExtResource("6_41yfy")]
+z_index = 272
+material = SubResource("ShaderMaterial_tymwc")
 position = Vector2(16, 272)
 
-[node name="Alen" parent="Base Layer/Units/Player" index="2" instance=ExtResource("10_um4bb")]
-material = SubResource("ShaderMaterial_gk55t")
+[node name="Alen" parent="Map Layer/Units/Player" index="2" instance=ExtResource("10_um4bb")]
+z_index = 272
+material = SubResource("ShaderMaterial_qo68a")
 position = Vector2(48, 272)
 
-[node name="Lance" parent="Base Layer/Units/Player" index="3" instance=ExtResource("17_lj7l3")]
-material = SubResource("ShaderMaterial_c8r1g")
+[node name="Lance" parent="Map Layer/Units/Player" index="3" instance=ExtResource("17_lj7l3")]
+z_index = 288
+material = SubResource("ShaderMaterial_puqh6")
 position = Vector2(64, 288)
 
-[node name="Wolt" parent="Base Layer/Units/Player" index="4" instance=ExtResource("11_ify8r")]
-material = SubResource("ShaderMaterial_lum8a")
+[node name="Wolt" parent="Map Layer/Units/Player" index="4" instance=ExtResource("11_ify8r")]
+z_index = 256
+material = SubResource("ShaderMaterial_b3hgs")
 position = Vector2(32, 256)
 
-[node name="Bors" parent="Base Layer/Units/Player" index="5" instance=ExtResource("13_1ke26")]
-material = SubResource("ShaderMaterial_44reb")
+[node name="Bors" parent="Map Layer/Units/Player" index="5" instance=ExtResource("13_1ke26")]
+z_index = 304
+material = SubResource("ShaderMaterial_cwy6h")
 position = Vector2(48, 304)
 
-[node name="Enemy" type="Node2D" parent="Base Layer/Units" index="1"]
+[node name="Enemy" type="Node2D" parent="Map Layer/Units" index="1"]
 
-[node name="Damas" parent="Base Layer/Units/Enemy" index="0" instance=ExtResource("13_b2nf3")]
-material = SubResource("ShaderMaterial_bbkvj")
+[node name="Damas" parent="Map Layer/Units/Enemy" index="0" instance=ExtResource("13_b2nf3")]
+z_index = 64
+material = SubResource("ShaderMaterial_y1605")
 position = Vector2(80, 64)
 
-[node name="Fighter2" parent="Base Layer/Units/Enemy" index="1" instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_k6g7x")
+[node name="Fighter2" parent="Map Layer/Units/Enemy" index="1" instance=ExtResource("10_g0esg")]
+z_index = 80
+material = SubResource("ShaderMaterial_107oy")
 position = Vector2(64, 80)
 texture = ExtResource("19_wsf8a")
 faction_id = 1
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
 unit_class = SubResource("Resource_6ahce")
 
-[node name="Fighter3" parent="Base Layer/Units/Enemy" index="2" instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_2880a")
+[node name="Fighter3" parent="Map Layer/Units/Enemy" index="2" instance=ExtResource("10_g0esg")]
+z_index = 80
+material = SubResource("ShaderMaterial_omk5d")
 position = Vector2(96, 80)
 texture = ExtResource("19_wsf8a")
 faction_id = 1
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
 unit_class = SubResource("Resource_6ahce")
 
-[node name="Fighter4" parent="Base Layer/Units/Enemy" index="3" instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_7d4n7")
+[node name="Fighter4" parent="Map Layer/Units/Enemy" index="3" instance=ExtResource("10_g0esg")]
+z_index = 48
+material = SubResource("ShaderMaterial_yttpr")
 position = Vector2(16, 48)
 texture = ExtResource("19_wsf8a")
 faction_id = 1
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
 unit_class = SubResource("Resource_6ahce")
 
-[node name="Fighter5" parent="Base Layer/Units/Enemy" index="4" instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_hp1d0")
+[node name="Fighter5" parent="Map Layer/Units/Enemy" index="4" instance=ExtResource("10_g0esg")]
+z_index = 112
+material = SubResource("ShaderMaterial_60fjk")
 position = Vector2(176, 112)
 texture = ExtResource("19_wsf8a")
 faction_id = 1
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
 unit_class = SubResource("Resource_6ahce")
 
-[node name="Fighter6" parent="Base Layer/Units/Enemy" index="5" instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_c5mxp")
+[node name="Fighter6" parent="Map Layer/Units/Enemy" index="5" instance=ExtResource("10_g0esg")]
+z_index = 144
+material = SubResource("ShaderMaterial_ks6ux")
 position = Vector2(144, 144)
 texture = ExtResource("19_wsf8a")
 faction_id = 1
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
 unit_class = SubResource("Resource_6ahce")
 
-[node name="Fighter7" parent="Base Layer/Units/Enemy" index="6" instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_hjdcn")
+[node name="Fighter7" parent="Map Layer/Units/Enemy" index="6" instance=ExtResource("10_g0esg")]
+z_index = 144
+material = SubResource("ShaderMaterial_fpghe")
 position = Vector2(128, 144)
 texture = ExtResource("19_wsf8a")
 faction_id = 1
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
 unit_class = SubResource("Resource_6ahce")
 
-[node name="Fighter8" parent="Base Layer/Units/Enemy" index="7" instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_04kuk")
+[node name="Fighter8" parent="Map Layer/Units/Enemy" index="7" instance=ExtResource("10_g0esg")]
+z_index = 208
+material = SubResource("ShaderMaterial_60a87")
 position = Vector2(192, 208)
 texture = ExtResource("19_wsf8a")
 faction_id = 1
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
 unit_class = SubResource("Resource_6ahce")
 
-[node name="Fighter9" parent="Base Layer/Units/Enemy" index="8" instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_ayu11")
+[node name="Fighter9" parent="Map Layer/Units/Enemy" index="8" instance=ExtResource("10_g0esg")]
+z_index = 240
+material = SubResource("ShaderMaterial_ot7df")
 position = Vector2(112, 240)
 texture = ExtResource("19_wsf8a")
 faction_id = 1
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
 unit_class = SubResource("Resource_6ahce")
 
-[node name="Fighter10" parent="Base Layer/Units/Enemy" index="9" instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_em32h")
+[node name="Fighter10" parent="Map Layer/Units/Enemy" index="9" instance=ExtResource("10_g0esg")]
+z_index = 224
+material = SubResource("ShaderMaterial_oo8s5")
 position = Vector2(128, 224)
 texture = ExtResource("19_wsf8a")
 faction_id = 1
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
 unit_class = SubResource("Resource_6ahce")
 
-[node name="Fighter11" parent="Base Layer/Units/Enemy" index="10" instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_hqa1l")
+[node name="Fighter11" parent="Map Layer/Units/Enemy" index="10" instance=ExtResource("10_g0esg")]
+z_index = 288
+material = SubResource("ShaderMaterial_mfmtv")
 position = Vector2(128, 288)
 texture = ExtResource("19_wsf8a")
 faction_id = 1
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
 unit_class = SubResource("Resource_6ahce")
 
-[node name="Brigand" parent="Base Layer/Units/Enemy" index="11" instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_nqr0i")
+[node name="Brigand" parent="Map Layer/Units/Enemy" index="11" instance=ExtResource("10_g0esg")]
+z_index = 144
+material = SubResource("ShaderMaterial_y58pu")
 position = Vector2(64, 144)
 texture = ExtResource("22_b7ojr")
 faction_id = 1
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
 unit_class = SubResource("Resource_v6ipr")
 
-[node name="Archer" parent="Base Layer/Units/Enemy" index="12" instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_xppx7")
+[node name="Archer" parent="Map Layer/Units/Enemy" index="12" instance=ExtResource("10_g0esg")]
+z_index = 32
+material = SubResource("ShaderMaterial_cqpjy")
 position = Vector2(16, 32)
 texture = ExtResource("16_mu4wr")
 faction_id = 1
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_1fxxh")])
 unit_class = SubResource("Resource_bfbd5")
 
-[node name="Archer2" parent="Base Layer/Units/Enemy" index="13" instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_005jr")
+[node name="Archer2" parent="Map Layer/Units/Enemy" index="13" instance=ExtResource("10_g0esg")]
+z_index = 160
+material = SubResource("ShaderMaterial_fol3o")
 position = Vector2(160, 160)
 texture = ExtResource("16_mu4wr")
 faction_id = 1
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_1fxxh")])
 unit_class = SubResource("Resource_bfbd5")
 
-[node name="Terrain Layer" parent="." index="1"]
-visible = false
-layer_0/tile_data = PackedInt32Array(4, 327694, 0, 5, 327694, 0, 6, 393230, 0, 7, 393230, 0, 8, 393230, 0, 9, 393230, 0, 10, 393230, 0, 11, 393230, 0, 12, 393230, 0, 13, 393230, 0, 14, 393230, 0, 65538, 65550, 0, 65544, 327694, 0, 65545, 393230, 0, 65546, 393230, 0, 65547, 393230, 0, 65548, 393230, 0, 65549, 393230, 0, 65550, 393230, 0, 131073, 65550, 0, 131076, 458766, 0, 131077, 458766, 0, 131078, 458766, 0, 131081, 65550, 0, 131082, 393230, 0, 131083, 393230, 0, 131084, 393230, 0, 131085, 393230, 0, 131086, 393230, 0, 196612, 458766, 0, 196613, 458766, 0, 196614, 458766, 0, 196616, 131086, 0, 196617, 131086, 0, 196618, 14, 0, 196619, 393230, 0, 196620, 393230, 0, 196621, 393230, 0, 196622, 393230, 0, 262148, 458766, 0, 262149, 720910, 0, 262150, 458766, 0, 262153, 65550, 0, 262154, 131086, 0, 262155, 131086, 0, 262156, 393230, 0, 262157, 393230, 0, 262158, 393230, 0, 327690, 65550, 0, 327693, 327694, 0, 327694, 393230, 0, 393230, 393230, 0, 458752, 131086, 0, 458753, 131086, 0, 458755, 458766, 0, 458756, 458766, 0, 458757, 458766, 0, 458765, 327694, 0, 458766, 393230, 0, 524288, 655374, 0, 524289, 131086, 0, 524291, 458766, 0, 524292, 458766, 0, 524293, 458766, 0, 524296, 131086, 0, 524297, 65550, 0, 524298, 65550, 0, 524301, 65550, 0, 524302, 393230, 0, 589824, 131086, 0, 589825, 65550, 0, 589827, 458766, 0, 589828, 524302, 0, 589829, 458766, 0, 589831, 131086, 0, 589836, 65550, 0, 589837, 65550, 0, 655360, 65550, 0, 655361, 131086, 0, 655362, 131086, 0, 655368, 65550, 0, 655373, 65550, 0, 720896, 131086, 0, 720897, 65550, 0, 720900, 131086, 0, 720901, 131086, 0, 720902, 131086, 0, 720903, 131086, 0, 786432, 655374, 0, 786433, 131086, 0, 786434, 131086, 0, 786435, 131086, 0, 786436, 655374, 0, 786437, 655374, 0, 786438, 655374, 0, 786439, 131086, 0, 851968, 655374, 0, 851969, 655374, 0, 851970, 655374, 0, 851971, 655374, 0, 851972, 655374, 0, 851973, 655374, 0, 851974, 655374, 0, 851975, 131086, 0, 917504, 655374, 0, 917505, 131086, 0, 917506, 131086, 0, 917507, 131086, 0, 917508, 131086, 0, 917509, 131086, 0, 917510, 131086, 0, 983040, 131086, 0, 983050, 65550, 0, 983052, 589838, 0, 1048579, 131086, 0, 1048584, 65550, 0, 1048585, 589838, 0, 1048590, 65550, 0, 1114116, 131086, 0, 1114118, 131086, 0, 1114123, 458766, 0, 1114124, 458766, 0, 1114125, 458766, 0, 1114126, 65550, 0, 1179653, 131086, 0, 1179659, 458766, 0, 1179660, 458766, 0, 1179661, 458766, 0, 1245186, 131086, 0, 1245187, 65550, 0, 1245193, 589838, 0, 1245195, 458766, 0, 1245196, 524302, 0, 1245197, 458766, 0, 1310720, 65550, 0, 1310722, 65550, 0, 1310723, 65550, 0, 393218, 14, 0, 327682, 14, 0, 262146, 14, 0, 196610, 14, 0, 131074, 14, 0, 131075, 14, 0, 65539, 14, 0, 3, 14, 0, 2, 14, 0, 1, 14, 0, 0, 14, 0, 65536, 14, 0, 131072, 14, 0, 196608, 14, 0, 262144, 14, 0, 327680, 14, 0, 393216, 14, 0, 393217, 14, 0, 327681, 14, 0, 262145, 14, 0, 196609, 14, 0, 65537, 14, 0, 65540, 14, 0, 65541, 14, 0, 65542, 14, 0, 65543, 14, 0, 131079, 14, 0, 196615, 14, 0, 262151, 14, 0, 327687, 14, 0, 327686, 14, 0, 327685, 14, 0, 327684, 14, 0, 327683, 14, 0, 262147, 14, 0, 196611, 14, 0, 393219, 14, 0, 393220, 14, 0, 393221, 14, 0, 393222, 14, 0, 458758, 14, 0, 524294, 14, 0, 589830, 14, 0, 655366, 14, 0, 655365, 14, 0, 655364, 14, 0, 655363, 14, 0, 720899, 14, 0, 720898, 14, 0, 655367, 14, 0, 524295, 14, 0, 458759, 14, 0, 393223, 14, 0, 393224, 14, 0, 327688, 14, 0, 262152, 14, 0, 327689, 14, 0, 393225, 14, 0, 458761, 14, 0, 458760, 14, 0, 458762, 14, 0, 393226, 14, 0, 393227, 14, 0, 327691, 14, 0, 327692, 14, 0, 393228, 14, 0, 458764, 14, 0, 458763, 14, 0, 524299, 14, 0, 589835, 14, 0, 589834, 14, 0, 589833, 14, 0, 589832, 14, 0, 655369, 14, 0, 720905, 14, 0, 720904, 14, 0, 786440, 14, 0, 851976, 14, 0, 917512, 14, 0, 917511, 14, 0, 983047, 14, 0, 983046, 14, 0, 983045, 14, 0, 983044, 14, 0, 983043, 14, 0, 983042, 14, 0, 983041, 14, 0, 1048577, 14, 0, 1048576, 14, 0, 1114112, 14, 0, 1179648, 14, 0, 1245184, 14, 0, 1245185, 14, 0, 1179649, 14, 0, 1114113, 14, 0, 1114114, 14, 0, 1048578, 14, 0, 1179650, 14, 0, 1179651, 14, 0, 1114115, 14, 0, 1179652, 14, 0, 1245188, 14, 0, 1310724, 14, 0, 1310725, 14, 0, 1245189, 14, 0, 1245190, 14, 0, 1179654, 14, 0, 1179655, 14, 0, 1114119, 14, 0, 1048583, 14, 0, 1048582, 14, 0, 1048581, 14, 0, 1048580, 14, 0, 1114117, 14, 0, 1114120, 14, 0, 1179656, 14, 0, 1245192, 14, 0, 1245191, 14, 0, 1310727, 14, 0, 1310726, 14, 0, 1310728, 14, 0, 1310729, 14, 0, 1310730, 14, 0, 1245194, 14, 0, 1179658, 14, 0, 1114122, 14, 0, 1048586, 14, 0, 1048587, 14, 0, 983051, 14, 0, 917515, 14, 0, 851979, 14, 0, 786443, 14, 0, 720907, 14, 0, 655371, 14, 0, 655370, 14, 0, 720906, 14, 0, 786442, 14, 0, 786441, 14, 0, 851977, 14, 0, 917513, 14, 0, 983049, 14, 0, 983048, 14, 0, 917514, 14, 0, 851978, 14, 0, 655372, 14, 0, 720908, 14, 0, 786444, 14, 0, 851980, 14, 0, 917516, 14, 0, 917517, 14, 0, 851981, 14, 0, 786445, 14, 0, 720909, 14, 0, 720910, 14, 0, 655374, 14, 0, 589838, 14, 0, 786446, 14, 0, 851982, 14, 0, 917518, 14, 0, 983054, 14, 0, 983053, 14, 0, 1048589, 14, 0, 1048588, 14, 0, 1114121, 14, 0, 1179657, 14, 0, 1310731, 14, 0, 1310732, 14, 0, 1310733, 14, 0, 1310734, 14, 0, 1245198, 14, 0, 1179662, 14, 0, 1310721, 14, 0, 524300, 14, 0, 393229, 14, 0, 131080, 14, 0, 458754, 14, 0, 524290, 14, 0, 589826, 14, 0)
-
-[node name="Debug Border Overlay Container" parent="." index="4"]
+[node name="Debug Border Overlay Container" parent="Map Layer" index="5"]
 visible = false

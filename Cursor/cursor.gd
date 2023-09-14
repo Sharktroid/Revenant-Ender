@@ -12,10 +12,6 @@ var _true_origin: Vector2
 var _hovered_unit: Unit = load("uid://klwwp0vjyw6").instantiate()
 
 
-func _enter_tree() -> void:
-	GenVars.cursor = self
-
-
 func _ready() -> void:
 	set_rel_pos(position)
 	set_process_input(true)
@@ -32,11 +28,11 @@ func _process(_delta):
 
 
 func _physics_process(_delta: float) -> void:
-	if GenVars.game_controller.controller_type == GenVars.game_controller.controller_types.MOUSE and is_processing_input():
-		var destination: Vector2 = GenVars.map_camera.get_destination()
-		if destination == GenVars.map_camera.position:
+	if GameController.controller_type == GameController.controller_types.MOUSE and is_processing_input():
+		var destination: Vector2 = MapController.get_map_camera().get_destination()
+		if destination == MapController.get_map_camera().position:
 			var mouse_position = get_viewport().get_mouse_position()
-			set_rel_pos((mouse_position) - Vector2(GenVars.map_camera.map_offset))
+			set_rel_pos((mouse_position) - Vector2(MapController.get_map_camera().get_map_offset()))
 	else:
 		var new_pos := Vector2i()
 		if get_rel_pos() == Vector2i(_true_origin) and is_processing_input():
@@ -49,19 +45,19 @@ func _physics_process(_delta: float) -> void:
 			elif Input.is_action_pressed("down") and not Input.is_action_pressed("up"):
 				new_pos.y += 16
 		move(new_pos)
-	if position != Vector2(_rel_pos + GenVars.map_camera.map_offset):
+	if position != Vector2(_rel_pos + MapController.get_map_camera().get_map_offset()):
 		_true_origin = _true_origin.move_toward(get_rel_pos(),
 				max(1, _true_origin.distance_to(get_rel_pos())/16) * 4)
-		position = _true_origin + Vector2(GenVars.map_camera.map_offset)
+		position = _true_origin + Vector2(MapController.get_map_camera().get_map_offset())
 
 
 func set_true_pos(new_pos: Vector2i) -> void:
 	# Sets cursor position relative to the map
-	set_rel_pos(new_pos - Vector2i(GenVars.map_camera.true_origin))
+	set_rel_pos(new_pos - Vector2i(MapController.get_map_camera().true_origin))
 
 
 func get_true_pos() -> Vector2i:
-	return get_rel_pos() + Vector2i(GenVars.map_camera.true_origin)
+	return get_rel_pos() + Vector2i(MapController.get_map_camera().true_origin)
 
 
 func enable() -> void:
@@ -93,10 +89,10 @@ func set_rel_pos(new_pos: Vector2i) -> void:
 	var bottom_bounds: Vector2i = GenVars.get_screen_size() - Vector2i(4, 4)
 	new_pos = GenFunc.round_coords_to_tile(new_pos)
 	var map_move := Vector2i()
-	var lower_bound: Vector2i = GenVars.get_screen_size() - GenVars.map.get_rel_lower_border()
+	var lower_bound: Vector2i = GenVars.get_screen_size() - MapController.map.get_rel_lower_border()
 	for i in 2:
-			top_bounds[i] = GenVars.map.get_rel_upper_border()[i]
 		if MapController.map.get_rel_upper_border()[i] >= 0:
+			top_bounds[i] = MapController.map.get_rel_upper_border()[i]
 		if MapController.map.get_rel_lower_border()[i] >= 0:
 			bottom_bounds[i] = lower_bound[i]
 
@@ -113,7 +109,7 @@ func set_rel_pos(new_pos: Vector2i) -> void:
 			new_pos[i] -= 16
 
 	if map_move != Vector2i():
-		GenVars.map_camera.move(map_move)
+		MapController.get_map_camera().move(map_move)
 	if _rel_pos != new_pos:
 		_rel_pos = new_pos
 		emit_signal("moved")
@@ -125,8 +121,8 @@ func get_rel_pos() -> Vector2i:
 
 func get_area() -> Area2D:
 	# Returns the cursor area.
-	if GenVars.map:
-		return GenVars.map.get_node("Cursor Area")
+	if MapController.map:
+		return MapController.map.get_node("Map Layer/Cursor Area")
 	else:
 		push_error("Could not find Cursor Area")
 		return null

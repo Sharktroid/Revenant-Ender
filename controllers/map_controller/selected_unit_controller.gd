@@ -14,14 +14,14 @@ func _init(connected_unit: Unit) -> void:
 func _ready() -> void:
 	_unit.set_animation(Unit.animations.MOVING_DOWN)
 	_unit.selected = true
-	_unit.update_path(GenVars.cursor.get_true_pos())
+	_unit.update_path(MapController.get_cursor().get_true_pos())
 	_unit.refresh_tiles()
 	_unit.tree_exited.connect(_on_unit_death)
 	_ghost_unit = GhostUnit.new(_unit)
-	GenVars.map.add_child(_ghost_unit)
+	MapController.map.get_child(0).add_child(_ghost_unit)
 	MapController.get_cursor().moved.connect(_on_cursor_moved)
 	set_focus_mode(Control.FOCUS_ALL)
-	GenVars.map_controller.set_focus_mode(Control.FOCUS_NONE)
+	MapController.set_focus_mode(Control.FOCUS_NONE)
 	grab_focus()
 
 
@@ -62,20 +62,20 @@ func close() -> void:
 	_unit.deselect()
 	queue_free()
 	_ghost_unit.queue_free()
-	GenVars.map_controller.selecting = false
-	GenVars.map_controller.set_focus_mode(Control.FOCUS_ALL)
-	GenVars.map_controller.grab_focus()
+	MapController.selecting = false
+	MapController.map.set_focus_mode(Control.FOCUS_ALL)
+	MapController.map.grab_focus()
 
 
 func _on_cursor_moved() -> void:
 	if has_focus():
-		_unit.update_path(GenVars.cursor.get_true_pos())
+		_unit.update_path(MapController.get_cursor().get_true_pos())
 		_unit.show_path()
 
 
 func _position_selected() -> void:
 	# Creates menu if cursor in _unit's tiles and is same faction as _unit.
-	if _unit.get_faction().name == GenVars.map.get_current_faction().name:
+	if _unit.get_faction().name == MapController.map.get_current_faction().name:
 		_create_unit_menu()
 	else:
 		close()
@@ -85,11 +85,11 @@ func _create_unit_menu() -> void:
 	## Creates _unit menu.
 	var menu: MapMenu = _menu_node.instantiate()
 	menu.connected_unit = _unit
-	menu.position = GenVars.cursor.get_rel_pos() + Vector2i(16, -8)
+	menu.position = MapController.get_cursor().get_rel_pos() + Vector2i(16, -8)
 	menu.caller = self
 	set_focus_mode(Control.FOCUS_NONE)
-	GenVars.cursor.disable()
-	GenVars.map_controller.get_node("UI Layer").add_child(menu)
+	MapController.get_cursor().disable()
+	MapController.get_ui().add_child(menu)
 
 
 func _canceled() -> void:

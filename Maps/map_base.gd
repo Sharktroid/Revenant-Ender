@@ -1,5 +1,5 @@
 class_name Map
-extends CanvasLayer
+extends Control
 
 enum tile_types {ATTACK, MOVEMENT, SUPPORT}
 
@@ -22,7 +22,7 @@ var _support_tile_node: Resource = load("uid://m1ftciv3g7t1")
 
 
 func _enter_tree() -> void:
-	GenVars.map = self
+	MapController.map = self
 
 
 func _ready() -> void:
@@ -30,9 +30,28 @@ func _ready() -> void:
 	lower_border = Vector2i(right_border, bottom_border)
 	_parse_movement_cost()
 	create_debug_borders() # Only shows up when collison shapes are enabled
-	$"Terrain Layer".visible = GenVars.get_debug_constant("display_map_terrain")
-	$"Debug Border Overlay Container".visible = GenVars.get_debug_constant("display_map_borders")
-	$"Cursor Area".visible = GenVars.get_debug_constant("display_map_cursor")
+	$"Map Layer/Terrain Layer".visible = GenVars.get_debug_constant("display_map_terrain")
+	$"Map Layer/Debug Border Overlay Container".visible = GenVars.get_debug_constant("display_map_borders")
+	$"Map Layer/Cursor Area".visible = GenVars.get_debug_constant("display_map_cursor")
+	size = $"Map Layer/Base Layer".get_used_cells(0).max() * 16 + Vector2i(16, 16)
+	grab_focus()
+
+
+func _gui_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ranges"):
+		if MapController.get_cursor().get_hovered_unit():
+			toggle_outline_unit(MapController.get_cursor().get_hovered_unit())
+		else:
+			toggle_full_outline()
+
+	elif event.is_action_pressed("ui_select"):
+		_on_cursor_select()
+
+	elif event.is_action_pressed("status"):
+		if MapController.get_cursor().get_hovered_unit():
+			var status_menu: Control = load("uid://dfm25r0ju5214").instantiate()
+			status_menu.observing_unit = MapController.get_cursor().get_hovered_unit()
+			MapController.get_ui().add_child(status_menu)
 
 
 func unit_wait(_unit) -> void:
@@ -43,7 +62,7 @@ func unit_wait(_unit) -> void:
 func next_faction() -> void:
 	# Sets the faction to the next faction.
 	curr_faction = (curr_faction + 1) % len(faction_stack)
-	var turn_banner_node: Sprite2D = GenVars.map_controller.get_node("UI Layer/Turn Banner")
+	var turn_banner_node: Sprite2D = MapController.get_node("UI Layer/Turn Banner")
 	var faction_name: String = get_current_faction().name.to_lower()
 	var all_names: Array[String] = []
 	var dir: DirAccess = DirAccess.open("res://Turn Banners/")
@@ -97,12 +116,7 @@ func get_rel_upper_border() -> Vector2i:
 
 
 func get_rel_lower_border() -> Vector2i:
-	return lower_border - (GenVars.map_camera as MapCamera).get_low_map_position()
-
-
-func get_size() -> Vector2i:
-	## Returns size of the map.
-	return $"Base Layer".get_used_cells(0).max() * 16 + Vector2i(16, 16)
+	return lower_border - MapController.get_map_camera().get_low_map_position()
 
 
 func is_touching_border(pos: Vector2i) -> bool:
@@ -158,9 +172,9 @@ func create_debug_borders() -> void:
 		for y in range(0, get_size().y, 16):
 			if x < left_border or x + 16 > get_size().x - right_border \
 					or y < top_border or y + 16 > get_size().y - bottom_border:
-				var border_tile: Sprite2D = $"Debug Border Overlay Tile Base".duplicate()
+				var border_tile: Sprite2D = $"Map Layer/Debug Border Overlay Tile Base".duplicate()
 				border_tile.transform.origin = Vector2(x, y)
-				$"Debug Border Overlay Container".add_child(border_tile)
+				$"Map Layer/Debug Border Overlay Container".add_child(border_tile)
 
 
 func toggle_full_outline() -> void:
@@ -181,7 +195,7 @@ func toggle_outline_unit(unit: Unit) -> void:
 
 
 func update_outline() -> void:
-	$"Base Layer/Outline".queue_redraw()
+	$"Map Layer/Outline".queue_redraw()
 
 
 func display_tiles(tiles: Array[Vector2i], type: tile_types, modulation: float = 0.5,
@@ -200,7 +214,7 @@ func display_tiles(tiles: Array[Vector2i], type: tile_types, modulation: float =
 		if GenFunc.xor(not(i in modulate_blacklist), blacklist_as_whitelist):
 			tile.modulate.a = modulation
 		tiles_node.add_child(tile)
-	get_node("Base Layer").add_child(tiles_node)
+	get_node("Map Layer/Base Layer").add_child(tiles_node)
 	return tiles_node
 
 
@@ -223,7 +237,7 @@ func _get_terrain(coords: Vector2i, faction: Faction) -> String:
 			var blocking_stances = [Faction.diplo_stances.PEACE, Faction.diplo_stances.ENEMY]
 			if faction.get_diplomacy_stance(unit.get_faction()) in blocking_stances:
 				return "Blocked"
-	var cell_id: TileData = $"Terrain Layer".get_cell_tile_data(0, coords/16)
+	var cell_id: TileData = $"Map Layer/Terrain Layer".get_cell_tile_data(0, coords/16)
 	var cell_name_string: String = cell_id.get_custom_data("Terrain Name")
 	return cell_name_string
 
@@ -238,7 +252,7 @@ func _parse_movement_cost() -> void:
 	var header: PackedStringArray = (raw_movement_cost.pop_at(0).split(","))
 	header.remove_at(0)
 	for full_type in raw_movement_cost:
-		var split: Array = (full_type.split(",") as Array)
+		var split: Array = full_type.split(",")
 		var type: UnitClass.movement_types
 		match split.pop_at(0):
 			"Foot": type = UnitClass.movement_types.FOOT
@@ -264,3 +278,13 @@ func _get_unit_relative(unit: Unit, rel_index: int) -> Unit:
 	var unit_index: int = faction_units.find(unit)
 	var next_unit_index: int = (unit_index + rel_index) % len(faction_units)
 	return faction_units[next_unit_index]
+
+
+func _on_cursor_select() -> void:
+	var hovered_unit: Unit = MapController.get_cursor().get_hovered_unit()
+	if hovered_unit and hovered_unit.selectable == true:
+		var controller = SelectedUnitController.new(hovered_unit)
+		add_child(controller)
+		MapController.selecting = true
+	else:
+		MapController.create_main_map_menu()

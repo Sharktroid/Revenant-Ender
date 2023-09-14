@@ -11,16 +11,16 @@ func _init(connected_unit: Unit, min_range: int, max_range: int, condition: Call
 
 func _position_selected() -> void:
 	if _can_select():
-		emit_signal("selected", GenVars.cursor.get_true_pos())
+		emit_signal("selected", MapController.get_cursor().get_true_pos())
 		close()
 
 
 func _can_select() -> bool:
-	return _within_range() and _condition.call(GenVars.cursor.get_true_pos())
+	return _within_range() and _condition.call(MapController.get_cursor().get_true_pos())
 
 
 func _within_range() -> bool:
-	var dist: float = GenFunc.get_tile_distance(GenVars.cursor.get_true_pos(), _selecting_position)
+	var dist: float = GenFunc.get_tile_distance(MapController.get_cursor().get_true_pos(), _selecting_position)
 	return dist >= _minimum_range and dist <= _maximum_range
 
 

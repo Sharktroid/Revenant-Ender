@@ -13,7 +13,7 @@ func _ready() -> void:
 
 #func _set_base_frame() -> void:
 	# Sets the base frame
-#	var faction_offset: int = _faction_dict.get(GenVars.map.get_unit_faction(faction).color, 0)
+#	var faction_offset: int = _faction_dict.get(MapController.map.get_unit_faction(faction).color, 0)
 #	_base_frame = _starting_frame + faction_offset + _variant_dict.get(variant, 0)
 
 #func change_faction(new_faction) -> void:

@@ -1,5 +1,4 @@
 extends Node
-class_name GameController
 
 enum controller_types {MOUSE, KEYBOARD}
 
@@ -9,10 +8,6 @@ var controller_type: controller_types # Type of controller being used (keyboard,
 func _init() -> void:
 	seed(0) # Sets RNG to be deterministic
 	controller_type = controller_types.MOUSE
-
-
-func _enter_tree() -> void:
-	GenVars.game_controller = self
 
 
 func _physics_process(_delta: float) -> void:
@@ -32,3 +27,7 @@ func _input(event: InputEvent) -> void:
 				get_window().mode = Window.MODE_WINDOWED
 			Window.MODE_MAXIMIZED, Window.MODE_MINIMIZED, Window.MODE_WINDOWED:
 				get_window().mode = Window.MODE_EXCLUSIVE_FULLSCREEN
+
+
+func get_root() -> Viewport:
+	return get_viewport().get_node("SubViewportContainer/SubViewport")
