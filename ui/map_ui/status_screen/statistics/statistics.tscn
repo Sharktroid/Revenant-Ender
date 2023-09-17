@@ -43,44 +43,42 @@ size_flags_horizontal = 0
 theme = SubResource("Theme_ux5tw")
 theme_override_constants/separation = 0
 
-[node name="HelpContainer" type="BoxContainer" parent="Offensive Stats/HBoxContainer/Labels"]
+[node name="Strength Help" type="BoxContainer" parent="Offensive Stats/HBoxContainer/Labels"]
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("2_6g5y4")
-help_description = "TEST (Strength)"
+help_description = "Increases the damage that physical weapons deal by +1."
 
-[node name="Strength" type="Label" parent="Offensive Stats/HBoxContainer/Labels/HelpContainer" groups=["values"]]
+[node name="Strength Label" type="Label" parent="Offensive Stats/HBoxContainer/Labels/Strength Help" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 6
 theme_type_variation = &"YellowLabel"
 text = "Strength"
 vertical_alignment = 1
 
-[node name="HelpContainer2" type="BoxContainer" parent="Offensive Stats/HBoxContainer/Labels"]
+[node name="Pierce Help" type="BoxContainer" parent="Offensive Stats/HBoxContainer/Labels"]
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("2_6g5y4")
-help_description = "TEST (Pierce)"
+help_description = "Increases the damage that bows and similar weapons deal by +1."
 
-[node name="Pierce" type="Label" parent="Offensive Stats/HBoxContainer/Labels/HelpContainer2" groups=["values"]]
+[node name="Pierce Label" type="Label" parent="Offensive Stats/HBoxContainer/Labels/Pierce Help" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
 theme_type_variation = &"YellowLabel"
 text = "Pierce"
 vertical_alignment = 1
 
-[node name="HelpContainer3" type="BoxContainer" parent="Offensive Stats/HBoxContainer/Labels"]
+[node name="Magic Help" type="BoxContainer" parent="Offensive Stats/HBoxContainer/Labels"]
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("2_6g5y4")
-help_description = "TEST (magic)"
+help_description = "Increases the damage that tomes and magical weapons deal by +1.
+It also raises the accuracy of crimson staves by +10."
 
-[node name="Magic" type="Label" parent="Offensive Stats/HBoxContainer/Labels/HelpContainer3" groups=["values"]]
+[node name="Magic Label" type="Label" parent="Offensive Stats/HBoxContainer/Labels/Magic Help" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
-size_flags_vertical = 3
 theme_type_variation = &"YellowLabel"
 text = "Magic"
 vertical_alignment = 1
@@ -125,25 +123,41 @@ size_flags_horizontal = 0
 theme = SubResource("Theme_ux5tw")
 theme_override_constants/separation = 0
 
-[node name="Defense" type="Label" parent="Defensive Stats/HBoxContainer/Labels" groups=["values"]]
+[node name="Defense Help" type="BoxContainer" parent="Defensive Stats/HBoxContainer/Labels"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_6g5y4")
+help_description = "Reduces damage from incoming physical attacks by -1."
+
+[node name="Defense Label" type="Label" parent="Defensive Stats/HBoxContainer/Labels/Defense Help" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
-size_flags_vertical = 3
 theme_type_variation = &"YellowLabel"
 text = "Defense"
 vertical_alignment = 1
 
-[node name="Durability" type="Label" parent="Defensive Stats/HBoxContainer/Labels" groups=["values"]]
+[node name="Durability Help" type="BoxContainer" parent="Defensive Stats/HBoxContainer/Labels"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_6g5y4")
+help_description = "Reduces damage from incoming damage from bows and similar weapons by -1."
+
+[node name="Durability Label" type="Label" parent="Defensive Stats/HBoxContainer/Labels/Durability Help" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
-size_flags_vertical = 3
 theme_type_variation = &"YellowLabel"
 text = "Durability"
 vertical_alignment = 1
 
-[node name="Resistance" type="Label" parent="Defensive Stats/HBoxContainer/Labels" groups=["values"]]
+[node name="Resistance Help" type="BoxContainer" parent="Defensive Stats/HBoxContainer/Labels"]
 layout_mode = 2
 size_flags_vertical = 3
+script = ExtResource("2_6g5y4")
+help_description = "Reduces the damage tomes and magical weapons deal.
+It also lowers the accuracy of crimson staves by -10."
+
+[node name="Resistance Label" type="Label" parent="Defensive Stats/HBoxContainer/Labels/Resistance Help" groups=["values"]]
+layout_mode = 2
 theme_type_variation = &"YellowLabel"
 text = "Resistance"
 vertical_alignment = 1
@@ -187,43 +201,69 @@ layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 0
 
-[node name="Skill" type="Label" parent="Misc Stats/HBoxContainer/Labels" groups=["values"]]
+[node name="Skill Help" type="BoxContainer" parent="Misc Stats/HBoxContainer/Labels"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_6g5y4")
+help_description = "Increases hit rate by +2, and critical rate by +1."
+
+[node name="Skill Label" type="Label" parent="Misc Stats/HBoxContainer/Labels/Skill Help" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
-size_flags_vertical = 3
 theme_type_variation = &"YellowLabel"
 text = "Skill
 "
 vertical_alignment = 1
 
-[node name="Speed" type="Label" parent="Misc Stats/HBoxContainer/Labels" groups=["values"]]
+[node name="Speed Help" type="BoxContainer" parent="Misc Stats/HBoxContainer/Labels"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_6g5y4")
+help_description = "Increases avoid rate by -2. Base value; can be reduced by heavy weapons."
+
+[node name="Speed Label" type="Label" parent="Misc Stats/HBoxContainer/Labels/Speed Help" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
-size_flags_vertical = 3
 theme_type_variation = &"YellowLabel"
 text = "Speed"
 vertical_alignment = 1
 
-[node name="Luck" type="Label" parent="Misc Stats/HBoxContainer/Labels" groups=["values"]]
+[node name="Luck Help" type="BoxContainer" parent="Misc Stats/HBoxContainer/Labels"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_6g5y4")
+help_description = "Increases hit rate, avoid rate, and critical avoid rate by +1 each."
+
+[node name="Luck Help" type="Label" parent="Misc Stats/HBoxContainer/Labels/Luck Help" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
-size_flags_vertical = 3
 theme_type_variation = &"YellowLabel"
 text = "Luck"
 vertical_alignment = 1
 
-[node name="Constitution" type="Label" parent="Misc Stats/HBoxContainer/Labels" groups=["values"]]
+[node name="Constitution Help" type="BoxContainer" parent="Misc Stats/HBoxContainer/Labels"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_6g5y4")
+help_description = "Reduces weapon weight and increases weight.
+Increases foot units' aid, decreases mounted units' aid."
+
+[node name="Constitution Label" type="Label" parent="Misc Stats/HBoxContainer/Labels/Constitution Help" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
-size_flags_vertical = 3
 theme_type_variation = &"YellowLabel"
 text = "Constitution"
 vertical_alignment = 1
 
-[node name="Movement" type="Label" parent="Misc Stats/HBoxContainer/Labels" groups=["values"]]
+[node name="Movement Help" type="BoxContainer" parent="Misc Stats/HBoxContainer/Labels"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_6g5y4")
+help_description = "Increases the amount of tiles that can be crossed in a turn."
+
+[node name="Movement Label" type="Label" parent="Misc Stats/HBoxContainer/Labels/Movement Help" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
-size_flags_vertical = 3
 theme_type_variation = &"YellowLabel"
 text = "Movement"
 vertical_alignment = 1
@@ -276,42 +316,68 @@ layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 0
 
-[node name="Leadership" type="Label" parent="Other/HBoxContainer/Labels" groups=["values"]]
+[node name="Authority Help" type="BoxContainer" parent="Other/HBoxContainer/Labels"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_6g5y4")
+help_description = "Grants +3 hit and avoid."
+
+[node name="Authority Label" type="Label" parent="Other/HBoxContainer/Labels/Authority Help" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
-size_flags_vertical = 3
 theme_type_variation = &"YellowLabel"
 text = "Authority"
 vertical_alignment = 1
 
-[node name="Weight" type="Label" parent="Other/HBoxContainer/Labels" groups=["values"]]
+[node name="Weight Help" type="BoxContainer" parent="Other/HBoxContainer/Labels"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_6g5y4")
+help_description = "Determines what the unit can shove, be shoved by, and be rescued by.
+Affected by class and Constitution."
+
+[node name="Weight" type="Label" parent="Other/HBoxContainer/Labels/Weight Help" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
-size_flags_vertical = 3
 theme_type_variation = &"YellowLabel"
 text = "Weight"
 vertical_alignment = 1
 
-[node name="Aid" type="Label" parent="Other/HBoxContainer/Labels" groups=["values"]]
+[node name="Aid Help" type="BoxContainer" parent="Other/HBoxContainer/Labels"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_6g5y4")
+help_description = "Allows the unit to rescue any unit with lower weight."
+
+[node name="Aid" type="Label" parent="Other/HBoxContainer/Labels/Aid Help" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
-size_flags_vertical = 3
 theme_type_variation = &"YellowLabel"
 text = "Aid"
 vertical_alignment = 1
 
-[node name="Traveler" type="Label" parent="Other/HBoxContainer/Labels" groups=["values"]]
+[node name="Traveler Help" type="BoxContainer" parent="Other/HBoxContainer/Labels"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_6g5y4")
+help_description = "The unit that is currently being rescued."
+
+[node name="Traveler" type="Label" parent="Other/HBoxContainer/Labels/Traveler Help" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
-size_flags_vertical = 3
 theme_type_variation = &"YellowLabel"
 text = "Traveler"
 vertical_alignment = 1
 
-[node name="Status" type="Label" parent="Other/HBoxContainer/Labels" groups=["values"]]
+[node name="Status Help" type="BoxContainer" parent="Other/HBoxContainer/Labels"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_6g5y4")
+help_description = "All status conditions currently in effect."
+
+[node name="Status" type="Label" parent="Other/HBoxContainer/Labels/Status Help" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
-size_flags_vertical = 3
 theme_type_variation = &"YellowLabel"
 text = "Status"
 vertical_alignment = 1

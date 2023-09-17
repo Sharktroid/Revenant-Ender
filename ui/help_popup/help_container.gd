@@ -3,6 +3,7 @@ extends BoxContainer
 
 
 @export var help_description: String
+@export_multiline var help_description: String
 
 
 func _ready() -> void:
