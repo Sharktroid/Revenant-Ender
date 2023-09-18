@@ -1,7 +1,6 @@
 extends Control
 
-const MIN_SPEED = 15
-const MAX_DURATION = 5
+const DURATION = 5
 
 var _active: bool = false
 
@@ -66,7 +65,7 @@ func _resize(new_size: Vector2, pos: Vector2 = _default_position(),
 	get_popup_node().anchor_top = anchors.y
 	get_popup_node().anchor_bottom = anchors.y
 	var starting_ticks: int = Engine.get_physics_frames()
-	var get_weight: Callable = func(): return _get_weight(starting_ticks, (new_size - init_size))
+	var get_weight: Callable = func(): return _get_weight(starting_ticks)
 	while get_weight.call() < 1:
 		await get_popup_node().get_tree().process_frame
 		get_popup_node().custom_minimum_size = init_size.lerp(new_size, get_weight.call())
@@ -78,8 +77,6 @@ func _default_position() -> Vector2:
 	return anchors * Vector2(GenVars.get_screen_size())
 
 
-func _get_weight(starting_ticks: int, difference: Vector2i) -> float:
-	var max_pixels: float = abs(difference[difference.max_axis_index()])
-	var duration: float = min(MAX_DURATION, max_pixels/MIN_SPEED)
-	return float(Engine.get_physics_frames() - starting_ticks)/duration
+func _get_weight(starting_ticks: int) -> float:
+	return float(Engine.get_physics_frames() - starting_ticks)/DURATION
 
