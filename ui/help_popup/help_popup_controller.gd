@@ -13,12 +13,7 @@ func _input(event: InputEvent) -> void:
 
 
 func display_text(text: String, pos: Vector2, v_size: int) -> void:
-	get_popup_node().custom_minimum_size = Vector2()
-	get_popup_node().text = text
-	var visiblity: bool = get_popup_node().visible
-	get_popup_node().visible = !visiblity
-	get_popup_node().visible = visiblity
-	var popup_size: Vector2i = get_popup_node().size
+	var popup_size: Vector2i = get_node_size(text)
 	if v_size + pos.y + popup_size.y > GenVars.get_screen_size().y:
 		pos.y -= popup_size.y
 	else:
@@ -52,15 +47,24 @@ func get_popup_node() -> Label:
 	return MapController.get_ui().get_node("Help Popup")
 
 
+func get_node_size(text: String) -> Vector2i:
+	var old_size: Vector2 = get_popup_node().custom_minimum_size
+	get_popup_node().custom_minimum_size = Vector2()
+	var string: String = get_popup_node().text
+	get_popup_node().text = text
+	var visiblity: bool = get_popup_node().visible
+	get_popup_node().visible = !visiblity
+	get_popup_node().visible = visiblity
+	var node_size: Vector2 = get_popup_node().size
+	get_popup_node().text = string
+	get_popup_node().custom_minimum_size = old_size
+	return node_size
+
+
 func _expand(text: String) -> void:
 	_active = true
-	get_popup_node().text = text
 	get_popup_node().visible = true
-	var new_size: Vector2 = get_popup_node().size
-	get_popup_node().text = ""
-	get_popup_node().visible = false
-	get_popup_node().visible = true
-	await _resize(new_size)
+	await _resize(get_node_size(text))
 
 
 func _resize(new_size: Vector2) -> void:
