@@ -2,7 +2,6 @@ class_name HelpContainer
 extends BoxContainer
 
 
-@export var help_description: String
 @export_multiline var help_description: String
 
 
@@ -13,7 +12,7 @@ func _ready() -> void:
 
 func _gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_select") and not HelpPopupController.is_active():
-		HelpPopupController.display_text(help_description)
+		HelpPopupController.display_text(help_description, _get_popup_offset(), roundi(size.y))
 
 
 func _notification(what):
@@ -26,4 +25,8 @@ func _notification(what):
 
 func _on_mouse_entered() -> void:
 	if HelpPopupController.is_active():
-		HelpPopupController.display_text(help_description)
+		HelpPopupController.display_text(help_description, _get_popup_offset(), roundi(size.y))
+
+
+func _get_popup_offset() -> Vector2i:
+	return global_position + Vector2(size.x/2, 0).round()
