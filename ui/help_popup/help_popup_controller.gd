@@ -12,13 +12,8 @@ func _input(event: InputEvent) -> void:
 		accept_event()
 
 
-func display_text(text: String, pos: Vector2, v_size: int) -> void:
+func display_text(text: String, pos: Vector2) -> void:
 	var popup_size: Vector2i = get_node_size(text)
-	if v_size + pos.y + popup_size.y > GenVars.get_screen_size().y:
-		pos.y -= popup_size.y
-	else:
-		pos.y += v_size
-	pos.x = clampf(pos.x, float(popup_size.x)/2, GenVars.get_screen_size().x - float(popup_size.x)/2)
 	var anchors: Vector2 = pos/Vector2(GenVars.get_screen_size())
 	get_popup_node().anchor_left = anchors.x
 	get_popup_node().anchor_right = anchors.x
