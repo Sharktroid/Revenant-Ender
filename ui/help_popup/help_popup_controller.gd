@@ -3,6 +3,7 @@ extends Control
 const DURATION = 5
 
 var _active: bool = false
+var _busy: bool = false
 
 
 func _input(event: InputEvent) -> void:
@@ -12,21 +13,24 @@ func _input(event: InputEvent) -> void:
 
 
 func display_text(text: String, pos: Vector2) -> void:
-	get_popup_node().text = ""
-	if not get_popup_node().visible:
-		await _expand(text, pos)
-	else:
-		await _resize(get_node_size(text), pos)
-	get_popup_node().custom_minimum_size = Vector2()
-	get_popup_node().text = text
+	if not _busy:
+		var old_text: String = get_popup_node().text
+		get_popup_node().text = ""
+		if not get_popup_node().visible:
+			await _expand(text, pos)
+		else:
+			await _resize(get_node_size(text), pos, get_node_size(old_text))
+		get_popup_node().custom_minimum_size = Vector2()
+		get_popup_node().text = text
 
 
 func shrink() -> void:
-	get_popup_node().text = ""
-	var new_size: Vector2 = Vector2(41, 0)
-	await _resize(new_size)
-	get_popup_node().visible = false
-	_active = false
+	if not _busy:
+		get_popup_node().text = ""
+		var new_size: Vector2 = Vector2(41, 0)
+		await _resize(new_size)
+		get_popup_node().visible = false
+		_active = false
 
 
 func is_active() -> bool:
@@ -69,12 +73,14 @@ func _resize(new_size: Vector2, pos: Vector2 = _default_position(),
 	var starting_ticks: int = Engine.get_physics_frames()
 	var get_weight: Callable = func(): return _get_weight(starting_ticks)
 	get_popup_node().custom_minimum_size = init_size
+	_busy = true
 	while get_weight.call() < 1:
 		await get_popup_node().get_tree().process_frame
 		set_anchors.call(init_anchors.lerp(final_anchors, get_weight.call()))
 		get_popup_node().custom_minimum_size = init_size.lerp(new_size, get_weight.call())
 	set_anchors.call(final_anchors)
 	get_popup_node().custom_minimum_size = new_size
+	_busy = false
 
 
 func _default_position() -> Vector2:
