@@ -307,3 +307,5 @@ layout_mode = 2
 [node name="Items" parent="Menu Screen/Menu Tabs" instance=ExtResource("5_ogdan")]
 visible = false
 layout_mode = 2
+
+[connection signal="tab_changed" from="Menu Screen/Menu Tabs" to="." method="_on_menu_tabs_tab_changed"]

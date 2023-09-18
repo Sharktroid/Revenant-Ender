@@ -114,3 +114,7 @@ func _move(dir: int) -> void:
 
 	$"Menu Screen".position.y = 0
 	_scroll_lock = false
+
+
+func _on_menu_tabs_tab_changed(_tab: int) -> void:
+	HelpPopupController.shrink()
