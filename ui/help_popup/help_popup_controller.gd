@@ -30,22 +30,16 @@ func display_text(text: String, pos: Vector2, v_size: int) -> void:
 	get_popup_node().anchor_top = anchors.y
 	get_popup_node().anchor_bottom = anchors.y
 	if not get_popup_node().visible:
+
 		await _expand(text)
 	get_popup_node().custom_minimum_size = Vector2()
 	get_popup_node().text = text
 
 
 func shrink() -> void:
-	var max_size: Vector2 = get_popup_node().custom_minimum_size
 	get_popup_node().text = ""
-	var min_size: Vector2 = Vector2(41, 0)
-	get_popup_node().custom_minimum_size = min_size
-	var starting_ticks: int = Engine.get_physics_frames()
-	var get_weight: Callable = func(): return _get_weight(starting_ticks, (max_size - min_size))
-	while get_weight.call() < 1:
-		await get_popup_node().get_tree().process_frame
-		get_popup_node().custom_minimum_size = max_size.lerp(min_size, get_weight.call())
-	get_popup_node().custom_minimum_size = min_size
+	var new_size: Vector2 = Vector2(41, 0)
+	await _resize(new_size)
 	get_popup_node().visible = false
 	_active = false
 
@@ -60,21 +54,27 @@ func get_popup_node() -> Label:
 
 func _expand(text: String) -> void:
 	_active = true
-	var min_size: Vector2 = get_popup_node().size
 	get_popup_node().text = text
 	get_popup_node().visible = true
-	var max_size: Vector2 = get_popup_node().size
+	var new_size: Vector2 = get_popup_node().size
 	get_popup_node().text = ""
+	get_popup_node().visible = false
+	get_popup_node().visible = true
+	await _resize(new_size)
+
+
+func _resize(new_size: Vector2) -> void:
+	var init_size: Vector2 = get_popup_node().size
 	var starting_ticks: int = Engine.get_physics_frames()
-	var get_weight: Callable = func(): return _get_weight(starting_ticks, (max_size - min_size))
+	var get_weight: Callable = func(): return _get_weight(starting_ticks, (new_size - init_size))
 	while get_weight.call() < 1:
 		await get_popup_node().get_tree().process_frame
-		get_popup_node().custom_minimum_size = min_size.lerp(max_size, get_weight.call())
-	get_popup_node().custom_minimum_size = max_size
+		get_popup_node().custom_minimum_size = init_size.lerp(new_size, get_weight.call())
+	get_popup_node().custom_minimum_size = new_size
 
 
 func _get_weight(starting_ticks: int, difference: Vector2i) -> float:
-	var max_pixels: float = difference[difference.max_axis_index()]
+	var max_pixels: float = abs(difference[difference.max_axis_index()])
 	var duration: float = min(MAX_DURATION, max_pixels/MIN_SPEED)
 	return float(Engine.get_physics_frames() - starting_ticks)/duration
 
