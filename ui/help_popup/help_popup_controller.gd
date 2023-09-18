@@ -13,14 +13,12 @@ func _input(event: InputEvent) -> void:
 
 
 func display_text(text: String, pos: Vector2) -> void:
-	var popup_size: Vector2i = get_node_size(text)
 	var anchors: Vector2 = pos/Vector2(GenVars.get_screen_size())
 	get_popup_node().anchor_left = anchors.x
 	get_popup_node().anchor_right = anchors.x
 	get_popup_node().anchor_top = anchors.y
 	get_popup_node().anchor_bottom = anchors.y
 	if not get_popup_node().visible:
-
 		await _expand(text)
 	get_popup_node().custom_minimum_size = Vector2()
 	get_popup_node().text = text
@@ -59,11 +57,11 @@ func get_node_size(text: String) -> Vector2i:
 func _expand(text: String) -> void:
 	_active = true
 	get_popup_node().visible = true
-	await _resize(get_node_size(text))
+	await _resize(get_node_size(text), Vector2())
 
 
-func _resize(new_size: Vector2) -> void:
-	var init_size: Vector2 = get_popup_node().size
+func _resize(new_size: Vector2, init_size: Vector2 = get_popup_node().size) -> void:
+	print_debug(init_size)
 	var starting_ticks: int = Engine.get_physics_frames()
 	var get_weight: Callable = func(): return _get_weight(starting_ticks, (new_size - init_size))
 	while get_weight.call() < 1:
