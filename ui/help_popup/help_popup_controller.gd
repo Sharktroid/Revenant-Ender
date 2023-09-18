@@ -54,21 +54,26 @@ func get_node_size(text: String) -> Vector2i:
 func _expand(text: String, pos: Vector2) -> void:
 	_active = true
 	get_popup_node().visible = true
-	await _resize(get_node_size(text), pos, Vector2())
+	await _resize(get_node_size(text), pos, Vector2(), pos)
 
 
 func _resize(new_size: Vector2, pos: Vector2 = _default_position(),
-		init_size: Vector2 = get_popup_node().size) -> void:
-	var anchors: Vector2 = pos/Vector2(GenVars.get_screen_size())
-	get_popup_node().anchor_left = anchors.x
-	get_popup_node().anchor_right = anchors.x
-	get_popup_node().anchor_top = anchors.y
-	get_popup_node().anchor_bottom = anchors.y
+		init_size: Vector2 = get_popup_node().size, init_position: Vector2 = _default_position()) -> void:
+	var init_anchors: Vector2 = init_position/Vector2(GenVars.get_screen_size())
+	var final_anchors: Vector2 = pos/Vector2(GenVars.get_screen_size())
+	var set_anchors: Callable = func(anchors: Vector2):
+		get_popup_node().anchor_left = anchors.x
+		get_popup_node().anchor_right = anchors.x
+		get_popup_node().anchor_top = anchors.y
+		get_popup_node().anchor_bottom = anchors.y
 	var starting_ticks: int = Engine.get_physics_frames()
 	var get_weight: Callable = func(): return _get_weight(starting_ticks)
+	get_popup_node().custom_minimum_size = init_size
 	while get_weight.call() < 1:
 		await get_popup_node().get_tree().process_frame
+		set_anchors.call(init_anchors.lerp(final_anchors, get_weight.call()))
 		get_popup_node().custom_minimum_size = init_size.lerp(new_size, get_weight.call())
+	set_anchors.call(final_anchors)
 	get_popup_node().custom_minimum_size = new_size
 
 
