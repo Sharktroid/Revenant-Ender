@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://dfm25r0ju5214"]
+[gd_scene load_steps=8 format=3 uid="uid://dfm25r0ju5214"]
 
 [ext_resource type="Script" path="res://ui/map_ui/status_screen/status_screen.gd" id="1_2pcwt"]
 [ext_resource type="PackedScene" uid="uid://b7h3kn7yes57v" path="res://backgrounds/scrolling_image/scrolling_image.tscn" id="1_fu38b"]
 [ext_resource type="Texture2D" uid="uid://cpy5pea1o30t6" path="res://ui/variants/binding_blade/portrait.png" id="2_hydo1"]
 [ext_resource type="PackedScene" uid="uid://jyd6v7dptm76" path="res://ui/map_ui/status_screen/statistics/statistics.tscn" id="3_a0hin"]
+[ext_resource type="Script" path="res://ui/help_popup/help_container.gd" id="4_g30x5"]
 [ext_resource type="PackedScene" uid="uid://bv0fufaguhv7n" path="res://ui/map_ui/status_screen/item_screen/item_screen.tscn" id="5_ogdan"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8vmos"]
@@ -50,13 +51,19 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 texture = ExtResource("2_hydo1")
 
-[node name="Unit Name" type="Label" parent="Menu Screen/Constant/Portrait Background Container/Portrait Background"]
-unique_name_in_owner = true
+[node name="Unit Description" type="BoxContainer" parent="Menu Screen/Constant/Portrait Background Container/Portrait Background"]
 layout_mode = 2
-offset_left = 29.0
+offset_left = 30.0
 offset_top = 76.0
 offset_right = 86.0
 offset_bottom = 92.0
+script = ExtResource("4_g30x5")
+help_description = "PLACEHOLDER"
+
+[node name="Unit Name" type="Label" parent="Menu Screen/Constant/Portrait Background Container/Portrait Background/Unit Description"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
 horizontal_alignment = 1
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="Menu Screen/Constant/Portrait Background Container/Portrait Background"]
@@ -110,18 +117,27 @@ metadata/_edit_use_anchors_ = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Class Name" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
+[node name="Class Description" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
+layout_mode = 2
+script = ExtResource("4_g30x5")
+help_description = "PLACEHOLDER"
+
+[node name="Class Name" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Class Description"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 1
 text = "Cavalier"
 
-[node name="Level Container" type="HBoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
+[node name="Level Container" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
 size_flags_vertical = 4
+script = ExtResource("4_g30x5")
+help_description = "Determines a unit's stats and whether they can promote.
+The first number is the current level, the second is the maximum level."
 
 [node name="Level Label" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Level Container"]
 layout_mode = 2
+size_flags_horizontal = 0
 theme_type_variation = &"YellowLabel"
 text = "Level"
 
@@ -142,9 +158,11 @@ layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "1"
 
-[node name="EXP Container" type="HBoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
+[node name="EXP Container" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
 size_flags_vertical = 4
+script = ExtResource("4_g30x5")
+help_description = "Experience. When the current (first) value exceeds the maximum (second) value, the unit levels up."
 
 [node name="EXP Label" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/EXP Container"]
 layout_mode = 2
@@ -166,8 +184,11 @@ layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "NYI"
 
-[node name="HP Container" type="HBoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
+[node name="HP Container" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
+script = ExtResource("4_g30x5")
+help_description = "When this value reaches 0, the unit dies.
+The first value is the current value, the second is the maximum."
 
 [node name="HP Label" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/HP Container"]
 layout_mode = 2
@@ -191,8 +212,10 @@ layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "21"
 
-[node name="Attack Container" type="HBoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
+[node name="Attack Container" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
+script = ExtResource("4_g30x5")
+help_description = "The unit's current attack."
 
 [node name="Attack Label" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Attack Container"]
 layout_mode = 2
@@ -205,8 +228,10 @@ layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "21"
 
-[node name="AS Container" type="HBoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
+[node name="AS Container" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
+script = ExtResource("4_g30x5")
+help_description = "The unit's speed after factoring in weapon weight."
 
 [node name="AS Label" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/AS Container"]
 layout_mode = 2
@@ -219,8 +244,11 @@ layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "21"
 
-[node name="Hit Container" type="HBoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
+[node name="Hit Container" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
+script = ExtResource("4_g30x5")
+help_description = "The unit's current hit rate when attacking.
+(Weapon Hit) + (Skill) * 2 + (Luck) + (Other bonuses)"
 
 [node name="Hit Label" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Hit Container"]
 layout_mode = 2
@@ -232,8 +260,12 @@ layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "NYI"
 
-[node name="Avoid Container" type="HBoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
+[node name="Avoid Container" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
+script = ExtResource("4_g30x5")
+help_description = "The unit's current avoid rate. Decreases attacker's hit rate.
+(Attack Speed) * 2 + (Luck) + (Other Bonuses)
+"
 
 [node name="Avoid Label" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Avoid Container"]
 layout_mode = 2
@@ -245,8 +277,11 @@ layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "NYI"
 
-[node name="Crit Container" type="HBoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
+[node name="Crit Container" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
+script = ExtResource("4_g30x5")
+help_description = "Chance to get a critical hit.
+(Skill) + (Other Bonuses)"
 
 [node name="Crit Label" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Crit Container"]
 layout_mode = 2
@@ -258,8 +293,12 @@ layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "NYI"
 
-[node name="Crit Avoid Container" type="HBoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
+[node name="Crit Avoid Container" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
+script = ExtResource("4_g30x5")
+help_description = "Critical Avoid Rate: decreases enemy's critical hit chance.
+If the resulting rate is below 5%, a critical can not occur.
+(Luck) + (Other Bonuses)"
 
 [node name="Crit Avoid Label" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Crit Avoid Container"]
 layout_mode = 2
@@ -271,8 +310,10 @@ layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "NYI"
 
-[node name="Range Container" type="HBoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
+[node name="Range Container" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
+script = ExtResource("4_g30x5")
+help_description = "The current range the unit can attack from."
 
 [node name="Range Label" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Range Container"]
 layout_mode = 2
