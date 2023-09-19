@@ -13,7 +13,7 @@ func _input(event: InputEvent) -> void:
 
 
 func display_text(text: String, pos: Vector2) -> void:
-	if not _busy and pos != _default_position() and text != get_popup_node().text:
+	if not _busy and (pos != _default_position() or text != get_popup_node().text):
 		var old_text: String = get_popup_node().text
 		get_popup_node().text = ""
 		if not get_popup_node().visible:
