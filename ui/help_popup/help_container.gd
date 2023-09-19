@@ -15,14 +15,6 @@ func _gui_input(event: InputEvent) -> void:
 		HelpPopupController.display_text(help_description, _get_popup_offset())
 
 
-func _notification(what):
-	if what == NOTIFICATION_SORT_CHILDREN:
-		# Must re-sort the children
-		for c in get_children():
-			# Fit to own size
-			fit_child_in_rect(c, Rect2(Vector2(), size))
-
-
 func _on_mouse_entered() -> void:
 	if HelpPopupController.is_active():
 		HelpPopupController.display_text(help_description, _get_popup_offset())
