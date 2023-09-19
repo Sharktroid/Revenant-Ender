@@ -9,7 +9,6 @@ func _ready() -> void:
 	mouse_entered.connect(_on_mouse_entered)
 
 
-
 func _gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_select") and not HelpPopupController.is_active():
 		HelpPopupController.display_text(help_description, _get_popup_offset())
