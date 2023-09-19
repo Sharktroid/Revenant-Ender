@@ -8,6 +8,7 @@ func _init():
 	max_level = 50
 	movement_type = movement_types.ADVANCED_HEAVY_CAVALRY
 	weight_modifier = 25
+	description = "Dedicated cavaliers with superior abilities all around."
 
 	weapon_levels = {
 		Weapon.types.SWORD: Weapon.ranks.D,

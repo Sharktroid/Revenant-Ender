@@ -8,7 +8,10 @@ func _init():
 	name = "Archer"
 	max_level = 30
 	movement_type = movement_types.FOOT
+	description = "Soldiers who attack from a distance with their bows."
+
 	weapon_levels[Weapon.types.BOW] = Weapon.ranks.D
+
 	base_stats = {
 		Unit.stats.HITPOINTS: 17,
 		Unit.stats.STRENGTH: 0,

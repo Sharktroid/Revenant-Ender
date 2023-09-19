@@ -9,6 +9,7 @@ func _init():
 	max_level = 30
 	movement_type = movement_types.ARMOR
 	weight_modifier = 5
+	description = "Heavily armored knights with stout defense, but low speed."
 
 	weapon_levels[Weapon.types.SPEAR] = Weapon.ranks.D
 

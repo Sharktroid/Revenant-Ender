@@ -8,24 +8,25 @@
 [ext_resource type="Script" path="res://items/weapons/axes/steel_axe/steel_axe.gd" id="5_egi04"]
 [ext_resource type="Texture2D" uid="uid://b6j1hj3h3l33l" path="res://units/characters/binding blade/damas/portrait.png" id="7_43n1q"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_j03qq"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6fkoi"]
 shader = ExtResource("2_wm6ed")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="Resource" id="Resource_7l5kg"]
-script = ExtResource("5_egi04")
-
 [sub_resource type="Resource" id="Resource_3oqhl"]
 script = ExtResource("3_vonah")
 
+[sub_resource type="Resource" id="Resource_7l5kg"]
+script = ExtResource("5_egi04")
+
 [node name="Damas" instance=ExtResource("1_er2ak")]
-material = SubResource("ShaderMaterial_j03qq")
+material = SubResource("ShaderMaterial_6fkoi")
 texture = ExtResource("3_gi6qr")
 script = ExtResource("2_8cmre")
 unit_name = "Damas"
+unit_description = "The leader of a Pheraen group of bandits."
+portrait = ExtResource("7_43n1q")
+unit_class = SubResource("Resource_3oqhl")
 faction_id = 1
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_7l5kg")])
 base_level = 5
-unit_class = SubResource("Resource_3oqhl")
-portrait = ExtResource("7_43n1q")

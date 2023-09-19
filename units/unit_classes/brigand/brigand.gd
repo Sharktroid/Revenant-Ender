@@ -8,7 +8,10 @@ func _init():
 	name = "Brigand"
 	max_level = 30
 	movement_type = movement_types.BANDITS
+	description = "Mighty mountaineers who prefer axes in combat."
+
 	weapon_levels[Weapon.types.AXE] = Weapon.ranks.D
+
 	base_stats = {
 		Unit.stats.HITPOINTS: 18,
 		Unit.stats.STRENGTH: 6,

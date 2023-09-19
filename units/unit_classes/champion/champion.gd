@@ -8,6 +8,7 @@ func _init():
 	max_level = 50
 	movement_type = movement_types.ADVANCED_FOOT
 	weight_modifier = 1
+	description = "An honorific bestowed upon famed mercenary masters."
 
 	weapon_levels = {
 		Weapon.types.SWORD: Weapon.ranks.C,

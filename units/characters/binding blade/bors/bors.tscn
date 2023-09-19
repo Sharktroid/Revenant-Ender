@@ -8,22 +8,24 @@
 [ext_resource type="Script" path="res://items/weapons/spears/iron_spear/iron_spear.gd" id="5_duslb"]
 [ext_resource type="Texture2D" uid="uid://earrcfm7b0sy" path="res://units/characters/binding blade/bors/portrait.png" id="7_2pkbb"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_qgale"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tfhr7"]
 shader = ExtResource("2_tp66o")
 shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
 
-[sub_resource type="Resource" id="Resource_hxl6o"]
-script = ExtResource("5_duslb")
-
 [sub_resource type="Resource" id="Resource_jd4tu"]
 script = ExtResource("4_x154b")
 
+[sub_resource type="Resource" id="Resource_hxl6o"]
+script = ExtResource("5_duslb")
+
 [node name="Bors" instance=ExtResource("1_duhq4")]
-material = SubResource("ShaderMaterial_qgale")
+material = SubResource("ShaderMaterial_tfhr7")
 texture = ExtResource("3_d6ayv")
 script = ExtResource("2_887df")
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_hxl6o")])
-unit_class = SubResource("Resource_jd4tu")
 unit_name = "Bors"
+unit_description = "A knight serving Ostia.
+Loyal and dutiful."
 portrait = ExtResource("7_2pkbb")
+unit_class = SubResource("Resource_jd4tu")
+items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_hxl6o")])

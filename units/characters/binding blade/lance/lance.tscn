@@ -9,10 +9,13 @@
 [ext_resource type="Script" path="res://items/weapons/spears/javelin/javelin.gd" id="6_5ps04"]
 [ext_resource type="Texture2D" uid="uid://ndvresi0e5h0" path="res://units/characters/binding blade/lance/portrait.png" id="8_y4on3"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_t7jjg"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6e287"]
 shader = ExtResource("2_engba")
 shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
+
+[sub_resource type="Resource" id="Resource_qo8hb"]
+script = ExtResource("5_w0fo1")
 
 [sub_resource type="Resource" id="Resource_qra60"]
 script = ExtResource("5_e6nko")
@@ -20,14 +23,13 @@ script = ExtResource("5_e6nko")
 [sub_resource type="Resource" id="Resource_w6kla"]
 script = ExtResource("6_5ps04")
 
-[sub_resource type="Resource" id="Resource_qo8hb"]
-script = ExtResource("5_w0fo1")
-
 [node name="Lance" instance=ExtResource("1_iwuln")]
-material = SubResource("ShaderMaterial_t7jjg")
+material = SubResource("ShaderMaterial_6e287")
 texture = ExtResource("3_t16q6")
 script = ExtResource("2_qgif2")
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_qra60"), SubResource("Resource_w6kla")])
-unit_class = SubResource("Resource_qo8hb")
 unit_name = "Lance"
+unit_description = "A knight serving Pherae.
+Calm and cool-headed."
 portrait = ExtResource("8_y4on3")
+unit_class = SubResource("Resource_qo8hb")
+items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_qra60"), SubResource("Resource_w6kla")])

@@ -9,6 +9,7 @@ func _init():
 	max_level = 30
 	movement_type = movement_types.HEAVY_CAVALRY
 	weight_modifier = 25
+	description = "Mounted knights with superior movement."
 
 	weapon_levels = {
 		Weapon.types.SWORD: Weapon.ranks.E,

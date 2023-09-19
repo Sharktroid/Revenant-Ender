@@ -8,22 +8,24 @@
 [ext_resource type="Script" path="res://units/unit_classes/archer/archer.gd" id="4_jlrml"]
 [ext_resource type="Texture2D" uid="uid://cesvbv5chjts0" path="res://units/characters/binding blade/wolt/portrait.png" id="7_8nr6t"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_2n54r"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s3wit"]
 shader = ExtResource("2_4pejp")
 shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
 
-[sub_resource type="Resource" id="Resource_2dpxt"]
-script = ExtResource("3_64m4l")
-
 [sub_resource type="Resource" id="Resource_7fxf3"]
 script = ExtResource("4_jlrml")
 
+[sub_resource type="Resource" id="Resource_2dpxt"]
+script = ExtResource("3_64m4l")
+
 [node name="Wolt" instance=ExtResource("1_7spn5")]
-material = SubResource("ShaderMaterial_2n54r")
+material = SubResource("ShaderMaterial_s3wit")
 texture = ExtResource("3_h3txp")
 script = ExtResource("2_xqfau")
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_2dpxt")])
-unit_class = SubResource("Resource_7fxf3")
 unit_name = "Wolt"
+unit_description = "An archer serving Pherae.
+Was raised like a brother to Roy."
 portrait = ExtResource("7_8nr6t")
+unit_class = SubResource("Resource_7fxf3")
+items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_2dpxt")])

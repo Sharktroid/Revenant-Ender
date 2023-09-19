@@ -8,22 +8,24 @@
 [ext_resource type="Script" path="res://units/unit_classes/lord_roy/lord_roy.gd" id="5_uk2gd"]
 [ext_resource type="Texture2D" uid="uid://c2o6creo3f7ie" path="res://units/characters/binding blade/roy/portrait.png" id="7_1r7ge"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_lwuw4"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5teiq"]
 shader = ExtResource("2_ufcu0")
 shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
 
-[sub_resource type="Resource" id="Resource_rfe5k"]
-script = ExtResource("5_1mii5")
-
 [sub_resource type="Resource" id="Resource_tt5sv"]
 script = ExtResource("5_uk2gd")
 
+[sub_resource type="Resource" id="Resource_rfe5k"]
+script = ExtResource("5_1mii5")
+
 [node name="Roy" instance=ExtResource("1_334ru")]
-material = SubResource("ShaderMaterial_lwuw4")
+material = SubResource("ShaderMaterial_5teiq")
 texture = ExtResource("3_xmnsj")
 script = ExtResource("4_cii6r")
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_rfe5k")])
-unit_class = SubResource("Resource_tt5sv")
 unit_name = "Roy"
+unit_description = "The next heir to Pherae.
+The protagonist of this story."
 portrait = ExtResource("7_1r7ge")
+unit_class = SubResource("Resource_tt5sv")
+items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_rfe5k")])
