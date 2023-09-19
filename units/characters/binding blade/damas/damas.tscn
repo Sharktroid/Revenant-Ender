@@ -23,6 +23,7 @@ script = ExtResource("3_vonah")
 material = SubResource("ShaderMaterial_j03qq")
 texture = ExtResource("3_gi6qr")
 script = ExtResource("2_8cmre")
+unit_name = "Damas"
 faction_id = 1
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_7l5kg")])
 base_level = 5

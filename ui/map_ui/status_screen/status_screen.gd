@@ -46,8 +46,11 @@ func _update() -> void:
 	%Portrait.texture = observing_unit.get_portrait()
 	%Portrait.position = observing_unit.get_portrait_offset()
 
-	%"Unit Name".text = observing_unit.name
+	%"Unit Name".text = observing_unit.unit_name
+	%"Unit Description".help_description = observing_unit.unit_description
+
 	%"Class Name".text = observing_unit.unit_class.name
+	%"Class Description".help_description = observing_unit.unit_class.description
 
 	_set_label_text_to_number(%"Current Level", observing_unit.current_level)
 	_set_label_text_to_number(%"Max Level", observing_unit.get_max_level())

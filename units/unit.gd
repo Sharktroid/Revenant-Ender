@@ -13,13 +13,15 @@ enum stats {
 }
 
 ## Unit's faction. Should be in the map's Faction stack.
+@export var unit_name: String = "[Empty]"
+@export_multiline var unit_description: String = "[Empty]"
+@export var portrait: Texture2D
+@export var unit_class: UnitClass
 @export var faction_id: int
 @export var variant: String # Visual variant.
 @export var items: Array[Item]
 @export var base_level: int = 1
 @export var skills: Array[Skill] = [Follow_Up.new()]
-@export var unit_class: UnitClass
-@export var portrait: Texture2D
 
 var personal_stat_caps: Dictionary
 var personal_end_stats: Dictionary

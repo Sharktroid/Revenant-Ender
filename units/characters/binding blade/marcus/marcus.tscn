@@ -29,4 +29,5 @@ texture = ExtResource("3_jtyy6")
 script = ExtResource("2_716f4")
 items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_co5aq"), SubResource("Resource_67pnp")])
 unit_class = SubResource("Resource_weiei")
+unit_name = "Marcus"
 portrait = ExtResource("8_m24r2")
