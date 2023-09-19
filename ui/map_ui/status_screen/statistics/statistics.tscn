@@ -259,7 +259,7 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("2_6g5y4")
-help_description = "Increases the amount of tiles that can be crossed in a turn."
+help_description = "Increases the amount of tiles that can be traversed in a turn."
 
 [node name="Movement Label" type="Label" parent="Misc Stats/HBoxContainer/Labels/Movement Help" groups=["values"]]
 layout_mode = 2
