@@ -36,7 +36,7 @@ func is_active() -> bool:
 	return _active
 
 
-func get_popup_node() -> Label:
+func get_popup_node() -> RichTextLabel:
 	return MapController.get_ui().get_node("Help Popup")
 
 

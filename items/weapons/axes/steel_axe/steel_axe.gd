@@ -13,5 +13,6 @@ func _init():
 	max_uses = 25
 	price = 1700
 	weapon_experience = 2
+	_description = "A strong, quality axe."
 	icon = load("uid://dcyho1cc1b5do")
 	super()

@@ -13,6 +13,7 @@ func _init():
 	max_uses = 40
 	price = 2200
 	weapon_experience = 1
+	_description = "A cheap, easy to wield bow."
 #	effective_classes
 	icon = load("uid://cdjtbe143l44v")
 	super()

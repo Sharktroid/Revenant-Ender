@@ -14,6 +14,7 @@ func _init() -> void:
 	max_uses = 20
 	price = 1200
 	weapon_experience = 1
+	_description = "A throwing spear that can also attack from range"
 	icon = load("uid://sn55tj54i6k")
 	super()
 

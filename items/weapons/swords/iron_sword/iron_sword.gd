@@ -13,6 +13,7 @@ func _init() -> void:
 	max_uses = 40
 	price = 2200
 	weapon_experience = 1
+	_description = "A cheap, easy to wield sword."
 #	effective_classes =
 	icon = load("uid://breqnr66xl8m6")
 	super()

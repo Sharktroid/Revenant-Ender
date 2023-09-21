@@ -11,6 +11,7 @@ func update() -> void:
 	$Name.text = item.name
 	$"Current Uses".text = str(item.current_uses)
 	$"Max Uses".text = str(item.max_uses)
+	help_description = item.get_description()
 
 
 func set_equip_status(unit: Unit) -> void:
