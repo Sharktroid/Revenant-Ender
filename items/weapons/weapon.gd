@@ -64,3 +64,29 @@ func get_damage_type() -> damage_types:
 
 func get_range() -> Array:
 	return range(min_range, max_range + 1)
+
+
+func get_description() -> String:
+	var theme: Theme = (load("uid://5iql263qnldx") as Theme)
+	var font_yellow: String = theme.get_color("font_color", "YellowLabel").to_html()
+	var font_blue: String = theme.get_color("font_color", "BlueLabel").to_html()
+	var get_range_string: Callable = func() -> String:
+		if min_range == max_range:
+			return str(min_range)
+		else:
+			return "%d-%d" % [min_range, max_range]
+	var dict_to_table: Callable = func(dict: Dictionary) -> String:
+		var table: String = "[table=3]"
+		for key in dict:
+			var value = dict[key]
+			table += "[cell][color=%s]%s[/color]\t[color=%s]%s[/color][/cell]" % [font_yellow, str(key), font_blue, str(value).lpad(4)]
+		return table + "[/table]"
+	var weapon_stats: Dictionary = {
+		str(types.find_key(type)).capitalize(): str(ranks.find_key(level)).capitalize(),
+		"Range": get_range_string.call(),
+		"Weight": weight,
+		"Might": might,
+		"Hit\t": hit,
+		"Critical": crit
+	}
+	return dict_to_table.call(weapon_stats) + "\n" + _description

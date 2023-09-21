@@ -39,6 +39,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Item Label Container" type="VBoxContainer" parent="Item Panel"]
 layout_mode = 2
+theme_override_constants/separation = 0
 metadata/_edit_use_anchors_ = true
 
 [node name="Weapon Ranks" type="PanelContainer" parent="."]
