@@ -21,7 +21,6 @@ func display_text(text: String, pos: Vector2) -> void:
 		else:
 			await _resize(get_node_size(text), pos, get_node_size(old_text))
 		get_popup_node().text = text
-		print_debug(get_popup_node().autowrap_mode)
 
 
 func shrink() -> void:

@@ -37,38 +37,9 @@ grow_vertical = 2
 mouse_filter = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="Item Label Container" type="HBoxContainer" parent="Item Panel"]
+[node name="Item Label Container" type="VBoxContainer" parent="Item Panel"]
 layout_mode = 2
 metadata/_edit_use_anchors_ = true
-
-[node name="Equip Status" type="VBoxContainer" parent="Item Panel/Item Label Container"]
-custom_minimum_size = Vector2(6, 0)
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/separation = 0
-
-[node name="Icons" type="VBoxContainer" parent="Item Panel/Item Label Container"]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/separation = 0
-
-[node name="Names" type="VBoxContainer" parent="Item Panel/Item Label Container"]
-layout_mode = 2
-size_flags_horizontal = 2
-theme_override_constants/separation = 0
-
-[node name="Current Uses" type="VBoxContainer" parent="Item Panel/Item Label Container"]
-layout_mode = 2
-size_flags_horizontal = 10
-theme_override_constants/separation = 0
-
-[node name="Separators" type="VBoxContainer" parent="Item Panel/Item Label Container"]
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="Max Uses" type="VBoxContainer" parent="Item Panel/Item Label Container"]
-layout_mode = 2
-theme_override_constants/separation = 0
 
 [node name="Weapon Ranks" type="PanelContainer" parent="."]
 layout_mode = 1
