@@ -33,3 +33,14 @@ static func switch_tab(tab_container: TabContainer, move_to: int) -> void:
 static func xor(condition_a: bool, condition_b: bool) -> bool:
 	var result = bool(int(condition_a) ^ int(condition_b))
 	return result
+
+
+static func dict_to_table(dict: Dictionary) -> String:
+	var theme: Theme = load("uid://5iql263qnldx")
+	var font_yellow: String = theme.get_color("font_color", "YellowLabel").to_html()
+	var font_blue: String = theme.get_color("font_color", "BlueLabel").to_html()
+	var table: String = "[table=3]"
+	for key in dict:
+		var value = dict[key]
+		table += "[cell][color=%s]%s[/color]\t[color=%s]%s[/color][/cell]" % [font_yellow, str(key), font_blue, str(value).lpad(4)]
+	return table + "[/table]"
