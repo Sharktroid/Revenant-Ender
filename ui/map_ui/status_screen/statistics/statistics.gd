@@ -21,7 +21,7 @@ func update() -> void:
 	_update_stat_bar(%"Strength Bar", Unit.stats.STRENGTH)
 	_update_stat_bar(%"Pierce Bar", Unit.stats.PIERCE)
 	_update_stat_bar(%"Magic Bar", Unit.stats.MAGIC)
-	_update_stat_bar(%"Defense Bar", Unit.stats.MAGIC)
+	_update_stat_bar(%"Defense Bar", Unit.stats.DEFENSE)
 	_update_stat_bar(%"Durability Bar", Unit.stats.DURABILITY)
 	_update_stat_bar(%"Resistance Bar", Unit.stats.RESISTANCE)
 	_update_stat_bar(%"Skill Bar", Unit.stats.SKILL)
