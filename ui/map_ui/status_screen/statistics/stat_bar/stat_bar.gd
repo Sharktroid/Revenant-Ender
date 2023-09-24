@@ -13,7 +13,7 @@ var observing_stat: Unit.stats
 
 func update() -> void:
 	var current_value: float = observing_unit.get_stat(observing_stat)
-	var max_value: float = observing_unit.get_stat(observing_stat, observing_unit.get_max_level())
+	var max_value: float = observing_unit.get_stat_cap(observing_stat)
 
 	%"Value Label".text = str(roundi(current_value))
 	if max_value <= 0:
