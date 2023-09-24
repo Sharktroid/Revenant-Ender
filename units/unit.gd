@@ -25,7 +25,6 @@ enum stats {
 
 var personal_stat_caps: Dictionary
 var personal_end_stats: Dictionary
-var personal_base_stats: Dictionary
 var current_level: int
 var current_movement: int
 var dead: bool = false
@@ -51,6 +50,7 @@ var traveler: Unit:
 			$"Traveler Icon/AnimationPlayer".play("RESET")
 
 
+var _personal_base_stats: Dictionary
 var _raw_movement_tiles: Array[Vector2i] # All movement tiles without organization.
 var _path: Array[Vector2i] # Path the unit will follow when moving.
 var _current_statuses: Array[statuses]
@@ -241,8 +241,9 @@ func get_stat_boost(stat: stats) -> int:
 
 
 func get_stat(stat: stats, level: int = current_level) -> int:
-	var base_stat: int = unit_class.base_stats.get(stat, 0) + personal_base_stats.get(stat, 0)
-	var end_stat: int = unit_class.end_stats.get(stat, 0) + personal_end_stats.get(stat, 0)
+	var base_stat: int = unit_class.base_stats.get(stat, 0) + get_true_personal_base_stat(stat)
+	var class_end_stat: int = roundi(remap(unit_class.end_stats.get(stat, 0), 1, unit_class.max_level, 1, get_max_level()))
+	var end_stat: int = class_end_stat + personal_end_stats.get(stat, 0)
 	var weight: float = inverse_lerp(1, unit_class.max_level, level)
 	var leveled_stat: int = roundi(lerpf(base_stat, end_stat, weight))
 	return clampi(leveled_stat + get_stat_boost(stat), 0, get_stat_cap(stat))
@@ -270,7 +271,7 @@ func get_current_defence(attacker_weapon_type: Weapon.damage_types) -> int:
 
 
 func get_max_level() -> int:
-	return unit_class.max_level
+	return 50
 
 
 func get_area() -> Area2D:
@@ -314,6 +315,14 @@ func get_path_last_pos() -> Vector2i:
 			continue
 		return path[-1]
 	return position
+
+
+func get_true_personal_base_stat(stat: stats) -> int:
+	if _personal_base_stats.get(stat):
+		return roundi(remap(1, base_level, get_max_level(), _personal_base_stats[stat], personal_end_stats.get(stat, 0)))
+	else:
+		return 0
+
 
 
 func has_attribute(attrib: Skill.all_attributes) -> bool:

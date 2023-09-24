@@ -4,7 +4,7 @@ extends _BASE_
 
 # Unit-specific variables.
 func _init() -> void:
-_TS_personal_base_stats = {
+_TS__personal_base_stats = {
 _TS__TS_Unit.stats.HITPOINTS: 0,
 _TS__TS_Unit.stats.STRENGTH: 0,
 _TS__TS_Unit.stats.PIERCE: 0,

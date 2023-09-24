@@ -4,7 +4,7 @@ extends Unit
 
 # Unit-specific variables.
 func _init() -> void:
-	personal_base_stats = {
+	_personal_base_stats = {
 		Unit.stats.HITPOINTS: 8,
 		Unit.stats.STRENGTH: 4,
 		Unit.stats.PIERCE: 0,
