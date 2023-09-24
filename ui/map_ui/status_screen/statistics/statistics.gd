@@ -44,5 +44,6 @@ func update() -> void:
 
 
 func _update_stat_bar(stat_bar: StatBar, stat: Unit.stats) -> void:
-	stat_bar.current_value = observing_unit.get_stat(stat)
-	stat_bar.max_value = observing_unit.get_stat_cap(stat)
+	stat_bar.observing_unit = observing_unit
+	stat_bar.observing_stat = stat
+	stat_bar.update.call_deferred()

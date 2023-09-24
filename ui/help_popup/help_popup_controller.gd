@@ -46,8 +46,9 @@ func get_node_size(text: String) -> Vector2i:
 	get_popup_node().autowrap_mode = TextServer.AUTOWRAP_OFF
 	get_popup_node().text = text
 	get_popup_node().reset_size()
-	var node_size: Vector2 = get_popup_node().size
-	get_popup_node().autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	var node_size: Vector2i = get_popup_node().size
+	if node_size > GenVars.get_screen_size():
+		get_popup_node().autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	get_popup_node().reset_size()
 	get_popup_node().text = string
 	get_popup_node().size = old_size

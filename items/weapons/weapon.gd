@@ -81,4 +81,4 @@ func get_description() -> String:
 		"Hit\t": hit,
 		"Critical": crit
 	}
-	return GenFunc.dict_to_table.call(weapon_stats) + "\n" + _description
+	return GenFunc.dict_to_table.call(weapon_stats, 3) + "\n" + _description

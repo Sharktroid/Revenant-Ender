@@ -2,26 +2,17 @@
 
 [ext_resource type="Script" path="res://ui/map_ui/status_screen/statistics/stat_bar/stat_bar.gd" id="1_1r07s"]
 
-[node name="Stat Bar" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Stat Bar" type="BoxContainer"]
+offset_right = 7.0
+offset_bottom = 40.0
+size_flags_horizontal = 3
 size_flags_vertical = 3
-mouse_filter = 1
 script = ExtResource("1_1r07s")
 
-[node name="Resize Handler" type="Control" parent="."]
+[node name="Resize Handler" type="ReferenceRect" parent="."]
 custom_minimum_size = Vector2(0, 16)
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -8.0
-offset_bottom = 8.0
-grow_vertical = 2
+layout_mode = 2
+size_flags_horizontal = 3
 mouse_filter = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="Resize Handler"]
@@ -31,9 +22,9 @@ anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -2.0
+offset_left = -1.0
 offset_top = -1.0
-offset_right = 4.0
+offset_right = 1.0
 offset_bottom = 3.0
 grow_horizontal = 2
 grow_vertical = 2
