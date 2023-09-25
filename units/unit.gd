@@ -334,15 +334,11 @@ func get_stat_table(stat: stats) -> String:
 	var p_final_stat: int = personal_end_stats.get(stat, 0)
 	var c_stat_cap: int = unit_class.stat_caps.get(stat, 0)
 	var p_stat_cap: int = personal_stat_caps.get(stat, 0)
-	var get_growth: Callable = func(final_stat, base_stat, max_level, base_level) -> int:
-		return round((final_stat - base_stat)*100/(max_level - base_level))
-	var class_growth: int = get_growth.call(c_final_stat, c_base_stat, unit_class.max_level, 1)
-	var personal_growth: int = get_growth.call(p_final_stat, p_base_stat, get_max_level(), base_level)
 	var table_items: Dictionary = {
 		Base = _class_personal_string(c_base_stat, p_base_stat),
 		Final = _class_personal_string(c_final_stat, p_final_stat),
 		Max = _class_personal_string(c_stat_cap, p_stat_cap),
-		Growth = _class_personal_string(class_growth, personal_growth, "%")
+		Growth = _class_personal_string(c_final_stat - c_base_stat, p_final_stat - p_base_stat),
 	}
 	return GenFunc.dict_to_table(table_items, 2)
 
