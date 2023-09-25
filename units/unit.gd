@@ -819,7 +819,13 @@ func _on_create_menu_closed() -> void:
 func _class_personal_string(class_stat: int, personal_stat: int, suffix: String = "") -> String:
 	if len(_personal_base_stats) == 0 and len(personal_end_stats) == 0 and len(personal_stat_caps) == 0:
 		return "%d%s" % [class_stat, suffix]
-	if personal_stat < 0:
-		return "%d%s - %d%s" % [class_stat, suffix, -personal_stat, suffix]
 	else:
-		return "%d%s + %d%s" % [class_stat, suffix, personal_stat, suffix]
+		var joiner = "+"
+		if personal_stat < 0:
+			joiner = "-"
+		return "%d@ (%d@ %s %d@)".replace("@", suffix) % [
+			class_stat + personal_stat,
+			class_stat,
+			joiner,
+			abs(personal_stat)
+		]
