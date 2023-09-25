@@ -823,9 +823,7 @@ func _class_personal_string(class_stat: int, personal_stat: int, suffix: String 
 		var joiner = "+"
 		if personal_stat < 0:
 			joiner = "-"
-		return "%d@ (%d@ %s %d@)".replace("@", suffix) % [
-			class_stat + personal_stat,
-			class_stat,
-			joiner,
-			abs(personal_stat)
-		]
+		return " ".join([
+			"%s@" % str(class_stat + personal_stat).lpad(3),
+			 ("(%d@ %s %d@)" % [class_stat, joiner, abs(personal_stat)]).lpad(11)
+		]).replace("@", suffix)
