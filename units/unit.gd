@@ -242,8 +242,10 @@ func get_stat_boost(stat: stats) -> int:
 
 func get_stat(stat: stats, level: int = current_level) -> int:
 	var base_stat: int = unit_class.base_stats.get(stat, 0) + get_true_personal_base_stat(stat)
-	var class_end_stat: int = roundi(remap(unit_class.end_stats.get(stat, 0), 1, unit_class.max_level, 1, get_max_level()))
-	var end_stat: int = class_end_stat + personal_end_stats.get(stat, 0)
+	var class_end_stat: int = unit_class.end_stats.get(stat, 0)
+	var max_level: int = unit_class.max_level
+	var remaped_end_stat: int = roundi(remap(class_end_stat, 1, max_level, 1, get_max_level()))
+	var end_stat: int = remaped_end_stat + personal_end_stats.get(stat, 0)
 	var weight: float = inverse_lerp(1, unit_class.max_level, level)
 	var leveled_stat: int = roundi(lerpf(base_stat, end_stat, weight))
 	return clampi(leveled_stat + get_stat_boost(stat), 0, get_stat_cap(stat))
@@ -319,10 +321,30 @@ func get_path_last_pos() -> Vector2i:
 
 func get_true_personal_base_stat(stat: stats) -> int:
 	if _personal_base_stats.get(stat):
-		return roundi(remap(1, base_level, get_max_level(), _personal_base_stats[stat], personal_end_stats.get(stat, 0)))
+		var end_stat: int = personal_end_stats.get(stat, 0)
+		return roundi(remap(1, base_level, get_max_level(), _personal_base_stats[stat], end_stat))
 	else:
 		return 0
 
+
+func get_stat_table(stat: stats) -> String:
+	var c_base_stat: int = unit_class.base_stats.get(stat, 0)
+	var p_base_stat: int = get_true_personal_base_stat(stat)
+	var c_final_stat: int = unit_class.end_stats.get(stat, 0)
+	var p_final_stat: int = personal_end_stats.get(stat, 0)
+	var c_stat_cap: int = unit_class.stat_caps.get(stat, 0)
+	var p_stat_cap: int = personal_stat_caps.get(stat, 0)
+	var get_growth: Callable = func(final_stat, base_stat, max_level, base_level) -> int:
+		return round((final_stat - base_stat)*100/(max_level - base_level))
+	var class_growth: int = get_growth.call(c_final_stat, c_base_stat, unit_class.max_level, 1)
+	var personal_growth: int = get_growth.call(p_final_stat, p_base_stat, get_max_level(), base_level)
+	var table_items: Dictionary = {
+		Base = _class_personal_string(c_base_stat, p_base_stat),
+		Final = _class_personal_string(c_final_stat, p_final_stat),
+		Max = _class_personal_string(c_stat_cap, p_stat_cap),
+		Growth = _class_personal_string(class_growth, personal_growth, "%")
+	}
+	return GenFunc.dict_to_table(table_items, 2)
 
 
 func has_attribute(attrib: Skill.all_attributes) -> bool:
@@ -462,7 +484,8 @@ func move(move_target: Vector2i = get_unit_path()[-1]) -> void:
 				_: set_animation(animations.IDLE)
 
 			while position != _target:
-				position = position.move_toward(_target, _movement_speed * 60 * GenVars.get_frame_delta())
+				var speed = _movement_speed * 60 * GenVars.get_frame_delta()
+				position = position.move_toward(_target, speed)
 				await get_tree().process_frame
 		get_node("Area2D").monitoring = true
 		set_animation(animations.IDLE)
@@ -500,7 +523,8 @@ func update_path(destination: Vector2i, num: int = current_movement) -> void:
 			and destination in all_attack_tiles \
 			and GenFunc.get_tile_distance(get_unit_path()[-1], destination) > 1:
 		for unit in get_tree().get_nodes_in_group("units"):
-			if Vector2i(unit.position) in all_attack_tiles and Vector2i(unit.position) == destination:
+			if (Vector2i(unit.position) in all_attack_tiles
+					and Vector2i(unit.position) == destination):
 				var adjacent_movement_tiles: Array[Vector2i] = []
 				for tile_offset in GenVars.adjacent_tiles:
 					if Vector2i(unit.position) + tile_offset in raw_movement_tiles:
@@ -769,7 +793,8 @@ func _on_area2d_area_entered(area: Area2D):
 		var selecting: bool = MapController.selecting
 		var can_be_selected: bool = true
 		if is_instance_valid(MapController.get_cursor().get_hovered_unit()):
-			can_be_selected = not MapController.get_cursor().get_hovered_unit().selected or selecting
+			var hovered_unit_selected: bool = MapController.get_cursor().get_hovered_unit().selected
+			can_be_selected = not hovered_unit_selected or selecting
 		if can_be_selected and not(selected or selecting or waiting):
 			display_movement_tiles()
 		MapController.get_cursor().set_hovered_unit(self)
@@ -793,3 +818,12 @@ func _on_create_menu_select_item(item: String) -> void:
 
 func _on_create_menu_closed() -> void:
 	MapController.get_node("UILayer/Unit Menu").set_active(true)
+
+
+func _class_personal_string(class_stat: int, personal_stat: int, suffix: String = "") -> String:
+	if len(_personal_base_stats) == 0 and len(personal_end_stats) == 0 and len(personal_stat_caps) == 0:
+		return "%d%s" % [class_stat, suffix]
+	if personal_stat < 0:
+		return "%d%s - %d%s" % [class_stat, suffix, -personal_stat, suffix]
+	else:
+		return "%d%s + %d%s" % [class_stat, suffix, personal_stat, suffix]
