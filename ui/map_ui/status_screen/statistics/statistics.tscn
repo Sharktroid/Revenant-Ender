@@ -392,7 +392,13 @@ theme_override_constants/separation = 0
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Weight Value" type="Label" parent="Other/HBoxContainer/Values"]
+[node name="Weight Help" type="BoxContainer" parent="Other/HBoxContainer/Values"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_6g5y4")
+
+[node name="Weight Value" type="Label" parent="Other/HBoxContainer/Values/Weight Help"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
@@ -400,10 +406,15 @@ theme_type_variation = &"BlueLabel"
 text = "0"
 vertical_alignment = 1
 
-[node name="Aid Value" type="Label" parent="Other/HBoxContainer/Values"]
+[node name="Aid Help" type="BoxContainer" parent="Other/HBoxContainer/Values"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
+script = ExtResource("2_6g5y4")
+
+[node name="Aid Value" type="Label" parent="Other/HBoxContainer/Values/Aid Help"]
+unique_name_in_owner = true
+layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "0"
 vertical_alignment = 1
