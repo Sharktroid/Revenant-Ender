@@ -84,6 +84,8 @@ func _update() -> void:
 	$"Menu Screen/Menu Tabs/Statistics".update()
 	$"Menu Screen/Menu Tabs/Items".update()
 
+	%"HP Stat Help".help_description = observing_unit.get_stat_table(Unit.stats.HITPOINTS)
+
 
 func _set_label_text_to_number(label: Label, num: int) -> void:
 	label.text = str(num)

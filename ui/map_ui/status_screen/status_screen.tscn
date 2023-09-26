@@ -197,18 +197,24 @@ layout_mode = 2
 theme_type_variation = &"YellowLabel"
 text = "Hit Points"
 
-[node name="Current HP" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/HP Container"]
+[node name="HP Stat Help" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/HP Container"]
+unique_name_in_owner = true
+layout_mode = 2
+script = ExtResource("4_g30x5")
+help_description = "TEST"
+
+[node name="Current HP" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/HP Container/HP Stat Help"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "21"
 
-[node name="Separator" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/HP Container"]
+[node name="Separator" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/HP Container/HP Stat Help"]
 layout_mode = 2
 theme_type_variation = &"YellowLabel"
 text = "/"
 
-[node name="Max HP" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/HP Container"]
+[node name="Max HP" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/HP Container/HP Stat Help"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"

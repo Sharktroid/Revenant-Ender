@@ -18,8 +18,8 @@ var movement_type: movement_types # Movement class for handling moving over terr
 var map_sprite: CompressedTexture2D
 var default_portrait: Texture2D
 ## Modifier applied to constitution when calculating aid.
-## Negative values means aid is (con - abs(aid_modifier));
-## positive values means aid is (aid_modifier - con); zero means aid is con
+## Negative values means aid = (con + aid_modifier);
+## positive values means aid = (aid_modifier - con); zero means aid = con
 var aid_modifier: int = -1
 var weight_modifier: int = 0
 var description: String = "[Empty]"
