@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/weapon_rank_label.gd" id="1_era26"]
 
-[node name="Weapon Rank Label" type="HBoxContainer"]
+[node name="Weapon Rank Label" type="BoxContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -11,6 +11,7 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_era26")
+help_description = "This unit cannot wield weapons of this type"
 
 [node name="Icon" type="TextureRect" parent="."]
 layout_mode = 2

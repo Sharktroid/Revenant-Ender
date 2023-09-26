@@ -16,5 +16,5 @@ func update() -> void:
 
 	for type in Weapon.types:
 		var rank_node_name: String = "%s Rank" % str(type).capitalize()
-		var rank_label: HBoxContainer = $"Weapon Ranks/GridContainer".get_node(rank_node_name)
+		var rank_label: HelpContainer = $"Weapon Ranks/GridContainer".get_node(rank_node_name)
 		rank_label.weapon_rank = observing_unit.weapon_levels.get(Weapon.types[type], 0)

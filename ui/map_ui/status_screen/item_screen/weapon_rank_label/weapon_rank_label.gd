@@ -1,5 +1,5 @@
 @tool
-extends HBoxContainer
+extends HelpContainer
 
 @export var icon: Texture2D:
 	set(value):
@@ -53,3 +53,17 @@ func _update_rank() -> void:
 			%ProgressBar.max_value = 255
 
 		%ProgressBar.value = weapon_rank
+		if %Rank.text == "S":
+			help_description = "This unit has maxed out their rank for this weapon"
+		else:
+			var color_blue: String = "color=%s" % GenVars.font_blue
+			var string_array: Array[String] = [
+				"[colorblue]%d[/color]" % [%ProgressBar.min_value],
+				" [color=%s]/[/color] " % GenVars.font_yellow,
+				"[colorblue]%d[/color]\n" % [%ProgressBar.max_value],
+				"[colorblue]%d[/color]" % [%ProgressBar.max_value - %ProgressBar.value],
+				" to ",
+				"[colorblue]%s[/color]" % Weapon.ranks.find_key(int(%ProgressBar.max_value)),
+				" rank",
+			]
+			help_description = "".join(string_array).replace("colorblue", color_blue)
