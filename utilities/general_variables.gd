@@ -3,6 +3,9 @@ extends Node
 
 const adjacent_tiles: Array[Vector2i] = [Vector2i(16, 0), Vector2i(-16, 0),
 	Vector2i(0, 16), Vector2i(0, -16)]
+var theme: Theme = load("uid://5iql263qnldx")
+@onready var font_yellow: String = theme.get_color("font_color", "YellowLabel").to_html()
+@onready var font_blue: String = theme.get_color("font_color", "BlueLabel").to_html()
 
 var _frame_delta: float
 var _debug_constants: Dictionary = { # Constants used in the debug menu.

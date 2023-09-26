@@ -36,12 +36,9 @@ static func xor(condition_a: bool, condition_b: bool) -> bool:
 
 
 static func dict_to_table(dict: Dictionary, size: int) -> String:
-	var theme: Theme = load("uid://5iql263qnldx")
-	var font_yellow: String = theme.get_color("font_color", "YellowLabel").to_html()
-	var font_blue: String = theme.get_color("font_color", "BlueLabel").to_html()
 	var table: String = "[table=%d]" % size
 	for key in dict:
 		var value = dict[key]
-		var replacements: Array = [font_yellow, str(key), font_blue, str(value).lpad(5)]
+		var replacements: Array = [GenVars.font_yellow, str(key), GenVars.font_blue, str(value).lpad(5)]
 		table += "[cell][color=%s]%s[/color]\t[color=%s]%s[/color][/cell]" % replacements
 	return table + "[/table]"
