@@ -1,7 +1,36 @@
-[gd_scene load_steps=3 format=3 uid="uid://dqvj6gc7ykdcp"]
+[gd_scene load_steps=4 format=3 uid="uid://dqvj6gc7ykdcp"]
 
 [ext_resource type="PackedScene" uid="uid://b4a6n61tdijwj" path="res://ui/map_ui/map_menus/base_map_menu.tscn" id="1"]
 [ext_resource type="Script" path="res://ui/map_ui/map_menus/main_map_menu/main_map_menu.gd" id="2"]
+[ext_resource type="PackedScene" uid="uid://ibshsirjjq2x" path="res://ui/map_ui/map_menus/map_menu_item.tscn" id="3_c3im8"]
 
 [node name="Main Map Menu" instance=ExtResource("1")]
 script = ExtResource("2")
+
+[node name="Debug" parent="Items" index="0" instance=ExtResource("3_c3im8")]
+layout_mode = 2
+help_description = "Opens the debug menu"
+
+[node name="Unit" parent="Items" index="1" instance=ExtResource("3_c3im8")]
+layout_mode = 2
+help_description = "Displays a chart with all o the units on the field."
+
+[node name="Status" parent="Items" index="2" instance=ExtResource("3_c3im8")]
+layout_mode = 2
+help_description = "Displays the current objectives and progress."
+
+[node name="Guide" parent="Items" index="3" instance=ExtResource("3_c3im8")]
+layout_mode = 2
+help_description = "View explanations for terminology or game mechanics."
+
+[node name="Options" parent="Items" index="4" instance=ExtResource("3_c3im8")]
+layout_mode = 2
+help_description = "Opens the options menu and configuration."
+
+[node name="Suspend" parent="Items" index="5" instance=ExtResource("3_c3im8")]
+layout_mode = 2
+help_description = "Pauses a battle in progress."
+
+[node name="End" parent="Items" index="6" instance=ExtResource("3_c3im8")]
+layout_mode = 2
+help_description = "End's the current phase."

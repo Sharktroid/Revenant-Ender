@@ -9,7 +9,9 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
-	if len(get_items()) == 0:
+	_get_items()
+	await get_tree().process_frame
+	if $Items.get_child_count() == 0:
 		close(true)
 	else:
 		super()
@@ -32,12 +34,12 @@ func close(return_to_caller: bool = false) -> void:
 		caller.close()
 
 
-func get_items() -> Dictionary:
+func _get_items() -> void:
 	# Gets the items for the unit menu.
 	var pos: Vector2i = connected_unit.get_path_last_pos()
 	var movement: int = connected_unit.get_stat(Unit.stats.MOVEMENT)
 	var raw_movement_tiles: Array[Vector2i] = connected_unit.get_raw_movement_tiles()
-	_items = {
+	var enabled_items = {
 		Attack = false,
 		Wait = false,
 		Rescue = false,
@@ -47,8 +49,8 @@ func get_items() -> Dictionary:
 		Swap = false,
 	}
 	if MapController.get_cursor().get_true_pos() in raw_movement_tiles:
-		_items.Wait = movement > 0 and pos in raw_movement_tiles
-		_items.Drop = connected_unit.traveler != null
+		enabled_items.Wait = (movement > 0 and pos in raw_movement_tiles)
+		enabled_items.Drop = connected_unit.traveler != null
 		# Gets all adjacent units
 		for unit in get_tree().get_nodes_in_group("units"):
 			if not unit.is_ghost and unit != connected_unit and unit.visible == true:
@@ -57,26 +59,29 @@ func get_items() -> Dictionary:
 						and not unit == connected_unit:
 					# Units occupying the same tile
 					if unit != connected_unit:
-						_items.Wait = false
+						enabled_items.Wait = false
 				elif GenFunc.get_tile_distance(cursor_pos, unit.get_position()) == 1:
 					# Adjacent units
 					if connected_unit.is_friend(unit):
 						if unit.traveler:
 							if connected_unit.traveler:
-								_items.Swap = true
+								enabled_items.Swap = true
 							else:
-								_items.Take = true
+								enabled_items.Take = true
 						else:
 							if connected_unit.traveler:
-								_items.Give = true
+								enabled_items.Give = true
 							elif connected_unit.can_rescue(unit):
-								_items.Rescue = true
+								enabled_items.Rescue = true
 				if _can_attack(unit):
-					_items.Attack = true
+					enabled_items.Attack = true
 	else:
-		if MapController.get_cursor().get_hovered_unit() and _can_attack(MapController.get_cursor().get_hovered_unit()):
-			_items.Attack = true
-	return super()
+		if (MapController.get_cursor().get_hovered_unit()
+				and _can_attack(MapController.get_cursor().get_hovered_unit())):
+			enabled_items.Attack = true
+	for node in $Items.get_children():
+		if enabled_items[node.name] == false:
+			node.queue_free()
 
 
 func select_item(item: String) -> void:
@@ -87,8 +92,8 @@ func select_item(item: String) -> void:
 					_can_attack, Cursor.icons.ATTACK)
 			var tiles: Array[Vector2i] = connected_unit.get_current_attack_tiles(
 					connected_unit.get_path_last_pos())
-			var tiles_node: Node2D = MapController.map.display_highlighted_tiles(tiles, connected_unit,
-					Map.tile_types.ATTACK)
+			var tiles_node: Node2D = MapController.map.display_highlighted_tiles(tiles,
+					connected_unit, Map.tile_types.ATTACK)
 			var attack: Callable = func(selected_unit: Unit) -> void:
 				await connected_unit.move()
 				await AttackHandler.combat(connected_unit, selected_unit)

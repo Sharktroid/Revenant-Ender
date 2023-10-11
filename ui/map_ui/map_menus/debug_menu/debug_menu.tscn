@@ -1,6 +1,33 @@
-[gd_scene load_steps=3 format=3 uid="uid://c0mmbk17nyqii"]
+[gd_scene load_steps=4 format=3 uid="uid://c0mmbk17nyqii"]
 
 [ext_resource type="PackedScene" uid="uid://b4a6n61tdijwj" path="res://ui/map_ui/map_menus/base_map_menu.tscn" id="1"]
 [ext_resource type="Script" path="res://ui/map_ui/map_menus/debug_menu/debug_menu.gd" id="2"]
+[ext_resource type="Script" path="res://ui/map_ui/map_menus/map_menu_item.gd" id="3_cx8w0"]
+
 [node name="Debug Menu" instance=ExtResource("1")]
 script = ExtResource("2")
+
+[node name="Unit Wait" type="BoxContainer" parent="Items" index="0"]
+layout_mode = 2
+script = ExtResource("3_cx8w0")
+help_description = "Whether using a turn ending action will end a unit's turn."
+
+[node name="Display Borders" type="BoxContainer" parent="Items" index="1"]
+layout_mode = 2
+script = ExtResource("3_cx8w0")
+help_description = "Whether to display the map's borders."
+
+[node name="Display Terrain" type="BoxContainer" parent="Items" index="2"]
+layout_mode = 2
+script = ExtResource("3_cx8w0")
+help_description = "Whether to display a terrain overlay."
+
+[node name="Display Map Cursor" type="BoxContainer" parent="Items" index="3"]
+layout_mode = 2
+script = ExtResource("3_cx8w0")
+help_description = "Whether to display the map cursor's area."
+
+[node name="Print Cursor Position" type="BoxContainer" parent="Items" index="4"]
+layout_mode = 2
+script = ExtResource("3_cx8w0")
+help_description = "Prints the cursor's position."

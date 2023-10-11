@@ -1,16 +1,6 @@
 extends MapMenu
 
 
-func get_items() -> Dictionary:
-	return {
-		"Unit Wait": func (): return GenVars.get_debug_constant("unit_wait"),
-		"Display Borders": func (): return GenVars.get_debug_constant("display_map_borders"),
-		"Display Terrain": func (): return GenVars.get_debug_constant("display_map_terrain"),
-		"Display Map Cursor": func (): return GenVars.get_debug_constant("display_map_cursor"),
-		"Print Cursor Position": null,
-	}
-
-
 func select_item(item: String) -> void:
 	match item:
 		"Unit Wait":
@@ -47,3 +37,15 @@ func close() -> void:
 	super()
 	parent_menu.grab_focus()
 	parent_menu.visible = true
+
+
+func _update_items() -> void:
+	var values: Dictionary = {
+		"Unit Wait": GenVars.get_debug_constant("unit_wait"),
+		"Display Borders": GenVars.get_debug_constant("display_map_borders"),
+		"Display Terrain": GenVars.get_debug_constant("display_map_terrain"),
+		"Display Map Cursor": GenVars.get_debug_constant("display_map_cursor"),
+	}
+	for key in values.keys():
+		var value: String = str(values[key])
+		$Items.get_node(key).value = value
