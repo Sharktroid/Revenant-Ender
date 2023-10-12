@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://78klmydgph3g"]
+
+[ext_resource type="PackedScene" uid="uid://b4a6n61tdijwj" path="res://ui/map_ui/map_menus/base_map_menu.tscn" id="1_6xvbc"]
+[ext_resource type="Script" path="res://ui/map_ui/map_menus/item_menu/item_menu.gd" id="2_jv8wc"]
+
+[node name="Item Menu" instance=ExtResource("1_6xvbc")]
+script = ExtResource("2_jv8wc")

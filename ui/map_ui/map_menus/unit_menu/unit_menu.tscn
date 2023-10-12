@@ -10,27 +10,39 @@ script = ExtResource("2_amlfl")
 [node name="Attack" type="BoxContainer" parent="Items" index="0"]
 layout_mode = 2
 script = ExtResource("3_ead2k")
+help_description = "Attack an enemy unit."
 
 [node name="Wait" type="BoxContainer" parent="Items" index="1"]
 layout_mode = 2
 script = ExtResource("3_ead2k")
+help_description = "Ends the unit's current turn."
 
-[node name="Rescue" type="BoxContainer" parent="Items" index="2"]
+[node name="Items" type="BoxContainer" parent="Items" index="2"]
 layout_mode = 2
 script = ExtResource("3_ead2k")
+help_description = "Use and equip items."
 
-[node name="Take" type="BoxContainer" parent="Items" index="3"]
+[node name="Rescue" type="BoxContainer" parent="Items" index="3"]
 layout_mode = 2
 script = ExtResource("3_ead2k")
+help_description = "Rescue an ally fron an adjacent space."
 
-[node name="Drop" type="BoxContainer" parent="Items" index="4"]
+[node name="Take" type="BoxContainer" parent="Items" index="4"]
 layout_mode = 2
 script = ExtResource("3_ead2k")
+help_description = "Receive a rescued ally from an adjacent ally."
 
-[node name="Give" type="BoxContainer" parent="Items" index="5"]
+[node name="Drop" type="BoxContainer" parent="Items" index="5"]
 layout_mode = 2
 script = ExtResource("3_ead2k")
+help_description = "Place a rescued ally in an adjacent space."
 
-[node name="Swap" type="BoxContainer" parent="Items" index="6"]
+[node name="Give" type="BoxContainer" parent="Items" index="6"]
 layout_mode = 2
 script = ExtResource("3_ead2k")
+help_description = "Pass a rescued ally to an adjacent ally."
+
+[node name="Swap" type="BoxContainer" parent="Items" index="7"]
+layout_mode = 2
+script = ExtResource("3_ead2k")
+help_description = "Swap rescued allies with an adjacent ally."

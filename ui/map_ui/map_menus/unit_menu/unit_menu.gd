@@ -42,6 +42,7 @@ func _get_items() -> void:
 	var enabled_items = {
 		Attack = false,
 		Wait = false,
+		Items = true,
 		Rescue = false,
 		Take = false,
 		Drop = false,
@@ -105,6 +106,14 @@ func select_item(item: String) -> void:
 			await connected_unit.move()
 			connected_unit.wait()
 			close()
+
+		"Items":
+			var menu: MapMenu = load("uid://78klmydgph3g").instantiate()
+			menu.position = position
+			menu.parent_menu = self
+			menu.connected_unit = connected_unit
+			MapController.get_ui().add_child(menu)
+			visible = false
 
 		"Rescue":
 			var selector := UnitSelector.new(connected_unit, 1, 1, connected_unit.can_rescue)
