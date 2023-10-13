@@ -5,7 +5,6 @@ enum types {SACRED_STONES, BINDING_BLADE}
 
 var parent_menu: MapMenu
 
-var _items: Dictionary
 var _current_item_index: int = 0
 
 
@@ -32,7 +31,7 @@ func _gui_input(event: InputEvent) -> void:
 		_current_item_index += 1
 
 	if event.is_action_pressed("ui_accept"):
-		select_item(get_current_item_node().name)
+		select_item(get_current_item_node())
 		accept_event()
 
 	elif event.is_action_pressed("ui_cancel"):
@@ -51,7 +50,7 @@ func set_map_position(new_position: Vector2i) -> void:
 	position = new_position.clamp(Vector2i(), GenVars.get_screen_size() - Vector2i(size))
 
 
-func select_item(_item: String) -> void:
+func select_item(_item: MapMenuItem) -> void:
 	HelpPopupController.shrink()
 
 
@@ -59,6 +58,6 @@ func set_current_item_node(item: HelpContainer) -> void:
 	_current_item_index = item.get_index()
 
 
-func get_current_item_node() -> Label:
+func get_current_item_node() -> MapMenuItem:
 	_current_item_index %= len(%Items.get_children())
 	return %Items.get_child(_current_item_index)

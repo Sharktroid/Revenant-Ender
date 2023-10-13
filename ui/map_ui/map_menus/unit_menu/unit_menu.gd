@@ -85,8 +85,8 @@ func _get_items() -> void:
 			node.queue_free()
 
 
-func select_item(item: String) -> void:
-	match item:
+func select_item(item: MapMenuItem) -> void:
+	match item.name:
 		"Attack":
 			var weapon: Weapon = connected_unit.get_current_weapon()
 			var selector := UnitSelector.new(connected_unit, weapon.min_range, weapon.max_range,

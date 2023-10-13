@@ -12,6 +12,16 @@ func _ready() -> void:
 	super()
 
 
+func select_item(item: MapMenuItem) -> void:
+	var menu: MapMenu = load("uid://78klmydgph3g").instantiate()
+	menu.position = position
+	menu.parent_menu = self
+	menu.connected_unit = connected_unit
+	MapController.get_ui().add_child(menu)
+	visible = false
+
+
+
 func close() -> void:
 	super()
 	parent_menu.grab_focus()

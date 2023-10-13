@@ -1,14 +1,14 @@
 extends MapMenuItem
 
-var _item: Item
+var item: Item
 
 
 func _init(item: Item) -> void:
-	_item = item
+	self.item = item
 
 func _ready() -> void:
-	name = _item.name
+	name = item.name
 	var icon := TextureRect.new()
-	icon.texture = _item.icon
+	icon.texture = item.icon
 	add_child(icon)
 	super()

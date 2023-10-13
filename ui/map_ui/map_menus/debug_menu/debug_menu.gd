@@ -1,8 +1,8 @@
 extends MapMenu
 
 
-func select_item(item: String) -> void:
-	match item:
+func select_item(item: MapMenuItem) -> void:
+	match item.name:
 		"Unit Wait":
 			GenVars.invert_debug_constant("unit_wait")
 

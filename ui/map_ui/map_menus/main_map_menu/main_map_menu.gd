@@ -1,8 +1,8 @@
 extends MapMenu
 
 
-func select_item(item: String) -> void:
-	match item:
+func select_item(item: MapMenuItem) -> void:
+	match item.name:
 		"Debug":
 			var menu: MapMenu = load("uid://c0mmbk17nyqii").instantiate()
 			menu.position = position
