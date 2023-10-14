@@ -9,11 +9,6 @@ var _current_item_index: int = 0
 
 
 func _ready() -> void:
-	var new_size = Vector2()
-	for item in %Items.get_children():
-		item.custom_minimum_size.x = new_size.x
-	%Items.size = new_size
-	size = %Items.size + Vector2(9, 9)
 	var map_offset: Vector2i = MapController.get_map_camera().get_map_offset()
 	set_map_position(MapController.get_cursor().get_true_pos() + map_offset + Vector2i(16, -16))
 	grab_focus()
