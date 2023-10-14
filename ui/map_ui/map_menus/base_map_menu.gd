@@ -41,7 +41,11 @@ func _gui_input(event: InputEvent) -> void:
 func close() -> void:
 	# Closes the menu
 	queue_free()
-	MapController.map.grab_focus()
+	if parent_menu:
+		parent_menu.grab_focus()
+		parent_menu.visible = true
+	else:
+		MapController.map.grab_focus()
 
 
 func set_map_position(new_position: Vector2i) -> void:

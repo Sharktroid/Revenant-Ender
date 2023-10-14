@@ -4,7 +4,7 @@
 
 [node name="Base Map Menu" type="PanelContainer"]
 offset_right = 9.0
-offset_bottom = 120.0
+offset_bottom = 9.0
 size_flags_horizontal = 3
 focus_mode = 2
 script = ExtResource("1_xuaav")

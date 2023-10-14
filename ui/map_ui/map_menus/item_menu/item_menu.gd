@@ -22,7 +22,3 @@ func select_item(item: MapMenuItem) -> void:
 
 
 
-func close() -> void:
-	super()
-	parent_menu.grab_focus()
-	parent_menu.visible = true

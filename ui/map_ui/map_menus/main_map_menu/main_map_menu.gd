@@ -12,7 +12,7 @@ func select_item(item: MapMenuItem) -> void:
 		"End":
 			close()
 			MapController.map.end_turn()
-		_: push_error("%s is not a valid menu item" % item)
+		var name: push_error("%s is not a valid menu item" % name)
 	super(item)
 
 

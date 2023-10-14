@@ -33,12 +33,6 @@ func select_item(item: MapMenuItem) -> void:
 	super(item)
 
 
-func close() -> void:
-	super()
-	parent_menu.grab_focus()
-	parent_menu.visible = true
-
-
 func _update_items() -> void:
 	var values: Dictionary = {
 		"Unit Wait": GenVars.get_debug_constant("unit_wait"),
