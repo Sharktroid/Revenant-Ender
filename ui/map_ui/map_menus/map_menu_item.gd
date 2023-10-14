@@ -17,11 +17,11 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if self == _get_parent_menu().get_current_item_node():
-		if not _label.has_theme_color_override("font_color"):
-			_label.add_theme_color_override("font_color", Color.GRAY)
-	else:
 		if _label.has_theme_color_override("font_color"):
 			_label.remove_theme_color_override("font_color")
+	else:
+		if not _label.has_theme_color_override("font_color"):
+			_label.add_theme_color_override("font_color", Color.GRAY)
 
 
 func set_text(text: String) -> void:
