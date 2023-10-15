@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://bfd30uyseuacp"]
+
+[ext_resource type="PackedScene" uid="uid://b4a6n61tdijwj" path="res://ui/map_ui/map_menus/base_map_menu.tscn" id="1_ohgwd"]
+[ext_resource type="Script" path="res://ui/map_ui/map_menus/item_menu/item_options_menu/item_options_menu.gd" id="2_rwnj0"]
+[ext_resource type="Script" path="res://ui/map_ui/map_menus/map_menu_item.gd" id="3_jkodk"]
+
+[node name="Item Options Menu" instance=ExtResource("1_ohgwd")]
+script = ExtResource("2_rwnj0")
+
+[node name="Equip" type="BoxContainer" parent="Items" index="0"]
+layout_mode = 2
+script = ExtResource("3_jkodk")
+
+[node name="Use" type="BoxContainer" parent="Items" index="1"]
+layout_mode = 2
+script = ExtResource("3_jkodk")
+
+[node name="Drop" type="BoxContainer" parent="Items" index="2"]
+layout_mode = 2
+script = ExtResource("3_jkodk")

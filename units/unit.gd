@@ -48,6 +48,7 @@ var traveler: Unit:
 			$"Traveler Icon/AnimationPlayer".play("display")
 		else:
 			$"Traveler Icon/AnimationPlayer".play("RESET")
+var equipped_weapon: Weapon
 
 
 var _personal_base_stats: Dictionary
@@ -428,7 +429,11 @@ func get_adjacent_tiles(pos: Vector2i, min_range: int, max_range: int) -> Array[
 
 
 func get_current_attack_tiles(pos: Vector2i) -> Array[Vector2i]:
-	return get_adjacent_tiles(pos, get_current_weapon().min_range, get_current_weapon().max_range)
+	if is_instance_valid(get_current_weapon()):
+		return get_adjacent_tiles(pos, get_current_weapon().min_range,
+			get_current_weapon().max_range)
+	else:
+		return []
 
 
 ## Shows off the tiles the unit can attack from its current position.
@@ -634,6 +639,24 @@ func is_friend(other_unit: Unit):
 	return get_faction().is_friend(other_unit.get_faction())
 
 
+func equip_weapon(weapon: Weapon) -> void:
+	items.erase(weapon)
+	items.push_front(weapon)
+	weapon = equipped_weapon
+
+
+func update_equipped_weapon() -> void:
+	for weapon in items:
+		if weapon is Weapon:
+			equipped_weapon = weapon
+			break
+
+
+func drop(item: Item) -> void:
+	items.erase(item)
+	update_equipped_weapon()
+
+
 func _update_palette() -> void:
 	if get_faction():
 		_set_palette(get_faction().color)
@@ -817,7 +840,8 @@ func _on_create_menu_closed() -> void:
 
 
 func _class_personal_string(class_stat: int, personal_stat: int, suffix: String = "") -> String:
-	if len(_personal_base_stats) == 0 and len(personal_end_stats) == 0 and len(personal_stat_caps) == 0:
+	if (len(_personal_base_stats) == 0 and len(personal_end_stats) == 0
+			and len(personal_stat_caps) == 0):
 		return "%d%s" % [class_stat, suffix]
 	else:
 		var joiner = "+"

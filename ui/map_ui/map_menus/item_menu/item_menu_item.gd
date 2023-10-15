@@ -3,8 +3,8 @@ extends MapMenuItem
 var item: Item
 
 
-func _init(item: Item) -> void:
-	self.item = item
+func _init(connected_item: Item) -> void:
+	item = connected_item
 
 func _ready() -> void:
 	name = item.name

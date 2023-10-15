@@ -10,6 +10,8 @@ var current_uses: int
 var price: int
 
 var _description: String
+var _droppable: bool = true
+var _can_use: bool = false
 
 
 func _init() -> void:
@@ -20,3 +22,15 @@ func _init() -> void:
 
 func get_description() -> String:
 	return _description
+
+
+func can_drop() -> bool:
+	return _droppable
+
+
+func use() -> void:
+	pass
+
+
+func can_use() -> bool:
+	return _can_use
