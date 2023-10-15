@@ -32,5 +32,5 @@ unit_description = "A veteran paladin serving Pherae.
 Roy's instructor in combat."
 portrait = ExtResource("8_m24r2")
 unit_class = SubResource("Resource_weiei")
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_co5aq"), SubResource("Resource_67pnp")])
+items = Array[Resource("res://items/item.gd")]([SubResource("Resource_co5aq"), SubResource("Resource_67pnp")])
 base_level = 25

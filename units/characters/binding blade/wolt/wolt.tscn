@@ -28,4 +28,4 @@ unit_description = "An archer serving Pherae.
 Was raised like a brother to Roy."
 portrait = ExtResource("7_8nr6t")
 unit_class = SubResource("Resource_7fxf3")
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_2dpxt")])
+items = Array[Resource("res://items/item.gd")]([SubResource("Resource_2dpxt")])

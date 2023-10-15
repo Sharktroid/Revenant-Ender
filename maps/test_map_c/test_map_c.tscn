@@ -1,9 +1,9 @@
 [gd_scene load_steps=8 format=3 uid="uid://5gh5vs7o78ng"]
 
-[ext_resource type="PackedScene" uid="uid://bhm3c7lcoufva" path="res://maps/map_base.tscn" id="1_xpfq6"]
+[ext_resource type="PackedScene" uid="uid://bhm3c7lcoufva" path="res://maps/map.tscn" id="1_xpfq6"]
 [ext_resource type="Script" path="res://maps/test_map_c.gd" id="2_fbaml"]
-[ext_resource type="Texture2D" uid="uid://b2lewxvj148x8" path="res://maps/Jugdral Tileset.png" id="4_a8qcj"]
-[ext_resource type="Texture2D" uid="uid://ijby51uy1nyx" path="res://maps/Jugdral Contiental Project.png" id="12_goxwd"]
+[ext_resource type="Texture2D" path="res://maps/Jugdral Tileset.png" id="4_a8qcj"]
+[ext_resource type="Texture2D" path="res://maps/Jugdral Contiental Project.png" id="12_goxwd"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ue73n"]
 texture = ExtResource("4_a8qcj")

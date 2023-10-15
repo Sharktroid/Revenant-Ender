@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b4a6n61tdijwj"]
 
-[ext_resource type="Script" path="res://ui/map_ui/map_menus/base_map_menu.gd" id="1_xuaav"]
+[ext_resource type="Script" path="res://ui/map_ui/map_menus/map_menu.gd" id="1_xuaav"]
 
 [node name="Base Map Menu" type="PanelContainer"]
 offset_right = 9.0

@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://bhm3c7lcoufva"]
 
-[ext_resource type="Script" path="res://maps/map_base.gd" id="2"]
+[ext_resource type="Script" path="res://maps/map.gd" id="2"]
 [ext_resource type="Texture2D" uid="uid://danddgqa5wdg" path="res://maps/terrain.png" id="2_mr7yy"]
 [ext_resource type="Script" path="res://maps/outline.gd" id="3_iwlk5"]
 [ext_resource type="Script" path="res://maps/cursor_area.gd" id="3_qdi6q"]

@@ -31,4 +31,4 @@ unit_name = "Alen"
 unit_description = "A knight serving Pherae. Passionate and hot-headed."
 portrait = ExtResource("8_ec8w4")
 unit_class = SubResource("Resource_ms2vb")
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_r84p6"), SubResource("Resource_u1gbs")])
+items = Array[Resource("res://items/item.gd")]([SubResource("Resource_r84p6"), SubResource("Resource_u1gbs")])

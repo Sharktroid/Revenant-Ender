@@ -1,6 +1,6 @@
 [gd_scene load_steps=48 format=3 uid="uid://cedsiyh04d75o"]
 
-[ext_resource type="PackedScene" uid="uid://bhm3c7lcoufva" path="res://maps/map_base.tscn" id="1_kb152"]
+[ext_resource type="PackedScene" uid="uid://bhm3c7lcoufva" path="res://maps/map.tscn" id="1_kb152"]
 [ext_resource type="Script" path="res://maps/test_map_b/test_map_b.gd" id="2_cy6k6"]
 [ext_resource type="Texture2D" uid="uid://drbehrx1xfpsp" path="res://maps/test_map_b/fe6_chapter_1.png" id="3_ylwuq"]
 [ext_resource type="PackedScene" uid="uid://cuqamu0m16iep" path="res://units/characters/binding blade/roy/roy.tscn" id="4_vkjsj"]
@@ -519,7 +519,7 @@ unit_name = "Bandit"
 unit_description = "Brigands of Lycia."
 unit_class = SubResource("Resource_6ahce")
 faction_id = 1
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
+items = Array[Resource("res://items/item.gd")]([SubResource("Resource_ol35s")])
 
 [node name="Fighter3" parent="Map Layer/Units/Enemy" index="2" instance=ExtResource("10_g0esg")]
 z_index = 80
@@ -530,7 +530,7 @@ unit_name = "Bandit"
 unit_description = "Brigands of Lycia."
 unit_class = SubResource("Resource_6ahce")
 faction_id = 1
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
+items = Array[Resource("res://items/item.gd")]([SubResource("Resource_ol35s")])
 
 [node name="Fighter4" parent="Map Layer/Units/Enemy" index="3" instance=ExtResource("10_g0esg")]
 z_index = 48
@@ -541,7 +541,7 @@ unit_name = "Bandit"
 unit_description = "Brigands of Lycia."
 unit_class = SubResource("Resource_6ahce")
 faction_id = 1
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
+items = Array[Resource("res://items/item.gd")]([SubResource("Resource_ol35s")])
 
 [node name="Fighter5" parent="Map Layer/Units/Enemy" index="4" instance=ExtResource("10_g0esg")]
 z_index = 112
@@ -552,7 +552,7 @@ unit_name = "Bandit"
 unit_description = "Brigands of Lycia."
 unit_class = SubResource("Resource_6ahce")
 faction_id = 1
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
+items = Array[Resource("res://items/item.gd")]([SubResource("Resource_ol35s")])
 
 [node name="Fighter6" parent="Map Layer/Units/Enemy" index="5" instance=ExtResource("10_g0esg")]
 z_index = 144
@@ -563,7 +563,7 @@ unit_name = "Bandit"
 unit_description = "Brigands of Lycia."
 unit_class = SubResource("Resource_6ahce")
 faction_id = 1
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
+items = Array[Resource("res://items/item.gd")]([SubResource("Resource_ol35s")])
 
 [node name="Fighter7" parent="Map Layer/Units/Enemy" index="6" instance=ExtResource("10_g0esg")]
 z_index = 144
@@ -574,7 +574,7 @@ unit_name = "Bandit"
 unit_description = "Brigands of Lycia."
 unit_class = SubResource("Resource_6ahce")
 faction_id = 1
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
+items = Array[Resource("res://items/item.gd")]([SubResource("Resource_ol35s")])
 
 [node name="Fighter8" parent="Map Layer/Units/Enemy" index="7" instance=ExtResource("10_g0esg")]
 z_index = 208
@@ -585,7 +585,7 @@ unit_name = "Bandit"
 unit_description = "Brigands of Lycia."
 unit_class = SubResource("Resource_6ahce")
 faction_id = 1
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
+items = Array[Resource("res://items/item.gd")]([SubResource("Resource_ol35s")])
 
 [node name="Fighter9" parent="Map Layer/Units/Enemy" index="8" instance=ExtResource("10_g0esg")]
 z_index = 240
@@ -596,7 +596,7 @@ unit_name = "Bandit"
 unit_description = "Brigands of Lycia."
 unit_class = SubResource("Resource_6ahce")
 faction_id = 1
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
+items = Array[Resource("res://items/item.gd")]([SubResource("Resource_ol35s")])
 
 [node name="Fighter10" parent="Map Layer/Units/Enemy" index="9" instance=ExtResource("10_g0esg")]
 z_index = 224
@@ -607,7 +607,7 @@ unit_name = "Bandit"
 unit_description = "Brigands of Lycia."
 unit_class = SubResource("Resource_6ahce")
 faction_id = 1
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
+items = Array[Resource("res://items/item.gd")]([SubResource("Resource_ol35s")])
 
 [node name="Fighter11" parent="Map Layer/Units/Enemy" index="10" instance=ExtResource("10_g0esg")]
 z_index = 288
@@ -618,7 +618,7 @@ unit_name = "Bandit"
 unit_description = "Brigands of Lycia."
 unit_class = SubResource("Resource_6ahce")
 faction_id = 1
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
+items = Array[Resource("res://items/item.gd")]([SubResource("Resource_ol35s")])
 
 [node name="Brigand" parent="Map Layer/Units/Enemy" index="11" instance=ExtResource("10_g0esg")]
 z_index = 144
@@ -629,7 +629,7 @@ unit_name = "Bandit"
 unit_description = "Brigands of Lycia."
 unit_class = SubResource("Resource_v6ipr")
 faction_id = 1
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_ol35s")])
+items = Array[Resource("res://items/item.gd")]([SubResource("Resource_ol35s")])
 
 [node name="Archer" parent="Map Layer/Units/Enemy" index="12" instance=ExtResource("10_g0esg")]
 z_index = 32
@@ -640,7 +640,7 @@ unit_name = "Bandit"
 unit_description = "Brigands of Lycia."
 unit_class = SubResource("Resource_bfbd5")
 faction_id = 1
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_1fxxh")])
+items = Array[Resource("res://items/item.gd")]([SubResource("Resource_1fxxh")])
 
 [node name="Archer2" parent="Map Layer/Units/Enemy" index="13" instance=ExtResource("10_g0esg")]
 z_index = 160
@@ -651,4 +651,4 @@ unit_name = "Bandit"
 unit_description = "Brigands of Lycia."
 unit_class = SubResource("Resource_bfbd5")
 faction_id = 1
-items = Array[Resource("res://items/base_item.gd")]([SubResource("Resource_1fxxh")])
+items = Array[Resource("res://items/item.gd")]([SubResource("Resource_1fxxh")])

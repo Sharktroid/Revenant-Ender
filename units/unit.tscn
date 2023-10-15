@@ -214,7 +214,7 @@ offset = Vector2(-8, -16)
 hframes = 4
 vframes = 5
 script = ExtResource("1")
-skills = Array[Resource("res://skills/skill_base.gd")]([SubResource("Resource_snaox")])
+skills = Array[Resource("res://skills/skill.gd")]([SubResource("Resource_snaox")])
 
 [node name="Area2D" type="Area2D" parent="."]
 visible = false

@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" path="res://units/unit_classes/advance_wars/infantry/infantry.tscn" id="1"]
 [ext_resource type="Script" path="res://maps/test_map_a/test_map_a.gd" id="2"]
 [ext_resource type="TileSet" path="res://tilesets/advance_wars.tres" id="3"]
-[ext_resource type="PackedScene" uid="uid://bhm3c7lcoufva" path="res://maps/map_base.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://bhm3c7lcoufva" path="res://maps/map.tscn" id="4"]
 [ext_resource type="PackedScene" path="res://units/advance_wars/city.tscn" id="6"]
 [ext_resource type="PackedScene" path="res://units/advance_wars/hq.tscn" id="7"]
 [ext_resource type="PackedScene" path="res://units/advance_wars/factory.tscn" id="8"]
