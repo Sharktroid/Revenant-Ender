@@ -9,8 +9,8 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
-	_get_items()
-	await get_tree().process_frame
+	_to_center = true
+	update()
 	if $Items.get_child_count() == 0:
 		close(true)
 	else:
@@ -34,7 +34,7 @@ func close(return_to_caller: bool = false) -> void:
 		caller.close()
 
 
-func _get_items() -> void:
+func update() -> void:
 	# Gets the items for the unit menu.
 	var pos: Vector2i = connected_unit.get_path_last_pos()
 	var movement: int = connected_unit.get_stat(Unit.stats.MOVEMENT)
@@ -42,7 +42,7 @@ func _get_items() -> void:
 	var enabled_items = {
 		Attack = false,
 		Wait = false,
-		Items = true,
+		Items = false,
 		Rescue = false,
 		Take = false,
 		Drop = false,
@@ -52,6 +52,7 @@ func _get_items() -> void:
 	if MapController.get_cursor().get_true_pos() in raw_movement_tiles:
 		enabled_items.Wait = (movement > 0 and pos in raw_movement_tiles)
 		enabled_items.Drop = connected_unit.traveler != null
+		enabled_items.Items = len(connected_unit.items) > 0
 		# Gets all adjacent units
 		for unit in get_tree().get_nodes_in_group("units"):
 			if not unit.is_ghost and unit != connected_unit and unit.visible == true:
@@ -81,8 +82,8 @@ func _get_items() -> void:
 				and _can_attack(MapController.get_cursor().get_hovered_unit())):
 			enabled_items.Attack = true
 	for node in $Items.get_children():
-		if enabled_items[node.name] == false:
-			node.queue_free()
+		node.visible = enabled_items[node.name]
+	reset_size()
 
 
 func select_item(item: MapMenuItem) -> void:
@@ -109,7 +110,7 @@ func select_item(item: MapMenuItem) -> void:
 
 		"Items":
 			var menu: MapMenu = load("uid://78klmydgph3g").instantiate()
-			menu.position = position
+			menu.offset = offset
 			menu.parent_menu = self
 			menu.connected_unit = connected_unit
 			MapController.get_ui().add_child(menu)
@@ -233,9 +234,10 @@ func _get_drop_tiles() -> Array[Vector2i]:
 
 
 func _display_adjacent_support_tiles() -> Node2D:
-	var tiles: Array[Vector2i] = connected_unit.get_adjacent_tiles(connected_unit.get_path_last_pos(),
-			1, 1)
-	return MapController.map.display_highlighted_tiles(tiles, connected_unit, Map.tile_types.SUPPORT)
+	var tiles: Array[Vector2i] = connected_unit.get_adjacent_tiles(
+			connected_unit.get_path_last_pos(), 1, 1)
+	return MapController.map.display_highlighted_tiles(tiles, connected_unit,
+			Map.tile_types.SUPPORT)
 
 
 func _on_unit_death() -> void:

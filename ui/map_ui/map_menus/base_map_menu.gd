@@ -3,15 +3,22 @@ extends PanelContainer
 
 enum types {SACRED_STONES, BINDING_BLADE}
 
+var offset: Vector2:
+	set(value):
+		offset = value
+		update_position()
 var parent_menu: MapMenu
+## If true, the menu will move to the left if on the right side of the screen
+var _to_center: bool = false
 
 var _current_item_index: int = 0
 
 
 func _ready() -> void:
-	var map_offset: Vector2i = MapController.get_map_camera().get_map_offset()
-	set_map_position(MapController.get_cursor().get_true_pos() + map_offset + Vector2i(16, -16))
 	grab_focus()
+	while (get_current_item_node().visible == false):
+		_current_item_index += 1
+	update_position()
 
 
 func _has_point(_point: Vector2) -> bool:
@@ -43,10 +50,13 @@ func close() -> void:
 		MapController.map.grab_focus()
 
 
-func set_map_position(new_position: Vector2i) -> void:
-	if new_position.x >= float(GenVars.get_screen_size().x)/2:
-		new_position.x -= ceili(16 + size.x)
-	position = new_position.clamp(Vector2i(), GenVars.get_screen_size() - Vector2i(size))
+func update_position() -> void:
+	position = offset.clamp(Vector2i(), GenVars.get_screen_size() - Vector2i(size))
+	if (offset.x >= float(GenVars.get_screen_size().x)/2 and _to_center):
+		var cursor_pos: int = MapController.get_cursor().get_true_pos().x \
+				+ MapController.get_map_camera().get_map_offset().x
+		if offset.x >= cursor_pos:
+			offset.x -= ceili(16 + size.x)
 
 
 func select_item(_item: MapMenuItem) -> void:

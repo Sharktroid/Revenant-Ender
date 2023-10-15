@@ -21,6 +21,8 @@ func set_scaling(new_scaling: int) -> void:
 func create_main_map_menu() -> void:
 	## Creates map menu.
 	var menu: MapMenu = load("uid://dqvj6gc7ykdcp").instantiate()
+	menu.offset = MapController.get_cursor().get_rel_pos() \
+			+ MapController.get_map_camera().get_map_offset() + Vector2i(16, 0)
 	MapController.get_ui().add_child(menu)
 	MapController.get_cursor().disable()
 
@@ -40,11 +42,3 @@ func get_map_camera() -> MapCamera:
 func _on_banner_timer_timeout() -> void:
 	$"UI Layer/Turn Banner".texture = null
 	MapController.map.start_turn()
-
-
-func _create_unit_menu() -> void:
-	## Creates unit menu.
-	var menu: MapMenu = load("uid://i3a0mes5l4au").instantiate()
-	menu.connected_unit = MapController.get_cursor().get_hovered_unit()
-	$"UI Layer".add_child(menu)
-	MapController.get_cursor().disable()

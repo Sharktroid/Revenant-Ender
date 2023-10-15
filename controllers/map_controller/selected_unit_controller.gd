@@ -85,7 +85,8 @@ func _create_unit_menu() -> void:
 	## Creates _unit menu.
 	var menu: MapMenu = _menu_node.instantiate()
 	menu.connected_unit = _unit
-	menu.position = MapController.get_cursor().get_rel_pos() + Vector2i(16, -8)
+	menu.offset = MapController.get_cursor().get_rel_pos() \
+			+ MapController.get_map_camera().get_map_offset() + Vector2i(16, -8)
 	menu.caller = self
 	set_focus_mode(Control.FOCUS_NONE)
 	MapController.get_cursor().disable()
