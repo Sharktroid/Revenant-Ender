@@ -1,4 +1,4 @@
-class_name BaseSelector
+class_name Selector
 extends Control
 
 signal canceled

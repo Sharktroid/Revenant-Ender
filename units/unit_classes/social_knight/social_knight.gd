@@ -1,6 +1,6 @@
 @tool
 class_name SocialKnight
-extends BaseMounted
+extends MountedUnit
 
 
 # Unit-specific variables.

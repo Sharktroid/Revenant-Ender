@@ -1,5 +1,5 @@
 @tool
-class_name BaseMounted
+class_name MountedUnit
 extends UnitClass
 
 

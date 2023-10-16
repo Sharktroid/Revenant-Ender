@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://units/unit_classes/advance_wars/infantry/infantry.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://b0bxnipo5fa1k" path="res://units/unit_classes/advance_wars/advance_wars.png" id="2"]
-[ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit_base.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit.tscn" id="3"]
 
 [node name="Infantry" instance=ExtResource( 3 )]
 texture = ExtResource( 2 )

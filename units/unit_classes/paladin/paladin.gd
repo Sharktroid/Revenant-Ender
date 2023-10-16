@@ -1,6 +1,6 @@
 @tool
 class_name Paladin
-extends BaseMounted
+extends MountedUnit
 
 
 func _init():

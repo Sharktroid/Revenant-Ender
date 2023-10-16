@@ -194,7 +194,7 @@ func select_item(item: MapMenuItem) -> void:
 					_display_adjacent_support_tiles(), swap)
 
 
-func _select_map(selector: BaseSelector, tiles_node: Node2D, selected: Callable,
+func _select_map(selector: Selector, tiles_node: Node2D, selected: Callable,
 		canceled: Callable = func(): pass) -> void:
 	caller.add_sibling(selector)
 	visible = false

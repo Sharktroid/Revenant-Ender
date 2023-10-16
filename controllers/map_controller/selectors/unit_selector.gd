@@ -1,5 +1,5 @@
 class_name UnitSelector
-extends BaseSelector
+extends Selector
 
 signal selected(unit: Unit)
 

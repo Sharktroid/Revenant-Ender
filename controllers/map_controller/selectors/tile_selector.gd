@@ -1,5 +1,5 @@
 class_name TileSelector
-extends BaseSelector
+extends Selector
 
 signal selected(position: Vector2i)
 
