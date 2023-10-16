@@ -4,6 +4,7 @@ extends Spear
 
 # Weapon-specific variables.
 func _init() -> void:
+	super()
 	name = "Javelin"
 	level = ranks.D
 	might = 6
@@ -16,5 +17,4 @@ func _init() -> void:
 	weapon_experience = 1
 	_description = "A throwing spear that can also attack from range"
 	icon = load("uid://sn55tj54i6k")
-	super()
 

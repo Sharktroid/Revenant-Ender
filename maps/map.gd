@@ -31,7 +31,8 @@ func _ready() -> void:
 	_parse_movement_cost()
 	create_debug_borders() # Only shows up when collison shapes are enabled
 	$"Map Layer/Terrain Layer".visible = GenVars.get_debug_constant("display_map_terrain")
-	$"Map Layer/Debug Border Overlay Container".visible = GenVars.get_debug_constant("display_map_borders")
+	$"Map Layer/Debug Border Overlay Container".visible = \
+			GenVars.get_debug_constant("display_map_borders")
 	$"Map Layer/Cursor Area".visible = GenVars.get_debug_constant("display_map_cursor")
 	size = $"Map Layer/Base Layer".get_used_cells(0).max() * 16 + Vector2i(16, 16)
 	grab_focus()

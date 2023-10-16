@@ -32,7 +32,10 @@ func get_ui() -> CanvasLayer:
 
 
 func get_cursor() -> Cursor:
-	return get_ui().get_node("Cursor")
+	if get_ui():
+		return get_ui().get_node("Cursor")
+	else:
+		return Cursor.new()
 
 
 func get_map_camera() -> MapCamera:

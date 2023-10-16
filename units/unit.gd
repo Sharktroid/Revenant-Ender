@@ -655,6 +655,8 @@ func update_equipped_weapon() -> void:
 func drop(item: Item) -> void:
 	items.erase(item)
 	update_equipped_weapon()
+	hide_movement_tiles()
+	display_movement_tiles()
 
 
 func _update_palette() -> void:
