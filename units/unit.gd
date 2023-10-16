@@ -612,6 +612,10 @@ func get_all_attack_tiles() -> Array[Vector2i]:
 		var map_size: Vector2i = MapController.map.get_size() - Vector2(16, 16)
 		var min_range: int = get_current_weapon().min_range
 		var max_range: int = get_current_weapon().max_range
+		for weapon in items:
+			if weapon is Weapon:
+				min_range = min(weapon.min_range, min_range)
+				max_range = max(weapon.max_range, max_range)
 		for tile in raw_movement_tiles:
 			for y in range(-max_range, max_range + 1):
 				for x in range(-max_range, max_range + 1):
@@ -619,7 +623,7 @@ func get_all_attack_tiles() -> Array[Vector2i]:
 					attack_tile = attack_tile.clamp(Vector2i(0, 0), map_size)
 					if not(attack_tile in all_attack_tiles + raw_movement_tiles):
 						var distance: int = floori(GenFunc.get_tile_distance(tile, attack_tile))
-						if distance in range(min_range, max_range + 1):
+						if distance >= min_range and distance <= max_range:
 							all_attack_tiles.append(attack_tile)
 	return all_attack_tiles
 
