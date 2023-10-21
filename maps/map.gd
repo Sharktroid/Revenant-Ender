@@ -143,7 +143,7 @@ func end_turn() -> void:
 
 ## Gets the terrain cost of the tiles at "coords".
 ## unit: unit trying to move over "coords".
-func get_terrain_cost(unit: Unit, coords: Vector2) -> int:
+func get_terrain_cost(unit: Unit, coords: Vector2) -> float:
 	var movement_type: UnitClass.movement_types = unit.unit_class.movement_type
 	if movement_type in movement_cost_dict.keys():
 		var movement_type_terrain_dict = movement_cost_dict[unit.unit_class.movement_type]
@@ -154,8 +154,8 @@ func get_terrain_cost(unit: Unit, coords: Vector2) -> int:
 			"Sea": terrain_name = "Ocean"
 		if terrain_name in movement_type_terrain_dict:
 			var cost: String = movement_type_terrain_dict[terrain_name]
-			if cost.is_valid_int():
-				return int(cost)
+			if cost.is_valid_float():
+				return float(cost)
 			elif cost in "N/A":
 				return 99
 			else:
@@ -230,6 +230,8 @@ func display_highlighted_tiles(tiles: Array[Vector2i], unit: Unit, type: tile_ty
 func _get_terrain(coords: Vector2i, faction: Faction) -> String:
 	## Gets the name of the terrain at the tile at position "coords"
 	## faction: faction of the unit checking
+	if coords != coords.clamp(Vector2i(), get_size() - Vector2(16, 16)):
+		return "Blocked"
 	for unit in get_tree().get_nodes_in_group("units"): # for units
 		if coords == Vector2i(unit.transform.get_origin()):
 #			if "Doesn't Block" in unit.tags:
@@ -250,10 +252,10 @@ func _parse_movement_cost() -> void:
 	if len(raw_movement_cost[-1]) == 0:
 		raw_movement_cost.erase("")
 	file.close()
-	var header: PackedStringArray = (raw_movement_cost.pop_at(0).split(","))
+	var header: PackedStringArray = (raw_movement_cost.pop_at(0).strip_edges().split(","))
 	header.remove_at(0)
 	for full_type in raw_movement_cost:
-		var split: Array = full_type.split(",")
+		var split: Array = full_type.strip_edges().split(",")
 		var type: UnitClass.movement_types
 		match split.pop_at(0):
 			"Foot": type = UnitClass.movement_types.FOOT

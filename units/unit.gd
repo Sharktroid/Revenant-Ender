@@ -404,6 +404,11 @@ func display_movement_tiles() -> void:
 			Map.tile_types.MOVEMENT, 1)
 	_attack_tile_node = MapController.map.display_tiles(get_all_attack_tiles(),
 			Map.tile_types.ATTACK, 1)
+	for k in _movement_tiles:
+		var debug_value := Label.new()
+		debug_value.text = str(_movement_tiles[k])
+		debug_value.position = k
+		_movement_tiles_node.add_child(debug_value)
 	if not selected:
 		_movement_tiles_node.modulate.a = 0.5
 		_attack_tile_node.modulate.a = 0.5
@@ -674,66 +679,53 @@ func _render_status() -> void:
 
 func _get_movement_tiles(movement: int) -> void:
 	# Gets the movement tiles of the unit
-	var h = []
-	var tiles_first_pass = {}
-	var tiles_second_pass = {}
+	var h := []
+	var pass_1 := {}
 	var start: Vector2i = (position)
+	var pass_2 := {start: movement}
+	const MOVE_MOD: float = 4.0/3
 	_movement_tiles = {}
+	var reverse_lookup = func(dict: Dictionary, value: int):
+		var results: Array[Vector2i]
+		for k in dict.keys():
+			if dict[k] == value:
+				results.append(k)
+		return results
 	if position == ((position/16).floor() * 16):
 		# Gets the initial grid
-		for y in range(-movement, movement + 1):
+		for y in range(-movement * MOVE_MOD, movement * MOVE_MOD + 1):
 			var v = []
-			for x in range(-(movement - absi(y)) , (movement - absi(y)) + 1):
+			for x in range(-(movement * MOVE_MOD - absi(y)) , (movement * MOVE_MOD - absi(y)) + 1):
 				v.append(start + Vector2i(x * 16, y * 16))
 			h.append_array(v)
-		# Seperates by remaining movement
+		# Orders tiles by distance from center
 		for x in h:
 			var boundary: Vector2i = MapController.map.get_size() - Vector2(16, 16)
 			if x == x.clamp(Vector2i(), boundary):
 				var val = floori(movement - (absf(x.x - start.x) + absf(x.y - start.y))/16)
-				if not(val in tiles_first_pass):
-					tiles_first_pass[val] = []
-				tiles_first_pass[val].append(x)
-		# Reduces tile value by terrain cost.
-		for k in tiles_first_pass.keys():
-			var v = tiles_first_pass[k]
-			for i in v:
-				var val = k
-				if i != start:
-					var cost = (MapController.map.get_terrain_cost(self, i)) - 1
-					val -= cost
-				if not(val in tiles_second_pass.keys()):
-					tiles_second_pass[val] = []
-				tiles_second_pass[val].append(i)
-		var max_val = tiles_second_pass.keys().max()
+				pass_1[x] = val
 		# Calculates each tile if they have the right movement value.
-		for k in range(max_val, -1, -1):
-			if k in tiles_second_pass.keys():
-				var v = tiles_second_pass[k]
-				for tile in v:
-					var cost = (MapController.map.get_terrain_cost(self, tile))
-					var val = k
-					var valid = false
-					if tile != start:
-						if val + cost in _movement_tiles.keys():
-							for c in _movement_tiles[val + cost]:
-								if (c - tile) in [Vector2i(-16, 0), Vector2i(16, 0),
-										Vector2i(0, -16), Vector2i(0, 16)]:
-									valid = true
-									break
-						if valid == false:
-							val -= 1
-					if val == k:
-						if not(val in _movement_tiles.keys()):
-							_movement_tiles[val] = []
-						_movement_tiles[val].append(tile)
+		for k in range(movement * MOVE_MOD, -1, -1):
+			var v = reverse_lookup.call(pass_1, k)
+			for tile in v:
+				var cost = (MapController.map.get_terrain_cost(self, tile))
+				var val = k
+				var max_adjacent_value = 0
+				if tile != start:
+					for adjacent in [Vector2i(-16, 0), Vector2i(16, 0),
+								Vector2i(0, -16), Vector2i(0, 16)]:
+						if pass_2.get(adjacent + tile, 0) > k:
+							max_adjacent_value = max(max_adjacent_value, pass_2[adjacent + tile])
+
+					var total_cost = max_adjacent_value - cost
+					if total_cost >= 0:
+						pass_2[tile] = total_cost
 					else:
-						if not(val in tiles_second_pass.keys()):
-							tiles_second_pass[val] = []
-						tiles_second_pass[val].append(tile)
+						pass_1[tile] -= 1
+		_movement_tiles = pass_2
 		_raw_movement_tiles = []
-		for v in _movement_tiles.values():
-			_raw_movement_tiles.append_array(v)
+		for k in pass_2.keys():
+			_raw_movement_tiles.append(k)
 
 
 func _set_palette(color: Faction.colors) -> void:
