@@ -3,6 +3,8 @@ extends RefCounted
 
 enum {ATTACKER, DEFENDER}
 
+static var _map_battle_hp_bar_scene: PackedScene = load("uid://c6un8c6me1qis")
+
 static func combat(attacker: Unit, defender: Unit) -> void:
 	MapController.get_cursor().disable()
 	var attack_queue: Array[int] = [ATTACKER]
@@ -13,11 +15,15 @@ static func combat(attacker: Unit, defender: Unit) -> void:
 	var attack_speed_check: bool = attacker.get_attack_speed() >= 5 + defender.get_attack_speed()
 	if attacker.has_attribute(Skill.all_attributes.FOLLOW_UP) and attack_speed_check:
 		attack_queue.append(ATTACKER)
-	await map_combat(attacker, defender, attack_queue)
+	await _map_combat(attacker, defender, attack_queue)
 	MapController.get_cursor().enable()
 
 
-static func map_combat(attacker: Unit, defender: Unit, attack_queue: Array[int]) -> void:
+static func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[int]) -> void:
+	var hp_bar = _map_battle_hp_bar_scene.instantiate()
+	hp_bar.attacker = attacker
+	hp_bar.defender = defender
+	MapController.get_ui().add_child(hp_bar)
 	var attacker_animation: MapAttack = MapAttack.new(attacker, defender.position)
 	attacker.get_parent().add_child(attacker_animation)
 	var defender_animation: MapAttack = MapAttack.new(defender, attacker.position)
@@ -25,11 +31,16 @@ static func map_combat(attacker: Unit, defender: Unit, attack_queue: Array[int])
 	attacker.visible = false
 	defender.visible = false
 	for combat_round in attack_queue:
+		var timer: SceneTreeTimer = attacker.get_tree().create_timer(1)
+		await timer.timeout
 		match combat_round:
 			ATTACKER: await _map_attack(attacker, defender, attacker_animation, defender_animation)
 			DEFENDER: await _map_attack(defender, attacker, defender_animation, attacker_animation)
 		if not(is_instance_valid(attacker) and is_instance_valid(defender)):
 			break
+	var timer: SceneTreeTimer = hp_bar.get_tree().create_timer(1)
+	await timer.timeout
+	hp_bar.queue_free()
 	if is_instance_valid(attacker):
 		attacker.visible = true
 	attacker_animation.queue_free()

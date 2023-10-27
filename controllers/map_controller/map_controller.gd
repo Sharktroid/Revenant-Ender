@@ -39,7 +39,7 @@ func get_cursor() -> Cursor:
 
 
 func get_map_camera() -> MapCamera:
-	return map.get_node("Map Camera")
+	return (map.get_node("Map Camera") as MapCamera)
 
 
 func _on_banner_timer_timeout() -> void:

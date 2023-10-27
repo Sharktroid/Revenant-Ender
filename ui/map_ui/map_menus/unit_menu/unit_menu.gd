@@ -11,7 +11,12 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	_to_center = true
 	update()
-	if $Items.get_child_count() == 0:
+	var visible_items: bool = false
+	for i in $Items.get_children():
+		if i.visible:
+			visible_items = true
+			break
+	if not visible_items:
 		close(true)
 	else:
 		super()

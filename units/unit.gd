@@ -678,12 +678,13 @@ func _get_movement_tiles(movement: int) -> void:
 	var tiles_first_pass = {}
 	var tiles_second_pass = {}
 	var start: Vector2i = (position)
+	const RANGE_MULT: float = 4.0/3
 	_movement_tiles = {}
 	if position == ((position/16).floor() * 16):
 		# Gets the initial grid
-		for y in range(-movement, movement + 1):
+		for y in range(-movement * RANGE_MULT, movement * RANGE_MULT + 1):
 			var v = []
-			for x in range(-(movement - absi(y)) , (movement - absi(y)) + 1):
+			for x in range(-(movement * RANGE_MULT - absi(y)) , (movement * RANGE_MULT - absi(y)) + 1):
 				v.append(start + Vector2i(x * 16, y * 16))
 			h.append_array(v)
 		# Seperates by remaining movement

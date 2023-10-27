@@ -10,14 +10,14 @@ enum diplo_stances {ALLY, PEACE, ENEMY, SELF}
 
 var full_outline: bool = false # Whether the full outline is shown.
 var name: String # Faction's name.
-var color: int # Color of all units.
-var player_type: int
+var color: colors # Color of all units.
+var player_type: player_types
 var outlined_units: Dictionary # The units that are outlined.
 
 var _diplomacy: Dictionary
 
 
-func _init(faction_name: String,faction_color: int,faction_player_type: int):
+func _init(faction_name: String, faction_color: colors, faction_player_type: player_types):
 	name = faction_name
 	color = faction_color
 	player_type = faction_player_type

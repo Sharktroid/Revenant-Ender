@@ -1,10 +1,10 @@
 [gd_scene load_steps=2 format=3 uid="uid://bwbxdghirr166"]
 
-[ext_resource type="Script" path="res://controllers/attack controller/map_attack.gd" id="1_uqn44"]
+[ext_resource type="Script" path="res://controllers/attack controller/map_battle_animation/map_attack.gd" id="1_j6jbp"]
 
 [node name="Map Attack" type="Node2D"]
 visible = false
-script = ExtResource("1_uqn44")
+script = ExtResource("1_j6jbp")
 
 [node name="Combat Sprite" type="Sprite2D" parent="."]
 centered = false
