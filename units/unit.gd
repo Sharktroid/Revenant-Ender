@@ -55,7 +55,7 @@ var _personal_base_stats: Dictionary
 var _raw_movement_tiles: Array[Vector2i] # All movement tiles without organization.
 var _path: Array[Vector2i] # Path the unit will follow when moving.
 var _current_statuses: Array[statuses]
-var _current_health: float: get = get_current_health, set = set_current_health
+var _current_health: float
 var _movement_speed: float = 8 # Speed unit moves across the map.
 static var _all_units: Dictionary # Lists all unit classes.
 # Dictionaries that convert faction/variant into animation modifier.
@@ -203,10 +203,12 @@ func get_damage(defender: Unit) -> float:
 
 
 ## Sets units current health.
-func set_current_health(health: float) -> void:
+func set_current_health(health: float, does_die: bool = true) -> void:
 	_current_health = clampf(health, 0, get_stat(stats.HITPOINTS))
 	if not Engine.is_editor_hint():
 		$"Health Bar".update()
+	if get_current_health() <= 0 and does_die:
+		die()
 
 
 func get_current_health() -> float:
@@ -215,9 +217,7 @@ func get_current_health() -> float:
 
 ## Increases "current_health" by "added_health".
 func add_current_health(added_health: float, does_die: bool = true) -> void:
-	set_current_health(get_current_health() + added_health)
-	if get_current_health() <= 0 and does_die:
-		die()
+	set_current_health(get_current_health() + added_health, does_die)
 
 
 func set_animation(animation: animations) -> void:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://c6un8c6me1qis"]
+[gd_scene load_steps=3 format=3 uid="uid://dq4qai3phb4s7"]
 
 [ext_resource type="Script" path="res://controllers/attack controller/map_battle_info_display.gd" id="1_7vi17"]
 [ext_resource type="PackedScene" uid="uid://wouoek0ybw4b" path="res://controllers/attack controller/map_battle_hp_bar/map_hp_bar.tscn" id="1_hjvop"]

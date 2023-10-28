@@ -3,7 +3,10 @@ extends RefCounted
 
 enum {ATTACKER, DEFENDER}
 
-static var _map_battle_hp_bar_scene: PackedScene = load("uid://c6un8c6me1qis")
+const DELAY: float = 0.25
+const HEALTH_SCROLL_DURATION: float = 0.5
+
+static var _map_battle_hp_bar_scene: PackedScene = load("uid://dq4qai3phb4s7")
 
 static func combat(attacker: Unit, defender: Unit) -> void:
 	MapController.get_cursor().disable()
@@ -31,14 +34,14 @@ static func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[int]
 	attacker.visible = false
 	defender.visible = false
 	for combat_round in attack_queue:
-		var timer: SceneTreeTimer = attacker.get_tree().create_timer(1)
+		var timer: SceneTreeTimer = attacker.get_tree().create_timer(DELAY)
 		await timer.timeout
 		match combat_round:
 			ATTACKER: await _map_attack(attacker, defender, attacker_animation, defender_animation)
 			DEFENDER: await _map_attack(defender, attacker, defender_animation, attacker_animation)
 		if not(is_instance_valid(attacker) and is_instance_valid(defender)):
 			break
-	var timer: SceneTreeTimer = hp_bar.get_tree().create_timer(1)
+	var timer: SceneTreeTimer = hp_bar.get_tree().create_timer(DELAY)
 	await timer.timeout
 	hp_bar.queue_free()
 	if is_instance_valid(attacker):
@@ -53,7 +56,15 @@ static func _map_attack(attacker: Unit, defender: Unit, attacker_animation: MapA
 	defender_animation: MapAttack) -> void:
 	attacker_animation.play_animation()
 	await attacker_animation.deal_damage
-	defender.add_current_health(-attacker.get_damage(defender))
+	var old_health: int = defender.get_current_health()
+	var new_health: int = maxi(old_health - attacker.get_damage(defender), 0)
+	var max_health: int = defender.get_stat(Unit.stats.HITPOINTS)
+	var current_health: float = old_health
+	while defender.get_current_health() > new_health:
+		current_health -= max_health * GenVars.get_frame_delta() / HEALTH_SCROLL_DURATION
+		current_health = maxf(current_health, new_health)
+		defender.set_current_health(roundi(current_health))
+		await defender.get_tree().process_frame
 	if defender.dead:
 		var fade = FadeOut.new(20.0/60)
 		defender_animation.add_child(fade)

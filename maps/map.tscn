@@ -16,10 +16,10 @@ texture = ExtResource("2_mr7yy")
 1:0/0/modulate = Color(0.0241666, 0.29, 0, 1)
 1:0/0/custom_data_0 = &"Forest"
 2:0/0 = 0
-2:0/0/modulate = Color(0.26, 0.211467, 0.169, 1)
+2:0/0/modulate = Color(0.329412, 0.227451, 0.137255, 1)
 2:0/0/custom_data_0 = &"Cliff"
 3:0/0 = 0
-3:0/0/modulate = Color(0.25, 0.25, 0.25, 1)
+3:0/0/modulate = Color(0.25098, 0.25098, 0.25098, 1)
 3:0/0/custom_data_0 = &"Road"
 4:0/0 = 0
 4:0/0/modulate = Color(0.0391388, 0.298498, 0.527344, 1)
@@ -70,6 +70,7 @@ follow_viewport_enabled = true
 format = 2
 
 [node name="Terrain Layer" type="TileMap" parent="Map Layer"]
+modulate = Color(1, 1, 1, 0.498039)
 tile_set = SubResource("10")
 format = 2
 

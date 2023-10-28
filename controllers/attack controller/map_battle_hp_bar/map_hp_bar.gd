@@ -15,6 +15,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if is_instance_valid(unit):
 		(%"HP Bar" as ProgressBar).value = unit.get_current_health()
+		%"HP Label".text = str(%"HP Bar".value)
 		var top_color: Color
 		var bottom_color: Color
 		match unit.get_faction().color:
