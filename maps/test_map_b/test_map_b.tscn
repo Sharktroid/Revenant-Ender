@@ -342,42 +342,42 @@ texture = ExtResource("3_ylwuq")
 [sub_resource type="TileSet" id="TileSet_mmpoq"]
 sources/0 = SubResource("TileSetAtlasSource_o2x6g")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_er80w"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tb4m8"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_4mnb4"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_djywt"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ook4u"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qm73f"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_12hf4"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_miaw6"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_lmjp8"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cqwvr"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_f535w"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yfp8o"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_4rotw"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_biubs"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_xxbho"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j3hwm"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
@@ -388,52 +388,52 @@ script = ExtResource("16_si68w")
 [sub_resource type="Resource" id="Resource_ol35s"]
 script = ExtResource("14_kcchf")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_rexe2"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jsesu"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6febt"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o3sii"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_dlo4h"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_x1pbm"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_bhoxs"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_47lun"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_yoapm"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q3h4l"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_n1i0d"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_trw8r"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_tcwgx"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j1lqe"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_iak6e"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ppyoh"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_mnc6s"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_822w0"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_t22hd"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g22qs"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
@@ -441,7 +441,7 @@ shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 
 [sub_resource type="Resource" id="Resource_v6ipr"]
 script = ExtResource("17_2jg7w")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_skx1s"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u0x5q"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
@@ -452,7 +452,7 @@ script = ExtResource("14_a6bhl")
 [sub_resource type="Resource" id="Resource_1fxxh"]
 script = ExtResource("19_do6v3")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_lpstq"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2eb0x"]
 shader = ExtResource("6_jwyrt")
 shader_parameter/old_colors = Array[Vector3]([Vector3(56, 56, 144), Vector3(56, 80, 224), Vector3(40, 160, 248), Vector3(24, 240, 248), Vector3(232, 16, 24), Vector3(88, 72, 120), Vector3(216, 232, 240), Vector3(144, 184, 232)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(96, 40, 32), Vector3(168, 48, 40), Vector3(224, 16, 16), Vector3(248, 80, 72), Vector3(56, 208, 48), Vector3(104, 72, 96), Vector3(224, 224, 224), Vector3(192, 168, 184)])
@@ -469,50 +469,51 @@ layer_0/tile_data = PackedInt32Array(0, 0, 0, 65536, 0, 1, 131072, 0, 2, 196608,
 
 [node name="Terrain Layer" parent="Map Layer" index="1"]
 visible = false
-layer_0/tile_data = PackedInt32Array(0, 14, 0, 65536, 14, 0, 131072, 14, 0, 196608, 14, 0, 262144, 14, 0, 327680, 14, 0, 393216, 14, 0, 393217, 14, 0, 393218, 14, 0, 393219, 14, 0, 327683, 14, 0, 262147, 14, 0, 196611, 14, 0, 131075, 14, 0, 65539, 14, 0, 3, 14, 0, 2, 14, 0, 1, 14, 0, 65537, 14, 0, 131074, 14, 0, 196610, 14, 0, 262146, 14, 0, 327682, 14, 0, 196609, 14, 0, 262145, 14, 0, 327681, 14, 0, 458754, 14, 0, 524290, 14, 0, 589826, 14, 0, 655363, 14, 0, 720899, 14, 0, 720898, 14, 0, 655364, 14, 0, 655365, 14, 0, 655366, 14, 0, 655367, 14, 0, 589830, 14, 0, 524294, 14, 0, 458758, 14, 0, 393222, 14, 0, 327686, 14, 0, 327685, 14, 0, 327684, 14, 0, 393220, 14, 0, 393221, 14, 0, 65540, 14, 0, 65541, 14, 0, 65542, 14, 0, 65543, 14, 0, 131079, 14, 0, 196615, 14, 0, 262151, 14, 0, 327687, 14, 0, 393223, 14, 0, 458759, 14, 0, 524295, 14, 0, 458760, 14, 0, 393224, 14, 0, 327688, 14, 0, 262152, 14, 0, 131080, 14, 0, 327689, 14, 0, 393225, 14, 0, 458761, 14, 0, 393226, 14, 0, 458762, 14, 0, 327691, 14, 0, 393227, 14, 0, 458763, 14, 0, 524299, 14, 0, 589835, 14, 0, 655371, 14, 0, 720907, 14, 0, 786443, 14, 0, 851979, 14, 0, 917515, 14, 0, 983051, 14, 0, 1048587, 14, 0, 1048586, 14, 0, 1114122, 14, 0, 1179658, 14, 0, 1245194, 14, 0, 1310730, 14, 0, 1310731, 14, 0, 1310732, 14, 0, 1310733, 14, 0, 1310734, 14, 0, 1179662, 14, 0, 1245198, 14, 0, 1048588, 14, 0, 1048589, 14, 0, 983053, 14, 0, 917517, 14, 0, 983054, 14, 0, 917518, 14, 0, 851982, 14, 0, 786446, 14, 0, 720910, 14, 0, 655374, 14, 0, 589838, 14, 0, 851981, 14, 0, 851980, 14, 0, 917516, 14, 0, 786444, 14, 0, 786445, 14, 0, 720908, 14, 0, 720909, 14, 0, 655372, 14, 0, 524300, 14, 0, 458764, 14, 0, 393228, 14, 0, 327692, 14, 0, 393229, 14, 0, 589834, 14, 0, 655370, 14, 0, 720906, 14, 0, 786442, 14, 0, 851978, 14, 0, 917514, 14, 0, 983049, 14, 0, 917513, 14, 0, 851977, 14, 0, 786441, 14, 0, 720905, 14, 0, 655369, 14, 0, 589833, 14, 0, 589832, 14, 0, 720904, 14, 0, 786440, 14, 0, 851976, 14, 0, 917512, 14, 0, 983048, 14, 0, 917511, 14, 0, 983047, 14, 0, 1048583, 14, 0, 1114119, 14, 0, 1179655, 14, 0, 1245191, 14, 0, 1310727, 14, 0, 1114120, 14, 0, 1179656, 14, 0, 1245192, 14, 0, 1310728, 14, 0, 1310729, 14, 0, 1114121, 14, 0, 1310726, 14, 0, 1310725, 14, 0, 1310724, 14, 0, 1310721, 14, 0, 1245185, 14, 0, 1179649, 14, 0, 1114113, 14, 0, 1048577, 14, 0, 1048576, 14, 0, 1114112, 14, 0, 1179648, 14, 0, 1245184, 14, 0, 983041, 14, 0, 983042, 14, 0, 1048578, 14, 0, 1114114, 14, 0, 1179650, 14, 0, 1179651, 14, 0, 1114115, 14, 0, 1245188, 14, 0, 1245189, 14, 0, 1245190, 14, 0, 1179654, 14, 0, 1114117, 14, 0, 1048581, 14, 0, 983045, 14, 0, 983046, 14, 0, 1048582, 14, 0, 1048580, 14, 0, 983044, 14, 0, 983043, 14, 0, 1245187, 65550, 0, 1310723, 65550, 0, 1310722, 65550, 0, 1310720, 65550, 0, 1048584, 65550, 0, 983050, 65550, 0, 1048590, 65550, 0, 1114126, 65550, 0, 655373, 65550, 0, 589837, 65550, 0, 524301, 65550, 0, 589836, 65550, 0, 524298, 65550, 0, 524297, 65550, 0, 655368, 65550, 0, 327690, 65550, 0, 262153, 65550, 0, 131081, 65550, 0, 65538, 65550, 0, 131073, 65550, 0, 589825, 65550, 0, 655360, 65550, 0, 720897, 65550, 0, 983040, 131086, 0, 917505, 131086, 0, 917506, 131086, 0, 917507, 131086, 0, 917508, 131086, 0, 917509, 131086, 0, 917510, 131086, 0, 851975, 131086, 0, 786439, 131086, 0, 720903, 131086, 0, 720902, 131086, 0, 720901, 131086, 0, 720900, 131086, 0, 786435, 131086, 0, 786434, 131086, 0, 786433, 131086, 0, 655362, 131086, 0, 655361, 131086, 0, 720896, 131086, 0, 589824, 131086, 0, 524289, 131086, 0, 458753, 131086, 0, 458752, 131086, 0, 589831, 131086, 0, 524296, 131086, 0, 196616, 131086, 0, 196617, 131086, 0, 1114116, 131086, 0, 1179652, 131086, 0, 1179653, 131086, 0, 1114118, 131086, 0, 1048579, 131086, 0, 1245186, 131086, 0, 1179657, 14, 0, 917504, 655374, 0, 851968, 655374, 0, 786432, 655374, 0, 524288, 655374, 0, 851969, 655374, 0, 851970, 655374, 0, 851971, 655374, 0, 851972, 655374, 0, 851973, 655374, 0, 851974, 655374, 0, 786438, 655374, 0, 786437, 655374, 0, 786436, 655374, 0, 589828, 524302, 0, 1245196, 524302, 0, 1048585, 589838, 0, 1245193, 589838, 0, 983052, 589838, 0, 1245195, 458766, 0, 1179659, 458766, 0, 1114123, 458766, 0, 1114124, 458766, 0, 1114125, 458766, 0, 1179661, 458766, 0, 1245197, 458766, 0, 1179660, 458766, 0, 589827, 458766, 0, 524291, 458766, 0, 458755, 458766, 0, 458756, 458766, 0, 458757, 458766, 0, 524293, 458766, 0, 589829, 458766, 0, 524292, 458766, 0, 262148, 458766, 0, 196612, 458766, 0, 131076, 458766, 0, 131077, 458766, 0, 131078, 458766, 0, 196614, 458766, 0, 262150, 458766, 0, 196613, 458766, 0, 262149, 720910, 0, 196618, 14, 0, 524302, 393230, 0, 458766, 393230, 0, 393230, 393230, 0, 327694, 393230, 0, 262158, 393230, 0, 262157, 393230, 0, 262156, 393230, 0, 196620, 393230, 0, 196619, 393230, 0, 131083, 393230, 0, 131082, 393230, 0, 65546, 393230, 0, 65545, 393230, 0, 6, 393230, 0, 7, 393230, 0, 8, 393230, 0, 9, 393230, 0, 10, 393230, 0, 11, 393230, 0, 12, 393230, 0, 13, 393230, 0, 14, 393230, 0, 65550, 393230, 0, 131086, 393230, 0, 196622, 393230, 0, 196621, 393230, 0, 131085, 393230, 0, 131084, 393230, 0, 65548, 393230, 0, 65547, 393230, 0, 65549, 393230, 0, 458765, 327694, 0, 327693, 327694, 0, 262154, 327694, 0, 262155, 327694, 0, 65544, 327694, 0, 4, 327694, 0, 5, 327694, 0)
+modulate = Color(1, 1, 1, 0.490196)
+layer_0/tile_data = PackedInt32Array(0, 14, 0, 65536, 14, 0, 131072, 14, 0, 196608, 14, 0, 262144, 14, 0, 327680, 14, 0, 393216, 14, 0, 393217, 14, 0, 393218, 14, 0, 393219, 14, 0, 327683, 14, 0, 262147, 14, 0, 196611, 14, 0, 131075, 14, 0, 65539, 14, 0, 3, 14, 0, 2, 14, 0, 1, 14, 0, 65537, 14, 0, 131074, 14, 0, 196610, 14, 0, 262146, 14, 0, 327682, 14, 0, 196609, 14, 0, 262145, 14, 0, 327681, 14, 0, 458754, 14, 0, 524290, 14, 0, 589826, 14, 0, 655363, 14, 0, 720899, 14, 0, 720898, 14, 0, 655364, 196622, 0, 655365, 196622, 0, 655366, 14, 0, 655367, 14, 0, 589830, 14, 0, 524294, 14, 0, 458758, 14, 0, 393222, 14, 0, 327686, 14, 0, 327685, 14, 0, 327684, 14, 0, 393220, 14, 0, 393221, 14, 0, 65540, 14, 0, 65541, 14, 0, 65542, 14, 0, 65543, 14, 0, 131079, 14, 0, 196615, 14, 0, 262151, 14, 0, 327687, 14, 0, 393223, 14, 0, 458759, 14, 0, 524295, 14, 0, 458760, 14, 0, 393224, 14, 0, 327688, 14, 0, 262152, 14, 0, 131080, 14, 0, 327689, 14, 0, 393225, 14, 0, 458761, 14, 0, 393226, 14, 0, 458762, 14, 0, 327691, 14, 0, 393227, 14, 0, 458763, 14, 0, 524299, 14, 0, 589835, 14, 0, 655371, 14, 0, 720907, 14, 0, 786443, 14, 0, 851979, 14, 0, 917515, 14, 0, 983051, 14, 0, 1048587, 196622, 0, 1048586, 14, 0, 1114122, 14, 0, 1179658, 14, 0, 1245194, 196622, 0, 1310730, 196622, 0, 1310731, 196622, 0, 1310732, 196622, 0, 1310733, 14, 0, 1310734, 14, 0, 1179662, 14, 0, 1245198, 14, 0, 1048588, 196622, 0, 1048589, 14, 0, 983053, 14, 0, 917517, 14, 0, 983054, 14, 0, 917518, 14, 0, 851982, 14, 0, 786446, 14, 0, 720910, 14, 0, 655374, 14, 0, 589838, 14, 0, 851981, 14, 0, 851980, 14, 0, 917516, 14, 0, 786444, 14, 0, 786445, 14, 0, 720908, 14, 0, 720909, 14, 0, 655372, 14, 0, 524300, 14, 0, 458764, 14, 0, 393228, 14, 0, 327692, 14, 0, 393229, 14, 0, 589834, 14, 0, 655370, 14, 0, 720906, 14, 0, 786442, 14, 0, 851978, 14, 0, 917514, 14, 0, 983049, 14, 0, 917513, 14, 0, 851977, 14, 0, 786441, 14, 0, 720905, 14, 0, 655369, 14, 0, 589833, 14, 0, 589832, 14, 0, 720904, 14, 0, 786440, 14, 0, 851976, 14, 0, 917512, 14, 0, 983048, 196622, 0, 917511, 14, 0, 983047, 196622, 0, 1048583, 196622, 0, 1114119, 196622, 0, 1179655, 196622, 0, 1245191, 196622, 0, 1310727, 14, 0, 1114120, 14, 0, 1179656, 196622, 0, 1245192, 196622, 0, 1310728, 14, 0, 1310729, 196622, 0, 1114121, 196622, 0, 1310726, 196622, 0, 1310725, 196622, 0, 1310724, 196622, 0, 1310721, 196622, 0, 1245185, 196622, 0, 1179649, 196622, 0, 1114113, 14, 0, 1048577, 14, 0, 1048576, 14, 0, 1114112, 14, 0, 1179648, 14, 0, 1245184, 14, 0, 983041, 14, 0, 983042, 14, 0, 1048578, 14, 0, 1114114, 14, 0, 1179650, 196622, 0, 1179651, 196622, 0, 1114115, 14, 0, 1245188, 196622, 0, 1245189, 196622, 0, 1245190, 196622, 0, 1179654, 196622, 0, 1114117, 14, 0, 1048581, 14, 0, 983045, 14, 0, 983046, 14, 0, 1048582, 14, 0, 1048580, 14, 0, 983044, 14, 0, 983043, 14, 0, 1245187, 65550, 0, 1310723, 65550, 0, 1310722, 65550, 0, 1310720, 65550, 0, 1048584, 65550, 0, 983050, 65550, 0, 1048590, 65550, 0, 1114126, 65550, 0, 655373, 65550, 0, 589837, 65550, 0, 524301, 65550, 0, 589836, 65550, 0, 524298, 65550, 0, 524297, 65550, 0, 655368, 65550, 0, 327690, 65550, 0, 262153, 65550, 0, 131081, 65550, 0, 65538, 65550, 0, 131073, 65550, 0, 589825, 65550, 0, 655360, 65550, 0, 720897, 65550, 0, 983040, 131086, 0, 917505, 131086, 0, 917506, 131086, 0, 917507, 131086, 0, 917508, 131086, 0, 917509, 131086, 0, 917510, 131086, 0, 851975, 131086, 0, 786439, 131086, 0, 720903, 131086, 0, 720902, 131086, 0, 720901, 131086, 0, 720900, 131086, 0, 786435, 131086, 0, 786434, 131086, 0, 786433, 131086, 0, 655362, 131086, 0, 655361, 131086, 0, 720896, 131086, 0, 589824, 131086, 0, 524289, 131086, 0, 458753, 131086, 0, 458752, 131086, 0, 589831, 131086, 0, 524296, 131086, 0, 196616, 131086, 0, 196617, 131086, 0, 1114116, 131086, 0, 1179652, 196622, 0, 1179653, 131086, 0, 1114118, 131086, 0, 1048579, 131086, 0, 1245186, 131086, 0, 1179657, 196622, 0, 917504, 655374, 0, 851968, 655374, 0, 786432, 655374, 0, 524288, 655374, 0, 851969, 655374, 0, 851970, 655374, 0, 851971, 655374, 0, 851972, 655374, 0, 851973, 655374, 0, 851974, 655374, 0, 786438, 655374, 0, 786437, 655374, 0, 786436, 655374, 0, 589828, 524302, 0, 1245196, 524302, 0, 1048585, 589838, 0, 1245193, 589838, 0, 983052, 589838, 0, 1245195, 458766, 0, 1179659, 458766, 0, 1114123, 458766, 0, 1114124, 458766, 0, 1114125, 458766, 0, 1179661, 458766, 0, 1245197, 458766, 0, 1179660, 458766, 0, 589827, 458766, 0, 524291, 458766, 0, 458755, 458766, 0, 458756, 458766, 0, 458757, 458766, 0, 524293, 458766, 0, 589829, 458766, 0, 524292, 458766, 0, 262148, 458766, 0, 196612, 458766, 0, 131076, 458766, 0, 131077, 458766, 0, 131078, 458766, 0, 196614, 458766, 0, 262150, 458766, 0, 196613, 458766, 0, 262149, 720910, 0, 196618, 14, 0, 524302, 393230, 0, 458766, 393230, 0, 393230, 393230, 0, 327694, 393230, 0, 262158, 393230, 0, 262157, 393230, 0, 262156, 393230, 0, 196620, 393230, 0, 196619, 393230, 0, 131083, 393230, 0, 131082, 393230, 0, 65546, 393230, 0, 65545, 393230, 0, 6, 393230, 0, 7, 393230, 0, 8, 393230, 0, 9, 393230, 0, 10, 393230, 0, 11, 393230, 0, 12, 393230, 0, 13, 393230, 0, 14, 393230, 0, 65550, 393230, 0, 131086, 393230, 0, 196622, 393230, 0, 196621, 393230, 0, 131085, 393230, 0, 131084, 393230, 0, 65548, 393230, 0, 65547, 393230, 0, 65549, 393230, 0, 458765, 327694, 0, 327693, 327694, 0, 262154, 327694, 0, 262155, 327694, 0, 65544, 327694, 0, 4, 327694, 0, 5, 327694, 0)
 
 [node name="Player" type="Node2D" parent="Map Layer/Units" index="0"]
 
 [node name="Roy" parent="Map Layer/Units/Player" index="0" instance=ExtResource("4_vkjsj")]
 z_index = 288
-material = SubResource("ShaderMaterial_er80w")
+material = SubResource("ShaderMaterial_tb4m8")
 position = Vector2(32, 288)
 
 [node name="Marcus" parent="Map Layer/Units/Player" index="1" instance=ExtResource("6_41yfy")]
 z_index = 272
-material = SubResource("ShaderMaterial_4mnb4")
+material = SubResource("ShaderMaterial_djywt")
 position = Vector2(16, 272)
 
 [node name="Alen" parent="Map Layer/Units/Player" index="2" instance=ExtResource("10_um4bb")]
 z_index = 272
-material = SubResource("ShaderMaterial_ook4u")
+material = SubResource("ShaderMaterial_qm73f")
 position = Vector2(48, 272)
 
 [node name="Lance" parent="Map Layer/Units/Player" index="3" instance=ExtResource("17_lj7l3")]
 z_index = 288
-material = SubResource("ShaderMaterial_12hf4")
+material = SubResource("ShaderMaterial_miaw6")
 position = Vector2(64, 288)
 
 [node name="Wolt" parent="Map Layer/Units/Player" index="4" instance=ExtResource("11_ify8r")]
 z_index = 256
-material = SubResource("ShaderMaterial_lmjp8")
+material = SubResource("ShaderMaterial_cqwvr")
 position = Vector2(32, 256)
 
 [node name="Bors" parent="Map Layer/Units/Player" index="5" instance=ExtResource("13_1ke26")]
 z_index = 304
-material = SubResource("ShaderMaterial_f535w")
+material = SubResource("ShaderMaterial_yfp8o")
 position = Vector2(48, 304)
 
 [node name="Enemy" type="Node2D" parent="Map Layer/Units" index="1"]
 
 [node name="Damas" parent="Map Layer/Units/Enemy" index="0" instance=ExtResource("13_b2nf3")]
 z_index = 64
-material = SubResource("ShaderMaterial_4rotw")
+material = SubResource("ShaderMaterial_biubs")
 position = Vector2(80, 64)
 
 [node name="Fighter2" parent="Map Layer/Units/Enemy" index="1" instance=ExtResource("10_g0esg")]
 z_index = 80
-material = SubResource("ShaderMaterial_xxbho")
+material = SubResource("ShaderMaterial_j3hwm")
 position = Vector2(64, 80)
 texture = ExtResource("19_wsf8a")
 unit_name = "Bandit"
@@ -523,7 +524,7 @@ items = Array[Resource("res://items/item.gd")]([SubResource("Resource_ol35s")])
 
 [node name="Fighter3" parent="Map Layer/Units/Enemy" index="2" instance=ExtResource("10_g0esg")]
 z_index = 80
-material = SubResource("ShaderMaterial_rexe2")
+material = SubResource("ShaderMaterial_jsesu")
 position = Vector2(96, 80)
 texture = ExtResource("19_wsf8a")
 unit_name = "Bandit"
@@ -534,7 +535,7 @@ items = Array[Resource("res://items/item.gd")]([SubResource("Resource_ol35s")])
 
 [node name="Fighter4" parent="Map Layer/Units/Enemy" index="3" instance=ExtResource("10_g0esg")]
 z_index = 48
-material = SubResource("ShaderMaterial_6febt")
+material = SubResource("ShaderMaterial_o3sii")
 position = Vector2(16, 48)
 texture = ExtResource("19_wsf8a")
 unit_name = "Bandit"
@@ -545,7 +546,7 @@ items = Array[Resource("res://items/item.gd")]([SubResource("Resource_ol35s")])
 
 [node name="Fighter5" parent="Map Layer/Units/Enemy" index="4" instance=ExtResource("10_g0esg")]
 z_index = 112
-material = SubResource("ShaderMaterial_dlo4h")
+material = SubResource("ShaderMaterial_x1pbm")
 position = Vector2(176, 112)
 texture = ExtResource("19_wsf8a")
 unit_name = "Bandit"
@@ -556,7 +557,7 @@ items = Array[Resource("res://items/item.gd")]([SubResource("Resource_ol35s")])
 
 [node name="Fighter6" parent="Map Layer/Units/Enemy" index="5" instance=ExtResource("10_g0esg")]
 z_index = 144
-material = SubResource("ShaderMaterial_bhoxs")
+material = SubResource("ShaderMaterial_47lun")
 position = Vector2(144, 144)
 texture = ExtResource("19_wsf8a")
 unit_name = "Bandit"
@@ -567,7 +568,7 @@ items = Array[Resource("res://items/item.gd")]([SubResource("Resource_ol35s")])
 
 [node name="Fighter7" parent="Map Layer/Units/Enemy" index="6" instance=ExtResource("10_g0esg")]
 z_index = 144
-material = SubResource("ShaderMaterial_yoapm")
+material = SubResource("ShaderMaterial_q3h4l")
 position = Vector2(128, 144)
 texture = ExtResource("19_wsf8a")
 unit_name = "Bandit"
@@ -578,7 +579,7 @@ items = Array[Resource("res://items/item.gd")]([SubResource("Resource_ol35s")])
 
 [node name="Fighter8" parent="Map Layer/Units/Enemy" index="7" instance=ExtResource("10_g0esg")]
 z_index = 208
-material = SubResource("ShaderMaterial_n1i0d")
+material = SubResource("ShaderMaterial_trw8r")
 position = Vector2(192, 208)
 texture = ExtResource("19_wsf8a")
 unit_name = "Bandit"
@@ -589,7 +590,7 @@ items = Array[Resource("res://items/item.gd")]([SubResource("Resource_ol35s")])
 
 [node name="Fighter9" parent="Map Layer/Units/Enemy" index="8" instance=ExtResource("10_g0esg")]
 z_index = 240
-material = SubResource("ShaderMaterial_tcwgx")
+material = SubResource("ShaderMaterial_j1lqe")
 position = Vector2(112, 240)
 texture = ExtResource("19_wsf8a")
 unit_name = "Bandit"
@@ -600,7 +601,7 @@ items = Array[Resource("res://items/item.gd")]([SubResource("Resource_ol35s")])
 
 [node name="Fighter10" parent="Map Layer/Units/Enemy" index="9" instance=ExtResource("10_g0esg")]
 z_index = 224
-material = SubResource("ShaderMaterial_iak6e")
+material = SubResource("ShaderMaterial_ppyoh")
 position = Vector2(128, 224)
 texture = ExtResource("19_wsf8a")
 unit_name = "Bandit"
@@ -611,7 +612,7 @@ items = Array[Resource("res://items/item.gd")]([SubResource("Resource_ol35s")])
 
 [node name="Fighter11" parent="Map Layer/Units/Enemy" index="10" instance=ExtResource("10_g0esg")]
 z_index = 288
-material = SubResource("ShaderMaterial_mnc6s")
+material = SubResource("ShaderMaterial_822w0")
 position = Vector2(128, 288)
 texture = ExtResource("19_wsf8a")
 unit_name = "Bandit"
@@ -622,7 +623,7 @@ items = Array[Resource("res://items/item.gd")]([SubResource("Resource_ol35s")])
 
 [node name="Brigand" parent="Map Layer/Units/Enemy" index="11" instance=ExtResource("10_g0esg")]
 z_index = 144
-material = SubResource("ShaderMaterial_t22hd")
+material = SubResource("ShaderMaterial_g22qs")
 position = Vector2(64, 144)
 texture = ExtResource("22_b7ojr")
 unit_name = "Bandit"
@@ -633,7 +634,7 @@ items = Array[Resource("res://items/item.gd")]([SubResource("Resource_ol35s")])
 
 [node name="Archer" parent="Map Layer/Units/Enemy" index="12" instance=ExtResource("10_g0esg")]
 z_index = 32
-material = SubResource("ShaderMaterial_skx1s")
+material = SubResource("ShaderMaterial_u0x5q")
 position = Vector2(16, 32)
 texture = ExtResource("16_mu4wr")
 unit_name = "Bandit"
@@ -644,7 +645,7 @@ items = Array[Resource("res://items/item.gd")]([SubResource("Resource_1fxxh")])
 
 [node name="Archer2" parent="Map Layer/Units/Enemy" index="13" instance=ExtResource("10_g0esg")]
 z_index = 160
-material = SubResource("ShaderMaterial_lpstq")
+material = SubResource("ShaderMaterial_2eb0x")
 position = Vector2(160, 160)
 texture = ExtResource("16_mu4wr")
 unit_name = "Bandit"

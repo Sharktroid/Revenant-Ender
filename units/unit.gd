@@ -676,10 +676,9 @@ func _get_movement_tiles(movement: int) -> void:
 	# Gets the movement tiles of the unit
 	var h = []
 	var tiles_first_pass = {}
-	var tiles_second_pass = {}
 	var start: Vector2i = (position)
-	const RANGE_MULT: float = 4.0/3
-	_movement_tiles = {}
+	const RANGE_MULT: float = 4.0/3\
+	_movement_tiles = {movement: [start]}\
 	if position == ((position/16).floor() * 16):
 		# Gets the initial grid
 		for y in range(-movement * RANGE_MULT, movement * RANGE_MULT + 1):
@@ -687,7 +686,7 @@ func _get_movement_tiles(movement: int) -> void:
 			for x in range(-(movement * RANGE_MULT - absi(y)) , (movement * RANGE_MULT - absi(y)) + 1):
 				v.append(start + Vector2i(x * 16, y * 16))
 			h.append_array(v)
-		# Seperates by remaining movement
+		# Orders tiles by distance from center
 		for x in h:
 			var boundary: Vector2i = MapController.map.get_size() - Vector2(16, 16)
 			if x == x.clamp(Vector2i(), boundary):
@@ -695,43 +694,34 @@ func _get_movement_tiles(movement: int) -> void:
 				if not(val in tiles_first_pass):
 					tiles_first_pass[val] = []
 				tiles_first_pass[val].append(x)
-		# Reduces tile value by terrain cost.
-		for k in tiles_first_pass.keys():
-			var v = tiles_first_pass[k]
-			for i in v:
-				var val = k
-				if i != start:
-					var cost = (MapController.map.get_terrain_cost(self, i)) - 1
-					val -= cost
-				if not(val in tiles_second_pass.keys()):
-					tiles_second_pass[val] = []
-				tiles_second_pass[val].append(i)
-		var max_val = tiles_second_pass.keys().max()
+		var max_val: int = tiles_first_pass.keys().max()
+		var min_val: int = tiles_first_pass.keys().min()
 		# Calculates each tile if they have the right movement value.
-		for k in range(max_val, -1, -1):
-			if k in tiles_second_pass.keys():
-				var v = tiles_second_pass[k]
+		for k in range(max_val, min_val - 1, -1):
+			if k in tiles_first_pass.keys():
+				var v = tiles_first_pass[k]
 				for tile in v:
-					var cost = (MapController.map.get_terrain_cost(self, tile))
-					var val = k
+					var cost: float = (MapController.map.get_terrain_cost(self, tile))
 					var valid = false
-					if tile != start:
-						if val + cost in _movement_tiles.keys():
-							for c in _movement_tiles[val + cost]:
+					var greatest_adjacent_cost: float
+					for a in _movement_tiles.keys():
+						if a > k - cost:
+							for c in _movement_tiles[a]:
 								if (c - tile) in [Vector2i(-16, 0), Vector2i(16, 0),
 										Vector2i(0, -16), Vector2i(0, 16)]:
 									valid = true
-									break
-						if valid == false:
-							val -= 1
-					if val == k:
-						if not(val in _movement_tiles.keys()):
-							_movement_tiles[val] = []
-						_movement_tiles[val].append(tile)
+									greatest_adjacent_cost = max(greatest_adjacent_cost, a)
+					if valid:
+						var val: float = greatest_adjacent_cost - cost
+						if val >= 0:
+							if not(val in _movement_tiles.keys()):
+								_movement_tiles[val] = []
+							_movement_tiles[val].append(tile)
 					else:
-						if not(val in tiles_second_pass.keys()):
-							tiles_second_pass[val] = []
-						tiles_second_pass[val].append(tile)
+						var val: int = k - 1
+						if not(val in tiles_first_pass.keys()):
+							tiles_first_pass[val] = []
+						tiles_first_pass[val].append(tile)
 		_raw_movement_tiles = []
 		for v in _movement_tiles.values():
 			_raw_movement_tiles.append_array(v)
@@ -759,7 +749,7 @@ func _set_palette(color: Faction.colors) -> void:
 	material.set_shader_parameter("new_colors", new_colors)
 
 
-func _get_path_subfunc(num: int, moved: Vector2i, all_tiles: Array[Vector2i],
+func _get_path_subfunc(num: float, moved: Vector2i, all_tiles: Array[Vector2i],
 		moved_tiles: Array[Vector2i], destination: Vector2i):
 	# Recursive function used for getting the path. Do not use outside of "get_path".
 	if num > 0:
@@ -806,7 +796,7 @@ func _get_path_subfunc(num: int, moved: Vector2i, all_tiles: Array[Vector2i],
 				if temp_moved == destination:
 					moved_tiles = temp_moved_tiles
 					return moved_tiles
-				var new_num: int = num - MapController.map.get_terrain_cost(self, temp_moved)
+				var new_num: float = num - MapController.map.get_terrain_cost(self, temp_moved)
 				var tmt = temp_moved_tiles # Abbreviation
 				var value = _get_path_subfunc(new_num, temp_moved, all_tiles, tmt, destination)
 				if value != null:
