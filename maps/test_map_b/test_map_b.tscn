@@ -653,3 +653,6 @@ unit_description = "Brigands of Lycia."
 unit_class = SubResource("Resource_bfbd5")
 faction_id = 1
 items = Array[Resource("res://items/item.gd")]([SubResource("Resource_1fxxh")])
+
+[node name="Debug Border Overlay Container" parent="Map Layer" index="6"]
+visible = false

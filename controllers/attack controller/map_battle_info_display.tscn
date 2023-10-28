@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://dq4qai3phb4s7"]
+
+[ext_resource type="Script" path="res://controllers/attack controller/map_battle_info_display.gd" id="1_7vi17"]
+[ext_resource type="PackedScene" uid="uid://wouoek0ybw4b" path="res://controllers/attack controller/map_battle_hp_bar/map_hp_bar.tscn" id="1_hjvop"]
+
+[node name="Map Battle Info Display" type="HBoxContainer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -82.0
+offset_right = 82.0
+offset_bottom = 31.0
+grow_horizontal = 2
+script = ExtResource("1_7vi17")
+
+[node name="Left HP Bar" parent="." instance=ExtResource("1_hjvop")]
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="Right HP Bar" parent="." instance=ExtResource("1_hjvop")]
+layout_mode = 2
+size_flags_horizontal = 2

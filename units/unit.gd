@@ -55,7 +55,7 @@ var _personal_base_stats: Dictionary
 var _raw_movement_tiles: Array[Vector2i] # All movement tiles without organization.
 var _path: Array[Vector2i] # Path the unit will follow when moving.
 var _current_statuses: Array[statuses]
-var _current_health: float: get = get_current_health, set = set_current_health
+var _current_health: float
 var _movement_speed: float = 8 # Speed unit moves across the map.
 static var _all_units: Dictionary # Lists all unit classes.
 # Dictionaries that convert faction/variant into animation modifier.
@@ -203,10 +203,12 @@ func get_damage(defender: Unit) -> float:
 
 
 ## Sets units current health.
-func set_current_health(health: float) -> void:
+func set_current_health(health: float, does_die: bool = true) -> void:
 	_current_health = clampf(health, 0, get_stat(stats.HITPOINTS))
 	if not Engine.is_editor_hint():
 		$"Health Bar".update()
+	if get_current_health() <= 0 and does_die:
+		die()
 
 
 func get_current_health() -> float:
@@ -215,9 +217,7 @@ func get_current_health() -> float:
 
 ## Increases "current_health" by "added_health".
 func add_current_health(added_health: float, does_die: bool = true) -> void:
-	set_current_health(get_current_health() + added_health)
-	if get_current_health() <= 0 and does_die:
-		die()
+	set_current_health(get_current_health() + added_health, does_die)
 
 
 func set_animation(animation: animations) -> void:
@@ -619,8 +619,8 @@ func get_all_attack_tiles() -> Array[Vector2i]:
 		for tile in raw_movement_tiles:
 			for y in range(-max_range, max_range + 1):
 				for x in range(-max_range, max_range + 1):
-					var attack_tile: Vector2i = tile + Vector2i(x * 16, y * 16)
-					attack_tile = attack_tile.clamp(Vector2i(0, 0), map_size)
+					var attack_tile: Vector2i = (tile + Vector2i(x * 16, y * 16))\
+							.clamp(Vector2i(0, 0), map_size)
 					if not(attack_tile in all_attack_tiles + raw_movement_tiles):
 						var distance: int = floori(GenFunc.get_tile_distance(tile, attack_tile))
 						if distance >= min_range and distance <= max_range:
@@ -677,8 +677,8 @@ func _get_movement_tiles(movement: int) -> void:
 	var h = []
 	var tiles_first_pass = {}
 	var start: Vector2i = (position)
-	const RANGE_MULT: float = 4.0/3
-	_movement_tiles = {movement: [start]}
+	const RANGE_MULT: float = 4.0/3\
+	_movement_tiles = {movement: [start]}\
 	if position == ((position/16).floor() * 16):
 		# Gets the initial grid
 		for y in range(-movement * RANGE_MULT, movement * RANGE_MULT + 1):

@@ -27,14 +27,16 @@ func _ready() -> void:
 
 	var angle: float = (Vector2(target_tile) - position).angle()
 	var angle_adjusted = (angle * 4)/PI
+	var animation: Unit.animations
 	if angle_adjusted <= 1 and angle_adjusted >= -1:
-		_combat_sprite.set_animation(Unit.animations.MOVING_RIGHT)
+		animation = Unit.animations.MOVING_RIGHT
 	elif angle_adjusted > -3 and angle_adjusted < -1:
-		_combat_sprite.set_animation(Unit.animations.MOVING_UP)
+		animation = Unit.animations.MOVING_UP
 	elif angle_adjusted > 1 and angle_adjusted < 3:
-		_combat_sprite.set_animation(Unit.animations.MOVING_DOWN)
+		animation = Unit.animations.MOVING_DOWN
 	else:
-		_combat_sprite.set_animation(Unit.animations.MOVING_LEFT)
+		animation = Unit.animations.MOVING_LEFT
+	_combat_sprite.set_animation(animation)
 
 
 func play_animation() -> void:
