@@ -59,7 +59,7 @@ func update() -> void:
 		enabled_items.Drop = connected_unit.traveler != null
 		enabled_items.Items = len(connected_unit.items) > 0
 		# Gets all adjacent units
-		for unit in get_tree().get_nodes_in_group("units"):
+		for unit in MapController.get_units():
 			if not unit.is_ghost and unit != connected_unit and unit.visible == true:
 				var cursor_pos: Vector2i = MapController.get_cursor().get_true_pos()
 				if GenFunc.get_tile_distance(cursor_pos, unit.get_position()) == 0 \

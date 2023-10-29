@@ -98,7 +98,7 @@ func get_faction_from_id(faction_id: int) -> Faction:
 
 func get_units_by_faction(faction_id: int) -> Array[Unit]:
 	var units: Array[Unit] = []
-	for unit in get_tree().get_nodes_in_group("unit"):
+	for unit in MapController.get_units():
 		if unit.faction_id == faction_id:
 			units.append(unit)
 	return units
@@ -135,7 +135,7 @@ func start_turn() -> void:
 
 func end_turn() -> void:
 	## Ends current turn.
-	for unit in get_tree().get_nodes_in_group("units"):
+	for unit in MapController.get_units():
 		unit.awaken()
 	next_faction()
 	update_outline()
@@ -221,7 +221,7 @@ func display_tiles(tiles: Array[Vector2i], type: tile_types, modulation: float =
 
 func display_highlighted_tiles(tiles: Array[Vector2i], unit: Unit, type: tile_types) -> Node2D:
 	var unit_coords: Array[Vector2i] = []
-	for e_unit in get_tree().get_nodes_in_group("units"):
+	for e_unit in MapController.get_units():
 		if not(e_unit.is_ghost or unit.is_friend(e_unit)) and e_unit.visible:
 			unit_coords.append(Vector2i(e_unit.position))
 	return display_tiles(tiles, type, 0.5, unit_coords)
@@ -232,7 +232,7 @@ func _get_terrain(coords: Vector2i, faction: Faction) -> String:
 	## faction: faction of the unit checking
 	if coords != coords.clamp(Vector2i(), get_size() - Vector2(16, 16)):
 		return "Blocked"
-	for unit in get_tree().get_nodes_in_group("units"): # for units
+	for unit in MapController.get_units(): # for units
 		if coords == Vector2i(unit.transform.get_origin()):
 #			if "Doesn't Block" in unit.tags:
 #				return unit.unit_class

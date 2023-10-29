@@ -523,7 +523,7 @@ func update_path(destination: Vector2i, num: int = current_movement) -> void:
 	if not destination in raw_movement_tiles \
 			and destination in all_attack_tiles \
 			and GenFunc.get_tile_distance(get_unit_path()[-1], destination) > 1:
-		for unit in get_tree().get_nodes_in_group("units"):
+		for unit in MapController.get_units():
 			if (Vector2i(unit.position) in all_attack_tiles
 					and Vector2i(unit.position) == destination):
 				var adjacent_movement_tiles: Array[Vector2i] = []

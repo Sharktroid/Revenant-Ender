@@ -2,7 +2,7 @@ extends Node2D
 
 
 func _draw():
-	for unit in get_tree().get_nodes_in_group("units"):
+	for unit in MapController.get_units():
 		unit.modulate = Color.WHITE
 	var outlined_units: Dictionary = MapController.map.get_current_faction().outlined_units
 	var faction_stack: Array[Faction] = get_parent().get_parent().faction_stack
@@ -27,7 +27,7 @@ func _draw():
 		var current_faction: Faction = get_parent().get_parent().get_current_faction()
 		if current_faction.full_outline \
 				and outline_faction != current_faction:
-			for unit in get_tree().get_nodes_in_group("units"):
+			for unit in MapController.get_units():
 				var unit_faction: Faction = unit.get_faction()
 				var unit_stance: Faction.diplo_stances = current_faction.get_diplomacy_stance(unit_faction)
 				if unit_stance == Faction.diplo_stances.ENEMY \

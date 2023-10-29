@@ -53,11 +53,11 @@ static func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[int]
 
 
 static func _map_attack(attacker: Unit, defender: Unit, attacker_animation: MapAttack,
-	defender_animation: MapAttack) -> void:
+		defender_animation: MapAttack) -> void:
 	attacker_animation.play_animation()
 	await attacker_animation.deal_damage
-	var old_health: int = defender.get_current_health()
-	var new_health: int = maxi(old_health - attacker.get_damage(defender), 0)
+	var old_health: int = ceili(defender.get_current_health())
+	var new_health: int = maxi(floori(old_health - attacker.get_damage(defender)), 0)
 	var max_health: int = defender.get_stat(Unit.stats.HITPOINTS)
 	var current_health: float = old_health
 	while defender.get_current_health() > new_health:
