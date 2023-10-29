@@ -62,9 +62,12 @@ func _expand(text: String, pos: Vector2) -> void:
 
 
 func _resize(new_size: Vector2, pos: Vector2 = _default_position(),
-		init_size: Vector2 = get_popup_node().size, init_position: Vector2 = _default_position()) -> void:
+		init_size: Vector2 = get_popup_node().size,
+		init_position: Vector2 = _default_position()) -> void:
 	var set_pos: Callable = func(new_pos: Vector2) -> void:
-		get_popup_node().position = (new_pos - Vector2(get_popup_node().size.x/2, 0)).clamp(Vector2(), Vector2(GenVars.get_screen_size()) - get_popup_node().size)
+		new_pos -= Vector2(get_popup_node().size.x/2, 0)
+		get_popup_node().position = new_pos.clamp(Vector2(),
+				Vector2(GenVars.get_screen_size()) - get_popup_node().size)
 	var set_node_size: Callable = func(new_size: Vector2) -> void:
 		get_popup_node().size = new_size.clamp(Vector2(), GenVars.get_screen_size())
 	var starting_ticks: int = Engine.get_physics_frames()
