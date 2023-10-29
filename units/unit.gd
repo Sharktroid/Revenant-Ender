@@ -609,6 +609,11 @@ func get_all_attack_tiles() -> Array[Vector2i]:
 	var all_attack_tiles: Array[Vector2i] = []
 	if get_current_weapon():
 		var raw_movement_tiles = get_raw_movement_tiles()
+		var basis_movement_tiles = get_raw_movement_tiles()
+		for unit in MapController.get_units():
+			var unit_pos: Vector2i = unit.position
+			if unit_pos in basis_movement_tiles:
+				basis_movement_tiles.erase(unit_pos)
 		var map_size: Vector2i = MapController.map.get_size() - Vector2(16, 16)
 		var min_range: int = get_current_weapon().min_range
 		var max_range: int = get_current_weapon().max_range
@@ -616,7 +621,7 @@ func get_all_attack_tiles() -> Array[Vector2i]:
 			if weapon is Weapon:
 				min_range = min(weapon.min_range, min_range)
 				max_range = max(weapon.max_range, max_range)
-		for tile in raw_movement_tiles:
+		for tile in basis_movement_tiles:
 			for y in range(-max_range, max_range + 1):
 				for x in range(-max_range, max_range + 1):
 					var attack_tile: Vector2i = (tile + Vector2i(x * 16, y * 16))\
@@ -677,8 +682,8 @@ func _get_movement_tiles(movement: int) -> void:
 	var h = []
 	var tiles_first_pass = {}
 	var start: Vector2i = (position)
-	const RANGE_MULT: float = 4.0/3\
-	_movement_tiles = {movement: [start]}\
+	const RANGE_MULT: float = 4.0/3
+	_movement_tiles = {movement: [start]}
 	if position == ((position/16).floor() * 16):
 		# Gets the initial grid
 		for y in range(-movement * RANGE_MULT, movement * RANGE_MULT + 1):

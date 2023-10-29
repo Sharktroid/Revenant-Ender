@@ -42,6 +42,13 @@ func get_map_camera() -> MapCamera:
 	return (map.get_node("Map Camera") as MapCamera)
 
 
+func get_units() -> Array[Unit]:
+	var units: Array[Unit]
+	for node in get_tree().get_nodes_in_group("unit"):
+		units.append(node)
+	return units
+
+
 func _on_banner_timer_timeout() -> void:
 	$"UI Layer/Turn Banner".texture = null
 	MapController.map.start_turn()

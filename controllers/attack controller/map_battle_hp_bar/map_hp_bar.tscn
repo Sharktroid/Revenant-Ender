@@ -177,6 +177,7 @@ value = 50.0
 show_percentage = false
 
 [node name="Name Container" type="PanelContainer" parent="."]
+layout_mode = 0
 offset_left = 8.0
 offset_right = 72.0
 offset_bottom = 16.0
