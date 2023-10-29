@@ -692,6 +692,7 @@ func _get_movement_tiles(movement: int) -> void:
 				v.append(start + Vector2i(x * 16, y * 16))
 			h.append_array(v)
 		# Orders tiles by distance from center
+		h.erase(start)
 		for x in h:
 			var boundary: Vector2i = MapController.map.get_size() - Vector2(16, 16)
 			if x == x.clamp(Vector2i(), boundary):
