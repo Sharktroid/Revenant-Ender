@@ -12,7 +12,7 @@ func _ready() -> void:
 	%"BG Gradient".add_theme_stylebox_override("panel", panel)
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if is_instance_valid(unit):
 		(%"HP Bar" as ProgressBar).value = unit.get_current_health()
 		%"HP Label".text = str(%"HP Bar".value)

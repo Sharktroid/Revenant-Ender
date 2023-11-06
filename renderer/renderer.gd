@@ -2,6 +2,7 @@ extends SubViewportContainer
 
 
 func _ready() -> void:
+	_on_size_changed()
 	get_viewport().size_changed.connect(_on_size_changed)
 
 

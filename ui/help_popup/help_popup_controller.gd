@@ -1,9 +1,15 @@
 extends Control
 
-const DURATION = 5
+const DURATION: int = 5
+const BORDER := Vector2i(4, 7)
+const TILE_SIZE: int = 32
 
 var _active: bool = false
 var _busy: bool = false
+
+
+func _ready() -> void:
+	get_popup_node().visible = false
 
 
 func _input(event: InputEvent) -> void:
@@ -52,6 +58,9 @@ func get_node_size(text: String) -> Vector2i:
 	get_popup_node().reset_size()
 	get_popup_node().text = string
 	get_popup_node().size = old_size
+#	node_size -= BORDER
+#	node_size = Vector2i((Vector2(node_size)/TILE_SIZE).round()) * TILE_SIZE
+#	node_size += BORDER
 	return node_size
 
 

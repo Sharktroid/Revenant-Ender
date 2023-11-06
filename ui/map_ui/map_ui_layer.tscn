@@ -18,4 +18,6 @@ one_shot = true
 
 [node name="Help Popup" parent="." instance=ExtResource("2_7qlus")]
 z_index = 1
-anchors_preset = 5
+offset_left = -105.0
+offset_right = 101.0
+text = "M"
