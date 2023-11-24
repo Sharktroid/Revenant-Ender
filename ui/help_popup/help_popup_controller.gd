@@ -43,7 +43,10 @@ func is_active() -> bool:
 
 
 func get_popup_node() -> RichTextLabel:
-	return MapController.get_ui().get_node("Help Popup")
+	if MapController.get_ui().has_node("Help Popup"):
+		return MapController.get_ui().get_node("Help Popup")
+	else:
+		return RichTextLabel.new()
 
 
 func get_node_size(text: String) -> Vector2i:

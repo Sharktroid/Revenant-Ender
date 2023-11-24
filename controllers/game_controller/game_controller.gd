@@ -30,7 +30,7 @@ func _input(event: InputEvent) -> void:
 
 
 func get_root() -> Viewport:
-	if get_viewport():
+	if get_viewport() and get_viewport().has_node("SubViewportContainer/SubViewport"):
 		return get_viewport().get_node("SubViewportContainer/SubViewport")
 	else:
 		return Window.new()

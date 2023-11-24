@@ -28,7 +28,10 @@ func create_main_map_menu() -> void:
 
 
 func get_ui() -> CanvasLayer:
-	return GameController.get_root().get_node("Map UI Layer")
+	if GameController.get_root() and GameController.get_root().has_node("Map UI Layer"):
+		return GameController.get_root().get_node("Map UI Layer")
+	else:
+		return CanvasLayer.new()
 
 
 func get_cursor() -> Cursor:
