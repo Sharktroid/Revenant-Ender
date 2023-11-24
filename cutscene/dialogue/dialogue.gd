@@ -1,0 +1,7 @@
+extends Control
+
+const CHARS_PER_SECOND = 300
+
+enum positions {OUTSIDELEFT = -80, FARLEFT = 0, MIDLEFT = 80, CLOSELEFT = 160,
+		CLOSERIGHT = 256, MIDRIGHT = 336, FARRIGHT = 416, OUTSIDERIGHT = 512}
+enum directions {LEFT, RIGHT}
