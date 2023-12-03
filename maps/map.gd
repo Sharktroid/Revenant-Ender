@@ -63,10 +63,10 @@ func unit_wait(_unit) -> void:
 func next_faction() -> void:
 	# Sets the faction to the next faction.
 	curr_faction = (curr_faction + 1) % len(faction_stack)
-	var turn_banner_node: Sprite2D = MapController.get_node("UI Layer/Turn Banner")
+	var turn_banner_node: Sprite2D = MapController.get_ui().get_node("Turn Banner")
 	var faction_name: String = get_current_faction().name.to_lower()
 	var all_names: Array[String] = []
-	var dir: DirAccess = DirAccess.open("res://Turn Banners/")
+	var dir: DirAccess = DirAccess.open("res://turn_banners/")
 	if dir:
 		dir.list_dir_begin()
 		var file_name: String = dir.get_next()
@@ -74,11 +74,13 @@ func next_faction() -> void:
 			all_names.append(file_name.split("_")[0])
 			file_name = dir.get_next()
 	else:
-		push_error('An error occurred when trying to access the path "res://Turn Banners/".')
+		push_error('An error occurred when trying to access the path "res://turn_banners/".')
 	# Only displays factions with banners.
 	if faction_name in all_names:
-		turn_banner_node.texture = load("res://Turn Banners/%s_phase_banner.png" % faction_name)
-		turn_banner_node.get_node("Banner Timer").start()
+		turn_banner_node.texture = load("res://turn_banners/%s_phase_banner.png" % faction_name)
+		var timer: SceneTreeTimer = get_tree().create_timer(82.0/60)
+		await timer.timeout
+		turn_banner_node.texture = null
 	# When there is no banner.
 	else:
 		turn_banner_node.get_node("Banner Timer").emit_signal.call_deferred("timeout")

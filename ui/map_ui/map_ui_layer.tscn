@@ -12,10 +12,6 @@ script = ExtResource("1_3rerv")
 [node name="Turn Banner" type="Sprite2D" parent="."]
 position = Vector2(256, 144)
 
-[node name="Banner Timer" type="Timer" parent="Turn Banner"]
-wait_time = 1.368
-one_shot = true
-
 [node name="Help Popup" parent="." instance=ExtResource("2_7qlus")]
 z_index = 1
 offset_left = -105.0
