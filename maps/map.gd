@@ -288,7 +288,7 @@ func _get_unit_relative(unit: Unit, rel_index: int) -> Unit:
 func _on_cursor_select() -> void:
 	var hovered_unit: Unit = MapController.get_cursor().get_hovered_unit()
 	if hovered_unit and hovered_unit.selectable == true:
-		var controller = SelectedUnitController.new(hovered_unit)
+		var controller := SelectedUnitController.new(hovered_unit)
 		add_child(controller)
 		MapController.selecting = true
 	else:

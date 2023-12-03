@@ -23,7 +23,7 @@ static func combat(attacker: Unit, defender: Unit) -> void:
 
 
 static func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[int]) -> void:
-	var hp_bar = _map_battle_hp_bar_scene.instantiate()
+	var hp_bar: MapHPBar = _map_battle_hp_bar_scene.instantiate()
 	hp_bar.attacker = attacker
 	hp_bar.defender = defender
 	MapController.get_ui().add_child(hp_bar)
@@ -34,8 +34,8 @@ static func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[int]
 	attacker.visible = false
 	defender.visible = false
 	for combat_round in attack_queue:
-		var timer: SceneTreeTimer = attacker.get_tree().create_timer(DELAY)
-		await timer.timeout
+		var combat_timer: SceneTreeTimer = attacker.get_tree().create_timer(DELAY)
+		await combat_timer.timeout
 		match combat_round:
 			ATTACKER: await _map_attack(attacker, defender, attacker_animation, defender_animation)
 			DEFENDER: await _map_attack(defender, attacker, defender_animation, attacker_animation)
@@ -66,7 +66,7 @@ static func _map_attack(attacker: Unit, defender: Unit, attacker_animation: MapA
 		defender.set_current_health(roundi(current_health))
 		await defender.get_tree().process_frame
 	if defender.dead:
-		var fade = FadeOut.new(20.0/60)
+		var fade := FadeOut.new(20.0/60)
 		defender_animation.add_child(fade)
 		await fade.complete
 		defender.queue_free()

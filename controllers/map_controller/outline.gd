@@ -1,6 +1,6 @@
 extends Node2D
 
-var color = Color.RED
+var color := Color.RED
 
 
 func _init():

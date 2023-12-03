@@ -158,7 +158,7 @@ func _process(_delta: float):
 		traveler.position = position
 	_render_status()
 	if Engine.get_process_frames() % 60 == 0:
-		GenFunc.sync_animation($AnimationPlayer)
+		GenFunc.sync_animation($AnimationPlayer as AnimationPlayer)
 	z_index = GenFunc.round_coords_to_tile(position).y
 
 
@@ -180,9 +180,8 @@ func get_class_name() -> String:
 
 func get_current_weapon() -> Weapon:
 	for item in items:
-		if item is Weapon:
-			if can_use_weapon(item):
-				return item
+		if item is Weapon and can_use_weapon(item as Weapon):
+			return item
 	return null
 
 
@@ -199,7 +198,8 @@ func get_attack() -> int:
 
 
 func get_damage(defender: Unit) -> float:
-	return max(0, get_attack() - defender.get_current_defence(items[0].get_damage_type()))
+	return max(0, get_attack() -
+			defender.get_current_defence(get_current_weapon().get_damage_type()))
 
 
 ## Sets units current health.
@@ -310,7 +310,7 @@ func get_weight() -> int:
 func get_path_last_pos() -> Vector2i:
 	var path: Array[Vector2i] = get_unit_path()
 	var unit_positions: Array[Vector2i] = []
-	for unit in get_tree().get_nodes_in_group("unit"):
+	for unit: Unit in MapController.get_units():
 		unit_positions.append(Vector2i(unit.position))
 	while len(path) > 0:
 		if path[-1] in unit_positions:
@@ -323,7 +323,7 @@ func get_path_last_pos() -> Vector2i:
 func get_true_personal_base_stat(stat: stats) -> int:
 	if _personal_base_stats.get(stat):
 		var end_stat: int = personal_end_stats.get(stat, 0)
-		return roundi(remap(1, base_level, get_max_level(), _personal_base_stats[stat], end_stat))
+		return roundi(remap(1, base_level, get_max_level(), _personal_base_stats[stat] as int, end_stat))
 	else:
 		return 0
 
@@ -485,7 +485,7 @@ func move(move_target: Vector2i = get_unit_path()[-1]) -> void:
 				_: set_animation(animations.IDLE)
 
 			while position != _target:
-				var speed = _movement_speed * 60 * GenVars.get_frame_delta()
+				var speed: float = _movement_speed * 60 * GenVars.get_frame_delta()
 				position = position.move_toward(_target, speed)
 				await get_tree().process_frame
 		get_node("Area2D").monitoring = true
@@ -513,12 +513,12 @@ func set_faction(new_faction: Faction) -> void:
 
 ## Gets the path of the unit.
 func update_path(destination: Vector2i, num: int = current_movement) -> void:
-	var moved = position
+	var moved: Vector2i = position
 	var moved_tiles: Array[Vector2i] = [position]
 	if len(_path) == 0:
 		_path.append(Vector2i(position))
 	# Sets destination to an adjacent tile to a unit if a unit is hovered and over an attack tile.
-	var raw_movement_tiles = get_raw_movement_tiles()
+	var raw_movement_tiles: Array[Vector2i] = get_raw_movement_tiles()
 	var all_attack_tiles = get_all_attack_tiles()
 	if not destination in raw_movement_tiles \
 			and destination in all_attack_tiles \
@@ -621,7 +621,7 @@ func get_all_attack_tiles() -> Array[Vector2i]:
 			if weapon is Weapon:
 				min_range = min(weapon.min_range, min_range)
 				max_range = max(weapon.max_range, max_range)
-		for tile in basis_movement_tiles:
+		for tile: Vector2i in basis_movement_tiles:
 			for y in range(-max_range, max_range + 1):
 				for x in range(-max_range, max_range + 1):
 					var attack_tile: Vector2i = (tile + Vector2i(x * 16, y * 16))\
@@ -679,7 +679,7 @@ func _render_status() -> void:
 
 func _get_movement_tiles(movement: int) -> void:
 	# Gets the movement tiles of the unit
-	var h = []
+	var h := []
 	var tiles_first_pass = {}
 	var start: Vector2i = (position)
 	const RANGE_MULT: float = 4.0/3
@@ -687,13 +687,13 @@ func _get_movement_tiles(movement: int) -> void:
 	if position == ((position/16).floor() * 16):
 		# Gets the initial grid
 		for y in range(-movement * RANGE_MULT, movement * RANGE_MULT + 1):
-			var v = []
+			var v := []
 			for x in range(-(movement * RANGE_MULT - absi(y)) , (movement * RANGE_MULT - absi(y)) + 1):
 				v.append(start + Vector2i(x * 16, y * 16))
 			h.append_array(v)
 		# Orders tiles by distance from center
 		h.erase(start)
-		for x in h:
+		for x: Vector2i in h:
 			var boundary: Vector2i = MapController.map.get_size() - Vector2(16, 16)
 			if x == x.clamp(Vector2i(), boundary):
 				var val = floori(movement - (absf(x.x - start.x) + absf(x.y - start.y))/16)
@@ -706,7 +706,7 @@ func _get_movement_tiles(movement: int) -> void:
 		for k in range(max_val, min_val - 1, -1):
 			if k in tiles_first_pass.keys():
 				var v = tiles_first_pass[k]
-				for tile in v:
+				for tile: Vector2i in v:
 					var cost: float = (MapController.map.get_terrain_cost(self, tile))
 					var valid = false
 					var greatest_adjacent_cost: float
@@ -729,7 +729,7 @@ func _get_movement_tiles(movement: int) -> void:
 							tiles_first_pass[val] = []
 						tiles_first_pass[val].append(tile)
 		_raw_movement_tiles = []
-		for v in _movement_tiles.values():
+		for v: Array in _movement_tiles.values():
 			_raw_movement_tiles.append_array(v)
 
 
@@ -795,16 +795,16 @@ func _get_path_subfunc(num: float, moved: Vector2i, all_tiles: Array[Vector2i],
 		# Checks each direction.
 		for i in order:
 			if moved + i in all_tiles and not(moved + i in moved_tiles):
-				var temp_moved_tiles = moved_tiles.duplicate()
-				var temp_moved = moved
+				var temp_moved_tiles: Array[Vector2i] = moved_tiles.duplicate()
+				var temp_moved: Vector2i = moved
 				temp_moved += i
 				temp_moved_tiles.append(temp_moved)
 				if temp_moved == destination:
 					moved_tiles = temp_moved_tiles
 					return moved_tiles
 				var new_num: float = num - MapController.map.get_terrain_cost(self, temp_moved)
-				var tmt = temp_moved_tiles # Abbreviation
-				var value = _get_path_subfunc(new_num, temp_moved, all_tiles, tmt, destination)
+				var value = _get_path_subfunc(new_num, temp_moved, all_tiles,
+						temp_moved_tiles, destination)
 				if value != null:
 					return value
 

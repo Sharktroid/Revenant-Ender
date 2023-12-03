@@ -31,8 +31,8 @@ func _physics_process(_delta: float) -> void:
 	if GameController.controller_type == GameController.controller_types.MOUSE and is_processing_input():
 		var destination: Vector2 = MapController.get_map_camera().get_destination()
 		if destination == MapController.get_map_camera().position:
-			var mouse_position = get_viewport().get_mouse_position()
-			set_rel_pos((mouse_position) - Vector2(MapController.get_map_camera().get_map_offset()))
+			var mouse_position: Vector2 = get_viewport().get_mouse_position()
+			set_rel_pos(mouse_position - Vector2(MapController.get_map_camera().get_map_offset()))
 	else:
 		var new_pos := Vector2i()
 		if get_rel_pos() == Vector2i(_true_origin) and is_processing_input():
@@ -47,7 +47,7 @@ func _physics_process(_delta: float) -> void:
 		move(new_pos)
 	if position != Vector2(_rel_pos + MapController.get_map_camera().get_map_offset()):
 		_true_origin = _true_origin.move_toward(get_rel_pos(),
-				max(1, _true_origin.distance_to(get_rel_pos())/16) * 4)
+				maxf(1, _true_origin.distance_to(get_rel_pos())/16) * 4)
 		position = _true_origin + Vector2(MapController.get_map_camera().get_map_offset())
 
 

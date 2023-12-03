@@ -17,9 +17,8 @@ func _process(_delta: float) -> void:
 func _on_button_pressed() -> void:
 	var text: String = $Panel/TextEdit.text
 	text = text.capitalize()
-	var image = $Parser.get_texture().get_data()
-	var texture := ImageTexture.new()
-	texture.create_from_image(image)
+	var image: Image = $Parser.get_texture().get_data()
+	var texture := ImageTexture.create_from_image(image)
 	texture.set_storage(texture.STORAGE_COMPRESS_LOSSLESS)
 	texture.set_flags(0)
 	$Parser.texture = texture

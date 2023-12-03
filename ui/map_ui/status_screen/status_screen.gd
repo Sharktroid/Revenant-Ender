@@ -20,9 +20,9 @@ func _gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		close()
 	elif event.is_action_pressed("left"):
-		GenFunc.switch_tab($"Menu Screen/Menu Tabs", -1)
+		GenFunc.switch_tab($"Menu Screen/Menu Tabs" as TabContainer, -1)
 	elif event.is_action_pressed("right"):
-		GenFunc.switch_tab($"Menu Screen/Menu Tabs", 1)
+		GenFunc.switch_tab($"Menu Screen/Menu Tabs" as TabContainer, 1)
 	elif not _scroll_lock:
 		if Input.is_action_pressed("up"):
 			observing_unit = MapController.map.get_previous_unit(observing_unit)
@@ -52,27 +52,27 @@ func _update() -> void:
 	%"Class Name".text = observing_unit.unit_class.name
 	%"Class Description".help_description = observing_unit.unit_class.description
 
-	_set_label_text_to_number(%"Current Level", observing_unit.current_level)
-	_set_label_text_to_number(%"Max Level", observing_unit.get_max_level())
+	_set_label_text_to_number(%"Current Level" as Label, observing_unit.current_level)
+	_set_label_text_to_number(%"Max Level" as Label, observing_unit.get_max_level())
 
-	_set_label_text_to_number(%"Current HP", roundi(observing_unit.get_current_health()))
-	_set_label_text_to_number(%"Max HP", observing_unit.get_stat(Unit.stats.HITPOINTS))
+	_set_label_text_to_number(%"Current HP" as Label, roundi(observing_unit.get_current_health()))
+	_set_label_text_to_number(%"Max HP" as Label, observing_unit.get_stat(Unit.stats.HITPOINTS))
 
 	if observing_unit.get_current_weapon():
-		_set_label_text_to_number(%"Attack Value", observing_unit.get_attack())
+		_set_label_text_to_number(%"Attack Value" as Label, observing_unit.get_attack())
 	else:
 		%"Attack Value".text = "--"
-	_set_label_text_to_number(%"AS Value", observing_unit.get_attack_speed())
+	_set_label_text_to_number(%"AS Value" as Label, observing_unit.get_attack_speed())
 
 	var current_weapon: Weapon = observing_unit.get_current_weapon()
 	if current_weapon:
-		_set_label_text_to_number(%"Min Range", current_weapon.min_range)
+		_set_label_text_to_number(%"Min Range" as Label, current_weapon.min_range)
 		if current_weapon.min_range == current_weapon.max_range:
 			%"Range Separator".visible = false
 			%"Max Range".text = ""
 		else:
 			%"Range Separator".visible = true
-			_set_label_text_to_number(%"Max Range", current_weapon.max_range)
+			_set_label_text_to_number(%"Max Range" as Label, current_weapon.max_range)
 	else:
 		%"Min Range".text = "--"
 		%"Range Separator".visible = false
@@ -97,7 +97,7 @@ func _move(dir: int) -> void:
 	var dest: float = $"Menu Screen".size.y
 	var fade_threshold: float = 1.0/4
 	var swap_threshold: float = 1.0/3
-	var get_x: Callable = func(): return $"Menu Screen".position.y * dir
+	var get_x: Callable = func() -> float: return $"Menu Screen".position.y * dir
 	var velocity: Callable = func():
 		var dist: float = $"Menu Screen".size.y * swap_threshold
 		return dist * 2 * GenVars.get_frame_delta() * dir / DURATION
@@ -105,7 +105,7 @@ func _move(dir: int) -> void:
 	while get_x.call() <= dest * swap_threshold:
 		await get_tree().process_frame
 		$"Menu Screen".position.y += velocity.call()
-		var weight: float = inverse_lerp(0, dest * fade_threshold, get_x.call())
+		var weight: float = inverse_lerp(0, dest * fade_threshold, get_x.call() as float)
 		$"Menu Screen".modulate.a = lerpf(1, 0, weight)
 
 	$"Menu Screen".position.y = -dest * dir * swap_threshold
@@ -114,7 +114,7 @@ func _move(dir: int) -> void:
 	while get_x.call() < 0:
 		await get_tree().process_frame
 		$"Menu Screen".position.y += velocity.call()
-		var weight: float = inverse_lerp(-dest * fade_threshold, 0, get_x.call())
+		var weight: float = inverse_lerp(-dest * fade_threshold, 0, get_x.call() as float)
 		$"Menu Screen".modulate.a = lerpf(0, 1, weight)
 
 	$"Menu Screen".position.y = 0
