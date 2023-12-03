@@ -235,10 +235,10 @@ position = Vector2(0, -16)
 centered = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "idle"
 libraries = {
 "": SubResource("AnimationLibrary_ygx8q")
 }
+autoplay = "idle"
 
 [node name="Traveler Icon" type="Sprite2D" parent="."]
 visible = false
@@ -247,10 +247,10 @@ texture = ExtResource("5_k1iet")
 centered = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Traveler Icon"]
-autoplay = "RESET"
 libraries = {
 "": SubResource("AnimationLibrary_6eaww")
 }
+autoplay = "RESET"
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area2d_area_entered"]
 [connection signal="area_exited" from="Area2D" to="." method="_on_area2d_area_exited"]
