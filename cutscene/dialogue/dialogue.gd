@@ -58,9 +58,10 @@ func _set_text_base(string: String, label: RichTextLabel) -> Callable:
 func _get_scroll_callable(label: RichTextLabel) -> Callable:
 	return func() -> void:
 		var new_y: int = roundi(label.position.y - 16)
-		while label.position.y > new_y:
+		while roundi(label.position.y) > new_y:
 			label.position.y -= 80.0/60.0 / FULL_SCROLL_SPEED
 			await get_tree().physics_frame
+		label.position.y = roundi(label.position.y)
 
 
 func _scroll(label: RichTextLabel) -> void:
