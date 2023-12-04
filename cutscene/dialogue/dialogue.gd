@@ -8,17 +8,25 @@ enum positions {OUTSIDELEFT = -80, FARLEFT = 0, MIDLEFT = 80, CLOSELEFT = 160,
 enum directions {LEFT, RIGHT}
 
 func _ready() -> void:
-	#var top_text: String = "After defeating the dragons, the humans of Elibe quickly spread their culture and civilization to the farthest reaches of the continent.\nIn the west lies the Kingdom of Etruria, which is widely considered to possess the most refined culture in all of Elibe. The Kingdom of Bern, with its powerful military and logical, pragmatic people, is located on the other side of the continent in the east."
-	#var bottom_text: String = "These are the two most powerful nations in Elibe with the weaker nations situated between them. These smaller lands are... the Lycian League, whose numerous territories are independently ruled by a number of marquesses that are bound by a vow of allegiance; Ilia, where the people arduously till the frozen soil and many become mercenaries to earn money to survive; and Sacae, where various clans ride through the plains on horseback."
 	await get_tree().process_frame
-	#var dialogue_queue: Array[Callable] = [set_top_text(top_text), set_top_text(bottom_text)]
-	#for callable: Callable in dialogue_queue:
-		#await callable.call()
-	await set_top_text("1\n2\n3\n4\n5").call()
-	await _scroll(%"Top Textbox" as RichTextLabel)
-	await set_top_text("\n6").call()
-	await clear_top().call()
-	await set_top_text("a\nb\nc\nd\ne").call()
+	var dialogue_queue: Array[Callable] = [
+		set_top_text("After defeating the dragons, the humans of Elibe quickly spread their culture and civilization to the farthest reaches of the continent."),
+		set_top_text("\nIn the west lies the Kingdom of Etruria, which is widely considered to possess the most refined culture in all of Elibe."),
+		set_top_text(" The Kingdom of Bern, with its powerful military and logical, pragmatic people, is located on the other side of the continent in the east."),
+	 	set_top_text("\nThese are the two most powerful nations in Elibe with the weaker nations situated between them. These smaller lands are..."),
+		clear_top(),
+		set_top_text(" the Lycian League, whose numerous territories are independently ruled by a number of marquesses that are bound by a vow of allegiance;"),
+		set_top_text(" Ilia, where the people arduously till the frozen soil and many become mercenaries to earn money to survive;"),
+		set_top_text(" and Sacae, where various clans ride through the plains on horseback."),
+		clear_top(),
+	]
+	for callable: Callable in dialogue_queue:
+		await callable.call()
+	#await set_top_text("1\n2\n3\n4\n5").call()
+	#await _scroll(%"Top Textbox" as RichTextLabel)
+	#await set_top_text("\n6").call()
+	#await clear_top().call()
+	#await set_top_text("a\nb\nc\nd\ne").call()
 
 
 func set_top_text(string: String) -> Callable:
@@ -46,9 +54,13 @@ func _set_text_base(string: String, label: RichTextLabel) -> Callable:
 			while (label.visible_characters < next_visible_chars and label.visible_ratio < 1):
 				label.visible_characters += 1
 				# Delays for punctuation
-				if label.text[label.visible_characters - 1] in [",", ".", ";", ":"]:
+				if label.get_line_count() > 5 + label.position.y/-16:
+					await _scroll(label)
+					break
+				elif label.text[label.visible_characters - 1] in [",", ".", ";", ":"]:
 					await get_tree().create_timer(0.1).timeout
 					break
+		label.text += ""
 		label.visible_ratio = 1
 		#endregion
 		while not Input.is_action_just_pressed("ui_accept"):
