@@ -1,19 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://hkir2r0iq8u7"]
+[gd_scene load_steps=4 format=3 uid="uid://hkir2r0iq8u7"]
 
-[ext_resource type="PackedScene" uid="uid://dno116i3j6du0" path="res://ui/textbox/textbox.tscn" id="1_2r67d"]
 [ext_resource type="Script" path="res://cutscene/dialogue/dialogue.gd" id="1_m6kta"]
+[ext_resource type="PackedScene" uid="uid://dvyyy1vag5her" path="res://ui/textbox/textbox_background.tscn" id="2_ya10l"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b5xmq"]
-content_margin_left = 4.0
-content_margin_top = 6.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q5b4j"]
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jki18"]
 
 [node name="Dialogue" type="Control"]
 layout_mode = 3
@@ -22,6 +12,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 script = ExtResource("1_m6kta")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -32,36 +23,64 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 0
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+[node name="MarginContainerTop" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 1
 theme_override_constants/margin_right = 1
 
-[node name="Top Textbox" parent="VBoxContainer/MarginContainer" instance=ExtResource("1_2r67d")]
-unique_name_in_owner = true
-modulate = Color(1, 1, 1, 0.74902)
+[node name="PanelContainer" parent="VBoxContainer/MarginContainerTop" instance=ExtResource("2_ya10l")]
 layout_mode = 2
-size_flags_vertical = 3
-theme_override_styles/normal = SubResource("StyleBoxEmpty_b5xmq")
-fit_content = false
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MarginContainerTop/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 1
+
+[node name="Control" type="Panel" parent="VBoxContainer/MarginContainerTop/PanelContainer/MarginContainer"]
+clip_children = 1
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_jki18")
+
+[node name="Top Textbox" type="RichTextLabel" parent="VBoxContainer/MarginContainerTop/PanelContainer/MarginContainer/Control"]
+unique_name_in_owner = true
+layout_mode = 2
+offset_right = 504.0
+offset_bottom = 83.0
+fit_content = true
 scroll_active = false
 
 [node name="Portraits" type="Control" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 100)
+custom_minimum_size = Vector2(0, 114)
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer"]
+[node name="MarginContainerBottom" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 1
 theme_override_constants/margin_right = 1
 
-[node name="Bottom Textbox" parent="VBoxContainer/MarginContainer2" instance=ExtResource("1_2r67d")]
-unique_name_in_owner = true
-modulate = Color(1, 1, 1, 0.74902)
+[node name="PanelContainer" parent="VBoxContainer/MarginContainerBottom" instance=ExtResource("2_ya10l")]
 layout_mode = 2
-size_flags_vertical = 3
-theme_override_styles/normal = SubResource("StyleBoxEmpty_q5b4j")
-fit_content = false
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MarginContainerBottom/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 1
+
+[node name="Control" type="Panel" parent="VBoxContainer/MarginContainerBottom/PanelContainer/MarginContainer"]
+clip_children = 1
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_jki18")
+
+[node name="Bottom Textbox" type="RichTextLabel" parent="VBoxContainer/MarginContainerBottom/PanelContainer/MarginContainer/Control"]
+unique_name_in_owner = true
+layout_mode = 2
+offset_right = 504.0
+offset_bottom = 83.0
+scroll_active = false

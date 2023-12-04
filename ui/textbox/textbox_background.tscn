@@ -1,0 +1,65 @@
+[gd_scene load_steps=6 format=3 uid="uid://dvyyy1vag5her"]
+
+[ext_resource type="Texture2D" uid="uid://bd67r64uiekgk" path="res://ui/theme/textbox_background.png" id="1_us3xk"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nws0a"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.0196078, 0.0196078, 0.0627451, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6ao2c"]
+bg_color = Color(0.886275, 0.878431, 0.839216, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.611765, 0.678431, 1, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oabfv"]
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+anti_aliasing = false
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0gfwe"]
+texture = ExtResource("1_us3xk")
+expand_margin_left = 3.0
+expand_margin_top = 3.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="PanelContainer" type="PanelContainer"]
+show_behind_parent = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nws0a")
+
+[node name="PanelContainer3" type="PanelContainer" parent="."]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_6ao2c")
+
+[node name="PanelContainer4" type="PanelContainer" parent="PanelContainer3"]
+clip_children = 1
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_oabfv")
+
+[node name="PanelContainer4" type="PanelContainer" parent="PanelContainer3/PanelContainer4"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_0gfwe")
