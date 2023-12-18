@@ -1,20 +1,22 @@
 extends Control
 
-const CHARS_PER_SECOND = 300
-const FULL_SCROLL_SPEED = 0.25
+const CHARS_PER_SECOND: int = 300
+const FULL_SCROLL_SPEED: float = 0.25
+const LINE_COUNT: int = 5
+const NAME_SHIFT_DURATION: float = 8.0/60
 
 enum positions {OUTSIDELEFT = -80, FARLEFT = 0, MIDLEFT = 80, CLOSELEFT = 160,
 		CLOSERIGHT = 256, MIDRIGHT = 336, FARRIGHT = 416, OUTSIDERIGHT = 512}
 enum directions {LEFT, RIGHT}
-
 func _ready() -> void:
-	await get_tree().process_frame
 	var dialogue_queue: Array[Callable] = [
 		set_top_text("After defeating the dragons, the humans of Elibe quickly spread their culture and civilization to the farthest reaches of the continent."),
+		set_top_name("Narrator"),
+		set_bottom_name("Bottom Text"),
 		set_top_text("\nIn the west lies the Kingdom of Etruria, which is widely considered to possess the most refined culture in all of Elibe."),
 		set_top_text(" The Kingdom of Bern, with its powerful military and logical, pragmatic people, is located on the other side of the continent in the east."),
+		#clear_top(),
 	 	set_top_text("\nThese are the two most powerful nations in Elibe with the weaker nations situated between them. These smaller lands are..."),
-		clear_top(),
 		set_top_text(" the Lycian League, whose numerous territories are independently ruled by a number of marquesses that are bound by a vow of allegiance;"),
 		set_top_text(" Ilia, where the people arduously till the frozen soil and many become mercenaries to earn money to survive;"),
 		set_top_text(" and Sacae, where various clans ride through the plains on horseback."),
@@ -41,6 +43,14 @@ func clear_top() -> Callable:
 	return _clear(%"Top Textbox" as RichTextLabel)
 
 
+func set_top_name(new_name: String) -> Callable:
+	return _set_name(%"Top Name" as RichTextLabel, new_name)
+
+
+func set_bottom_name(new_name: String) -> Callable:
+	return _set_name(%"Bottom Name" as RichTextLabel, new_name)
+
+
 func _set_text_base(string: String, label: RichTextLabel) -> Callable:
 	return func():
 		label.text += string
@@ -53,10 +63,12 @@ func _set_text_base(string: String, label: RichTextLabel) -> Callable:
 					roundi(CHARS_PER_SECOND * GenVars.get_frame_delta()))
 			while (label.visible_characters < next_visible_chars and label.visible_ratio < 1):
 				label.visible_characters += 1
-				# Delays for punctuation
-				if label.get_line_count() > 5 + label.position.y/-16:
+				# Scrolls when overflowing
+				if label.get_line_count() > LINE_COUNT + (label.position.y/-_get_line_height()):
+					label.visible_characters -= 1
 					await _scroll(label)
 					break
+				# Delays for punctuation
 				elif label.text[label.visible_characters - 1] in [",", ".", ";", ":"]:
 					await get_tree().create_timer(0.1).timeout
 					break
@@ -69,9 +81,9 @@ func _set_text_base(string: String, label: RichTextLabel) -> Callable:
 
 func _get_scroll_callable(label: RichTextLabel) -> Callable:
 	return func() -> void:
-		var new_y: int = roundi(label.position.y - 16)
+		var new_y: int = roundi(label.position.y - _get_line_height())
 		while roundi(label.position.y) > new_y:
-			label.position.y -= 80.0/60.0 / FULL_SCROLL_SPEED
+			label.position.y -= (_get_line_height() * LINE_COUNT)/60.0 / FULL_SCROLL_SPEED
 			await get_tree().physics_frame
 		label.position.y = roundi(label.position.y)
 
@@ -82,8 +94,25 @@ func _scroll(label: RichTextLabel) -> void:
 
 func _clear(label: RichTextLabel) -> Callable:
 	return func() -> void:
-		var starting_time: float = Engine.get_physics_frames()
-		for i in 5:
+		for i in LINE_COUNT:
 			await _scroll(label)
 		label.text = ""
 		label.position.y = 0
+
+
+func _get_line_height() -> int:
+	return 16 + %"Top Textbox".get_theme_constant("line_separation")
+
+
+func _set_name(name_label: RichTextLabel, new_name: String) -> Callable:
+	return func() -> void:
+		const CHANGE_PER_FRAME: float = 1.0/60 / (NAME_SHIFT_DURATION / 2)
+		while name_label.visible_ratio > 0:
+			name_label.visible_ratio -= CHANGE_PER_FRAME
+			await get_tree().physics_frame
+		name_label.visible_ratio = 0
+		name_label.text = new_name
+		while name_label.visible_ratio < 1:
+			name_label.visible_ratio += CHANGE_PER_FRAME
+			await get_tree().physics_frame
+		name_label.visible_ratio = 1
