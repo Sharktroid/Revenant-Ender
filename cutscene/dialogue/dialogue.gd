@@ -9,33 +9,31 @@ enum positions {OUTSIDELEFT = -80, FARLEFT = 0, MIDLEFT = 80, CLOSELEFT = 160,
 		CLOSERIGHT = 256, MIDRIGHT = 336, FARRIGHT = 416, OUTSIDERIGHT = 512}
 enum directions {LEFT, RIGHT}
 func _ready() -> void:
-	var dialogue_queue: Array[Callable] = [
+	var dialogue_queue: Dictionary = {
+		set_top_name("Narrator"): false,
 		set_top_text("After defeating the dragons, the humans of Elibe quickly \
-spread their culture and civilization to the farthest reaches of the continent."),
-		set_top_name("Narrator"),
-		set_bottom_name("Bottom Text"),
+spread their culture and civilization to the farthest reaches of the continent."): true,
 		set_top_text("\nIn the west lies the Kingdom of Etruria, which is widely \
-considered to possess the most refined culture in all of Elibe."),
+considered to possess the most refined culture in all of Elibe."): true,
 		set_top_text(" The Kingdom of Bern, with its powerful military and \
-logical, pragmatic people, is located on the other side of the continent in the east."),
-		#clear_top(),
-	 	set_top_text("\nThese are the two most powerful nations in Elibe with \
-the weaker nations situated between them. These smaller lands are..."),
+logical, pragmatic people, is located on the other side of the continent in the \
+east."): true,
+		clear_top(): true,
+	 	set_top_text("These are the two most powerful nations in Elibe with \
+the weaker nations situated between them. These smaller lands are..."): true,
 		set_top_text(" the Lycian League, whose numerous territories are \
-independently ruled by a number of marquesses that are bound by a vow of allegiance;"),
+independently ruled by a number of marquesses that are bound by a vow of \
+allegiance;"): true,
 		set_top_text(" Ilia, where the people arduously till the frozen soil \
-and many become mercenaries to earn money to survive;"),
+and many become mercenaries to earn money to survive;"): true,
 		set_top_text(" and Sacae, where various clans ride through the plains \
-on horseback."),
-		clear_top(),
-	]
-	for callable: Callable in dialogue_queue:
-		await callable.call()
-	#await set_top_text("1\n2\n3\n4\n5").call()
-	#await _scroll(%"Top Textbox" as RichTextLabel)
-	#await set_top_text("\n6").call()
-	#await clear_top().call()
-	#await set_top_text("a\nb\nc\nd\ne").call()
+on horseback."): true,
+	}
+	for callable: Callable in dialogue_queue.keys():
+		if dialogue_queue[callable]:
+			await callable.call()
+		else:
+			callable.call()
 
 
 func set_top_text(string: String) -> Callable:
