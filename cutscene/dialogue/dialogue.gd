@@ -10,24 +10,32 @@ enum positions {OUTSIDELEFT = -80, FARLEFT = 0, MIDLEFT = 80, CLOSELEFT = 160,
 enum directions {LEFT, RIGHT}
 func _ready() -> void:
 	var dialogue_queue: Dictionary = {
-		set_top_name("Narrator"): false,
-		set_top_text("After defeating the dragons, the humans of Elibe quickly \
-spread their culture and civilization to the farthest reaches of the continent."): true,
-		set_top_text("\nIn the west lies the Kingdom of Etruria, which is widely \
-considered to possess the most refined culture in all of Elibe."): true,
-		set_top_text(" The Kingdom of Bern, with its powerful military and \
-logical, pragmatic people, is located on the other side of the continent in the \
-east."): true,
+		set_top_name("Roy"): true,
+		set_top_text("Oh, it's Lance! What's the matter? Why are you in such a hurry?."): true,
+		set_bottom_name("Lance"): true,
+		set_bottom_text("Lord Roy! Bandits have appeared and are attacking the \
+castle as we speak!"): true,
+		set_top_name("Alen"): true,
+		set_top_text("No! Is the marquess unharmed?"): true,
+		clear_bottom(): true,
+	 	set_bottom_text("He's inside, defending against the bandits' attack. \
+But I don't know how long he can last with his illness...!"): true,
+		set_top_name("Bors"): true,
+		set_top_text("Excuse me. Lance, is it? Is Lady Lilina safe?"): true,
+		clear_bottom(): true,
+	 	set_bottom_text("You must be a knight of Ostia. \
+Lady Lilina is in the castle. She should be all right. \
+She's with Lord Eliwood after all, but he can't last forever."): true,
+		set_top_name("Roy"): true,
+		set_top_text("No... I shouldn't have let Lilina go to the castle before me."): true,
+		set_bottom_name("Wolt"): true,
+	 	set_bottom_text("Lord Roy, regret won't solve anything! \
+We must retake the castle!"): true,
+		set_bottom_name("Marcus"): true,
+	 	set_bottom_text("Wolt is right. We must make haste!"): true,
 		clear_top(): true,
-	 	set_top_text("These are the two most powerful nations in Elibe with \
-the weaker nations situated between them. These smaller lands are..."): true,
-		set_top_text(" the Lycian League, whose numerous territories are \
-independently ruled by a number of marquesses that are bound by a vow of \
-allegiance;"): true,
-		set_top_text(" Ilia, where the people arduously till the frozen soil \
-and many become mercenaries to earn money to survive;"): true,
-		set_top_text(" and Sacae, where various clans ride through the plains \
-on horseback."): true,
+		set_top_text("Yes, you're right. This is no time to despair. Very well. \
+To arms then! Our target is the castle! We must rescue everyone!"): true,
 	}
 	for callable: Callable in dialogue_queue.keys():
 		if dialogue_queue[callable]:
