@@ -8,30 +8,41 @@ const NAME_SHIFT_DURATION: float = 8.0/60
 enum positions {OUTSIDELEFT = -80, FARLEFT = 0, MIDLEFT = 80, CLOSELEFT = 160,
 		CLOSERIGHT = 256, MIDRIGHT = 336, FARRIGHT = 416, OUTSIDERIGHT = 512}
 enum directions {LEFT, RIGHT}
+
+static var units: Dictionary = {
+	roy = ((preload("uid://cuqamu0m16iep").instantiate()) as Unit),
+	lance = preload("uid://blysgn0u4e6ar").instantiate() as Unit,
+	alen = preload("uid://8gwj2xxrhmht").instantiate() as Unit,
+	bors = preload("uid://b4oirte2lakpd").instantiate() as Unit,
+	wolt = preload("uid://8f0f7er5vqbo").instantiate() as Unit,
+	marcus = preload("uid://dvkbmwwrt5mmo").instantiate() as Unit,
+}
+
 func _ready() -> void:
+	var roy := Roy.new()
 	var dialogue_queue: Dictionary = {
-		set_top_name("Roy"): true,
+		set_top_speaker(units.roy): true,
 		set_top_text("Oh, it's Lance! What's the matter? Why are you in such a hurry?."): true,
-		set_bottom_name("Lance"): true,
+		set_bottom_speaker(units.lance): true,
 		set_bottom_text("Lord Roy! Bandits have appeared and are attacking the \
 castle as we speak!"): true,
-		set_top_name("Alen"): true,
+		set_top_speaker(units.alen): true,
 		set_top_text("No! Is the marquess unharmed?"): true,
 		clear_bottom(): true,
 	 	set_bottom_text("He's inside, defending against the bandits' attack. \
 But I don't know how long he can last with his illness...!"): true,
-		set_top_name("Bors"): true,
+		set_top_speaker(units.bors): true,
 		set_top_text("Excuse me. Lance, is it? Is Lady Lilina safe?"): true,
 		clear_bottom(): true,
 	 	set_bottom_text("You must be a knight of Ostia. \
 Lady Lilina is in the castle. She should be all right. \
 She's with Lord Eliwood after all, but he can't last forever."): true,
-		set_top_name("Roy"): true,
+		set_top_speaker(units.roy): true,
 		set_top_text("No... I shouldn't have let Lilina go to the castle before me."): true,
-		set_bottom_name("Wolt"): true,
+		set_bottom_speaker(units.wolt): true,
 	 	set_bottom_text("Lord Roy, regret won't solve anything! \
 We must retake the castle!"): true,
-		set_bottom_name("Marcus"): true,
+		set_bottom_speaker(units.marcus): true,
 	 	set_bottom_text("Wolt is right. We must make haste!"): true,
 		clear_top(): true,
 		set_top_text("Yes, you're right. This is no time to despair. Very well. \
@@ -60,16 +71,16 @@ func clear_bottom() -> Callable:
 	return _clear(%"Bottom Textbox" as RichTextLabel)
 
 
-func set_top_name(new_name: String) -> Callable:
+func set_top_speaker(new_speaker: Variant) -> Callable:
 	return func() -> void:
 		await clear_top().call()
-		await _set_name(%"Top Name" as RichTextLabel, new_name).call()
+		await _set_speaker(%"Top Name" as RichTextLabel, new_speaker as Unit).call()
 
 
-func set_bottom_name(new_name: String) -> Callable:
+func set_bottom_speaker(new_speaker: Variant) -> Callable:
 	return func() -> void:
 		await clear_bottom().call()
-		await _set_name(%"Bottom Name" as RichTextLabel, new_name).call()
+		await _set_speaker(%"Bottom Name" as RichTextLabel, new_speaker as Unit).call()
 
 
 func _set_text_base(string: String, label: RichTextLabel) -> Callable:
@@ -125,14 +136,14 @@ func _get_line_height() -> int:
 	return 16 + %"Top Textbox".get_theme_constant("line_separation")
 
 
-func _set_name(name_label: RichTextLabel, new_name: String) -> Callable:
+func _set_speaker(name_label: RichTextLabel, new_speaker: Unit) -> Callable:
 	return func() -> void:
 		const CHANGE_PER_FRAME: float = 1.0/60 / (NAME_SHIFT_DURATION / 2)
 		while name_label.visible_ratio > 0:
 			name_label.visible_ratio -= CHANGE_PER_FRAME
 			await get_tree().physics_frame
 		name_label.visible_ratio = 0
-		name_label.text = new_name
+		name_label.text = new_speaker.unit_name
 		while name_label.visible_ratio < 1:
 			name_label.visible_ratio += CHANGE_PER_FRAME
 			await get_tree().physics_frame
