@@ -48,12 +48,20 @@ func clear_top() -> Callable:
 	return _clear(%"Top Textbox" as RichTextLabel)
 
 
+func clear_bottom() -> Callable:
+	return _clear(%"Bottom Textbox" as RichTextLabel)
+
+
 func set_top_name(new_name: String) -> Callable:
-	return _set_name(%"Top Name" as RichTextLabel, new_name)
+	return func() -> void:
+		await clear_top().call()
+		await _set_name(%"Top Name" as RichTextLabel, new_name).call()
 
 
 func set_bottom_name(new_name: String) -> Callable:
-	return _set_name(%"Bottom Name" as RichTextLabel, new_name)
+	return func() -> void:
+		await clear_bottom().call()
+		await _set_name(%"Bottom Name" as RichTextLabel, new_name).call()
 
 
 func _set_text_base(string: String, label: RichTextLabel) -> Callable:
