@@ -30,6 +30,6 @@ script = ExtResource("2_qgif2")
 unit_name = "Lance"
 unit_description = "A knight serving Pherae.
 Calm and cool-headed."
-portrait = ExtResource("8_y4on3")
+_portrait = ExtResource("8_y4on3")
 unit_class = SubResource("Resource_qo8hb")
 items = Array[Resource("res://items/item.gd")]([SubResource("Resource_qra60"), SubResource("Resource_w6kla")])

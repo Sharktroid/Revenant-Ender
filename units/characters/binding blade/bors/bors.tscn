@@ -26,6 +26,6 @@ script = ExtResource("2_887df")
 unit_name = "Bors"
 unit_description = "A knight serving Ostia.
 Loyal and dutiful."
-portrait = ExtResource("7_2pkbb")
+_portrait = ExtResource("7_2pkbb")
 unit_class = SubResource("Resource_jd4tu")
 items = Array[Resource("res://items/item.gd")]([SubResource("Resource_hxl6o")])

@@ -3,7 +3,7 @@ extends Control
 const CHARS_PER_SECOND: int = 300
 const FULL_SCROLL_SPEED: float = 0.25
 const LINE_COUNT: int = 5
-const NAME_SHIFT_DURATION: float = 8.0/60
+const SHIFT_DURATION: int = 8 # In ticks
 
 enum positions {OUTSIDELEFT = -80, FARLEFT = 0, MIDLEFT = 80, CLOSELEFT = 160,
 		CLOSERIGHT = 256, MIDRIGHT = 336, FARRIGHT = 416, OUTSIDERIGHT = 512}
@@ -18,31 +18,47 @@ static var units: Dictionary = {
 	marcus = preload("uid://dvkbmwwrt5mmo").instantiate() as Unit,
 }
 
+var _portraits: Dictionary = {}
+
 func _ready() -> void:
-	await set_top_speaker(units.roy)
-	await set_top_text("Oh, it's Lance! What's the matter? Why are you in such a hurry?.")
+	await get_tree().physics_frame
+	await set_top_text("")
+	add_portrait(units.roy, positions.CLOSERIGHT)
+	add_portrait(units.lance, positions.MIDLEFT, true)
+	set_top_speaker(units.roy)
+	await set_bottom_speaker(units.lance)
+	await set_top_text("Oh, it's Lance! What's the matter? Why are you in such a hurry?")
 	await set_bottom_speaker(units.lance)
 	await set_bottom_text("Lord Roy! Bandits have appeared and are attacking the
 castle as we speak!")
+	add_portrait(units.alen, positions.FARRIGHT)
 	await set_top_speaker(units.alen)
 	await set_top_text("No! Is the marquess unharmed?")
 	await clear_bottom()
 	await set_bottom_text("He's inside, defending against the bandits' attack. \
 But I don't know how long he can last with his illness...!")
+	await remove_portrait(units.alen)
+	add_portrait(units.bors, positions.FARRIGHT)
 	await set_top_speaker(units.bors)
 	await set_top_text("Excuse me. Lance, is it? Is Lady Lilina safe?")
 	await clear_bottom()
 	await set_bottom_text("You must be a knight of Ostia. \
 Lady Lilina is in the castle. She should be all right. \
 She's with Lord Eliwood after all, but he can't last forever.")
+	remove_portrait(units.bors)
 	await set_top_speaker(units.roy)
 	await set_top_text("No... I shouldn't have let Lilina go to the castle before me.")
+	await remove_portrait(units.lance)
+	add_portrait(units.wolt, positions.FARLEFT, true)
 	await set_bottom_speaker(units.wolt)
 	await set_bottom_text("Lord Roy, regret won't solve anything! \
 We must retake the castle!")
+	add_portrait(units.marcus, positions.CLOSELEFT, true)
 	await set_bottom_speaker(units.marcus)
 	await set_bottom_text("Wolt is right. We must make haste!")
 	await clear_top()
+	remove_portrait(units.wolt)
+	await remove_portrait(units.marcus)
 	await set_top_text("Yes, you're right. This is no time to despair. Very well. \
 To arms then! Our target is the castle! We must rescue everyone!")
 
@@ -73,9 +89,39 @@ func set_bottom_speaker(new_speaker: Variant) -> void:
 	await _set_speaker(%"Bottom Name" as RichTextLabel, new_speaker as Unit)
 
 
+func add_portrait(new_speaker: Variant, portrait_position: positions,
+		flip_h: bool = false) -> void:
+	var portrait := TextureRect.new()
+	portrait.flip_h = flip_h
+	portrait.texture = (new_speaker as Unit).get_portrait()
+	portrait.position = Vector2i(portrait_position, 20)
+	portrait.modulate.v = 0
+	$VBoxContainer/Portraits.add_child(portrait)
+	_portraits[new_speaker] = portrait
+	var start_time: int = Engine.get_physics_frames()
+	for i in SHIFT_DURATION:
+		portrait.modulate.v = remap(i, 0, SHIFT_DURATION, 0, 1)
+		await get_tree().physics_frame
+	portrait.modulate.v = 1
+	print_debug(Engine.get_physics_frames() - start_time)
+
+
+func remove_portrait(new_speaker: Variant) -> void:
+	var portrait: TextureRect = _portraits.get(new_speaker, TextureRect.new())
+	portrait.modulate.v = 1
+	var start_time: int = Engine.get_physics_frames()
+	for i in SHIFT_DURATION:
+		portrait.modulate.v = remap(i, 0, SHIFT_DURATION, 1, 0)
+		await get_tree().physics_frame
+	portrait.queue_free()
+	print_debug(Engine.get_physics_frames() - start_time)
+
+
 func _set_text_base(string: String, label: RichTextLabel) -> void:
 	label.text += string
 	label.visible_ratio = 0
+	if string.length() == 0:
+		label.visible_ratio = 1
 	label.visible_characters = label.text.length() - string.length()
 	#region Gradually displays text
 	while label.visible_ratio < 1:
@@ -120,13 +166,18 @@ func _get_line_height() -> int:
 
 
 func _set_speaker(name_label: RichTextLabel, new_speaker: Unit) -> void:
-	const CHANGE_PER_FRAME: float = 1.0/60 / (NAME_SHIFT_DURATION / 2)
-	while name_label.visible_ratio > 0:
-		name_label.visible_ratio -= CHANGE_PER_FRAME
+	var start_time: int = Engine.get_physics_frames()
+	for i in ceili(float(SHIFT_DURATION) / 2):
+		name_label.visible_ratio = remap(i, 0, ceili(float(SHIFT_DURATION) / 2), 1, 0)
 		await get_tree().physics_frame
 	name_label.visible_ratio = 0
 	name_label.text = new_speaker.unit_name
-	while name_label.visible_ratio < 1:
-		name_label.visible_ratio += CHANGE_PER_FRAME
+	for i in floori(float(SHIFT_DURATION) / 2):
+		name_label.visible_ratio = remap(i, 0, floori(float(SHIFT_DURATION) / 2), 0, 1)
 		await get_tree().physics_frame
 	name_label.visible_ratio = 1
+	print_debug(Engine.get_physics_frames() - start_time)
+
+
+func _debug() -> void:
+	breakpoint
