@@ -18,11 +18,12 @@ static var units: Dictionary = {
 	marcus = preload("uid://dvkbmwwrt5mmo").instantiate() as Unit,
 }
 
+@onready var _top_bubble_point: TextureRect = $"Top Bubble Point"
+@onready var _bottom_bubble_point: TextureRect = $"Bottom Bubble Point"
 var _portraits: Dictionary = {}
 
 func _ready() -> void:
 	await get_tree().physics_frame
-	await set_top_text("")
 	add_portrait(units.roy, positions.CLOSERIGHT)
 	add_portrait(units.lance, positions.MIDLEFT, true)
 	set_top_speaker(units.roy)
@@ -80,11 +81,18 @@ func clear_bottom() -> void:
 
 
 func set_top_speaker(new_speaker: Variant) -> void:
+	_top_speaker = new_speaker
+	if new_speaker in _portraits.keys():
+		_configure_point(_top_bubble_point, _portraits[new_speaker] as TextureRect)
 	await clear_top()
 	await _set_speaker(%"Top Name" as RichTextLabel, new_speaker as Unit)
 
 
+
 func set_bottom_speaker(new_speaker: Variant) -> void:
+	_bottom_speaker = new_speaker
+	if new_speaker in _portraits.keys():
+		_configure_point(_bottom_bubble_point, _portraits[new_speaker] as TextureRect)
 	await clear_bottom()
 	await _set_speaker(%"Bottom Name" as RichTextLabel, new_speaker as Unit)
 
@@ -98,23 +106,19 @@ func add_portrait(new_speaker: Variant, portrait_position: positions,
 	portrait.modulate.v = 0
 	$VBoxContainer/Portraits.add_child(portrait)
 	_portraits[new_speaker] = portrait
-	var start_time: int = Engine.get_physics_frames()
 	for i in SHIFT_DURATION:
 		portrait.modulate.v = remap(i, 0, SHIFT_DURATION, 0, 1)
 		await get_tree().physics_frame
 	portrait.modulate.v = 1
-	print_debug(Engine.get_physics_frames() - start_time)
 
 
 func remove_portrait(new_speaker: Variant) -> void:
 	var portrait: TextureRect = _portraits.get(new_speaker, TextureRect.new())
 	portrait.modulate.v = 1
-	var start_time: int = Engine.get_physics_frames()
 	for i in SHIFT_DURATION:
 		portrait.modulate.v = remap(i, 0, SHIFT_DURATION, 1, 0)
 		await get_tree().physics_frame
 	portrait.queue_free()
-	print_debug(Engine.get_physics_frames() - start_time)
 
 
 func _set_text_base(string: String, label: RichTextLabel) -> void:
@@ -166,7 +170,6 @@ func _get_line_height() -> int:
 
 
 func _set_speaker(name_label: RichTextLabel, new_speaker: Unit) -> void:
-	var start_time: int = Engine.get_physics_frames()
 	for i in ceili(float(SHIFT_DURATION) / 2):
 		name_label.visible_ratio = remap(i, 0, ceili(float(SHIFT_DURATION) / 2), 1, 0)
 		await get_tree().physics_frame
@@ -176,8 +179,14 @@ func _set_speaker(name_label: RichTextLabel, new_speaker: Unit) -> void:
 		name_label.visible_ratio = remap(i, 0, floori(float(SHIFT_DURATION) / 2), 0, 1)
 		await get_tree().physics_frame
 	name_label.visible_ratio = 1
-	print_debug(Engine.get_physics_frames() - start_time)
 
 
-func _debug() -> void:
-	breakpoint
+func _configure_point(_bubble_point: TextureRect, portrait: TextureRect) -> void:
+	_bubble_point.visible = true
+	if (portrait.position.x <
+			ProjectSettings.get_setting("display/window/size/viewport_width")/2):
+		_bubble_point.flip_h = true
+		_bubble_point.position.x = portrait.position.x + portrait.size.x
+	else:
+		_bubble_point.flip_h = false
+		_bubble_point.position.x = portrait.position.x - _bubble_point.size.x
