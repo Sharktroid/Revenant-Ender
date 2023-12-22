@@ -4,6 +4,8 @@ const CHARS_PER_SECOND: int = 300
 const FULL_SCROLL_SPEED: float = 0.25
 const LINE_COUNT: int = 5
 const SHIFT_DURATION: int = 8 # In ticks
+const TEXTBOX_HEIGHT: int = 94
+const PORTRAIT_WIDTH: int = 96
 
 enum positions {OUTSIDELEFT = -80, FARLEFT = 0, MIDLEFT = 80, CLOSELEFT = 160,
 		CLOSERIGHT = 256, MIDRIGHT = 336, FARRIGHT = 416, OUTSIDERIGHT = 512}
@@ -21,14 +23,19 @@ static var units: Dictionary = {
 @onready var _top_bubble_point: TextureRect = $"Top Bubble Point"
 @onready var _bottom_bubble_point: TextureRect = $"Bottom Bubble Point"
 var _portraits: Dictionary = {}
+var _top_speaker: Unit
+var _bottom_speaker: Unit
 
 func _ready() -> void:
 	await get_tree().physics_frame
+	while not Input.is_action_just_pressed("ui_accept"):
+		await get_tree().physics_frame
+	await show_top_textbox(positions.CLOSERIGHT)
 	add_portrait(units.roy, positions.CLOSERIGHT)
 	add_portrait(units.lance, positions.MIDLEFT, true)
-	set_top_speaker(units.roy)
-	await set_bottom_speaker(units.lance)
+	await set_top_speaker(units.roy)
 	await set_top_text("Oh, it's Lance! What's the matter? Why are you in such a hurry?")
+	await show_bottom_textbox(positions.MIDLEFT)
 	await set_bottom_speaker(units.lance)
 	await set_bottom_text("Lord Roy! Bandits have appeared and are attacking the
 castle as we speak!")
@@ -60,8 +67,11 @@ We must retake the castle!")
 	await clear_top()
 	remove_portrait(units.wolt)
 	await remove_portrait(units.marcus)
+	await hide_bottom_textbox()
 	await set_top_text("Yes, you're right. This is no time to despair. Very well. \
 To arms then! Our target is the castle! We must rescue everyone!")
+	await remove_portrait(units.roy)
+	await hide_top_textbox()
 
 
 func set_top_text(string: String) -> void:
@@ -83,16 +93,17 @@ func clear_bottom() -> void:
 func set_top_speaker(new_speaker: Variant) -> void:
 	_top_speaker = new_speaker
 	if new_speaker in _portraits.keys():
-		_configure_point(_top_bubble_point, _portraits[new_speaker] as TextureRect)
+		_configure_point(_top_bubble_point,
+				roundi(_get_portrait(new_speaker as Unit).position.x))
 	await clear_top()
 	await _set_speaker(%"Top Name" as RichTextLabel, new_speaker as Unit)
-
 
 
 func set_bottom_speaker(new_speaker: Variant) -> void:
 	_bottom_speaker = new_speaker
 	if new_speaker in _portraits.keys():
-		_configure_point(_bottom_bubble_point, _portraits[new_speaker] as TextureRect)
+		_configure_point(_bottom_bubble_point,
+				roundi(_get_portrait(new_speaker as Unit).position.x))
 	await clear_bottom()
 	await _set_speaker(%"Bottom Name" as RichTextLabel, new_speaker as Unit)
 
@@ -104,7 +115,7 @@ func add_portrait(new_speaker: Variant, portrait_position: positions,
 	portrait.texture = (new_speaker as Unit).get_portrait()
 	portrait.position = Vector2i(portrait_position, 20)
 	portrait.modulate.v = 0
-	$VBoxContainer/Portraits.add_child(portrait)
+	$Portraits.add_child(portrait)
 	_portraits[new_speaker] = portrait
 	for i in SHIFT_DURATION:
 		portrait.modulate.v = remap(i, 0, SHIFT_DURATION, 0, 1)
@@ -121,6 +132,67 @@ func remove_portrait(new_speaker: Variant) -> void:
 	portrait.queue_free()
 
 
+func show_top_textbox(box_position: positions) -> void:
+	await _show_textbox(box_position, $MarginContainerTop as MarginContainer,
+			false, _top_bubble_point)
+
+
+func show_bottom_textbox(box_position: positions) -> void:
+	await _show_textbox(box_position, $MarginContainerBottom as MarginContainer,
+			true, _bottom_bubble_point)
+
+
+func hide_top_textbox() -> void:
+	await _hide_textbox($MarginContainerTop as MarginContainer, false, _top_bubble_point)
+
+
+func hide_bottom_textbox() -> void:
+	await _hide_textbox($MarginContainerBottom as MarginContainer, true, _bottom_bubble_point)
+
+
+func _show_textbox(box_position: positions, textbox: MarginContainer, align_bottom: bool,
+		bubble_point: TextureRect) -> void:
+	textbox.visible = true
+	_configure_point(bubble_point, box_position)
+	await _resize_textbox(textbox, align_bottom, bubble_point, textbox.custom_minimum_size,
+			Vector2i(GenVars.get_screen_size().x, TEXTBOX_HEIGHT))
+	textbox.position.x = 0
+	if align_bottom:
+		textbox.position.y = (GenVars.get_screen_size().y - textbox.size.y)
+		bubble_point.position.y = textbox.position.y - bubble_point.size.y + 2
+	else:
+		bubble_point.position.y = textbox.size.y - 2
+
+
+func _hide_textbox(textbox: MarginContainer, align_bottom: bool,
+		bubble_point: TextureRect) -> void:
+	await _resize_textbox(textbox, align_bottom, bubble_point,
+			Vector2i(GenVars.get_screen_size().x, TEXTBOX_HEIGHT), textbox.custom_minimum_size)
+	textbox.visible = false
+	bubble_point.visible = false
+
+
+func _resize_textbox(textbox: MarginContainer, align_bottom: bool,
+		bubble_point: TextureRect, starting_size: Vector2,
+		target_size: Vector2i) -> void:
+	var target_x: float = bubble_point.position.x + bubble_point.size.x/2
+	textbox.anchor_left = target_x/GenVars.get_screen_size().x
+	textbox.anchor_right = textbox.anchor_left
+	textbox.size = starting_size
+	for i in SHIFT_DURATION:
+		textbox.size = starting_size.lerp(target_size, inverse_lerp(0, SHIFT_DURATION, i))
+		textbox.size = textbox.size.snapped(Vector2i(2, 2))
+		textbox.position.x = clamp(target_x - textbox.size.x/2,
+				0, GenVars.get_screen_size().x - textbox.size.x)
+		if align_bottom:
+			textbox.position.y = (GenVars.get_screen_size().y - textbox.size.y)
+			bubble_point.position.y = textbox.position.y - bubble_point.size.y + 2
+		else:
+			bubble_point.position.y = textbox.size.y - 2
+		await get_tree().physics_frame
+	textbox.size = target_size
+
+
 func _set_text_base(string: String, label: RichTextLabel) -> void:
 	label.text += string
 	label.visible_ratio = 0
@@ -129,7 +201,7 @@ func _set_text_base(string: String, label: RichTextLabel) -> void:
 	label.visible_characters = label.text.length() - string.length()
 	#region Gradually displays text
 	while label.visible_ratio < 1:
-		await get_tree().process_frame
+		await get_tree().physics_frame
 		var next_visible_chars: int = (label.visible_characters +
 				roundi(CHARS_PER_SECOND * GenVars.get_frame_delta()))
 		while (label.visible_characters < next_visible_chars and label.visible_ratio < 1):
@@ -147,7 +219,7 @@ func _set_text_base(string: String, label: RichTextLabel) -> void:
 	label.visible_ratio = 1
 	#endregion
 	while not Input.is_action_just_pressed("ui_accept"):
-		await get_tree().process_frame
+		await get_tree().physics_frame
 
 
 func _scroll(label: RichTextLabel) -> void:
@@ -181,12 +253,15 @@ func _set_speaker(name_label: RichTextLabel, new_speaker: Unit) -> void:
 	name_label.visible_ratio = 1
 
 
-func _configure_point(_bubble_point: TextureRect, portrait: TextureRect) -> void:
-	_bubble_point.visible = true
-	if (portrait.position.x <
-			ProjectSettings.get_setting("display/window/size/viewport_width")/2):
-		_bubble_point.flip_h = true
-		_bubble_point.position.x = portrait.position.x + portrait.size.x
+func _configure_point(bubble_point: TextureRect, point_x: int) -> void:
+	bubble_point.visible = true
+	if point_x < (float(GenVars.get_screen_size().y)/2):
+		bubble_point.flip_h = true
+		bubble_point.position.x = point_x + PORTRAIT_WIDTH
 	else:
-		_bubble_point.flip_h = false
-		_bubble_point.position.x = portrait.position.x - _bubble_point.size.x
+		bubble_point.flip_h = false
+		bubble_point.position.x = point_x - bubble_point.size.x
+
+
+func _get_portrait(unit: Unit) -> TextureRect:
+	return _portraits[unit]

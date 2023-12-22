@@ -31,42 +31,41 @@ grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_m6kta")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 0
-
-[node name="MarginContainerTop" type="MarginContainer" parent="VBoxContainer"]
+[node name="MarginContainerTop" type="MarginContainer" parent="."]
+visible = false
+custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
+anchor_top = 0.326
+anchor_right = 1.0
+anchor_bottom = 0.326
+offset_top = -93.888
+offset_bottom = 0.112
+grow_horizontal = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 1
 theme_override_constants/margin_right = 1
 
-[node name="PanelContainer" parent="VBoxContainer/MarginContainerTop" instance=ExtResource("2_ya10l")]
+[node name="PanelContainer" parent="MarginContainerTop" instance=ExtResource("2_ya10l")]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MarginContainerTop/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainerTop/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 2
 theme_override_constants/margin_top = 2
 theme_override_constants/margin_right = 2
 theme_override_constants/margin_bottom = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainerTop/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainerTop/PanelContainer/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Clipping Panel" type="Panel" parent="VBoxContainer/MarginContainerTop/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Clipping Panel" type="Panel" parent="MarginContainerTop/PanelContainer/MarginContainer/VBoxContainer"]
 clip_children = 1
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_jki18")
 
-[node name="Top Textbox" type="RichTextLabel" parent="VBoxContainer/MarginContainerTop/PanelContainer/MarginContainer/VBoxContainer/Clipping Panel"]
+[node name="Top Textbox" type="RichTextLabel" parent="MarginContainerTop/PanelContainer/MarginContainer/VBoxContainer/Clipping Panel"]
 unique_name_in_owner = true
 layout_mode = 2
 offset_right = 504.0
@@ -75,18 +74,18 @@ theme_override_constants/line_separation = -2
 fit_content = true
 scroll_active = false
 
-[node name="Top Name" type="RichTextLabel" parent="VBoxContainer/MarginContainerTop/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Top Name" type="RichTextLabel" parent="MarginContainerTop/PanelContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 8
-text = "Name"
 
-[node name="Control" type="Control" parent="VBoxContainer/MarginContainerTop/PanelContainer/MarginContainer"]
+[node name="Control" type="Control" parent="MarginContainerTop/PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="Line2D" type="Panel" parent="VBoxContainer/MarginContainerTop/PanelContainer/MarginContainer/Control"]
+[node name="Line2D" type="Panel" parent="MarginContainerTop/PanelContainer/MarginContainer/Control"]
 material = SubResource("ShaderMaterial_mfi7y")
+custom_minimum_size = Vector2(0, 1)
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -0.002
@@ -99,45 +98,46 @@ offset_right = -0.00805664
 offset_bottom = -0.0400009
 theme_override_styles/panel = SubResource("StyleBoxTexture_u8lc8")
 
-[node name="Portraits" type="Control" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 100)
+[node name="MarginContainerBottom" type="MarginContainer" parent="."]
+visible = false
+custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
-size_flags_vertical = 4
-
-[node name="MarginContainerBottom" type="MarginContainer" parent="VBoxContainer"]
-layout_mode = 2
+anchor_top = 0.674
+anchor_right = 1.0
+anchor_bottom = 0.674
+offset_top = -0.112
+offset_bottom = 93.888
 size_flags_vertical = 3
 theme_override_constants/margin_left = 1
 theme_override_constants/margin_right = 1
 
-[node name="PanelContainer" parent="VBoxContainer/MarginContainerBottom" instance=ExtResource("2_ya10l")]
+[node name="PanelContainer" parent="MarginContainerBottom" instance=ExtResource("2_ya10l")]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/MarginContainerBottom/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainerBottom/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 2
 theme_override_constants/margin_top = 1
 theme_override_constants/margin_right = 2
 theme_override_constants/margin_bottom = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainerBottom/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainerBottom/PanelContainer/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Bottom Name" type="RichTextLabel" parent="VBoxContainer/MarginContainerBottom/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Bottom Name" type="RichTextLabel" parent="MarginContainerBottom/PanelContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 8
-text = "Name"
 
-[node name="Clipping Panel" type="Panel" parent="VBoxContainer/MarginContainerBottom/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Clipping Panel" type="Panel" parent="MarginContainerBottom/PanelContainer/MarginContainer/VBoxContainer"]
 clip_children = 1
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_jki18")
 
-[node name="Bottom Textbox" type="RichTextLabel" parent="VBoxContainer/MarginContainerBottom/PanelContainer/MarginContainer/VBoxContainer/Clipping Panel"]
+[node name="Bottom Textbox" type="RichTextLabel" parent="MarginContainerBottom/PanelContainer/MarginContainer/VBoxContainer/Clipping Panel"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -148,10 +148,10 @@ grow_vertical = 2
 theme_override_constants/line_separation = -2
 scroll_active = false
 
-[node name="Control" type="Control" parent="VBoxContainer/MarginContainerBottom/PanelContainer/MarginContainer"]
+[node name="Control" type="Control" parent="MarginContainerBottom/PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="Line2D" type="Panel" parent="VBoxContainer/MarginContainerBottom/PanelContainer/MarginContainer/Control"]
+[node name="Line2D" type="Panel" parent="MarginContainerBottom/PanelContainer/MarginContainer/Control"]
 material = SubResource("ShaderMaterial_mfi7y")
 custom_minimum_size = Vector2(0, 1)
 layout_mode = 1
@@ -165,7 +165,17 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_u8lc8")
 metadata/_edit_use_anchors_ = true
 
+[node name="Portraits" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+anchors_preset = 0
+offset_top = 94.0
+offset_right = 512.0
+offset_bottom = 194.0
+size_flags_vertical = 4
+
 [node name="Top Bubble Point" type="TextureRect" parent="."]
+visible = false
 layout_mode = 1
 offset_left = 238.0
 offset_top = 92.0
@@ -176,6 +186,7 @@ stretch_mode = 2
 flip_v = true
 
 [node name="Bottom Bubble Point" type="TextureRect" parent="."]
+visible = false
 layout_mode = 1
 offset_left = 238.0
 offset_top = 187.0
