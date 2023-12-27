@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dvkbmwwrt5mmo"]
+[gd_scene load_steps=12 format=3 uid="uid://dvkbmwwrt5mmo"]
 
 [ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit.tscn" id="1_lxmi0"]
 [ext_resource type="Script" path="res://units/characters/binding blade/marcus/marcus.gd" id="2_716f4"]
@@ -7,9 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://d1cl2wgqqgs6d" path="res://units/unit_classes/paladin/paladin.png" id="3_jtyy6"]
 [ext_resource type="Script" path="res://items/weapons/swords/iron_sword/iron_sword.gd" id="5_g7lkh"]
 [ext_resource type="Script" path="res://items/weapons/spears/silver_spear/silver_spear.gd" id="6_bxwmy"]
-[ext_resource type="Texture2D" uid="uid://e0vc7bx6b1su" path="res://units/characters/binding blade/marcus/portrait.png" id="8_m24r2"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ehxpa"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ci1dv"]
 shader = ExtResource("2_j6t3w")
 shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
@@ -24,13 +23,12 @@ script = ExtResource("5_g7lkh")
 script = ExtResource("6_bxwmy")
 
 [node name="Marcus" instance=ExtResource("1_lxmi0")]
-material = SubResource("ShaderMaterial_ehxpa")
+material = SubResource("ShaderMaterial_ci1dv")
 texture = ExtResource("3_jtyy6")
 script = ExtResource("2_716f4")
 unit_name = "Marcus"
 unit_description = "A veteran paladin serving Pherae.
 Roy's instructor in combat."
-_portrait = ExtResource("8_m24r2")
 unit_class = SubResource("Resource_weiei")
 items = Array[Resource("res://items/item.gd")]([SubResource("Resource_co5aq"), SubResource("Resource_67pnp")])
 base_level = 25

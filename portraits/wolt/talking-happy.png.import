@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b6j1hj3h3l33l"
-path="res://.godot/imported/portrait.png-a1d740528a869f281d94b0148d41aea2.ctex"
+uid="uid://col1pwnfjhulc"
+path="res://.godot/imported/talking-happy.png-54827f3724fc16a9a77b931692ee96ec.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://units/characters/binding blade/damas/portrait.png"
-dest_files=["res://.godot/imported/portrait.png-a1d740528a869f281d94b0148d41aea2.ctex"]
+source_file="res://portraits/wolt/talking-happy.png"
+dest_files=["res://.godot/imported/talking-happy.png-54827f3724fc16a9a77b931692ee96ec.ctex"]
 
 [params]
 

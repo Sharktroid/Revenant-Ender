@@ -1,0 +1,17 @@
+[gd_scene load_steps=5 format=3 uid="uid://6wmdutxgincw"]
+
+[ext_resource type="PackedScene" uid="uid://dfpn7lyvmi8tk" path="res://portraits/portrait.tscn" id="1_5bn21"]
+[ext_resource type="Texture2D" uid="uid://c2o6creo3f7ie" path="res://portraits/roy/portrait.png" id="2_vuq7b"]
+[ext_resource type="Texture2D" uid="uid://cbppqyljhc8yw" path="res://portraits/roy/talking.png" id="3_h8b72"]
+[ext_resource type="Texture2D" uid="uid://tnrp126lxsix" path="res://portraits/roy/talking-happy.png" id="4_85h1k"]
+
+[node name="Roy" instance=ExtResource("1_5bn21")]
+texture = ExtResource("2_vuq7b")
+
+[node name="Mouth" parent="." index="0"]
+position = Vector2(16, 48)
+texture = ExtResource("3_h8b72")
+
+[node name="Mouth Happy" parent="." index="1"]
+position = Vector2(16, 48)
+texture = ExtResource("4_85h1k")

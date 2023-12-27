@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c2o6creo3f7ie"
-path="res://.godot/imported/portrait.png-4b26a741f6a26d70579830223dec4135.ctex"
+path="res://.godot/imported/portrait.png-7404e25cda79f2e69b3d2f141a8ad282.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://units/characters/binding blade/roy/portrait.png"
-dest_files=["res://.godot/imported/portrait.png-4b26a741f6a26d70579830223dec4135.ctex"]
+source_file="res://portraits/roy/portrait.png"
+dest_files=["res://.godot/imported/portrait.png-7404e25cda79f2e69b3d2f141a8ad282.ctex"]
 
 [params]
 

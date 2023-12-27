@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ndvresi0e5h0"
-path="res://.godot/imported/portrait.png-7478b2cfa310dc4f5774a1745a1b288e.ctex"
+uid="uid://cgy4dgfn5unpn"
+path="res://.godot/imported/talking.png-9b4e1f0dc4f7cfa59f495f352d62d262.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://units/characters/binding blade/lance/portrait.png"
-dest_files=["res://.godot/imported/portrait.png-7478b2cfa310dc4f5774a1745a1b288e.ctex"]
+source_file="res://portraits/wolt/talking.png"
+dest_files=["res://.godot/imported/talking.png-9b4e1f0dc4f7cfa59f495f352d62d262.ctex"]
 
 [params]
 

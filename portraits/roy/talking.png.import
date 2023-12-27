@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://e0vc7bx6b1su"
-path="res://.godot/imported/portrait.png-7c0177b81a61e1b0d982737f5b7cd6c1.ctex"
+uid="uid://cbppqyljhc8yw"
+path="res://.godot/imported/talking.png-58ea78af633d1720f2ba327d56902dd1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://units/characters/binding blade/marcus/portrait.png"
-dest_files=["res://.godot/imported/portrait.png-7c0177b81a61e1b0d982737f5b7cd6c1.ctex"]
+source_file="res://portraits/roy/talking.png"
+dest_files=["res://.godot/imported/talking.png-58ea78af633d1720f2ba327d56902dd1.ctex"]
 
 [params]
 

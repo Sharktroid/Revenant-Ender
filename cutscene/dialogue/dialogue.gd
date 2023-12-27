@@ -27,7 +27,11 @@ var _top_speaker: Unit
 var _bottom_speaker: Unit
 
 func _ready() -> void:
-	await get_tree().physics_frame
+	for node: Unit in units.values():
+		add_child(node)
+		node.visible = false
+
+#region Test Dialogue
 	while not Input.is_action_just_pressed("ui_accept"):
 		await get_tree().physics_frame
 	await show_top_textbox(positions.CLOSERIGHT)
@@ -72,14 +76,17 @@ We must retake the castle!")
 To arms then! Our target is the castle! We must rescue everyone!")
 	await remove_portrait(units.roy)
 	await hide_top_textbox()
+#endregion
 
 
 func set_top_text(string: String) -> void:
-	await _set_text_base(string, %"Top Textbox" as RichTextLabel)
+	await _set_text_base(string, %"Top Textbox" as RichTextLabel,
+			_top_speaker.get_portrait())
 
 
 func set_bottom_text(string: String) -> void:
-	await _set_text_base(string, %"Bottom Textbox" as RichTextLabel)
+	await _set_text_base(string, %"Bottom Textbox" as RichTextLabel,
+			_bottom_speaker.get_portrait())
 
 
 func clear_top() -> void:
@@ -110,9 +117,10 @@ func set_bottom_speaker(new_speaker: Variant) -> void:
 
 func add_portrait(new_speaker: Variant, portrait_position: positions,
 		flip_h: bool = false) -> void:
-	var portrait := TextureRect.new()
-	portrait.flip_h = flip_h
-	portrait.texture = (new_speaker as Unit).get_portrait()
+	var portrait: Portrait = (new_speaker as Unit).get_portrait()
+	portrait.request_ready()
+	if flip_h:
+		portrait.flip()
 	portrait.position = Vector2i(portrait_position, 20)
 	portrait.modulate.v = 0
 	$Portraits.add_child(portrait)
@@ -124,7 +132,7 @@ func add_portrait(new_speaker: Variant, portrait_position: positions,
 
 
 func remove_portrait(new_speaker: Variant) -> void:
-	var portrait: TextureRect = _portraits.get(new_speaker, TextureRect.new())
+	var portrait: Portrait = _portraits.get(new_speaker, Portrait.new())
 	portrait.modulate.v = 1
 	for i in SHIFT_DURATION:
 		portrait.modulate.v = remap(i, 0, SHIFT_DURATION, 1, 0)
@@ -193,7 +201,8 @@ func _resize_textbox(textbox: MarginContainer, align_bottom: bool,
 	textbox.size = target_size
 
 
-func _set_text_base(string: String, label: RichTextLabel) -> void:
+func _set_text_base(string: String, label: RichTextLabel, portrait: Portrait) -> void:
+	portrait.set_talking(true)
 	label.text += string
 	label.visible_ratio = 0
 	if string.length() == 0:
@@ -218,6 +227,7 @@ func _set_text_base(string: String, label: RichTextLabel) -> void:
 	label.text += ""
 	label.visible_ratio = 1
 	#endregion
+	portrait.set_talking(false)
 	while not Input.is_action_just_pressed("ui_accept"):
 		await get_tree().physics_frame
 
@@ -263,5 +273,5 @@ func _configure_point(bubble_point: TextureRect, point_x: int) -> void:
 		bubble_point.position.x = point_x - bubble_point.size.x
 
 
-func _get_portrait(unit: Unit) -> TextureRect:
+func _get_portrait(unit: Unit) -> Portrait:
 	return _portraits[unit]

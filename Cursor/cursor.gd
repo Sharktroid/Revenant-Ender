@@ -89,7 +89,8 @@ func set_rel_pos(new_pos: Vector2i) -> void:
 	var bottom_bounds: Vector2i = GenVars.get_screen_size() - Vector2i(4, 4)
 	new_pos = GenFunc.round_coords_to_tile(new_pos)
 	var map_move := Vector2i()
-	var lower_bound: Vector2i = GenVars.get_screen_size() - MapController.map.get_rel_lower_border()
+	var lower_bound: Vector2i = (GenVars.get_screen_size()
+			- MapController.map.get_rel_lower_border())
 	for i in 2:
 		if MapController.map.get_rel_upper_border()[i] >= 0:
 			top_bounds[i] = MapController.map.get_rel_upper_border()[i]
@@ -121,11 +122,10 @@ func get_rel_pos() -> Vector2i:
 
 func get_area() -> Area2D:
 	# Returns the cursor area.
-	if MapController.map:
+	if MapController.map.has_node("Map Layer/Cursor Area"):
 		return MapController.map.get_node("Map Layer/Cursor Area")
 	else:
-		push_error("Could not find Cursor Area")
-		return null
+		return Area2D.new()
 
 
 func move(new_pos: Vector2i) -> void:

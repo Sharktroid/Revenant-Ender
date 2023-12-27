@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://earrcfm7b0sy"
-path="res://.godot/imported/portrait.png-d8039a2c8ae0ee3415be1478bd0f4183.ctex"
+uid="uid://h0knk0qi0hn2"
+path="res://.godot/imported/talking.png-484c09792343008ead2bf01076feb647.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://units/characters/binding blade/bors/portrait.png"
-dest_files=["res://.godot/imported/portrait.png-d8039a2c8ae0ee3415be1478bd0f4183.ctex"]
+source_file="res://portraits/bors/talking.png"
+dest_files=["res://.godot/imported/talking.png-484c09792343008ead2bf01076feb647.ctex"]
 
 [params]
 
