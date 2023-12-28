@@ -28,7 +28,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 1
+mouse_filter = 2
 script = ExtResource("1_m6kta")
 
 [node name="MarginContainerTop" type="MarginContainer" parent="."]
@@ -47,6 +47,7 @@ theme_override_constants/margin_right = 1
 
 [node name="PanelContainer" parent="MarginContainerTop" instance=ExtResource("2_ya10l")]
 layout_mode = 2
+mouse_filter = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainerTop/PanelContainer"]
 layout_mode = 2
@@ -63,6 +64,7 @@ theme_override_constants/separation = 0
 clip_children = 1
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_jki18")
 
 [node name="Top Textbox" type="RichTextLabel" parent="MarginContainerTop/PanelContainer/MarginContainer/VBoxContainer/Clipping Panel"]
@@ -70,6 +72,7 @@ unique_name_in_owner = true
 layout_mode = 2
 offset_right = 504.0
 offset_bottom = 90.0
+mouse_filter = 1
 theme_override_constants/line_separation = -2
 fit_content = true
 scroll_active = false
@@ -79,9 +82,11 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 8
+mouse_filter = 1
 
 [node name="Control" type="Control" parent="MarginContainerTop/PanelContainer/MarginContainer"]
 layout_mode = 2
+mouse_filter = 1
 
 [node name="Line2D" type="Panel" parent="MarginContainerTop/PanelContainer/MarginContainer/Control"]
 material = SubResource("ShaderMaterial_mfi7y")
@@ -96,6 +101,7 @@ offset_left = 0.00800002
 offset_top = 0.0159988
 offset_right = -0.00805664
 offset_bottom = -0.0400009
+mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxTexture_u8lc8")
 
 [node name="MarginContainerBottom" type="MarginContainer" parent="."]
@@ -113,6 +119,7 @@ theme_override_constants/margin_right = 1
 
 [node name="PanelContainer" parent="MarginContainerBottom" instance=ExtResource("2_ya10l")]
 layout_mode = 2
+mouse_filter = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainerBottom/PanelContainer"]
 layout_mode = 2
@@ -130,11 +137,13 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 8
+mouse_filter = 1
 
 [node name="Clipping Panel" type="Panel" parent="MarginContainerBottom/PanelContainer/MarginContainer/VBoxContainer"]
 clip_children = 1
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_jki18")
 
 [node name="Bottom Textbox" type="RichTextLabel" parent="MarginContainerBottom/PanelContainer/MarginContainer/VBoxContainer/Clipping Panel"]
@@ -145,11 +154,13 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 theme_override_constants/line_separation = -2
 scroll_active = false
 
 [node name="Control" type="Control" parent="MarginContainerBottom/PanelContainer/MarginContainer"]
 layout_mode = 2
+mouse_filter = 1
 
 [node name="Line2D" type="Panel" parent="MarginContainerBottom/PanelContainer/MarginContainer/Control"]
 material = SubResource("ShaderMaterial_mfi7y")
@@ -162,6 +173,7 @@ anchor_bottom = 0.189
 offset_bottom = -0.0100002
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxTexture_u8lc8")
 metadata/_edit_use_anchors_ = true
 
@@ -173,6 +185,7 @@ offset_top = 94.0
 offset_right = 512.0
 offset_bottom = 194.0
 size_flags_vertical = 4
+mouse_filter = 2
 
 [node name="Top Bubble Point" type="TextureRect" parent="."]
 visible = false

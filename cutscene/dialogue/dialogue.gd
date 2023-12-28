@@ -1,3 +1,4 @@
+class_name Dialogue
 extends Control
 
 const CHARS_PER_SECOND: int = 300
@@ -11,72 +12,11 @@ enum positions {OUTSIDELEFT = -80, FARLEFT = 0, MIDLEFT = 80, CLOSELEFT = 160,
 		CLOSERIGHT = 256, MIDRIGHT = 336, FARRIGHT = 416, OUTSIDERIGHT = 512}
 enum directions {LEFT, RIGHT}
 
-static var units: Dictionary = {
-	roy = ((preload("uid://cuqamu0m16iep").instantiate()) as Unit),
-	lance = preload("uid://blysgn0u4e6ar").instantiate() as Unit,
-	alen = preload("uid://8gwj2xxrhmht").instantiate() as Unit,
-	bors = preload("uid://b4oirte2lakpd").instantiate() as Unit,
-	wolt = preload("uid://8f0f7er5vqbo").instantiate() as Unit,
-	marcus = preload("uid://dvkbmwwrt5mmo").instantiate() as Unit,
-}
-
 @onready var _top_bubble_point: TextureRect = $"Top Bubble Point"
 @onready var _bottom_bubble_point: TextureRect = $"Bottom Bubble Point"
 var _portraits: Dictionary = {}
 var _top_speaker: Unit
 var _bottom_speaker: Unit
-
-func _ready() -> void:
-	for node: Unit in units.values():
-		add_child(node)
-		node.visible = false
-
-#region Test Dialogue
-	while not Input.is_action_just_pressed("ui_accept"):
-		await get_tree().physics_frame
-	await show_top_textbox(positions.CLOSERIGHT)
-	add_portrait(units.roy, positions.CLOSERIGHT)
-	add_portrait(units.lance, positions.MIDLEFT, true)
-	await set_top_speaker(units.roy)
-	await set_top_text("Oh, it's Lance! What's the matter? Why are you in such a hurry?")
-	await show_bottom_textbox(positions.MIDLEFT)
-	await set_bottom_speaker(units.lance)
-	await set_bottom_text("Lord Roy! Bandits have appeared and are attacking the
-castle as we speak!")
-	add_portrait(units.alen, positions.FARRIGHT)
-	await set_top_speaker(units.alen)
-	await set_top_text("No! Is the marquess unharmed?")
-	await clear_bottom()
-	await set_bottom_text("He's inside, defending against the bandits' attack. \
-But I don't know how long he can last with his illness...!")
-	await remove_portrait(units.alen)
-	add_portrait(units.bors, positions.FARRIGHT)
-	await set_top_speaker(units.bors)
-	await set_top_text("Excuse me. Lance, is it? Is Lady Lilina safe?")
-	await clear_bottom()
-	await set_bottom_text("You must be a knight of Ostia. \
-Lady Lilina is in the castle. She should be all right. \
-She's with Lord Eliwood after all, but he can't last forever.")
-	remove_portrait(units.bors)
-	await set_top_speaker(units.roy)
-	await set_top_text("No... I shouldn't have let Lilina go to the castle before me.")
-	await remove_portrait(units.lance)
-	add_portrait(units.wolt, positions.FARLEFT, true)
-	await set_bottom_speaker(units.wolt)
-	await set_bottom_text("Lord Roy, regret won't solve anything! \
-We must retake the castle!")
-	add_portrait(units.marcus, positions.CLOSELEFT, true)
-	await set_bottom_speaker(units.marcus)
-	await set_bottom_text("Wolt is right. We must make haste!")
-	await clear_top()
-	remove_portrait(units.wolt)
-	await remove_portrait(units.marcus)
-	await hide_bottom_textbox()
-	await set_top_text("Yes, you're right. This is no time to despair. Very well. \
-To arms then! Our target is the castle! We must rescue everyone!")
-	await remove_portrait(units.roy)
-	await hide_top_textbox()
-#endregion
 
 
 func set_top_text(string: String) -> void:

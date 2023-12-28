@@ -52,6 +52,10 @@ func get_units() -> Array[Unit]:
 	return units
 
 
+func get_dialogue() -> Dialogue:
+	return get_ui().get_node("Dialogue")
+
+
 func _on_banner_timer_timeout() -> void:
 	$"UI Layer/Turn Banner".texture = null
 	MapController.map.start_turn()
