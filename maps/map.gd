@@ -39,20 +39,21 @@ func _ready() -> void:
 
 
 func _gui_input(event: InputEvent) -> void:
-	if event.is_action_pressed("ranges"):
-		if MapController.get_cursor().get_hovered_unit():
-			toggle_outline_unit(MapController.get_cursor().get_hovered_unit())
-		else:
-			toggle_full_outline()
+	if MapController.get_cursor().is_active():
+		if event.is_action_pressed("ranges"):
+			if MapController.get_cursor().get_hovered_unit():
+				toggle_outline_unit(MapController.get_cursor().get_hovered_unit())
+			else:
+				toggle_full_outline()
 
-	elif event.is_action_pressed("ui_select"):
-		_on_cursor_select()
+		elif event.is_action_pressed("ui_select"):
+			_on_cursor_select()
 
-	elif event.is_action_pressed("status"):
-		if MapController.get_cursor().get_hovered_unit():
-			var status_menu: Control = load("uid://dfm25r0ju5214").instantiate()
-			status_menu.observing_unit = MapController.get_cursor().get_hovered_unit()
-			MapController.get_ui().add_child(status_menu)
+		elif event.is_action_pressed("status"):
+			if MapController.get_cursor().get_hovered_unit():
+				var status_menu: Control = load("uid://dfm25r0ju5214").instantiate()
+				status_menu.observing_unit = MapController.get_cursor().get_hovered_unit()
+				MapController.get_ui().add_child(status_menu)
 
 
 func unit_wait(_unit) -> void:

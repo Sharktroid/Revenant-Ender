@@ -2,7 +2,7 @@ extends CanvasLayer
 
 
 func _ready() -> void:
-	print(get_size())
+	print_debug(get_size())
 
 
 func get_size() -> Vector2:

@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://dfpn7lyvmi8tk"]
+
+[ext_resource type="Script" path="res://portraits/portrait.gd" id="2_u1gcd"]
+
+[node name="Portrait" type="Sprite2D"]
+centered = false
+script = ExtResource("2_u1gcd")
+
+[node name="Mouth" type="Sprite2D" parent="." groups=["mouth"]]
+centered = false
+vframes = 3
+
+[node name="Mouth Happy" type="Sprite2D" parent="." groups=["mouth"]]
+visible = false
+centered = false
+vframes = 3

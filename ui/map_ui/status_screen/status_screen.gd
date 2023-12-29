@@ -3,6 +3,7 @@ extends Control
 var observing_unit: Unit
 
 var _scroll_lock: bool = false
+@onready var _portrait: Portrait = %Portrait
 
 static var previous_tab: int = 0
 
@@ -43,8 +44,12 @@ func close() -> void:
 
 
 func _update() -> void:
-	%Portrait.texture = observing_unit.get_portrait()
-	%Portrait.position = observing_unit.get_portrait_offset()
+	var old_portrait: Portrait = _portrait
+	var new_portrait: Portrait = observing_unit.get_portrait()
+	new_portrait.position = observing_unit.get_portrait_offset()
+	new_portrait.set_emotion(Portrait.emotions.NONE)
+	_portrait.replace_by(observing_unit.get_portrait())
+	_portrait = new_portrait
 
 	%"Unit Name".text = observing_unit.unit_name
 	%"Unit Description".help_description = observing_unit.unit_description

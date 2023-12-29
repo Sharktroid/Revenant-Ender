@@ -1,0 +1,17 @@
+[gd_scene load_steps=5 format=3 uid="uid://6wmdutxgincw"]
+
+[ext_resource type="PackedScene" uid="uid://dfpn7lyvmi8tk" path="res://portraits/portrait.tscn" id="1_5bn21"]
+[ext_resource type="Texture2D" uid="uid://b5wo5klqqrjqx" path="res://portraits/marcus/portrait.png" id="2_vuq7b"]
+[ext_resource type="Texture2D" uid="uid://c6ralx0a6s66w" path="res://portraits/marcus/talking.png" id="3_h8b72"]
+[ext_resource type="Texture2D" uid="uid://i8tda41c3gbu" path="res://portraits/marcus/talking-happy.png" id="4_85h1k"]
+
+[node name="Marcus" instance=ExtResource("1_5bn21")]
+texture = ExtResource("2_vuq7b")
+
+[node name="Mouth" parent="." index="0"]
+position = Vector2(16, 40)
+texture = ExtResource("3_h8b72")
+
+[node name="Mouth Happy" parent="." index="1"]
+position = Vector2(16, 40)
+texture = ExtResource("4_85h1k")

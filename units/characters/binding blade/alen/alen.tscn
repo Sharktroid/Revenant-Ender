@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://8gwj2xxrhmht"]
+[gd_scene load_steps=12 format=3 uid="uid://8gwj2xxrhmht"]
 
 [ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit.tscn" id="1_x0tds"]
 [ext_resource type="Shader" path="res://units/palette.gdshader" id="2_0j8mr"]
@@ -7,9 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://dcbp6yac31ins" path="res://units/unit_classes/social_knight/social_knight.png" id="3_qjqc5"]
 [ext_resource type="Script" path="res://items/weapons/swords/iron_sword/iron_sword.gd" id="5_v11hb"]
 [ext_resource type="Script" path="res://items/weapons/spears/iron_spear/iron_spear.gd" id="6_ou60j"]
-[ext_resource type="Texture2D" uid="uid://ctqso4122co8y" path="res://units/characters/binding blade/alen/portrait.png" id="8_ec8w4"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_4rrqk"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jg0jc"]
 shader = ExtResource("2_0j8mr")
 shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
@@ -24,11 +23,10 @@ script = ExtResource("5_v11hb")
 script = ExtResource("6_ou60j")
 
 [node name="Alen" instance=ExtResource("1_x0tds")]
-material = SubResource("ShaderMaterial_4rrqk")
+material = SubResource("ShaderMaterial_jg0jc")
 texture = ExtResource("3_qjqc5")
 script = ExtResource("2_k3lvx")
 unit_name = "Alen"
 unit_description = "A knight serving Pherae. Passionate and hot-headed."
-portrait = ExtResource("8_ec8w4")
 unit_class = SubResource("Resource_ms2vb")
 items = Array[Resource("res://items/item.gd")]([SubResource("Resource_r84p6"), SubResource("Resource_u1gbs")])

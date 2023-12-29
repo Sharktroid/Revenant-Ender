@@ -5,7 +5,7 @@ signal unit_selected
 @export var map_node: PackedScene
 
 var selecting: bool = false # Whether a unit is currently selected.
-var map: Map
+var map := Map.new()
 
 func _has_point(_point: Vector2) -> bool:
 	return true
@@ -35,7 +35,7 @@ func get_ui() -> CanvasLayer:
 
 
 func get_cursor() -> Cursor:
-	if get_ui():
+	if get_ui().has_node("Cursor"):
 		return get_ui().get_node("Cursor")
 	else:
 		return Cursor.new()
@@ -50,6 +50,10 @@ func get_units() -> Array[Unit]:
 	for node in get_tree().get_nodes_in_group("unit"):
 		units.append(node)
 	return units
+
+
+func get_dialogue() -> Dialogue:
+	return get_ui().get_node("Dialogue")
 
 
 func _on_banner_timer_timeout() -> void:

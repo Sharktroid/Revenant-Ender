@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://dno116i3j6du0"]
+
+[ext_resource type="PackedScene" uid="uid://dvyyy1vag5her" path="res://ui/textbox/textbox_background.tscn" id="1_qynup"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rdle6"]
+content_margin_left = 4.0
+content_margin_top = 1.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+
+[node name="Textbox" type="RichTextLabel"]
+custom_minimum_size = Vector2(42, 0)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -114.0
+offset_right = 108.0
+offset_bottom = 62.0
+grow_horizontal = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_rdle6")
+bbcode_enabled = true
+text = "1"
+fit_content = true
+visible_characters_behavior = 1
+
+[node name="PanelContainer" parent="." instance=ExtResource("1_qynup")]
+layout_mode = 1
