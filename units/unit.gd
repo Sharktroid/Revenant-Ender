@@ -694,7 +694,7 @@ func _get_movement_tiles(movement: int) -> void:
 	if position == ((position/16).floor() * 16):
 		# Gets the initial grid
 		for y in range(-movement * RANGE_MULT, movement * RANGE_MULT + 1):
-      var v := []
+			var v := []
 			for x in range(-(movement * RANGE_MULT - absi(y)),
 					(movement * RANGE_MULT - absi(y)) + 1):
 				v.append(start + Vector2i(x * 16, y * 16))

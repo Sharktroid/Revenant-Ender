@@ -8,6 +8,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lgtg6"]
 shader = ExtResource("1_6ujht")
+shader_parameter/darken_screen = 0.5
 shader_parameter/old_colors = null
 shader_parameter/new_colors = null
 

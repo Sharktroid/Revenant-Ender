@@ -34,14 +34,14 @@ func set_top_text(string: String) -> void:
 	if _skipping:
 		return
 	await _set_text_base(string, %"Top Textbox" as RichTextLabel,
-			_portraits.get(_top_speaker, Portrait.new()))
+			_portraits.get(_top_speaker, Portrait.new()) as Portrait)
 
 
 func set_bottom_text(string: String) -> void:
 	if _skipping:
 		return
 	await _set_text_base(string, %"Bottom Textbox" as RichTextLabel,
-			_portraits.get(_bottom_speaker, Portrait.new()))
+			_portraits.get(_bottom_speaker, Portrait.new()) as Portrait)
 
 
 func clear_top() -> void:
