@@ -1,6 +1,6 @@
 extends Control
 
-var observing_unit: Unit
+var observing_unit := Unit.new()
 
 var _scroll_lock: bool = false
 @onready var _portrait: Portrait = %Portrait
@@ -47,9 +47,10 @@ func _update() -> void:
 	var old_portrait: Portrait = _portrait
 	var new_portrait: Portrait = observing_unit.get_portrait()
 	new_portrait.position = observing_unit.get_portrait_offset()
-	_portrait.replace_by(new_portrait)
+	old_portrait.replace_by(new_portrait)
 	new_portrait.set_emotion(Portrait.emotions.NONE)
 	_portrait = new_portrait
+	old_portrait.queue_free()
 
 	%"Unit Name".text = observing_unit.unit_name
 	%"Unit Description".help_description = observing_unit.unit_description

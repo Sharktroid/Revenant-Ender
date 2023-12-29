@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=18 format=3 uid="uid://5iql263qnldx"]
+[gd_resource type="Theme" load_steps=19 format=3 uid="uid://5iql263qnldx"]
 
 [ext_resource type="StyleBox" uid="uid://441p5kjwr8b3" path="res://ui/theme/panel_background.tres" id="1_6j8ta"]
 [ext_resource type="Texture2D" uid="uid://crfr0u4x5xmdw" path="res://ui/theme/stat_bar_background.png" id="2_6etq5"]
@@ -57,6 +57,8 @@ axis_stretch_vertical = 1
 region_rect = Rect2(0, 0, 25, 22)
 modulate_color = Color(1, 1, 1, 0.65)
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hqi35"]
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tlrsd"]
 texture = ExtResource("2_r3nqx")
 texture_margin_left = 4.0
@@ -104,6 +106,7 @@ ProgressBar/styles/background = SubResource("StyleBoxTexture_v1ruh")
 ProgressBar/styles/fill = SubResource("StyleBoxTexture_y8q4a")
 TabContainer/styles/panel = SubResource("StyleBoxFlat_7di2r")
 TabContainer/styles/tab_disabled = SubResource("StyleBoxTexture_y2fv7")
+TabContainer/styles/tab_focus = SubResource("StyleBoxEmpty_hqi35")
 TabContainer/styles/tab_hovered = SubResource("StyleBoxTexture_y2fv7")
 TabContainer/styles/tab_selected = SubResource("StyleBoxTexture_tlrsd")
 TabContainer/styles/tab_unselected = SubResource("StyleBoxTexture_mc6ig")

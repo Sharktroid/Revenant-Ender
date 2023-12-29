@@ -23,6 +23,7 @@ func update() -> void:
 		%ProgressBar.max_value = max_value
 		%ProgressBar.value = current_value
 	var new_x: float = size.x * (float(max_value) / ABSOLUTE_MAX_VALUE)
-	$"Resize Handler".set_size.call_deferred(Vector2(new_x, $"Resize Handler".size.y))
+	$"Resize Handler".set_size.call_deferred(Vector2(new_x,
+			($"Resize Handler" as ReferenceRect).size.y))
 
 	help_description = unit.get_stat_table(stat)
