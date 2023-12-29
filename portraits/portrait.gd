@@ -29,11 +29,11 @@ func _physics_process(_delta: float) -> void:
 			_delay = randi_range(2, 9)
 		else:
 			_delay -= 1
-
-	if _talking_frame == 3:
-		_current_mouth.frame = 1
-	else:
-		_current_mouth.frame = _talking_frame
+	if _emotion != emotions.NONE:
+		if _talking_frame == 3:
+			_current_mouth.frame = 1
+		else:
+			_current_mouth.frame = _talking_frame
 
 
 func set_talking(talking: bool) -> void:
@@ -48,6 +48,7 @@ func set_emotion(emotion: emotions) -> void:
 		mouth.visible = false
 	match _emotion:
 		emotions.HAPPY: _current_mouth = $"Mouth Happy"
+		emotions.NONE: _current_mouth = Sprite2D.new()
 		_: _current_mouth = $Mouth
 	if _emotion != emotions.NONE:
 		_current_mouth.visible = true

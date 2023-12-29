@@ -287,7 +287,7 @@ func get_area() -> Area2D:
 
 func get_portrait() -> Portrait:
 	if _portrait:
-		return _portrait
+		return _portrait.duplicate()
 	else:
 		var portrait := Portrait.new()
 		portrait.texture = unit_class.default_portrait

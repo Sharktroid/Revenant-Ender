@@ -78,7 +78,7 @@ func add_portrait(new_speaker: Unit, portrait_position: positions,
 		flip_h: bool = false) -> void:
 	if _skipping:
 		return
-	var portrait: Portrait = new_speaker.get_portrait().duplicate()
+	var portrait: Portrait = new_speaker.get_portrait()
 	if flip_h:
 		portrait.flip()
 	portrait.position = Vector2i(portrait_position, 20)

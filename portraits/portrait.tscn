@@ -1,8 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://dfpn7lyvmi8tk"]
+[gd_scene load_steps=4 format=3 uid="uid://dfpn7lyvmi8tk"]
 
+[ext_resource type="Shader" path="res://gba_color.gdshader" id="1_67uxh"]
 [ext_resource type="Script" path="res://portraits/portrait.gd" id="2_u1gcd"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f6tf5"]
+shader = ExtResource("1_67uxh")
+shader_parameter/darken_screen = 0.5
+
 [node name="Portrait" type="Sprite2D"]
+material = SubResource("ShaderMaterial_f6tf5")
 centered = false
 script = ExtResource("2_u1gcd")
 
