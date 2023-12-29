@@ -17,16 +17,31 @@ enum directions {LEFT, RIGHT}
 var _portraits: Dictionary = {}
 var _top_speaker: Unit
 var _bottom_speaker: Unit
+var _skipping: bool = false
+
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		_skipping = true
+		var portraits: Array = _portraits.keys()
+		var last_portrait: Unit = portraits.pop_back()
+		for portrait: Unit in portraits:
+			remove_portrait(portrait)
+		await remove_portrait(last_portrait)
 
 
 func set_top_text(string: String) -> void:
+	if _skipping:
+		return
 	await _set_text_base(string, %"Top Textbox" as RichTextLabel,
-			_top_speaker.get_portrait())
+			_portraits.get(_top_speaker, Portrait.new()))
 
 
 func set_bottom_text(string: String) -> void:
+	if _skipping:
+		return
 	await _set_text_base(string, %"Bottom Textbox" as RichTextLabel,
-			_bottom_speaker.get_portrait())
+			_portraits.get(_bottom_speaker, Portrait.new()))
 
 
 func clear_top() -> void:
@@ -37,7 +52,9 @@ func clear_bottom() -> void:
 	await _clear(%"Bottom Textbox" as RichTextLabel)
 
 
-func set_top_speaker(new_speaker: Variant) -> void:
+func set_top_speaker(new_speaker: Unit) -> void:
+	if _skipping:
+		return
 	_top_speaker = new_speaker
 	if new_speaker in _portraits.keys():
 		_configure_point(_top_bubble_point,
@@ -46,7 +63,9 @@ func set_top_speaker(new_speaker: Variant) -> void:
 	await _set_speaker(%"Top Name" as RichTextLabel, new_speaker as Unit)
 
 
-func set_bottom_speaker(new_speaker: Variant) -> void:
+func set_bottom_speaker(new_speaker: Unit) -> void:
+	if _skipping:
+		return
 	_bottom_speaker = new_speaker
 	if new_speaker in _portraits.keys():
 		_configure_point(_bottom_bubble_point,
@@ -55,10 +74,11 @@ func set_bottom_speaker(new_speaker: Variant) -> void:
 	await _set_speaker(%"Bottom Name" as RichTextLabel, new_speaker as Unit)
 
 
-func add_portrait(new_speaker: Variant, portrait_position: positions,
+func add_portrait(new_speaker: Unit, portrait_position: positions,
 		flip_h: bool = false) -> void:
-	var portrait: Portrait = (new_speaker as Unit).get_portrait()
-	portrait.request_ready()
+	if _skipping:
+		return
+	var portrait: Portrait = new_speaker.get_portrait().duplicate()
 	if flip_h:
 		portrait.flip()
 	portrait.position = Vector2i(portrait_position, 20)
@@ -71,12 +91,17 @@ func add_portrait(new_speaker: Variant, portrait_position: positions,
 	portrait.modulate.v = 1
 
 
-func remove_portrait(new_speaker: Variant) -> void:
-	var portrait: Portrait = _portraits.get(new_speaker, Portrait.new())
+func remove_portrait(old_speaker: Unit) -> void:
+	var portrait := Portrait.new()
+	if is_instance_valid(_portraits.get(old_speaker)):
+		portrait = _portraits.get(old_speaker, Portrait.new())
+		print_debug(portrait)
 	portrait.modulate.v = 1
 	for i in SHIFT_DURATION:
 		portrait.modulate.v = remap(i, 0, SHIFT_DURATION, 1, 0)
 		await get_tree().physics_frame
+		if not is_instance_valid(portrait):
+			return
 	portrait.queue_free()
 
 
@@ -100,6 +125,8 @@ func hide_bottom_textbox() -> void:
 
 func _show_textbox(box_position: positions, textbox: MarginContainer, align_bottom: bool,
 		bubble_point: TextureRect) -> void:
+	if _skipping:
+		return
 	textbox.visible = true
 	_configure_point(bubble_point, box_position)
 	await _resize_textbox(textbox, align_bottom, bubble_point, textbox.custom_minimum_size,
@@ -142,37 +169,54 @@ func _resize_textbox(textbox: MarginContainer, align_bottom: bool,
 
 
 func _set_text_base(string: String, label: RichTextLabel, portrait: Portrait) -> void:
+	if _skipping:
+		return
 	portrait.set_talking(true)
 	label.text += string
 	label.visible_ratio = 0
 	if string.length() == 0:
 		label.visible_ratio = 1
 	label.visible_characters = label.text.length() - string.length()
+	var autoscroll: bool = false
+	var timer: int = 0
 	#region Gradually displays text
 	while label.visible_ratio < 1:
-		await get_tree().physics_frame
-		var next_visible_chars: int = (label.visible_characters +
-				roundi(CHARS_PER_SECOND * GenVars.get_frame_delta()))
-		while (label.visible_characters < next_visible_chars and label.visible_ratio < 1):
-			label.visible_characters += 1
-			# Scrolls when overflowing
-			if label.get_line_count() > LINE_COUNT + (label.position.y/-_get_line_height()):
-				label.visible_characters -= 1
-				await _scroll(label)
-				break
-			# Delays for punctuation
-			elif label.text[label.visible_characters - 1] in [",", ".", ";", ":"]:
-				await get_tree().create_timer(0.1).timeout
-				break
-	label.text += ""
+		if not autoscroll:
+			await get_tree().physics_frame
+		if _skipping:
+			return
+		elif Input.is_action_just_pressed("ui_accept"):
+			autoscroll = true
+			await get_tree().physics_frame
+		if timer > 0:
+			timer -= 1
+		else:
+			var next_visible_chars: int = (label.visible_characters +
+					roundi(CHARS_PER_SECOND * GenVars.get_frame_delta()))
+			while (label.visible_characters < next_visible_chars and label.visible_ratio < 1):
+				label.visible_characters += 1
+				# Scrolls when overflowing
+				if label.get_line_count() > LINE_COUNT + (label.position.y/-_get_line_height()):
+					label.visible_characters -= 1
+					autoscroll = false
+					await _scroll(label)
+					break
+				# Delays for punctuation
+				elif label.text[label.visible_characters - 1] in [",", ".", ";", ":"]:
+					if not autoscroll:
+						timer = roundi(1000.0 / CHARS_PER_SECOND)
+					break
 	label.visible_ratio = 1
 	#endregion
 	portrait.set_talking(false)
-	while not Input.is_action_just_pressed("ui_accept"):
+	while not (Input.is_action_just_pressed("ui_accept") or
+			Input.is_action_just_pressed("ui_cancel")):
 		await get_tree().physics_frame
 
 
 func _scroll(label: RichTextLabel) -> void:
+	if _skipping:
+		return
 	var new_y: int = roundi(label.position.y - _get_line_height())
 	while roundi(label.position.y) > new_y:
 		label.position.y -= (_get_line_height() * LINE_COUNT)/60.0 / FULL_SCROLL_SPEED
@@ -192,6 +236,8 @@ func _get_line_height() -> int:
 
 
 func _set_speaker(name_label: RichTextLabel, new_speaker: Unit) -> void:
+	if _skipping:
+		return
 	for i in ceili(float(SHIFT_DURATION) / 2):
 		name_label.visible_ratio = remap(i, 0, ceili(float(SHIFT_DURATION) / 2), 1, 0)
 		await get_tree().physics_frame
