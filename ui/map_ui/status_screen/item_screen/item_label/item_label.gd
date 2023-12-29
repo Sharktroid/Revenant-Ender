@@ -23,7 +23,7 @@ func set_equip_status(unit: Unit) -> void:
 		equip_status.text = ""
 
 	var item_name: Label = $Name
-	if unit.can_use_weapon(item):
+	if item is Weapon and unit.can_use_weapon(item as Weapon):
 		item_name.theme_type_variation = ""
 	else:
 		item_name.theme_type_variation = "GreyLabel"

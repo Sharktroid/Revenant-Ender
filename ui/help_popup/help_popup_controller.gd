@@ -80,17 +80,17 @@ func _resize(new_size: Vector2, pos: Vector2 = _default_position(),
 		new_pos -= Vector2(get_popup_node().size.x/2, 0)
 		get_popup_node().position = new_pos.clamp(Vector2(),
 				Vector2(GenVars.get_screen_size()) - get_popup_node().size)
-	var set_node_size: Callable = func(new_size: Vector2) -> void:
-		get_popup_node().size = new_size.clamp(Vector2(), GenVars.get_screen_size())
+	var set_node_size: Callable = func(new_node_size: Vector2) -> void:
+		get_popup_node().size = new_node_size.clamp(Vector2(), GenVars.get_screen_size())
 	var starting_ticks: int = Engine.get_physics_frames()
-	var get_weight: Callable = func(): return _get_weight(starting_ticks)
+	var get_weight: Callable = func() -> float: return _get_weight(starting_ticks)
 	_busy = true
 	set_node_size.call(init_size)
 	set_pos.call(init_position)
 	while get_weight.call() < 1:
 		await get_popup_node().get_tree().process_frame
-		set_node_size.call(init_size.lerp(new_size, get_weight.call()))
-		set_pos.call(init_position.lerp(pos, get_weight.call()))
+		set_node_size.call(init_size.lerp(new_size, get_weight.call() as float))
+		set_pos.call(init_position.lerp(pos, get_weight.call() as float))
 	set_node_size.call(new_size)
 	set_pos.call(pos)
 	_busy = false

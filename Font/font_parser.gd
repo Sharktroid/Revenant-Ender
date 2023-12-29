@@ -146,7 +146,7 @@ var _char_frame: Dictionary = {
 
 func _run() -> void:
 	var font: FontFile = preload("res://font/full_text_font.png")
-	for character in _char_frame.keys():
+	for character: String in _char_frame.keys():
 		var width: int = _char_frame[character] - 1
 		font.set_glyph_advance(0, 16, character.unicode_at(0), Vector2(width, 0))
 	ResourceSaver.save(font, "res://font/item_font.tres")

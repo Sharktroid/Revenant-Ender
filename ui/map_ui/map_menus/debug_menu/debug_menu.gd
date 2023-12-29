@@ -40,6 +40,6 @@ func _update_items() -> void:
 		"Display Terrain": GenVars.get_debug_constant("display_map_terrain"),
 		"Display Map Cursor": GenVars.get_debug_constant("display_map_cursor"),
 	}
-	for key in values.keys():
+	for key: String in values.keys():
 		var value: String = str(values[key])
 		$Items.get_node(key).value = value

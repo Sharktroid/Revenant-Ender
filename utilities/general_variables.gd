@@ -39,7 +39,7 @@ func get_screen_size() -> Vector2i:
 
 func save_config() -> void:
 	# Saves configuration.
-	for constant in _debug_constants:
+	for constant: String in _debug_constants:
 		_config_file.set_value("Debug", constant, get_debug_constant(constant))
 	# warning-ignore:return_value_discarded
 	_config_file.save("user://config.ini")
@@ -49,7 +49,7 @@ func get_debug_constant(constant: String):
 	return _debug_constants[constant]
 
 
-func set_debug_constant(constant: String, value) -> void:
+func set_debug_constant(constant: String, value: Variant) -> void:
 	_debug_constants[constant] = value
 	save_config()
 
@@ -66,6 +66,6 @@ func invert_debug_constant(constant: String) -> void:
 func _load_config() -> void:
 	# Loads configuration
 	_config_file.load("user://config.ini")
-	for constant in _debug_constants:
+	for constant: String in _debug_constants:
 		var new_constant = get_debug_constant(constant)
 		_debug_constants[constant] = _config_file.get_value("Debug", constant, new_constant)
