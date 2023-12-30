@@ -13,7 +13,7 @@ var base_stats: Dictionary
 var end_stats: Dictionary
 var stat_caps: Dictionary
 var weapon_levels: Dictionary
-var max_level: int = 50
+var max_level: int = 30
 var movement_type: movement_types # Movement class for handling moving over terrain.
 var map_sprite: CompressedTexture2D
 var default_portrait: Texture2D

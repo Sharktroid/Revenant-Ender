@@ -6,7 +6,7 @@ extends UnitClass
 # Unit-specific variables.
 func _init():
 	name = "Brigand"
-	max_level = 30
+	max_level = 20
 	movement_type = movement_types.BANDITS
 	description = "Mighty mountaineers who prefer axes in combat."
 

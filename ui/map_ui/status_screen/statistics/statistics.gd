@@ -18,17 +18,17 @@ func update() -> void:
 	misc_labels.custom_minimum_size.x = max_width
 	other_labels.custom_minimum_size.x = max_width
 
-	_update_stat_bar(%"Strength Bar", Unit.stats.STRENGTH)
-	_update_stat_bar(%"Pierce Bar", Unit.stats.PIERCE)
-	_update_stat_bar(%"Magic Bar", Unit.stats.MAGIC)
-	_update_stat_bar(%"Defense Bar", Unit.stats.DEFENSE)
-	_update_stat_bar(%"Durability Bar", Unit.stats.DURABILITY)
-	_update_stat_bar(%"Resistance Bar", Unit.stats.RESISTANCE)
-	_update_stat_bar(%"Skill Bar", Unit.stats.SKILL)
-	_update_stat_bar(%"Speed Bar", Unit.stats.SPEED)
-	_update_stat_bar(%"Luck Bar", Unit.stats.LUCK)
-	_update_stat_bar(%"Constitution Bar", Unit.stats.CONSTITUTION)
-	_update_stat_bar(%"Movement Bar", Unit.stats.MOVEMENT)
+	_update_stat_bar(%"Strength Bar" as StatBar, Unit.stats.STRENGTH)
+	_update_stat_bar(%"Pierce Bar" as StatBar, Unit.stats.PIERCE)
+	_update_stat_bar(%"Magic Bar" as StatBar, Unit.stats.MAGIC)
+	_update_stat_bar(%"Defense Bar" as StatBar, Unit.stats.DEFENSE)
+	_update_stat_bar(%"Durability Bar" as StatBar, Unit.stats.DURABILITY)
+	_update_stat_bar(%"Resistance Bar" as StatBar, Unit.stats.RESISTANCE)
+	_update_stat_bar(%"Skill Bar" as StatBar, Unit.stats.SKILL)
+	_update_stat_bar(%"Speed Bar" as StatBar, Unit.stats.SPEED)
+	_update_stat_bar(%"Luck Bar" as StatBar, Unit.stats.LUCK)
+	_update_stat_bar(%"Constitution Bar" as StatBar, Unit.stats.CONSTITUTION)
+	_update_stat_bar(%"Movement Bar" as StatBar, Unit.stats.MOVEMENT)
 
 	%"Weight Value".text = str(observing_unit.get_weight())
 	if observing_unit.get_aid() < 0:

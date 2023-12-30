@@ -7,7 +7,7 @@ extends UnitClass
 func _init():
 	name = "Lord"
 	description = "A noble attached to a ruling house. Has great potential."
-	max_level = 30
+	max_level = 20
 	movement_type = movement_types.ADVANCED_FOOT
 	weapon_levels[Weapon.types.SWORD] = 1
 	base_stats = {

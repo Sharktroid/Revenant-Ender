@@ -6,7 +6,7 @@ extends UnitClass
 # Unit-specific variables.
 func _init():
 	name = "Fighter"
-	max_level = 30
+	max_level = 20
 	movement_type = movement_types.FIGHTERS
 	description = "Axe-wielding soldiers whose attack offers little defense."
 
