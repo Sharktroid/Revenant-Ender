@@ -9,7 +9,7 @@ enum icons {ATTACK, NONE}
 var _icon_sprite: Sprite2D
 var _rel_pos: Vector2i
 var _true_origin: Vector2
-var _hovered_unit: Unit = load("uid://klwwp0vjyw6").instantiate()
+var _hovered_unit: Unit = preload("res://units/unit.tscn").instantiate()
 var _active: bool = true
 
 

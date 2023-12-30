@@ -57,5 +57,5 @@ func _init():
 		Unit.stats.CONSTITUTION: 20,
 		Unit.stats.AUTHORITY: 0,
 	}
-	map_sprite = load("uid://k4v4jr2yobm1")
-	default_portrait = load("uid://cegidpd55et4u")
+	map_sprite = preload("res://units/unit_classes/brigand/brigand.png")
+	default_portrait = preload("res://units/unit_classes/brigand/portrait.png")

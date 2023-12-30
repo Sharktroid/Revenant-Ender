@@ -13,5 +13,5 @@ func _init():
 	weapon_experience = 2
 	_description = "A thin, nimble sword.\nx1.5 bonus damage against cavalry and armored units"
 #	effective_classes
-	icon = load("uid://t4df6i6ew06w")
+	icon = preload("res://items/weapons/swords/rapier/icon.png")
 	super()

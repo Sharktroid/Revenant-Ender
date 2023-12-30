@@ -15,5 +15,5 @@ func _init():
 	weapon_experience = 1
 	_description = "A cheap, easy to wield spear."
 #	effective_classes
-	icon = load("uid://b5lhjgi20d8ww")
+	icon = preload("res://items/weapons/spears/iron_spear/icon.png")
 	super()

@@ -64,7 +64,7 @@ var _movement_tiles_node: Node2D
 var _attack_tile_node: Node2D
 var _current_attack_tiles_node: Node2D
 # Resources to be loaded.
-var _movement_arrows: Resource = load("uid://8h4ym31xu44m")
+var _movement_arrows: Resource = preload("res://maps/map_tiles/movement_arrows.tscn")
 var _stat_boosts: Dictionary
 var _default_palette: Array[Array] = [[Vector3(), Vector3()]]
 var _wait_palette: Array[Array] = [
@@ -278,7 +278,7 @@ func get_current_defence(attacker_weapon_type: Weapon.damage_types) -> int:
 
 
 func get_max_level() -> int:
-	return 50
+	return 30
 
 
 func get_area() -> Area2D:

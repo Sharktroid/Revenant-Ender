@@ -61,5 +61,5 @@ func _init():
 		Unit.stats.CONSTITUTION: 20,
 		Unit.stats.AUTHORITY: 0,
 	}
-	map_sprite = load("uid://d1cl2wgqqgs6d")
+	map_sprite = preload("res://units/unit_classes/paladin/paladin.png")
 	super()

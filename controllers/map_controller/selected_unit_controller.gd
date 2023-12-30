@@ -3,7 +3,7 @@ extends Control
 
 var _unit: Unit
 var _ghost_unit: GhostUnit
-var _menu_node: PackedScene = load("uid://i3a0mes5l4au")
+var _menu_node: PackedScene = load("res://ui/map_ui/map_menus/unit_menu/unit_menu.tscn")
 var current_animation: Unit.animations = Unit.animations.IDLE
 
 func _init(connected_unit: Unit) -> void:

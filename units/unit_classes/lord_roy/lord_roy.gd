@@ -55,4 +55,4 @@ func _init():
 		Unit.stats.CONSTITUTION: 20,
 		Unit.stats.AUTHORITY: 5,
 	}
-	map_sprite = load("uid://dtexaf8rj3l56")
+	map_sprite = preload("res://units/unit_classes/lord_roy/lord_roy.png")

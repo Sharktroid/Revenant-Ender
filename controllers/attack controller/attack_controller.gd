@@ -6,7 +6,8 @@ enum {ATTACKER, DEFENDER}
 const DELAY: float = 0.25
 const HEALTH_SCROLL_DURATION: float = 0.5
 
-static var _map_battle_hp_bar_scene: PackedScene = load("uid://dq4qai3phb4s7")
+static var _map_battle_hp_bar_scene: PackedScene = \
+		preload("res://controllers/attack controller/map_battle_info_display.tscn")
 
 static func combat(attacker: Unit, defender: Unit) -> void:
 	MapController.get_cursor().disable()
@@ -23,7 +24,7 @@ static func combat(attacker: Unit, defender: Unit) -> void:
 
 
 static func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[int]) -> void:
-	var hp_bar: MapHPBar = _map_battle_hp_bar_scene.instantiate()
+	var hp_bar: HBoxContainer = _map_battle_hp_bar_scene.instantiate()
 	hp_bar.attacker = attacker
 	hp_bar.defender = defender
 	MapController.get_ui().add_child(hp_bar)

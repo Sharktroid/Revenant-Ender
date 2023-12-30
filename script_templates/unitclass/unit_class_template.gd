@@ -53,5 +53,5 @@ _TS__TS_Unit.stats.MOVEMENT: 0,
 _TS__TS_Unit.stats.CONSTITUTION: 0,
 _TS__TS_Unit.stats.LEADERSHIP: 0,
 _TS_}
-_TS_map_sprite = load("")
-_TS_default_portrait = load("")
+_TS_map_sprite = preload("")
+_TS_default_portrait = preload("")

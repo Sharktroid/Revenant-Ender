@@ -9,7 +9,8 @@ func _ready() -> void:
 func select_item(item: MapMenuItem) -> void:
 	match item.name:
 		"Debug":
-			var menu: MapMenu = load("uid://c0mmbk17nyqii").instantiate()
+			var menu: MapMenu = \
+					preload("res://ui/map_ui/map_menus/debug_menu/debug_menu.tscn").instantiate()
 			menu.offset = offset
 			menu.parent_menu = self
 			MapController.get_ui().add_child(menu)

@@ -13,7 +13,7 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	position = (Vector2((attacker.position.x + defender.position.x)/2 - size.x/2,
-			max(attacker.position.y, defender.position.y))
+			max(attacker.position.y, defender.position.y) as float)
 			- Vector2(MapController.get_map_camera().map_position)
 			+ Vector2(MapController.get_map_camera().get_map_offset()) + Vector2(8, V_MOD))
 	if position.y + size.y > GenVars.get_screen_size().y:

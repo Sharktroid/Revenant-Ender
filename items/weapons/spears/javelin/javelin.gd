@@ -16,5 +16,5 @@ func _init() -> void:
 	price = 1200
 	weapon_experience = 1
 	_description = "A throwing spear that can also attack from range"
-	icon = load("uid://sn55tj54i6k")
+	icon = preload("res://items/weapons/spears/javelin/icon.png")
 

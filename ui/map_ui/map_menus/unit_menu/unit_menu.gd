@@ -114,7 +114,8 @@ func select_item(item: MapMenuItem) -> void:
 			close()
 
 		"Items":
-			var menu: MapMenu = load("uid://78klmydgph3g").instantiate()
+			var menu: MapMenu = \
+					preload("res://ui/map_ui/map_menus/item_menu/item_menu.tscn").instantiate()
 			menu.offset = offset
 			menu.parent_menu = self
 			menu.connected_unit = connected_unit

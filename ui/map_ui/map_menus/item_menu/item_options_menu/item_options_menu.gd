@@ -23,7 +23,8 @@ func select_item(menu_item: MapMenuItem) -> void:
 			item.use()
 			close()
 		"Drop":
-			var menu: MapMenu = load("uid://c8ty86xbmwj3x").instantiate()
+			var menu: MapMenu = load("res://ui/map_ui/map_menus\
+/confirmation_map_menu/confirmation_map_menu.tscn").instantiate()
 			menu.offset = offset + Vector2(16, 16)
 			menu.parent_menu = self
 			MapController.get_ui().add_child(menu)

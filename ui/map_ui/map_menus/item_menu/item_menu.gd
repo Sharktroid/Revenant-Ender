@@ -3,7 +3,8 @@ extends MapMenu
 var connected_unit: Unit
 
 var _items: Array[Item] = []
-var _menu_item_node: GDScript = load("res://ui/map_ui/map_menus/item_menu/item_menu_item.gd")
+var _menu_item_node: GDScript = preload("res://ui/map_ui/map_menus/item_menu\
+/item_options_menu/item_options_menu.gd")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -17,7 +18,8 @@ func _process(_delta: float) -> void:
 
 
 func select_item(item: MapMenuItem) -> void:
-	var menu: MapMenu = load("uid://bfd30uyseuacp").instantiate()
+	var menu: MapMenu = preload("res://ui/map_ui/map_menus/item_menu/item_options_menu/\
+item_options_menu.tscn").instantiate()
 	menu.offset = offset + Vector2(16, 20)
 	menu.parent_menu = self
 	menu.unit = connected_unit

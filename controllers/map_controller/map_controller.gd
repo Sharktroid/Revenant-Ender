@@ -20,7 +20,8 @@ func set_scaling(new_scaling: int) -> void:
 
 func create_main_map_menu() -> void:
 	## Creates map menu.
-	var menu: MapMenu = load("uid://dqvj6gc7ykdcp").instantiate()
+	var menu: MapMenu = \
+			preload("res://ui/map_ui/map_menus/main_map_menu/main_map_menu.tscn").instantiate()
 	menu.offset = MapController.get_cursor().get_rel_pos() \
 			+ MapController.get_map_camera().get_map_offset() + Vector2i(16, 0)
 	MapController.get_ui().add_child(menu)

@@ -16,9 +16,9 @@ var faction_stack: Array[Faction] # All factions
 var true_pos: Vector2i # Position of the map, used for scrolling
 var curr_faction: int = 0
 
-var _attack_tile_node: Resource = load("uid://c2xbtsc8bnoy5")
-var _movement_tile_node: Resource = load("uid://c8vpqlssnmggo")
-var _support_tile_node: Resource = load("uid://m1ftciv3g7t1")
+var _attack_tile_node: Resource = preload("res://maps/map_tiles/attack_tile.tscn")
+var _movement_tile_node: Resource = preload("res://maps/map_tiles/movement_tile.tscn")
+var _support_tile_node: Resource = preload("res://maps/map_tiles/support_tile.tscn")
 
 
 func _enter_tree() -> void:
@@ -51,7 +51,8 @@ func _gui_input(event: InputEvent) -> void:
 
 		elif event.is_action_pressed("status"):
 			if MapController.get_cursor().get_hovered_unit():
-				var status_menu: Control = load("uid://dfm25r0ju5214").instantiate()
+				var status_menu: Control = \
+						preload("res://ui/map_ui/status_screen/status_screen.tscn").instantiate()
 				status_menu.observing_unit = MapController.get_cursor().get_hovered_unit()
 				MapController.get_ui().add_child(status_menu)
 

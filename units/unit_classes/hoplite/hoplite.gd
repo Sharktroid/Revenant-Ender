@@ -58,5 +58,5 @@ func _init():
 		Unit.stats.CONSTITUTION: 20,
 		Unit.stats.AUTHORITY: 5
 	}
-	map_sprite = load("uid://ybdk2ivoxxyj")
+	map_sprite = preload("res://units/unit_classes/hoplite/hoplite.png")
 

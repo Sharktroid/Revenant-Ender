@@ -14,5 +14,5 @@ _TS_max_uses =
 _TS_price =
 _TS_weapon_experience =
 _TS_effective_classes =
-_TS_icon = load("")
+_TS_icon = preload("")
 _TS_super()

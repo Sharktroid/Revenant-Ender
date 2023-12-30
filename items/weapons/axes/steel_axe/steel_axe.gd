@@ -14,5 +14,5 @@ func _init():
 	price = 1700
 	weapon_experience = 2
 	_description = "A strong, quality axe."
-	icon = load("uid://dcyho1cc1b5do")
+	icon = preload("res://items/weapons/axes/steel_axe/icon.png")
 	super()

@@ -15,6 +15,7 @@ var _can_use: bool = false
 
 
 func _init() -> void:
+	#icon = load()
 	if icon is PlaceholderTexture2D:
 		icon.size = Vector2i(16, 16)
 	current_uses = max_uses

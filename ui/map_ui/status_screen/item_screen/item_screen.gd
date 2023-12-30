@@ -1,7 +1,8 @@
 extends Control
 
 var observing_unit: Unit
-var _item_label_node: PackedScene = load("uid://c1ebsuv0gdqsi")
+var _item_label_node: PackedScene = \
+		preload("res://ui/map_ui/status_screen/item_screen/item_label/item_label.tscn")
 
 
 func update() -> void:
