@@ -54,8 +54,8 @@ texture_margin_bottom = 1.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_paaml"]
 shader = ExtResource("2_m6y0q")
 shader_parameter/darken_screen = 0.5
-shader_parameter/old_colors = Array[Vector3]([Vector3(82, 148, 214), Vector3(66, 132, 206), Vector3(82, 148, 214), Vector3(57, 115, 181), Vector3(66, 123, 189), Vector3(33, 90, 173), Vector3(49, 90, 156), Vector3(41, 57, 132)])
-shader_parameter/new_colors = Array[Vector3]([Vector3(214, 90, 99), Vector3(206, 74, 74), Vector3(214, 90, 99), Vector3(181, 66, 66), Vector3(189, 74, 66), Vector3(173, 41, 41), Vector3(156, 66, 49), Vector3(132, 49, 41)])
+shader_parameter/old_colors = Array[Vector3]([])
+shader_parameter/new_colors = Array[Vector3]([])
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_llbmy"]
 bg_color = Color(0.321569, 0.580392, 0.839216, 1)
@@ -98,10 +98,11 @@ content_margin_left = 1.0
 content_margin_top = 0.0
 content_margin_right = 1.0
 content_margin_bottom = 1.0
-bg_color = Color(0.321569, 0.580392, 0.839216, 1)
+bg_color = Color(0.192157, 0.352941, 0.611765, 1)
 
 [node name="Combat Info Display" type="PanelContainer"]
 material = SubResource("ShaderMaterial_nwvkw")
+custom_minimum_size = Vector2(97, 0)
 offset_right = 84.0
 offset_bottom = 161.0
 size_flags_vertical = 3
@@ -113,44 +114,45 @@ use_parent_material = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Top Unit" type="PanelContainer" parent="VBoxContainer"]
+[node name="Top Unit Panel" type="PanelContainer" parent="VBoxContainer"]
+unique_name_in_owner = true
 material = SubResource("ShaderMaterial_32h7w")
 layout_mode = 2
 size_flags_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_86dgu")
 
-[node name="Panel" type="Panel" parent="VBoxContainer/Top Unit"]
+[node name="Panel" type="Panel" parent="VBoxContainer/Top Unit Panel"]
 use_parent_material = true
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_5m147")
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Top Unit"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Top Unit Panel"]
 layout_mode = 2
 theme_override_constants/margin_right = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Top Unit/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/Top Unit Panel/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Top Unit/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Top Unit Panel/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="Top Weapon Icon" type="TextureRect" parent="VBoxContainer/Top Unit/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Top Weapon Icon" type="TextureRect" parent="VBoxContainer/Top Unit Panel/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("6_eeidu")
 
-[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/Top Unit/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/Top Unit Panel/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 2
 theme_override_constants/margin_right = 4
 
-[node name="Control" type="Control" parent="VBoxContainer/Top Unit/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2"]
+[node name="Control" type="Control" parent="VBoxContainer/Top Unit Panel/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2"]
 layout_mode = 2
 
-[node name="TextureRect2" type="Panel" parent="VBoxContainer/Top Unit/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/Control"]
+[node name="TextureRect2" type="Panel" parent="VBoxContainer/Top Unit Panel/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2/Control"]
 show_behind_parent = true
 material = SubResource("ShaderMaterial_32h7w")
 layout_mode = 1
@@ -166,25 +168,25 @@ grow_vertical = 0
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxTexture_g07b5")
 
-[node name="Top Weapon Name" type="Label" parent="VBoxContainer/Top Unit/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2"]
+[node name="Top Weapon Name" type="Label" parent="VBoxContainer/Top Unit Panel/MarginContainer/VBoxContainer/HBoxContainer/MarginContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 1
 text = "Top Weapon"
 horizontal_alignment = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Top Unit/MarginContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Top Unit Panel/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_right = 4
 
-[node name="Top Name" type="Label" parent="VBoxContainer/Top Unit/MarginContainer/VBoxContainer/MarginContainer"]
+[node name="Top Name" type="Label" parent="VBoxContainer/Top Unit Panel/MarginContainer/VBoxContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Marcus"
+text = "Top Name"
 horizontal_alignment = 2
 
-[node name="TextureRect" type="Panel" parent="VBoxContainer/Top Unit/MarginContainer/VBoxContainer/MarginContainer/Top Name"]
+[node name="TextureRect" type="Panel" parent="VBoxContainer/Top Unit Panel/MarginContainer/VBoxContainer/MarginContainer/Top Name"]
 show_behind_parent = true
 material = SubResource("ShaderMaterial_32h7w")
 layout_mode = 1
@@ -199,9 +201,17 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxTexture_g07b5")
 
-[node name="Spacer" type="Control" parent="VBoxContainer/Top Unit/MarginContainer/VBoxContainer"]
+[node name="Spacer" type="Control" parent="VBoxContainer/Top Unit Panel/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 3)
 layout_mode = 2
+
+[node name="Line2D" type="Line2D" parent="VBoxContainer/Top Unit Panel"]
+z_index = 1
+use_parent_material = true
+position = Vector2(0.5, 0)
+points = PackedVector2Array(91, 1, 91, 118)
+width = 1.0
+default_color = Color(0.192157, 0.352941, 0.611765, 1)
 
 [node name="Control" type="Control" parent="VBoxContainer"]
 layout_mode = 2
@@ -402,19 +412,19 @@ layout_mode = 2
 text = "3"
 horizontal_alignment = 2
 
-[node name="Bottom Unit" type="PanelContainer" parent="VBoxContainer"]
+[node name="Bottom Unit Panel" type="PanelContainer" parent="VBoxContainer"]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_paaml")
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_3qb8t")
 
-[node name="Panel" type="Panel" parent="VBoxContainer/Bottom Unit"]
+[node name="Panel" type="Panel" parent="VBoxContainer/Bottom Unit Panel"]
 clip_children = 2
 use_parent_material = true
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_5m147")
 
-[node name="Panel2" type="Panel" parent="VBoxContainer/Bottom Unit/Panel"]
+[node name="Panel2" type="Panel" parent="VBoxContainer/Bottom Unit Panel/Panel"]
 use_parent_material = true
 layout_mode = 1
 anchors_preset = 15
@@ -426,31 +436,31 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_5m147")
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Bottom Unit"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Bottom Unit Panel"]
 use_parent_material = true
 layout_mode = 2
 theme_override_constants/margin_left = 1
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/Bottom Unit/MarginContainer"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/Bottom Unit Panel/MarginContainer"]
 use_parent_material = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Bottom Unit/MarginContainer/VBoxContainer2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Bottom Unit Panel/MarginContainer/VBoxContainer2"]
 use_parent_material = true
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/Bottom Unit/MarginContainer/VBoxContainer2/HBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/Bottom Unit Panel/MarginContainer/VBoxContainer2/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_right = 2
 
-[node name="Control" type="Control" parent="VBoxContainer/Bottom Unit/MarginContainer/VBoxContainer2/HBoxContainer/MarginContainer2"]
+[node name="Control" type="Control" parent="VBoxContainer/Bottom Unit Panel/MarginContainer/VBoxContainer2/HBoxContainer/MarginContainer2"]
 layout_mode = 2
 
-[node name="TextureRect2" type="Panel" parent="VBoxContainer/Bottom Unit/MarginContainer/VBoxContainer2/HBoxContainer/MarginContainer2/Control"]
+[node name="TextureRect2" type="Panel" parent="VBoxContainer/Bottom Unit Panel/MarginContainer/VBoxContainer2/HBoxContainer/MarginContainer2/Control"]
 show_behind_parent = true
 material = SubResource("ShaderMaterial_paaml")
 layout_mode = 1
@@ -466,29 +476,29 @@ grow_vertical = 0
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxTexture_g07b5")
 
-[node name="Bottom Weapon Name" type="Label" parent="VBoxContainer/Bottom Unit/MarginContainer/VBoxContainer2/HBoxContainer/MarginContainer2"]
+[node name="Bottom Weapon Name" type="Label" parent="VBoxContainer/Bottom Unit Panel/MarginContainer/VBoxContainer2/HBoxContainer/MarginContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 1
 text = "Bottom Weapon"
 
-[node name="Bottom Weapon Icon" type="TextureRect" parent="VBoxContainer/Bottom Unit/MarginContainer/VBoxContainer2/HBoxContainer"]
+[node name="Bottom Weapon Icon" type="TextureRect" parent="VBoxContainer/Bottom Unit Panel/MarginContainer/VBoxContainer2/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("6_eeidu")
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Bottom Unit/MarginContainer/VBoxContainer2"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/Bottom Unit Panel/MarginContainer/VBoxContainer2"]
 use_parent_material = true
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_right = 5
 
-[node name="Bottom Name" type="Label" parent="VBoxContainer/Bottom Unit/MarginContainer/VBoxContainer2/MarginContainer"]
+[node name="Bottom Name" type="Label" parent="VBoxContainer/Bottom Unit Panel/MarginContainer/VBoxContainer2/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Roy"
+text = "Bottom Name"
 
-[node name="TextureRect" type="Panel" parent="VBoxContainer/Bottom Unit/MarginContainer/VBoxContainer2/MarginContainer/Bottom Name"]
+[node name="TextureRect" type="Panel" parent="VBoxContainer/Bottom Unit Panel/MarginContainer/VBoxContainer2/MarginContainer/Bottom Name"]
 show_behind_parent = true
 material = SubResource("ShaderMaterial_paaml")
 layout_mode = 1
@@ -503,6 +513,14 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxTexture_g07b5")
 
-[node name="Spacer" type="Control" parent="VBoxContainer/Bottom Unit/MarginContainer/VBoxContainer2"]
+[node name="Spacer" type="Control" parent="VBoxContainer/Bottom Unit Panel/MarginContainer/VBoxContainer2"]
 custom_minimum_size = Vector2(0, 3)
 layout_mode = 2
+
+[node name="Line2D" type="Line2D" parent="VBoxContainer/Bottom Unit Panel"]
+z_index = 1
+use_parent_material = true
+position = Vector2(-90.5, -83)
+points = PackedVector2Array(91, 1, 91, 118)
+width = 1.0
+default_color = Color(0.321569, 0.580392, 0.839216, 1)

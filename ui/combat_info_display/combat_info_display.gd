@@ -1,5 +1,5 @@
-@tool
 extends PanelContainer
+
 const blue_colors: Array[Color] = [
 	Color("5294D6"),
 	Color("4284CE"),
@@ -21,40 +21,57 @@ const red_colors: Array[Color] = [
 	Color("843129"),
 ]
 
-var _top_unit: Unit = preload("res://units/characters/binding blade/marcus/marcus.tscn").instantiate()
-var _bottom_unit: Unit = preload("res://units/characters/binding blade/roy/roy.tscn").instantiate()
+var top_unit: Unit = preload("res://units/characters/binding blade/marcus/marcus.tscn").instantiate()
+var bottom_unit: Unit = preload("res://units/characters/binding blade/roy/roy.tscn").instantiate()
 
 
 func _ready() -> void:
-	add_child(_top_unit)
-	add_child(_bottom_unit)
-	_top_unit.visible = false
-	_bottom_unit.visible = false
+	# Removes float rounding errors
+	var light_blue := Color("5294D6")
+	var dark_blue := Color("315A9C")
+	%"Top Unit Panel".get_theme_stylebox("panel").bg_color = light_blue
+	%"Top Unit Panel".get_node("Line2D").default_color = dark_blue
+	%"Bottom Unit Panel".get_theme_stylebox("panel").bg_color = dark_blue
+	%"Bottom Unit Panel".get_node("Line2D").default_color = light_blue
 
-	%"Top Name".text = _top_unit.unit_name
-	%"Bottom Name".text = _bottom_unit.unit_name
-	%"Top Weapon Icon".texture = _top_unit.get_current_weapon().icon
-	%"Bottom Weapon Icon".texture = _bottom_unit.get_current_weapon().icon
-	%"Top Weapon Name".text = _top_unit.get_current_weapon().name
-	%"Bottom Weapon Name".text = _bottom_unit.get_current_weapon().name
+	add_child(top_unit)
+	add_child(bottom_unit)
+	top_unit.visible = false
+	bottom_unit.visible = false
 
-	%"Top HP".text = str(_top_unit.get_current_health())
-	%"Bottom HP".text = str(_bottom_unit.get_current_health())
-	%"Top Damage".text = str(_top_unit.get_damage(_bottom_unit))
-	%"Bottom Damage".text = str(_bottom_unit.get_damage(_top_unit))
-	%"Top Hit".text = str(_top_unit.get_hit_rate(_bottom_unit))
-	%"Bottom Hit".text = str(_bottom_unit.get_hit_rate(_top_unit))
-	%"Top Crit Damage".text = str(_top_unit.get_crit_damage(_bottom_unit))
-	%"Bottom Crit Damage".text = str(_bottom_unit.get_crit_damage(_top_unit))
-	%"Top Crit".text = str(_top_unit.get_crit_rate(_bottom_unit))
-	%"Bottom Crit".text = str(_bottom_unit.get_crit_rate(_top_unit))
+	for half in ["Top", "Bottom"]:
+		var current_unit: Unit
+		var other_unit: Unit
+		var format: Callable = func(input_string: String) -> String:
+			return ("%" + half + " " + input_string)
+		match half:
+			"Top":
+				current_unit = top_unit
+				other_unit = bottom_unit
+			"Bottom":
+				current_unit = bottom_unit
+				other_unit = top_unit
+		get_node(format.call("Name") as String).text = current_unit.unit_name
+		get_node(format.call("Weapon Icon") as String).texture = \
+				current_unit.get_current_weapon().icon
+		get_node(format.call("Weapon Name") as String).text = \
+				current_unit.get_current_weapon().name
 
-	var shader_material: ShaderMaterial = %"Bottom Unit".material
-	var blue_vectors: Array[Vector3] = []
-	for color: Color in blue_colors:
-		blue_vectors.append(Vector3(color.r, color.g, color.b) * 255)
-	var red_vectors: Array[Vector3] = []
-	for color: Color in red_colors:
-		red_vectors.append(Vector3(color.r, color.g, color.b) * 255)
-	shader_material.set_shader_parameter("old_colors", blue_vectors)
-	shader_material.set_shader_parameter("new_colors", red_vectors)
+		get_node(format.call("HP") as String).text = str(current_unit.get_current_health())
+		get_node(format.call("Damage") as String).text = str(current_unit.get_damage(other_unit))
+		get_node(format.call("Hit") as String).text = str(current_unit.get_hit_rate(other_unit))
+		get_node(format.call("Crit Damage") as String).text = \
+				str(current_unit.get_crit_damage(other_unit))
+		get_node(format.call("Crit") as String).text = str(current_unit.get_crit_rate(other_unit))
+
+		if current_unit.get_faction().color == Faction.colors.RED:
+			var shader_material: ShaderMaterial = get_node(format.call("Panel") as String).material
+			var old_vectors: Array[Vector3] = []
+			for color: Color in blue_colors:
+				old_vectors.append(Vector3(color.r, color.g, color.b) * 255)
+			var new_vectors: Array[Vector3] = []
+			for color: Color in red_colors:
+				new_vectors.append(Vector3(color.r, color.g, color.b) * 255)
+			shader_material.set_shader_parameter("old_colors", old_vectors)
+			shader_material.set_shader_parameter("new_colors", new_vectors)
+
