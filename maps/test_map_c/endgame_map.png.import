@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://2vnyel10cwb1"
-path="res://.godot/imported/chapter_4_map.png-2df1165c2285143682e30c673d6f5729.ctex"
+path="res://.godot/imported/endgame_map.png-157d4e21fb13b642c72051661de32c9b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://maps/test_map_c/chapter_4_map.png"
-dest_files=["res://.godot/imported/chapter_4_map.png-2df1165c2285143682e30c673d6f5729.ctex"]
+source_file="res://maps/test_map_c/endgame_map.png"
+dest_files=["res://.godot/imported/endgame_map.png-157d4e21fb13b642c72051661de32c9b.ctex"]
 
 [params]
 
