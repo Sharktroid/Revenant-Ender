@@ -321,6 +321,30 @@ func get_weight() -> int:
 	return get_stat(stats.CONSTITUTION) + unit_class.weight_modifier
 
 
+func get_hit() -> int:
+	return get_current_weapon().hit + get_stat(stats.SKILL) * 2 + get_stat(stats.LUCK)
+
+
+func get_avoid() -> int:
+	return get_attack_speed() * 2 + get_stat(stats.LUCK)
+
+
+func get_hit_rate(enemy: Unit) -> int:
+	return clampi(get_hit() - enemy.get_avoid(), 0, 100)
+
+
+func get_crit() -> int:
+	return get_current_weapon().crit + get_stat(stats.SKILL)
+
+
+func get_crit_avoid() -> int:
+	return get_stat(stats.LUCK)
+
+
+func get_crit_rate(enemy: Unit) -> int:
+	return clampi(get_crit() - enemy.get_crit_avoid(), 0, 100)
+
+
 func get_path_last_pos() -> Vector2i:
 	var path: Array[Vector2i] = get_unit_path()
 	var unit_positions: Array[Vector2i] = []

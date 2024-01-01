@@ -42,8 +42,12 @@ func _ready() -> void:
 	%"Bottom HP".text = str(_bottom_unit.get_current_health())
 	%"Top Damage".text = str(_top_unit.get_damage(_bottom_unit))
 	%"Bottom Damage".text = str(_bottom_unit.get_damage(_top_unit))
+	%"Top Hit".text = str(_top_unit.get_hit_rate(_bottom_unit))
+	%"Bottom Hit".text = str(_bottom_unit.get_hit_rate(_top_unit))
 	%"Top Crit Damage".text = str(_top_unit.get_crit_damage(_bottom_unit))
 	%"Bottom Crit Damage".text = str(_bottom_unit.get_crit_damage(_top_unit))
+	%"Top Crit".text = str(_top_unit.get_crit_rate(_bottom_unit))
+	%"Bottom Crit".text = str(_bottom_unit.get_crit_rate(_top_unit))
 
 	var shader_material: ShaderMaterial = %"Bottom Unit".material
 	var blue_vectors: Array[Vector3] = []

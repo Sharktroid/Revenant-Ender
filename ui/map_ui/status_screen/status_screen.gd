@@ -66,9 +66,16 @@ func _update() -> void:
 
 	if observing_unit.get_current_weapon():
 		_set_label_text_to_number(%"Attack Value" as Label, observing_unit.get_attack())
+		_set_label_text_to_number(%"Hit Value" as Label, observing_unit.get_hit())
+		_set_label_text_to_number(%"Crit Value" as Label, observing_unit.get_crit())
 	else:
 		%"Attack Value".text = "--"
+		%"Hit Value".text = "--"
+		%"Crit Value".text = "--"
+
 	_set_label_text_to_number(%"AS Value" as Label, observing_unit.get_attack_speed())
+	_set_label_text_to_number(%"Avoid Value" as Label, observing_unit.get_avoid())
+	_set_label_text_to_number(%"Crit Avoid Value" as Label, observing_unit.get_crit_avoid())
 
 	var current_weapon: Weapon = observing_unit.get_current_weapon()
 	if current_weapon:

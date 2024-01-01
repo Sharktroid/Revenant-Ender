@@ -266,9 +266,10 @@ theme_type_variation = &"YellowLabel"
 text = "Hit Rate"
 
 [node name="Hit Value" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Hit Container"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
-text = "NYI"
+text = "21"
 
 [node name="Avoid Container" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
@@ -283,9 +284,10 @@ theme_type_variation = &"YellowLabel"
 text = "Avoid Rate"
 
 [node name="Avoid Value" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Avoid Container"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
-text = "NYI"
+text = "21"
 
 [node name="Crit Container" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
@@ -299,9 +301,10 @@ theme_type_variation = &"YellowLabel"
 text = "Critical Rate"
 
 [node name="Crit Value" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Crit Container"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
-text = "NYI"
+text = "21"
 
 [node name="Crit Avoid Container" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
@@ -316,9 +319,10 @@ theme_type_variation = &"YellowLabel"
 text = "Crit Avoid Rate"
 
 [node name="Crit Avoid Value" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Crit Avoid Container"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
-text = "NYI"
+text = "21"
 
 [node name="Range Container" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2

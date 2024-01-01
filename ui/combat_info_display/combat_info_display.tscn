@@ -181,7 +181,7 @@ theme_override_constants/margin_right = 4
 [node name="Top Name" type="Label" parent="VBoxContainer/Top Unit/MarginContainer/VBoxContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Alen"
+text = "Marcus"
 horizontal_alignment = 2
 
 [node name="TextureRect" type="Panel" parent="VBoxContainer/Top Unit/MarginContainer/VBoxContainer/MarginContainer/Top Name"]
@@ -266,18 +266,20 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "13"
 
-[node name="Label3" type="Label" parent="VBoxContainer/Control/Control2/Bottom Unit/Bottom Unit/MarginContainer/VBoxContainer"]
+[node name="Bottom Hit" type="Label" parent="VBoxContainer/Control/Control2/Bottom Unit/Bottom Unit/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
-text = "NYI"
+text = "86"
 
 [node name="Bottom Crit Damage" type="Label" parent="VBoxContainer/Control/Control2/Bottom Unit/Bottom Unit/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "26"
 
-[node name="Label5" type="Label" parent="VBoxContainer/Control/Control2/Bottom Unit/Bottom Unit/MarginContainer/VBoxContainer"]
+[node name="Bottom Crit" type="Label" parent="VBoxContainer/Control/Control2/Bottom Unit/Bottom Unit/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
-text = "NYI"
+text = "3"
 
 [node name="VBoxContainer" type="PanelContainer" parent="VBoxContainer/Control/Control2"]
 z_index = 1
@@ -382,9 +384,10 @@ layout_mode = 2
 text = "13"
 horizontal_alignment = 2
 
-[node name="Label3" type="Label" parent="VBoxContainer/Control/Control2/Top Unit/Top Unit/MarginContainer/VBoxContainer2"]
+[node name="Top Hit" type="Label" parent="VBoxContainer/Control/Control2/Top Unit/Top Unit/MarginContainer/VBoxContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
-text = "NYI"
+text = "86"
 horizontal_alignment = 2
 
 [node name="Top Crit Damage" type="Label" parent="VBoxContainer/Control/Control2/Top Unit/Top Unit/MarginContainer/VBoxContainer2"]
@@ -393,9 +396,10 @@ layout_mode = 2
 text = "26"
 horizontal_alignment = 2
 
-[node name="Label5" type="Label" parent="VBoxContainer/Control/Control2/Top Unit/Top Unit/MarginContainer/VBoxContainer2"]
+[node name="Top Crit" type="Label" parent="VBoxContainer/Control/Control2/Top Unit/Top Unit/MarginContainer/VBoxContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
-text = "NYI"
+text = "3"
 horizontal_alignment = 2
 
 [node name="Bottom Unit" type="PanelContainer" parent="VBoxContainer"]
