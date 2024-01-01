@@ -206,6 +206,11 @@ func get_damage(defender: Unit) -> float:
 			defender.get_current_defence(get_current_weapon().get_damage_type()))
 
 
+func get_crit_damage(defender: Unit) -> float:
+	return max(0, get_attack() * 2 -
+			defender.get_current_defence(get_current_weapon().get_damage_type()))
+
+
 ## Sets units current health.
 func set_current_health(health: float, does_die: bool = true) -> void:
 	_current_health = clampf(health, 0, get_stat(stats.HITPOINTS))
@@ -332,7 +337,8 @@ func get_path_last_pos() -> Vector2i:
 func get_true_personal_base_stat(stat: stats) -> int:
 	if _personal_base_stats.get(stat):
 		var end_stat: int = personal_end_stats.get(stat, 0)
-		return roundi(remap(1, base_level, get_max_level(), _personal_base_stats[stat] as int, end_stat))
+		return roundi(remap(1, base_level, get_max_level(),
+				_personal_base_stats[stat] as int, end_stat))
 	else:
 		return 0
 

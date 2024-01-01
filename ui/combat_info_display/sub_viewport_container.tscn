@@ -1,0 +1,71 @@
+[gd_scene load_steps=5 format=3 uid="uid://dlb6mypke25qn"]
+
+[ext_resource type="Texture2D" uid="uid://dy85eew67wq2x" path="res://ui/combat_info_display/descriptor_panel.png" id="1_r15wg"]
+[ext_resource type="Texture2D" uid="uid://bdauvyhq8tj7c" path="res://ui/combat_info_display/descriptor_back.png" id="2_dn8mi"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a5c2v"]
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+anti_aliasing = false
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_s3vtp"]
+texture = ExtResource("1_r15wg")
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="SubViewportContainer" type="SubViewportContainer"]
+offset_right = 28.0
+offset_bottom = 18.0
+
+[node name="Control" type="SubViewport" parent="."]
+handle_input_locally = false
+size = Vector2i(24, 18)
+render_target_update_mode = 4
+
+[node name="Control2" type="Panel" parent="Control"]
+clip_children = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_a5c2v")
+
+[node name="Sprite2D" type="Panel" parent="Control/Control2"]
+layout_mode = 2
+offset_left = -12.0
+offset_top = -15.0
+offset_right = 28.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_s3vtp")
+
+[node name="Sprite2D" type="Sprite2D" parent="Control/Control2/Sprite2D"]
+position = Vector2(16, 25)
+texture = ExtResource("2_dn8mi")
+centered = false
+
+[node name="Line2D" type="Line2D" parent="Control/Control2"]
+position = Vector2(0.5, 1)
+points = PackedVector2Array(0, 16, 0, 0)
+width = 1.0
+default_color = Color(1, 1, 0.937255, 1)
+
+[node name="Line2D2" type="Line2D" parent="Control/Control2"]
+position = Vector2(0, 0.5)
+points = PackedVector2Array(23, 0, 1, 0)
+width = 1.0
+default_color = Color(1, 1, 0.937255, 1)
+
+[node name="Line2D3" type="Line2D" parent="Control/Control2"]
+position = Vector2(23.5, 1)
+points = PackedVector2Array(0, 16, 0, 0)
+width = 1.0
+default_color = Color(0.611765, 0.611765, 0.517647, 1)
+
+[node name="Line2D4" type="Line2D" parent="Control/Control2"]
+position = Vector2(0, 17.5)
+points = PackedVector2Array(23, 0, 1, 0)
+width = 1.0
+default_color = Color(0.611765, 0.611765, 0.517647, 1)
