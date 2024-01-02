@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://cpy5pea1o30t6" path="res://ui/theme/portrait.png" id="2_hydo1"]
 [ext_resource type="PackedScene" uid="uid://jyd6v7dptm76" path="res://ui/map_ui/status_screen/statistics/statistics.tscn" id="3_a0hin"]
 [ext_resource type="Script" path="res://ui/help_popup/help_container.gd" id="4_g30x5"]
-[ext_resource type="Script" path="res://portraits/portrait.gd" id="5_a0q8g"]
+[ext_resource type="Script" path="res://portraits/portrait.gd" id="5_ee00m"]
 [ext_resource type="PackedScene" uid="uid://bv0fufaguhv7n" path="res://ui/map_ui/status_screen/item_screen/item_screen.tscn" id="5_ogdan"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8vmos"]
@@ -86,7 +86,7 @@ render_target_update_mode = 4
 unique_name_in_owner = true
 position = Vector2(0, 1)
 centered = false
-script = ExtResource("5_a0q8g")
+script = ExtResource("5_ee00m")
 
 [node name="Container" type="ReferenceRect" parent="Menu Screen/Constant"]
 layout_mode = 2

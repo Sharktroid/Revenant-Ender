@@ -258,8 +258,8 @@ func get_stat(stat: stats, level: int = current_level) -> int:
 	var base_stat: int = unit_class.base_stats.get(stat, 0) + get_true_personal_base_stat(stat)
 	var class_end_stat: int = unit_class.end_stats.get(stat, 0)
 	var max_level: int = unit_class.max_level
-	var remaped_end_stat: int = roundi(remap(class_end_stat, 1, max_level, 1, get_max_level()))
-	var end_stat: int = remaped_end_stat + personal_end_stats.get(stat, 0)
+	var remapped_end_stat: int = roundi(remap(class_end_stat, 1, max_level, 1, get_max_level()))
+	var end_stat: int = remapped_end_stat + personal_end_stats.get(stat, 0)
 	var weight: float = inverse_lerp(1, unit_class.max_level, level)
 	var leveled_stat: int = roundi(lerpf(base_stat, end_stat, weight))
 	return clampi(leveled_stat + get_stat_boost(stat), 0, get_stat_cap(stat))
@@ -362,18 +362,17 @@ func get_path_last_pos() -> Vector2i:
 	return position
 
 
-func get_true_personal_base_stat(stat: stats) -> int:
+func get_true_personal_base_stat(stat: stats) -> float:
 	if _personal_base_stats.get(stat):
-		var end_stat: int = personal_end_stats.get(stat, 0)
-		return roundi(remap(1, base_level, get_max_level(),
-				_personal_base_stats[stat] as int, end_stat))
+		return remap(1, base_level, get_max_level(),
+				_personal_base_stats[stat] as int, personal_end_stats.get(stat, 0) as int)
 	else:
 		return 0
 
 
 func get_stat_table(stat: stats) -> String:
 	var c_base_stat: int = unit_class.base_stats.get(stat, 0)
-	var p_base_stat: int = get_true_personal_base_stat(stat)
+	var p_base_stat: int = roundi(get_true_personal_base_stat(stat))
 	var c_final_stat: int = unit_class.end_stats.get(stat, 0)
 	var p_final_stat: int = personal_end_stats.get(stat, 0)
 	var c_stat_cap: int = unit_class.stat_caps.get(stat, 0)
