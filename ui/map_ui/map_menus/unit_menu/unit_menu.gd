@@ -95,7 +95,7 @@ func select_item(item: MapMenuItem) -> void:
 	match item.name:
 		"Attack":
 			var weapon: Weapon = connected_unit.get_current_weapon()
-			var selector := UnitSelector.new(connected_unit, weapon.min_range, weapon.max_range,
+			var selector := AttackSelector.new(connected_unit, weapon.min_range, weapon.max_range,
 					_can_attack, Cursor.icons.ATTACK)
 			var tiles: Array[Vector2i] = connected_unit.get_current_attack_tiles(
 					connected_unit.get_path_last_pos())

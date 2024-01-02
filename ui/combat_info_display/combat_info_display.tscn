@@ -46,10 +46,8 @@ axis_stretch_vertical = 1
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_g07b5"]
 texture = ExtResource("7_qq6e3")
-texture_margin_left = 3.0
-texture_margin_top = 2.0
-texture_margin_right = 2.0
-texture_margin_bottom = 1.0
+texture_margin_left = 4.0
+texture_margin_right = 3.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_paaml"]
 shader = ExtResource("2_m6y0q")
@@ -106,6 +104,7 @@ custom_minimum_size = Vector2(97, 0)
 offset_right = 84.0
 offset_bottom = 161.0
 size_flags_vertical = 3
+focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_velkt")
 script = ExtResource("1_1wwld")
 

@@ -1,4 +1,7 @@
+@tool
 extends PanelContainer
+
+signal complete(proceed: bool)
 
 const blue_colors: Array[Color] = [
 	Color("5294D6"),
@@ -21,8 +24,8 @@ const red_colors: Array[Color] = [
 	Color("843129"),
 ]
 
-var top_unit: Unit = preload("res://units/characters/binding blade/marcus/marcus.tscn").instantiate()
-var bottom_unit: Unit = preload("res://units/characters/binding blade/roy/roy.tscn").instantiate()
+var top_unit: Unit
+var bottom_unit: Unit
 
 
 func _ready() -> void:
@@ -33,11 +36,6 @@ func _ready() -> void:
 	%"Top Unit Panel".get_node("Line2D").default_color = dark_blue
 	%"Bottom Unit Panel".get_theme_stylebox("panel").bg_color = dark_blue
 	%"Bottom Unit Panel".get_node("Line2D").default_color = light_blue
-
-	add_child(top_unit)
-	add_child(bottom_unit)
-	top_unit.visible = false
-	bottom_unit.visible = false
 
 	for half in ["Top", "Bottom"]:
 		var current_unit: Unit
@@ -65,7 +63,7 @@ func _ready() -> void:
 		get_node(format.call("Crit") as String).text = str(current_unit.get_crit_rate(other_unit))
 
 		if current_unit.get_faction().color == Faction.colors.RED:
-			var shader_material: ShaderMaterial = get_node(format.call("Panel") as String).material
+			var shader_material: ShaderMaterial = get_node(format.call("Unit Panel") as String).material
 			var old_vectors: Array[Vector3] = []
 			for color: Color in blue_colors:
 				old_vectors.append(Vector3(color.r, color.g, color.b) * 255)
@@ -75,3 +73,14 @@ func _ready() -> void:
 			shader_material.set_shader_parameter("old_colors", old_vectors)
 			shader_material.set_shader_parameter("new_colors", new_vectors)
 
+
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_accept"):
+		queue_free()
+		emit_signal("complete", true)
+		accept_event()
+	if event.is_action_pressed("ui_cancel"):
+		emit_signal("complete", false)
+		queue_free()
+		accept_event()
