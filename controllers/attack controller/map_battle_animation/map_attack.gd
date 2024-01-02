@@ -51,9 +51,10 @@ func play_animation() -> void:
 
 
 func _move(movement: Vector2) -> void:
-	var new_pos: Vector2 = position + movement
-	while (position != new_pos):
-		position = position.move_toward(new_pos, 1)
-		await get_tree().physics_frame
+	var end_pos: Vector2 = position + movement
+	var tween: Tween = create_tween()
+	tween.tween_method(func(new_pos: Vector2): position = new_pos.round(),
+			position, end_pos, 8.0/60)
+	await tween.finished
 	emit_signal("arrived")
 

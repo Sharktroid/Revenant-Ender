@@ -4,7 +4,7 @@ extends Control
 const CHARS_PER_SECOND: int = 300
 const FULL_SCROLL_SPEED: float = 0.25
 const LINE_COUNT: int = 5
-const SHIFT_DURATION: int = 8 # In ticks
+const SHIFT_DURATION: float = 8.0/60 # In seconds
 const TEXTBOX_HEIGHT: int = 94
 const PORTRAIT_WIDTH: int = 96
 
@@ -22,12 +22,14 @@ var _skipping: bool = false
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
-		_skipping = true
 		var portraits: Array = _portraits.keys()
 		var last_portrait: Unit = portraits.pop_back()
 		for portrait: Unit in portraits:
 			remove_portrait(portrait)
 		await remove_portrait(last_portrait)
+		hide_top_textbox()
+		await hide_bottom_textbox()
+		_skipping = true
 
 
 func set_top_text(string: String) -> void:
@@ -82,26 +84,23 @@ func add_portrait(new_speaker: Unit, portrait_position: positions,
 	if flip_h:
 		portrait.flip()
 	portrait.position = Vector2i(portrait_position, 20)
-	portrait.modulate.v = 0
 	$Portraits.add_child(portrait)
 	_portraits[new_speaker] = portrait
-	for i in SHIFT_DURATION:
-		portrait.modulate.v = remap(i, 0, SHIFT_DURATION, 0, 1)
-		await get_tree().physics_frame
-	portrait.modulate.v = 1
+	var tween: Tween = create_tween()
+	portrait.modulate.v = 0
+	tween.tween_property(portrait, "modulate:v", 1, SHIFT_DURATION)
+	await tween.finished
 
 
 func remove_portrait(old_speaker: Unit) -> void:
+	if _skipping:
+		return
 	var portrait := Portrait.new()
 	if is_instance_valid(_portraits.get(old_speaker)):
 		portrait = _portraits.get(old_speaker, Portrait.new())
-		print_debug(portrait)
-	portrait.modulate.v = 1
-	for i in SHIFT_DURATION:
-		portrait.modulate.v = remap(i, 0, SHIFT_DURATION, 1, 0)
-		await get_tree().physics_frame
-		if not is_instance_valid(portrait):
-			return
+	var tween: Tween = portrait.create_tween()
+	tween.tween_property(portrait, "modulate:v", 0, SHIFT_DURATION)
+	await tween.finished
 	portrait.queue_free()
 
 
@@ -141,6 +140,8 @@ func _show_textbox(box_position: positions, textbox: MarginContainer, align_bott
 
 func _hide_textbox(textbox: MarginContainer, align_bottom: bool,
 		bubble_point: TextureRect) -> void:
+	if _skipping:
+		return
 	await _resize_textbox(textbox, align_bottom, bubble_point,
 			Vector2i(GenVars.get_screen_size().x, TEXTBOX_HEIGHT), textbox.custom_minimum_size)
 	textbox.visible = false
@@ -149,14 +150,13 @@ func _hide_textbox(textbox: MarginContainer, align_bottom: bool,
 
 func _resize_textbox(textbox: MarginContainer, align_bottom: bool,
 		bubble_point: TextureRect, starting_size: Vector2,
-		target_size: Vector2i) -> void:
+		target_size: Vector2) -> void:
 	var target_x: float = bubble_point.position.x + bubble_point.size.x/2
 	textbox.anchor_left = target_x/GenVars.get_screen_size().x
 	textbox.anchor_right = textbox.anchor_left
-	textbox.size = starting_size
-	for i in SHIFT_DURATION:
-		textbox.size = starting_size.lerp(target_size, inverse_lerp(0, SHIFT_DURATION, i))
-		textbox.size = textbox.size.snapped(Vector2i(2, 2))
+
+	var adjust_size: Callable = func(new_size: Vector2) -> void:
+		textbox.size = new_size.snapped(Vector2i(2, 2))
 		textbox.position.x = clamp(target_x - textbox.size.x/2,
 				0, GenVars.get_screen_size().x - textbox.size.x)
 		if align_bottom:
@@ -164,8 +164,10 @@ func _resize_textbox(textbox: MarginContainer, align_bottom: bool,
 			bubble_point.position.y = textbox.position.y - bubble_point.size.y + 2
 		else:
 			bubble_point.position.y = textbox.size.y - 2
-		await get_tree().physics_frame
-	textbox.size = target_size
+
+	var tween: Tween = create_tween()
+	tween.tween_method(adjust_size, starting_size, target_size, SHIFT_DURATION)
+	await tween.finished
 
 
 func _set_text_base(string: String, label: RichTextLabel, portrait: Portrait) -> void:
@@ -187,7 +189,7 @@ func _set_text_base(string: String, label: RichTextLabel, portrait: Portrait) ->
 			return
 		elif Input.is_action_just_pressed("ui_accept"):
 			autoscroll = true
-			await get_tree().physics_frame
+			await get_tree().physics_frame # Prevents input from being double read
 		if timer > 0:
 			timer -= 1
 		else:
@@ -209,8 +211,7 @@ func _set_text_base(string: String, label: RichTextLabel, portrait: Portrait) ->
 	label.visible_ratio = 1
 	#endregion
 	portrait.set_talking(false)
-	while not (Input.is_action_just_pressed("ui_accept") or
-			Input.is_action_just_pressed("ui_cancel")):
+	while not (Input.is_action_just_pressed("ui_accept") or _skipping):
 		await get_tree().physics_frame
 
 
@@ -218,10 +219,9 @@ func _scroll(label: RichTextLabel) -> void:
 	if _skipping:
 		return
 	var new_y: int = roundi(label.position.y - _get_line_height())
-	while roundi(label.position.y) > new_y:
-		label.position.y -= (_get_line_height() * LINE_COUNT)/60.0 / FULL_SCROLL_SPEED
-		await get_tree().physics_frame
-	label.position.y = roundi(label.position.y)
+	var tween: Tween = create_tween()
+	tween.tween_property(label, "position:y", new_y, FULL_SCROLL_SPEED / LINE_COUNT)
+	await tween.finished
 
 
 func _clear(label: RichTextLabel) -> void:
@@ -238,15 +238,17 @@ func _get_line_height() -> int:
 func _set_speaker(name_label: RichTextLabel, new_speaker: Unit) -> void:
 	if _skipping:
 		return
-	for i in ceili(float(SHIFT_DURATION) / 2):
-		name_label.visible_ratio = remap(i, 0, ceili(float(SHIFT_DURATION) / 2), 1, 0)
-		await get_tree().physics_frame
-	name_label.visible_ratio = 0
+
+	if name_label.text != "":
+		var slide_out: Tween = create_tween()
+		slide_out.tween_property(name_label, "visible_ratio", 0, SHIFT_DURATION / 2)
+		await slide_out.finished
+
 	name_label.text = new_speaker.unit_name
-	for i in floori(float(SHIFT_DURATION) / 2):
-		name_label.visible_ratio = remap(i, 0, floori(float(SHIFT_DURATION) / 2), 0, 1)
-		await get_tree().physics_frame
-	name_label.visible_ratio = 1
+
+	var slide_in: Tween = create_tween()
+	slide_in.tween_property(name_label, "visible_ratio", 1, SHIFT_DURATION / 2)
+	await slide_in.finished
 
 
 func _configure_point(bubble_point: TextureRect, point_x: int) -> void:

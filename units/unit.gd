@@ -56,7 +56,7 @@ var _raw_movement_tiles: Array[Vector2i] # All movement tiles without organizati
 var _path: Array[Vector2i] # Path the unit will follow when moving.
 var _current_statuses: Array[statuses]
 var _current_health: float
-var _movement_speed: float = 8 # Speed unit moves across the map.
+static var _movement_speed: float = 16 # Speed unit moves across the map in tiles/second.
 static var _all_units: Dictionary # Lists all unit classes.
 # Dictionaries that convert faction/variant into animation modifier.
 var _movement_tiles: Dictionary # Movement tiles. Split by cost left.
@@ -412,9 +412,9 @@ func die() -> void:
 	dead = true
 	$Area2D.queue_free()
 	await $Area2D.area_exited
-	var fade = FadeOut.new(20.0/60)
-	add_child.call_deferred(fade)
-	await fade.complete
+	var tween: Tween = create_tween()
+	tween.tween_property(self, "modulate:a", 0, 20.0/60)
+	await tween.finished
 	queue_free()
 
 
@@ -524,9 +524,10 @@ func move(move_target: Vector2i = get_unit_path()[-1]) -> void:
 				_: set_animation(animations.IDLE)
 
 			while position != _target:
-				var speed: float = _movement_speed * 60 * GenVars.get_frame_delta()
-				position = position.move_toward(_target, speed)
-				await get_tree().process_frame
+				var tween: Tween = create_tween()
+				tween.tween_method(func(new_pos: Vector2): position = new_pos.round(),
+						position, _target, 1.0 / _movement_speed)
+				await tween.finished
 		get_node("Area2D").monitoring = true
 		set_animation(animations.IDLE)
 

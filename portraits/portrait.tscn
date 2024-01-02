@@ -13,10 +13,12 @@ centered = false
 script = ExtResource("2_u1gcd")
 
 [node name="Mouth" type="Sprite2D" parent="." groups=["mouth"]]
+use_parent_material = true
 centered = false
 vframes = 3
 
 [node name="Mouth Happy" type="Sprite2D" parent="." groups=["mouth"]]
 visible = false
+use_parent_material = true
 centered = false
 vframes = 3

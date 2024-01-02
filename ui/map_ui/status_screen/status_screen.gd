@@ -108,29 +108,25 @@ func _move(dir: int) -> void:
 	_scroll_lock = true
 	const DURATION = 1.0/6
 	var dest: float = $"Menu Screen".size.y
-	var fade_threshold: float = 1.0/4
-	var swap_threshold: float = 1.0/3
-	var get_x: Callable = func() -> float: return $"Menu Screen".position.y * dir
-	var velocity: Callable = func():
-		var dist: float = $"Menu Screen".size.y * swap_threshold
-		return dist * 2 * GenVars.get_frame_delta() * dir / DURATION
+	const SWAP_THRESHOLD: float = 1.0/3
+	var menu: HBoxContainer = $"Menu Screen"
 
-	while get_x.call() <= dest * swap_threshold:
-		await get_tree().process_frame
-		$"Menu Screen".position.y += velocity.call()
-		var weight: float = inverse_lerp(0, dest * fade_threshold, get_x.call() as float)
-		$"Menu Screen".modulate.a = lerpf(1, 0, weight)
+	var fade_out: Tween = create_tween()
+	fade_out.set_parallel(true)
+	fade_out.tween_property(menu, "position:y", dest * SWAP_THRESHOLD * dir, DURATION / 2)
+	fade_out.tween_property(menu, "modulate:a", 0, DURATION / 2)
+	await fade_out.finished
 
-	$"Menu Screen".position.y = -dest * dir * swap_threshold
+	menu.position.y = -dest * dir * SWAP_THRESHOLD
 	_update()
 
-	while get_x.call() < 0:
-		await get_tree().process_frame
-		$"Menu Screen".position.y += velocity.call()
-		var weight: float = inverse_lerp(-dest * fade_threshold, 0, get_x.call() as float)
-		$"Menu Screen".modulate.a = lerpf(0, 1, weight)
+	var fade_in: Tween = create_tween()
+	fade_in.set_parallel(true)
+	fade_in.tween_property(menu, "position:y", 0, DURATION / 2)
+	fade_in.tween_property(menu, "modulate:a", 1, DURATION / 2)
+	await fade_in.finished
 
-	$"Menu Screen".position.y = 0
+	menu.position.y = 0
 	_scroll_lock = false
 
 

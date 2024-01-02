@@ -34,16 +34,16 @@ static func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[int]
 	defender.get_parent().add_child(defender_animation)
 	attacker.visible = false
 	defender.visible = false
+	var get_timer: Callable = func() -> SceneTreeTimer:
+		return hp_bar.get_tree().create_timer(DELAY)
 	for combat_round in attack_queue:
-		var combat_timer: SceneTreeTimer = attacker.get_tree().create_timer(DELAY)
-		await combat_timer.timeout
+		await get_timer.call().timeout
 		match combat_round:
-			ATTACKER: await _map_attack(attacker, defender, attacker_animation, defender_animation)
-			DEFENDER: await _map_attack(defender, attacker, defender_animation, attacker_animation)
+			ATTACKER: await _map_attack(attacker, defender, attacker_animation)
+			DEFENDER: await _map_attack(defender, attacker, defender_animation)
 		if not(is_instance_valid(attacker) and is_instance_valid(defender)):
 			break
-	var timer: SceneTreeTimer = hp_bar.get_tree().create_timer(DELAY)
-	await timer.timeout
+	await get_timer.call().timeout
 	hp_bar.queue_free()
 	if is_instance_valid(attacker):
 		attacker.visible = true
@@ -53,24 +53,17 @@ static func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[int]
 	defender_animation.queue_free()
 
 
-static func _map_attack(attacker: Unit, defender: Unit, attacker_animation: MapAttack,
-		defender_animation: MapAttack) -> void:
+static func _map_attack(attacker: Unit, defender: Unit, attacker_animation: MapAttack) -> void:
 	attacker_animation.play_animation()
 	await attacker_animation.deal_damage
 	var old_health: int = ceili(defender.get_current_health())
 	var new_health: int = maxi(floori(old_health - attacker.get_damage(defender)), 0)
 	var max_health: int = defender.get_stat(Unit.stats.HITPOINTS)
 	var current_health: float = old_health
-	while defender.get_current_health() > new_health:
-		current_health -= max_health * GenVars.get_frame_delta() / HEALTH_SCROLL_DURATION
-		current_health = maxf(current_health, new_health)
-		defender.set_current_health(roundi(current_health))
-		await defender.get_tree().process_frame
+	var tween: Tween = defender.create_tween()
+	tween.tween_method(defender.set_current_health, old_health, new_health, HEALTH_SCROLL_DURATION)
+	await tween.finished
 	if defender.dead:
-		var fade := FadeOut.new(20.0/60)
-		defender_animation.add_child(fade)
-		await fade.complete
-		defender.queue_free()
-	await attacker_animation.get_tree().process_frame
+		await defender.die()
 	attacker_animation.emit_signal("proceed")
 	await attacker_animation.complete

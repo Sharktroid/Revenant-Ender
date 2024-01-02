@@ -39,6 +39,11 @@ static func dict_to_table(dict: Dictionary, size: int) -> String:
 	var table: String = "[table=%d]" % size
 	for key in dict:
 		var value = dict[key]
-		var replacements: Array = [GenVars.font_yellow, str(key), GenVars.font_blue, str(value).lpad(5)]
+		var replacements: Array = [
+			GenVars.font_yellow,
+			str(key),
+			GenVars.font_blue,
+			str(value).lpad(5),
+		]
 		table += "[cell][color=%s]%s[/color]\t[color=%s]%s[/color][/cell]" % replacements
 	return table + "[/table]"
