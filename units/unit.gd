@@ -21,7 +21,6 @@ enum stats {
 @export var items: Array[Item]
 @export var base_level: int = 1
 @export var skills: Array[Skill] = [Follow_Up.new()]
-var _portrait: Portrait
 
 var personal_stat_caps: Dictionary
 var personal_end_stats: Dictionary
@@ -51,6 +50,7 @@ var traveler: Unit:
 var equipped_weapon: Weapon
 
 
+var _portrait: Portrait
 var _personal_base_stats: Dictionary
 var _raw_movement_tiles: Array[Vector2i] # All movement tiles without organization.
 var _path: Array[Vector2i] # Path the unit will follow when moving.
@@ -161,8 +161,12 @@ func _process(_delta: float):
 	if traveler:
 		traveler.position = position
 	_render_status()
-	if Engine.get_process_frames() % 60 == 0:
-		GenFunc.sync_animation($AnimationPlayer as AnimationPlayer)
+	if $AnimationPlayer.current_animation == "idle":
+		var anim_frame: int = floori((Engine.get_physics_frames() as float) / 16) % 4
+		if anim_frame == 3:
+			frame = 1
+		else:
+			frame = anim_frame
 	z_index = GenFunc.round_coords_to_tile(position).y
 
 
@@ -413,7 +417,8 @@ func die() -> void:
 	$Area2D.queue_free()
 	await $Area2D.area_exited
 	var tween: Tween = create_tween()
-	tween.tween_property(self, "modulate:a", 0, 20.0/60)
+	tween.set_speed_scale(60)
+	tween.tween_property(self, "modulate:a", 0, 20)
 	await tween.finished
 	queue_free()
 
@@ -525,8 +530,9 @@ func move(move_target: Vector2i = get_unit_path()[-1]) -> void:
 
 			while position != _target:
 				var tween: Tween = create_tween()
+				tween.set_speed_scale(_movement_speed)
 				tween.tween_method(func(new_pos: Vector2): position = new_pos.round(),
-						position, _target, 1.0 / _movement_speed)
+						position, _target, 1)
 				await tween.finished
 		get_node("Area2D").monitoring = true
 		set_animation(animations.IDLE)

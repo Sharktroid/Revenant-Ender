@@ -16,16 +16,15 @@ var _active: bool = true
 func _ready() -> void:
 	set_rel_pos(position)
 	set_process_input(true)
-
-
-func _process(_delta):
-	var tick_timer: int = Engine.get_physics_frames() % 32
-	if tick_timer <= 20:
-		$Icon.frame = 0
-	elif tick_timer <= 22 or tick_timer > 30:
-		$Icon.frame = 1
-	else:
-		$Icon.frame = 2
+	var tween: Tween = create_tween()
+	tween.set_loops()
+	tween.set_speed_scale(60)
+	var icon: Sprite2D = $Icon
+	tween.tween_callback(icon.set_frame.bind(0))
+	tween.tween_callback(icon.set_frame.bind(1)).set_delay(20)
+	tween.tween_callback(icon.set_frame.bind(2)).set_delay(2)
+	tween.tween_callback(icon.set_frame.bind(1)).set_delay(8)
+	tween.tween_interval(2)
 
 
 func _physics_process(_delta: float) -> void:

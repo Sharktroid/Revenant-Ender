@@ -53,8 +53,9 @@ func play_animation() -> void:
 func _move(movement: Vector2) -> void:
 	var end_pos: Vector2 = position + movement
 	var tween: Tween = create_tween()
+	tween.set_speed_scale(60)
 	tween.tween_method(func(new_pos: Vector2): position = new_pos.round(),
-			position, end_pos, 8.0/60)
+			position, end_pos, 8)
 	await tween.finished
 	emit_signal("arrived")
 

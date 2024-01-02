@@ -58,8 +58,6 @@ static func _map_attack(attacker: Unit, defender: Unit, attacker_animation: MapA
 	await attacker_animation.deal_damage
 	var old_health: int = ceili(defender.get_current_health())
 	var new_health: int = maxi(floori(old_health - attacker.get_damage(defender)), 0)
-	var max_health: int = defender.get_stat(Unit.stats.HITPOINTS)
-	var current_health: float = old_health
 	var tween: Tween = defender.create_tween()
 	tween.tween_method(defender.set_current_health, old_health, new_health, HEALTH_SCROLL_DURATION)
 	await tween.finished

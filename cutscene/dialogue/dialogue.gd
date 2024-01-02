@@ -98,7 +98,7 @@ func remove_portrait(old_speaker: Unit) -> void:
 	var portrait := Portrait.new()
 	if is_instance_valid(_portraits.get(old_speaker)):
 		portrait = _portraits.get(old_speaker, Portrait.new())
-	var tween: Tween = portrait.create_tween()
+	var tween: Tween = create_tween()
 	tween.tween_property(portrait, "modulate:v", 0, SHIFT_DURATION)
 	await tween.finished
 	portrait.queue_free()
@@ -241,12 +241,14 @@ func _set_speaker(name_label: RichTextLabel, new_speaker: Unit) -> void:
 
 	if name_label.text != "":
 		var slide_out: Tween = create_tween()
-		slide_out.tween_property(name_label, "visible_ratio", 0, SHIFT_DURATION / 2)
+		slide_out.set_speed_scale(2)
+		slide_out.tween_property(name_label, "visible_ratio", 0, SHIFT_DURATION)
 		await slide_out.finished
 
 	name_label.text = new_speaker.unit_name
 
 	var slide_in: Tween = create_tween()
+	slide_in.set_speed_scale(2)
 	slide_in.tween_property(name_label, "visible_ratio", 1, SHIFT_DURATION / 2)
 	await slide_in.finished
 

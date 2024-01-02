@@ -112,18 +112,20 @@ func _move(dir: int) -> void:
 	var menu: HBoxContainer = $"Menu Screen"
 
 	var fade_out: Tween = create_tween()
+	fade_out.set_speed_scale(2)
 	fade_out.set_parallel(true)
-	fade_out.tween_property(menu, "position:y", dest * SWAP_THRESHOLD * dir, DURATION / 2)
-	fade_out.tween_property(menu, "modulate:a", 0, DURATION / 2)
+	fade_out.tween_property(menu, "position:y", dest * SWAP_THRESHOLD * dir, DURATION)
+	fade_out.tween_property(menu, "modulate:a", 0, DURATION)
 	await fade_out.finished
 
 	menu.position.y = -dest * dir * SWAP_THRESHOLD
 	_update()
 
 	var fade_in: Tween = create_tween()
+	fade_in.set_speed_scale(2)
 	fade_in.set_parallel(true)
-	fade_in.tween_property(menu, "position:y", 0, DURATION / 2)
-	fade_in.tween_property(menu, "modulate:a", 1, DURATION / 2)
+	fade_in.tween_property(menu, "position:y", 0, DURATION)
+	fade_in.tween_property(menu, "modulate:a", 1, DURATION)
 	await fade_in.finished
 
 	menu.position.y = 0

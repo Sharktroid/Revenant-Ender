@@ -395,10 +395,16 @@ layout_mode = 2
 [node name="Weight Help" type="BoxContainer" parent="Other/HBoxContainer/Values"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 0
 size_flags_vertical = 3
 script = ExtResource("2_6g5y4")
 
-[node name="Weight Value" type="Label" parent="Other/HBoxContainer/Values/Weight Help"]
+[node name="MarginContainer" type="MarginContainer" parent="Other/HBoxContainer/Values/Weight Help"]
+layout_mode = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_right = 2
+
+[node name="Weight Value" type="Label" parent="Other/HBoxContainer/Values/Weight Help/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
@@ -409,10 +415,16 @@ vertical_alignment = 1
 [node name="Aid Help" type="BoxContainer" parent="Other/HBoxContainer/Values"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 0
 size_flags_vertical = 3
 script = ExtResource("2_6g5y4")
 
-[node name="Aid Value" type="Label" parent="Other/HBoxContainer/Values/Aid Help"]
+[node name="MarginContainer" type="MarginContainer" parent="Other/HBoxContainer/Values/Aid Help"]
+layout_mode = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_right = 2
+
+[node name="Aid Value" type="Label" parent="Other/HBoxContainer/Values/Aid Help/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
