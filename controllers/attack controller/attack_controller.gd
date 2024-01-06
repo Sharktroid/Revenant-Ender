@@ -5,6 +5,11 @@ enum {ATTACKER, DEFENDER}
 
 const DELAY: float = 0.25
 const HEALTH_SCROLL_DURATION: float = 0.5
+const HIT_A_HEAVY: AudioStream = preload("res://audio/sfx/hit_a_heavy.ogg")
+const HIT_B_HEAVY: AudioStream = preload("res://audio/sfx/hit_b_heavy.ogg")
+const HIT_B_FATAL: AudioStream = preload("res://audio/sfx/hit_b_fatal.ogg")
+
+const HIT_B_DELAY: float = 5.0/60
 
 static var _map_battle_hp_bar_scene: PackedScene = \
 		preload("res://controllers/attack controller/map_battle_info_display.tscn")
@@ -39,35 +44,51 @@ static func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[int]
 	for combat_round in attack_queue:
 		await get_timer.call().timeout
 		match combat_round:
-			ATTACKER: await _map_attack(attacker, defender, attacker_animation, defender_animation)
-			DEFENDER: await _map_attack(defender, attacker, defender_animation, attacker_animation)
-		if not(is_instance_valid(attacker) and is_instance_valid(defender)) or defender.dead:
+			ATTACKER: await _map_attack(attacker, defender, attacker_animation)
+			DEFENDER: await _map_attack(defender, attacker, defender_animation)
+		if attacker.get_current_health() <= 0 or defender.get_current_health() <= 0:
 			break
 	await get_timer.call().timeout
 	hp_bar.queue_free()
-	if is_instance_valid(attacker):
+	if defender.get_current_health() <= 0:
+		await _kill(defender, defender_animation)
+	if attacker.get_current_health() > 0:
 		attacker.visible = true
+	else:
+		await _kill(attacker, attacker_animation)
 	attacker_animation.queue_free()
 	if is_instance_valid(defender):
 		defender.visible = true
 	defender_animation.queue_free()
 
 
-static func _map_attack(attacker: Unit, defender: Unit, attacker_animation: MapAttack,
-		defender_animation: MapAttack) -> void:
+static func _map_attack(attacker: Unit, defender: Unit, attacker_animation: MapAttack) -> void:
 	attacker_animation.play_animation()
 	await attacker_animation.deal_damage
 	var old_health: int = ceili(defender.get_current_health())
 	var new_health: int = maxi(floori(old_health - attacker.get_damage(defender)), 0)
 	var tween: Tween = defender.create_tween()
+	var hit_b: AudioStream = HIT_B_HEAVY
+	if new_health <= 0:
+		hit_b = HIT_B_FATAL
+	tween.set_parallel(true)
 	tween.tween_method(defender.set_current_health.bind(false), old_health,
 			new_health, HEALTH_SCROLL_DURATION)
-	await tween.finished
-	if defender.get_current_health() <= 0:
-		var sync_fade: Tween = defender.create_tween()
-		sync_fade.tween_property(defender_animation, "modulate:a", 0, Unit.FADE_AWAY_DURATION)
-		sync_fade.play()
-		await sync_fade.finished
-		defender.queue_free()
+	AudioPlayer.play_sound_effect(HIT_A_HEAVY)
+	await defender.get_tree().create_timer(HIT_B_DELAY).timeout
+	await AudioPlayer.play_sound_effect(hit_b)
+	if tween.is_running():
+		await tween.finished
 	attacker_animation.emit_signal("proceed")
 	await attacker_animation.complete
+
+
+static func _kill(unit: Unit, unit_animation: MapAttack) -> void:
+	AudioPlayer.play_sound_effect(preload("res://audio/sfx/death_fade.ogg"))
+	var sync_fade: Tween = unit.create_tween()
+	sync_fade.tween_property(unit_animation, "modulate:a", 0, Unit.FADE_AWAY_DURATION)
+	sync_fade.play()
+	await sync_fade.finished
+	unit.queue_free()
+	unit_animation.visible = false
+	await unit_animation.get_tree().process_frame # Prevents visual bug

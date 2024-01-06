@@ -20,6 +20,7 @@ GenVars="*res://utilities/general_variables.gd"
 HelpPopupController="*res://ui/help_popup/help_popup_controller.gd"
 MapController="*res://controllers/map_controller/map_controller.gd"
 GameController="*res://controllers/game_controller/game_controller.gd"
+AudioPlayer="*res://audio/audio_player.gd"
 
 [debug]
 
