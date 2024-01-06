@@ -39,9 +39,9 @@ static func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[int]
 	for combat_round in attack_queue:
 		await get_timer.call().timeout
 		match combat_round:
-			ATTACKER: await _map_attack(attacker, defender, attacker_animation)
-			DEFENDER: await _map_attack(defender, attacker, defender_animation)
-		if not(is_instance_valid(attacker) and is_instance_valid(defender)):
+			ATTACKER: await _map_attack(attacker, defender, attacker_animation, defender_animation)
+			DEFENDER: await _map_attack(defender, attacker, defender_animation, attacker_animation)
+		if not(is_instance_valid(attacker) and is_instance_valid(defender)) or defender.dead:
 			break
 	await get_timer.call().timeout
 	hp_bar.queue_free()
@@ -53,15 +53,21 @@ static func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[int]
 	defender_animation.queue_free()
 
 
-static func _map_attack(attacker: Unit, defender: Unit, attacker_animation: MapAttack) -> void:
+static func _map_attack(attacker: Unit, defender: Unit, attacker_animation: MapAttack,
+		defender_animation: MapAttack) -> void:
 	attacker_animation.play_animation()
 	await attacker_animation.deal_damage
 	var old_health: int = ceili(defender.get_current_health())
 	var new_health: int = maxi(floori(old_health - attacker.get_damage(defender)), 0)
 	var tween: Tween = defender.create_tween()
-	tween.tween_method(defender.set_current_health, old_health, new_health, HEALTH_SCROLL_DURATION)
+	tween.tween_method(defender.set_current_health.bind(false), old_health,
+			new_health, HEALTH_SCROLL_DURATION)
 	await tween.finished
-	if defender.dead:
-		await defender.die()
+	if defender.get_current_health() <= 0:
+		var sync_fade: Tween = defender.create_tween()
+		sync_fade.tween_property(defender_animation, "modulate:a", 0, Unit.FADE_AWAY_DURATION)
+		sync_fade.play()
+		await sync_fade.finished
+		defender.queue_free()
 	attacker_animation.emit_signal("proceed")
 	await attacker_animation.complete

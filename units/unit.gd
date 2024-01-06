@@ -5,6 +5,8 @@ extends Sprite2D
 signal arrived # When unit arrives at its target
 signal cursor_exited
 
+const FADE_AWAY_DURATION: float = 20.0/60
+
 enum statuses {ATTACK}
 enum animations {IDLE, MOVING_DOWN, MOVING_UP, MOVING_LEFT, MOVING_RIGHT}
 enum stats {
@@ -413,11 +415,8 @@ func wait() -> void:
 
 func die() -> void:
 	dead = true
-	$Area2D.queue_free()
-	await $Area2D.area_exited
 	var tween: Tween = create_tween()
-	tween.set_speed_scale(60)
-	tween.tween_property(self, "modulate:a", 0, 20)
+	tween.tween_property(self, "modulate:a", 0, FADE_AWAY_DURATION)
 	await tween.finished
 	queue_free()
 
