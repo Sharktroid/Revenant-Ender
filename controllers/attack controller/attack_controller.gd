@@ -1,4 +1,4 @@
-class_name AttackHandler
+class_name AttackController
 extends RefCounted
 
 enum {ATTACKER, DEFENDER}

@@ -16,7 +16,7 @@ config/features=PackedStringArray("4.2")
 
 [autoload]
 
-Utilities="*res://utilities/general_variables.gd"
+Utilities="*res://utilities/utilities.gd"
 HelpPopupController="*res://ui/help_popup/help_popup_controller.gd"
 MapController="*res://controllers/map_controller/map_controller.gd"
 GameController="*res://controllers/game_controller/game_controller.gd"
