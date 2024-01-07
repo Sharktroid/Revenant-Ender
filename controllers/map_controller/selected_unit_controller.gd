@@ -50,11 +50,12 @@ func _has_point(_point: Vector2) -> bool:
 
 
 func _gui_input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_accept"):
-		_position_selected()
-		accept_event()
-	elif event.is_action_pressed("ui_cancel"):
-		_canceled()
+	if MapController.get_cursor().is_active():
+		if event.is_action_pressed("ui_accept"):
+			_position_selected()
+			accept_event()
+		elif event.is_action_pressed("ui_cancel"):
+			_canceled()
 
 
 func close() -> void:
