@@ -18,7 +18,7 @@ static func combat(attacker: Unit, defender: Unit) -> void:
 	MapController.get_cursor().disable()
 	var attack_queue: Array[int] = [ATTACKER]
 	if defender.get_current_weapon() != null:
-		var distance: int = roundi(GenFunc.get_tile_distance(attacker.position, defender.position))
+		var distance: int = roundi(Utilities.get_tile_distance(attacker.position, defender.position))
 		if distance in defender.get_current_weapon().get_range():
 			attack_queue.append(DEFENDER)
 	var attack_speed_check: bool = attacker.get_attack_speed() >= 5 + defender.get_attack_speed()

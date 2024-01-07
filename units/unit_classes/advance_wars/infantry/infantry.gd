@@ -14,7 +14,7 @@ func _init():
 
 
 func wait() -> void:
-	if GenVars.get_debug_constant("unit_wait"):
+	if Utilities.get_debug_constant("unit_wait"):
 		_base_frame += 3
 #	_update_sprite()
 	super.wait()

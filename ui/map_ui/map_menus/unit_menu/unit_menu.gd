@@ -62,12 +62,12 @@ func update() -> void:
 		for unit in MapController.get_units():
 			if not unit.is_ghost and unit != connected_unit and unit.visible == true:
 				var cursor_pos: Vector2i = MapController.get_cursor().get_true_pos()
-				if GenFunc.get_tile_distance(cursor_pos, unit.get_position()) == 0 \
+				if Utilities.get_tile_distance(cursor_pos, unit.get_position()) == 0 \
 						and not unit == connected_unit:
 					# Units occupying the same tile
 					if unit != connected_unit:
 						enabled_items.Wait = false
-				elif GenFunc.get_tile_distance(cursor_pos, unit.get_position()) == 1:
+				elif Utilities.get_tile_distance(cursor_pos, unit.get_position()) == 1:
 					# Adjacent units
 					if connected_unit.is_friend(unit):
 						if unit.traveler:

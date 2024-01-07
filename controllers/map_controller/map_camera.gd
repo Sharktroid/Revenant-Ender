@@ -18,7 +18,7 @@ func _process(delta: float):
 func set_map_position(new_map_position: Vector2i):
 	if Vector2(get_destination()) == transform.get_origin():
 		var map_size: Vector2i = MapController.map.get_size()
-		var screen_size: Vector2i = GenVars.get_screen_size()
+		var screen_size: Vector2i = Utilities.get_screen_size()
 		for i in 2:
 			if map_size[i] < screen_size[i]:
 				new_map_position[i] = map_position[i]
@@ -27,7 +27,7 @@ func set_map_position(new_map_position: Vector2i):
 					new_map_position[i] += 16
 				while new_map_position[i] + screen_size[i] > (map_size[i]) + 16:
 					new_map_position[i] -= 16
-		map_position = GenFunc.round_coords_to_tile(new_map_position)
+		map_position = Utilities.round_coords_to_tile(new_map_position)
 
 
 func move(new_map_position: Vector2i):
@@ -35,13 +35,13 @@ func move(new_map_position: Vector2i):
 
 
 func get_low_map_position() -> Vector2i:
-	return (Vector2i(MapController.map.get_size()) - GenVars.get_screen_size()) - map_position
+	return (Vector2i(MapController.map.get_size()) - Utilities.get_screen_size()) - map_position
 
 
 func get_map_offset() -> Vector2i:
 	var map_size: Vector2i = MapController.map.get_size()
-	var screen_size: Vector2i = GenVars.get_screen_size()
-	var map_offset: Vector2i = GenVars.get_screen_size() % 16 / 2
+	var screen_size: Vector2i = Utilities.get_screen_size()
+	var map_offset: Vector2i = Utilities.get_screen_size() % 16 / 2
 	for i in 2:
 		if map_size[i] < screen_size[i]:
 			map_offset[i] = roundi(float(screen_size[i] - map_size[i])/2)

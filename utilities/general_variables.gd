@@ -63,6 +63,53 @@ func invert_debug_constant(constant: String) -> void:
 	set_debug_constant(constant, not(get_debug_constant(constant)))
 
 
+func slice_string(string: String, start: int, end: int) -> String:
+	# Returns a substring of "string" from index "start" to index "end"
+	return string.substr(start, string.length() - start - end)
+
+
+func get_tile_distance(pos_a: Vector2, pos_b: Vector2) -> float:
+	# Gets the distance between two tiles in tiles.
+	return (absf(pos_a.x - pos_b.x) + absf(pos_a.y - pos_b.y))/16
+
+
+func round_coords_to_tile(coords: Vector2, offset := Vector2()) -> Vector2i:
+	# Rounds "coords" to the nearest tile (16x16).
+	coords -= offset
+	coords = Vector2(floori(coords.x/16) * 16, floori(coords.y/16) * 16)
+	return coords + offset
+
+
+func sync_animation(animation_player: AnimationPlayer) -> void:
+	var seconds: float = float(Time.get_ticks_msec())/1000
+	var seconds_mod: float = fmod(seconds, animation_player.current_animation_length)
+	animation_player.seek(seconds_mod)
+
+
+func switch_tab(tab_container: TabContainer, move_to: int) -> void:
+	var next_tab: int = tab_container.current_tab + move_to
+	tab_container.current_tab = posmod(next_tab, tab_container.get_tab_count())
+
+
+func xor(condition_a: bool, condition_b: bool) -> bool:
+	var result = bool(int(condition_a) ^ int(condition_b))
+	return result
+
+
+func dict_to_table(dict: Dictionary, size: int) -> String:
+	var table: String = "[table=%d]" % size
+	for key in dict:
+		var value = dict[key]
+		var replacements: Array = [
+			Utilities.font_yellow,
+			str(key),
+			Utilities.font_blue,
+			str(value).lpad(5),
+		]
+		table += "[cell][color=%s]%s[/color]\t[color=%s]%s[/color][/cell]" % replacements
+	return table + "[/table]"
+
+
 func _load_config() -> void:
 	# Loads configuration
 	_config_file.load("user://config.ini")

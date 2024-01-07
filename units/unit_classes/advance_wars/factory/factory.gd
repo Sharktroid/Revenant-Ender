@@ -10,5 +10,5 @@ func _init():
 
 #func _update_sprite() -> void:
 #	super._update_sprite()
-#	var frame_num: int = int(GenVars.get_tick_timer()) % 80
+#	var frame_num: int = int(Utilities.get_tick_timer()) % 80
 #	$Smoke.frame = 280 + floor(frame_num/20.0)

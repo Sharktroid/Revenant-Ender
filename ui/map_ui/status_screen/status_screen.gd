@@ -21,9 +21,9 @@ func _gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		close()
 	elif event.is_action_pressed("left"):
-		GenFunc.switch_tab($"Menu Screen/Menu Tabs" as TabContainer, -1)
+		Utilities.switch_tab($"Menu Screen/Menu Tabs" as TabContainer, -1)
 	elif event.is_action_pressed("right"):
-		GenFunc.switch_tab($"Menu Screen/Menu Tabs" as TabContainer, 1)
+		Utilities.switch_tab($"Menu Screen/Menu Tabs" as TabContainer, 1)
 	elif not _scroll_lock:
 		if Input.is_action_pressed("up"):
 			observing_unit = MapController.map.get_previous_unit(observing_unit)

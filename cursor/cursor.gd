@@ -87,10 +87,10 @@ func remove_icon() -> void:
 
 func set_rel_pos(new_pos: Vector2i) -> void:
 	var top_bounds: Vector2i = Vector2i(4, 4)
-	var bottom_bounds: Vector2i = GenVars.get_screen_size() - Vector2i(4, 4)
-	new_pos = GenFunc.round_coords_to_tile(new_pos)
+	var bottom_bounds: Vector2i = Utilities.get_screen_size() - Vector2i(4, 4)
+	new_pos = Utilities.round_coords_to_tile(new_pos)
 	var map_move := Vector2i()
-	var lower_bound: Vector2i = (GenVars.get_screen_size()
+	var lower_bound: Vector2i = (Utilities.get_screen_size()
 			- MapController.map.get_rel_lower_border())
 	for i in 2:
 		if MapController.map.get_rel_upper_border()[i] >= 0:
@@ -100,7 +100,7 @@ func set_rel_pos(new_pos: Vector2i) -> void:
 
 		while new_pos[i] <= -16:
 			new_pos[i] += 16
-		while new_pos[i] + 16 >= GenVars.get_screen_size()[i] + 16:
+		while new_pos[i] + 16 >= Utilities.get_screen_size()[i] + 16:
 			new_pos[i] -= 16
 
 		while top_bounds[i] > new_pos[i]:

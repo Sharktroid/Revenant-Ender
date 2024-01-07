@@ -13,6 +13,6 @@ func _init():
 
 #func _update_sprite() -> void:
 #	super._update_sprite()
-#	var frame_num: int = int(GenVars.get_tick_timer()) % 64
+#	var frame_num: int = int(Utilities.get_tick_timer()) % 64
 #	if frame_num >= 48 and MapController.map.get_unit_faction(faction).color != "Neutral":
 #		frame += 20

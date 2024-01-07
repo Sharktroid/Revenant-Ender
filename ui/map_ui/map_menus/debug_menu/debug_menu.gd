@@ -4,22 +4,22 @@ extends MapMenu
 func select_item(item: MapMenuItem) -> void:
 	match item.name:
 		"Unit Wait":
-			GenVars.invert_debug_constant("unit_wait")
+			Utilities.invert_debug_constant("unit_wait")
 
 		"Display Borders":
-			GenVars.invert_debug_constant("display_map_borders")
+			Utilities.invert_debug_constant("display_map_borders")
 			var map_borders: Node2D = MapController.map.get_node("Debug Border Overlay Container")
-			map_borders.visible = GenVars.get_debug_constant("display_map_borders")
+			map_borders.visible = Utilities.get_debug_constant("display_map_borders")
 
 		"Display Terrain":
-			GenVars.invert_debug_constant("display_map_terrain")
+			Utilities.invert_debug_constant("display_map_terrain")
 			var terrain_layer: TileMap = MapController.map.get_node("Terrain Layer")
-			terrain_layer.visible = GenVars.get_debug_constant("display_map_terrain")
+			terrain_layer.visible = Utilities.get_debug_constant("display_map_terrain")
 
 		"Display Map Cursor":
-			GenVars.invert_debug_constant("display_map_cursor")
+			Utilities.invert_debug_constant("display_map_cursor")
 			var cursor_area: Area2D = MapController.get_cursor().get_area()
-			cursor_area.visible = GenVars.get_debug_constant("display_map_cursor")
+			cursor_area.visible = Utilities.get_debug_constant("display_map_cursor")
 
 		"Print Cursor Position":
 			var replacements: Array[Vector2i] = [
@@ -29,16 +29,16 @@ func select_item(item: MapMenuItem) -> void:
 			print("Position relative to UI: %s\nPosition relative to map: %s" % replacements)
 
 		_: push_error("%s is not a valid menu item" % item)
-	GenVars.save_config()
+	Utilities.save_config()
 	super(item)
 
 
 func _update_items() -> void:
 	var values: Dictionary = {
-		"Unit Wait": GenVars.get_debug_constant("unit_wait"),
-		"Display Borders": GenVars.get_debug_constant("display_map_borders"),
-		"Display Terrain": GenVars.get_debug_constant("display_map_terrain"),
-		"Display Map Cursor": GenVars.get_debug_constant("display_map_cursor"),
+		"Unit Wait": Utilities.get_debug_constant("unit_wait"),
+		"Display Borders": Utilities.get_debug_constant("display_map_borders"),
+		"Display Terrain": Utilities.get_debug_constant("display_map_terrain"),
+		"Display Map Cursor": Utilities.get_debug_constant("display_map_cursor"),
 	}
 	for key: String in values.keys():
 		var value: String = str(values[key])

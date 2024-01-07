@@ -30,10 +30,10 @@ func _ready() -> void:
 	lower_border = Vector2i(right_border, bottom_border)
 	_parse_movement_cost()
 	create_debug_borders() # Only shows up when collison shapes are enabled
-	$"Map Layer/Terrain Layer".visible = GenVars.get_debug_constant("display_map_terrain")
+	$"Map Layer/Terrain Layer".visible = Utilities.get_debug_constant("display_map_terrain")
 	$"Map Layer/Debug Border Overlay Container".visible = \
-			GenVars.get_debug_constant("display_map_borders")
-	$"Map Layer/Cursor Area".visible = GenVars.get_debug_constant("display_map_cursor")
+			Utilities.get_debug_constant("display_map_borders")
+	$"Map Layer/Cursor Area".visible = Utilities.get_debug_constant("display_map_cursor")
 	size = $"Map Layer/Base Layer".get_used_cells(0).max() * 16 + Vector2i(16, 16)
 	grab_focus()
 
@@ -216,7 +216,7 @@ func display_tiles(tiles: Array[Vector2i], type: tile_types, modulation: float =
 		var tile: Sprite2D = current_tile_base.instantiate()
 		tile.name = "Tile"
 		tile.position = Vector2(i)
-		if GenFunc.xor(not(i in modulate_blacklist), blacklist_as_whitelist):
+		if Utilities.xor(not(i in modulate_blacklist), blacklist_as_whitelist):
 			tile.modulate.a = modulation
 		tiles_node.add_child(tile)
 	get_node("Map Layer/Base Layer").add_child(tiles_node)

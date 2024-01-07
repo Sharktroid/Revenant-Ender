@@ -61,7 +61,7 @@ func _can_select() -> bool:
 
 func _within_range() -> bool:
 	var hovered_unit_pos: Vector2i = MapController.get_cursor().get_hovered_unit().position
-	var dist: float = GenFunc.get_tile_distance(hovered_unit_pos, _selecting_position)
+	var dist: float = Utilities.get_tile_distance(hovered_unit_pos, _selecting_position)
 	return dist >= _minimum_range and dist <= _maximum_range
 
 

@@ -6,8 +6,8 @@ func _position_selected() -> void:
 		var info_display: PanelContainer = \
 				preload("res://ui/combat_info_display/combat_info_display.tscn").instantiate()
 		if (MapController.get_cursor().position.x <
-				(GenVars.get_screen_size().x as float / 2)):
-			info_display.position.x = GenVars.get_screen_size().x - info_display.size.x
+				(Utilities.get_screen_size().x as float / 2)):
+			info_display.position.x = Utilities.get_screen_size().x - info_display.size.x
 		info_display.top_unit = unit
 		info_display.bottom_unit = MapController.get_cursor().get_hovered_unit()
 		MapController.get_ui().add_child(info_display)

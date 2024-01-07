@@ -16,5 +16,5 @@ func _ready() -> void:
 			max(attacker.position.y, defender.position.y) as float)
 			- Vector2(MapController.get_map_camera().map_position)
 			+ Vector2(MapController.get_map_camera().get_map_offset()) + Vector2(8, V_MOD))
-	if position.y + size.y > GenVars.get_screen_size().y:
+	if position.y + size.y > Utilities.get_screen_size().y:
 		position.y -= (size.y + V_MOD * 2)

@@ -56,7 +56,7 @@ func get_node_size(text: String) -> Vector2i:
 	get_popup_node().text = text
 	get_popup_node().reset_size()
 	var node_size: Vector2i = get_popup_node().size
-	if node_size > GenVars.get_screen_size():
+	if node_size > Utilities.get_screen_size():
 		get_popup_node().autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	get_popup_node().reset_size()
 	get_popup_node().text = string
@@ -79,9 +79,9 @@ func _resize(new_size: Vector2, pos: Vector2 = _default_position(),
 	var set_pos: Callable = func(new_pos: Vector2) -> void:
 		new_pos -= Vector2(get_popup_node().size.x/2, 0)
 		get_popup_node().position = new_pos.clamp(Vector2(),
-				Vector2(GenVars.get_screen_size()) - get_popup_node().size)
+				Vector2(Utilities.get_screen_size()) - get_popup_node().size)
 	var set_node_size: Callable = func(new_node_size: Vector2) -> void:
-		get_popup_node().size = new_node_size.clamp(Vector2(), GenVars.get_screen_size())
+		get_popup_node().size = new_node_size.clamp(Vector2(), Utilities.get_screen_size())
 	_busy = true
 	set_node_size.call(init_size)
 	set_pos.call(init_position)

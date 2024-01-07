@@ -129,10 +129,10 @@ func _show_textbox(box_position: positions, textbox: MarginContainer, align_bott
 	textbox.visible = true
 	_configure_point(bubble_point, box_position)
 	await _resize_textbox(textbox, align_bottom, bubble_point, textbox.custom_minimum_size,
-			Vector2i(GenVars.get_screen_size().x, TEXTBOX_HEIGHT))
+			Vector2i(Utilities.get_screen_size().x, TEXTBOX_HEIGHT))
 	textbox.position.x = 0
 	if align_bottom:
-		textbox.position.y = (GenVars.get_screen_size().y - textbox.size.y)
+		textbox.position.y = (Utilities.get_screen_size().y - textbox.size.y)
 		bubble_point.position.y = textbox.position.y - bubble_point.size.y + 2
 	else:
 		bubble_point.position.y = textbox.size.y - 2
@@ -143,7 +143,7 @@ func _hide_textbox(textbox: MarginContainer, align_bottom: bool,
 	if _skipping:
 		return
 	await _resize_textbox(textbox, align_bottom, bubble_point,
-			Vector2i(GenVars.get_screen_size().x, TEXTBOX_HEIGHT), textbox.custom_minimum_size)
+			Vector2i(Utilities.get_screen_size().x, TEXTBOX_HEIGHT), textbox.custom_minimum_size)
 	textbox.visible = false
 	bubble_point.visible = false
 
@@ -152,15 +152,15 @@ func _resize_textbox(textbox: MarginContainer, align_bottom: bool,
 		bubble_point: TextureRect, starting_size: Vector2,
 		target_size: Vector2) -> void:
 	var target_x: float = bubble_point.position.x + bubble_point.size.x/2
-	textbox.anchor_left = target_x/GenVars.get_screen_size().x
+	textbox.anchor_left = target_x/Utilities.get_screen_size().x
 	textbox.anchor_right = textbox.anchor_left
 
 	var adjust_size: Callable = func(new_size: Vector2) -> void:
 		textbox.size = new_size.snapped(Vector2i(2, 2))
 		textbox.position.x = clamp(target_x - textbox.size.x/2,
-				0, GenVars.get_screen_size().x - textbox.size.x)
+				0, Utilities.get_screen_size().x - textbox.size.x)
 		if align_bottom:
-			textbox.position.y = (GenVars.get_screen_size().y - textbox.size.y)
+			textbox.position.y = (Utilities.get_screen_size().y - textbox.size.y)
 			bubble_point.position.y = textbox.position.y - bubble_point.size.y + 2
 		else:
 			bubble_point.position.y = textbox.size.y - 2
@@ -194,7 +194,7 @@ func _set_text_base(string: String, label: RichTextLabel, portrait: Portrait) ->
 			timer -= 1
 		else:
 			var next_visible_chars: int = (label.visible_characters +
-					roundi(CHARS_PER_SECOND * GenVars.get_frame_delta()))
+					roundi(CHARS_PER_SECOND * Utilities.get_frame_delta()))
 			while (label.visible_characters < next_visible_chars and label.visible_ratio < 1):
 				label.visible_characters += 1
 				# Scrolls when overflowing
@@ -255,7 +255,7 @@ func _set_speaker(name_label: RichTextLabel, new_speaker: Unit) -> void:
 
 func _configure_point(bubble_point: TextureRect, point_x: int) -> void:
 	bubble_point.visible = true
-	if point_x < (float(GenVars.get_screen_size().y)/2):
+	if point_x < (float(Utilities.get_screen_size().y)/2):
 		bubble_point.flip_h = true
 		bubble_point.position.x = point_x + PORTRAIT_WIDTH
 	else:

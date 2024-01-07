@@ -136,7 +136,7 @@ func _ready() -> void:
 	var animation_player: AnimationPlayer = $AnimationPlayer
 	if animation_player.current_animation == '':
 		animation_player.play("idle")
-	GenFunc.sync_animation(animation_player)
+	Utilities.sync_animation(animation_player)
 
 	var directory: String = "res://portraits/name/name.tscn".replace("name", unit_name.to_lower())
 	if FileAccess.file_exists(directory):
@@ -169,7 +169,7 @@ func _process(_delta: float):
 			frame = 1
 		else:
 			frame = anim_frame
-	z_index = GenFunc.round_coords_to_tile(position).y
+	z_index = Utilities.round_coords_to_tile(position).y
 
 
 func has_status(status: int) -> bool:
@@ -246,7 +246,7 @@ func set_animation(animation: animations) -> void:
 		animations.MOVING_UP: animation_player.play("moving_up")
 		animations.MOVING_DOWN: animation_player.play("moving_down")
 	if sprite_animated:
-		GenFunc.sync_animation(animation_player)
+		Utilities.sync_animation(animation_player)
 	else:
 		animation_player.advance(0)
 		animation_player.pause()
@@ -385,7 +385,7 @@ func get_stat_table(stat: stats) -> String:
 		Max = _class_personal_string(c_stat_cap, p_stat_cap),
 		Growth = _class_personal_string(c_final_stat - c_base_stat, p_final_stat - p_base_stat),
 	}
-	return GenFunc.dict_to_table(table_items, 2)
+	return Utilities.dict_to_table(table_items, 2)
 
 
 func has_attribute(attrib: Skill.all_attributes) -> bool:
@@ -405,7 +405,7 @@ func can_rescue(unit: Unit) -> bool:
 
 ## Causes unit to wait.
 func wait() -> void:
-	if GenVars.get_debug_constant("unit_wait"):
+	if Utilities.get_debug_constant("unit_wait"):
 		current_movement = 0
 		selectable = false
 		waiting = true
@@ -464,7 +464,7 @@ func get_adjacent_tiles(pos: Vector2i, min_range: int, max_range: int) -> Array[
 	for y in range(-max_range, max_range + 1):
 		var v: Array[Vector2i] = []
 		for x in range(-max_range, max_range + 1):
-			var distance: int = floori(GenFunc.get_tile_distance(Vector2i(), Vector2i(x, y) * 16))
+			var distance: int = floori(Utilities.get_tile_distance(Vector2i(), Vector2i(x, y) * 16))
 			if distance in range(min_range, max_range + 1):
 				v.append(Vector2i(pos) + Vector2i(x * 16, y * 16))
 		adjacent_tiles.append_array(v)
@@ -567,12 +567,12 @@ func update_path(destination: Vector2i, num: int = current_movement) -> void:
 	var all_attack_tiles = get_all_attack_tiles()
 	if not destination in raw_movement_tiles \
 			and destination in all_attack_tiles \
-			and GenFunc.get_tile_distance(get_unit_path()[-1], destination) > 1:
+			and Utilities.get_tile_distance(get_unit_path()[-1], destination) > 1:
 		for unit in MapController.get_units():
 			if (Vector2i(unit.position) in all_attack_tiles
 					and Vector2i(unit.position) == destination):
 				var adjacent_movement_tiles: Array[Vector2i] = []
-				for tile_offset in GenVars.adjacent_tiles:
+				for tile_offset in Utilities.adjacent_tiles:
 					if Vector2i(unit.position) + tile_offset in raw_movement_tiles:
 						adjacent_movement_tiles.append(Vector2i(unit.position) + tile_offset)
 				if len(adjacent_movement_tiles) > 0:
@@ -590,7 +590,7 @@ func update_path(destination: Vector2i, num: int = current_movement) -> void:
 			_path = _path.slice(0, _path.find(destination) + 1)
 		else:
 			if (total_cost <= current_movement and
-					destination - get_unit_path()[-1] in GenVars.adjacent_tiles):
+					destination - get_unit_path()[-1] in Utilities.adjacent_tiles):
 				_path.append(destination)
 			else:
 				var new_path = _get_path_subfunc(num, moved, raw_movement_tiles, moved_tiles,
@@ -672,7 +672,7 @@ func get_all_attack_tiles() -> Array[Vector2i]:
 					var attack_tile: Vector2i = (tile + Vector2i(x * 16, y * 16))\
 							.clamp(Vector2i(0, 0), map_size)
 					if not(attack_tile in all_attack_tiles + raw_movement_tiles):
-						var distance: int = floori(GenFunc.get_tile_distance(tile, attack_tile))
+						var distance: int = floori(Utilities.get_tile_distance(tile, attack_tile))
 						if distance >= min_range and distance <= max_range:
 							all_attack_tiles.append(attack_tile)
 	return all_attack_tiles
