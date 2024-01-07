@@ -4,7 +4,7 @@ var connected_unit: Unit
 
 var _items: Array[Item] = []
 var _menu_item_node: GDScript = preload("res://ui/map_ui/map_menus/item_menu\
-/item_options_menu/item_options_menu.gd")
+/item_menu_item/item_menu_item.gd")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
