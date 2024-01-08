@@ -16,7 +16,7 @@ func _init(connected_unit: Unit = null, targeted_tile: Vector2i = Vector2i(0, 16
 
 
 func _ready() -> void:
-	for child in _combat_sprite.get_children():
+	for child: Node in _combat_sprite.get_children():
 		if not child is AnimationPlayer:
 			child.queue_free()
 	position = _combat_sprite.position

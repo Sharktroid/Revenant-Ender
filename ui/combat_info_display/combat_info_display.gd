@@ -37,7 +37,7 @@ func _ready() -> void:
 	%"Bottom Unit Panel".get_theme_stylebox("panel").bg_color = dark_blue
 	%"Bottom Unit Panel".get_node("Line2D").default_color = light_blue
 
-	for half in ["Top", "Bottom"]:
+	for half: String in ["Top", "Bottom"]:
 		var current_unit: Unit
 		var other_unit: Unit
 		var format: Callable = func(input_string: String) -> String:

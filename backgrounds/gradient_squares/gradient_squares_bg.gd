@@ -6,18 +6,16 @@ extends Control
 @export var duration: float = 2
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	_update_hue()
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	_update_hue()
 
 
 func _update_hue() -> void:
-	for child in $Features.get_children():
+	for child: Node in $Features.get_children():
 		if child is Polygon2D:
 			var child_pos: Vector2i = child.position
 			var child_offset: int = child_pos.x*2 + child_pos.y

@@ -2,11 +2,11 @@ extends Node2D
 
 
 func _draw():
-	for unit in MapController.get_units():
+	for unit: Unit in MapController.get_units():
 		unit.modulate = Color.WHITE
 	var outlined_units: Dictionary = MapController.map.get_current_faction().outlined_units
 	var faction_stack: Array[Faction] = get_parent().get_parent().faction_stack
-	for outline_faction in faction_stack:
+	for outline_faction: Faction in faction_stack:
 		var current_outlined_units = []
 		if outline_faction in outlined_units:
 			current_outlined_units = outlined_units[outline_faction]
@@ -18,33 +18,34 @@ func _draw():
 			Faction.colors.RED: unit_highlight = Color.RED
 			Faction.colors.GREEN: unit_highlight = Color.GREEN
 			Faction.colors.PURPLE: unit_highlight = Color.PURPLE
-		for unit in current_outlined_units:
+		for unit: Unit in current_outlined_units:
 			if is_instance_valid(unit) and len(unit.get_all_attack_tiles()) > 0:
 				unit.modulate = unit_highlight
-				for coord in (unit.get_all_attack_tiles() + unit.get_raw_movement_tiles()):
+				unit.modulate.s *= 0.5
+				for coord: Vector2 in (unit.get_all_attack_tiles() + unit.get_raw_movement_tiles()):
 					if not (coord in all_current_coords):
 						all_current_coords.append(coord)
 		var current_faction: Faction = get_parent().get_parent().get_current_faction()
 		if current_faction.full_outline \
 				and outline_faction != current_faction:
-			for unit in MapController.get_units():
+			for unit: Unit in MapController.get_units():
 				var unit_faction: Faction = unit.get_faction()
 				var unit_stance: Faction.diplo_stances = current_faction.get_diplomacy_stance(unit_faction)
 				if unit_stance == Faction.diplo_stances.ENEMY \
 						and len(unit.get_all_attack_tiles()) > 0:
-					for coord in (unit.get_all_attack_tiles() + unit.get_raw_movement_tiles()):
+					for coord: Vector2 in (unit.get_all_attack_tiles() + unit.get_raw_movement_tiles()):
 						if not (coord in all_general_coords):
 							all_general_coords.append(coord)
 		var tile_current: Color = unit_highlight
 		var line_current: Color = tile_current
 		line_current.v = .5
-		for coords in all_current_coords:
+		for coords: Vector2 in all_current_coords:
 			_create_outline_tile(tile_current, line_current, coords, all_current_coords)
 		var tile_general: Color = tile_current
 		tile_general.v = .5
 		var line_general: Color = tile_general
 		line_general.v *= .5
-		for coords in all_general_coords:
+		for coords: Vector2 in all_general_coords:
 			if not(coords in all_current_coords):
 				_create_outline_tile(tile_general, line_general, coords, all_general_coords)
 
@@ -53,7 +54,7 @@ func _create_outline_tile(tile_color: Color, line_color: Color, coords: Vector2i
 	tile_color.a = 0.5
 	line_color.a = 0.5
 	draw_rect(Rect2(coords, Vector2i(16, 16)), tile_color, true)
-	for tile_offset in Utilities.adjacent_tiles:
+	for tile_offset: Vector2 in Utilities.adjacent_tiles:
 		if coords + tile_offset in all_coords:
 			pass
 		else:

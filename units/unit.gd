@@ -30,7 +30,6 @@ var current_level: int
 var current_movement: int
 var dead: bool = false
 var outline_highlight: bool = false
-var is_ghost: bool = false # Whether the unit is used for the cursor.
 var selected: bool = false # Whether the unit is selected.
 var selectable: bool = true # Whether the unit can be selected.
 var waiting: bool = false

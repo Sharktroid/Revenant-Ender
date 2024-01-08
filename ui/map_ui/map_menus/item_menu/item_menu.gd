@@ -38,10 +38,10 @@ func _update() -> void:
 		_items = connected_unit.items.duplicate()
 		if len(_items) <= 0:
 			close()
-		for child in $Items.get_children():
+		for child: Node in $Items.get_children():
 			child.queue_free()
 			await child.tree_exited
-		for item in connected_unit.items:
+		for item: Item in connected_unit.items:
 			var item_node: HelpContainer = _menu_item_node.new(item)
 			item_node.help_description = item.get_description()
 			$Items.add_child(item_node)

@@ -102,7 +102,7 @@ func get_faction_from_id(faction_id: int) -> Faction:
 
 func get_units_by_faction(faction_id: int) -> Array[Unit]:
 	var units: Array[Unit] = []
-	for unit in MapController.get_units():
+	for unit: Unit in MapController.get_units():
 		if unit.faction_id == faction_id:
 			units.append(unit)
 	return units
@@ -125,7 +125,7 @@ func get_rel_lower_border() -> Vector2i:
 
 
 func is_touching_border(pos: Vector2i) -> bool:
-	for i in 2:
+	for i: int in 2:
 		if pos[i] - 16 < upper_border[i] or pos[i] + 16 > get_size()[i] - lower_border[i]:
 			return true
 	return false
@@ -139,7 +139,7 @@ func start_turn() -> void:
 
 func end_turn() -> void:
 	## Ends current turn.
-	for unit in MapController.get_units():
+	for unit: Unit in MapController.get_units():
 		unit.awaken()
 	next_faction()
 	update_outline()
@@ -173,8 +173,8 @@ func get_terrain_cost(unit: Unit, coords: Vector2) -> float:
 
 func create_debug_borders() -> void:
 	# Creates a visualization of the map's borders
-	for x in range(0, get_size().x, 16):
-		for y in range(0, get_size().y, 16):
+	for x: int in range(0, get_size().x, 16):
+		for y: int in range(0, get_size().y, 16):
 			if x < left_border or x + 16 > get_size().x - right_border \
 					or y < top_border or y + 16 > get_size().y - bottom_border:
 				var border_tile: Sprite2D = $"Map Layer/Debug Border Overlay Tile Base".duplicate()
@@ -212,7 +212,7 @@ func display_tiles(tiles: Array[Vector2i], type: tile_types, modulation: float =
 		tile_types.ATTACK: current_tile_base = _attack_tile_node
 		tile_types.MOVEMENT: current_tile_base = _movement_tile_node
 		tile_types.SUPPORT: current_tile_base = _support_tile_node
-	for i in tiles:
+	for i: Vector2i in tiles:
 		var tile: Sprite2D = current_tile_base.instantiate()
 		tile.name = "Tile"
 		tile.position = Vector2(i)
@@ -225,7 +225,7 @@ func display_tiles(tiles: Array[Vector2i], type: tile_types, modulation: float =
 
 func display_highlighted_tiles(tiles: Array[Vector2i], unit: Unit, type: tile_types) -> Node2D:
 	var unit_coords: Array[Vector2i] = []
-	for e_unit in MapController.get_units():
+	for e_unit: Unit in MapController.get_units():
 		if not(e_unit.is_ghost or unit.is_friend(e_unit)) and e_unit.visible:
 			unit_coords.append(Vector2i(e_unit.position))
 	return display_tiles(tiles, type, 0.5, unit_coords)
@@ -236,7 +236,7 @@ func _get_terrain(coords: Vector2i, faction: Faction) -> String:
 	## faction: faction of the unit checking
 	if coords != coords.clamp(Vector2i(), get_size() - Vector2(16, 16)):
 		return "Blocked"
-	for unit in MapController.get_units(): # for units
+	for unit: Unit in MapController.get_units():
 		if coords == Vector2i(unit.transform.get_origin()):
 #			if "Doesn't Block" in unit.tags:
 #				return unit.unit_class
@@ -276,7 +276,7 @@ func _parse_movement_cost() -> void:
 			"Advanced Heavy Cavalry": type = UnitClass.movement_types.ADVANCED_HEAVY_CAVALRY
 			"Fliers": type = UnitClass.movement_types.FLIERS
 		movement_cost_dict[type] = {}
-		for cost in len(split):
+		for cost: int in len(split):
 			movement_cost_dict[type][header[cost]] = split[cost]
 
 

@@ -19,7 +19,7 @@ func set_map_position(new_map_position: Vector2i):
 	if Vector2(get_destination()) == transform.get_origin():
 		var map_size: Vector2i = MapController.map.get_size()
 		var screen_size: Vector2i = Utilities.get_screen_size()
-		for i in 2:
+		for i: int in 2:
 			if map_size[i] < screen_size[i]:
 				new_map_position[i] = map_position[i]
 			else:
@@ -42,7 +42,7 @@ func get_map_offset() -> Vector2i:
 	var map_size: Vector2i = MapController.map.get_size()
 	var screen_size: Vector2i = Utilities.get_screen_size()
 	var map_offset: Vector2i = Utilities.get_screen_size() % 16 / 2
-	for i in 2:
+	for i: int in 2:
 		if map_size[i] < screen_size[i]:
 			map_offset[i] = roundi(float(screen_size[i] - map_size[i])/2)
 	return map_offset

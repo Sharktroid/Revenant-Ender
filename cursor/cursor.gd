@@ -92,7 +92,7 @@ func set_rel_pos(new_pos: Vector2i) -> void:
 	var map_move := Vector2i()
 	var lower_bound: Vector2i = (Utilities.get_screen_size()
 			- MapController.map.get_rel_lower_border())
-	for i in 2:
+	for i: int in 2:
 		if MapController.map.get_rel_upper_border()[i] >= 0:
 			top_bounds[i] = MapController.map.get_rel_upper_border()[i]
 		if MapController.map.get_rel_lower_border()[i] >= 0:

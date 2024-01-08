@@ -12,7 +12,7 @@ func _ready() -> void:
 	_to_center = true
 	update()
 	var visible_items: bool = false
-	for i in $Items.get_children():
+	for i: Node in $Items.get_children():
 		if i.visible:
 			visible_items = true
 			break
@@ -103,7 +103,7 @@ func select_item(item: MapMenuItem) -> void:
 					connected_unit, Map.tile_types.ATTACK)
 			var attack: Callable = func(selected_unit: Unit) -> void:
 				await connected_unit.move()
-				await AttackHandler.combat(connected_unit, selected_unit)
+				await AttackController.combat(connected_unit, selected_unit)
 				connected_unit.wait()
 				close()
 			_select_map(selector, tiles_node, attack)

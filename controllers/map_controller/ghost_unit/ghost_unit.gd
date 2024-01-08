@@ -14,7 +14,7 @@ func _ready() -> void:
 	_unit.get_node("Area2D").queue_free()
 	_unit.get_node("Health Bar").queue_free()
 	_unit.get_node("Status").queue_free()
-	_unit.remove_from_group("units")
+	_unit.remove_from_group("unit")
 	_unit.modulate.a = 0.5
 	add_child(_unit)
 

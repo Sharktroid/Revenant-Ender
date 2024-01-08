@@ -225,7 +225,7 @@ func _scroll(label: RichTextLabel) -> void:
 
 
 func _clear(label: RichTextLabel) -> void:
-	for i in LINE_COUNT:
+	for i: int in LINE_COUNT:
 		await _scroll(label)
 	label.text = ""
 	label.position.y = 0
