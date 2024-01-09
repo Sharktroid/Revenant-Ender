@@ -14,12 +14,12 @@ func _init(connected_unit: Unit) -> void:
 func _ready() -> void:
 	_unit.set_animation(Unit.animations.MOVING_DOWN)
 	_unit.selected = true
-	_unit.update_path(MapController.get_cursor().get_true_pos())
+	_unit.update_path(CursorController.get_true_pos())
 	_unit.refresh_tiles()
 	_unit.tree_exited.connect(_on_unit_death)
 	_ghost_unit = GhostUnit.new(_unit)
 	MapController.map.get_child(0).add_child(_ghost_unit)
-	MapController.get_cursor().moved.connect(_on_cursor_moved)
+	CursorController.moved.connect(_on_cursor_moved)
 	set_focus_mode(Control.FOCUS_ALL)
 	MapController.set_focus_mode(Control.FOCUS_NONE)
 	grab_focus()
@@ -50,7 +50,7 @@ func _has_point(_point: Vector2) -> bool:
 
 
 func _gui_input(event: InputEvent) -> void:
-	if MapController.get_cursor().is_active():
+	if CursorController.is_active():
 		if event.is_action_pressed("ui_accept"):
 			_position_selected()
 			accept_event()
@@ -70,7 +70,7 @@ func close() -> void:
 
 func _on_cursor_moved() -> void:
 	if has_focus():
-		_unit.update_path(MapController.get_cursor().get_true_pos())
+		_unit.update_path(CursorController.get_true_pos())
 		_unit.show_path()
 
 
@@ -86,11 +86,11 @@ func _create_unit_menu() -> void:
 	## Creates _unit menu.
 	var menu: MapMenu = _menu_node.instantiate()
 	menu.connected_unit = _unit
-	menu.offset = MapController.get_cursor().get_rel_pos() \
+	menu.offset = CursorController.get_rel_pos() \
 			+ MapController.get_map_camera().get_map_offset() + Vector2i(16, -8)
 	menu.caller = self
 	set_focus_mode(Control.FOCUS_NONE)
-	MapController.get_cursor().disable()
+	CursorController.disable()
 	MapController.get_ui().add_child(menu)
 
 

@@ -24,4 +24,4 @@ func select_item(item: MapMenuItem) -> void:
 
 func close() -> void:
 	super()
-	MapController.get_cursor().enable()
+	CursorController.enable()

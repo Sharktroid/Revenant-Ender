@@ -31,7 +31,7 @@ func _gui_input(event: InputEvent) -> void:
 
 func close(return_to_caller: bool = false) -> void:
 	queue_free()
-	MapController.get_cursor().enable()
+	CursorController.enable()
 	if return_to_caller:
 		caller.set_focus_mode(Control.FOCUS_ALL)
 		caller.grab_focus()
@@ -54,14 +54,14 @@ func update() -> void:
 		Give = false,
 		Swap = false,
 	}
-	if MapController.get_cursor().get_true_pos() in raw_movement_tiles:
+	if CursorController.get_true_pos() in raw_movement_tiles:
 		enabled_items.Wait = (movement > 0 and pos in raw_movement_tiles)
 		enabled_items.Drop = connected_unit.traveler != null
 		enabled_items.Items = len(connected_unit.items) > 0
 		# Gets all adjacent units
 		for unit in MapController.get_units():
-			if not unit.is_ghost and unit != connected_unit and unit.visible == true:
-				var cursor_pos: Vector2i = MapController.get_cursor().get_true_pos()
+			if unit != connected_unit and unit.visible == true:
+				var cursor_pos: Vector2i = CursorController.get_true_pos()
 				if Utilities.get_tile_distance(cursor_pos, unit.get_position()) == 0 \
 						and not unit == connected_unit:
 					# Units occupying the same tile
@@ -83,8 +83,8 @@ func update() -> void:
 				if _can_attack(unit):
 					enabled_items.Attack = true
 	else:
-		if (MapController.get_cursor().get_hovered_unit()
-				and _can_attack(MapController.get_cursor().get_hovered_unit())):
+		if (CursorController.get_hovered_unit()
+				and _can_attack(CursorController.get_hovered_unit())):
 			enabled_items.Attack = true
 	for node in $Items.get_children():
 		node.visible = enabled_items[node.name]
@@ -96,7 +96,7 @@ func select_item(item: MapMenuItem) -> void:
 		"Attack":
 			var weapon: Weapon = connected_unit.get_current_weapon()
 			var selector := AttackSelector.new(connected_unit, weapon.min_range, weapon.max_range,
-					_can_attack, Cursor.icons.ATTACK)
+					_can_attack, CursorController.icons.ATTACK)
 			var tiles: Array[Vector2i] = connected_unit.get_current_attack_tiles(
 					connected_unit.get_path_last_pos())
 			var tiles_node: Node2D = MapController.map.display_highlighted_tiles(tiles,

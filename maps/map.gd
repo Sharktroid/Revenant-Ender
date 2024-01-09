@@ -39,10 +39,10 @@ func _ready() -> void:
 
 
 func _gui_input(event: InputEvent) -> void:
-	if MapController.get_cursor().is_active():
+	if CursorController.is_active():
 		if event.is_action_pressed("ranges"):
-			if MapController.get_cursor().get_hovered_unit():
-				toggle_outline_unit(MapController.get_cursor().get_hovered_unit())
+			if CursorController.get_hovered_unit():
+				toggle_outline_unit(CursorController.get_hovered_unit())
 			else:
 				toggle_full_outline()
 
@@ -50,10 +50,10 @@ func _gui_input(event: InputEvent) -> void:
 			_on_cursor_select()
 
 		elif event.is_action_pressed("status"):
-			if MapController.get_cursor().get_hovered_unit():
+			if CursorController.get_hovered_unit():
 				var status_menu: Control = \
 						preload("res://ui/map_ui/status_screen/status_screen.tscn").instantiate()
-				status_menu.observing_unit = MapController.get_cursor().get_hovered_unit()
+				status_menu.observing_unit = CursorController.get_hovered_unit()
 				MapController.get_ui().add_child(status_menu)
 
 
@@ -226,7 +226,7 @@ func display_tiles(tiles: Array[Vector2i], type: tile_types, modulation: float =
 func display_highlighted_tiles(tiles: Array[Vector2i], unit: Unit, type: tile_types) -> Node2D:
 	var unit_coords: Array[Vector2i] = []
 	for e_unit: Unit in MapController.get_units():
-		if not(e_unit.is_ghost or unit.is_friend(e_unit)) and e_unit.visible:
+		if not(unit.is_friend(e_unit)) and e_unit.visible:
 			unit_coords.append(Vector2i(e_unit.position))
 	return display_tiles(tiles, type, 0.5, unit_coords)
 
@@ -288,7 +288,7 @@ func _get_unit_relative(unit: Unit, rel_index: int) -> Unit:
 
 
 func _on_cursor_select() -> void:
-	var hovered_unit: Unit = MapController.get_cursor().get_hovered_unit()
+	var hovered_unit: Unit = CursorController.get_hovered_unit()
 	if hovered_unit and hovered_unit.selectable == true:
 		var controller := SelectedUnitController.new(hovered_unit)
 		add_child(controller)

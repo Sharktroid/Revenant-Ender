@@ -2,17 +2,17 @@ extends Camera2D
 class_name MapCamera
 
 var map_position: Vector2i
-var true_origin: Vector2
+var true_position: Vector2
 
 
 func _ready():
-	true_origin = map_position
+	true_position = map_position
 
 
 func _process(delta: float):
-	var speed: float = max(4, (true_origin.distance_to(map_position))/16)
-	true_origin = true_origin.move_toward(map_position, speed * 60 * delta)
-	transform.origin = (true_origin - Vector2(get_map_offset())).round()
+	var speed: float = max(4, (true_position.distance_to(map_position))/16)
+	true_position = true_position.move_toward(map_position, speed * 60 * delta)
+	transform.origin = (true_position - Vector2(get_map_offset())).round()
 
 
 func set_map_position(new_map_position: Vector2i):
@@ -25,7 +25,7 @@ func set_map_position(new_map_position: Vector2i):
 			else:
 				while new_map_position[i] <= -16:
 					new_map_position[i] += 16
-				while new_map_position[i] + screen_size[i] > (map_size[i]) + 16:
+				while new_map_position[i] + screen_size[i] > (map_size[i]):
 					new_map_position[i] -= 16
 		map_position = Utilities.round_coords_to_tile(new_map_position)
 

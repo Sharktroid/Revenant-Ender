@@ -7,6 +7,7 @@ signal unit_selected
 var selecting: bool = false # Whether a unit is currently selected.
 var map := Map.new()
 
+
 func _has_point(_point: Vector2) -> bool:
 	return true
 
@@ -22,10 +23,10 @@ func create_main_map_menu() -> void:
 	## Creates map menu.
 	var menu: MapMenu = \
 			preload("res://ui/map_ui/map_menus/main_map_menu/main_map_menu.tscn").instantiate()
-	menu.offset = MapController.get_cursor().get_rel_pos() \
+	menu.offset = CursorController.get_rel_pos() \
 			+ MapController.get_map_camera().get_map_offset() + Vector2i(16, 0)
 	MapController.get_ui().add_child(menu)
-	MapController.get_cursor().disable()
+	CursorController.disable()
 
 
 func get_ui() -> CanvasLayer:
@@ -33,13 +34,6 @@ func get_ui() -> CanvasLayer:
 		return GameController.get_root().get_node("Map UI Layer")
 	else:
 		return CanvasLayer.new()
-
-
-func get_cursor() -> Cursor:
-	if get_ui().has_node("Cursor"):
-		return get_ui().get_node("Cursor")
-	else:
-		return Cursor.new()
 
 
 func get_map_camera() -> MapCamera:

@@ -15,17 +15,18 @@ static var _map_battle_hp_bar_scene: PackedScene = \
 		preload("res://controllers/attack controller/map_battle_info_display.tscn")
 
 static func combat(attacker: Unit, defender: Unit) -> void:
-	MapController.get_cursor().disable()
+	CursorController.disable()
 	var attack_queue: Array[int] = [ATTACKER]
 	if defender.get_current_weapon() != null:
-		var distance: int = roundi(Utilities.get_tile_distance(attacker.position, defender.position))
+		var distance: int = \
+				roundi(Utilities.get_tile_distance(attacker.position, defender.position))
 		if distance in defender.get_current_weapon().get_range():
 			attack_queue.append(DEFENDER)
 	var attack_speed_check: bool = attacker.get_attack_speed() >= 5 + defender.get_attack_speed()
 	if attacker.has_attribute(Skill.all_attributes.FOLLOW_UP) and attack_speed_check:
 		attack_queue.append(ATTACKER)
 	await _map_combat(attacker, defender, attack_queue)
-	MapController.get_cursor().enable()
+	CursorController.enable()
 
 
 static func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[int]) -> void:

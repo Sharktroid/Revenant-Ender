@@ -15,7 +15,8 @@ func _physics_process(_delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if (controller_type != controller_types.MOUSE) and (event is InputEventMouseButton or event is InputEventMouseMotion):
+	if ((controller_type != controller_types.MOUSE) and
+			(event is InputEventMouseButton or event is InputEventMouseMotion)):
 		controller_type = controller_types.MOUSE
 		Input.parse_input_event(event)
 	elif event is InputEventKey:
@@ -27,6 +28,8 @@ func _input(event: InputEvent) -> void:
 				get_window().mode = Window.MODE_WINDOWED
 			Window.MODE_MAXIMIZED, Window.MODE_MINIMIZED, Window.MODE_WINDOWED:
 				get_window().mode = Window.MODE_EXCLUSIVE_FULLSCREEN
+	#elif event.is_action_pressed("debug"):
+		#print_debug(CursorController.get_true_pos())
 
 
 func get_root() -> Viewport:

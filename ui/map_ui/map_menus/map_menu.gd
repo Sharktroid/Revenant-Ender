@@ -53,7 +53,7 @@ func close() -> void:
 func update_position() -> void:
 	position = offset.clamp(Vector2i(), Utilities.get_screen_size() - Vector2i(size))
 	if (offset.x >= float(Utilities.get_screen_size().x)/2 and _to_center):
-		var cursor_pos: int = MapController.get_cursor().get_true_pos().x \
+		var cursor_pos: int = CursorController.get_true_pos().x \
 				+ MapController.get_map_camera().get_map_offset().x
 		if offset.x >= cursor_pos:
 			offset.x -= ceili(16 + size.x)

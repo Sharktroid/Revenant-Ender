@@ -426,7 +426,7 @@ func deselect() -> void:
 	set_animation(animations.IDLE)
 	selected = false
 	remove_path()
-	if MapController.get_cursor().get_hovered_unit() == self:
+	if CursorController.get_hovered_unit() == self:
 		refresh_tiles()
 	else:
 		hide_movement_tiles()
@@ -856,20 +856,20 @@ func _get_path_subfunc(num: float, moved: Vector2i, all_tiles: Array[Vector2i],
 
 func _on_area2d_area_entered(area: Area2D):
 	# When cursor enters unit's area
-	if area == MapController.get_cursor().get_area() and visible:
+	if area == CursorController.get_area() and visible:
 		var selecting: bool = MapController.selecting
 		var can_be_selected: bool = true
-		if is_instance_valid(MapController.get_cursor().get_hovered_unit()):
-			var hovered_unit_selected: bool = MapController.get_cursor().get_hovered_unit().selected
+		if is_instance_valid(CursorController.get_hovered_unit()):
+			var hovered_unit_selected: bool = CursorController.get_hovered_unit().selected
 			can_be_selected = not hovered_unit_selected or selecting
 		if can_be_selected and not(selected or selecting or waiting):
 			display_movement_tiles()
-		MapController.get_cursor().set_hovered_unit(self)
+		CursorController.set_hovered_unit(self)
 
 
 func _on_area2d_area_exited(area: Area2D):
 	# When cursor exits unit's area
-	if area == MapController.get_cursor().get_area() and not selected:
+	if area == CursorController.get_area() and not selected:
 		hide_movement_tiles()
 		emit_signal("cursor_exited")
 

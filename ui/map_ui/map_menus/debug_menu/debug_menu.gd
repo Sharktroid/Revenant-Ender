@@ -18,13 +18,13 @@ func select_item(item: MapMenuItem) -> void:
 
 		"Display Map Cursor":
 			Utilities.invert_debug_constant("display_map_cursor")
-			var cursor_area: Area2D = MapController.get_cursor().get_area()
+			var cursor_area: Area2D = CursorController.get_area()
 			cursor_area.visible = Utilities.get_debug_constant("display_map_cursor")
 
 		"Print Cursor Position":
 			var replacements: Array[Vector2i] = [
-				MapController.get_cursor().get_rel_pos(),
-				MapController.get_cursor().get_true_pos()
+				CursorController.get_rel_pos(),
+				CursorController.get_true_pos()
 			]
 			print("Position relative to UI: %s\nPosition relative to map: %s" % replacements)
 

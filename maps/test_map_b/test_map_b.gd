@@ -14,8 +14,8 @@ func _init():
 func _ready() -> void:
 	super()
 	if DEBUG_CUTSCENE:
-		await MapController.get_cursor().ready
-		MapController.get_cursor().disable()
+		await CursorController.ready
+		CursorController.disable()
 		var roy: Unit = $"Map Layer/Units/Player/Roy"
 		var marcus: Unit = $"Map Layer/Units/Player/Marcus"
 		var alen: Unit = $"Map Layer/Units/Player/Alen"
@@ -67,4 +67,4 @@ We must retake the castle!")
 To arms then! Our target is the castle! We must rescue everyone!")
 		await dialogue.remove_portrait(roy)
 		await dialogue.hide_top_textbox()
-		MapController.get_cursor().enable()
+		CursorController.enable()
