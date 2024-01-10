@@ -563,7 +563,7 @@ func update_path(destination: Vector2i, num: int = current_movement) -> void:
 		_path.append(Vector2i(position))
 	# Sets destination to an adjacent tile to a unit if a unit is hovered and over an attack tile.
 	var raw_movement_tiles: Array[Vector2i] = get_raw_movement_tiles()
-	var all_attack_tiles = get_all_attack_tiles()
+	var all_attack_tiles = get_all_attack_tiles(raw_movement_tiles)
 	if not destination in raw_movement_tiles \
 			and destination in all_attack_tiles \
 			and Utilities.get_tile_distance(get_unit_path()[-1], destination) > 1:
@@ -649,11 +649,10 @@ func get_raw_movement_tiles(custom_movement: int = current_movement) -> Array[Ve
 	return _raw_movement_tiles
 
 
-func get_all_attack_tiles() -> Array[Vector2i]:
+func get_all_attack_tiles(movement_tiles: Array[Vector2i] = get_raw_movement_tiles()) -> Array[Vector2i]:
 	var all_attack_tiles: Array[Vector2i] = []
 	if get_current_weapon():
-		var raw_movement_tiles = get_raw_movement_tiles()
-		var basis_movement_tiles = get_raw_movement_tiles()
+		var basis_movement_tiles: Array[Vector2i] = movement_tiles.duplicate()
 		for unit in MapController.get_units():
 			var unit_pos: Vector2i = unit.position
 			if unit_pos in basis_movement_tiles:
@@ -670,7 +669,7 @@ func get_all_attack_tiles() -> Array[Vector2i]:
 				for x in range(-max_range, max_range + 1):
 					var attack_tile: Vector2i = (tile + Vector2i(x * 16, y * 16))\
 							.clamp(Vector2i(0, 0), map_size)
-					if not(attack_tile in all_attack_tiles + raw_movement_tiles):
+					if not(attack_tile in all_attack_tiles + movement_tiles):
 						var distance: int = floori(Utilities.get_tile_distance(tile, attack_tile))
 						if distance >= min_range and distance <= max_range:
 							all_attack_tiles.append(attack_tile)

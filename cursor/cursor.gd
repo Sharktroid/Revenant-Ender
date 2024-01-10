@@ -13,7 +13,7 @@ func _ready() -> void:
 	tween.tween_interval(2)
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	var distance: float = position.distance_to(CursorController.get_rel_pos())/16
-	var speed: float = maxf(1, distance) * 4
+	var speed: float = (maxf(1, distance) * 4) * 60 * delta
 	position = position.move_toward(CursorController.get_rel_pos(), speed)
