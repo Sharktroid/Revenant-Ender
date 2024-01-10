@@ -206,13 +206,13 @@ func get_attack() -> int:
 		return 0
 
 
-func get_damage(defender: Unit) -> float:
-	return max(0, get_attack() -
+func get_damage(defender: Unit) -> int:
+	return maxi(0, get_attack() -
 			defender.get_current_defence(get_current_weapon().get_damage_type()))
 
 
-func get_crit_damage(defender: Unit) -> float:
-	return max(0, get_attack() * 2 -
+func get_crit_damage(defender: Unit) -> int:
+	return maxi(0, get_attack() * 2 -
 			defender.get_current_defence(get_current_weapon().get_damage_type()))
 
 
