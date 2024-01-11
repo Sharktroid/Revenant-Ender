@@ -112,13 +112,10 @@ static func _kill(unit: Unit, unit_animation: MapAttack) -> void:
 static func _calc(unit: Unit, other_unit: Unit) -> attack_types:
 	if unit.get_hit_rate(other_unit) > randi_range(0, 99):
 		if unit.get_crit_rate(other_unit) > randi_range(0, 99):
-			print_debug("Crit")
 			return attack_types.CRIT
 		else:
-			print_debug("Hit")
 			return attack_types.HIT
 	else:
-		print_debug("Miss")
 		return attack_types.MISS
 
 

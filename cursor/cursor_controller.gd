@@ -75,18 +75,19 @@ func get_rel_pos() -> Vector2i:
 
 func set_true_pos(new_pos: Vector2i) -> void:
 	## Sets cursor position relative to the map
-	if get_rel_pos() != new_pos:
-		_position = new_pos.clamp(Vector2i(), MapController.map.get_size() - Vector2(16, 16))
-		_position = ((_position - _corner_offset()).
-				clamp(Vector2i(), Utilities.get_screen_size() - Vector2i(16, 16)) + _corner_offset())
-		var map_move := Vector2i()
-		for i: int in 2:
-			if get_rel_pos()[i] < 16:
-				map_move[i] -= 16
-			elif get_rel_pos()[i] >= Utilities.get_screen_size()[i] - 16:
-				map_move[i] += 16
-		if map_move != Vector2i():
-			MapController.get_map_camera().move(map_move)
+	var old_pos: Vector2i = _position
+	_position = new_pos.clamp(Vector2i(), MapController.map.get_size() - Vector2(16, 16))
+	_position = ((_position - _corner_offset()).
+			clamp(Vector2i(), Utilities.get_screen_size() - Vector2i(16, 16)) + _corner_offset())
+	var map_move := Vector2i()
+	for i: int in 2:
+		if get_rel_pos()[i] < 16:
+			map_move[i] -= 16
+		elif get_rel_pos()[i] >= Utilities.get_screen_size()[i] - 16:
+			map_move[i] += 16
+	if map_move != Vector2i():
+		MapController.get_map_camera().move(map_move)
+	if _position != old_pos:
 		moved.emit()
 
 
