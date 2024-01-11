@@ -16,6 +16,8 @@ var _debug_constants: Dictionary = { # Constants used in the debug menu.
 }
 var _config_file := ConfigFile.new() # File used for saving and loading of configuration settings.
 var _default_screen_size: Vector2i
+var _profile: Array[int] = []
+var _current_checkpoint: int
 
 
 func _ready() -> void:
@@ -108,6 +110,26 @@ func dict_to_table(dict: Dictionary, size: int) -> String:
 		]
 		table += "[cell][color=%s]%s[/color]\t[color=%s]%s[/color][/cell]" % replacements
 	return table + "[/table]"
+
+
+func start_profiling() -> void:
+	_profile = []
+	_current_checkpoint = Time.get_ticks_usec()
+
+
+func profiler_checkpoint() -> void:
+	_profile.append(Time.get_ticks_usec() - _current_checkpoint)
+	_current_checkpoint = Time.get_ticks_usec()
+
+
+func finish_profiling() -> void:
+	profiler_checkpoint()
+	var sum: float = 0
+	for checkpoint: int in _profile.size():
+		var usec: float = float(_profile[checkpoint])
+		print("Checkpoint %s: %s ms" % [checkpoint, usec / 1000])
+		sum += usec
+	print("Total length: %s ms" % (sum / 1000))
 
 
 func _load_config() -> void:
