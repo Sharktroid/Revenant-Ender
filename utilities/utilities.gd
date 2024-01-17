@@ -132,6 +132,13 @@ func finish_profiling() -> void:
 	print("Total length: %s ms" % (sum / 1000))
 
 
+func get_properties(objects: Array, property_path: StringName) -> Array:
+	var output_array: Array = []
+	for object: Object in objects:
+		output_array.append(object.get(property_path))
+	return output_array
+
+
 func _load_config() -> void:
 	# Loads configuration
 	_config_file.load("user://config.ini")
