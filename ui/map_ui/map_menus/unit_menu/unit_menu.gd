@@ -94,11 +94,10 @@ func update() -> void:
 func select_item(item: MapMenuItem) -> void:
 	match item.name:
 		"Attack":
-			var weapon: Weapon = connected_unit.get_current_weapon()
-			var selector := AttackSelector.new(connected_unit, weapon.min_range, weapon.max_range,
-					_can_attack, CursorController.icons.ATTACK)
+			var selector := AttackSelector.new(connected_unit, connected_unit.get_min_range(),
+					connected_unit.get_max_range(), _can_attack, CursorController.icons.ATTACK)
 			var tiles: Array[Vector2i] = connected_unit.get_current_attack_tiles(
-					connected_unit.get_path_last_pos())
+					connected_unit.get_path_last_pos(), true)
 			var tiles_node: Node2D = MapController.map.display_highlighted_tiles(tiles,
 					connected_unit, Map.tile_types.ATTACK)
 			var attack: Callable = func(selected_unit: Unit) -> void:
@@ -216,7 +215,7 @@ func _select_map(selector: Selector, tiles_node: Node2D, selected: Callable,
 
 func _can_attack(unit: Unit) -> bool:
 	var pos: Vector2i = connected_unit.get_path_last_pos()
-	var current_tiles: Array[Vector2i] = connected_unit.get_current_attack_tiles(pos)
+	var current_tiles: Array[Vector2i] = connected_unit.get_current_attack_tiles(pos, true)
 	var faction: Faction = unit.get_faction()
 	var diplo_stance := connected_unit.get_faction().get_diplomacy_stance(faction)
 	if diplo_stance == Faction.diplo_stances.ENEMY and Vector2i(unit.position) in current_tiles:

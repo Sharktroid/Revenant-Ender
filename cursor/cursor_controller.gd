@@ -105,7 +105,7 @@ func get_area() -> Area2D:
 
 ## Gets the unit under the cursor. Returns null if one is not there.
 func get_hovered_unit() -> Unit:
-	if is_instance_valid(_hovered_unit) and _hovered_unit.get_area().overlaps_area(get_area()):
+	if is_instance_valid(_hovered_unit) and _hovered_unit.position == (get_true_pos() as Vector2):
 		return _hovered_unit
 	return null
 

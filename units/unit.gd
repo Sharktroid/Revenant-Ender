@@ -48,7 +48,6 @@ var traveler: Unit:
 			$"Traveler Icon/AnimationPlayer".play("display")
 		else:
 			$"Traveler Icon/AnimationPlayer".play("RESET")
-var equipped_weapon: Weapon
 
 
 var _portrait: Portrait
@@ -387,6 +386,22 @@ func get_stat_table(stat: stats) -> String:
 	return Utilities.dict_to_table(table_items, 2)
 
 
+func get_min_range() -> int:
+	var min_range: int = get_current_weapon().min_range
+	for weapon in items:
+		if weapon is Weapon:
+			min_range = min(weapon.min_range, min_range)
+	return min_range
+
+
+func get_max_range() -> int:
+	var max_range: int = get_current_weapon().max_range
+	for weapon in items:
+		if weapon is Weapon:
+			max_range = max(weapon.max_range, max_range)
+	return max_range
+
+
 func has_attribute(attrib: Skill.all_attributes) -> bool:
 	for skill in skills:
 		if attrib in skill.attributes:
@@ -470,10 +485,14 @@ func get_adjacent_tiles(pos: Vector2i, min_range: int, max_range: int) -> Array[
 	return adjacent_tiles
 
 
-func get_current_attack_tiles(pos: Vector2i) -> Array[Vector2i]:
+func get_current_attack_tiles(pos: Vector2i, all_weapons: bool = false) -> Array[Vector2i]:
 	if is_instance_valid(get_current_weapon()):
-		return get_adjacent_tiles(pos, get_current_weapon().min_range,
-			get_current_weapon().max_range)
+		var min_range: int = get_current_weapon().min_range
+		var max_range: int = get_current_weapon().max_range
+		if all_weapons:
+			min_range = get_min_range()
+			max_range = get_max_range()
+		return get_adjacent_tiles(pos, min_range, max_range)
 	else:
 		return []
 
@@ -649,7 +668,8 @@ func get_raw_movement_tiles(custom_movement: int = current_movement) -> Array[Ve
 	return _raw_movement_tiles
 
 
-func get_all_attack_tiles(movement_tiles: Array[Vector2i] = get_raw_movement_tiles()) -> Array[Vector2i]:
+func get_all_attack_tiles(movement_tiles: Array[Vector2i] = \
+		get_raw_movement_tiles()) -> Array[Vector2i]:
 	var all_attack_tiles: Array[Vector2i] = []
 	if get_current_weapon():
 		var basis_movement_tiles: Array[Vector2i] = movement_tiles.duplicate()
@@ -658,12 +678,8 @@ func get_all_attack_tiles(movement_tiles: Array[Vector2i] = get_raw_movement_til
 			if unit_pos in basis_movement_tiles:
 				basis_movement_tiles.erase(unit_pos)
 		var map_size: Vector2i = MapController.map.get_size() - Vector2(16, 16)
-		var min_range: int = get_current_weapon().min_range
-		var max_range: int = get_current_weapon().max_range
-		for weapon in items:
-			if weapon is Weapon:
-				min_range = min(weapon.min_range, min_range)
-				max_range = max(weapon.max_range, max_range)
+		var min_range: int = get_min_range()
+		var max_range: int = get_max_range()
 		for tile: Vector2i in basis_movement_tiles:
 			for y in range(-max_range, max_range + 1):
 				for x in range(-max_range, max_range + 1):
@@ -692,21 +708,15 @@ func is_friend(other_unit: Unit):
 
 
 func equip_weapon(weapon: Weapon) -> void:
-	items.erase(weapon)
-	items.push_front(weapon)
-	weapon = equipped_weapon
-
-
-func update_equipped_weapon() -> void:
-	for weapon in items:
-		if weapon is Weapon:
-			equipped_weapon = weapon
-			break
+	if weapon in items:
+		items.erase(weapon)
+		items.push_front(weapon)
+	else:
+		push_error('Tried equipping invalid weapon "%s" on unit "%s"' % [weapon.name, unit_name])
 
 
 func drop(item: Item) -> void:
 	items.erase(item)
-	update_equipped_weapon()
 	hide_movement_tiles()
 	display_movement_tiles()
 

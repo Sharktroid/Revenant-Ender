@@ -26,6 +26,11 @@ const red_colors: Array[Color] = [
 
 var top_unit: Unit
 var bottom_unit: Unit
+var distance: float
+
+var _weapons: Array[Weapon]
+var _weapon_index: int = 0
+var _old_weapon: Weapon
 
 
 func _ready() -> void:
@@ -37,23 +42,61 @@ func _ready() -> void:
 	%"Bottom Unit Panel".get_theme_stylebox("panel").bg_color = dark_blue
 	%"Bottom Unit Panel".get_node("Line2D").default_color = light_blue
 
+	_old_weapon = top_unit.get_current_weapon()
+	for item: Item in top_unit.items:
+		if item is Weapon:
+			var weapon: Weapon = item
+			if weapon.min_range <= distance and weapon.max_range >= distance:
+				_weapons.append(weapon)
+
+	_update()
+
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_accept"):
+		queue_free()
+		emit_signal("complete", true)
+		accept_event()
+	elif event.is_action_pressed("ui_cancel"):
+		top_unit.equip_weapon(_old_weapon)
+		emit_signal("complete", false)
+		queue_free()
+		accept_event()
+	elif event.is_action_pressed("left") and not Input.is_action_pressed("right"):
+		_weapon_index -= 1
+		_update()
+	elif event.is_action_pressed("right"):
+		_weapon_index += 1
+		_update()
+
+
+func _get_current_weapon() -> Weapon:
+	return _weapons[_weapon_index]
+
+
+func _update() -> void:
+	_weapon_index = posmod(_weapon_index, _weapons.size())
+	top_unit.equip_weapon(_get_current_weapon())
 	for half: String in ["Top", "Bottom"]:
 		var current_unit: Unit
 		var other_unit: Unit
+		var weapon: Weapon
 		var format: Callable = func(input_string: String) -> String:
 			return ("%" + half + " " + input_string)
 		match half:
 			"Top":
 				current_unit = top_unit
 				other_unit = bottom_unit
+				weapon = _weapons[_weapon_index]
 			"Bottom":
 				current_unit = bottom_unit
 				other_unit = top_unit
+				weapon = bottom_unit.get_current_weapon()
 		get_node(format.call("Name") as String).text = current_unit.unit_name
 		get_node(format.call("Weapon Icon") as String).texture = \
-				current_unit.get_current_weapon().icon
+				weapon.icon
 		get_node(format.call("Weapon Name") as String).text = \
-				current_unit.get_current_weapon().name
+				weapon.name
 
 		get_node(format.call("HP") as String).text = str(current_unit.get_current_health())
 		get_node(format.call("Damage") as String).text = str(current_unit.get_damage(other_unit))
@@ -63,7 +106,8 @@ func _ready() -> void:
 		get_node(format.call("Crit") as String).text = str(current_unit.get_crit_rate(other_unit))
 
 		if current_unit.get_faction().color == Faction.colors.RED:
-			var shader_material: ShaderMaterial = get_node(format.call("Unit Panel") as String).material
+			var shader_material: ShaderMaterial = \
+					get_node(format.call("Unit Panel") as String).material
 			var old_vectors: Array[Vector3] = []
 			for color: Color in blue_colors:
 				old_vectors.append(Vector3(color.r, color.g, color.b) * 255)
@@ -72,15 +116,3 @@ func _ready() -> void:
 				new_vectors.append(Vector3(color.r, color.g, color.b) * 255)
 			shader_material.set_shader_parameter("old_colors", old_vectors)
 			shader_material.set_shader_parameter("new_colors", new_vectors)
-
-
-
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_accept"):
-		queue_free()
-		emit_signal("complete", true)
-		accept_event()
-	if event.is_action_pressed("ui_cancel"):
-		emit_signal("complete", false)
-		queue_free()
-		accept_event()

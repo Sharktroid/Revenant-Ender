@@ -9,10 +9,16 @@ func _position_selected() -> void:
 				(Utilities.get_screen_size().x as float / 2)):
 			info_display.position.x = Utilities.get_screen_size().x - info_display.size.x
 		info_display.top_unit = unit
-		info_display.bottom_unit = CursorController.get_hovered_unit()
+		var bottom_unit: Unit = CursorController.get_hovered_unit()
+		info_display.bottom_unit = bottom_unit
+		info_display.distance = Utilities.get_tile_distance(_selecting_position,
+				bottom_unit.position)
 		MapController.get_ui().add_child(info_display)
 		info_display.grab_focus()
-		if await info_display.complete:
+		CursorController.disable()
+		var proceed: bool = await info_display.complete
+		CursorController.enable()
+		if proceed:
 			info_display.queue_free()
 			emit_signal.call_deferred("selected", CursorController.get_hovered_unit())
 			close()

@@ -245,8 +245,8 @@ func _get_terrain(coords: Vector2i, faction: Faction) -> String:
 			if faction.get_diplomacy_stance(unit.get_faction()) in blocking_stances:
 				return "Blocked"
 	var cell_id: TileData = $"Map Layer/Terrain Layer".get_cell_tile_data(0, coords/16)
-	var cell_name_string: String = cell_id.get_custom_data("Terrain Name")
-	return cell_name_string
+	cell_id.get_custom_data("Terrain Name")
+	return cell_id.get_custom_data("Terrain Name")
 
 
 func _parse_movement_cost() -> void:
@@ -258,7 +258,7 @@ func _parse_movement_cost() -> void:
 	file.close()
 	var header: PackedStringArray = (raw_movement_cost.pop_at(0).strip_edges().split(","))
 	header.remove_at(0)
-	for full_type in raw_movement_cost:
+	for full_type: String in raw_movement_cost:
 		var split: Array = full_type.strip_edges().split(",")
 		var type: UnitClass.movement_types
 		match split.pop_at(0):

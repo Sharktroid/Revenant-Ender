@@ -1,8 +1,7 @@
-extends "res://units/unit_classes/advance_wars/base_aw.gd"
+extends "res://units/unit_classes/advance_wars/aw_unit.gd"
 
 
 func _init():
-	super._init()
 	_starting_frame = 0
 #	movement_type = "Infantry"
 #	tags.append("Infantry")

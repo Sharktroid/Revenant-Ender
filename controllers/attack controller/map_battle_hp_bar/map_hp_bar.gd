@@ -7,7 +7,7 @@ var unit: Unit
 
 func _ready() -> void:
 	%"HP Bar".max_value = unit.get_stat(Unit.stats.HITPOINTS)
-	%Name.text = unit.name
+	%Name.text = unit.unit_name
 	var panel: StyleBoxTexture = %"BG Gradient".get_theme_stylebox("panel").duplicate(true)
 	%"BG Gradient".add_theme_stylebox_override("panel", panel)
 
