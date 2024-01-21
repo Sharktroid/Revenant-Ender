@@ -1,8 +1,8 @@
 extends Control
 
 var observing_unit: Unit
-var _item_label_node: PackedScene = \
-		preload("res://ui/map_ui/status_screen/item_screen/item_label/item_label.tscn")
+const _ITEM_LABEL_NODE: PackedScene = \
+		preload("res://ui/map_ui/item_label/item_label.tscn")
 
 
 func update() -> void:
@@ -10,7 +10,7 @@ func update() -> void:
 		for grandchild in child.get_children():
 			grandchild.queue_free()
 	for item in observing_unit.items:
-		var item_label: HelpContainer = _item_label_node.instantiate()
+		var item_label: HelpContainer = _ITEM_LABEL_NODE.instantiate()
 		item_label.item = item
 		item_label.set_equip_status(observing_unit)
 		$"Item Panel/Item Label Container".add_child(item_label)

@@ -47,19 +47,20 @@ func update() -> void:
 	var enabled_items = {
 		Attack = false,
 		Wait = false,
-		Items = false,
+		Trade = false,
 		Rescue = false,
 		Take = false,
 		Drop = false,
 		Give = false,
 		Swap = false,
+		Items = false,
 	}
 	if CursorController.get_true_pos() in raw_movement_tiles:
 		enabled_items.Wait = (movement > 0 and pos in raw_movement_tiles)
 		enabled_items.Drop = connected_unit.traveler != null
 		enabled_items.Items = len(connected_unit.items) > 0
 		# Gets all adjacent units
-		for unit in MapController.get_units():
+		for unit: Unit in MapController.get_units():
 			if unit != connected_unit and unit.visible == true:
 				var cursor_pos: Vector2i = CursorController.get_true_pos()
 				if Utilities.get_tile_distance(cursor_pos, unit.get_position()) == 0 \
@@ -70,6 +71,11 @@ func update() -> void:
 				elif Utilities.get_tile_distance(cursor_pos, unit.get_position()) == 1:
 					# Adjacent units
 					if connected_unit.is_friend(unit):
+						if connected_unit.items.size() > 0 and unit.items.size() > 0:
+							enabled_items.Trade = true
+						else:
+							print_debug(connected_unit.items.size())
+							print_debug(unit.items.size())
 						if unit.traveler:
 							if connected_unit.traveler:
 								enabled_items.Swap = true
@@ -111,6 +117,22 @@ func select_item(item: MapMenuItem) -> void:
 			await connected_unit.move()
 			connected_unit.wait()
 			close()
+
+		"Trade":
+			var selector := UnitSelector.new(connected_unit, 1, 1, connected_unit.is_friend)
+			var trade: Callable = func(selected_unit: Unit):
+				const MENU_NODE: PackedScene = \
+						preload("res://ui/map_ui/map_menus/trade_menu/trade_menu.tscn")
+				var menu: TradeMenu = MENU_NODE.instantiate()
+				menu.left_unit = connected_unit
+				menu.right_unit = selected_unit
+				MapController.get_ui().add_child(menu)
+				CursorController.disable()
+				visible = false
+				await menu.tree_exited
+				visible = true
+				CursorController.enable()
+			_select_map(selector, _display_adjacent_support_tiles(), trade)
 
 		"Items":
 			var menu: MapMenu = \

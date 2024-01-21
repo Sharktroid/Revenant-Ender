@@ -64,7 +64,7 @@ var _movement_tiles_node: Node2D
 var _attack_tile_node: Node2D
 var _current_attack_tiles_node: Node2D
 # Resources to be loaded.
-var _movement_arrows: Resource = preload("res://maps/map_tiles/movement_arrows.tscn")
+const _MOVEMENT_ARROWS: Resource = preload("res://maps/map_tiles/movement_arrows.tscn")
 var _stat_boosts: Dictionary
 var _default_palette: Array[Array] = [[Vector3(), Vector3()]]
 var _wait_palette: Array[Array] = [
@@ -624,7 +624,7 @@ func show_path() -> void:
 	_arrows_container = CanvasGroup.new()
 	if len(get_unit_path()) > 1:
 		for i in get_unit_path():
-			var tile: Sprite2D = _movement_arrows.instantiate()
+			var tile: Sprite2D = _MOVEMENT_ARROWS.instantiate()
 			var prev
 			var next
 			if get_unit_path().find(i) == 0:

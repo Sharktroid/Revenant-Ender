@@ -1,3 +1,4 @@
+class_name ItemLabel
 extends HelpContainer
 
 var item: Item:

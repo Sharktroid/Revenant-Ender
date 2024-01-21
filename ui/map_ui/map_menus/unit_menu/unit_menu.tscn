@@ -17,10 +17,10 @@ layout_mode = 2
 script = ExtResource("3_ead2k")
 help_description = "Ends the unit's current turn."
 
-[node name="Items" type="BoxContainer" parent="Items" index="2"]
+[node name="Trade" type="BoxContainer" parent="Items" index="2"]
 layout_mode = 2
 script = ExtResource("3_ead2k")
-help_description = "Use and equip items."
+help_description = "Ends the unit's current turn."
 
 [node name="Rescue" type="BoxContainer" parent="Items" index="3"]
 layout_mode = 2
@@ -46,3 +46,8 @@ help_description = "Pass a rescued ally to an adjacent ally."
 layout_mode = 2
 script = ExtResource("3_ead2k")
 help_description = "Swap rescued allies with an adjacent ally."
+
+[node name="Items" type="BoxContainer" parent="Items" index="8"]
+layout_mode = 2
+script = ExtResource("3_ead2k")
+help_description = "Use and equip items."

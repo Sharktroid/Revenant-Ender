@@ -132,7 +132,7 @@ func finish_profiling() -> void:
 	print("Total length: %s ms" % (sum / 1000))
 
 
-func get_properties(objects: Array, property_path: StringName) -> Array:
+func get_properties_of_array(objects: Array, property_path: StringName) -> Array:
 	var output_array: Array = []
 	for object: Object in objects:
 		output_array.append(object.get(property_path))

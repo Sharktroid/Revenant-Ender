@@ -16,9 +16,9 @@ var faction_stack: Array[Faction] # All factions
 var true_pos: Vector2i # Position of the map, used for scrolling
 var curr_faction: int = 0
 
-var _attack_tile_node: Resource = preload("res://maps/map_tiles/attack_tile.tscn")
-var _movement_tile_node: Resource = preload("res://maps/map_tiles/movement_tile.tscn")
-var _support_tile_node: Resource = preload("res://maps/map_tiles/support_tile.tscn")
+const _ATTACK_TILE_NODE: Resource = preload("res://maps/map_tiles/attack_tile.tscn")
+const _MOVEMENT_TILE_NODE: Resource = preload("res://maps/map_tiles/movement_tile.tscn")
+const _SUPPORT_TILE_NODE: Resource = preload("res://maps/map_tiles/support_tile.tscn")
 
 
 func _enter_tree() -> void:
@@ -209,9 +209,9 @@ func display_tiles(tiles: Array[Vector2i], type: tile_types, modulation: float =
 	tiles_node.name = "%s Move Tiles" % name
 	var current_tile_base: PackedScene
 	match type:
-		tile_types.ATTACK: current_tile_base = _attack_tile_node
-		tile_types.MOVEMENT: current_tile_base = _movement_tile_node
-		tile_types.SUPPORT: current_tile_base = _support_tile_node
+		tile_types.ATTACK: current_tile_base = _ATTACK_TILE_NODE
+		tile_types.MOVEMENT: current_tile_base = _MOVEMENT_TILE_NODE
+		tile_types.SUPPORT: current_tile_base = _SUPPORT_TILE_NODE
 	for i: Vector2i in tiles:
 		var tile: Sprite2D = current_tile_base.instantiate()
 		tile.name = "Tile"
