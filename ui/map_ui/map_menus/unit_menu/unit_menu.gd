@@ -114,6 +114,7 @@ func select_item(item: MapMenuItem) -> void:
 			_select_map(selector, tiles_node, attack)
 
 		"Wait":
+			visible = false
 			await connected_unit.move()
 			connected_unit.wait()
 			close()
