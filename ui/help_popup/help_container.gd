@@ -7,10 +7,6 @@ extends BoxContainer
 var selectable: bool = true
 
 
-func _init() -> void:
-	selectable = false
-
-
 func _ready() -> void:
 	mouse_entered.connect(_on_mouse_entered)
 
