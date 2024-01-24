@@ -8,6 +8,7 @@ var left_unit: Unit
 var right_unit: Unit
 var current_label: ItemLabel
 var selected_label: ItemLabel
+var empty_bar: ItemLabel
 
 
 func _ready() -> void:
@@ -38,17 +39,23 @@ func _input(event: InputEvent) -> void:
 			var new_item: Item = new_item_node.item
 			var old_item_unit: Unit = _get_unit(old_item_node)
 			var new_item_unit: Unit = _get_unit(new_item_node)
-			var old_item_node_parent: VBoxContainer = old_item_node.get_parent()
-			var new_item_node_parent: VBoxContainer = new_item_node.get_parent()
 
-			old_item_unit.items[old_item_index] = new_item
-			new_item_unit.items[new_item_index] = old_item
-			old_item_node.reparent(new_item_node_parent)
-			new_item_node.reparent(old_item_node_parent)
-			old_item_node_parent.move_child(new_item_node, old_item_index)
-			new_item_node_parent.move_child(old_item_node, new_item_index)
-			old_item_node.set_equip_status(new_item_unit)
-			new_item_node.set_equip_status(old_item_unit)
+			if new_item == null:
+				old_item_unit.items.erase(old_item)
+				new_item_unit.items.append(old_item)
+			else:
+				old_item_unit.items[old_item_index] = new_item
+				new_item_unit.items[new_item_index] = old_item
+			old_item_node.item = new_item
+			new_item_node.item = old_item
+			if new_item_node == empty_bar:
+				old_item_node.queue_free()
+				empty_bar = null
+			else:
+				old_item_node.update()
+				old_item_node.set_equip_status(old_item_unit)
+			new_item_node.update()
+			new_item_node.set_equip_status(new_item_unit)
 
 			_reset()
 		else:
@@ -56,8 +63,11 @@ func _input(event: InputEvent) -> void:
 			var selected_hand: Sprite2D = $"Selected Hand"
 			selected_hand.visible = true
 			selected_hand.position = selected_label.global_position.round()
-		var new_parent: VBoxContainer = _get_other_parent(current_label)
-		_change_current_label(new_parent, new_parent.get_children().size())
+			empty_bar = ITEM_LABEL_SCENE.instantiate()
+			empty_bar.parent_menu = self
+			var new_parent: VBoxContainer = _get_other_parent(current_label)
+			new_parent.add_child(empty_bar)
+			_change_current_label(new_parent, new_parent.get_children().size() - 1)
 	elif event.is_action_pressed("ui_cancel"):
 		if selected_label:
 			_change_current_label(selected_label.get_parent(), selected_label.get_index())
@@ -109,6 +119,8 @@ func _update() -> void:
 func _reset() -> void:
 	selected_label = null
 	$"Selected Hand".visible = false
+	if empty_bar:
+		empty_bar.queue_free()
 
 
 func _change_current_label(parent: Node, index: int) -> void:

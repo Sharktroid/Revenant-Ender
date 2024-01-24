@@ -37,6 +37,7 @@ size_flags_horizontal = 3
 [node name="Left Items" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Panel"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_constants/separation = 0
 
 [node name="Panel2" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -45,6 +46,7 @@ size_flags_horizontal = 3
 [node name="Right Items" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Panel2"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_constants/separation = 0
 
 [node name="Selection Hand" type="Sprite2D" parent="."]
 position = Vector2(21, 121)
