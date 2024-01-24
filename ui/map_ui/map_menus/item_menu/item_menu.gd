@@ -3,7 +3,7 @@ extends MapMenu
 var connected_unit: Unit
 
 var _items: Array[Item] = []
-var _menu_item_node: GDScript = preload("res://ui/map_ui/map_menus/item_menu\
+const _MENU_ITEM_NODE: GDScript = preload("res://ui/map_ui/map_menus/item_menu\
 /item_menu_item/item_menu_item.gd")
 
 # Called when the node enters the scene tree for the first time.
@@ -42,6 +42,6 @@ func _update() -> void:
 			child.queue_free()
 			await child.tree_exited
 		for item: Item in connected_unit.items:
-			var item_node: HelpContainer = _menu_item_node.new(item)
+			var item_node: HelpContainer = _MENU_ITEM_NODE.new(item)
 			item_node.help_description = item.get_description()
 			$Items.add_child(item_node)

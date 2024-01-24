@@ -12,7 +12,7 @@ const HIT_B_FATAL: AudioStream = preload("res://audio/sfx/hit_b_fatal.ogg")
 
 const HIT_B_DELAY: float = 5.0/60
 
-static var _map_battle_hp_bar_scene: PackedScene = \
+const _MAP_BATTLE_HP_BAR_SCENE: PackedScene = \
 		preload("res://controllers/attack controller/map_battle_info_display.tscn")
 
 static func combat(attacker: Unit, defender: Unit) -> void:
@@ -31,7 +31,7 @@ static func combat(attacker: Unit, defender: Unit) -> void:
 
 
 static func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[CombatStage]) -> void:
-	var hp_bar: HBoxContainer = _map_battle_hp_bar_scene.instantiate()
+	var hp_bar: HBoxContainer = _MAP_BATTLE_HP_BAR_SCENE.instantiate()
 	hp_bar.attacker = attacker
 	hp_bar.defender = defender
 	MapController.get_ui().add_child(hp_bar)

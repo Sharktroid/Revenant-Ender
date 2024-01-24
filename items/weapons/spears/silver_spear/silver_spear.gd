@@ -14,6 +14,6 @@ func _init() -> void:
 	price = 4000
 	weapon_experience = 1
 	_description = "A very powerful and expensive spear."
-	icon = preload("uid://cvkwhxmqlavgm")
+	icon = preload("res://items/weapons/spears/silver_spear/icon.png")
 	super()
 
