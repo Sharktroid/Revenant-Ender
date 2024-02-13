@@ -1,4 +1,5 @@
-* Implement trading
+* Add IVs and EVs for stat calculations
+* Make unit menu actions consume turns properly
 * Make design document
 * Show damage 
 * Implement FE6 C1

@@ -673,10 +673,11 @@ func get_all_attack_tiles(movement_tiles: Array[Vector2i] = \
 	var all_attack_tiles: Array[Vector2i] = []
 	if get_current_weapon():
 		var basis_movement_tiles: Array[Vector2i] = movement_tiles.duplicate()
-		for unit in MapController.get_units():
-			var unit_pos: Vector2i = unit.position
-			if unit_pos in basis_movement_tiles:
-				basis_movement_tiles.erase(unit_pos)
+		for unit: Unit in MapController.get_units():
+			if unit != self:
+				var unit_pos: Vector2i = unit.position
+				if unit_pos in basis_movement_tiles:
+					basis_movement_tiles.erase(unit_pos)
 		var map_size: Vector2i = MapController.map.get_size() - Vector2(16, 16)
 		var min_range: int = get_min_range()
 		var max_range: int = get_max_range()
@@ -733,10 +734,10 @@ func _render_status() -> void:
 func _get_movement_tiles(movement: int) -> void:
 	# Gets the movement tiles of the unit
 	var h := []
-	var tiles_first_pass = {}
 	var start: Vector2i = (position)
+	var tiles_first_pass = {movement: [start]}
 	const RANGE_MULT: float = 4.0/3
-	_movement_tiles = {movement: [start]}
+	_movement_tiles = tiles_first_pass.duplicate()
 	if position == ((position/16).floor() * 16):
 		# Gets the initial grid
 		for y in range(-movement * RANGE_MULT, movement * RANGE_MULT + 1):
@@ -889,11 +890,10 @@ func _on_create_menu_select_item(item: String) -> void:
 		new_unit.position = position
 		new_unit.faction_id = faction_id
 		get_parent().add_child(new_unit)
-	MapController.get_node("UILayer/Unit Menu").close()
+	MapController.get_ui().get_node("Unit Menu").close()
 
 
 func _on_create_menu_closed() -> void:
-	MapController.get_node("UILayer/Unit Menu").set_active(true)
 
 
 func _class_personal_string(class_stat: int, personal_stat: int, suffix: String = "") -> String:
@@ -908,3 +908,4 @@ func _class_personal_string(class_stat: int, personal_stat: int, suffix: String 
 			"%s@" % str(class_stat + personal_stat).lpad(3),
 			 ("(%d@ %s %d@)" % [class_stat, joiner, abs(personal_stat)]).lpad(11)
 		]).replace("@", suffix)
+	MapController.get_ui().get_node("Unit Menu").set_active(true)
