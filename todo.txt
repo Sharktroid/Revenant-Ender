@@ -1,4 +1,4 @@
-* Add IVs and EVs for stat calculations
+* Fix size issues of the bars in the status screen
 * Make unit menu actions consume turns properly
 * Make design document
 * Show damage 

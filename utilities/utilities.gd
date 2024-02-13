@@ -100,13 +100,18 @@ func xor(condition_a: bool, condition_b: bool) -> bool:
 
 func dict_to_table(dict: Dictionary, size: int) -> String:
 	var table: String = "[table=%d]" % size
-	for key in dict:
+	var max_key_size: int = 0
+	var max_value_size: int = 0
+	for key: String in dict:
+		max_key_size = maxi(str(key).length(), max_key_size)
+		max_value_size = maxi(str(dict[key]).length(), max_value_size)
+	for key: String in dict:
 		var value = dict[key]
 		var replacements: Array = [
 			Utilities.font_yellow,
-			str(key),
+			str(key).rpad(max_key_size),
 			Utilities.font_blue,
-			str(value).lpad(5),
+			str(value).lpad(max_value_size),
 		]
 		table += "[cell][color=%s]%s[/color]\t[color=%s]%s[/color][/cell]" % replacements
 	return table + "[/table]"

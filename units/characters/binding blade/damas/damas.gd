@@ -4,37 +4,22 @@ extends Unit
 
 # Unit-specific variables.
 func _init() -> void:
-	_personal_base_stats = {
-		Unit.stats.HITPOINTS: 8,
-		Unit.stats.STRENGTH: 4,
-		Unit.stats.PIERCE: 0,
-		Unit.stats.MAGIC: 0,
-		Unit.stats.SKILL: 3,
-		Unit.stats.SPEED: 2,
-		Unit.stats.LUCK: 0,
-		Unit.stats.DEFENSE: 2,
-		Unit.stats.DURABILITY: 0,
-		Unit.stats.RESISTANCE: 0,
-		Unit.stats.MOVEMENT: 0,
-		Unit.stats.CONSTITUTION: 0,
-		Unit.stats.AUTHORITY: 0,
+	personal_values = {
+		Unit.stats.HITPOINTS: 14,
+		Unit.stats.STRENGTH: 10,
+		Unit.stats.PIERCE: 5,
+		Unit.stats.MAGIC: 5,
+		Unit.stats.SKILL: 9,
+		Unit.stats.SPEED: 7,
+		Unit.stats.LUCK: 5,
+		Unit.stats.DEFENSE: 7,
+		Unit.stats.DURABILITY: 5,
+		Unit.stats.RESISTANCE: 5,
+		Unit.stats.MOVEMENT: 5,
+		Unit.stats.CONSTITUTION: 5,
+		Unit.stats.AUTHORITY: 5,
 	}
-	personal_end_stats = {
-		Unit.stats.HITPOINTS: 0,
-		Unit.stats.STRENGTH: 0,
-		Unit.stats.PIERCE: 0,
-		Unit.stats.MAGIC: 0,
-		Unit.stats.SKILL: 0,
-		Unit.stats.SPEED: 0,
-		Unit.stats.LUCK: 0,
-		Unit.stats.DEFENSE: 0,
-		Unit.stats.DURABILITY: 0,
-		Unit.stats.RESISTANCE: 0,
-		Unit.stats.MOVEMENT: 0,
-		Unit.stats.CONSTITUTION: 0,
-		Unit.stats.AUTHORITY: 0,
-	}
-	personal_stat_caps = {
+	effort_values = {
 		Unit.stats.HITPOINTS: 0,
 		Unit.stats.STRENGTH: 0,
 		Unit.stats.PIERCE: 0,

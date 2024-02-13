@@ -3,7 +3,8 @@ class_name StatBar
 extends HelpContainer
 
 ## Highest value that can be ever displayed.
-const ABSOLUTE_MAX_VALUE: float = 35
+const ABSOLUTE_MAX_VALUE: float = (30 * (1 + Unit.PERSONAL_VALUE_MULTIPLIER) *
+		(1 + Unit.EFFORT_VALUE_MULTIPLIER))
 
 var margins: Vector2i
 

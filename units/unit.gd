@@ -2,10 +2,21 @@
 class_name Unit
 extends Sprite2D
 
-signal arrived # When unit arrives at its target
 signal cursor_exited
 
+## Duration of fade-away upon death
 const FADE_AWAY_DURATION: float = 20.0/60
+## The amount that the stat is multiplied by with max PVs
+const PERSONAL_VALUE_MULTIPLIER: float = 0.15
+## The amount that the stat is multiplied by with max EVs
+const EFFORT_VALUE_MULTIPLIER: float = 0.15
+## The maximum value that a PV can be
+const PERSONAL_VALUE_LIMIT: int = 15
+## The maximum value that an EV can be
+const INDIVIDUAL_EFFORT_VALUE_LIMIT: int = 250
+## The maximum amount of PVs a unit can have
+const TOTAL_EFFORT_VALUE_LIMIT: float = INDIVIDUAL_EFFORT_VALUE_LIMIT * 4
+
 
 enum statuses {ATTACK}
 enum animations {IDLE, MOVING_DOWN, MOVING_UP, MOVING_LEFT, MOVING_RIGHT}
@@ -24,8 +35,8 @@ enum stats {
 @export var base_level: int = 1
 @export var skills: Array[Skill] = [Follow_Up.new()]
 
-var personal_stat_caps: Dictionary
-var personal_end_stats: Dictionary
+var personal_values: Dictionary
+var effort_values: Dictionary
 var current_level: int
 var current_movement: int
 var dead: bool = false
@@ -51,7 +62,6 @@ var traveler: Unit:
 
 
 var _portrait: Portrait
-var _personal_base_stats: Dictionary
 var _raw_movement_tiles: Array[Vector2i] # All movement tiles without organization.
 var _path: Array[Vector2i] # Path the unit will follow when moving.
 var _current_statuses: Array[statuses]
@@ -255,18 +265,18 @@ func get_stat_boost(stat: stats) -> int:
 
 
 func get_stat(stat: stats, level: int = current_level) -> int:
-	var base_stat: int = unit_class.base_stats.get(stat, 0) + get_true_personal_base_stat(stat)
-	var class_end_stat: int = unit_class.end_stats.get(stat, 0)
-	var max_level: int = unit_class.max_level
-	var remapped_end_stat: int = roundi(remap(class_end_stat, 1, max_level, 1, get_max_level()))
-	var end_stat: int = remapped_end_stat + personal_end_stats.get(stat, 0)
+	var base_stat: int = unit_class.base_stats.get(stat, 0)
+	var end_stat: int = unit_class.end_stats.get(stat, 0)
 	var weight: float = inverse_lerp(1, unit_class.max_level, level)
-	var leveled_stat: int = roundi(lerpf(base_stat, end_stat, weight))
-	return clampi(leveled_stat + get_stat_boost(stat), 0, get_stat_cap(stat))
+	var leveled_stat: float = lerpf(base_stat, end_stat, weight)
+	var unclamped_stat: int = roundi(leveled_stat * _get_personal_value_multiplier(stat)
+			* _get_effort_value_multiplier(stat))
+	return clampi(unclamped_stat, 0, get_stat_cap(stat)) + get_stat_boost(stat)
 
 
 func get_stat_cap(stat: stats) -> int:
-	return unit_class.stat_caps.get(stat, 0) + personal_stat_caps.get(stat, 0)
+	return roundi((unit_class.end_stats.get(stat, 0) as float)
+			* (1 + PERSONAL_VALUE_MULTIPLIER) * (1 + EFFORT_VALUE_MULTIPLIER))
 
 
 func get_attack_speed() -> int:
@@ -362,26 +372,16 @@ func get_path_last_pos() -> Vector2i:
 	return position
 
 
-func get_true_personal_base_stat(stat: stats) -> float:
-	if _personal_base_stats.get(stat):
-		return remap(1, base_level, get_max_level(),
-				_personal_base_stats[stat] as int, personal_end_stats.get(stat, 0) as int)
-	else:
-		return 0
-
-
 func get_stat_table(stat: stats) -> String:
-	var c_base_stat: int = unit_class.base_stats.get(stat, 0)
-	var p_base_stat: int = roundi(get_true_personal_base_stat(stat))
-	var c_final_stat: int = unit_class.end_stats.get(stat, 0)
-	var p_final_stat: int = personal_end_stats.get(stat, 0)
-	var c_stat_cap: int = unit_class.stat_caps.get(stat, 0)
-	var p_stat_cap: int = personal_stat_caps.get(stat, 0)
+	var base_stat: int = unit_class.base_stats.get(stat, 0)
+	var final_stat: int = unit_class.end_stats.get(stat, 0)
+	var personal_value: int = personal_values.get(stat, 0)
+	var effort_value: int = effort_values.get(stat, 0)
 	var table_items: Dictionary = {
-		Base = _class_personal_string(c_base_stat, p_base_stat),
-		Final = _class_personal_string(c_final_stat, p_final_stat),
-		Max = _class_personal_string(c_stat_cap, p_stat_cap),
-		Growth = _class_personal_string(c_final_stat - c_base_stat, p_final_stat - p_base_stat),
+		"Class Base" = str(base_stat),
+		"Class Final" = str(final_stat),
+		"Personal Values " = str(personal_value),
+		"Effort Values" = str(effort_value),
 	}
 	return Utilities.dict_to_table(table_items, 2)
 
@@ -457,9 +457,10 @@ func awaken() -> void:
 
 ## Displays the unit's movement tiles.
 func display_movement_tiles() -> void:
-	_movement_tiles_node = MapController.map.display_tiles(get_raw_movement_tiles(),
+	var movement_tiles: Array[Vector2i] = get_raw_movement_tiles()
+	_movement_tiles_node = MapController.map.display_tiles(movement_tiles,
 			Map.tile_types.MOVEMENT, 1)
-	_attack_tile_node = MapController.map.display_tiles(get_all_attack_tiles(),
+	_attack_tile_node = MapController.map.display_tiles(get_all_attack_tiles(movement_tiles),
 			Map.tile_types.ATTACK, 1)
 	if not selected:
 		_movement_tiles_node.modulate.a = 0.5
@@ -735,9 +736,9 @@ func _get_movement_tiles(movement: int) -> void:
 	# Gets the movement tiles of the unit
 	var h := []
 	var start: Vector2i = (position)
-	var tiles_first_pass = {movement: [start]}
+	var tiles_first_pass = {movement: []}
 	const RANGE_MULT: float = 4.0/3
-	_movement_tiles = tiles_first_pass.duplicate()
+	_movement_tiles = {movement: [start]}
 	if position == ((position/16).floor() * 16):
 		# Gets the initial grid
 		for y in range(-movement * RANGE_MULT, movement * RANGE_MULT + 1):
@@ -877,6 +878,17 @@ func _on_area2d_area_entered(area: Area2D):
 		CursorController.set_hovered_unit(self)
 
 
+func _get_personal_value_multiplier(stat: stats) -> float:
+	var personal_value: int = clampi(personal_values.get(stat, 5) as int, 0, PERSONAL_VALUE_LIMIT)
+	return 1 + ((personal_value as float) / PERSONAL_VALUE_LIMIT * PERSONAL_VALUE_MULTIPLIER)
+
+
+func _get_effort_value_multiplier(stat: stats) -> float:
+	var personal_value: int = \
+			clampi(effort_values.get(stat, 0) as int, 0, INDIVIDUAL_EFFORT_VALUE_LIMIT)
+	return 1 + ((personal_value as float) / INDIVIDUAL_EFFORT_VALUE_LIMIT * EFFORT_VALUE_MULTIPLIER)
+
+
 func _on_area2d_area_exited(area: Area2D):
 	# When cursor exits unit's area
 	if area == CursorController.get_area() and not selected:
@@ -894,18 +906,4 @@ func _on_create_menu_select_item(item: String) -> void:
 
 
 func _on_create_menu_closed() -> void:
-
-
-func _class_personal_string(class_stat: int, personal_stat: int, suffix: String = "") -> String:
-	if (len(_personal_base_stats) == 0 and len(personal_end_stats) == 0
-			and len(personal_stat_caps) == 0):
-		return "%d%s" % [class_stat, suffix]
-	else:
-		var joiner = "+"
-		if personal_stat < 0:
-			joiner = "-"
-		return " ".join([
-			"%s@" % str(class_stat + personal_stat).lpad(3),
-			 ("(%d@ %s %d@)" % [class_stat, joiner, abs(personal_stat)]).lpad(11)
-		]).replace("@", suffix)
 	MapController.get_ui().get_node("Unit Menu").set_active(true)
