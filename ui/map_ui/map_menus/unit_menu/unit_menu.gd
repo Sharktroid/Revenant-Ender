@@ -133,6 +133,9 @@ func select_item(item: MapMenuItem) -> void:
 				await menu.tree_exited
 				visible = true
 				CursorController.enable()
+				item.visible = false
+				reset_size()
+				_current_item_index -= 1
 			_select_map(selector, _display_adjacent_support_tiles(), trade)
 
 		"Items":

@@ -66,3 +66,9 @@ func _update_stat_bar(stat_bar: StatBar, stat: Unit.stats) -> void:
 	stat_bar.unit = observing_unit
 	stat_bar.stat = stat
 	stat_bar.update.call_deferred()
+
+
+func _on_strength_label_visibility_changed() -> void:
+	if observing_unit:
+		pass
+		#update()

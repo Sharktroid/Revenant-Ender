@@ -441,3 +441,5 @@ vertical_alignment = 1
 [node name="Statuses" type="HBoxContainer" parent="Other/HBoxContainer/Values"]
 layout_mode = 2
 size_flags_vertical = 3
+
+[connection signal="visibility_changed" from="Offensive Stats/HBoxContainer/Labels/Strength Help/Strength Label" to="." method="_on_strength_label_visibility_changed"]
