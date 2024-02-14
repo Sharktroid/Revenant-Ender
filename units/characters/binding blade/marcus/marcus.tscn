@@ -8,7 +8,7 @@
 [ext_resource type="Script" path="res://items/weapons/swords/iron_sword/iron_sword.gd" id="5_g7lkh"]
 [ext_resource type="Script" path="res://items/weapons/spears/silver_spear/silver_spear.gd" id="6_bxwmy"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jrv23"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wmjrl"]
 shader = ExtResource("2_j6t3w")
 shader_parameter/darken_screen = 0.5
 shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
@@ -24,7 +24,7 @@ script = ExtResource("5_g7lkh")
 script = ExtResource("6_bxwmy")
 
 [node name="Marcus" instance=ExtResource("1_lxmi0")]
-material = SubResource("ShaderMaterial_jrv23")
+material = SubResource("ShaderMaterial_wmjrl")
 texture = ExtResource("3_jtyy6")
 script = ExtResource("2_716f4")
 unit_name = "Marcus"
@@ -32,4 +32,4 @@ unit_description = "A veteran paladin serving Pherae.
 Roy's instructor in combat."
 unit_class = SubResource("Resource_weiei")
 items = Array[Resource("res://items/item.gd")]([SubResource("Resource_co5aq"), SubResource("Resource_67pnp")])
-base_level = 20
+base_level = 30

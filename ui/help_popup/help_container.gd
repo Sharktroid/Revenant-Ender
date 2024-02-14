@@ -31,5 +31,6 @@ func _get_popup_offset() -> Vector2i:
 		pos.y -= popup_size.y
 	else:
 		pos.y += v_size
-	pos.x = clampf(pos.x, float(popup_size.x)/2, Utilities.get_screen_size().x - float(popup_size.x)/2)
+	pos.x = clampf(pos.x, float(popup_size.x)/2,
+			Utilities.get_screen_size().x - float(popup_size.x)/2)
 	return pos

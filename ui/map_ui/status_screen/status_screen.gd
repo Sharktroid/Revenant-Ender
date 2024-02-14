@@ -91,11 +91,13 @@ func _update() -> void:
 		%"Range Separator".visible = false
 		%"Max Range".text = ""
 
-	$"Menu Screen/Menu Tabs/Statistics".observing_unit = observing_unit
-	$"Menu Screen/Menu Tabs/Items".observing_unit = observing_unit
+	var statistics: Control = $"Menu Screen/Menu Tabs/Statistics"
+	var items: Control = $"Menu Screen/Menu Tabs/Items"
+	statistics.observing_unit = observing_unit
+	items.observing_unit = observing_unit
 
-	$"Menu Screen/Menu Tabs/Statistics".update()
-	$"Menu Screen/Menu Tabs/Items".update()
+	(statistics.update as Callable).call_deferred()
+	items.update()
 
 	%"HP Stat Help".help_description = observing_unit.get_stat_table(Unit.stats.HITPOINTS)
 

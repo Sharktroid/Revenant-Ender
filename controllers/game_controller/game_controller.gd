@@ -1,8 +1,8 @@
 extends Node
 
 enum controller_types {MOUSE, KEYBOARD}
-
-var controller_type: controller_types # Type of controller being used (keyboard, mouse, or controller)
+## Type of controller being used (keyboard, mouse, or controller)
+var controller_type: controller_types
 
 
 func _init() -> void:

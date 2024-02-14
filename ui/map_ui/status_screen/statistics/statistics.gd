@@ -51,7 +51,8 @@ func update() -> void:
 			-observing_unit.unit_class.aid_modifier
 		]
 	elif observing_unit.unit_class.aid_modifier == 0:
-		%"Aid Help".help_description = "%d + 0" % [observing_unit.get_stat(Unit.stats.CONSTITUTION)]
+		%"Aid Help".help_description = ("%d + 0" %
+				[observing_unit.get_stat(Unit.stats.CONSTITUTION)])
 	else:
 		%"Aid Help".help_description = "%d - %d" % [
 			observing_unit.unit_class.aid_modifier,

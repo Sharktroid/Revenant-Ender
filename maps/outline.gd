@@ -30,10 +30,12 @@ func _draw():
 				and outline_faction != current_faction:
 			for unit: Unit in MapController.get_units():
 				var unit_faction: Faction = unit.get_faction()
-				var unit_stance: Faction.diplo_stances = current_faction.get_diplomacy_stance(unit_faction)
+				var unit_stance: Faction.diplo_stances = \
+						current_faction.get_diplomacy_stance(unit_faction)
 				if unit_stance == Faction.diplo_stances.ENEMY \
 						and len(unit.get_all_attack_tiles()) > 0:
-					for coord: Vector2 in (unit.get_all_attack_tiles() + unit.get_raw_movement_tiles()):
+					for coord: Vector2 in (unit.get_all_attack_tiles() +
+							unit.get_raw_movement_tiles()):
 						if not (coord in all_general_coords):
 							all_general_coords.append(coord)
 		var tile_current: Color = unit_highlight
@@ -50,7 +52,8 @@ func _draw():
 				_create_outline_tile(tile_general, line_general, coords, all_general_coords)
 
 
-func _create_outline_tile(tile_color: Color, line_color: Color, coords: Vector2i, all_coords: Array[Vector2i]) -> void:
+func _create_outline_tile(tile_color: Color, line_color: Color, coords: Vector2i,
+		all_coords: Array[Vector2i]) -> void:
 	tile_color.a = 0.5
 	line_color.a = 0.5
 	draw_rect(Rect2(coords, Vector2i(16, 16)), tile_color, true)

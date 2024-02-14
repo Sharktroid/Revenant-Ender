@@ -10,7 +10,7 @@ func _init() -> void:
 		Unit.stats.STRENGTH: 0,
 		Unit.stats.PIERCE: 0,
 		Unit.stats.MAGIC: 0,
-		Unit.stats.SKILL: 0,
+		Unit.stats.SKILL: 15,
 		Unit.stats.SPEED: 0,
 		Unit.stats.LUCK: 0,
 		Unit.stats.DEFENSE: 0,

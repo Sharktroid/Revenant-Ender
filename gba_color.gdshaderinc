@@ -29,7 +29,8 @@ uniform float darken_screen = 0.5;
 
 vec3 gba_color(vec3 input_color) {
 	#define AVGLUM vec3(0.5)
-	#define SCREEN mix(pow(input_color, vec3(TARGET_GAMMA + darken_screen)), AVGLUM, (1.0 - CONTRAST))
+	#define MODIFIED_COLOR pow(input_color, vec3(TARGET_GAMMA + darken_screen))
+	#define SCREEN mix(MODIFIED_COLOR, AVGLUM, (1.0 - CONTRAST))
 
 	#define C mat3(vec3(R,	RG,	 RB), vec3(GR,	G,	 GB), vec3(BR,	BG,	 B))
 	#define RED_ADJUST vec3((1.0 - SAT) * 0.3086 + SAT,(1.0 - SAT) * 0.3086 ,(1.0 - SAT) * 0.3086)
