@@ -7,10 +7,10 @@ extends Node2D
 
 
 func _process(_delta: float) -> void:
-	for standing in get_tree().get_nodes_in_group("Standing"):
+	for standing: Node in get_tree().get_nodes_in_group("Standing"):
 		standing.texture = $Standing.texture
 		standing.offset.y = standing_offset_y
-	for walking in get_tree().get_nodes_in_group("Walking"):
+	for walking: Node in get_tree().get_nodes_in_group("Walking"):
 		walking.texture = $Walking.texture
 
 

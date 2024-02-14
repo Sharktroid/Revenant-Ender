@@ -2,10 +2,10 @@ import os
 from PIL import Image
 
 all_chars = ["#","$","%","&","'","(",")","+",",","-",".","0","1","2","3","4","5","6","7","8","9","=","@","A","a","B","b","C","c","D","d","E","e","F","f","G","g","H","h","I","i","J","j","K","k","L","l","M","m","N","n","O","o","P","p","Q","q","R","r","S","s","T","t","u","U","v","V","w","W","x","X","y","Y","z","Z","[","]","^","{","}","~","ε"]
-lowercase_chars = []
-uppercase_chars = []
-number_chars = []
-misc_chars = []
+lowercase_chars: list[str] = []
+uppercase_chars: list[str] = []
+number_chars: list[str] = []
+misc_chars: list[str] = []
 full_list = [lowercase_chars, uppercase_chars, number_chars, misc_chars]
 
 for char in all_chars:

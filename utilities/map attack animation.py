@@ -1,12 +1,12 @@
 from PIL import Image
 
-def box_pos_size(x: int, y: int, width: int, height: int) -> tuple[int, int, int, int]:
+def box_pos_size(x: int, y: int, width: int, height: int):
     return (x, y, x + width, y + height)
 
 cell_size = 64
 image_num = 9
-img_offset: tuple[int, int] = (256, 15)
-tile_offset: tuple[float, float] = (7, 7)
+img_offset = (256, 15)
+tile_offset = (7, 7)
 all_images = []
 for image in range(1, image_num + 1):
     with Image.open(f'Swordmaster-f-{image}.png', 'r') as anim:

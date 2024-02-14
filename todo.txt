@@ -1,3 +1,4 @@
+* Fix bug when wsitching from item screen to status screen
 * Make unit menu actions consume turns properly
 * Make design document
 * Show damage 

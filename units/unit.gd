@@ -130,7 +130,7 @@ var _arrows_container: CanvasGroup
 
 
 func _ready() -> void:
-	for weapon_type in unit_class.weapon_levels.keys():
+	for weapon_type: Weapon.types in unit_class.weapon_levels.keys():
 		if weapon_type not in weapon_levels.keys():
 			weapon_levels[weapon_type] = unit_class.weapon_levels[weapon_type]
 	texture = unit_class.map_sprite
@@ -197,7 +197,7 @@ func get_class_name() -> String:
 
 
 func get_current_weapon() -> Weapon:
-	for item in items:
+	for item: Item in items:
 		if item is Weapon and can_use_weapon(item as Weapon):
 			return item
 	return null
@@ -388,7 +388,7 @@ func get_stat_table(stat: stats) -> String:
 
 func get_min_range() -> int:
 	var min_range: int = get_current_weapon().min_range
-	for weapon in items:
+	for weapon: Item in items:
 		if weapon is Weapon:
 			min_range = min(weapon.min_range, min_range)
 	return min_range
@@ -396,14 +396,14 @@ func get_min_range() -> int:
 
 func get_max_range() -> int:
 	var max_range: int = get_current_weapon().max_range
-	for weapon in items:
+	for weapon: Item in items:
 		if weapon is Weapon:
 			max_range = max(weapon.max_range, max_range)
 	return max_range
 
 
 func has_attribute(attrib: Skill.all_attributes) -> bool:
-	for skill in skills:
+	for skill: Skill in skills:
 		if attrib in skill.attributes:
 			return true
 	return false
@@ -476,9 +476,9 @@ func hide_movement_tiles() -> void:
 
 func get_adjacent_tiles(pos: Vector2i, min_range: int, max_range: int) -> Array[Vector2i]:
 	var adjacent_tiles: Array[Vector2i] = []
-	for y in range(-max_range, max_range + 1):
+	for y: int in range(-max_range, max_range + 1):
 		var v: Array[Vector2i] = []
-		for x in range(-max_range, max_range + 1):
+		for x: int in range(-max_range, max_range + 1):
 			var distance: int = floori(Utilities.get_tile_distance(Vector2i(), Vector2i(x, y) * 16))
 			if distance in range(min_range, max_range + 1):
 				v.append(Vector2i(pos) + Vector2i(x * 16, y * 16))
@@ -587,11 +587,11 @@ func update_path(destination: Vector2i, num: int = current_movement) -> void:
 	if not destination in raw_movement_tiles \
 			and destination in all_attack_tiles \
 			and Utilities.get_tile_distance(get_unit_path()[-1], destination) > 1:
-		for unit in MapController.get_units():
+		for unit: Unit in MapController.get_units():
 			if (Vector2i(unit.position) in all_attack_tiles
 					and Vector2i(unit.position) == destination):
 				var adjacent_movement_tiles: Array[Vector2i] = []
-				for tile_offset in Utilities.adjacent_tiles:
+				for tile_offset: Vector2i in Utilities.adjacent_tiles:
 					if Vector2i(unit.position) + tile_offset in raw_movement_tiles:
 						adjacent_movement_tiles.append(Vector2i(unit.position) + tile_offset)
 				if len(adjacent_movement_tiles) > 0:
@@ -602,7 +602,7 @@ func update_path(destination: Vector2i, num: int = current_movement) -> void:
 	if destination in raw_movement_tiles:
 		# Gets the path
 		var total_cost = 0
-		for tile in _path:
+		for tile: Vector2i in _path:
 			if tile != Vector2i(position):
 				total_cost += MapController.map.get_terrain_cost(self, tile)
 		if destination in _path:
@@ -624,7 +624,7 @@ func show_path() -> void:
 		_arrows_container.queue_free()
 	_arrows_container = CanvasGroup.new()
 	if len(get_unit_path()) > 1:
-		for i in get_unit_path():
+		for i: Vector2i in get_unit_path():
 			var tile: Sprite2D = _MOVEMENT_ARROWS.instantiate()
 			var prev
 			var next
