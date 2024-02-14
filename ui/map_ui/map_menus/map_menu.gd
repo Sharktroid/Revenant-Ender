@@ -64,9 +64,17 @@ func select_item(_item: MapMenuItem) -> void:
 
 
 func set_current_item_node(item: HelpContainer) -> void:
-	_current_item_index = item.get_index()
+	_current_item_index = _get_visible_children().find(item)
 
 
 func get_current_item_node() -> MapMenuItem:
-	_current_item_index %= len(%Items.get_children())
-	return %Items.get_child(_current_item_index)
+	_current_item_index %= _get_visible_children().size()
+	return _get_visible_children()[_current_item_index]
+
+
+func _get_visible_children() -> Array[Node]:
+	var children: Array[Node] = []
+	for child: Node in %Items.get_children():
+		if child.visible == true:
+			children.append(child)
+	return children
