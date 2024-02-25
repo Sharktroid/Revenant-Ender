@@ -2,6 +2,7 @@ extends MapMenu
 
 var connected_unit: Unit
 var caller: SelectedUnitController
+var actionable: bool = true
 
 
 func _enter_tree() -> void:
@@ -32,7 +33,9 @@ func _gui_input(event: InputEvent) -> void:
 func close(return_to_caller: bool = false) -> void:
 	queue_free()
 	CursorController.enable()
-	if return_to_caller:
+	if not actionable:
+		connected_unit.wait()
+	if return_to_caller and actionable:
 		caller.set_focus_mode(Control.FOCUS_ALL)
 		caller.grab_focus()
 	else:
@@ -73,9 +76,6 @@ func update() -> void:
 					if connected_unit.is_friend(unit):
 						if connected_unit.items.size() > 0 and unit.items.size() > 0:
 							enabled_items.Trade = true
-						else:
-							print_debug(connected_unit.items.size())
-							print_debug(unit.items.size())
 						if unit.traveler:
 							if connected_unit.traveler:
 								enabled_items.Swap = true
@@ -131,8 +131,8 @@ func select_item(item: MapMenuItem) -> void:
 				CursorController.disable()
 				visible = false
 				await menu.tree_exited
+				await unactionable()
 				visible = true
-				CursorController.enable()
 				item.visible = false
 				reset_size()
 				_current_item_index -= 1
@@ -176,15 +176,16 @@ func select_item(item: MapMenuItem) -> void:
 			var can_take: Callable = func(unit: Unit):
 				return connected_unit.is_friend(unit) and unit.traveler
 			var take: Callable = func(unit: Unit):
-				await connected_unit.move()
+				await unactionable()
 				var traveler: Unit = unit.traveler
 				connected_unit.traveler = traveler
 				unit.traveler = null
 				traveler.visible = true
 				await traveler.move(connected_unit.position)
 				traveler.visible = false
-				connected_unit.wait()
-				close()
+				visible = true
+				update()
+				CursorController.disable()
 			_select_map(UnitSelector.new(connected_unit, 1, 1, can_take),
 					_display_adjacent_support_tiles(), take)
 
@@ -192,15 +193,16 @@ func select_item(item: MapMenuItem) -> void:
 			var can_give: Callable = func(unit: Unit):
 				return connected_unit.is_friend(unit) and not unit.traveler
 			var give: Callable = func(unit: Unit):
-				await connected_unit.move()
+				await unactionable()
 				var traveler: Unit = connected_unit.traveler
 				unit.traveler = traveler
 				connected_unit.traveler = null
 				traveler.visible = true
 				await traveler.move(unit.position)
 				traveler.visible = false
-				connected_unit.wait()
-				close()
+				visible = true
+				update()
+				CursorController.disable()
 			_select_map(UnitSelector.new(connected_unit, 1, 1, can_give),
 					_display_adjacent_support_tiles(), give)
 
@@ -208,7 +210,7 @@ func select_item(item: MapMenuItem) -> void:
 			var can_swap: Callable = func(unit: Unit):
 				return connected_unit.is_friend(unit) and unit.traveler
 			var swap: Callable = func(unit: Unit):
-				await connected_unit.move()
+				await unactionable()
 				var old_traveler = connected_unit.traveler
 				var new_traveler = unit.traveler
 				connected_unit.traveler = new_traveler
@@ -219,10 +221,16 @@ func select_item(item: MapMenuItem) -> void:
 				await new_traveler.move(connected_unit.position)
 				old_traveler.visible = false
 				new_traveler.visible = false
-				connected_unit.wait()
-				close()
+				visible = true
+				update()
+				CursorController.disable()
 			_select_map(UnitSelector.new(connected_unit, 1, 1, can_swap),
 					_display_adjacent_support_tiles(), swap)
+
+
+func unactionable() -> void:
+	actionable = false
+	await connected_unit.move()
 
 
 func _select_map(selector: Selector, tiles_node: Node2D, selected: Callable,

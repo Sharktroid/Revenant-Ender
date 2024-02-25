@@ -60,8 +60,6 @@ func update() -> void:
 		]
 
 
-
-
 func _update_stat_bar(stat_bar: StatBar, stat: Unit.stats) -> void:
 	stat_bar.unit = observing_unit
 	stat_bar.stat = stat

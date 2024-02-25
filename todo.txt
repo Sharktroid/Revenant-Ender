@@ -1,5 +1,6 @@
-* Make unit menu actions consume turns properly
+* Fix debug menu not showing variables
 * Make design document
-* Show damage 
+* Make it impossible to drop a unit on another unit
+* Show damage
 * Implement FE6 C1
 * Make game based on design document
