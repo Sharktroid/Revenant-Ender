@@ -1,6 +1,7 @@
-* Fix debug menu not showing variables
-* Make design document
+* Do something about the "O" in the font
+* Implement Canto
 * Make it impossible to drop a unit on another unit
 * Show damage
 * Implement FE6 C1
+* Make design document
 * Make game based on design document

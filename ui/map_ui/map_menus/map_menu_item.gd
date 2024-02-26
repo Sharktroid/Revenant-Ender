@@ -1,17 +1,18 @@
 class_name MapMenuItem
 extends HelpContainer
 
-var value: String
+var value: String:
+	set(new_value):
+		value = new_value
+		_update()
 
 var _label := Label.new()
+
 
 func _ready() -> void:
 	selectable = false
 	mouse_entered.connect(_on_mouse_entered)
-	if value == "":
-		_label.text = name
-	else:
-		_label.text = "%s: %s" % [name, value]
+	_update()
 	add_child(_label)
 
 
@@ -35,3 +36,11 @@ func _get_parent_menu() -> MapMenu:
 func _on_mouse_entered() -> void:
 	super()
 	_get_parent_menu().set_current_item_node(self)
+
+
+func _update() -> void:
+	if value == "":
+		_label.text = name
+	else:
+		_label.text = "%s: %s" % [name, value]
+

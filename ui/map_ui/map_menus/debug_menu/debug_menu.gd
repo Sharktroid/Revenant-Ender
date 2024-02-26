@@ -1,6 +1,10 @@
 extends MapMenu
 
 
+func _ready() -> void:
+	_update_items()
+
+
 func select_item(item: MapMenuItem) -> void:
 	match item.name:
 		"Unit Wait":
@@ -8,12 +12,12 @@ func select_item(item: MapMenuItem) -> void:
 
 		"Display Borders":
 			Utilities.invert_debug_constant("display_map_borders")
-			var map_borders: Node2D = MapController.map.get_node("Debug Border Overlay Container")
+			var map_borders: Node2D = MapController.map.get_node("Map Layer/Debug Border Overlay Container")
 			map_borders.visible = Utilities.get_debug_constant("display_map_borders")
 
 		"Display Terrain":
 			Utilities.invert_debug_constant("display_map_terrain")
-			var terrain_layer: TileMap = MapController.map.get_node("Terrain Layer")
+			var terrain_layer: TileMap = MapController.map.get_node("Map Layer/Terrain Layer")
 			terrain_layer.visible = Utilities.get_debug_constant("display_map_terrain")
 
 		"Display Map Cursor":
@@ -30,6 +34,7 @@ func select_item(item: MapMenuItem) -> void:
 
 		_: push_error("%s is not a valid menu item" % item)
 	Utilities.save_config()
+	_update_items()
 	super(item)
 
 
