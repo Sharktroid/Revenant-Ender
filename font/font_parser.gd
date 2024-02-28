@@ -53,7 +53,7 @@ var _char_frame: Dictionary = {
 	"O": 7,
 
 	"P": 7,
-	"Q": 7,
+	"Q": 8,
 	"R": 7,
 	"S": 7,
 	"T": 7,
@@ -93,7 +93,7 @@ var _char_frame: Dictionary = {
 	"t": 5,
 	"u": 6,
 	"v": 7,
-	"w": 7,
+	"w": 9,
 	"x": 7,
 	"y": 6,
 	"z": 6,
