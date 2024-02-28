@@ -3,7 +3,6 @@ extends SubViewportContainer
 
 func _enter_tree() -> void:
 	# Placeholder
-	print_debug($"SubViewport/Test Map B")
 	MapController.map = $"SubViewport/Test Map B"
 
 
