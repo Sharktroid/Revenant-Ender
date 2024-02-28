@@ -22,7 +22,7 @@ enum statuses {ATTACK}
 enum animations {IDLE, MOVING_DOWN, MOVING_UP, MOVING_LEFT, MOVING_RIGHT}
 enum stats {
 	HITPOINTS, STRENGTH, PIERCE, MAGIC, SKILL, SPEED, LUCK, DEFENSE, DURABILITY,
-	RESISTANCE, MOVEMENT, CONSTITUTION, AUTHORITY
+	RESISTANCE, MOVEMENT, CONSTITUTION
 }
 
 ## Unit's faction. Should be in the map's Faction stack.
@@ -59,6 +59,7 @@ var traveler: Unit:
 			$"Traveler Icon/AnimationPlayer".play("display")
 		else:
 			$"Traveler Icon/AnimationPlayer".play("RESET")
+var personal_authority: int
 
 
 var _portrait: Portrait
@@ -400,6 +401,10 @@ func get_max_range() -> int:
 		if weapon is Weapon:
 			max_range = max(weapon.max_range, max_range)
 	return max_range
+
+
+func get_authority() -> int:
+	return personal_authority + unit_class.authority
 
 
 func has_attribute(attrib: Skill.all_attributes) -> bool:

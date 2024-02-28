@@ -23,7 +23,6 @@ func _init():
 		Unit.stats.RESISTANCE: 0,
 		Unit.stats.MOVEMENT: 5,
 		Unit.stats.CONSTITUTION: 6,
-		Unit.stats.AUTHORITY: 0,
 	}
 	end_stats = {
 		Unit.stats.HITPOINTS: 39,
@@ -38,7 +37,6 @@ func _init():
 		Unit.stats.RESISTANCE: 6,
 		Unit.stats.MOVEMENT: 5,
 		Unit.stats.CONSTITUTION: 6,
-		Unit.stats.AUTHORITY: 0,
 	}
 	stat_caps = {
 		Unit.stats.HITPOINTS: 60,
@@ -53,6 +51,5 @@ func _init():
 		Unit.stats.RESISTANCE: 25,
 		Unit.stats.MOVEMENT: 7,
 		Unit.stats.CONSTITUTION: 20,
-		Unit.stats.AUTHORITY: 5,
 	}
 	map_sprite = preload("res://units/unit_classes/lord_roy/lord_roy.png")

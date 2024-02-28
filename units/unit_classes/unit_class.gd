@@ -23,3 +23,4 @@ var default_portrait: Texture2D
 var aid_modifier: int = -1
 var weight_modifier: int = 0
 var description: String = "[Empty]"
+var authority: int

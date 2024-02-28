@@ -25,7 +25,6 @@ func _init():
 		Unit.stats.RESISTANCE: 4,
 		Unit.stats.MOVEMENT: 5,
 		Unit.stats.CONSTITUTION: 7,
-		Unit.stats.AUTHORITY: 0,
 	}
 	end_stats = {
 		Unit.stats.HITPOINTS: 38,
@@ -40,7 +39,6 @@ func _init():
 		Unit.stats.RESISTANCE: 18,
 		Unit.stats.MOVEMENT: 5,
 		Unit.stats.CONSTITUTION: 7,
-		Unit.stats.AUTHORITY: 0,
 	}
 	stat_caps = {
 		Unit.stats.HITPOINTS: 40,
@@ -55,7 +53,6 @@ func _init():
 		Unit.stats.RESISTANCE: 21,
 		Unit.stats.MOVEMENT: 7,
 		Unit.stats.CONSTITUTION: 20,
-		Unit.stats.AUTHORITY: 0,
 	}
 	map_sprite = preload("res://units/unit_classes/archer/archer.png")
 	default_portrait = preload("res://units/unit_classes/archer/portrait.png")

@@ -35,7 +35,7 @@ func update() -> void:
 		%"Aid Value".text = "-"
 	else:
 		%"Aid Value".text = str(observing_unit.get_aid())
-	%"Authority Stars".stars = observing_unit.get_stat(Unit.stats.AUTHORITY)
+	%"Authority Stars".stars = observing_unit.get_authority()
 	if observing_unit.traveler:
 		%"Traveler Name".text = observing_unit.traveler.name
 	else:

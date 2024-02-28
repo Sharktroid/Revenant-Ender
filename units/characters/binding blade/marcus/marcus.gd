@@ -18,7 +18,6 @@ func _init() -> void:
 		Unit.stats.RESISTANCE: 0,
 		Unit.stats.MOVEMENT: 0,
 		Unit.stats.CONSTITUTION: 0,
-		Unit.stats.AUTHORITY: 0,
 	}
 	effort_values = {
 		Unit.stats.HITPOINTS: 100,
@@ -33,6 +32,6 @@ func _init() -> void:
 		Unit.stats.RESISTANCE: 150,
 		Unit.stats.MOVEMENT: 0,
 		Unit.stats.CONSTITUTION: 0,
-		Unit.stats.AUTHORITY: 0,
 	}
+	personal_authority = 1
 

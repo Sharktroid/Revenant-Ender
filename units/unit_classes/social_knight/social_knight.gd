@@ -29,7 +29,6 @@ func _init():
 		Unit.stats.RESISTANCE: 3,
 		Unit.stats.MOVEMENT: 7,
 		Unit.stats.CONSTITUTION: 9,
-		Unit.stats.AUTHORITY: 0,
 	}
 	end_stats = {
 		Unit.stats.HITPOINTS: 38,
@@ -44,7 +43,6 @@ func _init():
 		Unit.stats.RESISTANCE: 17,
 		Unit.stats.MOVEMENT: 7,
 		Unit.stats.CONSTITUTION: 9,
-		Unit.stats.AUTHORITY: 0,
 	}
 	stat_caps = {
 		Unit.stats.HITPOINTS: 40,
@@ -59,7 +57,6 @@ func _init():
 		Unit.stats.RESISTANCE: 21,
 		Unit.stats.MOVEMENT: 9,
 		Unit.stats.CONSTITUTION: 20,
-		Unit.stats.AUTHORITY: 0,
 	}
 	map_sprite = preload("res://units/unit_classes/social_knight/social_knight.png")
 	super()

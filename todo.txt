@@ -1,3 +1,5 @@
+* Replace wind/fire/lightning with anima
+* Implement weapon triangle (FE11 style)
 * Implement Canto
 * Make it impossible to drop a unit on another unit
 * Show damage
