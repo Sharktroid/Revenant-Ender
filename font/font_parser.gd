@@ -75,7 +75,7 @@ var _char_frame: Dictionary = {
 	"c": 6,
 	"d": 6,
 	"e": 6,
-	"f": 4,
+	"f": 5,
 	"g": 6,
 	"h": 6,
 	"i": 3,
