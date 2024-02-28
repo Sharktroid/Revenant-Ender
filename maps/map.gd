@@ -21,10 +21,6 @@ const _MOVEMENT_TILE_NODE: Resource = preload("res://maps/map_tiles/movement_til
 const _SUPPORT_TILE_NODE: Resource = preload("res://maps/map_tiles/support_tile.tscn")
 
 
-func _enter_tree() -> void:
-	MapController.map = self
-
-
 func _ready() -> void:
 	upper_border = Vector2i(left_border, top_border)
 	lower_border = Vector2i(right_border, bottom_border)

@@ -1,6 +1,12 @@
 extends SubViewportContainer
 
 
+func _enter_tree() -> void:
+	# Placeholder
+	print_debug($"SubViewport/Test Map B")
+	MapController.map = $"SubViewport/Test Map B"
+
+
 func _ready() -> void:
 	_on_size_changed()
 	get_viewport().size_changed.connect(_on_size_changed)
