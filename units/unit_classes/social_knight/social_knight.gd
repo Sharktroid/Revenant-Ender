@@ -44,19 +44,5 @@ func _init():
 		Unit.stats.MOVEMENT: 7,
 		Unit.stats.CONSTITUTION: 9,
 	}
-	stat_caps = {
-		Unit.stats.HITPOINTS: 40,
-		Unit.stats.STRENGTH: 22,
-		Unit.stats.PIERCE: 0,
-		Unit.stats.MAGIC: 15,
-		Unit.stats.SKILL: 21,
-		Unit.stats.SPEED: 20,
-		Unit.stats.LUCK: 24,
-		Unit.stats.DEFENSE: 22,
-		Unit.stats.DURABILITY: 21,
-		Unit.stats.RESISTANCE: 21,
-		Unit.stats.MOVEMENT: 9,
-		Unit.stats.CONSTITUTION: 20,
-	}
 	map_sprite = preload("res://units/unit_classes/social_knight/social_knight.png")
 	super()

@@ -44,19 +44,5 @@ func _init():
 		Unit.stats.MOVEMENT: 8,
 		Unit.stats.CONSTITUTION: 11,
 	}
-	stat_caps = {
-		Unit.stats.HITPOINTS: 60,
-		Unit.stats.STRENGTH: 31,
-		Unit.stats.PIERCE: 0,
-		Unit.stats.MAGIC: 26,
-		Unit.stats.SKILL: 30,
-		Unit.stats.SPEED: 30,
-		Unit.stats.LUCK: 32,
-		Unit.stats.DEFENSE: 32,
-		Unit.stats.DURABILITY: 32,
-		Unit.stats.RESISTANCE: 32,
-		Unit.stats.MOVEMENT: 10,
-		Unit.stats.CONSTITUTION: 20,
-	}
 	map_sprite = preload("res://units/unit_classes/paladin/paladin.png")
 	super()

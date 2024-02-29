@@ -1,12 +1,11 @@
 extends Unit
 var _base_frame: int # Base frame for animation.
-var _starting_frame: int # Base frame for animation after modifiers.
-var _faction_dict: Dictionary
-var _variant_dict: Dictionary
+#var _starting_frame: int # Base frame for animation after modifiers.
+#var _faction_dict: Dictionary
+#var _variant_dict: Dictionary
 
 
 func _ready() -> void:
-	super._ready()
 	frame = _base_frame
 #	_set_base_frame()
 

@@ -40,19 +40,5 @@ func _init():
 		Unit.stats.MOVEMENT: 5,
 		Unit.stats.CONSTITUTION: 11,
 	}
-	stat_caps = {
-		Unit.stats.HITPOINTS: 45,
-		Unit.stats.STRENGTH: 25,
-		Unit.stats.PIERCE: 0,
-		Unit.stats.MAGIC: 15,
-		Unit.stats.SKILL: 23,
-		Unit.stats.SPEED: 22,
-		Unit.stats.LUCK: 21,
-		Unit.stats.DEFENSE: 19,
-		Unit.stats.DURABILITY: 18,
-		Unit.stats.RESISTANCE: 18,
-		Unit.stats.MOVEMENT: 7,
-		Unit.stats.CONSTITUTION: 20,
-	}
 	map_sprite = preload("res://units/unit_classes/fighter/fighter.png")
 	default_portrait = preload("res://units/unit_classes/fighter/portrait.png")

@@ -38,18 +38,4 @@ func _init():
 		Unit.stats.MOVEMENT: 5,
 		Unit.stats.CONSTITUTION: 6,
 	}
-	stat_caps = {
-		Unit.stats.HITPOINTS: 60,
-		Unit.stats.STRENGTH: 27,
-		Unit.stats.PIERCE: 0,
-		Unit.stats.MAGIC: 20,
-		Unit.stats.SKILL: 25,
-		Unit.stats.SPEED: 26,
-		Unit.stats.LUCK: 30,
-		Unit.stats.DEFENSE: 26,
-		Unit.stats.DURABILITY: 0,
-		Unit.stats.RESISTANCE: 25,
-		Unit.stats.MOVEMENT: 7,
-		Unit.stats.CONSTITUTION: 20,
-	}
 	map_sprite = preload("res://units/unit_classes/lord_roy/lord_roy.png")

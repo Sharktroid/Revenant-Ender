@@ -744,14 +744,15 @@ func _get_movement_tiles(movement: int) -> void:
 	const RANGE_MULT: float = 4.0/3
 	_movement_tiles = {movement: [start]}
 	if position == ((position/16).floor() * 16):
-		# Gets the initial grid
+		#region Gets the initial grid
 		for y in range(-movement * RANGE_MULT, movement * RANGE_MULT + 1):
 			var v := []
 			for x in range(-(movement * RANGE_MULT - absi(y)),
 					(movement * RANGE_MULT - absi(y)) + 1):
 				v.append(start + Vector2i(x * 16, y * 16))
 			h.append_array(v)
-		# Orders tiles by distance from center
+		#endregion
+		#region Orders tiles by distance from center
 		h.erase(start)
 		for x: Vector2i in h:
 			var boundary: Vector2i = MapController.map.get_size() - Vector2(16, 16)
@@ -760,9 +761,10 @@ func _get_movement_tiles(movement: int) -> void:
 				if not(val in tiles_first_pass):
 					tiles_first_pass[val] = []
 				tiles_first_pass[val].append(x)
+		#endregion
+		#region Calculates each tile if they have the right movement value.
 		var max_val: int = tiles_first_pass.keys().max()
 		var min_val: int = tiles_first_pass.keys().min()
-		# Calculates each tile if they have the right movement value.
 		for k in range(max_val, min_val - 1, -1):
 			if k in tiles_first_pass.keys():
 				var v = tiles_first_pass[k]
@@ -788,6 +790,7 @@ func _get_movement_tiles(movement: int) -> void:
 						if not(val in tiles_first_pass.keys()):
 							tiles_first_pass[val] = []
 						tiles_first_pass[val].append(tile)
+		#endregion
 		_raw_movement_tiles = []
 		for v: Array in _movement_tiles.values():
 			_raw_movement_tiles.append_array(v)
@@ -795,6 +798,7 @@ func _get_movement_tiles(movement: int) -> void:
 
 func _set_palette(color: Faction.colors) -> void:
 	var palette: Array[Array]
+	#region sets palette
 	match waiting:
 		true: palette = _wait_palette
 		false:
@@ -806,6 +810,7 @@ func _set_palette(color: Faction.colors) -> void:
 				var invalid:
 					palette = _default_palette
 					push_error("Color %s does not have a palette." % invalid)
+	#endregion
 	var old_colors: Array[Vector3] = []
 	var new_colors: Array[Vector3] = []
 	for color_set in palette:
@@ -824,8 +829,8 @@ func _get_path_subfunc(num: float, moved: Vector2i, all_tiles: Array[Vector2i],
 		# Some RNG is used for aethetics; can possibly lag at extreme values.
 		var order = []
 		var order_ready: bool = false
+		#region Goes straight first when the destination is straight ahead
 		for axis in 2:
-			# Goes straight first when the destination is straight ahead
 			if is_zero_approx(destination[axis] - moved[axis]):
 				var other_axis: int = (axis + 1) % 2
 				var mid = Vector2i()
@@ -839,8 +844,9 @@ func _get_path_subfunc(num: float, moved: Vector2i, all_tiles: Array[Vector2i],
 				order = [first] + order + [-first]
 				order_ready = true
 				break
+		#endregion
+		#region Checks both directions when destination is not straight in one axis.
 		if not order_ready:
-			# Checks both directions when destination is not straight in one axis.
 			var lead_x := Vector2i(16, 0)
 			var lead_y := Vector2i(0, 16)
 			if destination.x - moved.x < 0:
@@ -852,7 +858,8 @@ func _get_path_subfunc(num: float, moved: Vector2i, all_tiles: Array[Vector2i],
 			var end: Array[Vector2i] = [-lead_x, -lead_y]
 			end.shuffle()
 			order.append_array(end)
-		# Checks each direction.
+		#endregion
+		#region Checks each direction.
 		for i in order:
 			if moved + i in all_tiles and not(moved + i in moved_tiles):
 				var temp_moved_tiles: Array[Vector2i] = moved_tiles.duplicate()
@@ -867,6 +874,7 @@ func _get_path_subfunc(num: float, moved: Vector2i, all_tiles: Array[Vector2i],
 						temp_moved_tiles, destination)
 				if value != null:
 					return value
+		#endregion
 
 
 func _on_area2d_area_entered(area: Area2D):

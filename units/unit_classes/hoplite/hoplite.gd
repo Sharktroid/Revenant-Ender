@@ -41,19 +41,5 @@ func _init():
 		Unit.stats.MOVEMENT: 4,
 		Unit.stats.CONSTITUTION: 13,
 	}
-	stat_caps = {
-		Unit.stats.HITPOINTS: 60,
-		Unit.stats.STRENGTH: 20,
-		Unit.stats.PIERCE: 20,
-		Unit.stats.MAGIC: 20,
-		Unit.stats.SKILL: 20,
-		Unit.stats.SPEED: 17,
-		Unit.stats.LUCK: 22,
-		Unit.stats.DEFENSE: 26,
-		Unit.stats.DURABILITY: 24,
-		Unit.stats.RESISTANCE: 18,
-		Unit.stats.MOVEMENT: 15,
-		Unit.stats.CONSTITUTION: 20,
-	}
 	map_sprite = preload("res://units/unit_classes/hoplite/hoplite.png")
 

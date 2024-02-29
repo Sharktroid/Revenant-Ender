@@ -8,7 +8,7 @@
 [ext_resource type="Script" path="res://items/weapons/swords/iron_sword/iron_sword.gd" id="5_g7lkh"]
 [ext_resource type="Script" path="res://items/weapons/spears/silver_spear/silver_spear.gd" id="6_bxwmy"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jcmkt"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qu7tx"]
 shader = ExtResource("2_j6t3w")
 shader_parameter/darken_screen = 0.5
 shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
@@ -24,7 +24,7 @@ script = ExtResource("5_g7lkh")
 script = ExtResource("6_bxwmy")
 
 [node name="Marcus" instance=ExtResource("1_lxmi0")]
-material = SubResource("ShaderMaterial_jcmkt")
+material = SubResource("ShaderMaterial_qu7tx")
 texture = ExtResource("3_jtyy6")
 script = ExtResource("2_716f4")
 unit_name = "Marcus"
