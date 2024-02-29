@@ -3,7 +3,7 @@ var item: Item
 var unit: Unit
 
 
-func _ready() -> void:
+func _enter_tree() -> void:
 	if not item is Weapon:
 		$Items/Equip.visible = false
 	if not item.can_use():

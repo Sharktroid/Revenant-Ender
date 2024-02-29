@@ -1,9 +1,8 @@
 extends MapMenu
 
 
-func _ready() -> void:
+func _init() -> void:
 	_to_center = true
-	super()
 
 
 func select_item(item: MapMenuItem) -> void:

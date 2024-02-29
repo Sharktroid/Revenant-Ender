@@ -14,11 +14,9 @@ var _to_center: bool = false
 var _current_item_index: int = 0
 
 
-func _ready() -> void:
+func _enter_tree() -> void:
 	grab_focus()
-	while (get_current_item_node().visible == false):
-		_current_item_index += 1
-	update_position()
+	update_position.call_deferred()
 
 
 func _has_point(_point: Vector2) -> bool:

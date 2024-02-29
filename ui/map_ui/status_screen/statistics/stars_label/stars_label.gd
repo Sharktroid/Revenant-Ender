@@ -7,10 +7,6 @@ var stars: float = 1:
 		_update_stars()
 
 
-func _ready() -> void:
-	_update_stars()
-
-
 func _update_stars() -> void:
 	var star_size: Vector2i = %"Stars Display".get_theme_stylebox("panel").texture.get_size()
 	if star_size.x * stars > size.x:

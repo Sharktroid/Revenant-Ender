@@ -18,12 +18,12 @@ func _init(connected_unit: Unit, min_range: int, max_range: int, condition: Call
 	_maximum_range = max_range
 	_condition = condition
 	_icon = icon
-
-
-func _ready() -> void:
 	CursorController.enable()
 	unit.hide_movement_tiles()
 	unit.remove_path()
+
+
+func _enter_tree() -> void:
 	set_focus_mode(Control.FOCUS_ALL)
 	grab_focus()
 

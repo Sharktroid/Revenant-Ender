@@ -20,7 +20,7 @@ var _profile: Array[int] = []
 var _current_checkpoint: int
 
 
-func _ready() -> void:
+func _init() -> void:
 	_load_config()
 	var width: int = ProjectSettings.get_setting("display/window/size/viewport_width")
 	var height: int = ProjectSettings.get_setting("display/window/size/viewport_height")

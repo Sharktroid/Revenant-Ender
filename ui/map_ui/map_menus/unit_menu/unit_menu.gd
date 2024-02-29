@@ -5,18 +5,19 @@ var caller: SelectedUnitController
 var actionable: bool = true
 
 
+func _init() -> void:
+	_to_center = true
+
+
 func _enter_tree() -> void:
 	connected_unit.tree_exited.connect(_on_unit_death)
-
-
-func _ready() -> void:
-	_to_center = true
 	update()
 	var visible_items: bool = false
 	for i: Node in $Items.get_children():
 		if i.visible:
 			visible_items = true
 			break
+	reset_size.call_deferred()
 	if not visible_items:
 		close(true)
 	else:

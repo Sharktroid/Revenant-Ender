@@ -3,11 +3,11 @@ extends MapMenu
 var connected_unit: Unit
 
 var _items: Array[Item] = []
-const _MENU_ITEM_NODE: GDScript = preload("res://ui/map_ui/map_menus/item_menu\
-/item_menu_item/item_menu_item.gd")
+const _MENU_ITEM_NODE: GDScript = preload("res://ui/map_ui/map_menus/item_menu" +
+		"/item_menu_item/item_menu_item.gd")
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
+
+func _enter_tree() -> void:
 	_update()
 	reset_size()
 	super()

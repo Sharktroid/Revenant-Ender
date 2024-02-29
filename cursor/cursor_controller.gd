@@ -12,7 +12,7 @@ var _active: bool = true
 var _delay: int = 0
 
 
-func _ready() -> void:
+func _init() -> void:
 	set_true_pos(Vector2i())
 	set_process_input(true)
 

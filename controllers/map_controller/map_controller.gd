@@ -37,7 +37,11 @@ func get_ui() -> CanvasLayer:
 
 
 func get_map_camera() -> MapCamera:
-	return (map.get_node("Map Camera") as MapCamera)
+	const PATH: String = "Map Camera"
+	if map.has_node(PATH):
+		return (map.get_node("Map Camera") as MapCamera)
+	else:
+		return MapCamera.new()
 
 
 func get_units() -> Array[Unit]:

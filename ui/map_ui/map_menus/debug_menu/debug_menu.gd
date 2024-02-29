@@ -1,8 +1,9 @@
 extends MapMenu
 
 
-func _ready() -> void:
+func _enter_tree() -> void:
 	_update_items()
+	super()
 
 
 func select_item(item: MapMenuItem) -> void:

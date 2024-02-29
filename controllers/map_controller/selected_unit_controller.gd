@@ -9,9 +9,6 @@ var current_animation: Unit.animations = Unit.animations.IDLE
 func _init(connected_unit: Unit) -> void:
 	_unit = connected_unit
 	name = "Selected Unit Controller"
-
-
-func _ready() -> void:
 	_unit.set_animation(Unit.animations.MOVING_DOWN)
 	_unit.selected = true
 	_unit.update_path(CursorController.get_true_pos())
@@ -20,6 +17,9 @@ func _ready() -> void:
 	_ghost_unit = GhostUnit.new(_unit)
 	MapController.map.get_child(0).add_child(_ghost_unit)
 	CursorController.moved.connect(_on_cursor_moved)
+
+
+func _enter_tree() -> void:
 	set_focus_mode(Control.FOCUS_ALL)
 	MapController.set_focus_mode(Control.FOCUS_NONE)
 	grab_focus()

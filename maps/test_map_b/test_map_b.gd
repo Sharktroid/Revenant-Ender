@@ -9,9 +9,10 @@ func _init():
 		Faction.new("Player", Faction.colors.BLUE, Faction.player_types.HUMAN),
 		Faction.new("Enemy", Faction.colors.RED, Faction.player_types.HUMAN),
 	]
+	super()
 
 
-func _ready() -> void:
+func _enter_tree() -> void:
 	super()
 	if DEBUG_CUTSCENE:
 		await CursorController.ready

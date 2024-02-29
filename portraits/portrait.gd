@@ -10,7 +10,7 @@ var _current_mouth: Sprite2D
 var _emotion := emotions.DEFAULT
 
 
-func _ready() -> void:
+func _enter_tree() -> void:
 	if has_node("Mouth"):
 		_current_mouth = $Mouth
 	else:

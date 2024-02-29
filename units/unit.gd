@@ -130,7 +130,7 @@ var _purple_palette: Array[Array] = [
 var _arrows_container: CanvasGroup
 
 
-func _ready() -> void:
+func _enter_tree() -> void:
 	for weapon_type: Weapon.types in unit_class.weapon_levels.keys():
 		if weapon_type not in weapon_levels.keys():
 			weapon_levels[weapon_type] = unit_class.weapon_levels[weapon_type]
@@ -138,15 +138,14 @@ func _ready() -> void:
 	material = material.duplicate()
 	current_level = base_level
 	current_movement = get_stat(stats.MOVEMENT)
-	_update_palette()
 	set_current_health(get_stat(stats.HITPOINTS))
 	add_to_group("units")
+	_update_palette()
 
 	var animation_player: AnimationPlayer = $AnimationPlayer
 	if animation_player.current_animation == '':
 		animation_player.play("idle")
 	Utilities.sync_animation(animation_player)
-
 	var directory: String = "res://portraits/name/name.tscn".replace("name", unit_name.to_lower())
 	if FileAccess.file_exists(directory):
 		_portrait = load(directory).instantiate()

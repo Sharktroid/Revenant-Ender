@@ -1,7 +1,7 @@
 extends Sprite2D
 
 
-func _ready() -> void:
+func _init() -> void:
 	_update_frame()
 
 

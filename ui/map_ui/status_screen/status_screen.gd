@@ -8,7 +8,7 @@ var _scroll_lock: bool = false
 static var previous_tab: int = 0
 
 
-func _ready() -> void:
+func _enter_tree() -> void:
 	grab_focus()
 	$"Menu Screen/Menu Tabs".current_tab = previous_tab
 	var internal_tab_bar: TabBar = ($"Menu Screen/Menu Tabs".get_child(0, true))

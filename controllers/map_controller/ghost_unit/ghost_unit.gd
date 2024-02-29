@@ -7,9 +7,6 @@ var _unit: Unit
 func _init(connected_unit: Unit) -> void:
 	_unit = connected_unit.duplicate()
 	z_index = 1
-
-
-func _ready() -> void:
 	_unit.position = Vector2i()
 	_unit.get_node("Area2D").queue_free()
 	_unit.get_node("Health Bar").queue_free()

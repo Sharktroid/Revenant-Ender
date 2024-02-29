@@ -1,17 +1,17 @@
 extends ProgressBar
 
-var parent_unit: Unit
 
-
-func _ready() -> void:
+func _init() -> void:
 	add_theme_stylebox_override("fill", get_theme_stylebox("fill").duplicate() as StyleBox)
-	parent_unit = get_parent()
+
+
+func _enter_tree() -> void:
 	update()
 
 
 func update() -> void:
-	max_value = parent_unit.get_stat(Unit.stats.HITPOINTS)
-	value = parent_unit.get_current_health()
+	max_value = get_parent().get_stat(Unit.stats.HITPOINTS)
+	value = get_parent().get_current_health()
 	if ratio == 1:
 		visible = false
 	else:

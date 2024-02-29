@@ -11,7 +11,7 @@ var selected_label: ItemLabel
 var empty_bar: ItemLabel
 
 
-func _ready() -> void:
+func _enter_tree() -> void:
 	_update()
 
 	var hand: Sprite2D = $"Selection Hand"

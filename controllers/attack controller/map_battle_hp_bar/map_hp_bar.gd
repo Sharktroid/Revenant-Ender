@@ -5,7 +5,7 @@ extends Control
 var unit: Unit
 
 
-func _ready() -> void:
+func _enter_tree() -> void:
 	%"HP Bar".max_value = unit.get_stat(Unit.stats.HITPOINTS)
 	%Name.text = unit.unit_name
 	var panel: StyleBoxTexture = %"BG Gradient".get_theme_stylebox("panel").duplicate(true)

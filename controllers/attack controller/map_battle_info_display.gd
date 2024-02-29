@@ -9,9 +9,6 @@ var defender: Unit
 func _enter_tree() -> void:
 	$"Left HP Bar".unit = attacker
 	$"Right HP Bar".unit = defender
-
-
-func _ready() -> void:
 	position = (Vector2((attacker.position.x + defender.position.x)/2 - size.x/2,
 			max(attacker.position.y, defender.position.y) as float)
 			- Vector2(MapController.get_map_camera().map_position)

@@ -1,7 +1,7 @@
 extends PanelContainer
 
 
-func _ready() -> void:
+func _enter_tree() -> void:
 	var tween: Tween = create_tween()
 	tween.set_loops()
 	tween.set_speed_scale(60)

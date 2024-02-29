@@ -9,11 +9,14 @@ var value: String:
 var _label := Label.new()
 
 
-func _ready() -> void:
+func _init() -> void:
 	selectable = false
-	mouse_entered.connect(_on_mouse_entered)
-	_update()
 	add_child(_label)
+	mouse_entered.connect(_on_mouse_entered)
+
+
+func _enter_tree() -> void:
+	_update()
 
 
 func _process(_delta: float) -> void:

@@ -5,7 +5,7 @@ signal selection_made(confirmed)
 var default_yes: bool = false
 
 
-func _ready() -> void:
+func _enter_tree() -> void:
 	if not default_yes:
 		set_current_item_node($Items/No as HelpContainer)
 	super()

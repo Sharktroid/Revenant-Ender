@@ -5,10 +5,6 @@ var map_position: Vector2i
 var true_position: Vector2
 
 
-func _ready():
-	true_position = map_position
-
-
 func _process(delta: float):
 	var speed: float = max(4, (true_position.distance_to(map_position))/16)
 	true_position = true_position.move_toward(map_position, speed * 60 * delta)

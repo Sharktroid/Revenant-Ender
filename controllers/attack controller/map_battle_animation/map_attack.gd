@@ -13,9 +13,6 @@ var _combat_sprite: Unit
 func _init(connected_unit: Unit = null, targeted_tile: Vector2i = Vector2i(0, 16)) -> void:
 	_combat_sprite = connected_unit.duplicate()
 	target_tile = targeted_tile
-
-
-func _ready() -> void:
 	for child: Node in _combat_sprite.get_children():
 		if not child is AnimationPlayer:
 			child.queue_free()
@@ -24,7 +21,6 @@ func _ready() -> void:
 	_combat_sprite.remove_from_group("units")
 	add_child(_combat_sprite)
 	_combat_sprite.sprite_animated = false
-
 	var angle: float = (Vector2(target_tile) - position).angle()
 	var angle_adjusted = (angle * 4)/PI
 	var animation: Unit.animations
@@ -36,7 +32,7 @@ func _ready() -> void:
 		animation = Unit.animations.MOVING_DOWN
 	else:
 		animation = Unit.animations.MOVING_LEFT
-	_combat_sprite.set_animation(animation)
+	_combat_sprite.set_animation.call_deferred(animation)
 
 
 func play_animation() -> void:

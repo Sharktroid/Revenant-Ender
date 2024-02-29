@@ -6,7 +6,7 @@ extends Control
 @export var duration: float = 2
 
 
-func _ready() -> void:
+func _enter_tree() -> void:
 	_update_hue()
 
 
@@ -23,7 +23,6 @@ func _update_hue() -> void:
 			var offset_weight: float = \
 					fmod((modifed_offset + _get_time_in_seconds()) / duration, 1)
 			var new_hue: float = lerp(hue_min, hue_max, offset_weight)
-	#		print_debug(new_hue)
 			child.color.h = new_hue
 
 

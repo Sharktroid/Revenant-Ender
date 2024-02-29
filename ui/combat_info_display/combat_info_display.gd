@@ -33,7 +33,7 @@ var _weapon_index: int = 0
 var _old_weapon: Weapon
 
 
-func _ready() -> void:
+func _enter_tree() -> void:
 	# Removes float rounding errors
 	var light_blue := Color("5294D6")
 	var dark_blue := Color("315A9C")
