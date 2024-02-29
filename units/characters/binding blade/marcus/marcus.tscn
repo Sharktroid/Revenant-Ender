@@ -2,20 +2,20 @@
 
 [ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit.tscn" id="1_lxmi0"]
 [ext_resource type="Script" path="res://units/characters/binding blade/marcus/marcus.gd" id="2_716f4"]
-[ext_resource type="Script" path="res://units/unit_classes/paladin/paladin.gd" id="2_gom4l"]
 [ext_resource type="Shader" path="res://units/palette.gdshader" id="2_j6t3w"]
-[ext_resource type="Texture2D" uid="uid://d1cl2wgqqgs6d" path="res://units/unit_classes/paladin/paladin.png" id="3_jtyy6"]
+[ext_resource type="Texture2D" uid="uid://d1cl2wgqqgs6d" path="res://units/unit_classes/cavalier/cavalier.png" id="3_g5bgq"]
+[ext_resource type="Script" path="res://units/unit_classes/cavalier/cavalier.gd" id="5_eehvg"]
 [ext_resource type="Script" path="res://items/weapons/swords/iron_sword/iron_sword.gd" id="5_g7lkh"]
 [ext_resource type="Script" path="res://items/weapons/spears/silver_spear/silver_spear.gd" id="6_bxwmy"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_qu7tx"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_24vft"]
 shader = ExtResource("2_j6t3w")
 shader_parameter/darken_screen = 0.5
 shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
 shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
 
-[sub_resource type="Resource" id="Resource_weiei"]
-script = ExtResource("2_gom4l")
+[sub_resource type="Resource" id="Resource_udhl1"]
+script = ExtResource("5_eehvg")
 
 [sub_resource type="Resource" id="Resource_co5aq"]
 script = ExtResource("5_g7lkh")
@@ -24,12 +24,12 @@ script = ExtResource("5_g7lkh")
 script = ExtResource("6_bxwmy")
 
 [node name="Marcus" instance=ExtResource("1_lxmi0")]
-material = SubResource("ShaderMaterial_qu7tx")
-texture = ExtResource("3_jtyy6")
+material = SubResource("ShaderMaterial_24vft")
+texture = ExtResource("3_g5bgq")
 script = ExtResource("2_716f4")
 unit_name = "Marcus"
 unit_description = "A veteran paladin serving Pherae.
 Roy's instructor in combat."
-unit_class = SubResource("Resource_weiei")
+unit_class = SubResource("Resource_udhl1")
 items = Array[Resource("res://items/item.gd")]([SubResource("Resource_co5aq"), SubResource("Resource_67pnp")])
-base_level = 20
+base_level = 5

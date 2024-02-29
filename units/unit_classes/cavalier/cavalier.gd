@@ -1,14 +1,14 @@
 @tool
-class_name Paladin
+class_name Cavalier
 extends MountedUnit
 
 
 func _init():
-	name = "Paladin"
+	name = "Cavalier"
 	max_level = 30
 	movement_type = movement_types.ADVANCED_HEAVY_CAVALRY
 	weight_modifier = 25
-	description = "Dedicated cavaliers with superior abilities all around."
+	description = "Dedicated cavalry with superior abilities all around."
 
 	weapon_levels = {
 		Weapon.types.SWORD: Weapon.ranks.D,
@@ -27,22 +27,22 @@ func _init():
 		Unit.stats.DEFENSE: 7,
 		Unit.stats.DURABILITY: 6,
 		Unit.stats.RESISTANCE: 6,
-		Unit.stats.MOVEMENT: 8,
+		Unit.stats.MOVEMENT: 9,
 		Unit.stats.CONSTITUTION: 11,
 	}
 	end_stats = {
 		Unit.stats.HITPOINTS: 51,
 		Unit.stats.STRENGTH: 28,
 		Unit.stats.PIERCE: 0,
-		Unit.stats.MAGIC: 1,
+		Unit.stats.MAGIC: 22,
 		Unit.stats.SKILL: 25,
 		Unit.stats.SPEED: 25,
 		Unit.stats.LUCK: 16,
 		Unit.stats.DEFENSE: 29,
 		Unit.stats.DURABILITY: 27,
 		Unit.stats.RESISTANCE: 26,
-		Unit.stats.MOVEMENT: 8,
+		Unit.stats.MOVEMENT: 9,
 		Unit.stats.CONSTITUTION: 11,
 	}
-	map_sprite = preload("res://units/unit_classes/paladin/paladin.png")
+	map_sprite = preload("res://units/unit_classes/cavalier/cavalier.png")
 	super()

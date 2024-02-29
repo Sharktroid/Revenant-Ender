@@ -13,7 +13,7 @@ func _init():
 	weapon_levels[Weapon.types.AXE] = Weapon.ranks.D
 
 	base_stats = {
-		Unit.stats.HITPOINTS: 19,
+		Unit.stats.HITPOINTS: 23,
 		Unit.stats.STRENGTH: 7,
 		Unit.stats.PIERCE: 0,
 		Unit.stats.MAGIC: 0,
@@ -23,21 +23,21 @@ func _init():
 		Unit.stats.DEFENSE: 4,
 		Unit.stats.DURABILITY: 2,
 		Unit.stats.RESISTANCE: 1,
-		Unit.stats.MOVEMENT: 5,
+		Unit.stats.MOVEMENT: 6,
 		Unit.stats.CONSTITUTION: 11,
 	}
 	end_stats = {
-		Unit.stats.HITPOINTS: 43,
-		Unit.stats.STRENGTH: 25,
+		Unit.stats.HITPOINTS: 47,
+		Unit.stats.STRENGTH: 24,
 		Unit.stats.PIERCE: 0,
 		Unit.stats.MAGIC: 0,
 		Unit.stats.SKILL: 23,
-		Unit.stats.SPEED: 20,
-		Unit.stats.LUCK: 7,
-		Unit.stats.DEFENSE: 16,
-		Unit.stats.DURABILITY: 12,
-		Unit.stats.RESISTANCE: 10,
-		Unit.stats.MOVEMENT: 5,
+		Unit.stats.SPEED: 21,
+		Unit.stats.LUCK: 15,
+		Unit.stats.DEFENSE: 20,
+		Unit.stats.DURABILITY: 16,
+		Unit.stats.RESISTANCE: 17,
+		Unit.stats.MOVEMENT: 6,
 		Unit.stats.CONSTITUTION: 11,
 	}
 	map_sprite = preload("res://units/unit_classes/fighter/fighter.png")
