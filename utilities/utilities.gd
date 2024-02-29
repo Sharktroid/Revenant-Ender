@@ -7,7 +7,6 @@ var theme: Theme = preload("res://ui/theme/menu_theme.tres")
 @onready var font_yellow: String = theme.get_color("font_color", "YellowLabel").to_html()
 @onready var font_blue: String = theme.get_color("font_color", "BlueLabel").to_html()
 
-var _frame_delta: float
 var _debug_constants: Dictionary = { # Constants used in the debug menu.
 	unit_wait = true, # Whether units are unable to move after movement.
 	display_map_borders = false, # Whether map borders are displayed
@@ -22,17 +21,13 @@ var _current_checkpoint: int
 
 func _init() -> void:
 	_load_config()
-	var width: int = ProjectSettings.get_setting("display/window/size/viewport_width")
-	var height: int = ProjectSettings.get_setting("display/window/size/viewport_height")
-	_default_screen_size = Vector2i(width, height)
+	_default_screen_size = Vector2i(
+			ProjectSettings.get_setting("display/window/size/viewport_width") as int,
+			ProjectSettings.get_setting("display/window/size/viewport_height") as int)
 
 
 func _exit_tree() -> void:
 	save_config()
-
-
-func _process(delta: float) -> void:
-	_frame_delta = delta
 
 
 func get_screen_size() -> Vector2i:
@@ -54,11 +49,6 @@ func get_debug_constant(constant: String):
 func set_debug_constant(constant: String, value: Variant) -> void:
 	_debug_constants[constant] = value
 	save_config()
-
-
-## Gets the amount of time that has elapsed since the previous frame.
-func get_frame_delta() -> float:
-	return _frame_delta
 
 
 func invert_debug_constant(constant: String) -> void:

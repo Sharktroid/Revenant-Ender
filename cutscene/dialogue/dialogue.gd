@@ -194,7 +194,7 @@ func _set_text_base(string: String, label: RichTextLabel, portrait: Portrait) ->
 			timer -= 1
 		else:
 			var next_visible_chars: int = (label.visible_characters +
-					roundi(CHARS_PER_SECOND * Utilities.get_frame_delta()))
+					roundi(CHARS_PER_SECOND * get_process_delta_time()))
 			while (label.visible_characters < next_visible_chars and label.visible_ratio < 1):
 				label.visible_characters += 1
 				# Scrolls when overflowing
