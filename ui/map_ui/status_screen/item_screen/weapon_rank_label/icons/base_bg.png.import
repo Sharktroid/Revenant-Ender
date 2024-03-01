@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://323apbta8gi8"
-path="res://.godot/imported/light_icon.png-ae70c5819b31bcc36bd150617783f025.ctex"
+uid="uid://3wsqmqtrmaoh"
+path="res://.godot/imported/base_bg.png-86753bf60e61176968d0509d561e0251.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/light_icon.png"
-dest_files=["res://.godot/imported/light_icon.png-ae70c5819b31bcc36bd150617783f025.ctex"]
+source_file="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/base_bg.png"
+dest_files=["res://.godot/imported/base_bg.png-86753bf60e61176968d0509d561e0251.ctex"]
 
 [params]
 

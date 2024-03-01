@@ -3,6 +3,7 @@
 * Implement Canto
 * Make it impossible to drop a unit on another unit
 * Show damage
+* Add music
 * Implement FE6 C1
 * Make design document
 * Make game based on design document
