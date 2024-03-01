@@ -17,7 +17,7 @@ func _init() -> void:
 	set_process_input(true)
 
 
-func _process(_delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if GameController.controller_type == GameController.controller_types.MOUSE:
 		var destination: Vector2 = MapController.get_map_camera().get_destination()
 		if destination == MapController.get_map_camera().position:

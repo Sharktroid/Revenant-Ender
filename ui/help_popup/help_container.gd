@@ -15,12 +15,16 @@ func _gui_input(event: InputEvent) -> void:
 	if (((event.is_action_pressed("ui_select") and selectable)
 			or (event.is_action_pressed("status")))
 			and not HelpPopupController.is_active()):
-		HelpPopupController.display_text(help_description, _get_popup_offset())
+		set_as_current_help_container()
+
+
+func set_as_current_help_container() -> void:
+	HelpPopupController.display_text(help_description, _get_popup_offset(), self)
 
 
 func _on_mouse_entered() -> void:
 	if HelpPopupController.is_active():
-		HelpPopupController.display_text(help_description, _get_popup_offset())
+		set_as_current_help_container()
 
 
 func _get_popup_offset() -> Vector2i:

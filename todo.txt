@@ -1,5 +1,6 @@
 * Have help bubble navigate via arrow keys
 * Fix weapon rank description not properly updating and help bubble not closing when switching
+* Fix cursor jank
 * Implement weapon triangle (FE11 style)
 * Implement Canto
 * Make it impossible to drop a unit on another unit

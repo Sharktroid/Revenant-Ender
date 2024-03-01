@@ -6,6 +6,7 @@ const TILE_SIZE: int = 32
 
 var _active: bool = false
 var _busy: bool = false
+var _current_container: HelpContainer
 
 
 func _ready() -> void:
@@ -13,12 +14,25 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel") and is_active():
-		shrink()
+	var move_popup: Callable = func(direction: String):
+		var path: NodePath = _current_container.get("focus_neighbor_%s" % direction)
+		if _current_container.has_node(path):
+			(_current_container.get_node(path) as HelpContainer).set_as_current_help_container()
+	if is_active():
+		if event.is_action_pressed("ui_cancel"):
+			shrink()
+		elif event.is_action_pressed("up", true) and not Input.is_action_pressed("down"):
+			move_popup.call("top")
+		elif event.is_action_pressed("down", true):
+			move_popup.call("bottom")
+		elif event.is_action_pressed("left", true) and not Input.is_action_pressed("right"):
+			move_popup.call("left")
+		elif event.is_action_pressed("right", true):
+			move_popup.call("right")
 		accept_event()
 
 
-func display_text(text: String, pos: Vector2) -> void:
+func display_text(text: String, pos: Vector2, new_container: HelpContainer) -> void:
 	if not _busy and (pos != _default_position() or text != get_popup_node().text):
 		var old_text: String = get_popup_node().text
 		get_popup_node().text = ""
@@ -27,6 +41,7 @@ func display_text(text: String, pos: Vector2) -> void:
 		else:
 			await _resize(get_node_size(text), pos, get_node_size(old_text))
 		get_popup_node().text = text
+		_current_container = new_container
 
 
 func shrink() -> void:
@@ -40,6 +55,10 @@ func shrink() -> void:
 
 func is_active() -> bool:
 	return _active
+
+
+func is_idle() -> bool:
+	return is_active() and not _busy
 
 
 func get_popup_node() -> RichTextLabel:
@@ -61,9 +80,6 @@ func get_node_size(text: String) -> Vector2i:
 	get_popup_node().reset_size()
 	get_popup_node().text = string
 	get_popup_node().size = old_size
-#	node_size -= BORDER
-#	node_size = Vector2i((Vector2(node_size)/TILE_SIZE).round()) * TILE_SIZE
-#	node_size += BORDER
 	return node_size
 
 
