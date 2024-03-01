@@ -8,18 +8,13 @@ const _ITEM_LABEL_NODE: PackedScene = \
 func _enter_tree() -> void:
 	var grid: GridContainer = $"Weapon Ranks/GridContainer"
 	var count: int = grid.get_child_count()
-	var subfunc: Callable = func(neighbor_name: String, index: int, modifier: int) -> void:
-		var new_index: int = index + modifier
-		if new_index >= 0 and new_index < count:
-			grid.get_child(index).set("focus_neighbor_%s" % neighbor_name,
-					grid.get_child(index).get_path_to(grid.get_child(new_index)))
 	for index in count:
-		subfunc.call("top", index, -2)
-		subfunc.call("bottom", index, 2)
+		Utilities.set_neighbor_path("top", index, -2, grid)
+		Utilities.set_neighbor_path("bottom", index, 2, grid)
 		if (index % 2 == 0):
-			subfunc.call("right", index, 1)
+			Utilities.set_neighbor_path("right", index, 1, grid)
 		else:
-			subfunc.call("left", index, -1)
+			Utilities.set_neighbor_path("left", index, -1, grid)
 
 
 func update() -> void:
