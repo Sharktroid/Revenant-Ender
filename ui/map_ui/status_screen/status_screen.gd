@@ -17,20 +17,21 @@ func _enter_tree() -> void:
 	_update.call_deferred()
 
 
-func _gui_input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel"):
-		close()
-	elif event.is_action_pressed("left") and not event.is_action_pressed("right"):
-		Utilities.switch_tab($"Menu Screen/Menu Tabs" as TabContainer, -1)
-	elif event.is_action_pressed("right"):
-		Utilities.switch_tab($"Menu Screen/Menu Tabs" as TabContainer, 1)
-	elif not _scroll_lock:
-		if Input.is_action_pressed("up") and not Input.is_action_pressed("down"):
-			observing_unit = MapController.map.get_previous_unit(observing_unit)
-			_move(1)
-		elif Input.is_action_pressed("down"):
-			observing_unit = MapController.map.get_next_unit(observing_unit)
-			_move(-1)
+func _input(event: InputEvent) -> void:
+	if not HelpPopupController.is_active():
+		if event.is_action_pressed("ui_cancel"):
+			close()
+		elif event.is_action_pressed("left") and not event.is_action_pressed("right"):
+			Utilities.switch_tab($"Menu Screen/Menu Tabs" as TabContainer, -1)
+		elif event.is_action_pressed("right"):
+			Utilities.switch_tab($"Menu Screen/Menu Tabs" as TabContainer, 1)
+		elif not _scroll_lock:
+			if Input.is_action_pressed("up") and not Input.is_action_pressed("down"):
+				observing_unit = MapController.map.get_previous_unit(observing_unit)
+				_move(1)
+			elif Input.is_action_pressed("down"):
+				observing_unit = MapController.map.get_next_unit(observing_unit)
+				_move(-1)
 
 
 func _has_point(_point: Vector2) -> bool:

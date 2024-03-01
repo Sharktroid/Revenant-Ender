@@ -24,18 +24,19 @@ func _has_point(_point: Vector2) -> bool:
 
 
 func _gui_input(event: InputEvent) -> void:
-	if event.is_action_pressed("up"):
-		_current_item_index -= 1
+	if not HelpPopupController.is_active():
+		if event.is_action_pressed("up"):
+			_current_item_index -= 1
 
-	elif event.is_action_pressed("down"):
-		_current_item_index += 1
+		elif event.is_action_pressed("down"):
+			_current_item_index += 1
 
-	if event.is_action_pressed("ui_accept"):
-		select_item(get_current_item_node())
-		accept_event()
+		if event.is_action_pressed("ui_accept"):
+			select_item(get_current_item_node())
+			accept_event()
 
-	elif event.is_action_pressed("ui_cancel"):
-		close()
+		elif event.is_action_pressed("ui_cancel"):
+			close()
 
 
 func close() -> void:

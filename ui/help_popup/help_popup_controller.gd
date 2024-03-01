@@ -29,7 +29,6 @@ func _input(event: InputEvent) -> void:
 			move_popup.call("left")
 		elif event.is_action_pressed("right", true):
 			move_popup.call("right")
-		accept_event()
 
 
 func display_text(text: String, pos: Vector2, new_container: HelpContainer) -> void:

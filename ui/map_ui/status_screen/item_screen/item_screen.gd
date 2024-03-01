@@ -13,9 +13,6 @@ func _enter_tree() -> void:
 		if new_index >= 0 and new_index < count:
 			grid.get_child(index).set("focus_neighbor_%s" % neighbor_name,
 					grid.get_child(index).get_path_to(grid.get_child(new_index)))
-			if neighbor_name == "left":
-				print_debug(grid.get_child(index))
-				print_debug(grid.get_child(index).get("focus_neighbor_%s" % neighbor_name))
 	for index in count:
 		subfunc.call("top", index, -2)
 		subfunc.call("bottom", index, 2)
