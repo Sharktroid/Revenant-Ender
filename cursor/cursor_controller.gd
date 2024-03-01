@@ -18,30 +18,30 @@ func _init() -> void:
 
 
 func _process(_delta: float) -> void:
+	if GameController.controller_type == GameController.controller_types.MOUSE:
+		var destination: Vector2 = MapController.get_map_camera().get_destination()
+		if destination == MapController.get_map_camera().position:
+			set_true_pos(Utilities.round_coords_to_tile(get_viewport().get_mouse_position()
+			+ (_corner_offset() as Vector2)))
 	_delay -= 1
 
 
-func _input(_event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if is_active():
-		match _event.get_class():
-			"InputEventMouseMotion":
-				var destination: Vector2 = MapController.get_map_camera().get_destination()
-				if destination == MapController.get_map_camera().position:
-					set_true_pos(Utilities.round_coords_to_tile(get_viewport().get_mouse_position() +
-							(_corner_offset() as Vector2)))
-			"InputEventKey":
-				if _delay <= 0:
-					var new_pos: Vector2i = get_true_pos()
-					if Input.is_action_pressed("left"):
-						new_pos.x -= 16
-					elif Input.is_action_pressed("right") and not Input.is_action_pressed("left"):
-						new_pos.x += 16
-					if Input.is_action_pressed("up"):
-						new_pos.y -= 16
-					elif Input.is_action_pressed("down") and not Input.is_action_pressed("up"):
-						new_pos.y += 16
-					set_true_pos(new_pos)
-					_delay = 3
+		if _delay <= 0:
+			var new_pos: Vector2i = get_true_pos()
+			if event.is_action_pressed("left", true):
+				new_pos.x -= 16
+			elif (event.is_action_pressed("right", true)
+					and not event.is_action_pressed("left", true)):
+				new_pos.x += 16
+			if event.is_action_pressed("up", true):
+				new_pos.y -= 16
+			elif (event.is_action_pressed("down", true)
+					and not event.is_action_pressed("up", true)):
+				new_pos.y += 16
+			set_true_pos(new_pos)
+			_delay = 3
 
 
 func enable() -> void:
