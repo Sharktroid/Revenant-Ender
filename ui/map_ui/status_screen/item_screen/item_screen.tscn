@@ -1,16 +1,14 @@
-[gd_scene load_steps=17 format=3 uid="uid://bv0fufaguhv7n"]
+[gd_scene load_steps=15 format=3 uid="uid://bv0fufaguhv7n"]
 
 [ext_resource type="Script" path="res://ui/map_ui/status_screen/item_screen/item_screen.gd" id="1_qkrfo"]
 [ext_resource type="PackedScene" uid="uid://xr2l7ndlhq6x" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/weapon_rank_label.tscn" id="2_wxaj3"]
 [ext_resource type="Texture2D" uid="uid://b5yi44nfrhqt3" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/sword_icon.png" id="3_wklau"]
 [ext_resource type="Texture2D" uid="uid://x4vbvdne8ql5" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/knife_icon.png" id="4_ih0af"]
-[ext_resource type="Texture2D" uid="uid://dmwidm8vawtj0" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/wind_icon.png" id="5_xjv2e"]
-[ext_resource type="Texture2D" uid="uid://b04vsfth2s0tw" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/lightning_icon.png" id="6_b8bfx"]
+[ext_resource type="Texture2D" uid="uid://323apbta8gi8" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/light_icon.png" id="4_x7had"]
+[ext_resource type="Texture2D" uid="uid://dmwidm8vawtj0" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/anima_icon.png" id="5_f51kn"]
 [ext_resource type="Texture2D" uid="uid://cj120y6ghdebf" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/crimson_staff_icon.png" id="7_eia1s"]
 [ext_resource type="Texture2D" uid="uid://dnglfq7o6xh4q" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/spear_icon.png" id="8_qs8wo"]
 [ext_resource type="Texture2D" uid="uid://cgosroxi1bkqc" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/bow_icon.png" id="9_eltdm"]
-[ext_resource type="Texture2D" uid="uid://b0ryvt3xgp43n" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/fire_icon.png" id="10_soxcp"]
-[ext_resource type="Texture2D" uid="uid://c71bm5wik7fe5" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/light_icon.png" id="11_8w1n7"]
 [ext_resource type="Texture2D" uid="uid://dgqo0p34nwah" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/cobalt_staff_icon.png" id="12_lufwk"]
 [ext_resource type="Texture2D" uid="uid://dmad12hwb12ng" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/axe_icon.png" id="13_2vcxs"]
 [ext_resource type="Texture2D" uid="uid://3nqo4jpp5ksr" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/claw_icon.png" id="14_8nbi0"]
@@ -63,52 +61,44 @@ icon = ExtResource("3_wklau")
 
 [node name="Light Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
-icon = ExtResource("11_8w1n7")
+icon = ExtResource("4_x7had")
 
 [node name="Spear Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
 icon = ExtResource("8_qs8wo")
 
-[node name="Wind Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
+[node name="Anima Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
-icon = ExtResource("5_xjv2e")
+icon = ExtResource("5_f51kn")
 
 [node name="Axe Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
 icon = ExtResource("13_2vcxs")
 
-[node name="Fire Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
+[node name="Dark Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
-icon = ExtResource("10_soxcp")
+icon = ExtResource("15_p5osc")
 
 [node name="Knife Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
 icon = ExtResource("4_ih0af")
 
-[node name="Lightning Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
+[node name="Crimson Staff Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
-icon = ExtResource("6_b8bfx")
+icon = ExtResource("7_eia1s")
 
 [node name="Bow Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
 icon = ExtResource("9_eltdm")
 
-[node name="Dark Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
+[node name="Cobalt Staff Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
-icon = ExtResource("15_p5osc")
-
-[node name="Siege Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
-layout_mode = 2
-icon = ExtResource("17_2eyif")
-
-[node name="Crimson Staff Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
-layout_mode = 2
-icon = ExtResource("7_eia1s")
+icon = ExtResource("12_lufwk")
 
 [node name="Claw Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
 icon = ExtResource("14_8nbi0")
 
-[node name="Cobalt Staff Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
+[node name="Siege Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
-icon = ExtResource("12_lufwk")
+icon = ExtResource("17_2eyif")

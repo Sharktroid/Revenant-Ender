@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bgrldc73fhrt2"
-path="res://.godot/imported/water_icon.png-33335120037c76a4259e8d0cdddbb38d.ctex"
+uid="uid://dmwidm8vawtj0"
+path="res://.godot/imported/anima_icon.png-4004f80daa0fb7da2ce50b5312b5fa9a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/water_icon.png"
-dest_files=["res://.godot/imported/water_icon.png-33335120037c76a4259e8d0cdddbb38d.ctex"]
+source_file="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/anima_icon.png"
+dest_files=["res://.godot/imported/anima_icon.png-4004f80daa0fb7da2ce50b5312b5fa9a.ctex"]
 
 [params]
 

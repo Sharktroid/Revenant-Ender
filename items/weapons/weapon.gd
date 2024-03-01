@@ -7,10 +7,7 @@ enum types {
 	AXE,
 	BOW,
 	KNIFE,
-	WIND,
-	FIRE,
-#	WATER,
-	LIGHTNING,
+	ANIMA,
 	LIGHT,
 	DARK,
 	CRIMSON_STAFF,
@@ -52,7 +49,7 @@ func _init() -> void:
 			types.SWORD, types.AXE, types.KNIFE, types.SPEAR: _damage_type = damage_types.PHYSICAL
 			types.BOW: _damage_type = damage_types.RANGED
 			types.COBALT_STAFF, types.CRIMSON_STAFF, types.LIGHT, types.DARK, \
-			types.FIRE, types.WIND, types.LIGHTNING: _damage_type = damage_types.MAGIC
+			types.ANIMA: _damage_type = damage_types.MAGIC
 	if not _damage_type_ranged:
 		_damage_type_ranged = _damage_type
 	super()
