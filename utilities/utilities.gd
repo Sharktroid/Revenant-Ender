@@ -136,7 +136,8 @@ func get_properties_of_array(objects: Array, property_path: StringName) -> Array
 
 func set_neighbor_path(neighbor_name: String, index: int, modifier: int, container: Container) -> void:
 	var new_index: int = index + modifier
-	if new_index >= 0 and new_index < container.get_child_count():
+	if (new_index >= 0 and new_index < container.get_child_count()
+			and container.get_child(new_index) is HelpContainer):
 		container.get_child(index).set("focus_neighbor_%s" % neighbor_name,
 				container.get_child(index).get_path_to(container.get_child(new_index)))
 
