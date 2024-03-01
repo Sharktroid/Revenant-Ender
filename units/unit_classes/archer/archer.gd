@@ -40,5 +40,4 @@ func _init():
 		Unit.stats.MOVEMENT: 6,
 		Unit.stats.CONSTITUTION: 7,
 	}
-	map_sprite = preload("res://units/unit_classes/archer/archer.png")
-	default_portrait = preload("res://units/unit_classes/archer/portrait.png")
+	super()

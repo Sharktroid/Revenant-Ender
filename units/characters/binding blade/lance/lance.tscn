@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit.tscn" id="1_iwuln"]
 [ext_resource type="Shader" path="res://units/palette.gdshader" id="2_engba"]
 [ext_resource type="Script" path="res://units/characters/binding blade/lance/lance.gd" id="2_qgif2"]
-[ext_resource type="Texture2D" uid="uid://dcbp6yac31ins" path="res://units/unit_classes/social_knight/social_knight.png" id="3_t16q6"]
+[ext_resource type="Texture2D" uid="uid://dcbp6yac31ins" path="res://units/unit_classes/social_knight/map_sprite.png" id="3_t16q6"]
 [ext_resource type="Script" path="res://items/weapons/swords/iron_sword/iron_sword.gd" id="5_e6nko"]
 [ext_resource type="Script" path="res://units/unit_classes/social_knight/social_knight.gd" id="5_w0fo1"]
 [ext_resource type="Script" path="res://items/weapons/spears/javelin/javelin.gd" id="6_5ps04"]

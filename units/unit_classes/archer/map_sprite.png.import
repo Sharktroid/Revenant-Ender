@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dcbp6yac31ins"
-path="res://.godot/imported/social_knight.png-41d1321357c9daa4637674078fc99a0b.ctex"
+uid="uid://dhm1yqcs0uc71"
+path="res://.godot/imported/map_sprite.png-0ac0cdf8b2db239ac5f2e2285d59151d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://units/unit_classes/social_knight/social_knight.png"
-dest_files=["res://.godot/imported/social_knight.png-41d1321357c9daa4637674078fc99a0b.ctex"]
+source_file="res://units/unit_classes/archer/map_sprite.png"
+dest_files=["res://.godot/imported/map_sprite.png-0ac0cdf8b2db239ac5f2e2285d59151d.ctex"]
 
 [params]
 

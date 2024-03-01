@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d3e2c0q0vvgmj"
-path="res://.godot/imported/champion_m.png-5ab661c6966d39c23c320ce46f53f83c.ctex"
+uid="uid://dtexaf8rj3l56"
+path="res://.godot/imported/map_sprite.png-7d5e19671f7e8e4ae4ab27be88b49a80.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://units/unit_classes/champion/champion_m.png"
-dest_files=["res://.godot/imported/champion_m.png-5ab661c6966d39c23c320ce46f53f83c.ctex"]
+source_file="res://units/unit_classes/lord_roy/map_sprite.png"
+dest_files=["res://.godot/imported/map_sprite.png-7d5e19671f7e8e4ae4ab27be88b49a80.ctex"]
 
 [params]
 

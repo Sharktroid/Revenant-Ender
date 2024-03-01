@@ -45,4 +45,3 @@ func _init():
 	}
 
 	map_sprite = load("res://units/unit_classes/champion/champion_m.png")
-	default_portrait = preload("res://units/unit_classes/champion/portrait.png")

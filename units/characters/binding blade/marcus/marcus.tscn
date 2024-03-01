@@ -1,14 +1,13 @@
-[gd_scene load_steps=12 format=3 uid="uid://dvkbmwwrt5mmo"]
+[gd_scene load_steps=11 format=3 uid="uid://dvkbmwwrt5mmo"]
 
 [ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit.tscn" id="1_lxmi0"]
 [ext_resource type="Script" path="res://units/characters/binding blade/marcus/marcus.gd" id="2_716f4"]
 [ext_resource type="Shader" path="res://units/palette.gdshader" id="2_j6t3w"]
-[ext_resource type="Texture2D" uid="uid://d1cl2wgqqgs6d" path="res://units/unit_classes/cavalier/cavalier.png" id="3_g5bgq"]
 [ext_resource type="Script" path="res://units/unit_classes/cavalier/cavalier.gd" id="5_eehvg"]
 [ext_resource type="Script" path="res://items/weapons/swords/iron_sword/iron_sword.gd" id="5_g7lkh"]
 [ext_resource type="Script" path="res://items/weapons/spears/silver_spear/silver_spear.gd" id="6_bxwmy"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_24vft"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_deyjf"]
 shader = ExtResource("2_j6t3w")
 shader_parameter/darken_screen = 0.5
 shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
@@ -24,8 +23,7 @@ script = ExtResource("5_g7lkh")
 script = ExtResource("6_bxwmy")
 
 [node name="Marcus" instance=ExtResource("1_lxmi0")]
-material = SubResource("ShaderMaterial_24vft")
-texture = ExtResource("3_g5bgq")
+material = SubResource("ShaderMaterial_deyjf")
 script = ExtResource("2_716f4")
 unit_name = "Marcus"
 unit_description = "A veteran paladin serving Pherae.

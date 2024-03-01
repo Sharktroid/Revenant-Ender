@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dtexaf8rj3l56"
-path="res://.godot/imported/lord_roy.png-a17a8379033aa2aee86f6bd93d3f0f39.ctex"
+uid="uid://dcbp6yac31ins"
+path="res://.godot/imported/map_sprite.png-68b61eb67c9f67a59022266482066c05.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://units/unit_classes/lord_roy/lord_roy.png"
-dest_files=["res://.godot/imported/lord_roy.png-a17a8379033aa2aee86f6bd93d3f0f39.ctex"]
+source_file="res://units/unit_classes/social_knight/map_sprite.png"
+dest_files=["res://.godot/imported/map_sprite.png-68b61eb67c9f67a59022266482066c05.ctex"]
 
 [params]
 

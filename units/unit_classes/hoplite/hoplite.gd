@@ -41,5 +41,5 @@ func _init():
 		Unit.stats.MOVEMENT: 6,
 		Unit.stats.CONSTITUTION: 13,
 	}
-	map_sprite = preload("res://units/unit_classes/hoplite/hoplite.png")
+	super()
 

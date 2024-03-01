@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ybdk2ivoxxyj"
-path="res://.godot/imported/hoplite.png-4ce338705ada20bbc47b67c37f4547fb.ctex"
+uid="uid://dgli13fqa0m3n"
+path="res://.godot/imported/map_sprite.png-c3fac3dd7b02a1941990af9012d7e0d8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://units/unit_classes/hoplite/hoplite.png"
-dest_files=["res://.godot/imported/hoplite.png-4ce338705ada20bbc47b67c37f4547fb.ctex"]
+source_file="res://units/unit_classes/fighter/map_sprite.png"
+dest_files=["res://.godot/imported/map_sprite.png-c3fac3dd7b02a1941990af9012d7e0d8.ctex"]
 
 [params]
 

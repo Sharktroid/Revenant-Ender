@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://k4v4jr2yobm1"
-path="res://.godot/imported/brigand.png-f1e4c55b6da2d365d3d7108afa771e23.ctex"
+uid="uid://ybdk2ivoxxyj"
+path="res://.godot/imported/map_sprite.png-bd6a5d1c339226e16175e6f00b6f8a75.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://units/unit_classes/brigand/brigand.png"
-dest_files=["res://.godot/imported/brigand.png-f1e4c55b6da2d365d3d7108afa771e23.ctex"]
+source_file="res://units/unit_classes/hoplite/map_sprite.png"
+dest_files=["res://.godot/imported/map_sprite.png-bd6a5d1c339226e16175e6f00b6f8a75.ctex"]
 
 [params]
 

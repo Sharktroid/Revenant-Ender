@@ -38,4 +38,4 @@ func _init():
 		Unit.stats.MOVEMENT: 6,
 		Unit.stats.CONSTITUTION: 6,
 	}
-	map_sprite = preload("res://units/unit_classes/lord_roy/lord_roy.png")
+	super()

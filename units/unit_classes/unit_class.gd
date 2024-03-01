@@ -23,3 +23,10 @@ var aid_modifier: int = -1
 var weight_modifier: int = 0
 var description: String = "[Empty]"
 var authority: int
+
+func _init() -> void:
+	var parent_folder: String = (get_script() as Script).resource_path.get_base_dir()
+	var portrait_dir: String = "%s/portrait.png" % parent_folder
+	map_sprite = load("%s/map_sprite.png" % parent_folder)
+	if FileAccess.file_exists(portrait_dir):
+		default_portrait = load(portrait_dir)

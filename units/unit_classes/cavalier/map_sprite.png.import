@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dgli13fqa0m3n"
-path="res://.godot/imported/fighter.png-407ae8c283117b974c4afa470474e7da.ctex"
+uid="uid://d1cl2wgqqgs6d"
+path="res://.godot/imported/map_sprite.png-7be65b1c5e24f36d6df5e5462a628fee.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://units/unit_classes/fighter/fighter.png"
-dest_files=["res://.godot/imported/fighter.png-407ae8c283117b974c4afa470474e7da.ctex"]
+source_file="res://units/unit_classes/cavalier/map_sprite.png"
+dest_files=["res://.godot/imported/map_sprite.png-7be65b1c5e24f36d6df5e5462a628fee.ctex"]
 
 [params]
 

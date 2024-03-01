@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d1cl2wgqqgs6d"
-path="res://.godot/imported/cavalier.png-a19b64e767804c5f4c4b1d5be44154db.ctex"
+uid="uid://d3e2c0q0vvgmj"
+path="res://.godot/imported/map_sprite.png-13adeacac1093e1a6baf87c16df95b2c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://units/unit_classes/cavalier/cavalier.png"
-dest_files=["res://.godot/imported/cavalier.png-a19b64e767804c5f4c4b1d5be44154db.ctex"]
+source_file="res://units/unit_classes/champion/map_sprite.png"
+dest_files=["res://.godot/imported/map_sprite.png-13adeacac1093e1a6baf87c16df95b2c.ctex"]
 
 [params]
 

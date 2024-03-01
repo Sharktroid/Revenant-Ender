@@ -44,5 +44,4 @@ func _init():
 		Unit.stats.MOVEMENT: 8,
 		Unit.stats.CONSTITUTION: 9,
 	}
-	map_sprite = preload("res://units/unit_classes/social_knight/social_knight.png")
 	super()
