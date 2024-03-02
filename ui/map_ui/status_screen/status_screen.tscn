@@ -59,6 +59,7 @@ offset_left = 30.0
 offset_top = 76.0
 offset_right = 86.0
 offset_bottom = 92.0
+focus_neighbor_bottom = NodePath("../../../Container/High Stats Background/High Stats Margins/High Stats Container/Class Description")
 script = ExtResource("4_g30x5")
 help_description = "PLACEHOLDER"
 
@@ -115,6 +116,8 @@ theme_override_constants/separation = 0
 [node name="Class Description" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_top = NodePath("../../../../../Portrait Background Container/Portrait Background/Unit Description")
+focus_neighbor_bottom = NodePath("../Level Container")
 script = ExtResource("4_g30x5")
 help_description = "PLACEHOLDER"
 
@@ -127,6 +130,8 @@ text = "Cavalier"
 [node name="Level Container" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
 size_flags_vertical = 4
+focus_neighbor_top = NodePath("../Class Description")
+focus_neighbor_bottom = NodePath("../EXP Container")
 script = ExtResource("4_g30x5")
 help_description = "Determines a unit's stats and whether they can promote.
 The first number is the current level, the second is the maximum level."
@@ -157,6 +162,7 @@ text = "1"
 [node name="EXP Container" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
 size_flags_vertical = 4
+focus_neighbor_top = NodePath("../Level Container")
 focus_neighbor_bottom = NodePath("../HP Container/HP Description")
 script = ExtResource("4_g30x5")
 help_description = "Experience. When the current (first) value exceeds the maximum (second) value, the unit levels up."
@@ -206,7 +212,7 @@ unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath("../HP Description")
 focus_neighbor_top = NodePath("../../EXP Container")
-focus_neighbor_bottom = NodePath("../../Attack Container/Attack Label Description")
+focus_neighbor_bottom = NodePath("../../Attack Container/Attack Description")
 script = ExtResource("4_g30x5")
 help_description = "TEST"
 
@@ -234,6 +240,8 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 2
 focus_neighbor_top = NodePath("../../HP Container/HP Description")
+focus_neighbor_right = NodePath("../Attack Description")
+focus_neighbor_bottom = NodePath("../../AS Container/AS Label Description")
 script = ExtResource("4_g30x5")
 help_description = "The unit's current attack."
 
@@ -246,6 +254,9 @@ text = "Attack"
 [node name="Attack Description" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Attack Container"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath("../Attack Label Description")
+focus_neighbor_top = NodePath("../../HP Container/HP Stat Help")
+focus_neighbor_bottom = NodePath("../../AS Container/AS Description")
 script = ExtResource("4_g30x5")
 
 [node name="Attack Value" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Attack Container/Attack Description"]
@@ -260,6 +271,9 @@ layout_mode = 2
 [node name="AS Label Description" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/AS Container"]
 layout_mode = 2
 size_flags_horizontal = 2
+focus_neighbor_top = NodePath("../../Attack Container/Attack Label Description")
+focus_neighbor_right = NodePath("../AS Description")
+focus_neighbor_bottom = NodePath("../../Hit Container/Hit Label Description")
 script = ExtResource("4_g30x5")
 help_description = "The unit's speed after factoring in weapon weight."
 
@@ -272,6 +286,9 @@ text = "Attack Speed"
 [node name="AS Description" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/AS Container"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath("../AS Label Description")
+focus_neighbor_top = NodePath("../../Attack Container/Attack Description")
+focus_neighbor_bottom = NodePath("../../Hit Container/Hit Description")
 script = ExtResource("4_g30x5")
 
 [node name="AS Value" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/AS Container/AS Description"]
@@ -286,6 +303,9 @@ layout_mode = 2
 [node name="Hit Label Description" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Hit Container"]
 layout_mode = 2
 size_flags_horizontal = 2
+focus_neighbor_top = NodePath("../../AS Container/AS Label Description")
+focus_neighbor_right = NodePath("../Hit Description")
+focus_neighbor_bottom = NodePath("../../Avoid Container/Avoid Label Description")
 script = ExtResource("4_g30x5")
 help_description = "The unit's current hit rate when attacking.
 (Weapon Hit) + (Skill) * 2 + (Luck) + (Other bonuses)"
@@ -299,6 +319,9 @@ text = "Hit Rate"
 [node name="Hit Description" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Hit Container"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath("../Hit Label Description")
+focus_neighbor_top = NodePath("../../AS Container/AS Description")
+focus_neighbor_bottom = NodePath("../../Avoid Container/Avoid Description")
 script = ExtResource("4_g30x5")
 
 [node name="Hit Value" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Hit Container/Hit Description"]
@@ -313,6 +336,9 @@ layout_mode = 2
 [node name="Avoid Label Description" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Avoid Container"]
 layout_mode = 2
 size_flags_horizontal = 2
+focus_neighbor_top = NodePath("../../Hit Container/Hit Label Description")
+focus_neighbor_right = NodePath("../Avoid Description")
+focus_neighbor_bottom = NodePath("../../Crit Container/Crit Label Description")
 script = ExtResource("4_g30x5")
 help_description = "The unit's current avoid rate. Decreases attacker's hit rate.
 (Attack Speed) * 2 + (Luck) + (Other Bonuses)
@@ -327,6 +353,9 @@ text = "Avoid Rate"
 [node name="Avoid Description" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Avoid Container"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath("../Avoid Label Description")
+focus_neighbor_top = NodePath("../../Hit Container/Hit Description")
+focus_neighbor_bottom = NodePath("../../Crit Container/Crit Description")
 script = ExtResource("4_g30x5")
 
 [node name="Avoid Value" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Avoid Container/Avoid Description"]
@@ -341,6 +370,9 @@ layout_mode = 2
 [node name="Crit Label Description" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Crit Container"]
 layout_mode = 2
 size_flags_horizontal = 2
+focus_neighbor_top = NodePath("../../Avoid Container/Avoid Label Description")
+focus_neighbor_right = NodePath("../Crit Description")
+focus_neighbor_bottom = NodePath("../../Crit Avoid Container/Crit Avoid Label Description")
 script = ExtResource("4_g30x5")
 help_description = "Chance to get a critical hit.
 (Skill) + (Other Bonuses)"
@@ -354,6 +386,9 @@ text = "Critical Hit Rate"
 [node name="Crit Description" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Crit Container"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath("../Crit Label Description")
+focus_neighbor_top = NodePath("../../Avoid Container/Avoid Description")
+focus_neighbor_bottom = NodePath("../../Crit Avoid Container/Crit Avoid Description")
 script = ExtResource("4_g30x5")
 
 [node name="Crit Value" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Crit Container/Crit Description"]
@@ -368,6 +403,9 @@ layout_mode = 2
 [node name="Crit Avoid Label Description" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Crit Avoid Container"]
 layout_mode = 2
 size_flags_horizontal = 2
+focus_neighbor_top = NodePath("../../Crit Container/Crit Label Description")
+focus_neighbor_right = NodePath("../Crit Avoid Description")
+focus_neighbor_bottom = NodePath("../../Range Container")
 script = ExtResource("4_g30x5")
 help_description = "Critical Avoid Rate: decreases enemy's critical hit chance.
 If the resulting rate is below 5%, a critical can not occur.
@@ -382,6 +420,9 @@ text = "Crit. Avoid Rate"
 [node name="Crit Avoid Description" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Crit Avoid Container"]
 unique_name_in_owner = true
 layout_mode = 2
+focus_neighbor_left = NodePath("../Crit Avoid Label Description")
+focus_neighbor_top = NodePath("../../Crit Container/Crit Description")
+focus_neighbor_bottom = NodePath("../../Range Container")
 script = ExtResource("4_g30x5")
 
 [node name="Crit Avoid Value" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/Crit Avoid Container/Crit Avoid Description"]
@@ -392,6 +433,7 @@ text = "21"
 
 [node name="Range Container" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
+focus_neighbor_top = NodePath("../Crit Avoid Container/Crit Avoid Label Description")
 script = ExtResource("4_g30x5")
 help_description = "The current range the unit can attack from."
 
