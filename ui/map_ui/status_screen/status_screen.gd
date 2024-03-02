@@ -66,16 +66,39 @@ func _update() -> void:
 	_set_label_text_to_number(%"Max HP" as Label, observing_unit.get_stat(Unit.stats.HITPOINTS))
 
 	if observing_unit.get_current_weapon():
+		%"Attack Description".help_description = "%d + %d" % [
+				observing_unit.get_attack() - observing_unit.get_current_weapon().might,
+				observing_unit.get_current_weapon().might]
 		_set_label_text_to_number(%"Attack Value" as Label, observing_unit.get_attack())
+
+		%"Hit Description".help_description = "%d + %d * 2 + %d" % [
+				observing_unit.get_current_weapon().hit,
+				observing_unit.get_stat(Unit.stats.SKILL), observing_unit.get_stat(Unit.stats.LUCK)]
 		_set_label_text_to_number(%"Hit Value" as Label, observing_unit.get_hit())
+
+		%"Crit Description".help_description = "%d + %d" % [
+				observing_unit.get_current_weapon().crit,
+				observing_unit.get_stat(Unit.stats.SKILL)]
 		_set_label_text_to_number(%"Crit Value" as Label, observing_unit.get_crit())
 	else:
+		%"Attack Description".help_description = "--"
 		%"Attack Value".text = "--"
+
+		%"Hit Description".help_description = "--"
 		%"Hit Value".text = "--"
+
+		%"Crit Description".help_description = "--"
 		%"Crit Value".text = "--"
 
+	%"AS Description".help_description = "%d - %d" % [observing_unit.get_stat(Unit.stats.SPEED),
+			observing_unit.get_stat(Unit.stats.SPEED) - observing_unit.get_attack_speed()]
 	_set_label_text_to_number(%"AS Value" as Label, observing_unit.get_attack_speed())
+
+	%"Avoid Description".help_description = "%d * 2 + %d" % [observing_unit.get_attack_speed(),
+			observing_unit.get_stat(Unit.stats.LUCK)]
 	_set_label_text_to_number(%"Avoid Value" as Label, observing_unit.get_avoid())
+
+	%"Crit Avoid Description".help_description = "%d" % [observing_unit.get_stat(Unit.stats.LUCK)]
 	_set_label_text_to_number(%"Crit Avoid Value" as Label, observing_unit.get_crit_avoid())
 
 	var current_weapon: Weapon = observing_unit.get_current_weapon()
@@ -83,9 +106,10 @@ func _update() -> void:
 		_set_label_text_to_number(%"Min Range" as Label, current_weapon.min_range)
 		if current_weapon.min_range == current_weapon.max_range:
 			%"Range Separator".visible = false
-			%"Max Range".text = ""
+			%"Max Range".visible = false
 		else:
 			%"Range Separator".visible = true
+			%"Max Range".visible = true
 			_set_label_text_to_number(%"Max Range" as Label, current_weapon.max_range)
 	else:
 		%"Min Range".text = "--"
