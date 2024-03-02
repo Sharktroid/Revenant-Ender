@@ -9,3 +9,4 @@ func _init(connected_item: Item) -> void:
 	var icon := TextureRect.new()
 	icon.texture = item.icon
 	add_child(icon)
+	super()

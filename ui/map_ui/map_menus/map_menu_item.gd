@@ -46,4 +46,3 @@ func _update() -> void:
 		_label.text = name
 	else:
 		_label.text = "%s: %s" % [name, value]
-
