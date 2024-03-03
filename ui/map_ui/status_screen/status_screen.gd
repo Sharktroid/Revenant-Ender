@@ -116,15 +116,22 @@ func _update() -> void:
 		%"Range Separator".visible = false
 		%"Max Range".text = ""
 
-	var statistics: Control = $"Menu Screen/Menu Tabs/Statistics"
-	var items: Control = $"Menu Screen/Menu Tabs/Items"
-	statistics.observing_unit = observing_unit
-	items.observing_unit = observing_unit
-
-	(statistics.update as Callable).call_deferred()
-	items.update()
+	_update_tab()
 
 	%"HP Stat Help".help_description = observing_unit.get_stat_table(Unit.stats.HITPOINTS)
+
+
+func _update_tab() -> void:
+	match ($"Menu Screen/Menu Tabs" as TabContainer).current_tab:
+		0:
+			var statistics: Control = $"Menu Screen/Menu Tabs/Statistics"
+			statistics.observing_unit = observing_unit
+			statistics.update.call_deferred()
+		1:
+			var items: Control = $"Menu Screen/Menu Tabs/Items"
+			items.observing_unit = observing_unit
+			items.update.call_deferred()
+
 
 
 func _set_label_text_to_number(label: Label, num: int) -> void:
@@ -160,4 +167,5 @@ func _move(dir: int) -> void:
 
 
 func _on_menu_tabs_tab_changed(_tab: int) -> void:
+	_update_tab()
 	HelpPopupController.shrink()
