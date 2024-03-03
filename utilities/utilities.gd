@@ -143,29 +143,17 @@ func set_neighbor_path(neighbor_name: String, index: int, modifier: int, contain
 
 
 func get_control_within_height(checking_control: Control, control_array: Array[Control]) -> Control:
-	var get_bottom_border: Callable = func(control: Control) -> float:
-		return control.get_screen_position().y + control.size.y
-	var center: float = checking_control.get_screen_position().y + checking_control.size.y / 2
-	var min_height_control: Control = control_array[0]
-	var max_height_control: Control = control_array[0]
-	for control: Control in control_array:
-		if (control.get_screen_position().y <= center
-				and get_bottom_border.call(control) >= center):
-			return control
-		else:
-			if (get_bottom_border.call(control) <= center
-					and get_bottom_border.call(min_height_control)
-					< get_bottom_border.call(control)):
-				min_height_control = control
-			elif (control.get_screen_position().y >= center
-					and control.get_screen_position().y
-					< max_height_control.get_screen_position().y):
-				max_height_control = control
-	if (center - get_bottom_border.call(min_height_control) <
-			max_height_control.get_screen_position().y - center):
-		return min_height_control
-	else:
-		return max_height_control
+	var get_center: Callable = func(control: Control) -> float:
+		return control.get_screen_position().y + control.size.y / 2
+	var center: float = get_center.call(checking_control)
+	var get_distance: Callable = func(control: Control) -> float:
+		return abs(center - get_center.call(control))
+
+	var closest_control: Control = control_array[0]
+	for control: Control in control_array.slice(1):
+		if get_distance.call(control) < get_distance.call(closest_control):
+			closest_control = control
+	return closest_control
 
 
 func _load_config() -> void:
