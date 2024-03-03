@@ -142,6 +142,25 @@ func set_neighbor_path(neighbor_name: String, index: int, modifier: int, contain
 				container.get_child(index).get_path_to(container.get_child(new_index)))
 
 
+func get_control_within_height(checking_control: Control, control_parent: Node) -> Control:
+	var center: float = checking_control.position.y + checking_control.size.y / 2
+	var min_height_control: Control = control_parent.get_child(0)
+	var max_height_control: Control = control_parent.get_child(0)
+	for control: Control in control_parent.get_children():
+		if control.position.y >= center and control.position.y + control.size.y <= center:
+			return control
+		else:
+			if min_height_control.position.y > control.position.y:
+				min_height_control = control
+			if max_height_control.position.y < control.position.y:
+				max_height_control = control
+	if ((center - (min_height_control.position.y + min_height_control.size.y)) >
+			max_height_control.position.y - center):
+		return min_height_control
+	else:
+		return max_height_control
+
+
 func _load_config() -> void:
 	# Loads configuration
 	_config_file.load("user://config.ini")
