@@ -1,6 +1,4 @@
 * Have help bubble navigate via arrow keys
-* Fix weapon rank description not properly updating and help bubble not closing when switching.
-* Fix stat bars expanding when switching tabs.
 
 * Fix bug where unit ranges don't display when deselecting a unit over another unit.
 * Fix cursor jank

@@ -122,16 +122,31 @@ func _update() -> void:
 
 
 func _update_tab() -> void:
+	var constant_labels: Array[Node] = [%"Unit Description"]
+	for child: Control in %"High Stats Container".get_children():
+		if child is HelpContainer:
+			constant_labels.append(child)
+		else:
+			constant_labels.append(child.get_child(1))
+	var tab_controls: Array[Node]
 	match ($"Menu Screen/Menu Tabs" as TabContainer).current_tab:
 		0:
 			var statistics: Control = $"Menu Screen/Menu Tabs/Statistics"
 			statistics.observing_unit = observing_unit
 			statistics.update.call_deferred()
+			tab_controls = statistics.get_left_controls()
 		1:
 			var items: Control = $"Menu Screen/Menu Tabs/Items"
 			items.observing_unit = observing_unit
-			items.update.call_deferred()
-
+			items.update()
+			tab_controls = items.get_item_labels()
+	await get_tree().process_frame
+	for control: Control in constant_labels:
+		var matching_control: Control = Utilities.get_control_within_height(control, tab_controls)
+		control.focus_neighbor_right = control.get_path_to(matching_control)
+	for control: Control in tab_controls:
+		var matching_control: Control = Utilities.get_control_within_height(control, constant_labels)
+		control.focus_neighbor_left = control.get_path_to(matching_control)
 
 
 func _set_label_text_to_number(label: Label, num: int) -> void:

@@ -142,7 +142,7 @@ func set_neighbor_path(neighbor_name: String, index: int, modifier: int, contain
 				container.get_child(index).get_path_to(container.get_child(new_index)))
 
 
-func get_control_within_height(checking_control: Control, control_array: Array[Control]) -> Control:
+func get_control_within_height(checking_control: Control, control_array: Array[Node]) -> Control:
 	var get_center: Callable = func(control: Control) -> float:
 		return control.get_screen_position().y + control.size.y / 2
 	var center: float = get_center.call(checking_control)

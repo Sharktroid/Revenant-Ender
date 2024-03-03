@@ -110,6 +110,7 @@ theme_override_constants/margin_bottom = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="High Stats Container" type="VBoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 0
 

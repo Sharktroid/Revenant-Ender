@@ -60,6 +60,11 @@ func update() -> void:
 		]
 
 
+func get_left_controls() -> Array[Node]:
+	return ($"Offensive Stats/HBoxContainer/Labels".get_children()
+			+ $"Misc Stats/HBoxContainer/Labels".get_children())
+
+
 func _update_stat_bar(stat_bar: StatBar, stat: Unit.stats) -> void:
 	stat_bar.unit = observing_unit
 	stat_bar.stat = stat

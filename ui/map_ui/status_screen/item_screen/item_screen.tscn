@@ -57,48 +57,80 @@ columns = 2
 
 [node name="Sword Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
+focus_neighbor_right = NodePath("../Light Rank")
+focus_neighbor_bottom = NodePath("../Spear Rank")
 icon = ExtResource("3_wklau")
 
 [node name="Light Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
+focus_neighbor_left = NodePath("../Sword Rank")
+focus_neighbor_bottom = NodePath("../Anima Rank")
 icon = ExtResource("4_x7had")
 
 [node name="Spear Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
+focus_neighbor_top = NodePath("../Sword Rank")
+focus_neighbor_right = NodePath("../Anima Rank")
+focus_neighbor_bottom = NodePath("../Axe Rank")
 icon = ExtResource("8_qs8wo")
 
 [node name="Anima Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
+focus_neighbor_left = NodePath("../Spear Rank")
+focus_neighbor_top = NodePath("../Light Rank")
+focus_neighbor_bottom = NodePath("../Dark Rank")
 icon = ExtResource("5_f51kn")
 
 [node name="Axe Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
+focus_neighbor_top = NodePath("../Spear Rank")
+focus_neighbor_right = NodePath("../Dark Rank")
+focus_neighbor_bottom = NodePath("../Knife Rank")
 icon = ExtResource("13_2vcxs")
 
 [node name="Dark Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
+focus_neighbor_left = NodePath("../Axe Rank")
+focus_neighbor_top = NodePath("../Anima Rank")
+focus_neighbor_bottom = NodePath("../Crimson Staff Rank")
 icon = ExtResource("15_p5osc")
 
 [node name="Knife Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
+focus_neighbor_top = NodePath("../Axe Rank")
+focus_neighbor_right = NodePath("../Crimson Staff Rank")
+focus_neighbor_bottom = NodePath("../Bow Rank")
 icon = ExtResource("4_ih0af")
 
 [node name="Crimson Staff Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
+focus_neighbor_left = NodePath("../Knife Rank")
+focus_neighbor_top = NodePath("../Dark Rank")
+focus_neighbor_bottom = NodePath("../Cobalt Staff Rank")
 icon = ExtResource("7_eia1s")
 
 [node name="Bow Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
+focus_neighbor_top = NodePath("../Knife Rank")
+focus_neighbor_right = NodePath("../Cobalt Staff Rank")
+focus_neighbor_bottom = NodePath("../Claw Rank")
 icon = ExtResource("9_eltdm")
 
 [node name="Cobalt Staff Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
+focus_neighbor_left = NodePath("../Bow Rank")
+focus_neighbor_top = NodePath("../Crimson Staff Rank")
+focus_neighbor_bottom = NodePath("../Siege Rank")
 icon = ExtResource("12_lufwk")
 
 [node name="Claw Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
+focus_neighbor_top = NodePath("../Bow Rank")
+focus_neighbor_right = NodePath("../Siege Rank")
 icon = ExtResource("14_8nbi0")
 
 [node name="Siege Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
+focus_neighbor_left = NodePath("../Claw Rank")
+focus_neighbor_top = NodePath("../Cobalt Staff Rank")
 icon = ExtResource("17_2eyif")
