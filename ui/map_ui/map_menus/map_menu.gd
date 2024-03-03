@@ -17,6 +17,12 @@ var _current_item_index: int = 0
 func _enter_tree() -> void:
 	grab_focus()
 	update_position.call_deferred()
+	var visible_children: Array[Node]
+	for child in _get_visible_children():
+		visible_children.append(child)
+	for index: int in visible_children.size():
+		Utilities.set_neighbor_path("top", index, -1, visible_children)
+		Utilities.set_neighbor_path("bottom", index, 1, visible_children)
 
 
 func _has_point(_point: Vector2) -> bool:
@@ -71,8 +77,8 @@ func get_current_item_node() -> MapMenuItem:
 	return _get_visible_children()[_current_item_index]
 
 
-func _get_visible_children() -> Array[Node]:
-	var children: Array[Node] = []
+func _get_visible_children() -> Array[MapMenuItem]:
+	var children: Array[MapMenuItem] = []
 	for child: Node in %Items.get_children():
 		if child.visible == true:
 			children.append(child)

@@ -134,12 +134,12 @@ func get_properties_of_array(objects: Array, property_path: StringName) -> Array
 	return output_array
 
 
-func set_neighbor_path(neighbor_name: String, index: int, modifier: int, container: Container) -> void:
+func set_neighbor_path(neighbor_name: String, index: int, modifier: int,
+		parent: Array[Node]) -> void:
 	var new_index: int = index + modifier
-	if (new_index >= 0 and new_index < container.get_child_count()
-			and container.get_child(new_index) is HelpContainer):
-		container.get_child(index).set("focus_neighbor_%s" % neighbor_name,
-				container.get_child(index).get_path_to(container.get_child(new_index)))
+	if (new_index >= 0 and new_index < parent.size() and parent[new_index] is HelpContainer):
+		parent[index].set("focus_neighbor_%s" % neighbor_name,
+				parent[index].get_path_to(parent[new_index]))
 
 
 func get_control_within_height(checking_control: Control, control_array: Array[Node]) -> Control:

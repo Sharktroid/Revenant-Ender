@@ -21,6 +21,7 @@ func update() -> void:
 		item_label.set_equip_status(observing_unit)
 		$"Item Panel/Item Label Container".add_child(item_label)
 		item_labels.append(item_label)
+
 	await get_tree().process_frame
 	for item_label: ItemLabel in item_labels:
 		var closest_rank: Control = (Utilities.get_control_within_height(item_label, ranks))
@@ -29,10 +30,9 @@ func update() -> void:
 		var closest_item_label: Control = Utilities.get_control_within_height(rank, item_labels)
 		rank.focus_neighbor_left = rank.get_path_to(closest_item_label)
 
-
-	for index in label_container.get_child_count():
-		Utilities.set_neighbor_path("top", index, -1, label_container)
-		Utilities.set_neighbor_path("bottom", index, 1, label_container)
+	for index in item_labels.size():
+		Utilities.set_neighbor_path("top", index, -1, item_labels)
+		Utilities.set_neighbor_path("bottom", index, 1, item_labels)
 	for type: String in Weapon.types:
 		var rank_node_name: String = "%s Rank" % str(type).capitalize()
 		var rank_label: HelpContainer = $"Weapon Ranks/GridContainer".get_node(rank_node_name)
