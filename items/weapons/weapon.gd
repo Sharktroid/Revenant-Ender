@@ -76,6 +76,6 @@ func get_description() -> String:
 		"Weight": weight,
 		"Might": might,
 		"Hit\t": hit,
-		"Critical": crit
+		"Critical ": crit
 	}
 	return Utilities.dict_to_table.call(weapon_stats, 3) + "\n" + _description

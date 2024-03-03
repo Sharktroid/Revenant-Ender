@@ -142,20 +142,27 @@ func set_neighbor_path(neighbor_name: String, index: int, modifier: int, contain
 				container.get_child(index).get_path_to(container.get_child(new_index)))
 
 
-func get_control_within_height(checking_control: Control, control_parent: Node) -> Control:
-	var center: float = checking_control.position.y + checking_control.size.y / 2
-	var min_height_control: Control = control_parent.get_child(0)
-	var max_height_control: Control = control_parent.get_child(0)
-	for control: Control in control_parent.get_children():
-		if control.position.y >= center and control.position.y + control.size.y <= center:
+func get_control_within_height(checking_control: Control, control_array: Array[Control]) -> Control:
+	var get_bottom_border: Callable = func(control: Control) -> float:
+		return control.get_screen_position().y + control.size.y
+	var center: float = checking_control.get_screen_position().y + checking_control.size.y / 2
+	var min_height_control: Control = control_array[0]
+	var max_height_control: Control = control_array[0]
+	for control: Control in control_array:
+		if (control.get_screen_position().y <= center
+				and get_bottom_border.call(control) >= center):
 			return control
 		else:
-			if min_height_control.position.y > control.position.y:
+			if (get_bottom_border.call(control) <= center
+					and get_bottom_border.call(min_height_control)
+					< get_bottom_border.call(control)):
 				min_height_control = control
-			if max_height_control.position.y < control.position.y:
+			elif (control.get_screen_position().y >= center
+					and control.get_screen_position().y
+					< max_height_control.get_screen_position().y):
 				max_height_control = control
-	if ((center - (min_height_control.position.y + min_height_control.size.y)) >
-			max_height_control.position.y - center):
+	if (center - get_bottom_border.call(min_height_control) <
+			max_height_control.get_screen_position().y - center):
 		return min_height_control
 	else:
 		return max_height_control

@@ -11,7 +11,7 @@ grow_vertical = 2
 script = ExtResource("1_6huud")
 
 [node name="Equip Status" type="Label" parent="."]
-custom_minimum_size = Vector2(6, 0)
+custom_minimum_size = Vector2(8, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_colors/font_color = Color(0.254902, 0.411765, 0.882353, 1)
@@ -37,5 +37,8 @@ theme_type_variation = &"YellowLabel"
 text = "/"
 
 [node name="Max Uses" type="Label" parent="."]
+custom_minimum_size = Vector2(11, 0)
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
+text = "1"
+horizontal_alignment = 2
