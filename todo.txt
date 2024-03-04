@@ -1,5 +1,3 @@
-* Make true table support for help popup
-
 * Fix bug where unit ranges don't display when deselecting a unit over another unit.
 * Fix cursor jank
 * Improve method of handling input between different nodes
