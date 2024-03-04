@@ -30,16 +30,16 @@ func _physics_process(_delta: float) -> void:
 func _input(event: InputEvent) -> void:
 	if is_active():
 		if _delay <= 0:
+			if _event.is_echo():
+				print_debug("Echo")
 			var new_pos: Vector2i = get_true_pos()
-			if event.is_action_pressed("left", true):
+			if Input.is_action_pressed("left", true) and not Input.is_action_pressed("right", true):
 				new_pos.x -= 16
-			elif (event.is_action_pressed("right", true)
-					and not event.is_action_pressed("left", true)):
+			elif Input.is_action_pressed("right", true):
 				new_pos.x += 16
-			if event.is_action_pressed("up", true):
+			if Input.is_action_pressed("up", true) and not Input.is_action_pressed("down", true):
 				new_pos.y -= 16
-			elif (event.is_action_pressed("down", true)
-					and not event.is_action_pressed("up", true)):
+			elif Input.is_action_pressed("down", true):
 				new_pos.y += 16
 			set_true_pos(new_pos)
 			_delay = 3
