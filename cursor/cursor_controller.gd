@@ -10,6 +10,7 @@ var _icon_sprite: Sprite2D
 var _hovered_unit: Unit = preload("res://units/unit.tscn").instantiate()
 var _active: bool = true
 var _delay: int = 0
+var _repeat: bool = false
 
 
 func _init() -> void:
@@ -24,25 +25,47 @@ func _physics_process(_delta: float) -> void:
 			if destination == MapController.get_map_camera().position:
 				set_true_pos(Utilities.round_coords_to_tile(get_viewport().get_mouse_position()
 				+ (_corner_offset() as Vector2)))
+		else:
+			pass
+			if _delay <= 0 and _repeat:
+				if (Input.is_action_pressed("left") or Input.is_action_pressed("right")
+						or Input.is_action_pressed("up") or Input.is_action_pressed("down")):
+					var new_pos: Vector2i = get_true_pos()
+					if Input.is_action_pressed("left") and not Input.is_action_pressed("right"):
+						new_pos.x -= 16
+					elif Input.is_action_pressed("right"):
+						new_pos.x += 16
+					if Input.is_action_pressed("up") and not Input.is_action_pressed("down"):
+						new_pos.y -= 16
+					elif Input.is_action_pressed("down"):
+						new_pos.y += 16
+					set_true_pos(new_pos)
+					_delay = 3
+				else:
+					print_stack()
+					_repeat = false
 	_delay -= 1
 
 
 func _input(event: InputEvent) -> void:
+	var repeat_callable: Callable = func() -> void:
+		await get_tree().create_timer(0.25).timeout
+		_repeat = true
 	if is_active():
-		if _delay <= 0:
-			if _event.is_echo():
-				print_debug("Echo")
-			var new_pos: Vector2i = get_true_pos()
-			if Input.is_action_pressed("left", true) and not Input.is_action_pressed("right", true):
-				new_pos.x -= 16
-			elif Input.is_action_pressed("right", true):
-				new_pos.x += 16
-			if Input.is_action_pressed("up", true) and not Input.is_action_pressed("down", true):
-				new_pos.y -= 16
-			elif Input.is_action_pressed("down", true):
-				new_pos.y += 16
-			set_true_pos(new_pos)
-			_delay = 3
+		var new_pos: Vector2i = get_true_pos()
+		if event.is_action_pressed("left") and not Input.is_action_pressed("right"):
+			new_pos.x -= 16
+			repeat_callable.call()
+		elif event.is_action_pressed("right"):
+			new_pos.x += 16
+			repeat_callable.call()
+		if event.is_action_pressed("up") and not Input.is_action_pressed("down"):
+			new_pos.y -= 16
+			repeat_callable.call()
+		elif event.is_action_pressed("down"):
+			new_pos.y += 16
+			repeat_callable.call()
+		set_true_pos(new_pos)
 
 
 func enable() -> void:
