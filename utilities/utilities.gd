@@ -88,23 +88,15 @@ func xor(condition_a: bool, condition_b: bool) -> bool:
 	return result
 
 
-func dict_to_table(dict: Dictionary, size: int) -> String:
-	var table: String = "[table=%d]" % size
-	var max_key_size: int = 0
-	var max_value_size: int = 0
-	for key: String in dict:
-		max_key_size = maxi(str(key).length(), max_key_size)
-		max_value_size = maxi(str(dict[key]).length(), max_value_size)
+func dict_to_table(dict: Dictionary) -> Array[String]:
+	var table: Array[String] = []
 	for key: String in dict:
 		var value = dict[key]
-		var replacements: Array = [
-			Utilities.font_yellow,
-			str(key).rpad(max_key_size),
-			Utilities.font_blue,
-			str(value).lpad(max_value_size),
-		]
-		table += "[cell][color=%s]%s[/color]\t[color=%s]%s[/color][/cell]" % replacements
-	return table + "[/table]"
+		table.append_array([
+			"[color=%s]%s[/color]" % [Utilities.font_yellow, str(key)],
+			"[color=%s]%s[/color]" % [Utilities.font_blue, str(value)]
+		])
+	return table
 
 
 func start_profiling() -> void:
@@ -132,6 +124,28 @@ func get_properties_of_array(objects: Array, property_path: StringName) -> Array
 	for object: Object in objects:
 		output_array.append(object.get(property_path))
 	return output_array
+
+
+func set_neighbor_path(neighbor_name: String, index: int, modifier: int,
+		parent: Array[Node]) -> void:
+	var new_index: int = index + modifier
+	if (new_index >= 0 and new_index < parent.size() and parent[new_index] is HelpContainer):
+		parent[index].set("focus_neighbor_%s" % neighbor_name,
+				parent[index].get_path_to(parent[new_index]))
+
+
+func get_control_within_height(checking_control: Control, control_array: Array[Node]) -> Control:
+	var get_center: Callable = func(control: Control) -> float:
+		return control.get_screen_position().y + control.size.y / 2
+	var center: float = get_center.call(checking_control)
+	var get_distance: Callable = func(control: Control) -> float:
+		return abs(center - get_center.call(control))
+
+	var closest_control: Control = control_array[0]
+	for control: Control in control_array.slice(1):
+		if get_distance.call(control) < get_distance.call(closest_control):
+			closest_control = control
+	return closest_control
 
 
 func _load_config() -> void:

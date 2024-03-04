@@ -63,7 +63,7 @@ func get_range() -> Array:
 	return range(min_range, max_range + 1)
 
 
-func get_description() -> String:
+func get_stat_table() -> Array[String]:
 	var get_range_string: Callable = func() -> String:
 		if min_range == max_range:
 			return str(min_range)
@@ -75,7 +75,7 @@ func get_description() -> String:
 		"Range": get_range_string.call(),
 		"Weight": weight,
 		"Might": might,
-		"Hit\t": hit,
+		"Hit": hit,
 		"Critical": crit
 	}
-	return Utilities.dict_to_table.call(weapon_stats, 3) + "\n" + _description
+	return Utilities.dict_to_table.call(weapon_stats)

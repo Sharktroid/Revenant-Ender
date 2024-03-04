@@ -14,6 +14,7 @@ script = ExtResource("1_era26")
 help_description = "This unit cannot wield weapons of this type"
 
 [node name="Icon" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(17, 0)
 layout_mode = 2
 size_flags_vertical = 4
 stretch_mode = 2

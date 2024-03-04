@@ -6,6 +6,11 @@ const TILE_SIZE: int = 32
 
 var _active: bool = false
 var _busy: bool = false
+var _current_container: HelpContainer
+
+var _current_text: String
+var _current_table: Array[String]
+var _current_table_cols: int
 
 
 func _ready() -> void:
@@ -13,25 +18,53 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel") and is_active():
-		shrink()
-		accept_event()
+	var move_popup: Callable = func(direction: String):
+		var path: NodePath = _current_container.get("focus_neighbor_%s" % direction)
+		if _current_container.has_node(path):
+			(_current_container.get_node(path) as HelpContainer).set_as_current_help_container()
+	if is_active():
+		if event.is_action_pressed("ui_cancel"):
+			shrink()
+		elif event.is_action_pressed("up", true) and not Input.is_action_pressed("down"):
+			move_popup.call("top")
+		elif event.is_action_pressed("down", true):
+			move_popup.call("bottom")
+		elif event.is_action_pressed("left", true) and not Input.is_action_pressed("right"):
+			move_popup.call("left")
+		elif event.is_action_pressed("right", true):
+			move_popup.call("right")
+		elif event.is_action_pressed("debug", true):
+			get_popup_node().reset_size()
+			print_debug(get_popup_node().size)
 
 
-func display_text(text: String, pos: Vector2) -> void:
-	if not _busy and (pos != _default_position() or text != get_popup_node().text):
-		var old_text: String = get_popup_node().text
-		get_popup_node().text = ""
-		if not get_popup_node().visible:
-			await _expand(text, pos)
+func display_text(text: String, pos: Vector2, new_container: HelpContainer,
+		table: Array[String] = [], table_cols: int = 1) -> void:
+	if not _busy and (pos != _default_position() or text != _current_text
+			or table != _current_table or table_cols != _current_table_cols):
+		var new_size: Vector2 = _get_node_size(text, table, table_cols)
+		if pos.y + new_size.y + new_container.size.y >= Utilities.get_screen_size().y:
+			pos.y -= new_size.y
 		else:
-			await _resize(get_node_size(text), pos, get_node_size(old_text))
-		get_popup_node().text = text
+			pos.y += new_container.size.y
+		if new_size.x / 2 + pos.x > Utilities.get_screen_size().x:
+			pos.x = Utilities.get_screen_size().x - new_size.x /2
+		elif pos.x < new_size.x / 2:
+			pos.x = new_size.x / 2
+		if not get_popup_node().visible:
+			await _expand(text, table, table_cols, pos)
+		else:
+			await _resize(new_size, pos, get_popup_node().size)
+		_current_table = table
+		_current_table_cols = table_cols
+		_current_text = text
+		get_popup_node().set_table(table, table_cols)
+		get_popup_node().set_description(text)
+		_current_container = new_container
 
 
 func shrink() -> void:
 	if not _busy:
-		get_popup_node().text = ""
 		var new_size: Vector2 = Vector2(41, 0)
 		await _resize(new_size)
 		get_popup_node().visible = false
@@ -42,6 +75,10 @@ func is_active() -> bool:
 	return _active
 
 
+func is_idle() -> bool:
+	return is_active() and not _busy
+
+
 func get_popup_node() -> RichTextLabel:
 	if MapController.get_ui().has_node("Help Popup"):
 		return MapController.get_ui().get_node("Help Popup")
@@ -49,28 +86,19 @@ func get_popup_node() -> RichTextLabel:
 		return RichTextLabel.new()
 
 
-func get_node_size(text: String) -> Vector2i:
-	var old_size: Vector2 = get_popup_node().size
-	var string: String = get_popup_node().text
-	get_popup_node().autowrap_mode = TextServer.AUTOWRAP_OFF
-	get_popup_node().text = text
-	get_popup_node().reset_size()
+func _get_node_size(new_text: String, new_table: Array[String], new_table_cols: int) -> Vector2i:
+	get_popup_node().set_table(new_table, new_table_cols)
+	get_popup_node().set_description(new_text)
 	var node_size: Vector2i = get_popup_node().size
-	if node_size > Utilities.get_screen_size():
-		get_popup_node().autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	get_popup_node().reset_size()
-	get_popup_node().text = string
-	get_popup_node().size = old_size
-#	node_size -= BORDER
-#	node_size = Vector2i((Vector2(node_size)/TILE_SIZE).round()) * TILE_SIZE
-#	node_size += BORDER
+	get_popup_node().set_table(_current_table, _current_table_cols)
+	get_popup_node().set_description(_current_text)
 	return node_size
 
 
-func _expand(text: String, pos: Vector2) -> void:
+func _expand(text: String, table: Array[String], table_cols: int, pos: Vector2) -> void:
 	_active = true
 	get_popup_node().visible = true
-	await _resize(get_node_size(text), pos, Vector2(), pos)
+	await _resize(_get_node_size(text, table, table_cols), pos, Vector2(), pos)
 
 
 func _resize(new_size: Vector2, pos: Vector2 = _default_position(),
@@ -78,10 +106,9 @@ func _resize(new_size: Vector2, pos: Vector2 = _default_position(),
 		init_position: Vector2 = _default_position()) -> void:
 	var set_pos: Callable = func(new_pos: Vector2) -> void:
 		new_pos -= Vector2(get_popup_node().size.x/2, 0)
-		get_popup_node().position = new_pos.clamp(Vector2(),
-				Vector2(Utilities.get_screen_size()) - get_popup_node().size)
+		get_popup_node().position = new_pos
 	var set_node_size: Callable = func(new_node_size: Vector2) -> void:
-		get_popup_node().size = new_node_size.clamp(Vector2(), Utilities.get_screen_size())
+		get_popup_node().size = new_node_size
 	_busy = true
 	set_node_size.call(init_size)
 	set_pos.call(init_position)
@@ -89,7 +116,10 @@ func _resize(new_size: Vector2, pos: Vector2 = _default_position(),
 	tween.set_parallel(true)
 	tween.tween_method(set_node_size, init_size, new_size, DURATION)
 	tween.tween_method(set_pos, init_position, pos, DURATION)
+	get_popup_node().display_contents(false)
 	await tween.finished
+	get_popup_node().display_contents(true)
+	get_popup_node().size = new_size
 	_busy = false
 
 

@@ -6,7 +6,7 @@ extends Unit
 func _init() -> void:
 	personal_values = {
 		Unit.stats.HITPOINTS: 7,
-		Unit.stats.STRENGTH: 10,
+		Unit.stats.STRENGTH: 12,
 		Unit.stats.PIERCE: 5,
 		Unit.stats.MAGIC: 5,
 		Unit.stats.SKILL: 5,

@@ -13,6 +13,11 @@ func update() -> void:
 	$"Current Uses".text = str(item.current_uses)
 	$"Max Uses".text = str(item.max_uses)
 	help_description = item.get_description()
+	if item is Weapon:
+		help_table = (item as Weapon).get_stat_table()
+		table_columns = 6
+	else:
+		help_table = []
 
 
 func set_equip_status(unit: Unit) -> void:

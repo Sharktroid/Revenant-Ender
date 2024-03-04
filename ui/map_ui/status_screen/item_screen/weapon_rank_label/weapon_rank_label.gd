@@ -21,6 +21,7 @@ func _update_rank() -> void:
 	if weapon_rank < Weapon.ranks.E:
 		%Rank.text = "-"
 		progress_bar.value = 0
+		help_description = "This unit cannot wield weapons of this type"
 
 	else:
 		if weapon_rank < Weapon.ranks.D:

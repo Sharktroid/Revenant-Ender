@@ -17,20 +17,21 @@ func _enter_tree() -> void:
 	_update.call_deferred()
 
 
-func _gui_input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel"):
-		close()
-	elif event.is_action_pressed("left") and not event.is_action_pressed("right"):
-		Utilities.switch_tab($"Menu Screen/Menu Tabs" as TabContainer, -1)
-	elif event.is_action_pressed("right"):
-		Utilities.switch_tab($"Menu Screen/Menu Tabs" as TabContainer, 1)
-	elif not _scroll_lock:
-		if Input.is_action_pressed("up") and not Input.is_action_pressed("down"):
-			observing_unit = MapController.map.get_previous_unit(observing_unit)
-			_move(1)
-		elif Input.is_action_pressed("down"):
-			observing_unit = MapController.map.get_next_unit(observing_unit)
-			_move(-1)
+func _input(event: InputEvent) -> void:
+	if not HelpPopupController.is_active():
+		if event.is_action_pressed("ui_cancel"):
+			close()
+		elif event.is_action_pressed("left") and not event.is_action_pressed("right"):
+			Utilities.switch_tab($"Menu Screen/Menu Tabs" as TabContainer, -1)
+		elif event.is_action_pressed("right"):
+			Utilities.switch_tab($"Menu Screen/Menu Tabs" as TabContainer, 1)
+		elif not _scroll_lock:
+			if Input.is_action_pressed("up") and not Input.is_action_pressed("down"):
+				observing_unit = MapController.map.get_previous_unit(observing_unit)
+				_move(1)
+			elif Input.is_action_pressed("down"):
+				observing_unit = MapController.map.get_next_unit(observing_unit)
+				_move(-1)
 
 
 func _has_point(_point: Vector2) -> bool:
@@ -65,16 +66,39 @@ func _update() -> void:
 	_set_label_text_to_number(%"Max HP" as Label, observing_unit.get_stat(Unit.stats.HITPOINTS))
 
 	if observing_unit.get_current_weapon():
+		%"Attack Description".help_description = "%d + %d" % [
+				observing_unit.get_attack() - observing_unit.get_current_weapon().might,
+				observing_unit.get_current_weapon().might]
 		_set_label_text_to_number(%"Attack Value" as Label, observing_unit.get_attack())
+
+		%"Hit Description".help_description = "%d + %d * 2 + %d" % [
+				observing_unit.get_current_weapon().hit,
+				observing_unit.get_stat(Unit.stats.SKILL), observing_unit.get_stat(Unit.stats.LUCK)]
 		_set_label_text_to_number(%"Hit Value" as Label, observing_unit.get_hit())
+
+		%"Crit Description".help_description = "%d + %d" % [
+				observing_unit.get_current_weapon().crit,
+				observing_unit.get_stat(Unit.stats.SKILL)]
 		_set_label_text_to_number(%"Crit Value" as Label, observing_unit.get_crit())
 	else:
+		%"Attack Description".help_description = "--"
 		%"Attack Value".text = "--"
+
+		%"Hit Description".help_description = "--"
 		%"Hit Value".text = "--"
+
+		%"Crit Description".help_description = "--"
 		%"Crit Value".text = "--"
 
+	%"AS Description".help_description = "%d - %d" % [observing_unit.get_stat(Unit.stats.SPEED),
+			observing_unit.get_stat(Unit.stats.SPEED) - observing_unit.get_attack_speed()]
 	_set_label_text_to_number(%"AS Value" as Label, observing_unit.get_attack_speed())
+
+	%"Avoid Description".help_description = "%d * 2 + %d" % [observing_unit.get_attack_speed(),
+			observing_unit.get_stat(Unit.stats.LUCK)]
 	_set_label_text_to_number(%"Avoid Value" as Label, observing_unit.get_avoid())
+
+	%"Crit Avoid Description".help_description = "%d" % [observing_unit.get_stat(Unit.stats.LUCK)]
 	_set_label_text_to_number(%"Crit Avoid Value" as Label, observing_unit.get_crit_avoid())
 
 	var current_weapon: Weapon = observing_unit.get_current_weapon()
@@ -82,24 +106,48 @@ func _update() -> void:
 		_set_label_text_to_number(%"Min Range" as Label, current_weapon.min_range)
 		if current_weapon.min_range == current_weapon.max_range:
 			%"Range Separator".visible = false
-			%"Max Range".text = ""
+			%"Max Range".visible = false
 		else:
 			%"Range Separator".visible = true
+			%"Max Range".visible = true
 			_set_label_text_to_number(%"Max Range" as Label, current_weapon.max_range)
 	else:
 		%"Min Range".text = "--"
 		%"Range Separator".visible = false
 		%"Max Range".text = ""
 
-	var statistics: Control = $"Menu Screen/Menu Tabs/Statistics"
-	var items: Control = $"Menu Screen/Menu Tabs/Items"
-	statistics.observing_unit = observing_unit
-	items.observing_unit = observing_unit
+	_update_tab()
 
-	(statistics.update as Callable).call_deferred()
-	items.update()
+	%"HP Stat Help".help_table = observing_unit.get_stat_table(Unit.stats.HITPOINTS)
+	%"HP Stat Help".table_columns = 4
 
-	%"HP Stat Help".help_description = observing_unit.get_stat_table(Unit.stats.HITPOINTS)
+
+func _update_tab() -> void:
+	var constant_labels: Array[Node] = [%"Unit Description"]
+	for child: Control in %"High Stats Container".get_children():
+		if child is HelpContainer:
+			constant_labels.append(child)
+		else:
+			constant_labels.append(child.get_child(1))
+	var tab_controls: Array[Node]
+	match ($"Menu Screen/Menu Tabs" as TabContainer).current_tab:
+		0:
+			var statistics: Control = $"Menu Screen/Menu Tabs/Statistics"
+			statistics.observing_unit = observing_unit
+			statistics.update.call_deferred()
+			tab_controls = statistics.get_left_controls()
+		1:
+			var items: Control = $"Menu Screen/Menu Tabs/Items"
+			items.observing_unit = observing_unit
+			items.update()
+			tab_controls = items.get_item_labels()
+	await get_tree().process_frame
+	for control: Control in constant_labels:
+		var matching_control: Control = Utilities.get_control_within_height(control, tab_controls)
+		control.focus_neighbor_right = control.get_path_to(matching_control)
+	for control: Control in tab_controls:
+		var matching_control: Control = Utilities.get_control_within_height(control, constant_labels)
+		control.focus_neighbor_left = control.get_path_to(matching_control)
 
 
 func _set_label_text_to_number(label: Label, num: int) -> void:
@@ -135,4 +183,5 @@ func _move(dir: int) -> void:
 
 
 func _on_menu_tabs_tab_changed(_tab: int) -> void:
+	_update_tab()
 	HelpPopupController.shrink()

@@ -10,7 +10,7 @@ func _enter_tree() -> void:
 		$Items/Use.visible = false
 	if not item.can_drop():
 		$Items/Drop.visible = false
-	reset_size()
+	reset_size.call_deferred()
 	super()
 
 
@@ -23,8 +23,8 @@ func select_item(menu_item: MapMenuItem) -> void:
 			item.use()
 			close()
 		"Drop":
-			var menu: MapMenu = load("res://ui/map_ui/map_menus\
-/confirmation_map_menu/confirmation_map_menu.tscn").instantiate()
+			var menu: MapMenu = load("res://ui/map_ui/map_menus/" +
+					"confirmation_map_menu/confirmation_map_menu.tscn").instantiate()
 			menu.offset = offset + Vector2(16, 16)
 			menu.parent_menu = self
 			MapController.get_ui().add_child(menu)

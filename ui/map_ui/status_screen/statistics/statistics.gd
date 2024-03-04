@@ -41,23 +41,28 @@ func update() -> void:
 	else:
 		%"Traveler Name".text = "-"
 
-	%"Weight Help".help_description = "%d + %d" % [
+	%"Weight Number".help_description = "%d + %d" % [
 		observing_unit.get_stat(Unit.stats.CONSTITUTION),
 		observing_unit.unit_class.weight_modifier
 	]
 	if observing_unit.unit_class.aid_modifier < 0:
-		%"Aid Help".help_description = "%d - %d" % [
+		%"Aid Number".help_description = "%d - %d" % [
 			observing_unit.get_stat(Unit.stats.CONSTITUTION),
 			-observing_unit.unit_class.aid_modifier
 		]
 	elif observing_unit.unit_class.aid_modifier == 0:
-		%"Aid Help".help_description = ("%d + 0" %
+		%"Aid Number".help_description = ("%d + 0" %
 				[observing_unit.get_stat(Unit.stats.CONSTITUTION)])
 	else:
-		%"Aid Help".help_description = "%d - %d" % [
+		%"Aid Number".help_description = "%d - %d" % [
 			observing_unit.unit_class.aid_modifier,
 			observing_unit.get_stat(Unit.stats.CONSTITUTION)
 		]
+
+
+func get_left_controls() -> Array[Node]:
+	return ($"Offensive Stats/HBoxContainer/Labels".get_children()
+			+ $"Misc Stats/HBoxContainer/Labels".get_children())
 
 
 func _update_stat_bar(stat_bar: StatBar, stat: Unit.stats) -> void:

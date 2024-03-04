@@ -1,9 +1,9 @@
-* Have help bubble navigate via arrow keys
-* Fix weapon rank description not properly updating and help bubble not closing when switching
+* Fix bug where unit ranges don't display when deselecting a unit over another unit.
+* Fix cursor jank
+* Improve method of handling input between different nodes
+* Make it impossible to drop a unit on another unit
 * Implement weapon triangle (FE11 style)
 * Implement Canto
-* Make it impossible to drop a unit on another unit
-* Show damage
 * Add music
 * Implement FE6 C1
 * Make design document

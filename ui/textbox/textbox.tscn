@@ -19,7 +19,6 @@ offset_bottom = 62.0
 grow_horizontal = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_rdle6")
 bbcode_enabled = true
-text = "1"
 fit_content = true
 visible_characters_behavior = 1
 
