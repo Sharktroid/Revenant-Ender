@@ -17,7 +17,7 @@ var _current_item_index: int = 0
 func _enter_tree() -> void:
 	grab_focus()
 	update_position.call_deferred()
-	var visible_children: Array[Node]
+	var visible_children: Array[Node] = []
 	for child in _get_visible_children():
 		visible_children.append(child)
 	for index: int in visible_children.size():

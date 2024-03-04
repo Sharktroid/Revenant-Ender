@@ -28,13 +28,4 @@ func _on_mouse_entered() -> void:
 
 
 func _get_popup_offset() -> Vector2i:
-	var pos: Vector2 = global_position + Vector2(size.x/2, 0).round()
-	var v_size: int = roundi(size.y)
-	var popup_size: Vector2 = HelpPopupController.get_node_size(help_description)
-	if v_size + pos.y + popup_size.y > Utilities.get_screen_size().y:
-		pos.y -= popup_size.y
-	else:
-		pos.y += v_size
-	pos.x = clampf(pos.x, float(popup_size.x)/2,
-			Utilities.get_screen_size().x - float(popup_size.x)/2)
-	return pos
+	return global_position + Vector2(size.x/2, 0).round()
