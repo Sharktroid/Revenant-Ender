@@ -33,6 +33,9 @@ func _input(event: InputEvent) -> void:
 			move_popup.call("left")
 		elif event.is_action_pressed("right", true):
 			move_popup.call("right")
+		elif event.is_action_pressed("debug", true):
+			get_popup_node().reset_size()
+			print_debug(get_popup_node().size)
 
 
 func display_text(text: String, pos: Vector2, new_container: HelpContainer,
@@ -84,14 +87,11 @@ func get_popup_node() -> RichTextLabel:
 
 
 func _get_node_size(new_text: String, new_table: Array[String], new_table_cols: int) -> Vector2i:
-	var old_size: Vector2 = get_popup_node().size
 	get_popup_node().set_table(new_table, new_table_cols)
 	get_popup_node().set_description(new_text)
-	get_popup_node().reset_size()
 	var node_size: Vector2i = get_popup_node().size
 	get_popup_node().set_table(_current_table, _current_table_cols)
 	get_popup_node().set_description(_current_text)
-	get_popup_node().size = old_size
 	return node_size
 
 

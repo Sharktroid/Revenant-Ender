@@ -88,23 +88,15 @@ func xor(condition_a: bool, condition_b: bool) -> bool:
 	return result
 
 
-func dict_to_table(dict: Dictionary, size: int) -> String:
-	var table: String = "[table=%d]" % size
-	var max_key_size: int = 0
-	var max_value_size: int = 0
-	for key: String in dict:
-		max_key_size = maxi(str(key).length(), max_key_size)
-		max_value_size = maxi(str(dict[key]).length(), max_value_size)
+func dict_to_table(dict: Dictionary) -> Array[String]:
+	var table: Array[String] = []
 	for key: String in dict:
 		var value = dict[key]
-		var replacements: Array = [
-			Utilities.font_yellow,
-			str(key).rpad(max_key_size),
-			Utilities.font_blue,
-			str(value).lpad(max_value_size),
-		]
-		table += "[cell][color=%s]%s[/color]\t[color=%s]%s[/color][/cell]" % replacements
-	return table + "[/table]"
+		table.append_array([
+			"[color=%s]%s[/color]" % [Utilities.font_yellow, str(key)],
+			"[color=%s]%s[/color]" % [Utilities.font_blue, str(value)]
+		])
+	return table
 
 
 func start_profiling() -> void:

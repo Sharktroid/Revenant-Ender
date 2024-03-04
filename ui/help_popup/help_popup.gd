@@ -21,6 +21,7 @@ func set_table(table_items: Array[String], columns: int) -> void:
 		table.columns = columns
 		for child: Node in table.get_children():
 			child.queue_free()
+			table.remove_child(child)
 		for table_item: String in table_items:
 			var label := RichTextLabel.new()
 			label.bbcode_enabled = true

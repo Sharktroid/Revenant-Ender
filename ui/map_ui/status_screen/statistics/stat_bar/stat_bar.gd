@@ -27,4 +27,5 @@ func update() -> void:
 	$"Resize Handler".set_size.call_deferred(Vector2(new_x,
 			($"Resize Handler" as ReferenceRect).size.y))
 
-	help_description = unit.get_stat_table(stat)
+	help_table = unit.get_stat_table(stat)
+	table_columns = 4

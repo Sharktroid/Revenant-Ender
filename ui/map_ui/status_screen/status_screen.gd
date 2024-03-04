@@ -118,7 +118,8 @@ func _update() -> void:
 
 	_update_tab()
 
-	%"HP Stat Help".help_description = observing_unit.get_stat_table(Unit.stats.HITPOINTS)
+	%"HP Stat Help".help_table = observing_unit.get_stat_table(Unit.stats.HITPOINTS)
+	%"HP Stat Help".table_columns = 4
 
 
 func _update_tab() -> void:

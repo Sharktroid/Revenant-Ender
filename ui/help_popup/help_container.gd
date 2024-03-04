@@ -3,6 +3,8 @@ extends BoxContainer
 
 
 @export_multiline var help_description: String
+@export var help_table: Array[String]
+@export var table_columns: int = 1
 
 var selectable: bool = true
 
@@ -19,7 +21,8 @@ func _gui_input(event: InputEvent) -> void:
 
 
 func set_as_current_help_container() -> void:
-	HelpPopupController.display_text(help_description, _get_popup_offset(), self)
+	HelpPopupController.display_text(help_description, _get_popup_offset(), self, help_table,
+			table_columns)
 
 
 func _on_mouse_entered() -> void:

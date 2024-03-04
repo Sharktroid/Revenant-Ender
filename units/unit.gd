@@ -372,7 +372,7 @@ func get_path_last_pos() -> Vector2i:
 	return position
 
 
-func get_stat_table(stat: stats) -> String:
+func get_stat_table(stat: stats) -> Array[String]:
 	var base_stat: int = unit_class.base_stats.get(stat, 0)
 	var final_stat: int = unit_class.end_stats.get(stat, 0)
 	var personal_value: int = personal_values.get(stat, 0)
@@ -383,7 +383,7 @@ func get_stat_table(stat: stats) -> String:
 		"Personal Values " = str(personal_value),
 		"Effort Values" = str(effort_value),
 	}
-	return Utilities.dict_to_table(table_items, 2)
+	return Utilities.dict_to_table(table_items)
 
 
 func get_min_range() -> int:
