@@ -66,6 +66,8 @@ func close() -> void:
 	MapController.selecting = false
 	MapController.map.set_focus_mode(Control.FOCUS_ALL)
 	MapController.map.grab_focus()
+	if CursorController.get_hovered_unit():
+		CursorController.get_hovered_unit().display_movement_tiles()
 
 
 func _on_cursor_moved() -> void:
