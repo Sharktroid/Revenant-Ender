@@ -17,12 +17,7 @@ func _init(connected_unit: Unit) -> void:
 	_ghost_unit = GhostUnit.new(_unit)
 	MapController.map.get_child(0).add_child(_ghost_unit)
 	CursorController.moved.connect(_on_cursor_moved)
-
-
-func _enter_tree() -> void:
-	set_focus_mode(Control.FOCUS_ALL)
-	MapController.set_focus_mode(Control.FOCUS_NONE)
-	grab_focus()
+	GameController.add_to_input_stack(self)
 
 
 func _process(_delta: float) -> void:
@@ -45,17 +40,12 @@ func _process(_delta: float) -> void:
 			current_animation = next_animation
 
 
-func _has_point(_point: Vector2) -> bool:
-	return true
-
-
-func _gui_input(event: InputEvent) -> void:
-	if CursorController.is_active():
-		if event.is_action_pressed("ui_accept"):
-			_position_selected()
-			accept_event()
-		elif event.is_action_pressed("ui_cancel"):
-			_canceled()
+func receive_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_accept"):
+		_position_selected()
+		accept_event()
+	elif event.is_action_pressed("ui_cancel"):
+		_canceled()
 
 
 func close() -> void:
@@ -64,14 +54,12 @@ func close() -> void:
 	queue_free()
 	_ghost_unit.queue_free()
 	MapController.selecting = false
-	MapController.map.set_focus_mode(Control.FOCUS_ALL)
-	MapController.map.grab_focus()
-	if CursorController.get_hovered_unit():
+	if CursorController.get_hovered_unit() and CursorController.get_hovered_unit() != _unit:
 		CursorController.get_hovered_unit().display_movement_tiles()
 
 
 func _on_cursor_moved() -> void:
-	if has_focus():
+	if self == GameController.get_current_input_node():
 		_unit.update_path(CursorController.get_true_pos())
 		_unit.show_path()
 
@@ -91,7 +79,6 @@ func _create_unit_menu() -> void:
 	menu.offset = CursorController.get_rel_pos() \
 			+ MapController.get_map_camera().get_map_offset() + Vector2i(16, -8)
 	menu.caller = self
-	set_focus_mode(Control.FOCUS_NONE)
 	CursorController.disable()
 	MapController.get_ui().add_child(menu)
 

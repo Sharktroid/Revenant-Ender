@@ -9,7 +9,7 @@ var _condition: Callable
 var _minimum_range: int
 var _maximum_range: int
 var _icon: CursorController.icons
-@onready var _selecting_position: Vector2i = unit.get_unit_path()[-1]
+var _selecting_position: Vector2i
 
 func _init(connected_unit: Unit, min_range: int, max_range: int, condition: Callable,
 		icon: CursorController.icons = CursorController.icons.NONE) -> void:
@@ -21,11 +21,8 @@ func _init(connected_unit: Unit, min_range: int, max_range: int, condition: Call
 	CursorController.enable()
 	unit.hide_movement_tiles()
 	unit.remove_path()
-
-
-func _enter_tree() -> void:
-	set_focus_mode(Control.FOCUS_ALL)
-	grab_focus()
+	GameController.add_to_input_stack(self)
+	_selecting_position = unit.get_unit_path()[-1]
 
 
 func _process(_delta: float) -> void:
@@ -35,15 +32,11 @@ func _process(_delta: float) -> void:
 		CursorController.remove_icon()
 
 
-func _gui_input(event: InputEvent) -> void:
+func receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
 		_position_selected()
 	elif event.is_action_pressed("ui_cancel"):
 		_canceled()
-
-
-func _has_point(_point: Vector2) -> bool:
-	return true
 
 
 func close() -> void:

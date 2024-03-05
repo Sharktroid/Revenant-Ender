@@ -461,6 +461,7 @@ func awaken() -> void:
 
 ## Displays the unit's movement tiles.
 func display_movement_tiles() -> void:
+	hide_movement_tiles()
 	var movement_tiles: Array[Vector2i] = get_raw_movement_tiles()
 	_movement_tiles_node = MapController.map.display_tiles(movement_tiles,
 			Map.tile_types.MOVEMENT, 1)

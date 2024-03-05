@@ -1,4 +1,3 @@
-* Improve method of handling input between different nodes
 * Make it impossible to drop a unit on another unit
 * Implement weapon triangle (FE11 style)
 * Implement Canto

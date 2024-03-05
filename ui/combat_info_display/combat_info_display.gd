@@ -50,18 +50,17 @@ func _enter_tree() -> void:
 				_weapons.append(weapon)
 
 	_update()
+	GameController.add_to_input_stack(self)
 
 
-func _input(event: InputEvent) -> void:
+func receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
 		queue_free()
 		emit_signal("complete", true)
-		accept_event()
 	elif event.is_action_pressed("ui_cancel"):
 		top_unit.equip_weapon(_old_weapon)
 		emit_signal("complete", false)
 		queue_free()
-		accept_event()
 	elif event.is_action_pressed("left") and not Input.is_action_pressed("right"):
 		_weapon_index -= 1
 		_update()

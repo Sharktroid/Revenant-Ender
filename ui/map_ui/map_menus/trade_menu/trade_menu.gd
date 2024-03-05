@@ -11,7 +11,8 @@ var selected_label: ItemLabel
 var empty_bar: ItemLabel
 
 
-func _enter_tree() -> void:
+func _ready() -> void:
+	GameController.add_to_input_stack(self)
 	_update()
 
 	var hand: Sprite2D = $"Selection Hand"
@@ -28,7 +29,7 @@ func _process(_delta: float) -> void:
 	($"Selection Hand" as Sprite2D).position = current_label.global_position.round()
 
 
-func _input(event: InputEvent) -> void:
+func receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_select"):
 		if selected_label:
 			var old_item_node: ItemLabel = selected_label

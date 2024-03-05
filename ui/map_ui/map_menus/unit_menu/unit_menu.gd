@@ -24,7 +24,7 @@ func _enter_tree() -> void:
 		super()
 
 
-func _gui_input(event: InputEvent) -> void:
+func receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		close(true)
 	else:
@@ -36,10 +36,7 @@ func close(return_to_caller: bool = false) -> void:
 	CursorController.enable()
 	if not actionable:
 		connected_unit.wait()
-	if return_to_caller and actionable:
-		caller.set_focus_mode(Control.FOCUS_ALL)
-		caller.grab_focus()
-	else:
+	if not (return_to_caller and actionable):
 		caller.close()
 
 
@@ -243,7 +240,6 @@ func _select_map(selector: Selector, tiles_node: Node2D, selected: Callable,
 	if selection == null:
 		canceled.call()
 		visible = true
-		grab_focus()
 	else:
 		selected.call(selection)
 

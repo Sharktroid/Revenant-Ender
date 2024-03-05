@@ -17,25 +17,24 @@ func _ready() -> void:
 	get_popup_node().visible = false
 
 
-func _input(event: InputEvent) -> void:
+func receive_input(event: InputEvent) -> void:
 	var move_popup: Callable = func(direction: String):
 		var path: NodePath = _current_container.get("focus_neighbor_%s" % direction)
 		if _current_container.has_node(path):
 			(_current_container.get_node(path) as HelpContainer).set_as_current_help_container()
-	if is_active():
-		if event.is_action_pressed("ui_cancel"):
-			shrink()
-		elif event.is_action_pressed("up", true) and not Input.is_action_pressed("down"):
-			move_popup.call("top")
-		elif event.is_action_pressed("down", true):
-			move_popup.call("bottom")
-		elif event.is_action_pressed("left", true) and not Input.is_action_pressed("right"):
-			move_popup.call("left")
-		elif event.is_action_pressed("right", true):
-			move_popup.call("right")
-		elif event.is_action_pressed("debug", true):
-			get_popup_node().reset_size()
-			print_debug(get_popup_node().size)
+	if event.is_action_pressed("ui_cancel"):
+		shrink()
+	elif event.is_action_pressed("up", true) and not Input.is_action_pressed("down"):
+		move_popup.call("top")
+	elif event.is_action_pressed("down", true):
+		move_popup.call("bottom")
+	elif event.is_action_pressed("left", true) and not Input.is_action_pressed("right"):
+		move_popup.call("left")
+	elif event.is_action_pressed("right", true):
+		move_popup.call("right")
+	elif event.is_action_pressed("debug", true):
+		get_popup_node().reset_size()
+		print_debug(get_popup_node().size)
 
 
 func display_text(text: String, pos: Vector2, new_container: HelpContainer,
@@ -64,11 +63,12 @@ func display_text(text: String, pos: Vector2, new_container: HelpContainer,
 
 
 func shrink() -> void:
-	if not _busy:
+	if is_idle():
 		var new_size: Vector2 = Vector2(41, 0)
 		await _resize(new_size)
 		get_popup_node().visible = false
 		_active = false
+		GameController.remove_from_input_stack()
 
 
 func is_active() -> bool:

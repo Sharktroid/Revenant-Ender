@@ -20,7 +20,7 @@ var _bottom_speaker: Unit
 var _skipping: bool = false
 
 
-func _input(event: InputEvent) -> void:
+func receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		var portraits: Array = _portraits.keys()
 		var last_portrait: Unit = portraits.pop_back()

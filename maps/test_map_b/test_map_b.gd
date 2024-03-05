@@ -25,6 +25,7 @@ func _enter_tree() -> void:
 		var bors: Unit = $"Map Layer/Units/Player/Bors"
 		var dialogue: Dialogue = MapController.get_dialogue()
 		await get_tree().process_frame
+		GameController.add_to_input_stack(dialogue)
 		await dialogue.show_top_textbox(Dialogue.positions.CLOSERIGHT)
 		dialogue.add_portrait(roy, Dialogue.positions.CLOSERIGHT)
 		dialogue.add_portrait(lance, Dialogue.positions.MIDLEFT, true)
@@ -68,4 +69,5 @@ We must retake the castle!")
 To arms then! Our target is the castle! We must rescue everyone!")
 		await dialogue.remove_portrait(roy)
 		await dialogue.hide_top_textbox()
+		GameController.remove_from_input_stack()
 		CursorController.enable()
