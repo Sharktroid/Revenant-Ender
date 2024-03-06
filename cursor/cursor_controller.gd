@@ -42,7 +42,6 @@ func _physics_process(_delta: float) -> void:
 					set_true_pos(new_pos)
 					_delay = 3
 				else:
-					print_stack()
 					_repeat = false
 	_delay -= 1
 

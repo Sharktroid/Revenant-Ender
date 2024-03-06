@@ -18,6 +18,7 @@ func _gui_input(event: InputEvent) -> void:
 			or (event.is_action_pressed("status")))
 			and not HelpPopupController.is_active()):
 		set_as_current_help_container()
+		GameController.add_to_input_stack(HelpPopupController)
 
 
 func set_as_current_help_container() -> void:

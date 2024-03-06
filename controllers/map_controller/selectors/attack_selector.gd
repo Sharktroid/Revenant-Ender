@@ -14,7 +14,6 @@ func _position_selected() -> void:
 		info_display.distance = Utilities.get_tile_distance(_selecting_position,
 				bottom_unit.position)
 		MapController.get_ui().add_child(info_display)
-		info_display.grab_focus()
 		CursorController.disable()
 		var proceed: bool = await info_display.complete
 		CursorController.enable()
@@ -22,5 +21,3 @@ func _position_selected() -> void:
 			info_display.queue_free()
 			emit_signal.call_deferred("selected", CursorController.get_hovered_unit())
 			close()
-		else:
-			grab_focus()

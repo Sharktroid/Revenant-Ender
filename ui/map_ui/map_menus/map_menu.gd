@@ -15,7 +15,6 @@ var _current_item_index: int = 0
 
 
 func _enter_tree() -> void:
-	grab_focus()
 	update_position.call_deferred()
 	var visible_children: Array[Node] = []
 	for child in _get_visible_children():
@@ -23,13 +22,10 @@ func _enter_tree() -> void:
 	for index: int in visible_children.size():
 		Utilities.set_neighbor_path("top", index, -1, visible_children)
 		Utilities.set_neighbor_path("bottom", index, 1, visible_children)
+	GameController.add_to_input_stack(self)
 
 
-func _has_point(_point: Vector2) -> bool:
-	return true
-
-
-func _gui_input(event: InputEvent) -> void:
+func receive_input(event: InputEvent) -> void:
 	if not HelpPopupController.is_active():
 		if event.is_action_pressed("up"):
 			_current_item_index -= 1
@@ -49,10 +45,7 @@ func close() -> void:
 	# Closes the menu
 	queue_free()
 	if parent_menu:
-		parent_menu.grab_focus()
 		parent_menu.visible = true
-	else:
-		MapController.map.grab_focus()
 
 
 func update_position() -> void:

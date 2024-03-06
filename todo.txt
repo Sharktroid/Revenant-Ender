@@ -1,8 +1,8 @@
-* Improve method of handling input between different nodes
-* Make it impossible to drop a unit on another unit
+* Make weapon level based on class and level
 * Implement weapon triangle (FE11 style)
 * Implement Canto
 * Add music
-* Implement FE6 C1
+* Implement experience
+* Implement FE6 Chapter 1
 * Make design document
 * Make game based on design document

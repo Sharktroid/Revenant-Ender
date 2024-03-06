@@ -8,10 +8,6 @@ var selecting: bool = false # Whether a unit is currently selected.
 var map := Map.new()
 
 
-func _has_point(_point: Vector2) -> bool:
-	return true
-
-
 func set_scaling(new_scaling: int) -> void:
 	var new_scale := Vector2(new_scaling, new_scaling)
 	scale = new_scale
@@ -26,6 +22,7 @@ func create_main_map_menu() -> void:
 	menu.offset = CursorController.get_rel_pos() \
 			+ MapController.get_map_camera().get_map_offset() + Vector2i(16, 0)
 	MapController.get_ui().add_child(menu)
+	GameController.add_to_input_stack(menu)
 	CursorController.disable()
 
 

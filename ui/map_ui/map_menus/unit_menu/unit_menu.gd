@@ -24,7 +24,7 @@ func _enter_tree() -> void:
 		super()
 
 
-func _gui_input(event: InputEvent) -> void:
+func receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		close(true)
 	else:
@@ -36,10 +36,7 @@ func close(return_to_caller: bool = false) -> void:
 	CursorController.enable()
 	if not actionable:
 		connected_unit.wait()
-	if return_to_caller and actionable:
-		caller.set_focus_mode(Control.FOCUS_ALL)
-		caller.grab_focus()
-	else:
+	if not (return_to_caller and actionable):
 		caller.close()
 
 
@@ -160,7 +157,7 @@ func select_item(item: MapMenuItem) -> void:
 			_select_map(selector, _display_adjacent_support_tiles(), rescue)
 
 		"Drop":
-			var tiles_node: Node2D = MapController.map.display_tiles(_get_drop_tiles(),
+			var tiles_node: Node2D = (MapController.map as Map).display_tiles(_get_drop_tiles(),
 					Map.tile_types.SUPPORT)
 			var drop: Callable = func(dropped_tile: Vector2i) -> void:
 				var traveler: Unit = connected_unit.traveler
@@ -243,7 +240,6 @@ func _select_map(selector: Selector, tiles_node: Node2D, selected: Callable,
 	if selection == null:
 		canceled.call()
 		visible = true
-		grab_focus()
 	else:
 		selected.call(selection)
 
@@ -271,6 +267,11 @@ func _get_drop_tiles() -> Array[Vector2i]:
 		var movement: int = traveler.get_stat(Unit.stats.MOVEMENT)
 		if cost <= movement:
 			tiles.append(tile)
+	for unit: Unit in MapController.get_units():
+		var pos: Vector2i = unit.position
+		if pos in tiles:
+			tiles.erase(pos)
+
 	return tiles
 
 

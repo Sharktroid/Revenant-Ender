@@ -34,26 +34,27 @@ func _enter_tree() -> void:
 			Utilities.get_debug_constant("display_map_borders")
 	$"Map Layer/Cursor Area".visible = Utilities.get_debug_constant("display_map_cursor")
 	size = $"Map Layer/Base Layer".get_used_cells(0).max() * 16 + Vector2i(16, 16)
-	grab_focus()
+	GameController.add_to_input_stack(self)
 
 
-func _gui_input(event: InputEvent) -> void:
-	if CursorController.is_active():
-		if event.is_action_pressed("ranges"):
-			if CursorController.get_hovered_unit():
-				toggle_outline_unit(CursorController.get_hovered_unit())
-			else:
-				toggle_full_outline()
+func receive_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ranges"):
+		if CursorController.get_hovered_unit():
+			toggle_outline_unit(CursorController.get_hovered_unit())
+		else:
+			toggle_full_outline()
 
-		elif event.is_action_pressed("ui_select"):
-			_on_cursor_select()
+	elif event.is_action_pressed("ui_select"):
+		_on_cursor_select()
 
-		elif event.is_action_pressed("status"):
-			if CursorController.get_hovered_unit():
-				var status_menu: Control = \
-						preload("res://ui/map_ui/status_screen/status_screen.tscn").instantiate()
-				status_menu.observing_unit = CursorController.get_hovered_unit()
-				MapController.get_ui().add_child(status_menu)
+	elif event.is_action_pressed("status"):
+		if CursorController.get_hovered_unit():
+			var status_menu: Control = \
+					preload("res://ui/map_ui/status_screen/status_screen.tscn").instantiate()
+			status_menu.observing_unit = CursorController.get_hovered_unit()
+			MapController.get_ui().add_child(status_menu)
+			GameController.add_to_input_stack(status_menu)
+			CursorController.disable()
 
 
 func unit_wait(_unit) -> void:
