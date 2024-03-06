@@ -157,7 +157,7 @@ func select_item(item: MapMenuItem) -> void:
 			_select_map(selector, _display_adjacent_support_tiles(), rescue)
 
 		"Drop":
-			var tiles_node: Node2D = MapController.map.display_tiles(_get_drop_tiles(),
+			var tiles_node: Node2D = (MapController.map as Map).display_tiles(_get_drop_tiles(),
 					Map.tile_types.SUPPORT)
 			var drop: Callable = func(dropped_tile: Vector2i) -> void:
 				var traveler: Unit = connected_unit.traveler
@@ -267,6 +267,11 @@ func _get_drop_tiles() -> Array[Vector2i]:
 		var movement: int = traveler.get_stat(Unit.stats.MOVEMENT)
 		if cost <= movement:
 			tiles.append(tile)
+	for unit: Unit in MapController.get_units():
+		var pos: Vector2i = unit.position
+		if pos in tiles:
+			tiles.erase(pos)
+
 	return tiles
 
 
