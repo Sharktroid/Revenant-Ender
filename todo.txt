@@ -1,4 +1,4 @@
-* Implement weapon triangle (FE11 style)
+* Remove attack display when target cannot counter
 * Implement Canto
 * Add music
 * Implement experience

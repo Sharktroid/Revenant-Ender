@@ -30,7 +30,7 @@ enum damage_types {
 	MAGIC
 }
 
-var level: ranks
+var level: int
 var might: int
 var weight: int
 var hit: int
@@ -40,6 +40,9 @@ var max_range: int
 var weapon_experience: int
 var effective_classes: int
 var type: types
+var advantage_types: Array[types]
+var disadvantage_types: Array[types]
+
 var _damage_type: damage_types
 var _damage_type_ranged: damage_types
 
@@ -79,3 +82,35 @@ func get_stat_table() -> Array[String]:
 		"Critical": crit
 	}
 	return Utilities.dict_to_table.call(weapon_stats)
+
+
+## Returns 1 with normal advantage, 0 with neutrality, -1 with disadvantage
+func get_weapon_triangle_advantage(weapon: Weapon, _distance: int) -> int:
+	if weapon.type in advantage_types:
+		return 1
+	elif weapon.type in disadvantage_types:
+		return -1
+	else:
+		return 0
+
+
+func get_hit_bonus(weapon: Weapon, distance: int) -> int:
+	if weapon is Bow:
+		return -10 * weapon.get_weapon_triangle_advantage(self, distance)
+	else:
+		var bonus: int = 0
+		if level >= ranks.B:
+			bonus = 10
+		elif level >= ranks.D:
+			bonus = 5
+		return bonus * get_weapon_triangle_advantage(weapon, distance)
+
+
+func get_damage_bonus(weapon: Weapon, distance: int) -> int:
+	if weapon is Bow:
+		return -weapon.get_weapon_triangle_advantage(self, distance)
+	else:
+		if level >= ranks.S:
+			return get_weapon_triangle_advantage(weapon, distance)
+		else:
+			return 0

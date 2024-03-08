@@ -205,7 +205,8 @@ func get_current_weapon() -> Weapon:
 	return null
 
 
-func get_attack() -> int:
+## Attack without weapon triangle bonuses
+func get_raw_attack() -> int:
 	if get_current_weapon():
 		var current_attack: int
 		match get_current_weapon().get_damage_type():
@@ -217,13 +218,21 @@ func get_attack() -> int:
 		return 0
 
 
+func get_true_attack(enemy: Unit) -> int:
+	if get_current_weapon():
+		return get_raw_attack() + get_current_weapon().get_damage_bonus(enemy.get_current_weapon(),
+				get_distance(enemy))
+	else:
+		return 0
+
+
 func get_damage(defender: Unit) -> int:
-	return maxi(0, get_attack() -
+	return maxi(0, get_true_attack(defender) -
 			defender.get_current_defence(get_current_weapon().get_damage_type()))
 
 
 func get_crit_damage(defender: Unit) -> int:
-	return maxi(0, get_attack() * 2 -
+	return maxi(0, get_true_attack(defender) * 2 -
 			defender.get_current_defence(get_current_weapon().get_damage_type()))
 
 
@@ -346,7 +355,9 @@ func get_avoid() -> int:
 
 
 func get_hit_rate(enemy: Unit) -> int:
-	return clampi(get_hit() - enemy.get_avoid(), 0, 100)
+	return clampi(get_hit() - enemy.get_avoid() +
+			get_current_weapon().get_hit_bonus(enemy.get_current_weapon(),
+					get_distance(enemy)), 0, 100)
 
 
 func get_crit() -> int:
@@ -406,6 +417,10 @@ func get_max_range() -> int:
 
 func get_authority() -> int:
 	return personal_authority + unit_class.authority
+
+
+func get_distance(unit: Unit) -> int:
+	return roundi(Utilities.get_tile_distance(position, unit.position))
 
 
 func has_attribute(attrib: Skill.all_attributes) -> bool:

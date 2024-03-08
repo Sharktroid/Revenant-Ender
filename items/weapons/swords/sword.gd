@@ -7,5 +7,7 @@ func _init() -> void:
 	type = types.SWORD
 	min_range = 1
 	max_range = 1
+	advantage_types = [types.AXE]
+	disadvantage_types = [types.SPEAR]
 	super()
 

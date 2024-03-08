@@ -62,9 +62,9 @@ func _update() -> void:
 
 	if observing_unit.get_current_weapon():
 		%"Attack Description".help_description = "%d + %d" % [
-				observing_unit.get_attack() - observing_unit.get_current_weapon().might,
+				observing_unit.get_raw_attack() - observing_unit.get_current_weapon().might,
 				observing_unit.get_current_weapon().might]
-		_set_label_text_to_number(%"Attack Value" as Label, observing_unit.get_attack())
+		_set_label_text_to_number(%"Attack Value" as Label, observing_unit.get_raw_attack())
 
 		%"Hit Description".help_description = "%d + %d * 2 + %d" % [
 				observing_unit.get_current_weapon().hit,
