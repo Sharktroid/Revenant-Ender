@@ -43,8 +43,9 @@ func get_map_camera() -> MapCamera:
 
 func get_units() -> Array[Unit]:
 	var units: Array[Unit] = []
-	for node: Node in get_tree().get_nodes_in_group("unit"):
-		units.append(node)
+	if is_inside_tree():
+		for node: Node in get_tree().get_nodes_in_group("unit"):
+			units.append(node)
 	return units
 
 
