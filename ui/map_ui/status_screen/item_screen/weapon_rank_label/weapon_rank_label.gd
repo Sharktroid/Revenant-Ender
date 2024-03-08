@@ -60,7 +60,7 @@ func _update_rank() -> void:
 		else:
 			var color_blue: String = "color=%s" % Utilities.font_blue
 			var string_array: Array[String] = [
-				"[colorblue]%d[/color]" % [progress_bar.min_value],
+				"[colorblue]%d[/color]" % [progress_bar.value],
 				" [color=%s]/[/color] " % Utilities.font_yellow,
 				"[colorblue]%d[/color]\n" % [progress_bar.max_value],
 				"[colorblue]%d[/color]" % [progress_bar.max_value - progress_bar.value],
