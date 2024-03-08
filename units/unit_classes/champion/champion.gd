@@ -10,9 +10,13 @@ func _init():
 	weight_modifier = 1
 	description = "An honorific bestowed upon famed mercenary masters."
 
-	weapon_levels = {
+	base_weapon_levels = {
 		Weapon.types.SWORD: Weapon.ranks.C,
-		Weapon.types.AXE: Weapon.ranks.D,
+		Weapon.types.AXE: Weapon.ranks.C,
+	}
+	max_weapon_levels = {
+		Weapon.types.SWORD: Weapon.ranks.S,
+		Weapon.types.AXE: Weapon.ranks.S,
 	}
 
 	base_stats = {

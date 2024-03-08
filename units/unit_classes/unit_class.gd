@@ -11,7 +11,8 @@ enum movement_types {
 var name: String
 var base_stats: Dictionary
 var end_stats: Dictionary
-var weapon_levels: Dictionary
+var base_weapon_levels: Dictionary
+var max_weapon_levels: Dictionary
 var max_level: int = 30
 var movement_type: movement_types # Movement class for handling moving over terrain.
 var map_sprite: CompressedTexture2D

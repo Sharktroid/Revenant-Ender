@@ -1,4 +1,3 @@
-* Make weapon level based on class and level
 * Implement weapon triangle (FE11 style)
 * Implement Canto
 * Add music

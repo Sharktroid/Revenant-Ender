@@ -10,7 +10,8 @@ func _init():
 	movement_type = movement_types.FIGHTERS
 	description = "Axe-wielding soldiers whose attack offers little defense."
 
-	weapon_levels[Weapon.types.AXE] = Weapon.ranks.D
+	base_weapon_levels[Weapon.types.AXE] = Weapon.ranks.D
+	max_weapon_levels[Weapon.types.AXE] = Weapon.ranks.A
 
 	base_stats = {
 		Unit.stats.HITPOINTS: 23,

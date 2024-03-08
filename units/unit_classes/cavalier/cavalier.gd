@@ -10,10 +10,16 @@ func _init():
 	weight_modifier = 25
 	description = "Dedicated cavalry with superior abilities all around."
 
-	weapon_levels = {
-		Weapon.types.SWORD: Weapon.ranks.D,
+	base_weapon_levels = {
+		Weapon.types.SWORD: Weapon.ranks.C,
 		Weapon.types.SPEAR: Weapon.ranks.C,
-		Weapon.types.AXE: Weapon.ranks.E,
+		Weapon.types.AXE: Weapon.ranks.D,
+	}
+
+	max_weapon_levels = {
+		Weapon.types.SWORD: Weapon.ranks.S,
+		Weapon.types.SPEAR: Weapon.ranks.S,
+		Weapon.types.AXE: Weapon.ranks.A,
 	}
 
 	base_stats = {

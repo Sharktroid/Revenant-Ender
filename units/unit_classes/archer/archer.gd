@@ -10,7 +10,8 @@ func _init():
 	movement_type = movement_types.FOOT
 	description = "Soldiers who attack from a distance with their bows."
 
-	weapon_levels[Weapon.types.BOW] = Weapon.ranks.D
+	base_weapon_levels[Weapon.types.BOW] = Weapon.ranks.D
+	max_weapon_levels[Weapon.types.BOW] = Weapon.ranks.A
 
 	base_stats = {
 		Unit.stats.HITPOINTS: 23,

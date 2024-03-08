@@ -11,7 +11,8 @@ func _init():
 	weight_modifier = 5
 	description = "Heavily armored knights with stout defense, but low speed."
 
-	weapon_levels[Weapon.types.SPEAR] = Weapon.ranks.D
+	base_weapon_levels[Weapon.types.SPEAR] = Weapon.ranks.D
+	max_weapon_levels[Weapon.types.SPEAR] = Weapon.ranks.A
 
 	base_stats = {
 		Unit.stats.HITPOINTS: 19,

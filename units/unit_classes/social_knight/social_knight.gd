@@ -11,9 +11,13 @@ func _init():
 	weight_modifier = 25
 	description = "Mounted knights with superior movement."
 
-	weapon_levels = {
+	base_weapon_levels = {
 		Weapon.types.SWORD: Weapon.ranks.E,
 		Weapon.types.SPEAR: Weapon.ranks.D,
+	}
+	max_weapon_levels = {
+		Weapon.types.SWORD: Weapon.ranks.B,
+		Weapon.types.SPEAR: Weapon.ranks.A,
 	}
 
 	base_stats = {

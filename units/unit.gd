@@ -131,12 +131,14 @@ var _arrows_container: CanvasGroup
 
 
 func _enter_tree() -> void:
-	for weapon_type: Weapon.types in unit_class.weapon_levels.keys():
+	current_level = base_level
+	for weapon_type: Weapon.types in unit_class.base_weapon_levels.keys():
 		if weapon_type not in weapon_levels.keys():
-			weapon_levels[weapon_type] = unit_class.weapon_levels[weapon_type]
+			weapon_levels[weapon_type] = lerpf(unit_class.base_weapon_levels[weapon_type] as float,
+					unit_class.max_weapon_levels[weapon_type] as float,
+					inverse_lerp(1, unit_class.max_level, current_level))
 	texture = unit_class.map_sprite
 	material = material.duplicate()
-	current_level = base_level
 	current_movement = get_stat(stats.MOVEMENT)
 	set_current_health(get_stat(stats.HITPOINTS))
 	add_to_group("units")

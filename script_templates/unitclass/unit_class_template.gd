@@ -7,7 +7,8 @@ extends _BASE_
 func _init() -> void:
 _TS_name = ""
 _TS_movement_type = movement_types.
-_TS_weapon_levels
+_TS_base_weapon_levels
+_TS_max_weapon_levels
 _TS__class_base_stats = {
 _TS__TS_Unit.stats.HITPOINTS: 0,
 _TS__TS_Unit.stats.STRENGTH: 0,
