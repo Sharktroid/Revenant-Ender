@@ -26,7 +26,7 @@ const red_colors: Array[Color] = [
 
 var top_unit: Unit
 var bottom_unit: Unit
-var distance: float
+var distance: int
 
 var _weapons: Array[Weapon]
 var _weapon_index: int = 0
@@ -46,7 +46,7 @@ func _enter_tree() -> void:
 	for item: Item in top_unit.items:
 		if item is Weapon:
 			var weapon: Weapon = item
-			if weapon.min_range <= distance and weapon.max_range >= distance:
+			if distance in weapon.get_range():
 				_weapons.append(weapon)
 
 	_update()
@@ -98,11 +98,18 @@ func _update() -> void:
 				weapon.name
 
 		get_node(format.call("HP") as String).text = str(current_unit.get_current_health())
-		get_node(format.call("Damage") as String).text = str(current_unit.get_damage(other_unit))
-		get_node(format.call("Hit") as String).text = str(current_unit.get_hit_rate(other_unit))
-		get_node(format.call("Crit Damage") as String).text = \
-				str(current_unit.get_crit_damage(other_unit))
-		get_node(format.call("Crit") as String).text = str(current_unit.get_crit_rate(other_unit))
+
+		if distance in weapon.get_range():
+			get_node(format.call("Damage") as String).text = \
+					str(current_unit.get_damage(other_unit))
+			get_node(format.call("Hit") as String).text = str(current_unit.get_hit_rate(other_unit))
+			get_node(format.call("Crit Damage") as String).text = \
+					str(current_unit.get_crit_damage(other_unit))
+			get_node(format.call("Crit") as String).text = \
+					str(current_unit.get_crit_rate(other_unit))
+		else:
+			for node_name: String in ["Damage", "Hit", "Crit Damage", "Crit"]:
+				get_node(format.call(node_name) as String).text = "--"
 
 		if current_unit.get_faction().color == Faction.colors.RED:
 			var shader_material: ShaderMaterial = \

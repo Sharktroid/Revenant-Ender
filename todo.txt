@@ -1,4 +1,3 @@
-* Remove attack display when target cannot counter
 * Implement Canto
 * Add music
 * Implement experience
