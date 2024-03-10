@@ -15,6 +15,5 @@ func _init() -> void:
 	weapon_experience = 1
 	_description = "A cheap, easy to wield sword."
 #	effective_classes =
-	icon = preload("res://items/weapons/swords/iron_sword/icon.png")
 	super()
 
