@@ -3,7 +3,7 @@ extends Bow
 
 
 # Weapon-specific variables.
-func _init():
+func _init() -> void:
 	name = "Iron Bow"
 	level = ranks.E
 	might = 7

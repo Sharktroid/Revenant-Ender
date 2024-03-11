@@ -9,7 +9,7 @@ func _ready() -> void:
 
 
 func display_contents(display: bool) -> void:
-	$"PanelContainer3/MarginContainer/VBoxContainer".visible = display
+	($"PanelContainer3/MarginContainer/VBoxContainer" as VBoxContainer).visible = display
 
 
 func set_table(table_items: Array[String], columns: int) -> void:

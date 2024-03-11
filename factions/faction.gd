@@ -17,7 +17,7 @@ var outlined_units: Dictionary # The units that are outlined.
 var _diplomacy: Dictionary
 
 
-func _init(faction_name: String, faction_color: colors, faction_player_type: player_types):
+func _init(faction_name: String, faction_color: colors, faction_player_type: player_types) -> void:
 	name = faction_name
 	color = faction_color
 	player_type = faction_player_type

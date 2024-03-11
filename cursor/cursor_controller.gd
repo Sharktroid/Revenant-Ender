@@ -7,7 +7,7 @@ enum icons {ATTACK, NONE}
 
 var _position: Vector2i
 var _icon_sprite: Sprite2D
-var _hovered_unit: Unit = preload("res://units/unit.tscn").instantiate()
+var _hovered_unit: Unit
 var _active: bool = true
 var _delay: int = 0
 var _repeat: bool = false

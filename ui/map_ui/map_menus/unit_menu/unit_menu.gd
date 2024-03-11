@@ -13,7 +13,7 @@ func _enter_tree() -> void:
 	connected_unit.tree_exited.connect(_on_unit_death)
 	update()
 	var visible_items: bool = false
-	for i: Node in $Items.get_children():
+	for i: MapMenuItem in _get_item_nodes():
 		if i.visible:
 			visible_items = true
 			break
@@ -45,7 +45,7 @@ func update() -> void:
 	var pos: Vector2i = connected_unit.get_path_last_pos()
 	var movement: int = connected_unit.get_stat(Unit.stats.MOVEMENT)
 	var raw_movement_tiles: Array[Vector2i] = connected_unit.get_raw_movement_tiles()
-	var enabled_items = {
+	var enabled_items: Dictionary = {
 		Attack = false,
 		Wait = false,
 		Trade = false,
@@ -90,7 +90,7 @@ func update() -> void:
 		if (CursorController.get_hovered_unit()
 				and _can_attack(CursorController.get_hovered_unit())):
 			enabled_items.Attack = true
-	for node: Node in $Items.get_children():
+	for node: MapMenuItem in _get_item_nodes():
 		node.visible = enabled_items[node.name]
 	reset_size()
 
@@ -119,10 +119,10 @@ func select_item(item: MapMenuItem) -> void:
 
 		"Trade":
 			var selector := UnitSelector.new(connected_unit, 1, 1, connected_unit.is_friend)
-			var trade: Callable = func(selected_unit: Unit):
+			var trade: Callable = func(selected_unit: Unit) -> void:
 				const MENU_NODE: PackedScene = \
 						preload("res://ui/map_ui/map_menus/trade_menu/trade_menu.tscn")
-				var menu: TradeMenu = MENU_NODE.instantiate()
+				var menu := MENU_NODE.instantiate() as TradeMenu
 				menu.left_unit = connected_unit
 				menu.right_unit = selected_unit
 				MapController.get_ui().add_child(menu)
@@ -137,8 +137,10 @@ func select_item(item: MapMenuItem) -> void:
 			_select_map(selector, _display_adjacent_support_tiles(), trade)
 
 		"Items":
-			var menu: MapMenu = \
-					preload("res://ui/map_ui/map_menus/item_menu/item_menu.tscn").instantiate()
+			const MENU_PATH: String = "res://ui/map_ui/map_menus/item_menu/item_menu."
+			const MENU = preload(MENU_PATH + "gd")
+			const MENU_SCENE: PackedScene = preload(MENU_PATH + "tscn")
+			var menu := MENU_SCENE.instantiate() as MENU
 			menu.offset = offset
 			menu.parent_menu = self
 			menu.connected_unit = connected_unit
@@ -171,9 +173,9 @@ func select_item(item: MapMenuItem) -> void:
 			_select_map(TileSelector.new(connected_unit, 1, 1, _can_drop), tiles_node, drop)
 
 		"Take":
-			var can_take: Callable = func(unit: Unit):
+			var can_take: Callable = func(unit: Unit) -> bool:
 				return connected_unit.is_friend(unit) and unit.traveler
-			var take: Callable = func(unit: Unit):
+			var take: Callable = func(unit: Unit) -> void:
 				await unactionable()
 				var traveler: Unit = unit.traveler
 				connected_unit.traveler = traveler
@@ -188,9 +190,9 @@ func select_item(item: MapMenuItem) -> void:
 					_display_adjacent_support_tiles(), take)
 
 		"Give":
-			var can_give: Callable = func(unit: Unit):
+			var can_give: Callable = func(unit: Unit) -> bool:
 				return connected_unit.is_friend(unit) and not unit.traveler
-			var give: Callable = func(unit: Unit):
+			var give: Callable = func(unit: Unit) -> void:
 				await unactionable()
 				var traveler: Unit = connected_unit.traveler
 				unit.traveler = traveler
@@ -205,12 +207,12 @@ func select_item(item: MapMenuItem) -> void:
 					_display_adjacent_support_tiles(), give)
 
 		"Swap":
-			var can_swap: Callable = func(unit: Unit):
+			var can_swap: Callable = func(unit: Unit) -> bool:
 				return connected_unit.is_friend(unit) and unit.traveler
-			var swap: Callable = func(unit: Unit):
+			var swap: Callable = func(unit: Unit) -> void:
 				await unactionable()
-				var old_traveler = connected_unit.traveler
-				var new_traveler = unit.traveler
+				var old_traveler: Unit = connected_unit.traveler
+				var new_traveler: Unit = unit.traveler
 				connected_unit.traveler = new_traveler
 				unit.traveler = old_traveler
 				old_traveler.visible = true
@@ -232,16 +234,24 @@ func unactionable() -> void:
 
 
 func _select_map(selector: Selector, tiles_node: Node2D, selected: Callable,
-		canceled: Callable = func(): pass) -> void:
+		canceled: Callable = func() -> void: pass) -> void:
 	caller.add_sibling(selector)
 	visible = false
-	var selection = await selector.selected
-	tiles_node.queue_free()
-	if selection == null:
-		canceled.call()
-		visible = true
+	if selector is UnitSelector:
+		var selection: Unit = await (selector as UnitSelector).selected
+		if selection == null:
+			canceled.call()
+			visible = true
+		else:
+			selected.call(selection)
 	else:
-		selected.call(selection)
+		var selection: Vector2i = await (selector as TileSelector).selected
+		if selection == null:
+			canceled.call()
+			visible = true
+		else:
+			selected.call(selection)
+	tiles_node.queue_free()
 
 
 func _can_attack(unit: Unit) -> bool:
@@ -284,3 +294,7 @@ func _display_adjacent_support_tiles() -> Node2D:
 
 func _on_unit_death() -> void:
 	close()
+
+
+func _get_item_nodes() -> Array[MapMenuItem]:
+	return $Items.get_children() as Array[MapMenuItem]

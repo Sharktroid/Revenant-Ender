@@ -36,13 +36,13 @@ func get_screen_size() -> Vector2i:
 
 func save_config() -> void:
 	# Saves configuration.
-	for constant: String in _debug_constants:
+	for constant: String in _debug_constants.keys() as Array[String]:
 		_config_file.set_value("Debug", constant, get_debug_constant(constant))
 	# warning-ignore:return_value_discarded
 	_config_file.save("user://config.ini")
 
 
-func get_debug_constant(constant: String):
+func get_debug_constant(constant: String) -> Variant:
 	return _debug_constants[constant]
 
 
@@ -84,14 +84,13 @@ func switch_tab(tab_container: TabContainer, move_to: int) -> void:
 
 
 func xor(condition_a: bool, condition_b: bool) -> bool:
-	var result = bool(int(condition_a) ^ int(condition_b))
-	return result
+	return !(condition_a == condition_b)
 
 
 func dict_to_table(dict: Dictionary) -> Array[String]:
 	var table: Array[String] = []
-	for key: String in dict:
-		var value = dict[key]
+	for key: String in dict.keys() as Array[String]:
+		var value: Variant = dict[key]
 		table.append_array([
 			"[color=%s]%s[/color]" % [Utilities.font_yellow, str(key)],
 			"[color=%s]%s[/color]" % [Utilities.font_blue, str(value)]
@@ -119,7 +118,7 @@ func finish_profiling() -> void:
 	print("Total length: %s ms" % (sum / 1000))
 
 
-func get_properties_of_array(objects: Array, property_path: StringName) -> Array:
+func get_properties_of_array(objects: Array[Object], property_path: StringName) -> Array:
 	var output_array: Array = []
 	for object: Object in objects:
 		output_array.append(object.get(property_path))
@@ -139,10 +138,10 @@ func get_control_within_height(checking_control: Control, control_array: Array[N
 		return control.get_screen_position().y + control.size.y / 2
 	var center: float = get_center.call(checking_control)
 	var get_distance: Callable = func(control: Control) -> float:
-		return abs(center - get_center.call(control))
+		return absf(center - get_center.call(control))
 
-	var closest_control: Control = control_array[0]
-	for control: Control in control_array.slice(1):
+	var closest_control := control_array[0] as Control
+	for control: Control in control_array.slice(1) as Array[Control]:
 		if get_distance.call(control) < get_distance.call(closest_control):
 			closest_control = control
 	return closest_control
@@ -151,6 +150,6 @@ func get_control_within_height(checking_control: Control, control_array: Array[N
 func _load_config() -> void:
 	# Loads configuration
 	_config_file.load("user://config.ini")
-	for constant: String in _debug_constants:
-		var new_constant = get_debug_constant(constant)
+	for constant: String in _debug_constants.keys() as Array[String]:
+		var new_constant: Variant = get_debug_constant(constant)
 		_debug_constants[constant] = _config_file.get_value("Debug", constant, new_constant)

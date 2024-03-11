@@ -12,8 +12,10 @@ enum positions {OUTSIDELEFT = -80, FARLEFT = 0, MIDLEFT = 80, CLOSELEFT = 160,
 		CLOSERIGHT = 256, MIDRIGHT = 336, FARRIGHT = 416, OUTSIDERIGHT = 512}
 enum directions {LEFT, RIGHT}
 
-@onready var _top_bubble_point: TextureRect = $"Top Bubble Point"
-@onready var _bottom_bubble_point: TextureRect = $"Bottom Bubble Point"
+@onready var _top_bubble_point := $"Top Bubble Point" as TextureRect
+@onready var _bottom_bubble_point := $"Bottom Bubble Point" as TextureRect
+@onready var _top_textbox := %"Top Textbox" as RichTextLabel
+@onready var _bottom_textbox := %"Bottom Textbox" as RichTextLabel
 var _portraits: Dictionary = {}
 var _top_speaker: Unit
 var _bottom_speaker: Unit
@@ -22,7 +24,7 @@ var _skipping: bool = false
 
 func receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
-		var portraits: Array = _portraits.keys()
+		var portraits := _portraits.keys() as Array[Unit]
 		var last_portrait: Unit = portraits.pop_back()
 		for portrait: Unit in portraits:
 			remove_portrait(portrait)
@@ -35,23 +37,21 @@ func receive_input(event: InputEvent) -> void:
 func set_top_text(string: String) -> void:
 	if _skipping:
 		return
-	await _set_text_base(string, %"Top Textbox" as RichTextLabel,
-			_portraits.get(_top_speaker, Portrait.new()) as Portrait)
+	await _set_text_base(string, _top_textbox, _portraits.get(_top_speaker, Portrait.new()))
 
 
 func set_bottom_text(string: String) -> void:
 	if _skipping:
 		return
-	await _set_text_base(string, %"Bottom Textbox" as RichTextLabel,
-			_portraits.get(_bottom_speaker, Portrait.new()) as Portrait)
+	await _set_text_base(string, _bottom_textbox, _portraits.get(_bottom_speaker, Portrait.new()))
 
 
 func clear_top() -> void:
-	await _clear(%"Top Textbox" as RichTextLabel)
+	await _clear(_top_textbox)
 
 
 func clear_bottom() -> void:
-	await _clear(%"Bottom Textbox" as RichTextLabel)
+	await _clear(_bottom_textbox)
 
 
 func set_top_speaker(new_speaker: Unit) -> void:
@@ -157,7 +157,7 @@ func _resize_textbox(textbox: MarginContainer, align_bottom: bool,
 
 	var adjust_size: Callable = func(new_size: Vector2) -> void:
 		textbox.size = new_size.snapped(Vector2i(2, 2))
-		textbox.position.x = clamp(target_x - textbox.size.x/2,
+		textbox.position.x = clampf(target_x - textbox.size.x/2,
 				0, Utilities.get_screen_size().x - textbox.size.x)
 		if align_bottom:
 			textbox.position.y = (Utilities.get_screen_size().y - textbox.size.y)
@@ -232,7 +232,7 @@ func _clear(label: RichTextLabel) -> void:
 
 
 func _get_line_height() -> int:
-	return 16 + %"Top Textbox".get_theme_constant("line_separation")
+	return 16 + _top_textbox.get_theme_constant("line_separation")
 
 
 func _set_speaker(name_label: RichTextLabel, new_speaker: Unit) -> void:

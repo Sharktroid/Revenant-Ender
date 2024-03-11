@@ -3,7 +3,7 @@ class_name Cavalier
 extends MountedUnit
 
 
-func _init():
+func _init() -> void:
 	name = "Cavalier"
 	max_level = 30
 	movement_type = movement_types.ADVANCED_HEAVY_CAVALRY

@@ -12,9 +12,6 @@ const HIT_B_FATAL: AudioStream = preload("res://audio/sfx/hit_b_fatal.ogg")
 
 const HIT_B_DELAY: float = 5.0/60
 
-const _MAP_BATTLE_HP_BAR_SCENE: PackedScene = \
-		preload("res://controllers/attack controller/map_battle_info_display.tscn")
-
 static func combat(attacker: Unit, defender: Unit) -> void:
 	CursorController.disable()
 	var attack_queue: Array[CombatStage] = [CombatStage.new(attacker, defender)]
@@ -31,13 +28,18 @@ static func combat(attacker: Unit, defender: Unit) -> void:
 
 
 static func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[CombatStage]) -> void:
-	var hp_bar: HBoxContainer = _MAP_BATTLE_HP_BAR_SCENE.instantiate()
+	const MAP_BATTLE_HP_BAR_PATH: String = \
+			"res://controllers/attack controller/map_battle_info_display."
+	const MAP_BATTLE_HP_BAR = preload(MAP_BATTLE_HP_BAR_PATH + "gd")
+	const MAP_BATTLE_HP_BAR_SCENE: PackedScene = \
+			preload(MAP_BATTLE_HP_BAR_PATH + "tscn")
+	var hp_bar := MAP_BATTLE_HP_BAR_SCENE.instantiate() as MAP_BATTLE_HP_BAR
 	hp_bar.attacker = attacker
 	hp_bar.defender = defender
 	MapController.get_ui().add_child(hp_bar)
-	var attacker_animation: MapAttack = MapAttack.new(attacker, defender.position)
+	var attacker_animation: MapAttack = await MapAttack.new(attacker, defender.position)
 	attacker.get_parent().add_child(attacker_animation)
-	var defender_animation: MapAttack = MapAttack.new(defender, attacker.position)
+	var defender_animation: MapAttack = await MapAttack.new(defender, attacker.position)
 	defender.get_parent().add_child(defender_animation)
 	attacker.visible = false
 	defender.visible = false

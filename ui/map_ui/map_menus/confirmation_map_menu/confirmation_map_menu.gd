@@ -1,6 +1,6 @@
 extends MapMenu
 
-signal selection_made(confirmed)
+signal selection_made(confirmed: bool)
 
 var default_yes: bool = false
 

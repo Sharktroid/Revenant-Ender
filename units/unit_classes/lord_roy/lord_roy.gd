@@ -4,7 +4,7 @@ extends UnitClass
 
 
 # Unit-specific variables.
-func _init():
+func _init() -> void:
 	name = "Lord"
 	description = "A noble attached to a ruling house. Has great potential."
 	max_level = 20

@@ -7,10 +7,10 @@ var defender: Unit
 
 
 func _enter_tree() -> void:
-	$"Left HP Bar".unit = attacker
-	$"Right HP Bar".unit = defender
+	($"Left HP Bar" as MapHPBar).unit = attacker
+	($"Right HP Bar" as MapHPBar).unit = defender
 	position = (Vector2((attacker.position.x + defender.position.x)/2 - size.x/2,
-			max(attacker.position.y, defender.position.y) as float)
+			maxf(attacker.position.y, defender.position.y))
 			- Vector2(MapController.get_map_camera().map_position)
 			+ Vector2(MapController.get_map_camera().get_map_offset()) + Vector2(8, V_MOD))
 	if position.y + size.y > Utilities.get_screen_size().y:

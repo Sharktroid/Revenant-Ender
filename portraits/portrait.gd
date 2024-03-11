@@ -3,6 +3,7 @@ extends Sprite2D
 
 enum emotions {NONE, DEFAULT, HAPPY}
 
+@onready var _mouth := %Mouth as Sprite2D
 var _talking: bool = false
 var _talking_frame: int = 0
 var _delay: int = 0
@@ -10,9 +11,9 @@ var _current_mouth: Sprite2D
 var _emotion := emotions.DEFAULT
 
 
-func _enter_tree() -> void:
-	if has_node("Mouth"):
-		_current_mouth = $Mouth
+func _ready() -> void:
+	if _mouth:
+		_current_mouth = _mouth
 	else:
 		_current_mouth = Sprite2D.new()
 		_current_mouth.vframes = 3
@@ -44,18 +45,18 @@ func set_talking(talking: bool) -> void:
 
 func set_emotion(emotion: emotions) -> void:
 	_emotion = emotion
-	for mouth: Sprite2D in get_tree().get_nodes_in_group("mouth"):
+	for mouth: Sprite2D in get_tree().get_nodes_in_group("mouth") as Array[Sprite2D]:
 		mouth.visible = false
 	match _emotion:
-		emotions.HAPPY: _current_mouth = $"Mouth Happy"
+		emotions.HAPPY: _current_mouth = $"Mouth Happy" as Sprite2D
 		emotions.NONE: _current_mouth = Sprite2D.new()
-		_: _current_mouth = $Mouth
+		_: _current_mouth = _mouth
 	if _emotion != emotions.NONE:
 		_current_mouth.visible = true
 
 
 func flip() -> void:
 	flip_h = not flip_h
-	for child: Sprite2D in get_children():
+	for child: Sprite2D in get_children() as Array[Sprite2D]:
 		child.position.x = texture.get_size().x - child.position.x - child.texture.get_size().x
 		child.flip_h = not child.flip_h

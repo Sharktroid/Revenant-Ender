@@ -1,5 +1,7 @@
 extends Node
 
+const _RECIEVER = preload("res://controllers/game_controller/recieve_input_node.gd")
+
 enum controller_types {MOUSE, KEYBOARD}
 ## Type of controller being used (keyboard, mouse, or controller)
 var controller_type: controller_types
@@ -40,14 +42,15 @@ func remove_from_input_stack() -> void:
 	_input_stack.remove_at(_input_stack.size() - 1)
 
 
-func get_current_input_node() -> Node:
+func get_current_input_node() -> _RECIEVER:
 	while not is_instance_valid(_input_stack[-1]):
 		remove_from_input_stack()
 	return _input_stack[-1]
 
 
 func get_root() -> Viewport:
-	if get_viewport() and get_viewport().has_node("SubViewportContainer/SubViewport"):
-		return get_viewport().get_node("SubViewportContainer/SubViewport")
+	const PATH: String = "SubViewportContainer/SubViewport"
+	if get_viewport() and get_viewport().has_node(PATH):
+		return get_viewport().get_node(PATH) as Viewport
 	else:
 		return Window.new()

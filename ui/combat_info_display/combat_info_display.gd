@@ -37,15 +37,17 @@ func _enter_tree() -> void:
 	# Removes float rounding errors
 	var light_blue := Color("5294D6")
 	var dark_blue := Color("315A9C")
-	%"Top Unit Panel".get_theme_stylebox("panel").bg_color = light_blue
-	%"Top Unit Panel".get_node("Line2D").default_color = dark_blue
-	%"Bottom Unit Panel".get_theme_stylebox("panel").bg_color = dark_blue
-	%"Bottom Unit Panel".get_node("Line2D").default_color = light_blue
+	var top_unit_panel := %"Top Unit Panel" as PanelContainer
+	(top_unit_panel.get_theme_stylebox("panel") as StyleBoxFlat).bg_color = light_blue
+	(top_unit_panel.get_node("Line2D") as Line2D).default_color = dark_blue
+	var bottom_unit_panel := %"Bottom Unit Panel" as PanelContainer
+	(bottom_unit_panel.get_theme_stylebox("panel") as StyleBoxFlat).bg_color = dark_blue
+	(bottom_unit_panel.get_node("Line2D") as Line2D).default_color = light_blue
 
 	_old_weapon = top_unit.get_current_weapon()
 	for item: Item in top_unit.items:
 		if item is Weapon:
-			var weapon: Weapon = item
+			var weapon := item as Weapon
 			if distance in weapon.get_range():
 				_weapons.append(weapon)
 
@@ -76,7 +78,7 @@ func _get_current_weapon() -> Weapon:
 func _update() -> void:
 	_weapon_index = posmod(_weapon_index, _weapons.size())
 	top_unit.equip_weapon(_get_current_weapon())
-	for half: String in ["Top", "Bottom"]:
+	for half: String in ["Top", "Bottom"] as Array[String]:
 		var current_unit: Unit
 		var other_unit: Unit
 		var weapon: Weapon
@@ -91,29 +93,28 @@ func _update() -> void:
 				current_unit = bottom_unit
 				other_unit = top_unit
 				weapon = bottom_unit.get_current_weapon()
-		get_node(format.call("Name") as String).text = current_unit.unit_name
-		get_node(format.call("Weapon Icon") as String).texture = \
-				weapon.icon
-		get_node(format.call("Weapon Name") as String).text = \
-				weapon.name
+		(get_node(format.call("Name")) as Label).text = current_unit.unit_name
+		(get_node(format.call("Weapon Icon")) as TextureRect).texture = weapon.icon
+		(get_node(format.call("Weapon Name")) as Label).text = weapon.name
 
-		get_node(format.call("HP") as String).text = str(current_unit.get_current_health())
+		(get_node(format.call("HP")) as Label).text = str(current_unit.get_current_health())
 
 		if distance in weapon.get_range():
-			get_node(format.call("Damage") as String).text = \
+			(get_node(format.call("Damage")) as Label).text = \
 					str(current_unit.get_damage(other_unit))
-			get_node(format.call("Hit") as String).text = str(current_unit.get_hit_rate(other_unit))
-			get_node(format.call("Crit Damage") as String).text = \
+			(get_node(format.call("Hit")) as Label).text = \
+					str(current_unit.get_hit_rate(other_unit))
+			(get_node(format.call("Crit Damage")) as Label).text = \
 					str(current_unit.get_crit_damage(other_unit))
-			get_node(format.call("Crit") as String).text = \
+			(get_node(format.call("Crit")) as Label).text = \
 					str(current_unit.get_crit_rate(other_unit))
 		else:
-			for node_name: String in ["Damage", "Hit", "Crit Damage", "Crit"]:
-				get_node(format.call(node_name) as String).text = "--"
+			for node_name: String in ["Damage", "Hit", "Crit Damage", "Crit"] as Array[String]:
+				(get_node(format.call(node_name)) as Label).text = "--"
 
 		if current_unit.get_faction().color == Faction.colors.RED:
 			var shader_material: ShaderMaterial = \
-					get_node(format.call("Unit Panel") as String).material
+					(get_node(format.call("Unit Panel")) as PanelContainer).material
 			var old_vectors: Array[Vector3] = []
 			for color: Color in blue_colors:
 				old_vectors.append(Vector3(color.r, color.g, color.b) * 255)

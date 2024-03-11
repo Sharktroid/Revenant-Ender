@@ -11,7 +11,7 @@ var _combat_sprite: Unit
 
 
 func _init(connected_unit: Unit = null, targeted_tile: Vector2i = Vector2i(0, 16)) -> void:
-	_combat_sprite = connected_unit.duplicate()
+	_combat_sprite = connected_unit.duplicate() as Unit
 	target_tile = targeted_tile
 	for child: Node in _combat_sprite.get_children():
 		if not child is AnimationPlayer:
@@ -20,9 +20,10 @@ func _init(connected_unit: Unit = null, targeted_tile: Vector2i = Vector2i(0, 16
 	_combat_sprite.position = Vector2i()
 	_combat_sprite.remove_from_group("units")
 	add_child(_combat_sprite)
+	await _combat_sprite.tree_entered
 	_combat_sprite.sprite_animated = false
 	var angle: float = (Vector2(target_tile) - position).angle()
-	var angle_adjusted = (angle * 4)/PI
+	var angle_adjusted: float = (angle * 4)/PI
 	var animation: Unit.animations
 	if angle_adjusted <= 1 and angle_adjusted >= -1:
 		animation = Unit.animations.MOVING_RIGHT
@@ -50,7 +51,7 @@ func _move(movement: Vector2) -> void:
 	var end_pos: Vector2 = position + movement
 	var tween: Tween = create_tween()
 	tween.set_speed_scale(60)
-	tween.tween_method(func(new_pos: Vector2): position = new_pos.round(),
+	tween.tween_method(func(new_pos: Vector2) -> void: position = new_pos.round(),
 			position, end_pos, 8)
 	await tween.finished
 	emit_signal("arrived")

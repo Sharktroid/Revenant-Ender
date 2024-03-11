@@ -25,7 +25,9 @@ CursorController="*res://cursor/cursor_controller.gd"
 
 [debug]
 
-gdscript/warnings/unsafe_call_argument=true
+gdscript/warnings/untyped_declaration=1
+gdscript/warnings/unsafe_property_access=1
+gdscript/warnings/unsafe_method_access=1
 shapes/collision/shape_color=Color(0, 0.6, 0.701961, 0.419608)
 gdscript/completion/autocomplete_setters_and_getters=true
 

@@ -3,8 +3,6 @@ extends MapMenu
 var connected_unit: Unit
 
 var _items: Array[Item] = []
-const _MENU_ITEM_NODE: GDScript = preload("res://ui/map_ui/map_menus/item_menu" +
-		"/item_menu_item/item_menu_item.gd")
 
 
 func _enter_tree() -> void:
@@ -18,18 +16,22 @@ func _process(_delta: float) -> void:
 
 
 func select_item(item: MapMenuItem) -> void:
-	var menu: MapMenu = preload("res://ui/map_ui/map_menus/item_menu/item_options_menu/\
-item_options_menu.tscn").instantiate()
+	const MENU_PATH: String = ("res://ui/map_ui/map_menus/item_menu/item_options_menu/" +
+			"item_options_menu.")
+	const MENU = preload(MENU_PATH + "gd")
+	var menu := (load(MENU_PATH + "tscn") as PackedScene).instantiate() as MENU
 	menu.offset = offset + Vector2(16, 20)
 	menu.parent_menu = self
 	menu.unit = connected_unit
-	menu.item = item.item
+	const ITEM_MENU_ITEM = preload("res://ui/map_ui/map_menus/item_menu/item_menu_item/item_menu_item.gd")
+	menu.item = (item as ITEM_MENU_ITEM).item
 	MapController.get_ui().add_child(menu)
 	super(item)
 
 
 func close() -> void:
-	parent_menu.update()
+	const UNIT_MENU = preload("res://ui/map_ui/map_menus/unit_menu/unit_menu.gd")
+	(parent_menu as UNIT_MENU).update()
 	super()
 
 
@@ -42,6 +44,8 @@ func _update() -> void:
 			child.queue_free()
 			await child.tree_exited
 		for item: Item in connected_unit.items:
-			var item_node: HelpContainer = _MENU_ITEM_NODE.new(item)
+			const MENU_ITEM_NODE = preload("res://ui/map_ui/map_menus/item_menu" +
+					"/item_menu_item/item_menu_item.gd")
+			var item_node := MENU_ITEM_NODE.new(item)
 			item_node.help_description = item.get_description()
 			$Items.add_child(item_node)

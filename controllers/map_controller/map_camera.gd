@@ -5,13 +5,13 @@ var map_position: Vector2i
 var true_position: Vector2
 
 
-func _process(delta: float):
-	var speed: float = max(4, (true_position.distance_to(map_position))/16)
+func _process(delta: float) -> void:
+	var speed: float = maxf(4, (true_position.distance_to(map_position))/16)
 	true_position = true_position.move_toward(map_position, speed * 60 * delta)
 	transform.origin = (true_position - Vector2(get_map_offset())).round()
 
 
-func set_map_position(new_map_position: Vector2i):
+func set_map_position(new_map_position: Vector2i) -> void:
 	if Vector2(get_destination()) == transform.get_origin():
 		var map_size: Vector2i = MapController.map.get_size()
 		var screen_size: Vector2i = Utilities.get_screen_size()
@@ -26,7 +26,7 @@ func set_map_position(new_map_position: Vector2i):
 		map_position = Utilities.round_coords_to_tile(new_map_position)
 
 
-func move(new_map_position: Vector2i):
+func move(new_map_position: Vector2i) -> void:
 	set_map_position(map_position + new_map_position)
 
 

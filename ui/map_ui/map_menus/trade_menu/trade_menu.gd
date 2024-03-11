@@ -1,21 +1,24 @@
 class_name TradeMenu
 extends Control
 
-const ITEM_LABEL_SCENE: PackedScene = \
-		preload("res://ui/map_ui/map_menus/trade_menu/trade_menu_item/trade_menu_item.tscn")
+const _ITEM_LABEL_PATH : String = ("res://ui/map_ui/map_menus/trade_menu/" +
+		"trade_menu_item/trade_menu_item.")
+const _ITEM_LABEL = preload(_ITEM_LABEL_PATH + "gd")
+const _ITEM_LABEL_SCENE: PackedScene = \
+		preload(_ITEM_LABEL_PATH + "tscn")
 
 var left_unit: Unit
 var right_unit: Unit
-var current_label: ItemLabel
-var selected_label: ItemLabel
-var empty_bar: ItemLabel
+var current_label: _ITEM_LABEL
+var selected_label: _ITEM_LABEL
+var empty_bar: _ITEM_LABEL
 
 
 func _ready() -> void:
 	GameController.add_to_input_stack(self)
 	_update()
 
-	var hand: Sprite2D = $"Selection Hand"
+	var hand := $"Selection Hand" as Sprite2D
 	var tween: Tween = hand.create_tween()
 	tween.set_loops()
 	tween.set_speed_scale(60)
@@ -61,10 +64,10 @@ func receive_input(event: InputEvent) -> void:
 			_reset()
 		else:
 			selected_label = current_label
-			var selected_hand: Sprite2D = $"Selected Hand"
+			var selected_hand := $"Selected Hand" as Sprite2D
 			selected_hand.visible = true
 			selected_hand.position = selected_label.global_position.round()
-			empty_bar = ITEM_LABEL_SCENE.instantiate()
+			empty_bar = _ITEM_LABEL_SCENE.instantiate() as _ITEM_LABEL
 			empty_bar.parent_menu = self
 			var new_parent: VBoxContainer = _get_other_parent(current_label)
 			new_parent.add_child(empty_bar)
@@ -88,9 +91,9 @@ func receive_input(event: InputEvent) -> void:
 
 func _get_other_parent(label: ItemLabel) -> VBoxContainer:
 	if label.get_parent() == %"Left Items":
-		return %"Right Items"
+		return %"Right Items" as VBoxContainer
 	else:
-		return %"Left Items"
+		return %"Left Items" as VBoxContainer
 
 
 func _get_unit(label: ItemLabel) -> Unit:
@@ -104,9 +107,9 @@ func _update() -> void:
 	for child: Node in (%"Left Items".get_children() + %"Right Items".get_children()):
 		child.queue_free()
 	current_label = null
-	var add_items: Callable = func(unit: Unit, container: VBoxContainer):
+	var add_items: Callable = func(unit: Unit, container: VBoxContainer) -> void:
 		for item: Item in unit.items:
-			var item_label: ItemLabel = ITEM_LABEL_SCENE.instantiate()
+			var item_label := _ITEM_LABEL_SCENE.instantiate() as _ITEM_LABEL
 			item_label.item = item
 			item_label.set_equip_status(unit)
 			item_label.parent_menu = self
@@ -119,10 +122,10 @@ func _update() -> void:
 
 func _reset() -> void:
 	selected_label = null
-	$"Selected Hand".visible = false
+	($"Selected Hand" as Sprite2D).visible = false
 	if empty_bar:
 		empty_bar.queue_free()
 
 
 func _change_current_label(parent: Node, index: int) -> void:
-	current_label = parent.get_child(posmod(index, parent.get_children().size()))
+	current_label = parent.get_child(posmod(index, parent.get_children().size())) as _ITEM_LABEL

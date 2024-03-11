@@ -1,8 +1,6 @@
 class_name MapMenu
 extends PanelContainer
 
-enum types {SACRED_STONES, BINDING_BLADE}
-
 var offset: Vector2:
 	set(value):
 		offset = value
@@ -73,6 +71,6 @@ func get_current_item_node() -> MapMenuItem:
 func _get_visible_children() -> Array[MapMenuItem]:
 	var children: Array[MapMenuItem] = []
 	for child: Node in %Items.get_children():
-		if child.visible == true:
+		if (child as MapMenuItem).visible == true:
 			children.append(child)
 	return children

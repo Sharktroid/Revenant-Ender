@@ -3,19 +3,22 @@ extends Control
 
 
 var unit: Unit
+@onready var _hp_bar := %"HP Bar" as ProgressBar
+var _bg_gradient: Panel
 
 
-func _enter_tree() -> void:
-	%"HP Bar".max_value = unit.get_stat(Unit.stats.HITPOINTS)
-	%Name.text = unit.unit_name
-	var panel: StyleBoxTexture = %"BG Gradient".get_theme_stylebox("panel").duplicate(true)
-	%"BG Gradient".add_theme_stylebox_override("panel", panel)
+func _ready() -> void:
+	_bg_gradient = %"BG Gradient" as Panel
+	_hp_bar.max_value = unit.get_stat(Unit.stats.HITPOINTS)
+	(%Name as Label).text = unit.unit_name
+	_bg_gradient.add_theme_stylebox_override("panel",
+			_get_gradient_stylebox().duplicate(true) as StyleBoxTexture)
 
 
 func _process(_delta: float) -> void:
 	if is_instance_valid(unit):
-		(%"HP Bar" as ProgressBar).value = unit.get_current_health()
-		%"HP Label".text = str(%"HP Bar".value)
+		_hp_bar.value = unit.get_current_health()
+		(%"HP Label" as Label).text = str(_hp_bar.value)
 		var top_color: Color
 		var bottom_color: Color
 		match unit.get_faction().color:
@@ -40,4 +43,8 @@ func _process(_delta: float) -> void:
 
 
 func _get_gradient() -> Gradient:
-	return %"BG Gradient".get_theme_stylebox("panel").texture.gradient
+	return (_get_gradient_stylebox().texture as GradientTexture2D).gradient
+
+
+func _get_gradient_stylebox() -> StyleBoxTexture:
+	return _bg_gradient.get_theme_stylebox("panel") as StyleBoxTexture

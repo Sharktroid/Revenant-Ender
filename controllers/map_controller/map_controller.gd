@@ -12,15 +12,15 @@ func set_scaling(new_scaling: int) -> void:
 	var new_scale := Vector2(new_scaling, new_scaling)
 	scale = new_scale
 	MapController.map.scale = new_scale
-	$"UILayer".scale = new_scale
+	get_ui().scale = new_scale
 
 
 func create_main_map_menu() -> void:
 	## Creates map menu.
-	var menu: MapMenu = \
-			preload("res://ui/map_ui/map_menus/main_map_menu/main_map_menu.tscn").instantiate()
-	menu.offset = CursorController.get_rel_pos() \
-			+ MapController.get_map_camera().get_map_offset() + Vector2i(16, 0)
+	var menu := preload("res://ui/map_ui/map_menus/main_map_menu/" +
+			"main_map_menu.tscn").instantiate() as MapMenu
+	menu.offset = (CursorController.get_rel_pos()
+			+ MapController.get_map_camera().get_map_offset() + Vector2i(16, 0))
 	MapController.get_ui().add_child(menu)
 	GameController.add_to_input_stack(menu)
 	CursorController.disable()
@@ -28,7 +28,7 @@ func create_main_map_menu() -> void:
 
 func get_ui() -> CanvasLayer:
 	if GameController.get_root() and GameController.get_root().has_node("Map UI Layer"):
-		return GameController.get_root().get_node("Map UI Layer")
+		return GameController.get_root().get_node("Map UI Layer") as CanvasLayer
 	else:
 		return CanvasLayer.new()
 
@@ -50,9 +50,4 @@ func get_units() -> Array[Unit]:
 
 
 func get_dialogue() -> Dialogue:
-	return get_ui().get_node("Dialogue")
-
-
-func _on_banner_timer_timeout() -> void:
-	$"UI Layer/Turn Banner".texture = null
-	MapController.map.start_turn()
+	return get_ui().get_node("Dialogue") as Dialogue

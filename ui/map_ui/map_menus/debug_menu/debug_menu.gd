@@ -13,12 +13,13 @@ func select_item(item: MapMenuItem) -> void:
 
 		"Display Borders":
 			Utilities.invert_debug_constant("display_map_borders")
-			var map_borders: Node2D = MapController.map.get_node("Map Layer/Debug Border Overlay Container")
+			var map_borders := \
+					MapController.map.get_node("Map Layer/Debug Border Overlay Container") as Node2D
 			map_borders.visible = Utilities.get_debug_constant("display_map_borders")
 
 		"Display Terrain":
 			Utilities.invert_debug_constant("display_map_terrain")
-			var terrain_layer: TileMap = MapController.map.get_node("Map Layer/Terrain Layer")
+			var terrain_layer := MapController.map.get_node("Map Layer/Terrain Layer") as TileMap
 			terrain_layer.visible = Utilities.get_debug_constant("display_map_terrain")
 
 		"Display Map Cursor":
@@ -46,6 +47,6 @@ func _update_items() -> void:
 		"Display Terrain": Utilities.get_debug_constant("display_map_terrain"),
 		"Display Map Cursor": Utilities.get_debug_constant("display_map_cursor"),
 	}
-	for key: String in values.keys():
+	for key: String in values.keys() as Array[String]:
 		var value: String = str(values[key])
-		$Items.get_node(key).value = value
+		($Items.get_node(key) as MapMenuItem).value = value

@@ -3,7 +3,7 @@ extends Spear
 
 
 # Weapon-specific variables.
-func _init():
+func _init() -> void:
 	name = "Iron Spear"
 	level = ranks.E
 	might = 7

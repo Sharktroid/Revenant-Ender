@@ -16,16 +16,17 @@ func update() -> void:
 	var current_value: float = unit.get_stat(stat)
 	var max_value: float = maxi(unit.get_stat_cap(stat), 10)
 
-	%"Value Label".text = str(roundi(current_value))
+	(%"Value Label" as Label).text = str(roundi(current_value))
+	var progress_bar := %ProgressBar as ProgressBar
 	if max_value <= 0:
-		%ProgressBar.visible = false
+		progress_bar.visible = false
 	else:
-		%ProgressBar.visible = true
-		%ProgressBar.max_value = max_value
-		%ProgressBar.value = current_value
+		progress_bar.visible = true
+		progress_bar.max_value = max_value
+		progress_bar.value = current_value
 	var new_x: float = size.x * (float(max_value) / ABSOLUTE_MAX_VALUE)
-	$"Resize Handler".set_size.call_deferred(Vector2(new_x,
-			($"Resize Handler" as ReferenceRect).size.y))
+	var resize_handler := $"Resize Handler" as ReferenceRect
+	resize_handler.set_size.call_deferred(Vector2(new_x, resize_handler.size.y))
 
 	help_table = unit.get_stat_table(stat)
 	table_columns = 4

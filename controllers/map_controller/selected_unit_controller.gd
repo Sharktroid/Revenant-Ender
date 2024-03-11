@@ -3,7 +3,6 @@ extends Control
 
 var _unit: Unit
 var _ghost_unit: GhostUnit
-var _menu_node: PackedScene = load("res://ui/map_ui/map_menus/unit_menu/unit_menu.tscn")
 var current_animation: Unit.animations = Unit.animations.IDLE
 
 func _init(connected_unit: Unit) -> void:
@@ -26,7 +25,7 @@ func _process(_delta: float) -> void:
 		_ghost_unit.visible = false
 	else:
 		_ghost_unit.visible = true
-		var distance = Vector2i()
+		var distance := Vector2i()
 		if len(_unit.get_unit_path()) >= 2:
 			distance = _unit.get_unit_path()[-1] - _unit.get_unit_path()[-2]
 		var next_animation: Unit.animations
@@ -74,7 +73,9 @@ func _position_selected() -> void:
 
 func _create_unit_menu() -> void:
 	## Creates _unit menu.
-	var menu: MapMenu = _menu_node.instantiate()
+	const _menu_script = preload("res://ui/map_ui/map_menus/unit_menu/unit_menu.gd")
+	var _menu_node := load("res://ui/map_ui/map_menus/unit_menu/unit_menu.tscn") as PackedScene
+	var menu := _menu_node.instantiate() as _menu_script
 	menu.connected_unit = _unit
 	menu.offset = CursorController.get_rel_pos() \
 			+ MapController.get_map_camera().get_map_offset() + Vector2i(16, -8)

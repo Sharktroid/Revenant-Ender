@@ -1,15 +1,16 @@
 extends Node2D
 
 
-func _draw():
+func _draw() -> void:
 	for unit: Unit in MapController.get_units():
 		unit.modulate = Color.WHITE
 	var outlined_units: Dictionary = MapController.map.get_current_faction().outlined_units
-	var faction_stack: Array[Faction] = get_parent().get_parent().faction_stack
+	var map := get_parent().get_parent() as Map
+	var faction_stack: Array[Faction] = map.faction_stack
 	for outline_faction: Faction in faction_stack:
-		var current_outlined_units = []
+		var current_outlined_units: Array[Unit] = []
 		if outline_faction in outlined_units:
-			current_outlined_units = outlined_units[outline_faction]
+			current_outlined_units.assign(outlined_units[outline_faction])
 		var all_current_coords: Array[Vector2i] = []
 		var all_general_coords: Array[Vector2i] = []
 		var unit_highlight: Color
@@ -25,7 +26,7 @@ func _draw():
 				for coord: Vector2 in (unit.get_all_attack_tiles() + unit.get_raw_movement_tiles()):
 					if not (coord in all_current_coords):
 						all_current_coords.append(coord)
-		var current_faction: Faction = get_parent().get_parent().get_current_faction()
+		var current_faction: Faction = map.get_current_faction()
 		if current_faction.full_outline \
 				and outline_faction != current_faction:
 			for unit: Unit in MapController.get_units():
@@ -34,7 +35,7 @@ func _draw():
 						current_faction.get_diplomacy_stance(unit_faction)
 				if unit_stance == Faction.diplo_stances.ENEMY \
 						and len(unit.get_all_attack_tiles()) > 0:
-					for coord: Vector2 in (unit.get_all_attack_tiles() +
+					for coord: Vector2i in (unit.get_all_attack_tiles() +
 							unit.get_raw_movement_tiles()):
 						if not (coord in all_general_coords):
 							all_general_coords.append(coord)

@@ -13,59 +13,61 @@ var weapon_rank: int:
 
 
 func _update_icon() -> void:
-	$Icon.texture = icon
+	($Icon as TextureRect).texture = icon
 
 
 func _update_rank() -> void:
-	var progress_bar: ProgressBar = %ProgressBar
+	var progress_bar := %ProgressBar as ProgressBar
+	var rank_label := %Rank as Label
 	if weapon_rank < Weapon.ranks.E:
-		%Rank.text = "-"
+		rank_label.text = "-"
 		progress_bar.value = 0
 		help_description = "This unit cannot wield weapons of this type"
 
 	else:
 		if weapon_rank < Weapon.ranks.D:
-			%Rank.text = "E"
+			rank_label.text = "E"
 			progress_bar.min_value = Weapon.ranks.E
 			progress_bar.max_value = Weapon.ranks.D
 
 		elif weapon_rank < Weapon.ranks.C:
-			%Rank.text = "D"
+			rank_label.text = "D"
 			progress_bar.min_value = Weapon.ranks.D
 			progress_bar.max_value = Weapon.ranks.C
 
 		elif weapon_rank < Weapon.ranks.B:
-			%Rank.text = "C"
+			rank_label.text = "C"
 			progress_bar.min_value = Weapon.ranks.C
 			progress_bar.max_value = Weapon.ranks.B
 
 		elif weapon_rank < Weapon.ranks.A:
-			%Rank.text = "B"
+			rank_label.text = "B"
 			progress_bar.min_value = Weapon.ranks.B
 			progress_bar.max_value = Weapon.ranks.A
 
 		elif weapon_rank < Weapon.ranks.S:
-			%Rank.text = "A"
+			rank_label.text = "A"
 			progress_bar.min_value = Weapon.ranks.A
 
 			progress_bar.max_value = Weapon.ranks.S
 		else:
-			%Rank.text = "S"
+			rank_label.text = "S"
 			progress_bar.min_value = Weapon.ranks.S
 			progress_bar.max_value = 255
 
 		progress_bar.value = weapon_rank
-		if %Rank.text == "S":
+		if rank_label.text == "S":
 			help_description = "This unit has maxed out their rank for this weapon"
 		else:
 			var color_blue: String = "color=%s" % Utilities.font_blue
 			var string_array: Array[String] = [
-				"[colorblue]%d[/color]" % [progress_bar.value],
+				"[center][colorblue]%d[/color]" % [progress_bar.value],
 				" [color=%s]/[/color] " % Utilities.font_yellow,
 				"[colorblue]%d[/color]\n" % [progress_bar.max_value],
 				"[colorblue]%d[/color]" % [progress_bar.max_value - progress_bar.value],
 				" to ",
-				"[colorblue]%s[/color]" % Weapon.ranks.find_key(roundi(progress_bar.max_value)),
-				" rank",
+				"[colorblue]%s[/color]" %
+						(Weapon.ranks as Dictionary).find_key(roundi(progress_bar.max_value)),
+				" rank[/center]",
 			]
 			help_description = "".join(string_array).replace("colorblue", color_blue)

@@ -16,9 +16,8 @@ var faction_stack: Array[Faction] # All factions
 var true_pos: Vector2i # Position of the map, used for scrolling
 var curr_faction: int = 0
 
-const _ATTACK_TILE_NODE: Resource = preload("res://maps/map_tiles/attack_tile.tscn")
-const _MOVEMENT_TILE_NODE: Resource = preload("res://maps/map_tiles/movement_tile.tscn")
-const _SUPPORT_TILE_NODE: Resource = preload("res://maps/map_tiles/support_tile.tscn")
+@onready var _terrain_layer := $"Map Layer/Terrain Layer" as TileMap
+@onready var _border_overlay := $"Map Layer/Debug Border Overlay Container" as CanvasGroup
 
 
 func _init() -> void:
@@ -27,13 +26,13 @@ func _init() -> void:
 	_parse_movement_cost()
 
 
-func _enter_tree() -> void:
+func _ready() -> void:
 	create_debug_borders() # Only shows up when collison shapes are enabled
-	$"Map Layer/Terrain Layer".visible = Utilities.get_debug_constant("display_map_terrain")
-	$"Map Layer/Debug Border Overlay Container".visible = \
-			Utilities.get_debug_constant("display_map_borders")
-	$"Map Layer/Cursor Area".visible = Utilities.get_debug_constant("display_map_cursor")
-	size = $"Map Layer/Base Layer".get_used_cells(0).max() * 16 + Vector2i(16, 16)
+	_terrain_layer.visible = Utilities.get_debug_constant("display_map_terrain")
+	_border_overlay.visible = Utilities.get_debug_constant("display_map_borders")
+	($"Map Layer/Cursor Area" as Area2D).visible = \
+			Utilities.get_debug_constant("display_map_cursor")
+	size = ($"Map Layer/Base Layer" as TileMap).get_used_cells(0).max() * 16 + Vector2i(16, 16)
 	GameController.add_to_input_stack(self)
 
 
@@ -49,15 +48,17 @@ func receive_input(event: InputEvent) -> void:
 
 	elif event.is_action_pressed("status"):
 		if CursorController.get_hovered_unit():
-			var status_menu: Control = \
-					preload("res://ui/map_ui/status_screen/status_screen.tscn").instantiate()
+			const STATUS_SCREEN = preload("res://ui/map_ui/status_screen/status_screen.gd")
+			const STATUS_SCREEN_SCENE: PackedScene = \
+					preload("res://ui/map_ui/status_screen/status_screen.tscn")
+			var status_menu := STATUS_SCREEN_SCENE.instantiate() as STATUS_SCREEN
 			status_menu.observing_unit = CursorController.get_hovered_unit()
 			MapController.get_ui().add_child(status_menu)
 			GameController.add_to_input_stack(status_menu)
 			CursorController.disable()
 
 
-func unit_wait(_unit) -> void:
+func unit_wait(_unit: Unit) -> void:
 	# Called whenever a unit waits.
 	update_outline()
 
@@ -65,7 +66,7 @@ func unit_wait(_unit) -> void:
 func next_faction() -> void:
 	# Sets the faction to the next faction.
 	curr_faction = (curr_faction + 1) % len(faction_stack)
-	var turn_banner_node: Sprite2D = MapController.get_ui().get_node("Turn Banner")
+	var turn_banner_node := MapController.get_ui().get_node("Turn Banner") as Sprite2D
 	var faction_name: String = get_current_faction().name.to_lower()
 	var all_names: Array[String] = []
 	var dir: DirAccess = DirAccess.open("res://turn_banners/")
@@ -79,7 +80,8 @@ func next_faction() -> void:
 		push_error('An error occurred when trying to access the path "res://turn_banners/".')
 	# Only displays factions with banners.
 	if faction_name in all_names:
-		turn_banner_node.texture = load("res://turn_banners/%s_phase_banner.png" % faction_name)
+		turn_banner_node.texture = \
+				load("res://turn_banners/%s_phase_banner.png" % faction_name) as Texture2D
 		var timer: SceneTreeTimer = get_tree().create_timer(82.0/60)
 		await timer.timeout
 		turn_banner_node.texture = null
@@ -150,7 +152,7 @@ func end_turn() -> void:
 func get_terrain_cost(unit: Unit, coords: Vector2) -> float:
 	var movement_type: UnitClass.movement_types = unit.unit_class.movement_type
 	if movement_type in movement_cost_dict.keys():
-		var movement_type_terrain_dict = movement_cost_dict[unit.unit_class.movement_type]
+		var movement_type_terrain_dict: Dictionary = movement_cost_dict[unit.unit_class.movement_type]
 		var terrain_name: String = _get_terrain(coords, unit.get_faction())
 		# Combines several terrain names for compactness.
 		match terrain_name:
@@ -177,9 +179,10 @@ func create_debug_borders() -> void:
 		for y: int in range(0, get_size().y, 16):
 			if x < left_border or x + 16 > get_size().x - right_border \
 					or y < top_border or y + 16 > get_size().y - bottom_border:
-				var border_tile: Sprite2D = $"Map Layer/Debug Border Overlay Tile Base".duplicate()
+				var border_tile := \
+						$"Map Layer/Debug Border Overlay Tile Base".duplicate() as Sprite2D
 				border_tile.transform.origin = Vector2(x, y)
-				$"Map Layer/Debug Border Overlay Container".add_child(border_tile)
+				_border_overlay.add_child(border_tile)
 
 
 func toggle_full_outline() -> void:
@@ -192,15 +195,15 @@ func toggle_outline_unit(unit: Unit) -> void:
 	if not(unit.get_faction() in outlined_units):
 		outlined_units[unit.get_faction()] = []
 	if unit in outlined_units[unit.get_faction()]:
-		outlined_units[unit.get_faction()].erase(unit)
+		(outlined_units[unit.get_faction()] as Array).erase(unit)
 	else:
-		outlined_units[unit.get_faction()].append(unit)
+		(outlined_units[unit.get_faction()] as Array).append(unit)
 	faction_stack[curr_faction].outlined_units = outlined_units
 	update_outline()
 
 
 func update_outline() -> void:
-	$"Map Layer/Outline".queue_redraw()
+	($"Map Layer/Outline" as Node2D).queue_redraw()
 
 
 func display_tiles(tiles: Array[Vector2i], type: tile_types, modulation: float = 0.5,
@@ -208,12 +211,15 @@ func display_tiles(tiles: Array[Vector2i], type: tile_types, modulation: float =
 	var tiles_node := Node2D.new()
 	tiles_node.name = "%s Move Tiles" % name
 	var current_tile_base: PackedScene
+	const ATTACK_TILE_NODE: PackedScene = preload("res://maps/map_tiles/attack_tile.tscn")
+	const MOVEMENT_TILE_NODE: PackedScene = preload("res://maps/map_tiles/movement_tile.tscn")
+	const SUPPORT_TILE_NODE: PackedScene = preload("res://maps/map_tiles/support_tile.tscn")
 	match type:
-		tile_types.ATTACK: current_tile_base = _ATTACK_TILE_NODE
-		tile_types.MOVEMENT: current_tile_base = _MOVEMENT_TILE_NODE
-		tile_types.SUPPORT: current_tile_base = _SUPPORT_TILE_NODE
+		tile_types.ATTACK: current_tile_base = ATTACK_TILE_NODE
+		tile_types.MOVEMENT: current_tile_base = MOVEMENT_TILE_NODE
+		tile_types.SUPPORT: current_tile_base = SUPPORT_TILE_NODE
 	for i: Vector2i in tiles:
-		var tile: Sprite2D = current_tile_base.instantiate()
+		var tile := current_tile_base.instantiate() as Sprite2D
 		tile.name = "Tile"
 		tile.position = Vector2(i)
 		if Utilities.xor(not(i in modulate_blacklist), blacklist_as_whitelist):
@@ -241,25 +247,27 @@ func _get_terrain(coords: Vector2i, faction: Faction) -> String:
 #			if "Doesn't Block" in unit.tags:
 #				return unit.unit_class
 #			else:
-			var blocking_stances = [Faction.diplo_stances.PEACE, Faction.diplo_stances.ENEMY]
+			var blocking_stances := [Faction.diplo_stances.PEACE, Faction.diplo_stances.ENEMY]
 			if faction.get_diplomacy_stance(unit.get_faction()) in blocking_stances:
 				return "Blocked"
-	var cell_id: TileData = $"Map Layer/Terrain Layer".get_cell_tile_data(0, coords/16)
-	cell_id.get_custom_data("Terrain Name")
+	var cell_id: TileData = _terrain_layer.get_cell_tile_data(0, coords/16)
 	return cell_id.get_custom_data("Terrain Name")
 
 
 func _parse_movement_cost() -> void:
 	# Reads the movement cost from the .csv file
-	var file = FileAccess.open("units/movement_cost.csv", FileAccess.READ)
-	var raw_movement_cost: Array = file.get_as_text().split("\n")
+	var file := FileAccess.open("units/movement_cost.csv", FileAccess.READ)
+	var raw_movement_cost: Array[String] = []
+	raw_movement_cost.assign(file.get_as_text().split("\n"))
 	if len(raw_movement_cost[-1]) == 0:
 		raw_movement_cost.erase("")
 	file.close()
-	var header: PackedStringArray = (raw_movement_cost.pop_at(0).strip_edges().split(","))
+	var header: Array[String] = []
+	header.assign((raw_movement_cost.pop_at(0) as String).strip_edges().split(","))
 	header.remove_at(0)
 	for full_type: String in raw_movement_cost:
-		var split: Array = full_type.strip_edges().split(",")
+		var split: Array[String] = []
+		split.assign(full_type.strip_edges().split(","))
 		var type: UnitClass.movement_types
 		match split.pop_at(0):
 			"Foot": type = UnitClass.movement_types.FOOT

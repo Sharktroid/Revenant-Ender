@@ -3,6 +3,7 @@ extends Control
 const DURATION: float = 5.0/60
 const BORDER := Vector2i(4, 7)
 const TILE_SIZE: int = 32
+const _HELP_POPUP = preload("res://ui/help_popup/help_popup.gd")
 
 var _active: bool = false
 var _busy: bool = false
@@ -18,7 +19,7 @@ func _ready() -> void:
 
 
 func receive_input(event: InputEvent) -> void:
-	var move_popup: Callable = func(direction: String):
+	var move_popup: Callable = func(direction: String) -> void:
 		var path: NodePath = _current_container.get("focus_neighbor_%s" % direction)
 		if _current_container.has_node(path):
 			(_current_container.get_node(path) as HelpContainer).set_as_current_help_container()
@@ -79,11 +80,11 @@ func is_idle() -> bool:
 	return is_active() and not _busy
 
 
-func get_popup_node() -> RichTextLabel:
+func get_popup_node() -> _HELP_POPUP:
 	if MapController.get_ui().has_node("Help Popup"):
-		return MapController.get_ui().get_node("Help Popup")
+		return MapController.get_ui().get_node("Help Popup") as _HELP_POPUP
 	else:
-		return RichTextLabel.new()
+		return _HELP_POPUP.new()
 
 
 func _get_node_size(new_text: String, new_table: Array[String], new_table_cols: int) -> Vector2i:
@@ -125,4 +126,3 @@ func _resize(new_size: Vector2, pos: Vector2 = _default_position(),
 
 func _default_position() -> Vector2:
 	return get_popup_node().position + Vector2(get_popup_node().size.x/2, 0)
-

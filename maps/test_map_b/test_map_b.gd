@@ -3,7 +3,7 @@ extends Map
 
 const DEBUG_CUTSCENE: bool = false
 
-func _init():
+func _init() -> void:
 	# Initializing variables for this map.
 	faction_stack = [
 		Faction.new("Player", Faction.colors.BLUE, Faction.player_types.HUMAN),
@@ -12,17 +12,17 @@ func _init():
 	super()
 
 
-func _enter_tree() -> void:
+func _ready() -> void:
 	super()
 	if DEBUG_CUTSCENE:
 		await CursorController.ready
 		CursorController.disable()
-		var roy: Unit = $"Map Layer/Units/Player/Roy"
-		var marcus: Unit = $"Map Layer/Units/Player/Marcus"
-		var alen: Unit = $"Map Layer/Units/Player/Alen"
-		var lance: Unit = $"Map Layer/Units/Player/Lance"
-		var wolt: Unit = $"Map Layer/Units/Player/Wolt"
-		var bors: Unit = $"Map Layer/Units/Player/Bors"
+		var roy := $"Map Layer/Units/Player/Roy" as Unit
+		var marcus := $"Map Layer/Units/Player/Marcus" as Unit
+		var alen := $"Map Layer/Units/Player/Alen" as Unit
+		var lance := $"Map Layer/Units/Player/Lance" as Unit
+		var wolt := $"Map Layer/Units/Player/Wolt" as Unit
+		var bors := $"Map Layer/Units/Player/Bors" as Unit
 		var dialogue: Dialogue = MapController.get_dialogue()
 		await get_tree().process_frame
 		GameController.add_to_input_stack(dialogue)
@@ -30,26 +30,26 @@ func _enter_tree() -> void:
 		dialogue.add_portrait(roy, Dialogue.positions.CLOSERIGHT)
 		dialogue.add_portrait(lance, Dialogue.positions.MIDLEFT, true)
 		await dialogue.set_top_speaker(roy)
-		await dialogue.set_top_text("Oh, it's Lance! What's the matter? \
-Why are you in such a hurry?")
+		await dialogue.set_top_text("Oh, it's Lance! What's the matter? " +
+				"Why are you in such a hurry?")
 		await dialogue.show_bottom_textbox(Dialogue.positions.MIDLEFT)
 		await dialogue.set_bottom_speaker(lance)
-		await dialogue.set_bottom_text("Lord Roy! Bandits have appeared and are \
-attacking the castle as we speak!")
+		await dialogue.set_bottom_text("Lord Roy! Bandits have appeared and are " +
+				"attacking the castle as we speak!")
 		dialogue.add_portrait(alen, Dialogue.positions.FARRIGHT)
 		await dialogue.set_top_speaker(alen)
 		await dialogue.set_top_text("No! Is the marquess unharmed?")
 		await dialogue.clear_bottom()
-		await dialogue.set_bottom_text("He's inside, defending against the bandits' attack. \
-But I don't know how long he can last with his illness...!")
+		await dialogue.set_bottom_text("He's inside, defending against the bandits' attack. " +
+				"But I don't know how long he can last with his illness...!")
 		await dialogue.remove_portrait(alen)
 		dialogue.add_portrait(bors, Dialogue.positions.FARRIGHT)
 		await dialogue.set_top_speaker(bors)
 		await dialogue.set_top_text("Excuse me. Lance, is it? Is Lady Lilina safe?")
 		await dialogue.clear_bottom()
-		await dialogue.set_bottom_text("You must be a knight of Ostia. \
-Lady Lilina is in the castle. She should be all right. \
-She's with Lord Eliwood after all, but he can't last forever.")
+		await dialogue.set_bottom_text("You must be a knight of Ostia. " +
+				"Lady Lilina is in the castle. She should be all right. " +
+				"She's with Lord Eliwood after all, but he can't last forever.")
 		dialogue.remove_portrait(bors)
 		await dialogue.set_top_speaker(roy)
 		await dialogue.set_top_text("No... I shouldn't have let Lilina go to the castle before me.")

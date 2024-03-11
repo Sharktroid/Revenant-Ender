@@ -3,7 +3,7 @@ class_name Hero
 extends UnitClass
 
 
-func _init():
+func _init() -> void:
 	name = "Champion"
 	max_level = 30
 	movement_type = movement_types.ADVANCED_FOOT

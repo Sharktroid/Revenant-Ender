@@ -5,7 +5,7 @@ var _unit: Unit
 
 
 func _init(connected_unit: Unit) -> void:
-	_unit = connected_unit.duplicate()
+	_unit = connected_unit.duplicate() as Unit
 	z_index = 1
 	_unit.position = Vector2i()
 	_unit.get_node("Area2D").queue_free()

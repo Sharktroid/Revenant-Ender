@@ -1,7 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://78klmydgph3g"]
+[gd_scene load_steps=2 format=3 uid="uid://6oui64usld1f"]
 
-[ext_resource type="PackedScene" uid="uid://b4a6n61tdijwj" path="res://ui/map_ui/map_menus/map_menu.tscn" id="1_6xvbc"]
-[ext_resource type="Script" path="res://ui/map_ui/map_menus/item_menu/item_menu.gd" id="2_jv8wc"]
+[ext_resource type="Script" path="res://ui/map_ui/map_menus/item_menu/item_menu.gd" id="2_a0525"]
 
-[node name="Item Menu" instance=ExtResource("1_6xvbc")]
-script = ExtResource("2_jv8wc")
+[node name="Item Menu" type="PanelContainer"]
+offset_right = 9.0
+offset_bottom = 9.0
+size_flags_horizontal = 3
+focus_mode = 2
+script = ExtResource("2_a0525")
+
+[node name="Items" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 0

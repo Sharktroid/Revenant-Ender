@@ -4,7 +4,7 @@ extends MountedUnit
 
 
 # Unit-specific variables.
-func _init():
+func _init() -> void:
 	name = "Social Knight"
 	max_level = 20
 	movement_type = movement_types.HEAVY_CAVALRY

@@ -3,7 +3,7 @@ extends Axe
 
 
 # Weapon-specific variables.
-func _init():
+func _init() -> void:
 	name = "Steel Axe"
 	level = ranks.D
 	might = 13

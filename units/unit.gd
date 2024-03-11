@@ -48,34 +48,35 @@ var sprite_animated: bool = true:
 	set(value):
 		sprite_animated = value
 		if sprite_animated:
-			$AnimationPlayer.play($AnimationPlayer.current_animation)
+			_animation_player.play(_animation_player.current_animation)
 		else:
-			$AnimationPlayer.pause()
+			_animation_player.pause()
 var weapon_levels: Dictionary
 var traveler: Unit:
 	set(value):
 		traveler = value
 		if traveler:
-			$"Traveler Icon/AnimationPlayer".play("display")
+			_traveler_animation_player.play("display")
 		else:
-			$"Traveler Icon/AnimationPlayer".play("RESET")
+			_traveler_animation_player.play("RESET")
 var personal_authority: int
 
 
+var _animation_player: AnimationPlayer
+var _traveler_animation_player: AnimationPlayer
 var _portrait: Portrait
 var _raw_movement_tiles: Array[Vector2i] # All movement tiles without organization.
 var _path: Array[Vector2i] # Path the unit will follow when moving.
 var _current_statuses: Array[statuses]
 var _current_health: float
 static var _movement_speed: float = 16 # Speed unit moves across the map in tiles/second.
-static var _all_units: Dictionary # Lists all unit classes.
 # Dictionaries that convert faction/variant into animation modifier.
 var _movement_tiles: Dictionary # Movement tiles. Split by cost left.
 var _movement_tiles_node: Node2D
 var _attack_tile_node: Node2D
 var _current_attack_tiles_node: Node2D
 # Resources to be loaded.
-const _MOVEMENT_ARROWS: Resource = preload("res://maps/map_tiles/movement_arrows.tscn")
+const _MOVEMENT_ARROWS: PackedScene = preload("res://maps/map_tiles/movement_arrows.tscn")
 var _stat_boosts: Dictionary
 var _default_palette: Array[Array] = [[Vector3(), Vector3()]]
 var _wait_palette: Array[Array] = [
@@ -131,49 +132,33 @@ var _arrows_container: CanvasGroup
 
 
 func _enter_tree() -> void:
+	_animation_player = $AnimationPlayer as AnimationPlayer
+	_traveler_animation_player = $"Traveler Icon/AnimationPlayer" as AnimationPlayer
 	current_level = base_level
-	for weapon_type: Weapon.types in unit_class.base_weapon_levels.keys():
+	for weapon_type: Weapon.types in unit_class.base_weapon_levels.keys() as Array[Weapon.types]:
 		if weapon_type not in weapon_levels.keys():
 			weapon_levels[weapon_type] = lerpf(unit_class.base_weapon_levels[weapon_type] as float,
 					unit_class.max_weapon_levels[weapon_type] as float,
 					inverse_lerp(1, unit_class.max_level, current_level))
 	texture = unit_class.map_sprite
-	material = material.duplicate()
+	material = material.duplicate() as Material
 	current_movement = get_stat(stats.MOVEMENT)
 	set_current_health(get_stat(stats.HITPOINTS))
 	add_to_group("units")
 	_update_palette()
-
-	var animation_player: AnimationPlayer = $AnimationPlayer
-	if animation_player.current_animation == '':
-		animation_player.play("idle")
-	Utilities.sync_animation(animation_player)
+	if _animation_player.current_animation == '':
+		_animation_player.play("idle")
+	Utilities.sync_animation(_animation_player)
 	var directory: String = "res://portraits/name/name.tscn".replace("name", unit_name.to_lower())
 	if FileAccess.file_exists(directory):
-		_portrait = load(directory).instantiate()
-
-	# Setting up "_all_units"
-	if not _all_units:
-		var dir = DirAccess.open("res://units/")
-		if dir:
-			dir.list_dir_begin()
-			var file_name: String = dir.get_next()
-			while file_name != "":
-				if not dir.current_is_dir() and "gd" == file_name.get_slice(".", -1):
-					var file = load("res://units/%s" % file_name).new()
-					var scene_name: String = "res://units/%s.tscn" % file_name.get_slice('.', 0)
-					_all_units[file.unit_class] = load(scene_name)
-				file_name = dir.get_next()
-		else:
-			push_error('An error occurred when trying to access the path "res://units/".')
-		_all_units.erase('')
+		_portrait = (load(directory) as PackedScene).instantiate() as Portrait
 
 
-func _process(_delta: float):
+func _process(_delta: float) -> void:
 	if traveler:
 		traveler.position = position
 	_render_status()
-	if $AnimationPlayer.current_animation == "idle":
+	if _animation_player.current_animation == "idle":
 		var anim_frame: int = floori((Engine.get_physics_frames() as float) / 16) % 4
 		if anim_frame == 3:
 			frame = 1
@@ -201,7 +186,7 @@ func get_class_name() -> String:
 func get_current_weapon() -> Weapon:
 	for item: Item in items:
 		if item is Weapon and can_use_weapon(item as Weapon):
-			return item
+			return item as Weapon
 	return null
 
 
@@ -240,7 +225,8 @@ func get_crit_damage(defender: Unit) -> int:
 func set_current_health(health: float, does_die: bool = true) -> void:
 	_current_health = clampf(health, 0, get_stat(stats.HITPOINTS))
 	if not Engine.is_editor_hint():
-		$"Health Bar".update()
+		const HEALTH_BAR = preload("res://units/health_bar/health_bar.gd")
+		($"Health Bar" as HEALTH_BAR).update()
 	if get_current_health() <= 0 and does_die:
 		die()
 
@@ -255,20 +241,19 @@ func add_current_health(added_health: float, does_die: bool = true) -> void:
 
 
 func set_animation(animation: animations) -> void:
-	var animation_player: AnimationPlayer = $AnimationPlayer
-	animation_player.play("RESET")
-	animation_player.advance(0)
+	_animation_player.play("RESET")
+	_animation_player.advance(0)
 	match animation:
-		animations.IDLE: animation_player.play("idle")
-		animations.MOVING_LEFT: animation_player.play("moving_left")
-		animations.MOVING_RIGHT: animation_player.play("moving_right")
-		animations.MOVING_UP: animation_player.play("moving_up")
-		animations.MOVING_DOWN: animation_player.play("moving_down")
+		animations.IDLE: _animation_player.play("idle")
+		animations.MOVING_LEFT: _animation_player.play("moving_left")
+		animations.MOVING_RIGHT: _animation_player.play("moving_right")
+		animations.MOVING_UP: _animation_player.play("moving_up")
+		animations.MOVING_DOWN: _animation_player.play("moving_down")
 	if sprite_animated:
-		Utilities.sync_animation(animation_player)
+		Utilities.sync_animation(_animation_player)
 	else:
-		animation_player.advance(0)
-		animation_player.pause()
+		_animation_player.advance(0)
+		_animation_player.pause()
 
 
 func get_stat_boost(stat: stats) -> int:
@@ -286,7 +271,7 @@ func get_stat(stat: stats, level: int = current_level) -> int:
 
 
 func get_stat_cap(stat: stats) -> int:
-	return roundi((unit_class.end_stats.get(stat, 0) as float)
+	return roundi((unit_class.end_stats.get(stat, 0))
 			* (1 + PERSONAL_VALUE_MULTIPLIER) * (1 + EFFORT_VALUE_MULTIPLIER))
 
 
@@ -294,7 +279,7 @@ func get_attack_speed() -> int:
 	var weight: int = 0
 	if get_current_weapon():
 		weight = get_current_weapon().weight
-	return get_stat(stats.SPEED) - max(weight - get_stat(stats.CONSTITUTION), 0)
+	return get_stat(stats.SPEED) - maxi(weight - get_stat(stats.CONSTITUTION), 0)
 
 
 func get_current_defence(attacker_weapon_type: Weapon.damage_types) -> int:
@@ -312,12 +297,12 @@ func get_max_level() -> int:
 
 
 func get_area() -> Area2D:
-	return $Area2D
+	return $Area2D as Area2D
 
 
 func get_portrait() -> Portrait:
 	if _portrait:
-		return _portrait.duplicate()
+		return _portrait.duplicate() as Portrait
 	else:
 		var portrait := Portrait.new()
 		portrait.texture = unit_class.default_portrait
@@ -403,7 +388,7 @@ func get_min_range() -> int:
 	var min_range: int = get_current_weapon().min_range
 	for weapon: Item in items:
 		if weapon is Weapon:
-			min_range = min(weapon.min_range, min_range)
+			min_range = mini((weapon as Weapon).min_range, min_range)
 	return min_range
 
 
@@ -411,7 +396,7 @@ func get_max_range() -> int:
 	var max_range: int = get_current_weapon().max_range
 	for weapon: Item in items:
 		if weapon is Weapon:
-			max_range = max(weapon.max_range, max_range)
+			max_range = maxi((weapon as Weapon).max_range, max_range)
 	return max_range
 
 
@@ -522,10 +507,8 @@ func get_current_attack_tiles(pos: Vector2i, all_weapons: bool = false) -> Array
 
 ## Shows off the tiles the unit can attack from its current position.
 func display_current_attack_tiles(pos: Vector2i) -> void:
-	var current_tiles: Array[Vector2i] = get_current_attack_tiles(pos)
-	var display_tiles: Callable = MapController.map.display_highlighted_tiles
-	var attack_type: Map.tile_types = Map.tile_types.ATTACK
-	_current_attack_tiles_node = display_tiles.call(current_tiles, self, attack_type)
+	_current_attack_tiles_node = MapController.map.display_highlighted_tiles(
+			get_current_attack_tiles(pos), self, Map.tile_types.ATTACK)
 
 
 ## Hides current attack tiles.
@@ -558,7 +541,7 @@ func move(move_target: Vector2i = get_unit_path()[-1]) -> void:
 	if move_target in get_unit_path():
 		remove_path()
 		var path: Array[Vector2i] = get_unit_path()
-		get_node("Area2D").monitoring = false
+		get_area().monitoring = false
 		while len(path) > 0:
 			var _target: Vector2 = path.pop_at(0)
 			match _target - position:
@@ -571,10 +554,10 @@ func move(move_target: Vector2i = get_unit_path()[-1]) -> void:
 			while position != _target:
 				var tween: Tween = create_tween()
 				tween.set_speed_scale(_movement_speed)
-				tween.tween_method(func(new_pos: Vector2): position = new_pos.round(),
+				tween.tween_method(func(new_pos: Vector2) -> void: position = new_pos.round(),
 						position, _target, 1)
 				await tween.finished
-		get_node("Area2D").monitoring = true
+		get_area().monitoring = true
 		set_animation(animations.IDLE)
 
 
@@ -605,7 +588,7 @@ func update_path(destination: Vector2i, num: int = current_movement) -> void:
 		_path.append(Vector2i(position))
 	# Sets destination to an adjacent tile to a unit if a unit is hovered and over an attack tile.
 	var raw_movement_tiles: Array[Vector2i] = get_raw_movement_tiles()
-	var all_attack_tiles = get_all_attack_tiles(raw_movement_tiles)
+	var all_attack_tiles: Array[Vector2i] = get_all_attack_tiles(raw_movement_tiles)
 	if not destination in raw_movement_tiles \
 			and destination in all_attack_tiles \
 			and Utilities.get_tile_distance(get_unit_path()[-1], destination) > 1:
@@ -623,20 +606,20 @@ func update_path(destination: Vector2i, num: int = current_movement) -> void:
 
 	if destination in raw_movement_tiles:
 		# Gets the path
-		var total_cost = 0
+		var total_cost: float = 0
 		for tile: Vector2i in _path:
 			if tile != Vector2i(position):
 				total_cost += MapController.map.get_terrain_cost(self, tile)
 		if destination in _path:
-			_path = _path.slice(0, _path.find(destination) + 1)
+			_path = _path.slice(0, _path.find(destination) + 1) as Array[Vector2i]
 		else:
 			if (total_cost <= current_movement and
 					destination - get_unit_path()[-1] in Utilities.adjacent_tiles):
 				_path.append(destination)
 			else:
-				var new_path = _get_path_subfunc(num, moved, raw_movement_tiles, moved_tiles,
+				var new_path: Array[Vector2i] = _get_path_subfunc(num, moved, raw_movement_tiles, moved_tiles,
 						destination)
-				if new_path is Array[Vector2i]:
+				if new_path.size() > 0:
 					_path = new_path
 
 
@@ -647,9 +630,9 @@ func show_path() -> void:
 	_arrows_container = CanvasGroup.new()
 	if len(get_unit_path()) > 1:
 		for i: Vector2i in get_unit_path():
-			var tile: Sprite2D = _MOVEMENT_ARROWS.instantiate()
-			var prev
-			var next
+			var tile := _MOVEMENT_ARROWS.instantiate() as Sprite2D
+			var prev: Vector2i
+			var next: Vector2i
 			if get_unit_path().find(i) == 0:
 				prev = i - Vector2i(position)
 			else:
@@ -695,7 +678,7 @@ func get_all_attack_tiles(movement_tiles: Array[Vector2i] = \
 		get_raw_movement_tiles()) -> Array[Vector2i]:
 	var all_attack_tiles: Array[Vector2i] = []
 	if get_current_weapon():
-		var basis_movement_tiles: Array[Vector2i] = movement_tiles.duplicate()
+		var basis_movement_tiles := movement_tiles.duplicate() as Array[Vector2i]
 		for unit: Unit in MapController.get_units():
 			if unit != self:
 				var unit_pos: Vector2i = unit.position
@@ -718,7 +701,7 @@ func get_all_attack_tiles(movement_tiles: Array[Vector2i] = \
 
 func get_new_map_attack() -> MapAttack:
 	# Returns a new instance of the class's map attack animation
-	return load("res://map_attack.tscn").instantiate()
+	return (load("res://map_attack.tscn") as PackedScene).instantiate() as MapAttack
 
 
 func remove_path() -> void:
@@ -727,7 +710,7 @@ func remove_path() -> void:
 		_arrows_container.queue_free()
 
 
-func is_friend(other_unit: Unit):
+func is_friend(other_unit: Unit) -> bool:
 	return get_faction().is_friend(other_unit.get_faction())
 
 
@@ -756,11 +739,11 @@ func _render_status() -> void:
 
 func _get_movement_tiles(movement: int) -> void:
 	# Gets the movement tiles of the unit
-	var h := []
+	var h: Array[Vector2i] = []
 	var start: Vector2i = (position)
-	var tiles_first_pass = {movement: []}
+	var tiles_first_pass: Dictionary = {movement as float: []}
 	const RANGE_MULT: float = 4.0/3
-	_movement_tiles = {movement: [start]}
+	_movement_tiles = {movement as float: [start]}
 	if position == ((position/16).floor() * 16):
 		#region Gets the initial grid
 		for y in range(-movement * RANGE_MULT, movement * RANGE_MULT + 1):
@@ -775,43 +758,46 @@ func _get_movement_tiles(movement: int) -> void:
 		for x: Vector2i in h:
 			var boundary: Vector2i = MapController.map.get_size() - Vector2(16, 16)
 			if x == x.clamp(Vector2i(), boundary):
-				var val = floori(movement - (absf(x.x - start.x) + absf(x.y - start.y))/16)
+				var val: float = floorf(movement - (absf(x.x - start.x) + absf(x.y - start.y))/16)
 				if not(val in tiles_first_pass):
 					tiles_first_pass[val] = []
-				tiles_first_pass[val].append(x)
+				(tiles_first_pass[val] as Array).append(x)
 		#endregion
 		#region Calculates each tile if they have the right movement value.
 		var max_val: int = tiles_first_pass.keys().max()
 		var min_val: int = tiles_first_pass.keys().min()
-		for k in range(max_val, min_val - 1, -1):
+		for k: float in range(max_val, min_val - 1, -1):
 			if k in tiles_first_pass.keys():
-				var v = tiles_first_pass[k]
+				var v: Array[Vector2i] = []
+				v.assign(tiles_first_pass[k])
 				for tile: Vector2i in v:
 					var cost: float = (MapController.map.get_terrain_cost(self, tile))
-					var valid = false
+					var valid: bool = false
 					var greatest_adjacent_cost: float
-					for a in _movement_tiles.keys():
+					for a: float in _movement_tiles.keys() as Array[float]:
 						if a > k - cost:
-							for c in _movement_tiles[a]:
+							for c: Vector2i in _movement_tiles[a]:
 								if (c - tile) in [Vector2i(-16, 0), Vector2i(16, 0),
 										Vector2i(0, -16), Vector2i(0, 16)]:
 									valid = true
-									greatest_adjacent_cost = max(greatest_adjacent_cost, a)
+									greatest_adjacent_cost = maxf(greatest_adjacent_cost, a)
 					if valid:
 						var val: float = greatest_adjacent_cost - cost
 						if val >= 0:
 							if not(val in _movement_tiles.keys()):
 								_movement_tiles[val] = []
-							_movement_tiles[val].append(tile)
+							(_movement_tiles[val] as Array).append(tile)
 					else:
-						var val: int = k - 1
+						var val: float = k - 1
 						if not(val in tiles_first_pass.keys()):
 							tiles_first_pass[val] = []
-						tiles_first_pass[val].append(tile)
+						(tiles_first_pass[val] as Array).append(tile)
 		#endregion
 		_raw_movement_tiles = []
-		for v: Array in _movement_tiles.values():
-			_raw_movement_tiles.append_array(v)
+		for v: Array in _movement_tiles.values() as Array[Array]:
+			var converted: Array[Vector2i] = []
+			converted.assign(v)
+			_raw_movement_tiles.append_array(converted)
 
 
 func _set_palette(color: Faction.colors) -> void:
@@ -834,24 +820,25 @@ func _set_palette(color: Faction.colors) -> void:
 	for color_set in palette:
 		old_colors.append(color_set[0])
 		new_colors.append(color_set[1])
-	material.set_shader_parameter("old_colors", old_colors)
-	material.set_shader_parameter("new_colors", new_colors)
+	var shader_material := material as ShaderMaterial
+	shader_material.set_shader_parameter("old_colors", old_colors)
+	shader_material.set_shader_parameter("new_colors", new_colors)
 
 
 func _get_path_subfunc(num: float, moved: Vector2i, all_tiles: Array[Vector2i],
-		moved_tiles: Array[Vector2i], destination: Vector2i):
+		moved_tiles: Array[Vector2i], destination: Vector2i) -> Array[Vector2i]:
 	# Recursive function used for getting the path. Do not use outside of "get_path".
 	if num > 0:
 		# Sets the order the path is checked in.
 		# Large amounts of lag can occur if the order starts with a far tile.
 		# Some RNG is used for aethetics; can possibly lag at extreme values.
-		var order = []
+		var order: Array[Vector2i] = []
 		var order_ready: bool = false
 		#region Goes straight first when the destination is straight ahead
 		for axis in 2:
 			if is_zero_approx(destination[axis] - moved[axis]):
 				var other_axis: int = (axis + 1) % 2
-				var mid = Vector2i()
+				var mid := Vector2i()
 				mid[axis] = 16
 				order = [mid, -mid]
 				order.shuffle()
@@ -859,7 +846,9 @@ func _get_path_subfunc(num: float, moved: Vector2i, all_tiles: Array[Vector2i],
 				first[other_axis] = 16
 				if destination[other_axis] - moved[other_axis] < 0:
 					first = -first
-				order = [first] + order + [-first]
+				var new_order: Array = [first] + order + [-first]
+				order = []
+				order.assign(new_order)
 				order_ready = true
 				break
 		#endregion
@@ -878,9 +867,9 @@ func _get_path_subfunc(num: float, moved: Vector2i, all_tiles: Array[Vector2i],
 			order.append_array(end)
 		#endregion
 		#region Checks each direction.
-		for i in order:
+		for i: Vector2i in order:
 			if moved + i in all_tiles and not(moved + i in moved_tiles):
-				var temp_moved_tiles: Array[Vector2i] = moved_tiles.duplicate()
+				var temp_moved_tiles := moved_tiles.duplicate() as Array[Vector2i]
 				var temp_moved: Vector2i = moved
 				temp_moved += i
 				temp_moved_tiles.append(temp_moved)
@@ -888,14 +877,15 @@ func _get_path_subfunc(num: float, moved: Vector2i, all_tiles: Array[Vector2i],
 					moved_tiles = temp_moved_tiles
 					return moved_tiles
 				var new_num: float = num - MapController.map.get_terrain_cost(self, temp_moved)
-				var value = _get_path_subfunc(new_num, temp_moved, all_tiles,
+				var value: Array[Vector2i] = _get_path_subfunc(new_num, temp_moved, all_tiles,
 						temp_moved_tiles, destination)
-				if value != null:
+				if value.size() > 0:
 					return value
 		#endregion
+	return []
 
 
-func _on_area2d_area_entered(area: Area2D):
+func _on_area2d_area_entered(area: Area2D) -> void:
 	# When cursor enters unit's area
 	if area == CursorController.get_area() and visible:
 		var selecting: bool = MapController.selecting
@@ -909,7 +899,7 @@ func _on_area2d_area_entered(area: Area2D):
 
 
 func _get_personal_value_multiplier(stat: stats) -> float:
-	var personal_value: int = clampi(personal_values.get(stat, 5) as int, 0, PERSONAL_VALUE_LIMIT)
+	var personal_value: int = clampi(personal_values.get(stat, 5), 0, PERSONAL_VALUE_LIMIT)
 	return 1 + ((personal_value as float) / PERSONAL_VALUE_LIMIT * PERSONAL_VALUE_MULTIPLIER)
 
 
@@ -919,21 +909,8 @@ func _get_effort_value_multiplier(stat: stats) -> float:
 	return 1 + ((personal_value as float) / INDIVIDUAL_EFFORT_VALUE_LIMIT * EFFORT_VALUE_MULTIPLIER)
 
 
-func _on_area2d_area_exited(area: Area2D):
+func _on_area2d_area_exited(area: Area2D) -> void:
 	# When cursor exits unit's area
 	if area == CursorController.get_area() and not selected:
 		hide_movement_tiles()
 		emit_signal("cursor_exited")
-
-
-func _on_create_menu_select_item(item: String) -> void:
-	if item in _all_units.keys():
-		var new_unit: Unit = _all_units[item].instantiate()
-		new_unit.position = position
-		new_unit.faction_id = faction_id
-		get_parent().add_child(new_unit)
-	MapController.get_ui().get_node("Unit Menu").close()
-
-
-func _on_create_menu_closed() -> void:
-	MapController.get_ui().get_node("Unit Menu").set_active(true)

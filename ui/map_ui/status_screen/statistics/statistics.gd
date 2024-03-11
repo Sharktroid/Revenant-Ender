@@ -4,10 +4,10 @@ var observing_unit: Unit
 
 
 func update() -> void:
-	var offensive_labels: VBoxContainer = $"Offensive Stats/HBoxContainer/Labels"
-	var defensive_labels: VBoxContainer = $"Defensive Stats/HBoxContainer/Labels"
-	var misc_labels: VBoxContainer = $"Misc Stats/HBoxContainer/Labels"
-	var other_labels: VBoxContainer = $"Other/HBoxContainer/Labels"
+	var offensive_labels := $"Offensive Stats/HBoxContainer/Labels" as VBoxContainer
+	var defensive_labels := $"Defensive Stats/HBoxContainer/Labels" as VBoxContainer
+	var misc_labels := $"Misc Stats/HBoxContainer/Labels" as VBoxContainer
+	var other_labels := $"Other/HBoxContainer/Labels" as VBoxContainer
 	var max_width: int = [
 		roundi(offensive_labels.size.x),
 		roundi(defensive_labels.size.x),
@@ -30,31 +30,35 @@ func update() -> void:
 	_update_stat_bar(%"Constitution Bar" as StatBar, Unit.stats.CONSTITUTION)
 	_update_stat_bar(%"Movement Bar" as StatBar, Unit.stats.MOVEMENT)
 
-	%"Weight Value".text = str(observing_unit.get_weight())
+	(%"Weight Value" as Label).text = str(observing_unit.get_weight())
+	var aid_value := %"Aid Value" as Label
 	if observing_unit.get_aid() < 0:
-		%"Aid Value".text = "-"
+		aid_value.text = "-"
 	else:
-		%"Aid Value".text = str(observing_unit.get_aid())
-	%"Authority Stars".stars = observing_unit.get_authority()
+		aid_value.text = str(observing_unit.get_aid())
+	const STARS_LABEL = preload("res://ui/map_ui/status_screen/statistics/stars_label/stars_label.gd")
+	(%"Authority Stars" as STARS_LABEL).stars = observing_unit.get_authority()
+	var traveler_name := %"Traveler Name" as Label
 	if observing_unit.traveler:
-		%"Traveler Name".text = observing_unit.traveler.name
+		traveler_name.text = observing_unit.traveler.name
 	else:
-		%"Traveler Name".text = "-"
+		traveler_name.text = "-"
 
-	%"Weight Number".help_description = "%d + %d" % [
+	(%"Weight Number" as HelpContainer).help_description = "%d + %d" % [
 		observing_unit.get_stat(Unit.stats.CONSTITUTION),
 		observing_unit.unit_class.weight_modifier
 	]
+	var aid_number := %"Aid Number" as HelpContainer
 	if observing_unit.unit_class.aid_modifier < 0:
-		%"Aid Number".help_description = "%d - %d" % [
+		aid_number.help_description = "%d - %d" % [
 			observing_unit.get_stat(Unit.stats.CONSTITUTION),
 			-observing_unit.unit_class.aid_modifier
 		]
 	elif observing_unit.unit_class.aid_modifier == 0:
-		%"Aid Number".help_description = ("%d + 0" %
+		aid_number.help_description = ("%d + 0" %
 				[observing_unit.get_stat(Unit.stats.CONSTITUTION)])
 	else:
-		%"Aid Number".help_description = "%d - %d" % [
+		aid_number.help_description = "%d - %d" % [
 			observing_unit.unit_class.aid_modifier,
 			observing_unit.get_stat(Unit.stats.CONSTITUTION)
 		]

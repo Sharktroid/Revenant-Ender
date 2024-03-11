@@ -1,7 +1,7 @@
 class_name Rapier
 extends Sword
 
-func _init():
+func _init() -> void:
 	name = "Rapier"
 	level = ranks.C
 	might = 7

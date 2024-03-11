@@ -10,4 +10,3 @@ func _init() -> void:
 	advantage_types = [types.SPEAR]
 	disadvantage_types = [types.SWORD]
 	super()
-

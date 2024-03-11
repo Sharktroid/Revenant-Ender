@@ -8,10 +8,10 @@ var item: Item:
 
 
 func update() -> void:
-	$Icon.texture = item.icon
-	$Name.text = item.name
-	$"Current Uses".text = str(item.current_uses)
-	$"Max Uses".text = str(item.max_uses)
+	($Icon as TextureRect).texture = item.icon
+	($Name as Label).text = item.name
+	($"Current Uses" as Label).text = str(item.current_uses)
+	($"Max Uses" as Label).text = str(item.max_uses)
 	help_description = item.get_description()
 	if item is Weapon:
 		help_table = (item as Weapon).get_stat_table()
@@ -21,14 +21,14 @@ func update() -> void:
 
 
 func set_equip_status(unit: Unit) -> void:
-	var equip_status: Label = $"Equip Status"
+	var equip_status := $"Equip Status" as Label
 	if item == unit.get_current_weapon():
 		equip_status.text = "W"
 		equip_status.add_theme_color_override("font_color", Color.ROYAL_BLUE)
 	else:
 		equip_status.text = ""
 
-	var item_name: Label = $Name
+	var item_name := $Name as Label
 	if item is Weapon and unit.can_use_weapon(item as Weapon):
 		item_name.theme_type_variation = ""
 	else:

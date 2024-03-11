@@ -1,3 +1,5 @@
+* Fix bug where rehovering over a help container causes the text to flash
+* Replace movement tile implementation with an AStarGrid2D based one (?)
 * Implement Canto
 * Add music
 * Implement experience

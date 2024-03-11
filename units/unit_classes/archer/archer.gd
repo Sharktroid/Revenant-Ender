@@ -4,7 +4,7 @@ extends UnitClass
 
 
 # Unit-specific variables.
-func _init():
+func _init() -> void:
 	name = "Archer"
 	max_level = 20
 	movement_type = movement_types.FOOT
