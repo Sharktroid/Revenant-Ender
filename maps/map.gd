@@ -12,7 +12,7 @@ var bottom_border: int
 var upper_border: Vector2i
 var lower_border: Vector2i
 var movement_cost_dict: Dictionary # Movement costs for every movement type
-var faction_stack: Array[Faction] # All factions
+var all_factions: Array[Faction] # All factions
 var true_pos: Vector2i # Position of the map, used for scrolling
 var curr_faction: int = 0
 
@@ -65,7 +65,7 @@ func unit_wait(_unit: Unit) -> void:
 
 func next_faction() -> void:
 	# Sets the faction to the next faction.
-	curr_faction = (curr_faction + 1) % len(faction_stack)
+	curr_faction = (curr_faction + 1) % len(all_factions)
 	var turn_banner_node := MapController.get_ui().get_node("Turn Banner") as Sprite2D
 	var faction_name: String = get_current_faction().name.to_lower()
 	var all_names: Array[String] = []
@@ -91,15 +91,7 @@ func next_faction() -> void:
 
 
 func get_current_faction() -> Faction:
-	return faction_stack[curr_faction]
-
-
-func get_faction_from_id(faction_id: int) -> Faction:
-	if faction_id in faction_stack:
-		return faction_stack[faction_id]
-	else:
-		push_error("Could not find Faction")
-		return null
+	return all_factions[curr_faction]
 
 
 func get_units_by_faction(faction_id: int) -> Array[Unit]:
@@ -186,7 +178,7 @@ func create_debug_borders() -> void:
 
 
 func toggle_full_outline() -> void:
-	faction_stack[curr_faction].full_outline = not(get_current_faction().full_outline)
+	all_factions[curr_faction].full_outline = not(get_current_faction().full_outline)
 	update_outline()
 
 
@@ -198,7 +190,7 @@ func toggle_outline_unit(unit: Unit) -> void:
 		(outlined_units[unit.get_faction()] as Array).erase(unit)
 	else:
 		(outlined_units[unit.get_faction()] as Array).append(unit)
-	faction_stack[curr_faction].outlined_units = outlined_units
+	all_factions[curr_faction].outlined_units = outlined_units
 	update_outline()
 
 

@@ -6,8 +6,7 @@ func _draw() -> void:
 		unit.modulate = Color.WHITE
 	var outlined_units: Dictionary = MapController.map.get_current_faction().outlined_units
 	var map := get_parent().get_parent() as Map
-	var faction_stack: Array[Faction] = map.faction_stack
-	for outline_faction: Faction in faction_stack:
+	for outline_faction: Faction in map.all_factions:
 		var current_outlined_units: Array[Unit] = []
 		if outline_faction in outlined_units:
 			current_outlined_units.assign(outlined_units[outline_faction])
