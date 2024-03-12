@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://jyd6v7dptm76"]
+[gd_scene load_steps=8 format=3 uid="uid://jyd6v7dptm76"]
 
 [ext_resource type="Script" path="res://ui/map_ui/status_screen/statistics/statistics.gd" id="1_7tuvq"]
 [ext_resource type="Script" path="res://ui/help_popup/help_container.gd" id="2_6g5y4"]
 [ext_resource type="PackedScene" uid="uid://cj8q35dlrc4ln" path="res://ui/map_ui/status_screen/statistics/stat_bar/stat_bar.tscn" id="2_ess3a"]
+[ext_resource type="StyleBox" uid="uid://441p5kjwr8b3" path="res://ui/theme/panel_background.tres" id="2_mqirk"]
 [ext_resource type="PackedScene" uid="uid://iuhdjformeos" path="res://ui/map_ui/status_screen/statistics/stars_label/stars_label.tscn" id="3_8euhf"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3i0vf"]
@@ -22,28 +23,32 @@ mouse_filter = 1
 script = ExtResource("1_7tuvq")
 metadata/_edit_use_anchors_ = true
 
-[node name="Offensive Stats" type="PanelContainer" parent="."]
+[node name="Top Panels" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 0.375
-offset_right = -3.0
-offset_bottom = -3.0
+offset_bottom = -1.0
 grow_horizontal = 2
-grow_vertical = 2
+
+[node name="Offensive Stats" type="PanelContainer" parent="Top Panels"]
+layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 1
+theme_override_styles/panel = ExtResource("2_mqirk")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Offensive Stats"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Top Panels/Offensive Stats"]
 layout_mode = 2
 
-[node name="Labels" type="VBoxContainer" parent="Offensive Stats/HBoxContainer"]
+[node name="Offensive Labels" type="VBoxContainer" parent="Top Panels/Offensive Stats/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 theme = SubResource("Theme_ux5tw")
 theme_override_constants/separation = 0
 
-[node name="Strength Help" type="BoxContainer" parent="Offensive Stats/HBoxContainer/Labels"]
+[node name="Strength Help" type="BoxContainer" parent="Top Panels/Offensive Stats/HBoxContainer/Offensive Labels"]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_right = NodePath("../../Values/Strength Bar")
@@ -51,14 +56,14 @@ focus_neighbor_bottom = NodePath("../Pierce Help")
 script = ExtResource("2_6g5y4")
 help_description = "Increases the damage that physical weapons deal by +1."
 
-[node name="Strength Label" type="Label" parent="Offensive Stats/HBoxContainer/Labels/Strength Help" groups=["values"]]
+[node name="Strength Label" type="Label" parent="Top Panels/Offensive Stats/HBoxContainer/Offensive Labels/Strength Help" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"YellowLabel"
 text = "Strength"
 vertical_alignment = 1
 
-[node name="Pierce Help" type="BoxContainer" parent="Offensive Stats/HBoxContainer/Labels"]
+[node name="Pierce Help" type="BoxContainer" parent="Top Panels/Offensive Stats/HBoxContainer/Offensive Labels"]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_top = NodePath("../Strength Help")
@@ -67,188 +72,185 @@ focus_neighbor_bottom = NodePath("../Magic Help")
 script = ExtResource("2_6g5y4")
 help_description = "Increases the damage that bows and similar weapons deal by +1."
 
-[node name="Pierce Label" type="Label" parent="Offensive Stats/HBoxContainer/Labels/Pierce Help" groups=["values"]]
+[node name="Pierce Label" type="Label" parent="Top Panels/Offensive Stats/HBoxContainer/Offensive Labels/Pierce Help" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"YellowLabel"
 text = "Pierce"
 vertical_alignment = 1
 
-[node name="Magic Help" type="BoxContainer" parent="Offensive Stats/HBoxContainer/Labels"]
+[node name="Magic Help" type="BoxContainer" parent="Top Panels/Offensive Stats/HBoxContainer/Offensive Labels"]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_top = NodePath("../Pierce Help")
 focus_neighbor_right = NodePath("../../Values/Magic Bar")
-focus_neighbor_bottom = NodePath("../../../../Misc Stats/HBoxContainer/Labels/Skill Help")
+focus_neighbor_bottom = NodePath("../../../../../Bottom Panels/Misc Stats/HBoxContainer/Misc Labels/Skill Help")
 script = ExtResource("2_6g5y4")
 help_description = "Increases the damage that tomes and magical weapons deal by +1.
 It also raises the accuracy of crimson staves by +10."
 
-[node name="Magic Label" type="Label" parent="Offensive Stats/HBoxContainer/Labels/Magic Help" groups=["values"]]
+[node name="Magic Label" type="Label" parent="Top Panels/Offensive Stats/HBoxContainer/Offensive Labels/Magic Help" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Magic"
 vertical_alignment = 1
 
-[node name="Values" type="VBoxContainer" parent="Offensive Stats/HBoxContainer"]
+[node name="Values" type="VBoxContainer" parent="Top Panels/Offensive Stats/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_ux5tw")
 theme_override_constants/separation = 0
 
-[node name="Strength Bar" parent="Offensive Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
+[node name="Strength Bar" parent="Top Panels/Offensive Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
 unique_name_in_owner = true
 layout_mode = 2
-focus_neighbor_left = NodePath("../../Labels/Strength Help")
-focus_neighbor_right = NodePath("../../../../Defensive Stats/HBoxContainer/Labels/Defense Help")
+focus_neighbor_left = NodePath("../../Offensive Labels/Strength Help")
+focus_neighbor_right = NodePath("../../../../Defensive Stats/HBoxContainer/Defensive Labels/Defense Help")
 focus_neighbor_bottom = NodePath("../Pierce Bar")
 
-[node name="Pierce Bar" parent="Offensive Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
+[node name="Pierce Bar" parent="Top Panels/Offensive Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
 unique_name_in_owner = true
 layout_mode = 2
-focus_neighbor_left = NodePath("../../Labels/Pierce Help")
+focus_neighbor_left = NodePath("../../Offensive Labels/Pierce Help")
 focus_neighbor_top = NodePath("../Strength Bar")
-focus_neighbor_right = NodePath("../../../../Defensive Stats/HBoxContainer/Labels/Durability Help")
+focus_neighbor_right = NodePath("../../../../Defensive Stats/HBoxContainer/Defensive Labels/Armor Help")
 focus_neighbor_bottom = NodePath("../Magic Bar")
 
-[node name="Magic Bar" parent="Offensive Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
+[node name="Magic Bar" parent="Top Panels/Offensive Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
 unique_name_in_owner = true
 layout_mode = 2
-focus_neighbor_left = NodePath("../../Labels/Magic Help")
+focus_neighbor_left = NodePath("../../Offensive Labels/Magic Help")
 focus_neighbor_top = NodePath("../Pierce Bar")
-focus_neighbor_right = NodePath("../../../../Defensive Stats/HBoxContainer/Labels/Resistance Help")
-focus_neighbor_bottom = NodePath("../../../../Misc Stats/HBoxContainer/Values/Skill Bar")
+focus_neighbor_right = NodePath("../../../../Defensive Stats/HBoxContainer/Defensive Labels/Resistance Help")
+focus_neighbor_bottom = NodePath("../../../../../Bottom Panels/Misc Stats/HBoxContainer/Values/Skill Bar")
 
-[node name="Defensive Stats" type="PanelContainer" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.375
-offset_left = 3.0
-offset_bottom = -3.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Defensive Stats" type="PanelContainer" parent="Top Panels"]
+layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Defensive Stats"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Top Panels/Defensive Stats"]
 layout_mode = 2
 
-[node name="Labels" type="VBoxContainer" parent="Defensive Stats/HBoxContainer"]
+[node name="Defensive Labels" type="VBoxContainer" parent="Top Panels/Defensive Stats/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 theme = SubResource("Theme_ux5tw")
 theme_override_constants/separation = 0
 
-[node name="Defense Help" type="BoxContainer" parent="Defensive Stats/HBoxContainer/Labels"]
+[node name="Defense Help" type="BoxContainer" parent="Top Panels/Defensive Stats/HBoxContainer/Defensive Labels"]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_left = NodePath("../../../../Offensive Stats/HBoxContainer/Values/Strength Bar")
 focus_neighbor_right = NodePath("../../Values/Defense Bar")
-focus_neighbor_bottom = NodePath("../Durability Help")
+focus_neighbor_bottom = NodePath("../Armor Help")
 script = ExtResource("2_6g5y4")
 help_description = "Reduces damage from incoming physical attacks by -1."
 
-[node name="Defense Label" type="Label" parent="Defensive Stats/HBoxContainer/Labels/Defense Help" groups=["values"]]
+[node name="Defense Label" type="Label" parent="Top Panels/Defensive Stats/HBoxContainer/Defensive Labels/Defense Help" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Defense"
 vertical_alignment = 1
 
-[node name="Durability Help" type="BoxContainer" parent="Defensive Stats/HBoxContainer/Labels"]
+[node name="Armor Help" type="BoxContainer" parent="Top Panels/Defensive Stats/HBoxContainer/Defensive Labels"]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_left = NodePath("../../../../Offensive Stats/HBoxContainer/Values/Pierce Bar")
 focus_neighbor_top = NodePath("../Defense Help")
-focus_neighbor_right = NodePath("../../Values/Durability Bar")
+focus_neighbor_right = NodePath("../../Values/Armor Bar")
 focus_neighbor_bottom = NodePath("../Resistance Help")
 script = ExtResource("2_6g5y4")
 help_description = "Reduces damage from incoming damage from bows and similar weapons by -1."
 
-[node name="Durability Label" type="Label" parent="Defensive Stats/HBoxContainer/Labels/Durability Help" groups=["values"]]
+[node name="Armor Label" type="Label" parent="Top Panels/Defensive Stats/HBoxContainer/Defensive Labels/Armor Help" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
-text = "Durability"
+text = "Armor"
 vertical_alignment = 1
 
-[node name="Resistance Help" type="BoxContainer" parent="Defensive Stats/HBoxContainer/Labels"]
+[node name="Resistance Help" type="BoxContainer" parent="Top Panels/Defensive Stats/HBoxContainer/Defensive Labels"]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_left = NodePath("../../../../Offensive Stats/HBoxContainer/Values/Magic Bar")
-focus_neighbor_top = NodePath("../Durability Help")
+focus_neighbor_top = NodePath("../Armor Help")
 focus_neighbor_right = NodePath("../../Values/Resistance Bar")
-focus_neighbor_bottom = NodePath("../../../../Other/HBoxContainer/Labels/Authority Help")
+focus_neighbor_bottom = NodePath("../../../../../Bottom Panels/Other/HBoxContainer/Other Labels/Authority Help")
 script = ExtResource("2_6g5y4")
 help_description = "Reduces the damage tomes and magical weapons deal.
 It also lowers the accuracy of crimson staves by -10."
 
-[node name="Resistance Label" type="Label" parent="Defensive Stats/HBoxContainer/Labels/Resistance Help" groups=["values"]]
+[node name="Resistance Label" type="Label" parent="Top Panels/Defensive Stats/HBoxContainer/Defensive Labels/Resistance Help" groups=["values"]]
 layout_mode = 2
 theme_type_variation = &"YellowLabel"
 text = "Resistance"
 vertical_alignment = 1
 
-[node name="Values" type="VBoxContainer" parent="Defensive Stats/HBoxContainer"]
+[node name="Values" type="VBoxContainer" parent="Top Panels/Defensive Stats/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_ux5tw")
 theme_override_constants/separation = 0
 
-[node name="Defense Bar" parent="Defensive Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
+[node name="Defense Bar" parent="Top Panels/Defensive Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
 unique_name_in_owner = true
 layout_mode = 2
-focus_neighbor_left = NodePath("../../Labels/Defense Help")
-focus_neighbor_bottom = NodePath("../Durability Bar")
+focus_neighbor_left = NodePath("../../Defensive Labels/Defense Help")
+focus_neighbor_bottom = NodePath("../Armor Bar")
 
-[node name="Durability Bar" parent="Defensive Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
+[node name="Armor Bar" parent="Top Panels/Defensive Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
 unique_name_in_owner = true
 layout_mode = 2
-focus_neighbor_left = NodePath("../../Labels/Durability Help")
+focus_neighbor_left = NodePath("../../Defensive Labels/Armor Help")
 focus_neighbor_top = NodePath("../Defense Bar")
 focus_neighbor_bottom = NodePath("../Resistance Bar")
 
-[node name="Resistance Bar" parent="Defensive Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
+[node name="Resistance Bar" parent="Top Panels/Defensive Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
 unique_name_in_owner = true
 layout_mode = 2
-focus_neighbor_left = NodePath("../../Labels/Resistance Help")
-focus_neighbor_top = NodePath("../Durability Bar")
-focus_neighbor_bottom = NodePath("../../../../Other/HBoxContainer/Labels/Authority Help")
+focus_neighbor_left = NodePath("../../Defensive Labels/Resistance Help")
+focus_neighbor_top = NodePath("../Armor Bar")
+focus_neighbor_bottom = NodePath("../../../../../Bottom Panels/Other/HBoxContainer/Other Labels/Authority Help")
 
-[node name="Misc Stats" type="PanelContainer" parent="."]
+[node name="Bottom Panels" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.375
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 3.0
-offset_right = -3.0
+offset_top = 2.0
 grow_horizontal = 2
-grow_vertical = 2
+grow_vertical = 0
+
+[node name="Misc Stats" type="PanelContainer" parent="Bottom Panels"]
+layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Misc Stats"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Bottom Panels/Misc Stats"]
 layout_mode = 2
 
-[node name="Labels" type="VBoxContainer" parent="Misc Stats/HBoxContainer"]
+[node name="Misc Labels" type="VBoxContainer" parent="Bottom Panels/Misc Stats/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 0
 
-[node name="Skill Help" type="BoxContainer" parent="Misc Stats/HBoxContainer/Labels"]
+[node name="Skill Help" type="BoxContainer" parent="Bottom Panels/Misc Stats/HBoxContainer/Misc Labels"]
 layout_mode = 2
 size_flags_vertical = 3
-focus_neighbor_top = NodePath("../../../../Offensive Stats/HBoxContainer/Labels/Magic Help")
+focus_neighbor_top = NodePath("../../../../../Top Panels/Offensive Stats/HBoxContainer/Offensive Labels/Magic Help")
 focus_neighbor_right = NodePath("../../Values/Skill Bar")
 focus_neighbor_bottom = NodePath("../Speed Help")
 script = ExtResource("2_6g5y4")
 help_description = "Increases hit rate by +2, and critical rate by +1."
 
-[node name="Skill Label" type="Label" parent="Misc Stats/HBoxContainer/Labels/Skill Help" groups=["values"]]
+[node name="Skill Label" type="Label" parent="Bottom Panels/Misc Stats/HBoxContainer/Misc Labels/Skill Help" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
@@ -256,7 +258,7 @@ text = "Skill
 "
 vertical_alignment = 1
 
-[node name="Speed Help" type="BoxContainer" parent="Misc Stats/HBoxContainer/Labels"]
+[node name="Speed Help" type="BoxContainer" parent="Bottom Panels/Misc Stats/HBoxContainer/Misc Labels"]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_left = NodePath(".")
@@ -266,14 +268,14 @@ focus_neighbor_bottom = NodePath("../Luck Help")
 script = ExtResource("2_6g5y4")
 help_description = "Increases avoid rate by -2. Base value; can be reduced by heavy weapons."
 
-[node name="Speed Label" type="Label" parent="Misc Stats/HBoxContainer/Labels/Speed Help" groups=["values"]]
+[node name="Speed Label" type="Label" parent="Bottom Panels/Misc Stats/HBoxContainer/Misc Labels/Speed Help" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Speed"
 vertical_alignment = 1
 
-[node name="Luck Help" type="BoxContainer" parent="Misc Stats/HBoxContainer/Labels"]
+[node name="Luck Help" type="BoxContainer" parent="Bottom Panels/Misc Stats/HBoxContainer/Misc Labels"]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_top = NodePath("../Speed Help")
@@ -282,14 +284,14 @@ focus_neighbor_bottom = NodePath("../Constitution Help")
 script = ExtResource("2_6g5y4")
 help_description = "Increases hit rate, avoid rate, and critical avoid rate by +1 each."
 
-[node name="Luck Help" type="Label" parent="Misc Stats/HBoxContainer/Labels/Luck Help" groups=["values"]]
+[node name="Luck Help" type="Label" parent="Bottom Panels/Misc Stats/HBoxContainer/Misc Labels/Luck Help" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Luck"
 vertical_alignment = 1
 
-[node name="Constitution Help" type="BoxContainer" parent="Misc Stats/HBoxContainer/Labels"]
+[node name="Constitution Help" type="BoxContainer" parent="Bottom Panels/Misc Stats/HBoxContainer/Misc Labels"]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_top = NodePath("../Luck Help")
@@ -299,14 +301,14 @@ script = ExtResource("2_6g5y4")
 help_description = "Reduces weapon weight and increases weight.
 Increases foot units' aid, decreases mounted units' aid."
 
-[node name="Constitution Label" type="Label" parent="Misc Stats/HBoxContainer/Labels/Constitution Help" groups=["values"]]
+[node name="Constitution Label" type="Label" parent="Bottom Panels/Misc Stats/HBoxContainer/Misc Labels/Constitution Help" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Constitution"
 vertical_alignment = 1
 
-[node name="Movement Help" type="BoxContainer" parent="Misc Stats/HBoxContainer/Labels"]
+[node name="Movement Help" type="BoxContainer" parent="Bottom Panels/Misc Stats/HBoxContainer/Misc Labels"]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_top = NodePath("../Constitution Help")
@@ -314,96 +316,88 @@ focus_neighbor_right = NodePath("../../Values/Movement Bar")
 script = ExtResource("2_6g5y4")
 help_description = "Increases the amount of tiles that can be traversed in a turn."
 
-[node name="Movement Label" type="Label" parent="Misc Stats/HBoxContainer/Labels/Movement Help" groups=["values"]]
+[node name="Movement Label" type="Label" parent="Bottom Panels/Misc Stats/HBoxContainer/Misc Labels/Movement Help" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Movement"
 vertical_alignment = 1
 
-[node name="Values" type="VBoxContainer" parent="Misc Stats/HBoxContainer"]
+[node name="Values" type="VBoxContainer" parent="Bottom Panels/Misc Stats/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_ux5tw")
 theme_override_constants/separation = 0
 
-[node name="Skill Bar" parent="Misc Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
+[node name="Skill Bar" parent="Bottom Panels/Misc Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
 unique_name_in_owner = true
 layout_mode = 2
-focus_neighbor_left = NodePath("../../Labels/Skill Help")
-focus_neighbor_top = NodePath("../../../../Offensive Stats/HBoxContainer/Values/Magic Bar")
-focus_neighbor_right = NodePath("../../../../Other/HBoxContainer/Labels/Authority Help")
+focus_neighbor_left = NodePath("../../Misc Labels/Skill Help")
+focus_neighbor_top = NodePath("../../../../../Top Panels/Offensive Stats/HBoxContainer/Values/Magic Bar")
+focus_neighbor_right = NodePath("../../../../Other/HBoxContainer/Other Labels/Authority Help")
 focus_neighbor_bottom = NodePath("../Speed Bar")
 
-[node name="Speed Bar" parent="Misc Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
+[node name="Speed Bar" parent="Bottom Panels/Misc Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_top = NodePath("../Skill Bar")
-focus_neighbor_right = NodePath("../../../../Other/HBoxContainer/Labels/Weight Help")
+focus_neighbor_right = NodePath("../../../../Other/HBoxContainer/Other Labels/Weight Help")
 focus_neighbor_bottom = NodePath("../Luck Bar")
 
-[node name="Luck Bar" parent="Misc Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
+[node name="Luck Bar" parent="Bottom Panels/Misc Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
 unique_name_in_owner = true
 layout_mode = 2
-focus_neighbor_left = NodePath("../../Labels/Luck Help")
+focus_neighbor_left = NodePath("../../Misc Labels/Luck Help")
 focus_neighbor_top = NodePath("../Speed Bar")
-focus_neighbor_right = NodePath("../../../../Other/HBoxContainer/Labels/Aid Help")
+focus_neighbor_right = NodePath("../../../../Other/HBoxContainer/Other Labels/Aid Help")
 focus_neighbor_bottom = NodePath("../Constitution Bar")
 
-[node name="Constitution Bar" parent="Misc Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
+[node name="Constitution Bar" parent="Bottom Panels/Misc Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
 unique_name_in_owner = true
 layout_mode = 2
-focus_neighbor_left = NodePath("../../Labels/Constitution Help")
+focus_neighbor_left = NodePath("../../Misc Labels/Constitution Help")
 focus_neighbor_top = NodePath("../Luck Bar")
-focus_neighbor_right = NodePath("../../../../Other/HBoxContainer/Labels/Traveler Help")
+focus_neighbor_right = NodePath("../../../../Other/HBoxContainer/Other Labels/Traveler Help")
 focus_neighbor_bottom = NodePath("../Movement Bar")
 
-[node name="Movement Bar" parent="Misc Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
+[node name="Movement Bar" parent="Bottom Panels/Misc Stats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
 unique_name_in_owner = true
 layout_mode = 2
-focus_neighbor_left = NodePath("../../Labels/Movement Help")
+focus_neighbor_left = NodePath("../../Misc Labels/Movement Help")
 focus_neighbor_top = NodePath("../Constitution Bar")
-focus_neighbor_right = NodePath("../../../../Other/HBoxContainer/Labels/Status Help")
+focus_neighbor_right = NodePath("../../../../Other/HBoxContainer/Other Labels/Status Help")
 
-[node name="Other" type="PanelContainer" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.375
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 3.0
-offset_top = 3.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Other" type="PanelContainer" parent="Bottom Panels"]
+layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Other"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Bottom Panels/Other"]
 layout_mode = 2
 
-[node name="Labels" type="VBoxContainer" parent="Other/HBoxContainer"]
+[node name="Other Labels" type="VBoxContainer" parent="Bottom Panels/Other/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 0
 
-[node name="Authority Help" type="BoxContainer" parent="Other/HBoxContainer/Labels"]
+[node name="Authority Help" type="BoxContainer" parent="Bottom Panels/Other/HBoxContainer/Other Labels"]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_left = NodePath("../../../../Misc Stats/HBoxContainer/Values/Skill Bar")
-focus_neighbor_top = NodePath("../../../../Defensive Stats/HBoxContainer/Labels/Resistance Help")
+focus_neighbor_top = NodePath("../../../../../Top Panels/Defensive Stats/HBoxContainer/Defensive Labels/Resistance Help")
 focus_neighbor_bottom = NodePath("../Weight Help")
 script = ExtResource("2_6g5y4")
 help_description = "Grants +3 hit and avoid."
 
-[node name="Authority Label" type="Label" parent="Other/HBoxContainer/Labels/Authority Help" groups=["values"]]
+[node name="Authority Label" type="Label" parent="Bottom Panels/Other/HBoxContainer/Other Labels/Authority Help" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Authority"
 vertical_alignment = 1
 
-[node name="Weight Help" type="BoxContainer" parent="Other/HBoxContainer/Labels"]
+[node name="Weight Help" type="BoxContainer" parent="Bottom Panels/Other/HBoxContainer/Other Labels"]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_left = NodePath("../../../../Misc Stats/HBoxContainer/Values/Speed Bar")
@@ -414,14 +408,14 @@ script = ExtResource("2_6g5y4")
 help_description = "Determines what the unit can shove, be shoved by, and be rescued by.
 Affected by class and Constitution."
 
-[node name="Weight" type="Label" parent="Other/HBoxContainer/Labels/Weight Help" groups=["values"]]
+[node name="Weight" type="Label" parent="Bottom Panels/Other/HBoxContainer/Other Labels/Weight Help" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Weight"
 vertical_alignment = 1
 
-[node name="Aid Help" type="BoxContainer" parent="Other/HBoxContainer/Labels"]
+[node name="Aid Help" type="BoxContainer" parent="Bottom Panels/Other/HBoxContainer/Other Labels"]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_left = NodePath("../../../../Misc Stats/HBoxContainer/Values/Luck Bar")
@@ -431,14 +425,14 @@ focus_neighbor_bottom = NodePath("../Traveler Help")
 script = ExtResource("2_6g5y4")
 help_description = "Allows the unit to rescue any unit with lower weight."
 
-[node name="Aid" type="Label" parent="Other/HBoxContainer/Labels/Aid Help" groups=["values"]]
+[node name="Aid" type="Label" parent="Bottom Panels/Other/HBoxContainer/Other Labels/Aid Help" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Aid"
 vertical_alignment = 1
 
-[node name="Traveler Help" type="BoxContainer" parent="Other/HBoxContainer/Labels"]
+[node name="Traveler Help" type="BoxContainer" parent="Bottom Panels/Other/HBoxContainer/Other Labels"]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_left = NodePath("../../../../Misc Stats/HBoxContainer/Values/Constitution Bar")
@@ -447,14 +441,14 @@ focus_neighbor_bottom = NodePath("../Status Help")
 script = ExtResource("2_6g5y4")
 help_description = "The unit that is currently being rescued."
 
-[node name="Traveler" type="Label" parent="Other/HBoxContainer/Labels/Traveler Help" groups=["values"]]
+[node name="Traveler" type="Label" parent="Bottom Panels/Other/HBoxContainer/Other Labels/Traveler Help" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Traveler"
 vertical_alignment = 1
 
-[node name="Status Help" type="BoxContainer" parent="Other/HBoxContainer/Labels"]
+[node name="Status Help" type="BoxContainer" parent="Bottom Panels/Other/HBoxContainer/Other Labels"]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_left = NodePath("../../../../Misc Stats/HBoxContainer/Values/Movement Bar")
@@ -462,41 +456,41 @@ focus_neighbor_top = NodePath("../Traveler Help")
 script = ExtResource("2_6g5y4")
 help_description = "All status conditions currently in effect."
 
-[node name="Status" type="Label" parent="Other/HBoxContainer/Labels/Status Help" groups=["values"]]
+[node name="Status" type="Label" parent="Bottom Panels/Other/HBoxContainer/Other Labels/Status Help" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Status"
 vertical_alignment = 1
 
-[node name="Values" type="VBoxContainer" parent="Other/HBoxContainer"]
+[node name="Values" type="VBoxContainer" parent="Bottom Panels/Other/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_ux5tw")
 theme_override_constants/separation = 0
 
-[node name="Authority Stars" parent="Other/HBoxContainer/Values" instance=ExtResource("3_8euhf")]
+[node name="Authority Stars" parent="Bottom Panels/Other/HBoxContainer/Values" instance=ExtResource("3_8euhf")]
 unique_name_in_owner = true
 layout_mode = 2
-focus_neighbor_left = NodePath("../../Labels/Authority Help")
-focus_neighbor_top = NodePath("../../../../Defensive Stats/HBoxContainer/Values/Resistance Bar")
+focus_neighbor_left = NodePath("../../Other Labels/Authority Help")
+focus_neighbor_top = NodePath("../../../../../Top Panels/Defensive Stats/HBoxContainer/Values/Resistance Bar")
 focus_neighbor_bottom = NodePath("../Weight Number")
 
-[node name="Weight Number" type="BoxContainer" parent="Other/HBoxContainer/Values"]
+[node name="Weight Number" type="BoxContainer" parent="Bottom Panels/Other/HBoxContainer/Values"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 3
-focus_neighbor_left = NodePath("../../Labels/Weight Help")
+focus_neighbor_left = NodePath("../../Other Labels/Weight Help")
 focus_neighbor_bottom = NodePath("../Aid Number")
 script = ExtResource("2_6g5y4")
 
-[node name="MarginContainer" type="MarginContainer" parent="Other/HBoxContainer/Values/Weight Number"]
+[node name="MarginContainer" type="MarginContainer" parent="Bottom Panels/Other/HBoxContainer/Values/Weight Number"]
 layout_mode = 2
 theme_override_constants/margin_left = 1
 theme_override_constants/margin_right = 2
 
-[node name="Weight Value" type="Label" parent="Other/HBoxContainer/Values/Weight Number/MarginContainer"]
+[node name="Weight Value" type="Label" parent="Bottom Panels/Other/HBoxContainer/Values/Weight Number/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
@@ -504,34 +498,34 @@ theme_type_variation = &"BlueLabel"
 text = "0"
 vertical_alignment = 1
 
-[node name="Aid Number" type="BoxContainer" parent="Other/HBoxContainer/Values"]
+[node name="Aid Number" type="BoxContainer" parent="Bottom Panels/Other/HBoxContainer/Values"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 3
-focus_neighbor_left = NodePath("../../Labels/Aid Help")
+focus_neighbor_left = NodePath("../../Other Labels/Aid Help")
 focus_neighbor_top = NodePath("../Weight Number")
 script = ExtResource("2_6g5y4")
 
-[node name="MarginContainer" type="MarginContainer" parent="Other/HBoxContainer/Values/Aid Number"]
+[node name="MarginContainer" type="MarginContainer" parent="Bottom Panels/Other/HBoxContainer/Values/Aid Number"]
 layout_mode = 2
 theme_override_constants/margin_left = 1
 theme_override_constants/margin_right = 2
 
-[node name="Aid Value" type="Label" parent="Other/HBoxContainer/Values/Aid Number/MarginContainer"]
+[node name="Aid Value" type="Label" parent="Bottom Panels/Other/HBoxContainer/Values/Aid Number/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "0"
 vertical_alignment = 1
 
-[node name="Traveler Name" type="Label" parent="Other/HBoxContainer/Values"]
+[node name="Traveler Name" type="Label" parent="Bottom Panels/Other/HBoxContainer/Values"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"BlueLabel"
 vertical_alignment = 1
 
-[node name="Statuses" type="HBoxContainer" parent="Other/HBoxContainer/Values"]
+[node name="Statuses" type="HBoxContainer" parent="Bottom Panels/Other/HBoxContainer/Values"]
 layout_mode = 2
 size_flags_vertical = 3

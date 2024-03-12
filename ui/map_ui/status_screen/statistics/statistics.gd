@@ -4,10 +4,10 @@ var observing_unit: Unit
 
 
 func update() -> void:
-	var offensive_labels := $"Offensive Stats/HBoxContainer/Labels" as VBoxContainer
-	var defensive_labels := $"Defensive Stats/HBoxContainer/Labels" as VBoxContainer
-	var misc_labels := $"Misc Stats/HBoxContainer/Labels" as VBoxContainer
-	var other_labels := $"Other/HBoxContainer/Labels" as VBoxContainer
+	var offensive_labels := %"Offensive Labels" as VBoxContainer
+	var defensive_labels := %"Defensive Labels" as VBoxContainer
+	var misc_labels := %"Misc Labels" as VBoxContainer
+	var other_labels := %"Other Labels" as VBoxContainer
 	var max_width: int = [
 		roundi(offensive_labels.size.x),
 		roundi(defensive_labels.size.x),
@@ -22,7 +22,7 @@ func update() -> void:
 	_update_stat_bar(%"Pierce Bar" as StatBar, Unit.stats.PIERCE)
 	_update_stat_bar(%"Magic Bar" as StatBar, Unit.stats.MAGIC)
 	_update_stat_bar(%"Defense Bar" as StatBar, Unit.stats.DEFENSE)
-	_update_stat_bar(%"Durability Bar" as StatBar, Unit.stats.DURABILITY)
+	_update_stat_bar(%"Armor Bar" as StatBar, Unit.stats.ARMOR)
 	_update_stat_bar(%"Resistance Bar" as StatBar, Unit.stats.RESISTANCE)
 	_update_stat_bar(%"Skill Bar" as StatBar, Unit.stats.SKILL)
 	_update_stat_bar(%"Speed Bar" as StatBar, Unit.stats.SPEED)
@@ -65,8 +65,8 @@ func update() -> void:
 
 
 func get_left_controls() -> Array[Node]:
-	return ($"Offensive Stats/HBoxContainer/Labels".get_children()
-			+ $"Misc Stats/HBoxContainer/Labels".get_children())
+	return (%"Offensive Labels".get_children()
+			+ %"Misc Labels".get_children())
 
 
 func _update_stat_bar(stat_bar: StatBar, stat: Unit.stats) -> void:

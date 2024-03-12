@@ -21,7 +21,7 @@ const TOTAL_EFFORT_VALUE_LIMIT: float = INDIVIDUAL_EFFORT_VALUE_LIMIT * 4
 enum statuses {ATTACK}
 enum animations {IDLE, MOVING_DOWN, MOVING_UP, MOVING_LEFT, MOVING_RIGHT}
 enum stats {
-	HITPOINTS, STRENGTH, PIERCE, MAGIC, SKILL, SPEED, LUCK, DEFENSE, DURABILITY,
+	HITPOINTS, STRENGTH, PIERCE, MAGIC, SKILL, SPEED, LUCK, DEFENSE, ARMOR,
 	RESISTANCE, MOVEMENT, CONSTITUTION
 }
 
@@ -283,7 +283,7 @@ func get_attack_speed() -> int:
 
 func get_current_defence(attacker_weapon_type: Weapon.damage_types) -> int:
 	match attacker_weapon_type:
-		Weapon.damage_types.RANGED: return get_stat(stats.DURABILITY)
+		Weapon.damage_types.RANGED: return get_stat(stats.ARMOR)
 		Weapon.damage_types.MAGIC: return get_stat(stats.RESISTANCE)
 		Weapon.damage_types.PHYSICAL: return get_stat(stats.DEFENSE)
 		_:

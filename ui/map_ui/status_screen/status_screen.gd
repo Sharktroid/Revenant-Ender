@@ -5,6 +5,7 @@ var observing_unit := Unit.new()
 var _scroll_lock: bool = false
 @onready var _portrait := %Portrait as Portrait
 @onready var _menu_tabs := $"Menu Screen/Menu Tabs" as TabContainer
+var _delay: int = 0
 
 static var previous_tab: int = 0
 
@@ -17,13 +18,20 @@ func _ready() -> void:
 	_update.call_deferred()
 
 
+func _physics_process(_delta: float) -> void:
+	_delay -= 1
+
+
 func receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		close()
-	elif event.is_action_pressed("left") and not event.is_action_pressed("right"):
-		Utilities.switch_tab(_menu_tabs as TabContainer, -1)
-	elif event.is_action_pressed("right"):
-		Utilities.switch_tab(_menu_tabs as TabContainer, 1)
+	if _delay <= 0:
+		if event.is_action_pressed("left", true) and not Input.is_action_pressed("right"):
+			Utilities.switch_tab(_menu_tabs as TabContainer, -1)
+			_delay = 5
+		elif event.is_action_pressed("right", true):
+			Utilities.switch_tab(_menu_tabs as TabContainer, 1)
+			_delay = 5
 	elif not _scroll_lock:
 		if Input.is_action_pressed("up") and not Input.is_action_pressed("down"):
 			observing_unit = MapController.map.get_previous_unit(observing_unit)
@@ -143,7 +151,7 @@ func _update_tab() -> void:
 			const STATISTICS = preload("res://ui/map_ui/status_screen/statistics/statistics.gd")
 			var statistics := $"Menu Screen/Menu Tabs/Statistics" as STATISTICS
 			statistics.observing_unit = observing_unit
-			statistics.update.call_deferred()
+			statistics.update()
 			tab_controls.assign(statistics.get_left_controls())
 		1:
 			const ITEM_SCREEN = preload("res://ui/map_ui/status_screen/item_screen/item_screen.gd")
