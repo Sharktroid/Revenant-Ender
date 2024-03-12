@@ -40,8 +40,8 @@ func receive_input(event: InputEvent) -> void:
 
 func display_text(text: String, pos: Vector2, new_container: HelpContainer,
 		table: Array[String] = [], table_cols: int = 1) -> void:
-	if not _busy and (pos != _default_position() or text != _current_text
-			or table != _current_table or table_cols != _current_table_cols):
+	if (not _busy and
+			(text != _current_text or table != _current_table)):
 		var new_size: Vector2 = _get_node_size(text, table, table_cols)
 		if pos.y + new_size.y + new_container.size.y >= Utilities.get_screen_size().y:
 			pos.y -= new_size.y
@@ -51,16 +51,17 @@ func display_text(text: String, pos: Vector2, new_container: HelpContainer,
 			pos.x = Utilities.get_screen_size().x - new_size.x /2
 		elif pos.x < new_size.x / 2:
 			pos.x = new_size.x / 2
-		if not get_popup_node().visible:
-			await _expand(text, table, table_cols, pos)
-		else:
-			await _resize(new_size, pos, get_popup_node().size)
-		_current_table = table
-		_current_table_cols = table_cols
-		_current_text = text
-		get_popup_node().set_table(table, table_cols)
-		get_popup_node().set_description(text)
-		_current_container = new_container
+		if pos != _default_position():
+			if not get_popup_node().visible:
+				await _expand(text, table, table_cols, pos)
+			else:
+				await _resize(new_size, pos, get_popup_node().size)
+			_current_table = table
+			_current_table_cols = table_cols
+			_current_text = text
+			get_popup_node().set_table(table, table_cols)
+			get_popup_node().set_description(text)
+			_current_container = new_container
 
 
 func shrink() -> void:
