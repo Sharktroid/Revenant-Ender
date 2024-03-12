@@ -165,6 +165,8 @@ func _process(_delta: float) -> void:
 		else:
 			frame = anim_frame
 	z_index = Utilities.round_coords_to_tile(position).y
+	(material as ShaderMaterial).set_shader_parameter("modulate",
+			Vector3(modulate.r, modulate.g, modulate.b))
 
 
 func has_status(status: int) -> bool:

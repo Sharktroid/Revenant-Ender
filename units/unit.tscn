@@ -11,6 +11,7 @@ shader = ExtResource("1_6ujht")
 shader_parameter/darken_screen = 0.5
 shader_parameter/old_colors = null
 shader_parameter/new_colors = null
+shader_parameter/modulate = Vector3(1, 1, 1)
 
 [sub_resource type="Resource" id="Resource_snaox"]
 script = ExtResource("2_py8tn")

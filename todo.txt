@@ -1,4 +1,3 @@
-* Fix bug where unit palette messes up when under a modulation effect
 * Fix bug where rehovering over a help container causes the text to flash
 * Implement Canto
 * Add music
