@@ -3,7 +3,7 @@ extends Map
 
 func _init():
 	# Initializing variables for this map.
-	faction_stack = [Faction.new("Player", Faction.colors.BLUE, Faction.player_types.HUMAN),
+	all_factions = [Faction.new("Player", Faction.colors.BLUE, Faction.player_types.HUMAN),
 		Faction.new("Enemy", Faction.colors.RED, Faction.player_types.HUMAN),
 		Faction.new("Player", Faction.colors.GREEN, Faction.player_types.HUMAN)]
 	left_border = 128

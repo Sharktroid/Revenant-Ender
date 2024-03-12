@@ -5,7 +5,7 @@ const DEBUG_CUTSCENE: bool = false
 
 func _init() -> void:
 	# Initializing variables for this map.
-	faction_stack = [
+	all_factions = [
 		Faction.new("Player", Faction.colors.BLUE, Faction.player_types.HUMAN),
 		Faction.new("Enemy", Faction.colors.RED, Faction.player_types.HUMAN),
 	]

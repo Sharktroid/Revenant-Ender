@@ -273,7 +273,7 @@ func _get_drop_tiles() -> Array[Vector2i]:
 	var tiles: Array[Vector2i] = []
 	for tile: Vector2i in \
 			connected_unit.get_adjacent_tiles(connected_unit.get_path_last_pos(), 1, 1):
-		var cost: float = MapController.map.get_terrain_cost(traveler, tile)
+		var cost: float = MapController.map.get_terrain_cost(traveler.unit_class.movement_type, tile)
 		var movement: int = traveler.get_stat(Unit.stats.MOVEMENT)
 		if cost <= movement:
 			tiles.append(tile)
@@ -297,4 +297,6 @@ func _on_unit_death() -> void:
 
 
 func _get_item_nodes() -> Array[MapMenuItem]:
-	return $Items.get_children() as Array[MapMenuItem]
+	var output: Array[MapMenuItem] = []
+	output.assign($Items.get_children())
+	return output

@@ -569,21 +569,19 @@ func get_unit_path() -> Array[Vector2i]:
 
 
 func get_faction() -> Faction:
-	if len(MapController.map.faction_stack) > 0:
-		return MapController.map.faction_stack[faction_id]
+	if len(MapController.map.all_factions) > 0:
+		return MapController.map.all_factions[faction_id]
 	else:
 		return Faction.new("INVALID", Faction.colors.BLUE, Faction.player_types.HUMAN)
 
 
 ## Changes unit's faction.
 func set_faction(new_faction: Faction) -> void:
-	faction_id = MapController.map.faction_stack.find(new_faction)
+	faction_id = MapController.map.all_factions.find(new_faction)
 
 
 ## Gets the path of the unit.
-func update_path(destination: Vector2i, num: int = current_movement) -> void:
-	var moved: Vector2i = position
-	var moved_tiles: Array[Vector2i] = [position]
+func update_path(destination: Vector2i) -> void:
 	if len(_path) == 0:
 		_path.append(Vector2i(position))
 	# Sets destination to an adjacent tile to a unit if a unit is hovered and over an attack tile.
@@ -609,7 +607,7 @@ func update_path(destination: Vector2i, num: int = current_movement) -> void:
 		var total_cost: float = 0
 		for tile: Vector2i in _path:
 			if tile != Vector2i(position):
-				total_cost += MapController.map.get_terrain_cost(self, tile)
+				total_cost += MapController.map.get_terrain_cost(unit_class.movement_type, tile)
 		if destination in _path:
 			_path = _path.slice(0, _path.find(destination) + 1) as Array[Vector2i]
 		else:
@@ -617,10 +615,9 @@ func update_path(destination: Vector2i, num: int = current_movement) -> void:
 					destination - get_unit_path()[-1] in Utilities.adjacent_tiles):
 				_path.append(destination)
 			else:
-				var new_path: Array[Vector2i] = _get_path_subfunc(num, moved, raw_movement_tiles, moved_tiles,
-						destination)
-				if new_path.size() > 0:
-					_path = new_path
+				var new_path: Array[Vector2i] = MapController.map.get_movement_path(
+						unit_class.movement_type, position, destination, get_faction())
+				_path = new_path
 
 
 ## Displays the unit's path
@@ -740,8 +737,7 @@ func _render_status() -> void:
 func _get_movement_tiles(movement: int) -> void:
 	# Gets the movement tiles of the unit
 	var h: Array[Vector2i] = []
-	var start: Vector2i = (position)
-	var tiles_first_pass: Dictionary = {movement as float: []}
+	var start: Vector2i = position
 	const RANGE_MULT: float = 4.0/3
 	_movement_tiles = {movement as float: [start]}
 	if position == ((position/16).floor() * 16):
@@ -756,42 +752,12 @@ func _get_movement_tiles(movement: int) -> void:
 		#region Orders tiles by distance from center
 		h.erase(start)
 		for x: Vector2i in h:
-			var boundary: Vector2i = MapController.map.get_size() - Vector2(16, 16)
-			if x == x.clamp(Vector2i(), boundary):
-				var val: float = floorf(movement - (absf(x.x - start.x) + absf(x.y - start.y))/16)
-				if not(val in tiles_first_pass):
-					tiles_first_pass[val] = []
-				(tiles_first_pass[val] as Array).append(x)
-		#endregion
-		#region Calculates each tile if they have the right movement value.
-		var max_val: int = tiles_first_pass.keys().max()
-		var min_val: int = tiles_first_pass.keys().min()
-		for k: float in range(max_val, min_val - 1, -1):
-			if k in tiles_first_pass.keys():
-				var v: Array[Vector2i] = []
-				v.assign(tiles_first_pass[k])
-				for tile: Vector2i in v:
-					var cost: float = (MapController.map.get_terrain_cost(self, tile))
-					var valid: bool = false
-					var greatest_adjacent_cost: float
-					for a: float in _movement_tiles.keys() as Array[float]:
-						if a > k - cost:
-							for c: Vector2i in _movement_tiles[a]:
-								if (c - tile) in [Vector2i(-16, 0), Vector2i(16, 0),
-										Vector2i(0, -16), Vector2i(0, 16)]:
-									valid = true
-									greatest_adjacent_cost = maxf(greatest_adjacent_cost, a)
-					if valid:
-						var val: float = greatest_adjacent_cost - cost
-						if val >= 0:
-							if not(val in _movement_tiles.keys()):
-								_movement_tiles[val] = []
-							(_movement_tiles[val] as Array).append(tile)
-					else:
-						var val: float = k - 1
-						if not(val in tiles_first_pass.keys()):
-							tiles_first_pass[val] = []
-						(tiles_first_pass[val] as Array).append(tile)
+			var cost: float = MapController.map.get_movement_cost(unit_class.movement_type,
+					position, x, get_faction())
+			if cost <= current_movement:
+				if not cost in _movement_tiles.keys():
+					_movement_tiles[cost] = []
+				(_movement_tiles[cost] as Array).append(x)
 		#endregion
 		_raw_movement_tiles = []
 		for v: Array in _movement_tiles.values() as Array[Array]:
@@ -876,7 +842,7 @@ func _get_path_subfunc(num: float, moved: Vector2i, all_tiles: Array[Vector2i],
 				if temp_moved == destination:
 					moved_tiles = temp_moved_tiles
 					return moved_tiles
-				var new_num: float = num - MapController.map.get_terrain_cost(self, temp_moved)
+				var new_num: float = num - MapController.map.get_terrain_cost(unit_class.movement_type, temp_moved)
 				var value: Array[Vector2i] = _get_path_subfunc(new_num, temp_moved, all_tiles,
 						temp_moved_tiles, destination)
 				if value.size() > 0:

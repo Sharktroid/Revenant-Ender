@@ -16,6 +16,9 @@ var all_factions: Array[Faction] # All factions
 var true_pos: Vector2i # Position of the map, used for scrolling
 var curr_faction: int = 0
 
+var _cost_grids: Dictionary = {}
+var _grid_current_faction: Faction
+
 @onready var _terrain_layer := $"Map Layer/Terrain Layer" as TileMap
 @onready var _border_overlay := $"Map Layer/Debug Border Overlay Container" as CanvasGroup
 
@@ -32,8 +35,21 @@ func _ready() -> void:
 	_border_overlay.visible = Utilities.get_debug_constant("display_map_borders")
 	($"Map Layer/Cursor Area" as Area2D).visible = \
 			Utilities.get_debug_constant("display_map_cursor")
-	size = ($"Map Layer/Base Layer" as TileMap).get_used_cells(0).max() * 16 + Vector2i(16, 16)
+	var cell_max: Vector2i = ($"Map Layer/Base Layer" as TileMap).get_used_cells(0).max()
+	size = cell_max * 16 + Vector2i(16, 16)
 	GameController.add_to_input_stack(self)
+	const TYPES = UnitClass.movement_types
+	for movement_type: TYPES in movement_cost_dict.keys() as Array[TYPES]:
+		var a_star_grid := AStarGrid2D.new()
+		a_star_grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
+		a_star_grid.region = Rect2i(Vector2i(0, 0), cell_max + Vector2i(1, 1))
+		a_star_grid.default_compute_heuristic = AStarGrid2D.HEURISTIC_MANHATTAN
+		a_star_grid.default_estimate_heuristic = AStarGrid2D.HEURISTIC_MANHATTAN
+		a_star_grid.jumping_enabled = false
+		a_star_grid.update()
+		for cell: Vector2i in ($"Map Layer/Base Layer" as TileMap).get_used_cells(0):
+			update_a_star_grid_id(a_star_grid, movement_type, cell)
+		_cost_grids[movement_type] = a_star_grid
 
 
 func receive_input(event: InputEvent) -> void:
@@ -141,11 +157,10 @@ func end_turn() -> void:
 
 ## Gets the terrain cost of the tiles at "coords".
 ## unit: unit trying to move over "coords".
-func get_terrain_cost(unit: Unit, coords: Vector2) -> float:
-	var movement_type: UnitClass.movement_types = unit.unit_class.movement_type
+func get_terrain_cost(movement_type: UnitClass.movement_types, coords: Vector2) -> float:
 	if movement_type in movement_cost_dict.keys():
-		var movement_type_terrain_dict: Dictionary = movement_cost_dict[unit.unit_class.movement_type]
-		var terrain_name: String = _get_terrain(coords, unit.get_faction())
+		var movement_type_terrain_dict: Dictionary = movement_cost_dict[movement_type]
+		var terrain_name: String = _get_terrain(coords)
 		# Combines several terrain names for compactness.
 		match terrain_name:
 			"HQ", "Factory", "City", "House", "Gate", "Village": terrain_name = "Road"
@@ -155,14 +170,14 @@ func get_terrain_cost(unit: Unit, coords: Vector2) -> float:
 			if cost.is_valid_float():
 				return float(cost)
 			elif cost in "N/A":
-				return 99
+				return INF
 			else:
 				push_error('Terrain cost "%s" is invalid' % cost)
 		else:
 			push_error('Terrain "%s" is invalid' % terrain_name)
 	else:
 		push_error('Movement type "%s" is invalid' % movement_type)
-	return 99
+	return INF
 
 
 func create_debug_borders() -> void:
@@ -229,19 +244,50 @@ func display_highlighted_tiles(tiles: Array[Vector2i], unit: Unit, type: tile_ty
 	return display_tiles(tiles, type, 0.5, unit_coords)
 
 
-func _get_terrain(coords: Vector2i, faction: Faction) -> String:
+func get_movement_path(movement_type: UnitClass.movement_types, starting_point: Vector2i,
+		destination: Vector2i, faction: Faction) -> Array[Vector2i]:
+	if faction != _grid_current_faction:
+		_grid_current_faction = faction
+		_update_grid_current_faction()
+	var movement_grid: AStarGrid2D = _cost_grids[movement_type]
+	var output: Array[Vector2i] = []
+	if (movement_grid.is_in_boundsv(starting_point / 16)
+			and movement_grid.is_in_boundsv(destination / 16)):
+		var raw_path: PackedVector2Array = \
+				movement_grid.get_point_path(starting_point / 16, destination / 16)
+		for vector: Vector2i in raw_path:
+			output.append(vector * 16)
+	return output
+
+
+func get_movement_cost(movement_type: UnitClass.movement_types, starting_point: Vector2i,
+		destination: Vector2i, faction: Faction) -> float:
+	var movement_grid: AStarGrid2D = _cost_grids[movement_type]
+	var path: Array[Vector2i] = get_movement_path(movement_type, starting_point, destination,
+			faction)
+	if path == []:
+		return INF
+	else:
+		var sum: float = 0
+		for cell: Vector2i in path:
+			if cell != starting_point:
+				sum += movement_grid.get_point_weight_scale(cell / 16)
+		return sum
+
+
+func update_a_star_grid_id(a_star_grid: AStarGrid2D, movement_type: UnitClass.movement_types,
+		id: Vector2i) -> void:
+	var weight: float = get_terrain_cost(movement_type, id * 16)
+	if weight == INF:
+		a_star_grid.set_point_solid(id)
+	else:
+		a_star_grid.set_point_weight_scale(id, weight)
+
+
+func _get_terrain(coords: Vector2i) -> String:
 	## Gets the name of the terrain at the tile at position "coords"
-	## faction: faction of the unit checking
 	if coords != coords.clamp(Vector2i(), get_size() - Vector2(16, 16)):
 		return "Blocked"
-	for unit: Unit in MapController.get_units():
-		if coords == Vector2i(unit.transform.get_origin()):
-#			if "Doesn't Block" in unit.tags:
-#				return unit.unit_class
-#			else:
-			var blocking_stances := [Faction.diplo_stances.PEACE, Faction.diplo_stances.ENEMY]
-			if faction.get_diplomacy_stance(unit.get_faction()) in blocking_stances:
-				return "Blocked"
 	var cell_id: TileData = _terrain_layer.get_cell_tile_data(0, coords/16)
 	return cell_id.get_custom_data("Terrain Name")
 
@@ -295,3 +341,12 @@ func _on_cursor_select() -> void:
 		MapController.selecting = true
 	else:
 		MapController.create_main_map_menu()
+
+
+func _update_grid_current_faction() -> void:
+	for movement_type: UnitClass.movement_types in _cost_grids.keys():
+		var a_star_grid: AStarGrid2D = _cost_grids[movement_type]
+		for unit: Unit in MapController.get_units():
+			a_star_grid.set_point_solid(unit.position / 16,
+					not unit.get_faction().is_friend(_grid_current_faction))
+

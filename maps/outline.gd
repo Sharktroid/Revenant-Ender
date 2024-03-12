@@ -19,10 +19,11 @@ func _draw() -> void:
 			Faction.colors.GREEN: unit_highlight = Color.GREEN
 			Faction.colors.PURPLE: unit_highlight = Color.PURPLE
 		for unit: Unit in current_outlined_units:
-			if is_instance_valid(unit) and len(unit.get_all_attack_tiles()) > 0:
+			var attack_tiles: Array[Vector2i] = unit.get_all_attack_tiles()
+			if is_instance_valid(unit) and len(attack_tiles) > 0:
 				unit.modulate = unit_highlight
 				unit.modulate.s *= 0.5
-				for coord: Vector2 in (unit.get_all_attack_tiles() + unit.get_raw_movement_tiles()):
+				for coord: Vector2i in (attack_tiles + unit.get_raw_movement_tiles()):
 					if not (coord in all_current_coords):
 						all_current_coords.append(coord)
 		var current_faction: Faction = map.get_current_faction()
@@ -47,7 +48,7 @@ func _draw() -> void:
 		tile_general.v = .5
 		var line_general: Color = tile_general
 		line_general.v *= .5
-		for coords: Vector2 in all_general_coords:
+		for coords: Vector2i in all_general_coords:
 			if not(coords in all_current_coords):
 				_create_outline_tile(tile_general, line_general, coords, all_general_coords)
 
