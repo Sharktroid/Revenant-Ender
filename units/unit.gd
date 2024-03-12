@@ -261,10 +261,9 @@ func get_stat_boost(stat: stats) -> int:
 
 
 func get_stat(stat: stats, level: int = current_level) -> int:
-	var base_stat: int = unit_class.base_stats.get(stat, 0)
-	var end_stat: int = unit_class.end_stats.get(stat, 0)
 	var weight: float = inverse_lerp(1, unit_class.max_level, level)
-	var leveled_stat: float = lerpf(base_stat, end_stat, weight)
+	var leveled_stat: float = lerpf(unit_class.base_stats.get(stat, 0),
+			unit_class.end_stats.get(stat, 0), weight)
 	var unclamped_stat: int = roundi(leveled_stat * _get_personal_value_multiplier(stat)
 			* _get_effort_value_multiplier(stat))
 	return clampi(unclamped_stat, 0, get_stat_cap(stat)) + get_stat_boost(stat)
@@ -371,15 +370,11 @@ func get_path_last_pos() -> Vector2i:
 
 
 func get_stat_table(stat: stats) -> Array[String]:
-	var base_stat: int = unit_class.base_stats.get(stat, 0)
-	var final_stat: int = unit_class.end_stats.get(stat, 0)
-	var personal_value: int = personal_values.get(stat, 0)
-	var effort_value: int = effort_values.get(stat, 0)
 	var table_items: Dictionary = {
-		"Class Base" = str(base_stat),
-		"Class Final" = str(final_stat),
-		"Personal Values " = str(personal_value),
-		"Effort Values" = str(effort_value),
+		"Class Base" = str(unit_class.base_stats.get(stat, 0)),
+		"Class Final" = str(unit_class.end_stats.get(stat, 0)),
+		"Personal Values " = str(personal_values.get(stat, 0)),
+		"Effort Values" = str(effort_values.get(stat, 0)),
 	}
 	return Utilities.dict_to_table(table_items)
 
@@ -681,12 +676,12 @@ func get_all_attack_tiles(movement_tiles: Array[Vector2i] = \
 				var unit_pos: Vector2i = unit.position
 				if unit_pos in basis_movement_tiles:
 					basis_movement_tiles.erase(unit_pos)
-		var map_size: Vector2i = MapController.map.get_size() - Vector2(16, 16)
 		var min_range: int = get_min_range()
 		var max_range: int = get_max_range()
 		for tile: Vector2i in basis_movement_tiles:
 			for y in range(-max_range, max_range + 1):
 				for x in range(-max_range, max_range + 1):
+					var map_size: Vector2i = MapController.map.get_size() - Vector2(16, 16)
 					var attack_tile: Vector2i = (tile + Vector2i(x * 16, y * 16))\
 							.clamp(Vector2i(0, 0), map_size)
 					if not(attack_tile in all_attack_tiles + movement_tiles):
@@ -791,66 +786,6 @@ func _set_palette(color: Faction.colors) -> void:
 	shader_material.set_shader_parameter("new_colors", new_colors)
 
 
-func _get_path_subfunc(num: float, moved: Vector2i, all_tiles: Array[Vector2i],
-		moved_tiles: Array[Vector2i], destination: Vector2i) -> Array[Vector2i]:
-	# Recursive function used for getting the path. Do not use outside of "get_path".
-	if num > 0:
-		# Sets the order the path is checked in.
-		# Large amounts of lag can occur if the order starts with a far tile.
-		# Some RNG is used for aethetics; can possibly lag at extreme values.
-		var order: Array[Vector2i] = []
-		var order_ready: bool = false
-		#region Goes straight first when the destination is straight ahead
-		for axis in 2:
-			if is_zero_approx(destination[axis] - moved[axis]):
-				var other_axis: int = (axis + 1) % 2
-				var mid := Vector2i()
-				mid[axis] = 16
-				order = [mid, -mid]
-				order.shuffle()
-				var first := Vector2i()
-				first[other_axis] = 16
-				if destination[other_axis] - moved[other_axis] < 0:
-					first = -first
-				var new_order: Array = [first] + order + [-first]
-				order = []
-				order.assign(new_order)
-				order_ready = true
-				break
-		#endregion
-		#region Checks both directions when destination is not straight in one axis.
-		if not order_ready:
-			var lead_x := Vector2i(16, 0)
-			var lead_y := Vector2i(0, 16)
-			if destination.x - moved.x < 0:
-				lead_x = -lead_x
-			if destination.y - moved.y < 0:
-				lead_y = -lead_y
-			order = [lead_x, lead_y]
-			order.shuffle()
-			var end: Array[Vector2i] = [-lead_x, -lead_y]
-			end.shuffle()
-			order.append_array(end)
-		#endregion
-		#region Checks each direction.
-		for i: Vector2i in order:
-			if moved + i in all_tiles and not(moved + i in moved_tiles):
-				var temp_moved_tiles := moved_tiles.duplicate() as Array[Vector2i]
-				var temp_moved: Vector2i = moved
-				temp_moved += i
-				temp_moved_tiles.append(temp_moved)
-				if temp_moved == destination:
-					moved_tiles = temp_moved_tiles
-					return moved_tiles
-				var new_num: float = num - MapController.map.get_terrain_cost(unit_class.movement_type, temp_moved)
-				var value: Array[Vector2i] = _get_path_subfunc(new_num, temp_moved, all_tiles,
-						temp_moved_tiles, destination)
-				if value.size() > 0:
-					return value
-		#endregion
-	return []
-
-
 func _on_area2d_area_entered(area: Area2D) -> void:
 	# When cursor enters unit's area
 	if area == CursorController.get_area() and visible:
@@ -870,9 +805,9 @@ func _get_personal_value_multiplier(stat: stats) -> float:
 
 
 func _get_effort_value_multiplier(stat: stats) -> float:
-	var personal_value: int = \
+	var effort_value: int = \
 			clampi(effort_values.get(stat, 0) as int, 0, INDIVIDUAL_EFFORT_VALUE_LIMIT)
-	return 1 + ((personal_value as float) / INDIVIDUAL_EFFORT_VALUE_LIMIT * EFFORT_VALUE_MULTIPLIER)
+	return 1 + ((effort_value as float) / INDIVIDUAL_EFFORT_VALUE_LIMIT * EFFORT_VALUE_MULTIPLIER)
 
 
 func _on_area2d_area_exited(area: Area2D) -> void:

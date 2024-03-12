@@ -6,8 +6,8 @@ var true_position: Vector2
 
 
 func _process(delta: float) -> void:
-	var speed: float = maxf(4, (true_position.distance_to(map_position))/16)
-	true_position = true_position.move_toward(map_position, speed * 60 * delta)
+	true_position = true_position.move_toward(map_position,
+			maxf(4, (true_position.distance_to(map_position))/16) * 60 * delta)
 	transform.origin = (true_position - Vector2(get_map_offset())).round()
 
 

@@ -22,14 +22,13 @@ func _init(connected_unit: Unit = null, targeted_tile: Vector2i = Vector2i(0, 16
 	add_child(_combat_sprite)
 	await _combat_sprite.tree_entered
 	_combat_sprite.sprite_animated = false
-	var angle: float = (Vector2(target_tile) - position).angle()
-	var angle_adjusted: float = (angle * 4)/PI
+	var angle: float = ((Vector2(target_tile) - position).angle() * 4)/PI
 	var animation: Unit.animations
-	if angle_adjusted <= 1 and angle_adjusted >= -1:
+	if angle <= 1 and angle >= -1:
 		animation = Unit.animations.MOVING_RIGHT
-	elif angle_adjusted > -3 and angle_adjusted < -1:
+	elif angle > -3 and angle < -1:
 		animation = Unit.animations.MOVING_UP
-	elif angle_adjusted > 1 and angle_adjusted < 3:
+	elif angle > 1 and angle < 3:
 		animation = Unit.animations.MOVING_DOWN
 	else:
 		animation = Unit.animations.MOVING_LEFT
@@ -48,11 +47,10 @@ func play_animation() -> void:
 
 
 func _move(movement: Vector2) -> void:
-	var end_pos: Vector2 = position + movement
 	var tween: Tween = create_tween()
 	tween.set_speed_scale(60)
 	tween.tween_method(func(new_pos: Vector2) -> void: position = new_pos.round(),
-			position, end_pos, 8)
+			position, position + movement, 8)
 	await tween.finished
 	emit_signal("arrived")
 

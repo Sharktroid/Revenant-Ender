@@ -59,7 +59,6 @@ func _update_rank() -> void:
 		if rank_label.text == "S":
 			help_description = "This unit has maxed out their rank for this weapon"
 		else:
-			var color_blue: String = "color=%s" % Utilities.font_blue
 			var string_array: Array[String] = [
 				"[center][colorblue]%d[/color]" % [progress_bar.value],
 				" [color=%s]/[/color] " % Utilities.font_yellow,
@@ -70,4 +69,4 @@ func _update_rank() -> void:
 						(Weapon.ranks as Dictionary).find_key(roundi(progress_bar.max_value)),
 				" rank[/center]",
 			]
-			help_description = "".join(string_array).replace("colorblue", color_blue)
+			help_description = "".join(string_array).replace("colorblue", "color=%s" % Utilities.font_blue)

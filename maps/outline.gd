@@ -30,10 +30,8 @@ func _draw() -> void:
 		if current_faction.full_outline \
 				and outline_faction != current_faction:
 			for unit: Unit in MapController.get_units():
-				var unit_faction: Faction = unit.get_faction()
-				var unit_stance: Faction.diplo_stances = \
-						current_faction.get_diplomacy_stance(unit_faction)
-				if unit_stance == Faction.diplo_stances.ENEMY \
+				if (current_faction.get_diplomacy_stance(unit.get_faction()) ==
+						Faction.diplo_stances.ENEMY)\
 						and len(unit.get_all_attack_tiles()) > 0:
 					for coord: Vector2i in (unit.get_all_attack_tiles() +
 							unit.get_raw_movement_tiles()):

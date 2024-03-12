@@ -1,13 +1,6 @@
 extends PanelContainer
 
 
-func _ready() -> void:
-	var string := String()
-	for i in 30:
-		string += "TEST"
-	set_description(string)
-
-
 func display_contents(display: bool) -> void:
 	($"PanelContainer3/MarginContainer/VBoxContainer" as VBoxContainer).visible = display
 

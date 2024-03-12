@@ -4,12 +4,11 @@ var observing_unit: Unit
 
 
 func update() -> void:
-	var label_container := $"Item Panel/Item Label Container" as VBoxContainer
 	var ranks: Array[Node] = []
 	for control: Control in $"Weapon Ranks/GridContainer".get_children() as Array[Control]:
 		if control.get_index() % 2 == 0:
 			ranks.append(control)
-	for child: Node in label_container.get_children():
+	for child: Node in $"Item Panel/Item Label Container".get_children():
 		for grandchild: Node in child.get_children():
 			grandchild.queue_free()
 	var item_labels: Array[Node] = []

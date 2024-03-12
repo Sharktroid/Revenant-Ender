@@ -11,8 +11,7 @@ static var previous_tab: int = 0
 
 func _ready() -> void:
 	_menu_tabs.current_tab = previous_tab
-	var internal_tab_bar := _menu_tabs.get_child(0, true) as TabBar
-	internal_tab_bar.mouse_filter = Control.MOUSE_FILTER_PASS
+	(_menu_tabs.get_child(0, true) as TabBar).mouse_filter = Control.MOUSE_FILTER_PASS
 	GameController.add_to_input_stack(self)
 
 	_update.call_deferred()

@@ -36,7 +36,7 @@ func get_ui() -> CanvasLayer:
 func get_map_camera() -> MapCamera:
 	const PATH: String = "Map Camera"
 	if map.has_node(PATH):
-		return (map.get_node("Map Camera") as MapCamera)
+		return (map.get_node(PATH) as MapCamera)
 	else:
 		return MapCamera.new()
 

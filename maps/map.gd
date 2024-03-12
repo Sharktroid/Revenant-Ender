@@ -98,8 +98,7 @@ func next_faction() -> void:
 	if faction_name in all_names:
 		turn_banner_node.texture = \
 				load("res://turn_banners/%s_phase_banner.png" % faction_name) as Texture2D
-		var timer: SceneTreeTimer = get_tree().create_timer(82.0/60)
-		await timer.timeout
+		await get_tree().create_timer(82.0/60).timeout
 		turn_banner_node.texture = null
 	# When there is no banner.
 	else:

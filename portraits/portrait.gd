@@ -3,7 +3,6 @@ extends Sprite2D
 
 enum emotions {NONE, DEFAULT, HAPPY}
 
-@onready var _mouth := %Mouth as Sprite2D
 var _talking: bool = false
 var _talking_frame: int = 0
 var _delay: int = 0
@@ -12,8 +11,8 @@ var _emotion := emotions.DEFAULT
 
 
 func _ready() -> void:
-	if _mouth:
-		_current_mouth = _mouth
+	if has_node("Mouth"):
+		_current_mouth = $Mouth as Sprite2D
 	else:
 		_current_mouth = Sprite2D.new()
 		_current_mouth.vframes = 3
@@ -50,7 +49,7 @@ func set_emotion(emotion: emotions) -> void:
 	match _emotion:
 		emotions.HAPPY: _current_mouth = $"Mouth Happy" as Sprite2D
 		emotions.NONE: _current_mouth = Sprite2D.new()
-		_: _current_mouth = _mouth
+		_: _current_mouth = $Mouth as Sprite2D
 	if _emotion != emotions.NONE:
 		_current_mouth.visible = true
 

@@ -20,8 +20,8 @@ static func combat(attacker: Unit, defender: Unit) -> void:
 				roundi(Utilities.get_tile_distance(attacker.position, defender.position))
 		if distance in defender.get_current_weapon().get_range():
 			attack_queue.append(CombatStage.new(defender, attacker))
-	var attack_speed_check: bool = attacker.get_attack_speed() >= 5 + defender.get_attack_speed()
-	if attacker.has_attribute(Skill.all_attributes.FOLLOW_UP) and attack_speed_check:
+	if (attacker.has_attribute(Skill.all_attributes.FOLLOW_UP)
+			and attacker.get_attack_speed() >= 5 + defender.get_attack_speed()):
 		attack_queue.append(CombatStage.new(attacker, defender))
 	await _map_combat(attacker, defender, attack_queue)
 	CursorController.enable()
@@ -31,9 +31,7 @@ static func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[Comb
 	const MAP_BATTLE_HP_BAR_PATH: String = \
 			"res://controllers/attack controller/map_battle_info_display."
 	const MAP_BATTLE_HP_BAR = preload(MAP_BATTLE_HP_BAR_PATH + "gd")
-	const MAP_BATTLE_HP_BAR_SCENE: PackedScene = \
-			preload(MAP_BATTLE_HP_BAR_PATH + "tscn")
-	var hp_bar := MAP_BATTLE_HP_BAR_SCENE.instantiate() as MAP_BATTLE_HP_BAR
+	var hp_bar := preload(MAP_BATTLE_HP_BAR_PATH + "tscn").instantiate() as MAP_BATTLE_HP_BAR
 	hp_bar.attacker = attacker
 	hp_bar.defender = defender
 	MapController.get_ui().add_child(hp_bar)

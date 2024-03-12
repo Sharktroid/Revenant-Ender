@@ -73,15 +73,14 @@ func get_stat_table() -> Array[String]:
 		else:
 			return "%d-%d" % [min_range, max_range]
 
-	var weapon_stats: Dictionary = {
+	return Utilities.dict_to_table.call({
 		str(types.find_key(type)).capitalize(): str(ranks.find_key(level)).capitalize(),
 		"Range": get_range_string.call(),
 		"Weight": weight,
 		"Might": might,
 		"Hit": hit,
 		"Critical": crit
-	}
-	return Utilities.dict_to_table.call(weapon_stats)
+	})
 
 
 ## Returns 1 with normal advantage, 0 with neutrality, -1 with disadvantage

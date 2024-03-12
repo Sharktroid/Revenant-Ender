@@ -24,9 +24,9 @@ func update() -> void:
 		progress_bar.visible = true
 		progress_bar.max_value = max_value
 		progress_bar.value = current_value
-	var new_x: float = size.x * (float(max_value) / ABSOLUTE_MAX_VALUE)
 	var resize_handler := $"Resize Handler" as ReferenceRect
-	resize_handler.set_size.call_deferred(Vector2(new_x, resize_handler.size.y))
+	resize_handler.set_size.call_deferred(Vector2(size.x * (float(max_value) / ABSOLUTE_MAX_VALUE),
+			resize_handler.size.y))
 
 	help_table = unit.get_stat_table(stat)
 	table_columns = 4
