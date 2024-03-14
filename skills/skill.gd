@@ -4,6 +4,7 @@ extends Resource
 enum all_variants {ALPHA, BETA, GAMMA, OMEGA}
 enum all_attributes {
 	FOLLOW_UP,
+	CANTO,
 }
 
 var attributes: Array[all_attributes]

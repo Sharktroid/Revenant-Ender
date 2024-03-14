@@ -20,7 +20,7 @@ static func combat(attacker: Unit, defender: Unit) -> void:
 				roundi(Utilities.get_tile_distance(attacker.position, defender.position))
 		if distance in defender.get_current_weapon().get_range():
 			attack_queue.append(CombatStage.new(defender, attacker))
-	if (attacker.has_attribute(Skill.all_attributes.FOLLOW_UP)
+	if (attacker.has_skill_attribute(Skill.all_attributes.FOLLOW_UP)
 			and attacker.get_attack_speed() >= 5 + defender.get_attack_speed()):
 		attack_queue.append(CombatStage.new(attacker, defender))
 	await _map_combat(attacker, defender, attack_queue)

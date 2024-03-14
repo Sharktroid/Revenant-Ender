@@ -405,8 +405,12 @@ func get_distance(unit: Unit) -> int:
 	return roundi(Utilities.get_tile_distance(position, unit.position))
 
 
-func has_attribute(attrib: Skill.all_attributes) -> bool:
-	for skill: Skill in skills:
+func get_skills() -> Array[Skill]:
+	return skills + unit_class.skills
+
+
+func has_skill_attribute(attrib: Skill.all_attributes) -> bool:
+	for skill: Skill in get_skills():
 		if attrib in skill.attributes:
 			return true
 	return false
@@ -422,8 +426,8 @@ func can_rescue(unit: Unit) -> bool:
 
 ## Causes unit to wait.
 func wait() -> void:
+	current_movement = get_stat(stats.MOVEMENT)
 	if Utilities.get_debug_constant("unit_wait"):
-		current_movement = get_stat(stats.MOVEMENT)
 		selectable = false
 		waiting = true
 	MapController.map.unit_wait(self)

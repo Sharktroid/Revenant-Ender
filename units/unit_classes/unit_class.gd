@@ -24,6 +24,7 @@ var aid_modifier: int = -1
 var weight_modifier: int = 0
 var description: String = "[Empty]"
 var authority: int
+var skills: Array[Skill]
 
 func _init() -> void:
 	var parent_folder: String = (get_script() as Script).resource_path.get_base_dir()
