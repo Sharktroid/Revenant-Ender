@@ -38,7 +38,7 @@ enum stats {
 var personal_values: Dictionary
 var effort_values: Dictionary
 var current_level: int
-var current_movement: int
+var current_movement: float
 var dead: bool = false
 var outline_highlight: bool = false
 var selected: bool = false # Whether the unit is selected.
@@ -423,7 +423,7 @@ func can_rescue(unit: Unit) -> bool:
 ## Causes unit to wait.
 func wait() -> void:
 	if Utilities.get_debug_constant("unit_wait"):
-		current_movement = 0
+		current_movement = get_stat(stats.MOVEMENT)
 		selectable = false
 		waiting = true
 	MapController.map.unit_wait(self)
@@ -533,12 +533,12 @@ func add_skill(skill: Skill) -> void:
 ## Moves unit to "move_target"
 func move(move_target: Vector2i = get_unit_path()[-1]) -> void:
 	hide_movement_tiles()
-	if not(move_target in get_unit_path()):
-		update_path(move_target)
-	if move_target in get_unit_path():
+	update_path(move_target)
+	var path: Array[Vector2i] = get_unit_path()
+	if move_target in path:
 		remove_path()
-		var path: Array[Vector2i] = get_unit_path()
 		get_area().monitoring = false
+		current_movement -= MapController.map.get_path_cost(unit_class.movement_type, path)
 		while len(path) > 0:
 			var _target: Vector2 = path.pop_at(0)
 			match _target - position:
@@ -663,7 +663,7 @@ func show_path() -> void:
 		MapController.map.get_child(0).add_child(_arrows_container)
 
 
-func get_raw_movement_tiles(custom_movement: int = current_movement) -> Array[Vector2i]:
+func get_raw_movement_tiles(custom_movement: int = floori(current_movement)) -> Array[Vector2i]:
 	_get_movement_tiles(custom_movement)
 	return _raw_movement_tiles
 
@@ -749,8 +749,10 @@ func _get_movement_tiles(movement: int) -> void:
 		#region Orders tiles by distance from center
 		h.erase(start)
 		for x: Vector2i in h:
-			var cost: float = MapController.map.get_movement_cost(unit_class.movement_type,
-					position, x, get_faction())
+			var map: Map = MapController.map as Map
+			var movement_type: UnitClass.movement_types = unit_class.movement_type
+			var cost: float = map.get_path_cost(movement_type,
+					map.get_movement_path(movement_type, position, x, get_faction()))
 			if cost <= current_movement:
 				if not cost in _movement_tiles.keys():
 					_movement_tiles[cost] = []

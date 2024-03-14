@@ -1,4 +1,5 @@
 * Implement Canto
+* Simplify calculations with Rect2s
 * Add music
 * Implement experience
 * Implement FE6 Chapter 1

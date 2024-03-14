@@ -166,6 +166,8 @@ func get_terrain_cost(movement_type: UnitClass.movement_types, coords: Vector2) 
 			"Sea": terrain_name = "Ocean"
 		if terrain_name in movement_type_terrain_dict:
 			var cost: String = movement_type_terrain_dict[terrain_name]
+			if terrain_name == "Cliff":
+				print_debug(cost)
 			if cost.is_valid_float():
 				return float(cost)
 			elif cost in "N/A":
@@ -259,19 +261,14 @@ func get_movement_path(movement_type: UnitClass.movement_types, starting_point: 
 	return output
 
 
-func get_movement_cost(movement_type: UnitClass.movement_types, starting_point: Vector2i,
-		destination: Vector2i, faction: Faction) -> float:
-	var movement_grid: AStarGrid2D = _cost_grids[movement_type]
-	var path: Array[Vector2i] = get_movement_path(movement_type, starting_point, destination,
-			faction)
-	if path == []:
+func get_path_cost(movement_type: UnitClass.movement_types, path: Array[Vector2i]) -> float:
+	if path.size() == 0:
 		return INF
-	else:
-		var sum: float = 0
-		for cell: Vector2i in path:
-			if cell != starting_point:
-				sum += movement_grid.get_point_weight_scale(cell / 16)
-		return sum
+	var sum: float = 0
+	path.remove_at(0)
+	for cell: Vector2i in path:
+		sum += get_terrain_cost(movement_type, cell)
+	return sum
 
 
 func update_a_star_grid_id(a_star_grid: AStarGrid2D, movement_type: UnitClass.movement_types,
