@@ -1,5 +1,5 @@
-* Implement Canto
 * Simplify calculations with Rect2s
+* Clean-up code relating to movement tiles and unit paths
 * Add music
 * Implement experience
 * Implement FE6 Chapter 1

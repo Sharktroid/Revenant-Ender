@@ -4,6 +4,8 @@ var connected_unit: Unit
 var caller: SelectedUnitController
 var actionable: bool = true
 
+var _canto: bool
+
 
 func _init() -> void:
 	_to_center = true
@@ -32,12 +34,14 @@ func receive_input(event: InputEvent) -> void:
 
 
 func close(return_to_caller: bool = false) -> void:
-	queue_free()
 	CursorController.enable()
 	if not actionable:
-		connected_unit.wait()
+		_check_canto()
+	queue_free()
 	if not (return_to_caller and actionable):
 		caller.close()
+	if _canto:
+		CantoController.new(connected_unit)
 
 
 func update() -> void:
@@ -112,10 +116,7 @@ func select_item(item: MapMenuItem) -> void:
 			_select_map(selector, tiles_node, attack)
 
 		"Wait":
-			visible = false
-			await connected_unit.move()
-			connected_unit.wait()
-			close()
+			_wait()
 
 		"Trade":
 			var selector := UnitSelector.new(connected_unit, 1, 1, connected_unit.is_friend)
@@ -154,7 +155,7 @@ func select_item(item: MapMenuItem) -> void:
 				await selected_unit.move(connected_unit.position)
 				selected_unit.visible = false
 				connected_unit.traveler = selected_unit
-				connected_unit.wait()
+				_check_canto()
 				close()
 			_select_map(selector, _display_adjacent_support_tiles(), rescue)
 
@@ -168,7 +169,7 @@ func select_item(item: MapMenuItem) -> void:
 				traveler.position = connected_unit.position
 				connected_unit.traveler = null
 				await traveler.move(dropped_tile)
-				connected_unit.wait()
+				_check_canto()
 				close()
 			_select_map(TileSelector.new(connected_unit, 1, 1, _can_drop), tiles_node, drop)
 
@@ -183,6 +184,7 @@ func select_item(item: MapMenuItem) -> void:
 				traveler.visible = true
 				await traveler.move(connected_unit.position)
 				traveler.visible = false
+				traveler.wait()
 				visible = true
 				update()
 				CursorController.disable()
@@ -200,6 +202,7 @@ func select_item(item: MapMenuItem) -> void:
 				traveler.visible = true
 				await traveler.move(unit.position)
 				traveler.visible = false
+				traveler.wait()
 				visible = true
 				update()
 				CursorController.disable()
@@ -221,6 +224,8 @@ func select_item(item: MapMenuItem) -> void:
 				await new_traveler.move(connected_unit.position)
 				old_traveler.visible = false
 				new_traveler.visible = false
+				old_traveler.wait()
+				new_traveler.wait()
 				visible = true
 				update()
 				CursorController.disable()
@@ -231,6 +236,13 @@ func select_item(item: MapMenuItem) -> void:
 func unactionable() -> void:
 	actionable = false
 	await connected_unit.move()
+
+
+func _check_canto() -> void:
+	if connected_unit.has_skill_attribute(Skill.all_attributes.CANTO):
+		_canto = true
+	else:
+		connected_unit.wait()
 
 
 func _select_map(selector: Selector, tiles_node: Node2D, selected: Callable,
@@ -300,3 +312,10 @@ func _get_item_nodes() -> Array[MapMenuItem]:
 	var output: Array[MapMenuItem] = []
 	output.assign($Items.get_children())
 	return output
+
+
+func _wait() -> void:
+	visible = false
+	await connected_unit.move()
+	connected_unit.wait()
+	close()

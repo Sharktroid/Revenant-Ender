@@ -41,7 +41,8 @@ var current_level: int
 var current_movement: float
 var dead: bool = false
 var outline_highlight: bool = false
-var selected: bool = false # Whether the unit is selected.
+## Whether the unit is selected.
+var selected: bool = false
 var selectable: bool = true # Whether the unit can be selected.
 var waiting: bool = false
 var sprite_animated: bool = true:

@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://db255usb2r0jl"]
+
+[ext_resource type="PackedScene" uid="uid://i3a0mes5l4au" path="res://ui/map_ui/map_menus/unit_menu/unit_menu.tscn" id="1_3h685"]
+[ext_resource type="Script" path="res://ui/map_ui/map_menus/canto_menu/canto_menu.gd" id="2_y21hq"]
+
+[node name="Canto Menu" instance=ExtResource("1_3h685")]
+script = ExtResource("2_y21hq")
+
+[node name="Attack" parent="Items" index="0"]
+visible = false
+
+[node name="Trade" parent="Items" index="2"]
+visible = false
+
+[node name="Rescue" parent="Items" index="3"]
+visible = false
+
+[node name="Take" parent="Items" index="4"]
+visible = false
+
+[node name="Drop" parent="Items" index="5"]
+visible = false
+
+[node name="Give" parent="Items" index="6"]
+visible = false
+
+[node name="Swap" parent="Items" index="7"]
+visible = false
+
+[node name="Items" parent="Items" index="8"]
+visible = false
