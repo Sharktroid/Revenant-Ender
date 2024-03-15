@@ -4,13 +4,12 @@ extends Control
 enum tile_types {ATTACK, MOVEMENT, SUPPORT}
 
 # Border boundaries of the map. units should not exceed these unless aethetic
-var left_border: int
-var right_border: int
-var top_border: int
-var bottom_border: int
+@export var left_border: int
+@export var right_border: int
+@export var top_border: int
+@export var bottom_border: int
 # See _ready() for these next two
-var upper_border: Vector2i
-var lower_border: Vector2i
+var borders: Rect2i
 var movement_cost_dict: Dictionary # Movement costs for every movement type
 var all_factions: Array[Faction] # All factions
 var true_pos: Vector2i # Position of the map, used for scrolling
@@ -24,13 +23,13 @@ var _grid_current_faction: Faction
 
 
 func _init() -> void:
-	upper_border = Vector2i(left_border, top_border)
-	lower_border = Vector2i(right_border, bottom_border)
 	_parse_movement_cost()
 
 
 func _ready() -> void:
-	create_debug_borders() # Only shows up when collison shapes are enabled
+	borders = Rect2i(left_border, top_border, 32, 32)
+	borders = borders.expand(get_size() - Vector2(right_border, bottom_border))
+	_create_debug_borders() # Only shows up when collison shapes are enabled
 	_terrain_layer.visible = Utilities.get_debug_constant("display_map_terrain")
 	_border_overlay.visible = Utilities.get_debug_constant("display_map_borders")
 	($"Map Layer/Cursor Area" as Area2D).visible = \
@@ -125,19 +124,8 @@ func get_previous_unit(unit: Unit) -> Unit:
 	return _get_unit_relative(unit, -1)
 
 
-func get_rel_upper_border() -> Vector2i:
-	return upper_border - MapController.get_map_camera().map_position
-
-
-func get_rel_lower_border() -> Vector2i:
-	return lower_border - MapController.get_map_camera().get_low_map_position()
-
-
 func is_touching_border(pos: Vector2i) -> bool:
-	for i: int in 2:
-		if pos[i] - 16 < upper_border[i] or pos[i] + 16 > get_size()[i] - lower_border[i]:
-			return true
-	return false
+	return borders.has_point(pos)
 
 
 func start_turn() -> void:
@@ -179,15 +167,16 @@ func get_terrain_cost(movement_type: UnitClass.movement_types, coords: Vector2) 
 	return INF
 
 
-func create_debug_borders() -> void:
+func _create_debug_borders() -> void:
 	# Creates a visualization of the map's borders
 	for x: int in range(0, get_size().x, 16):
 		for y: int in range(0, get_size().y, 16):
-			if x < left_border or x + 16 > get_size().x - right_border \
-					or y < top_border or y + 16 > get_size().y - bottom_border:
+			if x < borders.position.x or x + 16 > borders.end.x \
+					or y < borders.position.y or y + 16 > borders.end.y:
 				var border_tile := \
 						$"Map Layer/Debug Border Overlay Tile Base".duplicate() as Sprite2D
 				border_tile.transform.origin = Vector2(x, y)
+				border_tile.visible = true
 				_border_overlay.add_child(border_tile)
 
 
@@ -280,7 +269,7 @@ func update_a_star_grid_id(a_star_grid: AStarGrid2D, movement_type: UnitClass.mo
 
 func _get_terrain(coords: Vector2i) -> String:
 	## Gets the name of the terrain at the tile at position "coords"
-	if coords != coords.clamp(Vector2i(), get_size() - Vector2(16, 16)):
+	if not borders.has_point(coords):
 		return "Blocked"
 	var cell_id: TileData = _terrain_layer.get_cell_tile_data(0, coords/16)
 	return cell_id.get_custom_data("Terrain Name")

@@ -1,5 +1,4 @@
-* Simplify calculations with Rect2s
-* Clean-up code relating to movement tiles and unit paths
+* Clean-up code relating to movement tiles and unit paths and cursor position.
 * Add music
 * Implement experience
 * Implement FE6 Chapter 1

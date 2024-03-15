@@ -688,10 +688,9 @@ func get_all_attack_tiles(movement_tiles: Array[Vector2i] = \
 		for tile: Vector2i in basis_movement_tiles:
 			for y in range(-max_range, max_range + 1):
 				for x in range(-max_range, max_range + 1):
-					var map_size: Vector2i = MapController.map.get_size() - Vector2(16, 16)
-					var attack_tile: Vector2i = (tile + Vector2i(x * 16, y * 16))\
-							.clamp(Vector2i(0, 0), map_size)
-					if not(attack_tile in all_attack_tiles + movement_tiles):
+					var attack_tile: Vector2i = tile + Vector2i(x * 16, y * 16)
+					if (not(attack_tile in all_attack_tiles + movement_tiles)
+							and MapController.map.borders.has_point(attack_tile)):
 						var distance: int = floori(Utilities.get_tile_distance(tile, attack_tile))
 						if distance >= min_range and distance <= max_range:
 							all_attack_tiles.append(attack_tile)

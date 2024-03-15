@@ -40,7 +40,7 @@ func _physics_process(_delta: float) -> void:
 					elif Input.is_action_pressed("down"):
 						new_pos.y += 16
 					set_true_pos(new_pos)
-					_delay = 3
+					_delay = 4
 				else:
 					_repeat = false
 	_delay -= 1
@@ -102,7 +102,8 @@ func get_rel_pos() -> Vector2i:
 func set_true_pos(new_pos: Vector2i) -> void:
 	## Sets cursor position relative to the map
 	var old_pos: Vector2i = _position
-	_position = new_pos.clamp(Vector2i(), MapController.map.get_size() - Vector2(16, 16))
+	_position = new_pos.clamp(MapController.map.borders.position,
+			MapController.map.borders.end - Vector2i(16, 16))
 	_position = ((_position - _corner_offset()).
 			clamp(Vector2i(), Utilities.get_screen_size() - Vector2i(16, 16)) + _corner_offset())
 	var map_move := Vector2i()
