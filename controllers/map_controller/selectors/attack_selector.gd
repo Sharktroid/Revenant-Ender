@@ -7,7 +7,7 @@ func _position_selected() -> void:
 		const INFO_DISPLAY = preload(INFO_DISPLAY_PATH + "gd")
 		const INFO_DISPLAY_SCENE: PackedScene = preload(INFO_DISPLAY_PATH + "tscn")
 		var info_display := INFO_DISPLAY_SCENE.instantiate() as INFO_DISPLAY
-		if (CursorController.get_rel_pos().x + MapController.get_map_camera().get_map_offset().x <
+		if (CursorController.get_screen_position().x + MapController.get_map_camera().get_map_offset().x <
 				(Utilities.get_screen_size().x as float / 2)):
 			info_display.position.x = Utilities.get_screen_size().x - info_display.size.x
 		info_display.top_unit = unit

@@ -48,7 +48,7 @@ func update() -> void:
 	# Gets the items for the unit menu.
 	var pos: Vector2i = connected_unit.get_path_last_pos()
 	var movement: int = connected_unit.get_stat(Unit.stats.MOVEMENT)
-	var raw_movement_tiles: Array[Vector2i] = connected_unit.get_raw_movement_tiles()
+	var movement_tiles: Array[Vector2i] = connected_unit.get_movement_tiles()
 	var enabled_items: Dictionary = {
 		Attack = false,
 		Wait = false,
@@ -60,14 +60,14 @@ func update() -> void:
 		Swap = false,
 		Items = false,
 	}
-	if CursorController.get_true_pos() in raw_movement_tiles:
-		enabled_items.Wait = (movement > 0 and pos in raw_movement_tiles)
+	if CursorController.get_map_position() in movement_tiles:
+		enabled_items.Wait = (movement > 0 and pos in movement_tiles)
 		enabled_items.Drop = connected_unit.traveler != null
 		enabled_items.Items = len(connected_unit.items) > 0
 		# Gets all adjacent units
 		for unit: Unit in MapController.get_units():
 			if unit != connected_unit and unit.visible == true:
-				var cursor_pos: Vector2i = CursorController.get_true_pos()
+				var cursor_pos: Vector2i = CursorController.get_map_position()
 				if Utilities.get_tile_distance(cursor_pos, unit.get_position()) == 0 \
 						and not unit == connected_unit:
 					# Units occupying the same tile

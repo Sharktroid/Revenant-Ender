@@ -2,13 +2,13 @@ extends Camera2D
 class_name MapCamera
 
 var map_position: Vector2i
-var true_position: Vector2
+var map_positionition: Vector2
 
 
 func _process(delta: float) -> void:
-	true_position = true_position.move_toward(map_position,
-			maxf(4, (true_position.distance_to(map_position))/16) * 60 * delta)
-	transform.origin = (true_position - Vector2(get_map_offset())).round()
+	map_positionition = map_positionition.move_toward(map_position,
+			maxf(4, (map_positionition.distance_to(map_position))/16) * 60 * delta)
+	transform.origin = (map_positionition - Vector2(get_map_offset())).round()
 
 
 func set_map_position(new_map_position: Vector2i) -> void:

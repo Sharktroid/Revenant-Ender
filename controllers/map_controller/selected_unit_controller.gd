@@ -10,7 +10,7 @@ func _init(connected_unit: Unit) -> void:
 	name = "Selected Unit Controller"
 	_unit.set_animation(Unit.animations.MOVING_DOWN)
 	_unit.selected = true
-	_unit.update_path(CursorController.get_true_pos())
+	_unit.update_path(CursorController.get_map_position())
 	_unit.refresh_tiles()
 	_unit.tree_exited.connect(_on_unit_death)
 	_ghost_unit = GhostUnit.new(_unit)
@@ -59,7 +59,7 @@ func close() -> void:
 
 func _on_cursor_moved() -> void:
 	if self == GameController.get_current_input_node():
-		_unit.update_path(CursorController.get_true_pos())
+		_unit.update_path(CursorController.get_map_position())
 		_unit.show_path()
 
 
@@ -77,7 +77,7 @@ func _create_unit_menu() -> void:
 	var _menu_node := load("res://ui/map_ui/map_menus/unit_menu/unit_menu.tscn") as PackedScene
 	var menu := _menu_node.instantiate() as _menu_script
 	menu.connected_unit = _unit
-	menu.offset = CursorController.get_rel_pos() \
+	menu.offset = CursorController.get_screen_position() \
 			+ MapController.get_map_camera().get_map_offset() + Vector2i(16, -8)
 	menu.caller = self
 	CursorController.disable()

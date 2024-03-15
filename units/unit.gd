@@ -66,13 +66,11 @@ var personal_authority: int
 var _animation_player: AnimationPlayer
 var _traveler_animation_player: AnimationPlayer
 var _portrait: Portrait
-var _raw_movement_tiles: Array[Vector2i] # All movement tiles without organization.
 var _path: Array[Vector2i] # Path the unit will follow when moving.
 var _current_statuses: Array[statuses]
 var _current_health: float
 static var _movement_speed: float = 16 # Speed unit moves across the map in tiles/second.
 # Dictionaries that convert faction/variant into animation modifier.
-var _movement_tiles: Dictionary # Movement tiles. Split by cost left.
 var _movement_tiles_node: Node2D
 var _attack_tile_node: Node2D
 var _current_attack_tiles_node: Node2D
@@ -463,10 +461,69 @@ func awaken() -> void:
 	_update_palette()
 
 
+func get_movement_tiles(custom_movement: int = floori(current_movement)) -> Array[Vector2i]:
+	# Gets the movement tiles of the unit
+	var h: Array[Vector2i] = []
+	var start: Vector2i = position
+	const RANGE_MULT: float = 4.0/3
+	var movement_tiles_dict: Dictionary = {custom_movement as float: [start]}
+	var movement_tiles: Array[Vector2i] = []
+	if position == ((position/16).floor() * 16):
+		#region Gets the initial grid
+		for y in range(-custom_movement * RANGE_MULT, custom_movement * RANGE_MULT + 1):
+			var v := []
+			for x in range(-(custom_movement * RANGE_MULT - absi(y)),
+					(custom_movement * RANGE_MULT - absi(y)) + 1):
+				v.append(start + Vector2i(x * 16, y * 16))
+			h.append_array(v)
+		#endregion
+		#region Orders tiles by distance from center
+		h.erase(start)
+		for x: Vector2i in h:
+			var map: Map = MapController.map as Map
+			var movement_type: UnitClass.movement_types = unit_class.movement_type
+			var cost: float = map.get_path_cost(movement_type,
+					map.get_movement_path(movement_type, position, x, get_faction()))
+			if cost <= current_movement:
+				if not cost in movement_tiles_dict.keys():
+					movement_tiles_dict[cost] = []
+				(movement_tiles_dict[cost] as Array).append(x)
+		#endregion
+		for v: Array in movement_tiles_dict.values() as Array[Array]:
+			var converted: Array[Vector2i] = []
+			converted.assign(v)
+			movement_tiles.append_array(converted)
+	return movement_tiles
+
+
+func get_all_attack_tiles(movement_tiles: Array[Vector2i] = \
+		get_movement_tiles()) -> Array[Vector2i]:
+	var all_attack_tiles: Array[Vector2i] = []
+	if get_current_weapon():
+		var basis_movement_tiles := movement_tiles.duplicate() as Array[Vector2i]
+		for unit: Unit in MapController.get_units():
+			if unit != self:
+				var unit_pos: Vector2i = unit.position
+				if unit_pos in basis_movement_tiles:
+					basis_movement_tiles.erase(unit_pos)
+		var min_range: int = get_min_range()
+		var max_range: int = get_max_range()
+		for tile: Vector2i in basis_movement_tiles:
+			for y in range(-max_range, max_range + 1):
+				for x in range(-max_range, max_range + 1):
+					var attack_tile: Vector2i = tile + Vector2i(x * 16, y * 16)
+					if (not(attack_tile in all_attack_tiles + movement_tiles)
+							and MapController.map.borders.has_point(attack_tile)):
+						var distance: int = floori(Utilities.get_tile_distance(tile, attack_tile))
+						if distance >= min_range and distance <= max_range:
+							all_attack_tiles.append(attack_tile)
+	return all_attack_tiles
+
+
 ## Displays the unit's movement tiles.
 func display_movement_tiles() -> void:
 	hide_movement_tiles()
-	var movement_tiles: Array[Vector2i] = get_raw_movement_tiles()
+	var movement_tiles: Array[Vector2i] = get_movement_tiles()
 	_movement_tiles_node = MapController.map.display_tiles(movement_tiles,
 			Map.tile_types.MOVEMENT, 1)
 	_attack_tile_node = MapController.map.display_tiles(get_all_attack_tiles(movement_tiles),
@@ -587,9 +644,9 @@ func update_path(destination: Vector2i) -> void:
 	if len(_path) == 0:
 		_path.append(Vector2i(position))
 	# Sets destination to an adjacent tile to a unit if a unit is hovered and over an attack tile.
-	var raw_movement_tiles: Array[Vector2i] = get_raw_movement_tiles()
-	var all_attack_tiles: Array[Vector2i] = get_all_attack_tiles(raw_movement_tiles)
-	if not destination in raw_movement_tiles \
+	var movement_tiles: Array[Vector2i] = get_movement_tiles()
+	var all_attack_tiles: Array[Vector2i] = get_all_attack_tiles(movement_tiles)
+	if not destination in movement_tiles \
 			and destination in all_attack_tiles \
 			and Utilities.get_tile_distance(get_unit_path()[-1], destination) > 1:
 		for unit: Unit in MapController.get_units():
@@ -597,14 +654,14 @@ func update_path(destination: Vector2i) -> void:
 					and Vector2i(unit.position) == destination):
 				var adjacent_movement_tiles: Array[Vector2i] = []
 				for tile_offset: Vector2i in Utilities.adjacent_tiles:
-					if Vector2i(unit.position) + tile_offset in raw_movement_tiles:
+					if Vector2i(unit.position) + tile_offset in movement_tiles:
 						adjacent_movement_tiles.append(Vector2i(unit.position) + tile_offset)
 				if len(adjacent_movement_tiles) > 0:
 					adjacent_movement_tiles.shuffle()
 					destination = (adjacent_movement_tiles)[0]
 					break
 
-	if destination in raw_movement_tiles:
+	if destination in movement_tiles:
 		# Gets the path
 		var total_cost: float = 0
 		for tile: Vector2i in _path:
@@ -668,35 +725,6 @@ func show_path() -> void:
 		MapController.map.get_child(0).add_child(_arrows_container)
 
 
-func get_raw_movement_tiles(custom_movement: int = floori(current_movement)) -> Array[Vector2i]:
-	_get_movement_tiles(custom_movement)
-	return _raw_movement_tiles
-
-
-func get_all_attack_tiles(movement_tiles: Array[Vector2i] = \
-		get_raw_movement_tiles()) -> Array[Vector2i]:
-	var all_attack_tiles: Array[Vector2i] = []
-	if get_current_weapon():
-		var basis_movement_tiles := movement_tiles.duplicate() as Array[Vector2i]
-		for unit: Unit in MapController.get_units():
-			if unit != self:
-				var unit_pos: Vector2i = unit.position
-				if unit_pos in basis_movement_tiles:
-					basis_movement_tiles.erase(unit_pos)
-		var min_range: int = get_min_range()
-		var max_range: int = get_max_range()
-		for tile: Vector2i in basis_movement_tiles:
-			for y in range(-max_range, max_range + 1):
-				for x in range(-max_range, max_range + 1):
-					var attack_tile: Vector2i = tile + Vector2i(x * 16, y * 16)
-					if (not(attack_tile in all_attack_tiles + movement_tiles)
-							and MapController.map.borders.has_point(attack_tile)):
-						var distance: int = floori(Utilities.get_tile_distance(tile, attack_tile))
-						if distance >= min_range and distance <= max_range:
-							all_attack_tiles.append(attack_tile)
-	return all_attack_tiles
-
-
 func get_new_map_attack() -> MapAttack:
 	# Returns a new instance of the class's map attack animation
 	return (load("res://map_attack.tscn") as PackedScene).instantiate() as MapAttack
@@ -733,40 +761,6 @@ func _update_palette() -> void:
 
 func _render_status() -> void:
 	pass
-
-
-func _get_movement_tiles(movement: int) -> void:
-	# Gets the movement tiles of the unit
-	var h: Array[Vector2i] = []
-	var start: Vector2i = position
-	const RANGE_MULT: float = 4.0/3
-	_movement_tiles = {movement as float: [start]}
-	if position == ((position/16).floor() * 16):
-		#region Gets the initial grid
-		for y in range(-movement * RANGE_MULT, movement * RANGE_MULT + 1):
-			var v := []
-			for x in range(-(movement * RANGE_MULT - absi(y)),
-					(movement * RANGE_MULT - absi(y)) + 1):
-				v.append(start + Vector2i(x * 16, y * 16))
-			h.append_array(v)
-		#endregion
-		#region Orders tiles by distance from center
-		h.erase(start)
-		for x: Vector2i in h:
-			var map: Map = MapController.map as Map
-			var movement_type: UnitClass.movement_types = unit_class.movement_type
-			var cost: float = map.get_path_cost(movement_type,
-					map.get_movement_path(movement_type, position, x, get_faction()))
-			if cost <= current_movement:
-				if not cost in _movement_tiles.keys():
-					_movement_tiles[cost] = []
-				(_movement_tiles[cost] as Array).append(x)
-		#endregion
-		_raw_movement_tiles = []
-		for v: Array in _movement_tiles.values() as Array[Array]:
-			var converted: Array[Vector2i] = []
-			converted.assign(v)
-			_raw_movement_tiles.append_array(converted)
 
 
 func _set_palette(color: Faction.colors) -> void:

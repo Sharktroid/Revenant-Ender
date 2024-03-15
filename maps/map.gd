@@ -12,7 +12,7 @@ enum tile_types {ATTACK, MOVEMENT, SUPPORT}
 var borders: Rect2i
 var movement_cost_dict: Dictionary # Movement costs for every movement type
 var all_factions: Array[Faction] # All factions
-var true_pos: Vector2i # Position of the map, used for scrolling
+var map_position: Vector2i # Position of the map, used for scrolling
 var curr_faction: int = 0
 
 var _cost_grids: Dictionary = {}

@@ -23,7 +23,7 @@ func _draw() -> void:
 			if is_instance_valid(unit) and len(attack_tiles) > 0:
 				unit.modulate = unit_highlight
 				unit.modulate.s *= 0.5
-				for coord: Vector2i in (attack_tiles + unit.get_raw_movement_tiles()):
+				for coord: Vector2i in (attack_tiles + unit.get_movement_tiles()):
 					if not (coord in all_current_coords):
 						all_current_coords.append(coord)
 		var current_faction: Faction = map.get_current_faction()
@@ -34,7 +34,7 @@ func _draw() -> void:
 						Faction.diplo_stances.ENEMY)\
 						and len(unit.get_all_attack_tiles()) > 0:
 					for coord: Vector2i in (unit.get_all_attack_tiles() +
-							unit.get_raw_movement_tiles()):
+							unit.get_movement_tiles()):
 						if not (coord in all_general_coords):
 							all_general_coords.append(coord)
 		var tile_current: Color = unit_highlight

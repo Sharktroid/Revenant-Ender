@@ -14,6 +14,6 @@ func _enter_tree() -> void:
 
 
 func _process(delta: float) -> void:
-	var distance: float = position.distance_to(CursorController.get_rel_pos())/16
-	position = position.move_toward(CursorController.get_rel_pos(),
+	var distance: float = position.distance_to(CursorController.get_screen_position())/16
+	position = position.move_toward(CursorController.get_screen_position(),
 			(maxf(1, distance) * 4) * 60 * delta)

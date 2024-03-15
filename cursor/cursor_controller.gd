@@ -14,7 +14,7 @@ var _repeat: bool = false
 
 
 func _init() -> void:
-	set_true_pos(Vector2i())
+	set_map_position(Vector2i())
 	set_process_input(true)
 
 
@@ -23,14 +23,14 @@ func _physics_process(_delta: float) -> void:
 		if GameController.controller_type == GameController.controller_types.MOUSE:
 			if (MapController.get_map_camera().get_destination() ==
 					(MapController.get_map_camera().position as Vector2i)):
-				set_true_pos(Utilities.round_coords_to_tile(get_viewport().get_mouse_position()
+				set_map_position(Utilities.round_coords_to_tile(get_viewport().get_mouse_position()
 				+ (_corner_offset() as Vector2)))
 		else:
 			pass
 			if _delay <= 0 and _repeat:
 				if (Input.is_action_pressed("left") or Input.is_action_pressed("right")
 						or Input.is_action_pressed("up") or Input.is_action_pressed("down")):
-					var new_pos: Vector2i = get_true_pos()
+					var new_pos: Vector2i = get_map_position()
 					if Input.is_action_pressed("left") and not Input.is_action_pressed("right"):
 						new_pos.x -= 16
 					elif Input.is_action_pressed("right"):
@@ -39,7 +39,7 @@ func _physics_process(_delta: float) -> void:
 						new_pos.y -= 16
 					elif Input.is_action_pressed("down"):
 						new_pos.y += 16
-					set_true_pos(new_pos)
+					set_map_position(new_pos)
 					_delay = 4
 				else:
 					_repeat = false
@@ -51,7 +51,7 @@ func _input(event: InputEvent) -> void:
 		await get_tree().create_timer(0.25).timeout
 		_repeat = true
 	if is_active():
-		var new_pos: Vector2i = get_true_pos()
+		var new_pos: Vector2i = get_map_position()
 		if event.is_action_pressed("left") and not Input.is_action_pressed("right"):
 			new_pos.x -= 16
 			repeat_callable.call()
@@ -64,7 +64,7 @@ func _input(event: InputEvent) -> void:
 		elif event.is_action_pressed("down"):
 			new_pos.y += 16
 			repeat_callable.call()
-		set_true_pos(new_pos)
+		set_map_position(new_pos)
 
 
 func enable() -> void:
@@ -91,15 +91,15 @@ func remove_icon() -> void:
 		_icon_sprite.queue_free()
 
 
-func set_rel_pos(new_pos: Vector2i) -> void:
-	set_true_pos(new_pos + _corner_offset())
+func set_screen_position(new_pos: Vector2i) -> void:
+	set_map_position(new_pos + _corner_offset())
 
 
-func get_rel_pos() -> Vector2i:
+func get_screen_position() -> Vector2i:
 	return (_position - _corner_offset())
 
 
-func set_true_pos(new_pos: Vector2i) -> void:
+func set_map_position(new_pos: Vector2i) -> void:
 	## Sets cursor position relative to the map
 	var old_pos: Vector2i = _position
 	_position = new_pos.clamp(MapController.map.borders.position,
@@ -108,9 +108,9 @@ func set_true_pos(new_pos: Vector2i) -> void:
 			clamp(Vector2i(), Utilities.get_screen_size() - Vector2i(16, 16)) + _corner_offset())
 	var map_move := Vector2i()
 	for i: int in 2:
-		if get_rel_pos()[i] < 16:
+		if get_screen_position()[i] < 16:
 			map_move[i] -= 16
-		elif get_rel_pos()[i] >= Utilities.get_screen_size()[i] - 16:
+		elif get_screen_position()[i] >= Utilities.get_screen_size()[i] - 16:
 			map_move[i] += 16
 	if map_move != Vector2i():
 		MapController.get_map_camera().move(map_move)
@@ -118,7 +118,7 @@ func set_true_pos(new_pos: Vector2i) -> void:
 		moved.emit()
 
 
-func get_true_pos() -> Vector2i:
+func get_map_position() -> Vector2i:
 	return _position
 
 
@@ -132,7 +132,7 @@ func get_area() -> Area2D:
 
 ## Gets the unit under the cursor. Returns null if one is not there.
 func get_hovered_unit() -> Unit:
-	if is_instance_valid(_hovered_unit) and _hovered_unit.position == (get_true_pos() as Vector2):
+	if is_instance_valid(_hovered_unit) and _hovered_unit.position == (get_map_position() as Vector2):
 		return _hovered_unit
 	return null
 

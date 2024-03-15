@@ -29,8 +29,8 @@ func select_item(item: MapMenuItem) -> void:
 
 		"Print Cursor Position":
 			var replacements: Array[Vector2i] = [
-				CursorController.get_rel_pos(),
-				CursorController.get_true_pos()
+				CursorController.get_screen_position(),
+				CursorController.get_map_position()
 			]
 			print("Position relative to UI: %s\nPosition relative to map: %s" % replacements)
 
