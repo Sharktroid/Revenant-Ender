@@ -631,7 +631,7 @@ func get_faction() -> Faction:
 	if len(MapController.map.all_factions) > 0:
 		return MapController.map.all_factions[faction_id]
 	else:
-		return Faction.new("INVALID", Faction.colors.BLUE, Faction.player_types.HUMAN)
+		return Faction.new("INVALID", Faction.colors.BLUE, Faction.player_types.HUMAN, null)
 
 
 ## Changes unit's faction.

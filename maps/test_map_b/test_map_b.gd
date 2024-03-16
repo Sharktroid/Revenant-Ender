@@ -6,8 +6,10 @@ const DEBUG_CUTSCENE: bool = false
 func _init() -> void:
 	# Initializing variables for this map.
 	all_factions = [
-		Faction.new("Player", Faction.colors.BLUE, Faction.player_types.HUMAN),
-		Faction.new("Enemy", Faction.colors.RED, Faction.player_types.HUMAN),
+		Faction.new("Player", Faction.colors.BLUE, Faction.player_types.HUMAN,
+				preload("res://audio/music/beyond_distant_skies.ogg")),
+		Faction.new("Enemy", Faction.colors.RED, Faction.player_types.HUMAN,
+				preload("res://audio/music/deer_of_the_plains.ogg")),
 	]
 	super()
 

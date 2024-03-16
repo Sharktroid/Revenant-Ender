@@ -49,6 +49,7 @@ func _ready() -> void:
 		for cell: Vector2i in ($"Map Layer/Base Layer" as TileMap).get_used_cells(0):
 			update_a_star_grid_id(a_star_grid, movement_type, cell)
 		_cost_grids[movement_type] = a_star_grid
+	start_turn()
 
 
 func receive_input(event: InputEvent) -> void:
@@ -132,6 +133,8 @@ func start_turn() -> void:
 	## Starts new turn.
 	if get_current_faction().player_type != Faction.player_types.HUMAN:
 		end_turn.call_deferred()
+	if get_current_faction().theme:
+		AudioPlayer.play_track_effect(get_current_faction().theme)
 
 
 func end_turn() -> void:
@@ -140,6 +143,7 @@ func end_turn() -> void:
 		unit.awaken()
 	next_faction()
 	update_outline()
+	start_turn.call_deferred()
 
 
 ## Gets the terrain cost of the tiles at "coords".

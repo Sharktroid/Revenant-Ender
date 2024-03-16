@@ -13,14 +13,17 @@ var name: String # Faction's name.
 var color: colors # Color of all units.
 var player_type: player_types
 var outlined_units: Dictionary # The units that are outlined.
+var theme: AudioStream
 
 var _diplomacy: Dictionary
 
 
-func _init(faction_name: String, faction_color: colors, faction_player_type: player_types) -> void:
+func _init(faction_name: String, faction_color: colors, faction_player_type: player_types,
+		faction_theme: AudioStream) -> void:
 	name = faction_name
 	color = faction_color
 	player_type = faction_player_type
+	theme = faction_theme
 
 
 func get_diplomacy_stance(faction: Faction) -> diplo_stances:
