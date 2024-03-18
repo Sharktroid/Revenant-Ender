@@ -53,14 +53,14 @@ func _ready() -> void:
 
 
 func receive_input(event: InputEvent) -> void:
-	if event.is_action_pressed("ranges"):
+	if event.is_action_pressed("ui_select"):
+		_on_cursor_select()
+
+	elif event.is_action_pressed("ranges"):
 		if CursorController.get_hovered_unit():
 			toggle_outline_unit(CursorController.get_hovered_unit())
 		else:
 			toggle_full_outline()
-
-	elif event.is_action_pressed("ui_select"):
-		_on_cursor_select()
 
 	elif event.is_action_pressed("status"):
 		if CursorController.get_hovered_unit():
@@ -323,10 +323,12 @@ func _get_unit_relative(unit: Unit, rel_index: int) -> Unit:
 func _on_cursor_select() -> void:
 	var hovered_unit: Unit = CursorController.get_hovered_unit()
 	if hovered_unit and hovered_unit.selectable == true:
+		AudioPlayer.play_sound_effect(preload("res://audio/sfx/double_select.ogg"))
 		var controller := SelectedUnitController.new(hovered_unit)
 		add_child(controller)
 		MapController.selecting = true
 	else:
+		AudioPlayer.play_sound_effect(preload("res://audio/sfx/map_select.ogg"))
 		MapController.create_main_map_menu()
 
 

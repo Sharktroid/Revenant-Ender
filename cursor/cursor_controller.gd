@@ -26,11 +26,11 @@ func _physics_process(_delta: float) -> void:
 				set_map_position(Utilities.round_coords_to_tile(get_viewport().get_mouse_position()
 				+ (_corner_offset() as Vector2)))
 		else:
-			pass
 			if _delay <= 0 and _repeat:
 				if (Input.is_action_pressed("left") or Input.is_action_pressed("right")
 						or Input.is_action_pressed("up") or Input.is_action_pressed("down")):
 					var new_pos: Vector2i = get_map_position()
+					var old_pos: Vector2i = new_pos
 					if Input.is_action_pressed("left") and not Input.is_action_pressed("right"):
 						new_pos.x -= 16
 					elif Input.is_action_pressed("right"):
@@ -40,6 +40,8 @@ func _physics_process(_delta: float) -> void:
 					elif Input.is_action_pressed("down"):
 						new_pos.y += 16
 					set_map_position(new_pos)
+					if new_pos != old_pos and get_map_position() != old_pos:
+						AudioPlayer.play_sound_effect(AudioPlayer.CURSOR)
 					_delay = 4
 				else:
 					_repeat = false
@@ -48,6 +50,7 @@ func _physics_process(_delta: float) -> void:
 
 func _input(event: InputEvent) -> void:
 	var repeat_callable: Callable = func() -> void:
+		AudioPlayer.play_sound_effect(AudioPlayer.CURSOR)
 		await get_tree().create_timer(0.25).timeout
 		_repeat = true
 	if is_active():

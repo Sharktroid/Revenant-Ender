@@ -10,14 +10,17 @@ var _minimum_range: int
 var _maximum_range: int
 var _icon: CursorController.icons
 var _selecting_position: Vector2i
+var _select_sound_effect: AudioStream
 
 func _init(connected_unit: Unit, min_range: int, max_range: int, condition: Callable,
-		icon: CursorController.icons = CursorController.icons.NONE) -> void:
+		icon: CursorController.icons = CursorController.icons.NONE,
+		selection_sound_effect: AudioStream = AudioPlayer.MENU_SELECT) -> void:
 	unit = connected_unit
 	_minimum_range = min_range
 	_maximum_range = max_range
 	_condition = condition
 	_icon = icon
+	_select_sound_effect = selection_sound_effect
 	CursorController.enable()
 	unit.hide_movement_tiles()
 	unit.remove_path()
@@ -34,6 +37,7 @@ func _process(_delta: float) -> void:
 
 func receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
+		AudioPlayer.play_sound_effect(_select_sound_effect)
 		_position_selected()
 	elif event.is_action_pressed("ui_cancel"):
 		_canceled()

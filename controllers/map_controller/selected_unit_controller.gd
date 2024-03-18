@@ -41,9 +41,11 @@ func _process(_delta: float) -> void:
 
 func receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
+		AudioPlayer.play_sound_effect(AudioPlayer.MENU_SELECT)
 		_position_selected()
 		accept_event()
 	elif event.is_action_pressed("ui_cancel"):
+		AudioPlayer.play_sound_effect(AudioPlayer.DESELECT)
 		_canceled()
 
 

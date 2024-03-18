@@ -57,6 +57,7 @@ func _enter_tree() -> void:
 
 func receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
+		AudioPlayer.play_sound_effect(AudioPlayer.BATTLE_SELECT)
 		queue_free()
 		emit_signal("complete", true)
 	elif event.is_action_pressed("ui_cancel"):
