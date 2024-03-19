@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://8gwj2xxrhmht"]
 
 [ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit.tscn" id="1_x0tds"]
-[ext_resource type="Shader" path="res://units/palette.gdshader" id="2_0j8mr"]
+[ext_resource type="Shader" path="res://gba_palette.gdshader" id="2_0j8mr"]
 [ext_resource type="Script" path="res://units/unit_classes/social_knight/social_knight.gd" id="2_am6bc"]
 [ext_resource type="Script" path="res://units/characters/binding blade/alen/alen.gd" id="2_k3lvx"]
 [ext_resource type="Texture2D" uid="uid://dcbp6yac31ins" path="res://units/unit_classes/social_knight/map_sprite.png" id="3_qjqc5"]

@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit.tscn" id="1_lxmi0"]
 [ext_resource type="Script" path="res://units/characters/binding blade/marcus/marcus.gd" id="2_716f4"]
-[ext_resource type="Shader" path="res://units/palette.gdshader" id="2_j6t3w"]
+[ext_resource type="Shader" path="res://gba_palette.gdshader" id="2_j6t3w"]
 [ext_resource type="Script" path="res://units/unit_classes/cavalier/cavalier.gd" id="5_eehvg"]
 [ext_resource type="Script" path="res://items/weapons/swords/iron_sword/iron_sword.gd" id="5_g7lkh"]
 [ext_resource type="Script" path="res://items/weapons/spears/silver_spear/silver_spear.gd" id="6_bxwmy"]
