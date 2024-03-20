@@ -1,0 +1,59 @@
+[gd_scene load_steps=5 format=3 uid="uid://bqw6iwqv47g7l"]
+
+[ext_resource type="Shader" path="res://palette.gdshader" id="1_3uo04"]
+[ext_resource type="Script" path="res://maps/phase_display.gd" id="1_facvv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q7mto"]
+bg_color = Color(0, 0, 0, 0.498039)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0ntf7"]
+shader = ExtResource("1_3uo04")
+shader_parameter/old_colors = [Color(39, 39, 39, 255), null]
+shader_parameter/new_colors = [Color(0, 0, 127, 255)]
+shader_parameter/modulate = Vector4(1, 1, 1, 1)
+
+[node name="Phase Display" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_facvv")
+
+[node name="Darken Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_q7mto")
+
+[node name="CanvasGroup" type="CanvasGroup" parent="."]
+position = Vector2(256, 144)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup"]
+material = SubResource("ShaderMaterial_0ntf7")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -29.5
+offset_top = -8.0
+offset_right = 29.5
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Name Label" type="Label" parent="CanvasGroup/HBoxContainer"]
+unique_name_in_owner = true
+use_parent_material = true
+layout_mode = 2
+text = "Player"
+
+[node name="Label2" type="Label" parent="CanvasGroup/HBoxContainer"]
+use_parent_material = true
+layout_mode = 2
+text = "Phase"

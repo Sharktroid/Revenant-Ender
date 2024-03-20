@@ -28,7 +28,9 @@ func _enter_tree() -> void:
 
 func receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
+		AudioPlayer.play_sound_effect(AudioPlayer.DESELECT)
 		close(true)
+
 	else:
 		super(event)
 
@@ -150,6 +152,7 @@ func select_item(item: MapMenuItem) -> void:
 		"Rescue":
 			var selector := UnitSelector.new(connected_unit, 1, 1, connected_unit.can_rescue)
 			var rescue: Callable = func(selected_unit: Unit) -> void:
+				AudioPlayer.play_sound_effect(AudioPlayer.BATTLE_SELECT)
 				await connected_unit.move()
 				await selected_unit.move(connected_unit.position)
 				selected_unit.visible = false
@@ -170,7 +173,9 @@ func select_item(item: MapMenuItem) -> void:
 				await traveler.move(dropped_tile)
 				_check_canto()
 				close()
-			_select_map(TileSelector.new(connected_unit, 1, 1, _can_drop), tiles_node, drop)
+			var tile_selector := TileSelector.new(connected_unit, 1, 1, _can_drop,
+					CursorController.icons.NONE, AudioPlayer.BATTLE_SELECT)
+			_select_map(tile_selector, tiles_node, drop)
 
 		"Take":
 			var can_take: Callable = func(unit: Unit) -> bool:
@@ -230,11 +235,20 @@ func select_item(item: MapMenuItem) -> void:
 				CursorController.disable()
 			_select_map(UnitSelector.new(connected_unit, 1, 1, can_swap),
 					_display_adjacent_support_tiles(), swap)
+	super(item)
 
 
 func unactionable() -> void:
 	actionable = false
 	await connected_unit.move()
+
+
+func _play_select_sound_effect(item: MapMenuItem) -> void:
+	match item.name:
+		"Wait": AudioPlayer.play_sound_effect(AudioPlayer.BATTLE_SELECT)
+		var item_name:
+			print_debug(item_name)
+			AudioPlayer.play_sound_effect(AudioPlayer.MENU_SELECT)
 
 
 func _check_canto() -> void:

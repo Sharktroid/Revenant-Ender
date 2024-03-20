@@ -44,6 +44,7 @@ func receive_input(event: InputEvent) -> void:
 		_position_selected()
 		accept_event()
 	elif event.is_action_pressed("ui_cancel"):
+		AudioPlayer.play_sound_effect(AudioPlayer.DESELECT)
 		_canceled()
 
 
@@ -66,8 +67,10 @@ func _on_cursor_moved() -> void:
 func _position_selected() -> void:
 	# Creates menu if cursor in _unit's tiles and is same faction as _unit.
 	if _unit.get_faction().name == MapController.map.get_current_faction().name:
+		AudioPlayer.play_sound_effect(AudioPlayer.MENU_SELECT)
 		_create_unit_menu()
 	else:
+		AudioPlayer.play_sound_effect(AudioPlayer.DESELECT)
 		close()
 
 

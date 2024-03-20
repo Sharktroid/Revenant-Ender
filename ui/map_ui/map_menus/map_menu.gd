@@ -32,10 +32,11 @@ func receive_input(event: InputEvent) -> void:
 			_current_item_index += 1
 
 		if event.is_action_pressed("ui_accept"):
+			_play_select_sound_effect(get_current_item_node())
 			select_item(get_current_item_node())
-			accept_event()
 
 		elif event.is_action_pressed("ui_cancel"):
+			AudioPlayer.play_sound_effect(AudioPlayer.DESELECT)
 			close()
 
 
@@ -66,6 +67,10 @@ func set_current_item_node(item: HelpContainer) -> void:
 func get_current_item_node() -> MapMenuItem:
 	_current_item_index %= _get_visible_children().size()
 	return _get_visible_children()[_current_item_index]
+
+
+func _play_select_sound_effect(_item: MapMenuItem) -> void:
+	AudioPlayer.play_sound_effect(AudioPlayer.MENU_SELECT)
 
 
 func _get_visible_children() -> Array[MapMenuItem]:

@@ -164,8 +164,7 @@ func _process(_delta: float) -> void:
 		else:
 			frame = anim_frame
 	z_index = Utilities.round_coords_to_tile(position).y
-	(material as ShaderMaterial).set_shader_parameter("modulate",
-			Vector3(modulate.r, modulate.g, modulate.b))
+	(material as ShaderMaterial).set_shader_parameter("modulate", modulate)
 
 
 func has_status(status: int) -> bool:
@@ -778,11 +777,13 @@ func _set_palette(color: Faction.colors) -> void:
 					palette = _default_palette
 					push_error("Color %s does not have a palette." % invalid)
 	#endregion
-	var old_colors: Array[Vector3] = []
-	var new_colors: Array[Vector3] = []
+	var old_colors: Array[Color] = []
+	var new_colors: Array[Color] = []
 	for color_set in palette:
-		old_colors.append(color_set[0])
-		new_colors.append(color_set[1])
+		var old_color: Vector3i = color_set[0]
+		old_colors.append(Color(old_color.x, old_color.y, old_color.z, 255))
+		var new_color: Vector3i = color_set[1]
+		new_colors.append(Color(new_color.x, new_color.y, new_color.z, 255))
 	var shader_material := material as ShaderMaterial
 	shader_material.set_shader_parameter("old_colors", old_colors)
 	shader_material.set_shader_parameter("new_colors", new_colors)

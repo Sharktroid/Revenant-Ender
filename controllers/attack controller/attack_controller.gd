@@ -5,10 +5,6 @@ enum attack_types {HIT, MISS, CRIT}
 
 const DELAY: float = 0.25
 const HEALTH_SCROLL_DURATION: float = 0.5
-const HIT_A_HEAVY: AudioStream = preload("res://audio/sfx/hit_a_heavy.ogg")
-const HIT_A_CRIT: AudioStream = preload("res://audio/sfx/hit_a_crit.ogg")
-const HIT_B_HEAVY: AudioStream = preload("res://audio/sfx/hit_b_heavy.ogg")
-const HIT_B_FATAL: AudioStream = preload("res://audio/sfx/hit_b_fatal.ogg")
 
 const HIT_B_DELAY: float = 5.0/60
 
@@ -71,10 +67,15 @@ static func _map_attack(attacker: Unit, defender: Unit, attacker_animation: MapA
 		attack_type: attack_types) -> void:
 	attacker_animation.play_animation()
 	await attacker_animation.deal_damage
-	var tween: Tween = defender.create_tween()
-	tween.set_parallel()
-	tween.tween_interval(0.1)
-	if attack_type != attack_types.MISS:
+	if attack_type == attack_types.MISS:
+		await AudioPlayer.play_sound_effect(preload("res://audio/sfx/miss.ogg"))
+	else:
+		#region Hit
+		const HIT_A_HEAVY: AudioStream = preload("res://audio/sfx/hit_a_heavy.ogg")
+		const HIT_A_CRIT: AudioStream = preload("res://audio/sfx/hit_a_crit.ogg")
+		const HIT_B_HEAVY: AudioStream = preload("res://audio/sfx/hit_b_heavy.ogg")
+		const HIT_B_FATAL: AudioStream = preload("res://audio/sfx/hit_b_fatal.ogg")
+
 		var hit_a: AudioStream = HIT_A_HEAVY
 		var hit_b: AudioStream = HIT_B_HEAVY
 		var damage: int = attacker.get_damage(defender)
@@ -85,15 +86,22 @@ static func _map_attack(attacker: Unit, defender: Unit, attacker_animation: MapA
 		var new_health: int = maxi(floori(old_health - damage), 0)
 		if new_health <= 0:
 			hit_b = HIT_B_FATAL
+		elif damage == 0:
+			hit_b = preload("res://audio/sfx/no_damage.ogg")
+
 		var duration: float = (HEALTH_SCROLL_DURATION *
 				float(old_health - new_health)/defender.get_stat(Unit.stats.HITPOINTS))
+		var tween: Tween = defender.create_tween()
+		tween.set_parallel()
+		tween.tween_interval(0.1)
 		tween.tween_method(defender.set_current_health.bind(false), old_health,
 				new_health, duration)
 		AudioPlayer.play_sound_effect(hit_a)
 		await defender.get_tree().create_timer(HIT_B_DELAY).timeout
 		await AudioPlayer.play_sound_effect(hit_b)
-	if tween.is_running():
-		await tween.finished
+		if tween.is_running():
+			await tween.finished
+		#endregion
 	attacker_animation.emit_signal("proceed")
 	await attacker_animation.complete
 

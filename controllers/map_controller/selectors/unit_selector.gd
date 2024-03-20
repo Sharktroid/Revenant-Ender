@@ -3,11 +3,6 @@ extends Selector
 
 signal selected(unit: Unit)
 
-func _init(connected_unit: Unit, min_range: int, max_range: int, condition: Callable,
-		icon: CursorController.icons = CursorController.icons.NONE) -> void:
-	name = "Unit Selector"
-	super(connected_unit, min_range, max_range, condition, icon)
-
 
 func _position_selected() -> void:
 	if _can_select():
