@@ -54,7 +54,8 @@ func _ready() -> void:
 
 func receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_select"):
-		_on_cursor_select()
+		if CursorController.is_active():
+			_on_cursor_select()
 
 	elif event.is_action_pressed("ranges"):
 		if CursorController.get_hovered_unit():
@@ -113,10 +114,11 @@ func start_turn() -> void:
 	CursorController.cursor_visible = false
 	CursorController.disable()
 	await AudioPlayer.pause_track()
-	const PHASE_DISPLAY = preload("res://maps/phase_display.gd")
-	await (MapController.get_ui().get_node("Phase Display") as PHASE_DISPLAY).play(get_current_faction())
+
+	await MapController.display_turn_change(get_current_faction())
 	# play banner
-	await get_tree().create_timer(54.0/60).timeout
+	if is_inside_tree():
+		await get_tree().create_timer(0.25).timeout
 	CursorController.enable()
 	CursorController.cursor_visible = true
 	if get_current_faction():

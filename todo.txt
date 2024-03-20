@@ -1,5 +1,4 @@
-* Make phase change cancelable
-* Add debug constant to print the current input reciever when recieving input
+* Implement a turn counter
 * Fix bug when clicking during combat
 * Make unit palettes work in editor
 * Implement experience

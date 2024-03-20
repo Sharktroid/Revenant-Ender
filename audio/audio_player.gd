@@ -18,6 +18,7 @@ var sfx_volume: float = 1.0
 var _music_container := Node.new()
 var _track_queue: Dictionary = {}
 var _current_track: AudioStreamPlayer
+var _current_sfx: Array[AudioStreamPlayer] = []
 
 
 func _ready() -> void:
@@ -50,7 +51,9 @@ func play_sound_effect(stream: AudioStream) -> void:
 		add_child(player)
 		player.volume_db = _percent_to_db(sfx_volume)
 		player.play()
+		_current_sfx.append(player)
 		await player.finished
+		_current_sfx.erase(player)
 		player.queue_free()
 
 
@@ -75,7 +78,7 @@ func pause_track() -> void:
 
 
 func fade_in_track(duration: float = 1.0/3) -> void:
-	if is_instance_valid(_current_track):
+	if is_instance_valid(_current_track) and is_inside_tree():
 		var tween: Tween = create_tween()
 		var set_volume: Callable = func(new_volume: float) -> void:
 			_current_track.volume_db = _percent_to_db(new_volume)
@@ -89,6 +92,12 @@ func fade_out_track(duration: float = 1.0/3) -> void:
 			_current_track.volume_db = _percent_to_db(new_volume)
 		tween.tween_method(set_volume, music_volume, 0.0, duration)
 		await tween.finished
+
+
+func clear_sound_effects() -> void:
+	for sound_effect: AudioStreamPlayer in _current_sfx:
+		sound_effect.queue_free()
+	_current_sfx = []
 
 
 func _percent_to_db(volume: float) -> float:

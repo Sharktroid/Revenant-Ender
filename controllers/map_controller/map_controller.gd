@@ -2,10 +2,20 @@ extends Control
 
 signal unit_selected
 
+const _PHASE_DISPLAY_PATH: String = "res://maps/phase_display."
+const _PHASE_DISPLAY = preload(_PHASE_DISPLAY_PATH + "gd")
+
 @export var map_node: PackedScene
 
 var selecting: bool = false # Whether a unit is currently selected.
 var map := Map.new()
+
+var _phase_diplay: _PHASE_DISPLAY
+
+func receive_input(event: InputEvent) -> void:
+	if not event is InputEventMouseMotion:
+		AudioPlayer.clear_sound_effects()
+		_phase_diplay.queue_free()
 
 
 func set_scaling(new_scaling: int) -> void:
@@ -51,3 +61,14 @@ func get_units() -> Array[Unit]:
 
 func get_dialogue() -> Dialogue:
 	return get_ui().get_node("Dialogue") as Dialogue
+
+
+func display_turn_change(faction: Faction) -> void:
+	GameController.add_to_input_stack(self)
+	const PHASE_DISPLAY_SCENE: PackedScene = preload(_PHASE_DISPLAY_PATH + "tscn")
+	_phase_diplay = PHASE_DISPLAY_SCENE.instantiate() as _PHASE_DISPLAY
+	get_ui().add_child(_phase_diplay)
+	_phase_diplay.play(faction)
+	await _phase_diplay.tree_exited
+	GameController.remove_from_input_stack()
+

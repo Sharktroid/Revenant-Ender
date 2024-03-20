@@ -5,23 +5,18 @@ extends Control
 @onready var _shader_material := _hbox_container.material as ShaderMaterial
 @onready var _darken_panel := $"Darken Panel" as Panel
 
-
-func _ready() -> void:
+func play(faction: Faction) -> void:
 	_canvas_group.self_modulate.a = 0
 	_darken_panel.modulate.a = 0
-
-
-func play(faction: Faction) -> void:
 	AudioPlayer.play_sound_effect(preload("res://audio/sfx/phase_change.ogg"))
-
 	(%"Name Label" as Label).text = faction.name
 	var base_color := Color.BLACK
 	match faction.color:
 		Faction.colors.BLUE: base_color = Color.NAVY_BLUE
 		Faction.colors.RED: base_color = Color.DARK_RED
 	base_color *= 255
-
 	_shader_material.set_shader_parameter("old_colors", [Color(39, 39, 39, 255)])
+	_shader_material.set_shader_parameter("new_colors", [Color(0, 0, 0, 0)])
 	_hbox_container.add_theme_constant_override("separation",
 			roundi(float(Utilities.get_screen_size().x)/2))
 
@@ -31,8 +26,9 @@ func play(faction: Faction) -> void:
 
 	var fade_in_tween: Tween = create_tween()
 	const SLIDE_DURATION: float = 0.5
-	fade_in_tween.tween_property(_hbox_container,
+	var slide_tweener: PropertyTweener = fade_in_tween.tween_property(_hbox_container,
 			"theme_override_constants/separation", 3, SLIDE_DURATION)
+	slide_tweener.set_trans(Tween.TRANS_CIRC).set_ease(Tween.EASE_OUT)
 	fade_in_tween.parallel().tween_property(_canvas_group, "self_modulate:a", 1, SLIDE_DURATION)
 	await fade_in_tween.finished
 
@@ -56,3 +52,4 @@ func play(faction: Faction) -> void:
 	fade_out.tween_property(_canvas_group, "self_modulate:a", 0, FADE_OUT)
 	fade_out.parallel().tween_property(_darken_panel, "modulate:a", 0, FADE_OUT)
 	await fade_out.finished
+	queue_free()
