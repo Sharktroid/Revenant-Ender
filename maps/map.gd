@@ -49,7 +49,7 @@ func _ready() -> void:
 		for cell: Vector2i in ($"Map Layer/Base Layer" as TileMap).get_used_cells(0):
 			update_a_star_grid_id(a_star_grid, movement_type, cell)
 		_cost_grids[movement_type] = a_star_grid
-	start_turn()
+	start_turn.call_deferred()
 
 
 func receive_input(event: InputEvent) -> void:
@@ -82,27 +82,6 @@ func unit_wait(_unit: Unit) -> void:
 func next_faction() -> void:
 	# Sets the faction to the next faction.
 	curr_faction = (curr_faction + 1) % len(all_factions)
-	var turn_banner_node := MapController.get_ui().get_node("Turn Banner") as Sprite2D
-	var faction_name: String = get_current_faction().name.to_lower()
-	var all_names: Array[String] = []
-	var dir: DirAccess = DirAccess.open("res://turn_banners/")
-	if dir:
-		dir.list_dir_begin()
-		var file_name: String = dir.get_next()
-		while file_name != "":
-			all_names.append(file_name.split("_")[0])
-			file_name = dir.get_next()
-	else:
-		push_error('An error occurred when trying to access the path "res://turn_banners/".')
-	# Only displays factions with banners.
-	if faction_name in all_names:
-		turn_banner_node.texture = \
-				load("res://turn_banners/%s_phase_banner.png" % faction_name) as Texture2D
-		await get_tree().create_timer(82.0/60).timeout
-		turn_banner_node.texture = null
-	# When there is no banner.
-	else:
-		turn_banner_node.get_node("Banner Timer").emit_signal.call_deferred("timeout")
 
 
 func get_current_faction() -> Faction:
@@ -129,12 +108,21 @@ func is_touching_border(pos: Vector2i) -> bool:
 	return borders.has_point(pos)
 
 
+## Starts new turn.
 func start_turn() -> void:
-	## Starts new turn.
+	CursorController.cursor_visible = false
+	CursorController.disable()
+	await AudioPlayer.pause_track()
+	const PHASE_DISPLAY = preload("res://maps/phase_display.gd")
+	await (MapController.get_ui().get_node("Phase Display") as PHASE_DISPLAY).play(get_current_faction())
+	# play banner
+	await get_tree().create_timer(54.0/60).timeout
+	CursorController.enable()
+	CursorController.cursor_visible = true
+	if get_current_faction():
+		AudioPlayer.play_track(get_current_faction().theme)
 	if get_current_faction().player_type != Faction.player_types.HUMAN:
 		end_turn.call_deferred()
-	if get_current_faction().theme:
-		AudioPlayer.play_track_effect(get_current_faction().theme)
 
 
 func end_turn() -> void:

@@ -1,8 +1,8 @@
-* Add music
+* Make phase change cancelable
 * Add debug constant to print the current input reciever when recieving input
 * Fix bug when clicking during combat
 * Make unit palettes work in editor
 * Implement experience
+
 * Implement FE6 Chapter 1
-* Make design document
 * Make game based on design document

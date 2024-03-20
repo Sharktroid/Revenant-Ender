@@ -5,6 +5,8 @@ signal moved
 ## Icons that can be displayed.
 enum icons {ATTACK, NONE}
 
+var cursor_visible: bool = true
+
 var _position: Vector2i
 var _icon_sprite: Sprite2D
 var _hovered_unit: Unit

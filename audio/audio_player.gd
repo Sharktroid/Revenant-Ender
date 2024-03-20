@@ -31,6 +31,7 @@ func play_track(stream: AudioStream) -> void:
 		_current_track = _track_queue[stream]
 		if music_volume > 0:
 			_current_track.stream_paused = false
+			fade_in_track(1.0/3)
 	else:
 		_current_track = AudioStreamPlayer.new()
 		_current_track.stream = stream
@@ -61,6 +62,7 @@ func clear_track_queue() -> void:
 
 func stop_track() -> void:
 	if is_instance_valid(_current_track):
+		await fade_out_track()
 		_current_track.stop()
 		_current_track.queue_free()
 		_track_queue.erase(_track_queue.find_key(_current_track))
@@ -68,10 +70,25 @@ func stop_track() -> void:
 
 func pause_track() -> void:
 	if is_instance_valid(_current_track):
+		await fade_out_track()
 		_current_track.stream_paused = true
 
 
-#func fade
+func fade_in_track(duration: float = 1.0/3) -> void:
+	if is_instance_valid(_current_track):
+		var tween: Tween = create_tween()
+		var set_volume: Callable = func(new_volume: float) -> void:
+			_current_track.volume_db = _percent_to_db(new_volume)
+		tween.tween_method(set_volume, 0.0, music_volume, duration)
+
+
+func fade_out_track(duration: float = 1.0/3) -> void:
+	if is_instance_valid(_current_track):
+		var tween: Tween = create_tween()
+		var set_volume: Callable = func(new_volume: float) -> void:
+			_current_track.volume_db = _percent_to_db(new_volume)
+		tween.tween_method(set_volume, music_volume, 0.0, duration)
+		await tween.finished
 
 
 func _percent_to_db(volume: float) -> float:
