@@ -13,10 +13,11 @@ var borders: Rect2i
 var movement_cost_dict: Dictionary # Movement costs for every movement type
 var all_factions: Array[Faction] # All factions
 var map_position: Vector2i # Position of the map, used for scrolling
-var curr_faction: int = 0
 
+var _curr_faction: int = 0
 var _cost_grids: Dictionary = {}
 var _grid_current_faction: Faction
+var _current_turn: int
 
 @onready var _terrain_layer := $"Map Layer/Terrain Layer" as TileMap
 @onready var _border_overlay := $"Map Layer/Debug Border Overlay Container" as CanvasGroup
@@ -82,11 +83,14 @@ func unit_wait(_unit: Unit) -> void:
 
 func next_faction() -> void:
 	# Sets the faction to the next faction.
-	curr_faction = (curr_faction + 1) % len(all_factions)
+	_curr_faction += 1
+	if _curr_faction == all_factions.size():
+		_current_turn += 1
+		_curr_faction = 0
 
 
 func get_current_faction() -> Faction:
-	return all_factions[curr_faction]
+	return all_factions[_curr_faction]
 
 
 func get_units_by_faction(faction_id: int) -> Array[Unit]:
@@ -161,21 +165,8 @@ func get_terrain_cost(movement_type: UnitClass.movement_types, coords: Vector2) 
 	return INF
 
 
-func _create_debug_borders() -> void:
-	# Creates a visualization of the map's borders
-	for x: int in range(0, get_size().x, 16):
-		for y: int in range(0, get_size().y, 16):
-			if x < borders.position.x or x + 16 > borders.end.x \
-					or y < borders.position.y or y + 16 > borders.end.y:
-				var border_tile := \
-						$"Map Layer/Debug Border Overlay Tile Base".duplicate() as Sprite2D
-				border_tile.transform.origin = Vector2(x, y)
-				border_tile.visible = true
-				_border_overlay.add_child(border_tile)
-
-
 func toggle_full_outline() -> void:
-	all_factions[curr_faction].full_outline = not(get_current_faction().full_outline)
+	all_factions[_curr_faction].full_outline = not(get_current_faction().full_outline)
 	update_outline()
 
 
@@ -187,7 +178,7 @@ func toggle_outline_unit(unit: Unit) -> void:
 		(outlined_units[unit.get_faction()] as Array).erase(unit)
 	else:
 		(outlined_units[unit.get_faction()] as Array).append(unit)
-	all_factions[curr_faction].outlined_units = outlined_units
+	all_factions[_curr_faction].outlined_units = outlined_units
 	update_outline()
 
 
@@ -267,6 +258,19 @@ func _get_terrain(coords: Vector2i) -> String:
 		return "Blocked"
 	var cell_id: TileData = _terrain_layer.get_cell_tile_data(0, coords/16)
 	return cell_id.get_custom_data("Terrain Name")
+
+
+func _create_debug_borders() -> void:
+	# Creates a visualization of the map's borders
+	for x: int in range(0, get_size().x, 16):
+		for y: int in range(0, get_size().y, 16):
+			if x < borders.position.x or x + 16 > borders.end.x \
+					or y < borders.position.y or y + 16 > borders.end.y:
+				var border_tile := \
+						$"Map Layer/Debug Border Overlay Tile Base".duplicate() as Sprite2D
+				border_tile.transform.origin = Vector2(x, y)
+				border_tile.visible = true
+				_border_overlay.add_child(border_tile)
 
 
 func _parse_movement_cost() -> void:

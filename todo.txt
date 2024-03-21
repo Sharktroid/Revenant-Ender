@@ -1,7 +1,11 @@
-* Implement a turn counter
+== Minor/Bug fixes ==
 * Fix bug when clicking during combat
 * Make unit palettes work in editor
-* Implement experience
 
+== Major ==
+* Implement experience
+* Create a status screen
+
+== Long-term ==
 * Implement FE6 Chapter 1
 * Make game based on design document
