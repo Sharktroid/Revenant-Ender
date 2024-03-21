@@ -1,4 +1,5 @@
 == Minor/Bug fixes ==
+* Fix bug where unit path sometimes persists after deselecting
 * Fix bug when clicking during combat
 * Make unit palettes work in editor
 

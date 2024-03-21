@@ -246,9 +246,7 @@ func unactionable() -> void:
 func _play_select_sound_effect(item: MapMenuItem) -> void:
 	match item.name:
 		"Wait": AudioPlayer.play_sound_effect(AudioPlayer.BATTLE_SELECT)
-		var item_name:
-			print_debug(item_name)
-			AudioPlayer.play_sound_effect(AudioPlayer.MENU_SELECT)
+		_: AudioPlayer.play_sound_effect(AudioPlayer.MENU_SELECT)
 
 
 func _check_canto() -> void:
