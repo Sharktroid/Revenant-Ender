@@ -50,12 +50,12 @@ func receive_input(event: InputEvent) -> void:
 
 func close() -> void:
 	## Deselects the currently selected _unit.
-	_unit.deselect()
 	queue_free()
 	_ghost_unit.queue_free()
 	MapController.selecting = false
 	if CursorController.get_hovered_unit() and CursorController.get_hovered_unit() != _unit:
 		CursorController.get_hovered_unit().display_movement_tiles()
+	_unit.deselect.call_deferred()
 
 
 func _on_cursor_moved() -> void:

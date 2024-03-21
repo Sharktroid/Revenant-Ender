@@ -33,9 +33,6 @@ func receive_input(event: InputEvent) -> void:
 		move_popup.call("left")
 	elif event.is_action_pressed("right", true):
 		move_popup.call("right")
-	elif event.is_action_pressed("debug", true):
-		get_popup_node().reset_size()
-		print_debug(get_popup_node().size)
 
 
 func display_text(text: String, pos: Vector2, new_container: HelpContainer,
