@@ -27,12 +27,14 @@ func select_item(item: MapMenuItem) -> void:
 			var cursor_area: Area2D = CursorController.get_area()
 			cursor_area.visible = Utilities.get_debug_constant("display_map_cursor")
 
+		"Output Input Reciever":
+			Utilities.invert_debug_constant("print_input_reciever")
+
 		"Print Cursor Position":
-			var replacements: Array[Vector2i] = [
+			print("Position relative to UI: %s\nPosition relative to map: %s" % [
 				CursorController.get_screen_position(),
 				CursorController.get_map_position()
-			]
-			print("Position relative to UI: %s\nPosition relative to map: %s" % replacements)
+			])
 
 		_: push_error("%s is not a valid menu item" % item)
 	Utilities.save_config()
@@ -46,6 +48,7 @@ func _update_items() -> void:
 		"Display Borders": Utilities.get_debug_constant("display_map_borders"),
 		"Display Terrain": Utilities.get_debug_constant("display_map_terrain"),
 		"Display Map Cursor": Utilities.get_debug_constant("display_map_cursor"),
+		"Output Input Reciever": Utilities.get_debug_constant("print_input_reciever"),
 	}
 	for key: String in values.keys() as Array[String]:
 		var value: String = str(values[key])
