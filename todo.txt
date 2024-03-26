@@ -1,10 +1,10 @@
 == Minor/Bug fixes ==
-* Fix combat display palette
 * Make unit palettes work in editor
 
 == Major ==
 * Implement experience
 * Create a status screen
+* Make attack animations skippable
 
 == Long-term ==
 * Implement FE6 Chapter 1

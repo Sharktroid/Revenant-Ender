@@ -780,10 +780,10 @@ func _set_palette(color: Faction.colors) -> void:
 	var old_colors: Array[Color] = []
 	var new_colors: Array[Color] = []
 	for color_set in palette:
-		var old_color: Vector3i = color_set[0]
-		old_colors.append(Color(old_color.x, old_color.y, old_color.z, 255))
-		var new_color: Vector3i = color_set[1]
-		new_colors.append(Color(new_color.x, new_color.y, new_color.z, 255))
+		var old_color: Vector3 = color_set[0] / 255
+		old_colors.append(Color(old_color.x, old_color.y, old_color.z, 1))
+		var new_color: Vector3 = color_set[1] / 255
+		new_colors.append(Color(new_color.x, new_color.y, new_color.z, 1))
 	var shader_material := material as ShaderMaterial
 	shader_material.set_shader_parameter("old_colors", old_colors)
 	shader_material.set_shader_parameter("new_colors", new_colors)

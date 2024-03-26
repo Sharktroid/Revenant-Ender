@@ -116,11 +116,11 @@ func _update() -> void:
 		if current_unit.get_faction().color == Faction.colors.RED:
 			var shader_material: ShaderMaterial = \
 					(get_node(format.call("Unit Panel")) as PanelContainer).material
-			var old_vectors: Array[Vector3] = []
+			var old_vectors: Array[Color] = []
 			for color: Color in blue_colors:
-				old_vectors.append(Vector3(color.r, color.g, color.b) * 255)
-			var new_vectors: Array[Vector3] = []
+				old_vectors.append(color)
+			var new_vectors: Array[Color] = []
 			for color: Color in red_colors:
-				new_vectors.append(Vector3(color.r, color.g, color.b) * 255)
+				new_vectors.append(color)
 			shader_material.set_shader_parameter("old_colors", old_vectors)
 			shader_material.set_shader_parameter("new_colors", new_vectors)

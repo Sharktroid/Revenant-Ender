@@ -29,9 +29,9 @@ axis_stretch_vertical = 1
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_32h7w"]
 shader = ExtResource("2_m6y0q")
 shader_parameter/darken_screen = 0.5
-shader_parameter/old_colors = PackedVector3Array()
-shader_parameter/new_colors = PackedVector3Array()
-shader_parameter/modulate = Vector3(1, 1, 1)
+shader_parameter/old_colors = null
+shader_parameter/new_colors = null
+shader_parameter/modulate = Vector4(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_86dgu"]
 content_margin_left = 1.0
@@ -55,7 +55,7 @@ shader = ExtResource("2_m6y0q")
 shader_parameter/darken_screen = 0.5
 shader_parameter/old_colors = Array[Vector3]([])
 shader_parameter/new_colors = Array[Vector3]([])
-shader_parameter/modulate = Vector3(1, 1, 1)
+shader_parameter/modulate = Vector4(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_llbmy"]
 bg_color = Color(0.321569, 0.580392, 0.839216, 1)
