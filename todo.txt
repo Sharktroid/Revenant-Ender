@@ -1,5 +1,5 @@
 == Minor/Bug fixes ==
-* Fix bug when clicking during combat
+* Fix combat display palette
 * Make unit palettes work in editor
 
 == Major ==

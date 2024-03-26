@@ -24,6 +24,7 @@ static func combat(attacker: Unit, defender: Unit) -> void:
 
 
 static func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[CombatStage]) -> void:
+	GameController.set_process_input(false)
 	const MAP_BATTLE_HP_BAR_PATH: String = \
 			"res://controllers/attack controller/map_battle_info_display."
 	const MAP_BATTLE_HP_BAR = preload(MAP_BATTLE_HP_BAR_PATH + "gd")
@@ -61,6 +62,7 @@ static func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[Comb
 	if is_instance_valid(defender):
 		defender.visible = true
 	defender_animation.queue_free()
+	GameController.set_process_input(true)
 
 
 static func _map_attack(attacker: Unit, defender: Unit, attacker_animation: MapAttack,
