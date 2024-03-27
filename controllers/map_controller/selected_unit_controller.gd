@@ -26,7 +26,7 @@ func _process(_delta: float) -> void:
 	else:
 		_ghost_unit.visible = true
 		var distance := Vector2i()
-		if len(_unit.get_unit_path()) >= 2:
+		if _unit.get_unit_path().size()  >= 2:
 			distance = _unit.get_unit_path()[-1] - _unit.get_unit_path()[-2]
 		var next_animation: Unit.animations
 		match distance:

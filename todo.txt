@@ -1,6 +1,3 @@
-== Minor/Bug fixes ==
-* Make unit palettes work in editor
-
 == Major ==
 * Implement experience
 * Create a status screen

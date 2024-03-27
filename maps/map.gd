@@ -286,7 +286,7 @@ func _parse_movement_cost() -> void:
 	var file := FileAccess.open("units/movement_cost.csv", FileAccess.READ)
 	var raw_movement_cost: Array[String] = []
 	raw_movement_cost.assign(file.get_as_text().split("\n"))
-	if len(raw_movement_cost[-1]) == 0:
+	if raw_movement_cost[-1].length() == 0:
 		raw_movement_cost.erase("")
 	file.close()
 	var header: Array[String] = []
@@ -311,14 +311,14 @@ func _parse_movement_cost() -> void:
 			"Advanced Heavy Cavalry": type = UnitClass.movement_types.ADVANCED_HEAVY_CAVALRY
 			"Fliers": type = UnitClass.movement_types.FLIERS
 		movement_cost_dict[type] = {}
-		for cost: int in len(split):
+		for cost: int in split.size():
 			movement_cost_dict[type][header[cost]] = split[cost]
 
 
 func _get_unit_relative(unit: Unit, rel_index: int) -> Unit:
 	var faction_units: Array[Unit] = get_units_by_faction(unit.faction_id)
 	var unit_index: int = faction_units.find(unit)
-	var next_unit_index: int = (unit_index + rel_index) % len(faction_units)
+	var next_unit_index: int = (unit_index + rel_index) % faction_units.size()
 	return faction_units[next_unit_index]
 
 

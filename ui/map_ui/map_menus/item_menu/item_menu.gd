@@ -38,7 +38,7 @@ func close() -> void:
 func _update() -> void:
 	if _items != connected_unit.items:
 		_items = connected_unit.items.duplicate()
-		if len(_items) <= 0:
+		if _items.size() <= 0:
 			close()
 		for child: Node in $Items.get_children():
 			child.queue_free()

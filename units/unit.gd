@@ -362,7 +362,7 @@ func get_path_last_pos() -> Vector2i:
 	var unit_positions: Array[Vector2i] = []
 	for unit: Unit in _get_map().get_units():
 		unit_positions.append(Vector2i(unit.position))
-	while len(path) > 0:
+	while path.size() > 0:
 		if path[-1] in unit_positions:
 			path.erase(path[-1])
 			continue
@@ -600,7 +600,7 @@ func move(move_target: Vector2i = get_unit_path()[-1]) -> void:
 		remove_path()
 		get_area().monitoring = false
 		current_movement -= _get_map().get_path_cost(unit_class.movement_type, path)
-		while len(path) > 0:
+		while path.size() > 0:
 			var _target: Vector2 = path.pop_at(0)
 			match _target - position:
 				Vector2(16, 0): set_animation(animations.MOVING_RIGHT)
@@ -620,7 +620,7 @@ func move(move_target: Vector2i = get_unit_path()[-1]) -> void:
 
 
 func get_unit_path() -> Array[Vector2i]:
-	if len(_path) == 0:
+	if _path.size() == 0:
 		return [position]
 	else:
 		return _path
@@ -640,7 +640,7 @@ func set_faction(new_faction: Faction) -> void:
 
 ## Gets the path of the unit.
 func update_path(destination: Vector2i) -> void:
-	if len(_path) == 0:
+	if _path.size() == 0:
 		_path.append(Vector2i(position))
 	# Sets destination to an adjacent tile to a unit if a unit is hovered and over an attack tile.
 	var movement_tiles: Array[Vector2i] = get_movement_tiles()
@@ -655,7 +655,7 @@ func update_path(destination: Vector2i) -> void:
 				for tile_offset: Vector2i in Utilities.adjacent_tiles:
 					if Vector2i(unit.position) + tile_offset in movement_tiles:
 						adjacent_movement_tiles.append(Vector2i(unit.position) + tile_offset)
-				if len(adjacent_movement_tiles) > 0:
+				if adjacent_movement_tiles.size() > 0:
 					adjacent_movement_tiles.shuffle()
 					destination = (adjacent_movement_tiles)[0]
 					break
@@ -683,7 +683,7 @@ func show_path() -> void:
 	if is_instance_valid(_arrows_container):
 		_arrows_container.queue_free()
 	_arrows_container = CanvasGroup.new()
-	if len(get_unit_path()) > 1:
+	if get_unit_path().size() > 1:
 		for i: Vector2i in get_unit_path():
 			var tile := _MOVEMENT_ARROWS.instantiate() as Sprite2D
 			var prev: Vector2i

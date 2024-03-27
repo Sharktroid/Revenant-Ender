@@ -19,7 +19,7 @@ func _draw() -> void:
 			Faction.colors.PURPLE: unit_highlight = Color.PURPLE
 		for unit: Unit in current_outlined_units:
 			var attack_tiles: Array[Vector2i] = unit.get_all_attack_tiles()
-			if is_instance_valid(unit) and len(attack_tiles) > 0:
+			if is_instance_valid(unit) and attack_tiles.size() > 0:
 				unit.modulate = unit_highlight
 				unit.modulate.s *= 0.5
 				for coord: Vector2i in (attack_tiles + unit.get_movement_tiles()):
@@ -31,7 +31,7 @@ func _draw() -> void:
 			for unit: Unit in MapController.map.get_units():
 				if (current_faction.get_diplomacy_stance(unit.get_faction()) ==
 						Faction.diplo_stances.ENEMY)\
-						and len(unit.get_all_attack_tiles()) > 0:
+						and unit.get_all_attack_tiles().size() > 0:
 					for coord: Vector2i in (unit.get_all_attack_tiles() +
 							unit.get_movement_tiles()):
 						if not (coord in all_general_coords):
