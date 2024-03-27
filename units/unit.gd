@@ -63,6 +63,7 @@ var traveler: Unit:
 var personal_authority: int
 
 
+var _map: Map
 var _animation_player: AnimationPlayer
 var _traveler_animation_player: AnimationPlayer
 var _portrait: Portrait
@@ -359,7 +360,6 @@ func get_crit_rate(enemy: Unit) -> int:
 func get_path_last_pos() -> Vector2i:
 	var path: Array[Vector2i] = get_unit_path()
 	var unit_positions: Array[Vector2i] = []
-	for unit: Unit in MapController.get_units():
 	for unit: Unit in _get_map().get_units():
 		unit_positions.append(Vector2i(unit.position))
 	while len(path) > 0:
@@ -429,7 +429,6 @@ func wait() -> void:
 	if Utilities.get_debug_constant("unit_wait"):
 		selectable = false
 		waiting = true
-	MapController.map.unit_wait(self)
 	_get_map().unit_wait(self)
 	_update_palette()
 
@@ -481,10 +480,8 @@ func get_movement_tiles(custom_movement: int = floori(current_movement)) -> Arra
 		#region Orders tiles by distance from center
 		h.erase(start)
 		for x: Vector2i in h:
-			var map: Map = MapController.map as Map
 			var movement_type: UnitClass.movement_types = unit_class.movement_type
-			var cost: float = map.get_path_cost(movement_type,
-					map.get_movement_path(movement_type, position, x, get_faction()))
+			var cost: float = _get_map().get_path_cost(movement_type,
 					_get_map().get_movement_path(movement_type, position, x, get_faction()))
 			if cost <= current_movement:
 				if not cost in movement_tiles_dict.keys():
@@ -503,7 +500,7 @@ func get_all_attack_tiles(movement_tiles: Array[Vector2i] = \
 	var all_attack_tiles: Array[Vector2i] = []
 	if get_current_weapon():
 		var basis_movement_tiles := movement_tiles.duplicate() as Array[Vector2i]
-		for unit: Unit in MapController.get_units():
+		for unit: Unit in _get_map().get_units():
 			if unit != self:
 				var unit_pos: Vector2i = unit.position
 				if unit_pos in basis_movement_tiles:
@@ -515,7 +512,6 @@ func get_all_attack_tiles(movement_tiles: Array[Vector2i] = \
 				for x in range(-max_range, max_range + 1):
 					var attack_tile: Vector2i = tile + Vector2i(x * 16, y * 16)
 					if (not(attack_tile in all_attack_tiles + movement_tiles)
-							and MapController.map.borders.has_point(attack_tile)):
 							and _get_map().borders.has_point(attack_tile)):
 						var distance: int = floori(Utilities.get_tile_distance(tile, attack_tile))
 						if distance >= min_range and distance <= max_range:
@@ -527,9 +523,8 @@ func get_all_attack_tiles(movement_tiles: Array[Vector2i] = \
 func display_movement_tiles() -> void:
 	hide_movement_tiles()
 	var movement_tiles: Array[Vector2i] = get_movement_tiles()
-	_movement_tiles_node = MapController.map.display_tiles(movement_tiles,
+	_movement_tiles_node = _get_map().display_tiles(movement_tiles,
 			Map.tile_types.MOVEMENT, 1)
-	_attack_tile_node = MapController.map.display_tiles(get_all_attack_tiles(movement_tiles),
 	_attack_tile_node = _get_map().display_tiles(get_all_attack_tiles(movement_tiles),
 			Map.tile_types.ATTACK, 1)
 	if not selected:
@@ -570,7 +565,6 @@ func get_current_attack_tiles(pos: Vector2i, all_weapons: bool = false) -> Array
 
 ## Shows off the tiles the unit can attack from its current position.
 func display_current_attack_tiles(pos: Vector2i) -> void:
-	_current_attack_tiles_node = MapController.map.display_highlighted_tiles(
 	_current_attack_tiles_node = _get_map().display_highlighted_tiles(
 			get_current_attack_tiles(pos), self, Map.tile_types.ATTACK)
 
@@ -605,7 +599,6 @@ func move(move_target: Vector2i = get_unit_path()[-1]) -> void:
 	if move_target in path:
 		remove_path()
 		get_area().monitoring = false
-		current_movement -= MapController.map.get_path_cost(unit_class.movement_type, path)
 		current_movement -= _get_map().get_path_cost(unit_class.movement_type, path)
 		while len(path) > 0:
 			var _target: Vector2 = path.pop_at(0)
@@ -634,8 +627,6 @@ func get_unit_path() -> Array[Vector2i]:
 
 
 func get_faction() -> Faction:
-	if len(MapController.map.all_factions) > 0:
-		return MapController.map.all_factions[faction_id]
 	if _get_map().all_factions.size() > 0:
 		return _get_map().all_factions[faction_id]
 	else:
@@ -644,7 +635,7 @@ func get_faction() -> Faction:
 
 ## Changes unit's faction.
 func set_faction(new_faction: Faction) -> void:
-	faction_id = MapController.map.all_factions.find(new_faction)
+	faction_id = _get_map().all_factions.find(new_faction)
 
 
 ## Gets the path of the unit.
@@ -657,7 +648,6 @@ func update_path(destination: Vector2i) -> void:
 	if not destination in movement_tiles \
 			and destination in all_attack_tiles \
 			and Utilities.get_tile_distance(get_unit_path()[-1], destination) > 1:
-		for unit: Unit in MapController.get_units():
 		for unit: Unit in _get_map().get_units():
 			if (Vector2i(unit.position) in all_attack_tiles
 					and Vector2i(unit.position) == destination):
@@ -675,7 +665,6 @@ func update_path(destination: Vector2i) -> void:
 		var total_cost: float = 0
 		for tile: Vector2i in _path:
 			if tile != Vector2i(position):
-				total_cost += MapController.map.get_terrain_cost(unit_class.movement_type, tile)
 				total_cost += _get_map().get_terrain_cost(unit_class.movement_type, tile)
 		if destination in _path:
 			_path = _path.slice(0, _path.find(destination) + 1) as Array[Vector2i]
@@ -684,7 +673,6 @@ func update_path(destination: Vector2i) -> void:
 					destination - get_unit_path()[-1] in Utilities.adjacent_tiles):
 				_path.append(destination)
 			else:
-				var new_path: Array[Vector2i] = MapController.map.get_movement_path(
 				var new_path: Array[Vector2i] = _get_map().get_movement_path(
 						unit_class.movement_type, position, destination, get_faction())
 				_path = new_path
@@ -733,7 +721,6 @@ func show_path() -> void:
 					tile.frame = 6
 			tile.position = Vector2(i)
 			_arrows_container.add_child(tile)
-		MapController.map.get_child(0).add_child(_arrows_container)
 		_get_map().get_child(0).add_child(_arrows_container)
 
 
@@ -831,3 +818,12 @@ func _on_area2d_area_exited(area: Area2D) -> void:
 	if area == CursorController.get_area() and not selected:
 		hide_movement_tiles()
 		emit_signal("cursor_exited")
+
+
+func _get_map() -> Map:
+	if _map == null:
+		var units_node: Node2D = get_parent()
+		while units_node.name != "Units":
+			units_node = units_node.get_parent()
+		_map = units_node.get_parent().get_parent()
+	return _map

@@ -95,7 +95,7 @@ func get_current_faction() -> Faction:
 
 func get_units_by_faction(faction_id: int) -> Array[Unit]:
 	var units: Array[Unit] = []
-	for unit: Unit in MapController.get_units():
+	for unit: Unit in MapController.map.get_units():
 		if unit.faction_id == faction_id:
 			units.append(unit)
 	return units
@@ -133,7 +133,7 @@ func start_turn() -> void:
 
 func end_turn() -> void:
 	## Ends current turn.
-	for unit: Unit in MapController.get_units():
+	for unit: Unit in MapController.map.get_units():
 		unit.awaken()
 	next_faction()
 	update_outline()
@@ -211,7 +211,7 @@ func display_tiles(tiles: Array[Vector2i], type: tile_types, modulation: float =
 
 func display_highlighted_tiles(tiles: Array[Vector2i], unit: Unit, type: tile_types) -> Node2D:
 	var unit_coords: Array[Vector2i] = []
-	for e_unit: Unit in MapController.get_units():
+	for e_unit: Unit in MapController.map.get_units():
 		if not(unit.is_friend(e_unit)) and e_unit.visible:
 			unit_coords.append(Vector2i(e_unit.position))
 	return display_tiles(tiles, type, 0.5, unit_coords)
@@ -250,6 +250,14 @@ func update_a_star_grid_id(a_star_grid: AStarGrid2D, movement_type: UnitClass.mo
 		a_star_grid.set_point_solid(id)
 	else:
 		a_star_grid.set_point_weight_scale(id, weight)
+
+
+func get_units() -> Array[Unit]:
+	var units: Array[Unit] = []
+	if is_inside_tree():
+		for node: Node in get_tree().get_nodes_in_group("unit"):
+			units.append(node)
+	return units
 
 
 func _get_terrain(coords: Vector2i) -> String:
@@ -329,7 +337,7 @@ func _on_cursor_select() -> void:
 func _update_grid_current_faction() -> void:
 	for movement_type: UnitClass.movement_types in _cost_grids.keys():
 		var a_star_grid: AStarGrid2D = _cost_grids[movement_type]
-		for unit: Unit in MapController.get_units():
+		for unit: Unit in MapController.map.get_units():
 			a_star_grid.set_point_solid(unit.position / 16,
 					not unit.get_faction().is_friend(_grid_current_faction))
 

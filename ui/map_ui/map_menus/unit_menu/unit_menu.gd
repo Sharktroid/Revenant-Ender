@@ -66,7 +66,7 @@ func update() -> void:
 		enabled_items.Drop = connected_unit.traveler != null
 		enabled_items.Items = len(connected_unit.items) > 0
 		# Gets all adjacent units
-		for unit: Unit in MapController.get_units():
+		for unit: Unit in MapController.map.get_units():
 			if unit != connected_unit and unit.visible == true:
 				var cursor_pos: Vector2i = CursorController.get_map_position()
 				if Utilities.get_tile_distance(cursor_pos, unit.get_position()) == 0 \
@@ -299,7 +299,7 @@ func _get_drop_tiles() -> Array[Vector2i]:
 		var movement: int = traveler.get_stat(Unit.stats.MOVEMENT)
 		if cost <= movement:
 			tiles.append(tile)
-	for unit: Unit in MapController.get_units():
+	for unit: Unit in MapController.map.get_units():
 		var pos: Vector2i = unit.position
 		if pos in tiles:
 			tiles.erase(pos)

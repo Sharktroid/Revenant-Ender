@@ -2,7 +2,7 @@ extends Node2D
 
 
 func _draw() -> void:
-	for unit: Unit in MapController.get_units():
+	for unit: Unit in MapController.map.get_units():
 		unit.modulate = Color.WHITE
 	var outlined_units: Dictionary = MapController.map.get_current_faction().outlined_units
 	for outline_faction: Faction in MapController.map.all_factions:
@@ -28,7 +28,7 @@ func _draw() -> void:
 		var current_faction: Faction = MapController.map.get_current_faction()
 		if current_faction.full_outline \
 				and outline_faction != current_faction:
-			for unit: Unit in MapController.get_units():
+			for unit: Unit in MapController.map.get_units():
 				if (current_faction.get_diplomacy_stance(unit.get_faction()) ==
 						Faction.diplo_stances.ENEMY)\
 						and len(unit.get_all_attack_tiles()) > 0:
