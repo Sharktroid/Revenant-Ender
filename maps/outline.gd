@@ -5,8 +5,7 @@ func _draw() -> void:
 	for unit: Unit in MapController.get_units():
 		unit.modulate = Color.WHITE
 	var outlined_units: Dictionary = MapController.map.get_current_faction().outlined_units
-	var map := get_parent().get_parent() as Map
-	for outline_faction: Faction in map.all_factions:
+	for outline_faction: Faction in MapController.map.all_factions:
 		var current_outlined_units: Array[Unit] = []
 		if outline_faction in outlined_units:
 			current_outlined_units.assign(outlined_units[outline_faction])
@@ -26,7 +25,7 @@ func _draw() -> void:
 				for coord: Vector2i in (attack_tiles + unit.get_movement_tiles()):
 					if not (coord in all_current_coords):
 						all_current_coords.append(coord)
-		var current_faction: Faction = map.get_current_faction()
+		var current_faction: Faction = MapController.map.get_current_faction()
 		if current_faction.full_outline \
 				and outline_faction != current_faction:
 			for unit: Unit in MapController.get_units():

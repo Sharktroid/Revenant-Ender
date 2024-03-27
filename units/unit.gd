@@ -360,6 +360,7 @@ func get_path_last_pos() -> Vector2i:
 	var path: Array[Vector2i] = get_unit_path()
 	var unit_positions: Array[Vector2i] = []
 	for unit: Unit in MapController.get_units():
+	for unit: Unit in _get_map().get_units():
 		unit_positions.append(Vector2i(unit.position))
 	while len(path) > 0:
 		if path[-1] in unit_positions:
@@ -429,6 +430,7 @@ func wait() -> void:
 		selectable = false
 		waiting = true
 	MapController.map.unit_wait(self)
+	_get_map().unit_wait(self)
 	_update_palette()
 
 
@@ -483,6 +485,7 @@ func get_movement_tiles(custom_movement: int = floori(current_movement)) -> Arra
 			var movement_type: UnitClass.movement_types = unit_class.movement_type
 			var cost: float = map.get_path_cost(movement_type,
 					map.get_movement_path(movement_type, position, x, get_faction()))
+					_get_map().get_movement_path(movement_type, position, x, get_faction()))
 			if cost <= current_movement:
 				if not cost in movement_tiles_dict.keys():
 					movement_tiles_dict[cost] = []
@@ -513,6 +516,7 @@ func get_all_attack_tiles(movement_tiles: Array[Vector2i] = \
 					var attack_tile: Vector2i = tile + Vector2i(x * 16, y * 16)
 					if (not(attack_tile in all_attack_tiles + movement_tiles)
 							and MapController.map.borders.has_point(attack_tile)):
+							and _get_map().borders.has_point(attack_tile)):
 						var distance: int = floori(Utilities.get_tile_distance(tile, attack_tile))
 						if distance >= min_range and distance <= max_range:
 							all_attack_tiles.append(attack_tile)
@@ -526,6 +530,7 @@ func display_movement_tiles() -> void:
 	_movement_tiles_node = MapController.map.display_tiles(movement_tiles,
 			Map.tile_types.MOVEMENT, 1)
 	_attack_tile_node = MapController.map.display_tiles(get_all_attack_tiles(movement_tiles),
+	_attack_tile_node = _get_map().display_tiles(get_all_attack_tiles(movement_tiles),
 			Map.tile_types.ATTACK, 1)
 	if not selected:
 		_movement_tiles_node.modulate.a = 0.5
@@ -566,6 +571,7 @@ func get_current_attack_tiles(pos: Vector2i, all_weapons: bool = false) -> Array
 ## Shows off the tiles the unit can attack from its current position.
 func display_current_attack_tiles(pos: Vector2i) -> void:
 	_current_attack_tiles_node = MapController.map.display_highlighted_tiles(
+	_current_attack_tiles_node = _get_map().display_highlighted_tiles(
 			get_current_attack_tiles(pos), self, Map.tile_types.ATTACK)
 
 
@@ -600,6 +606,7 @@ func move(move_target: Vector2i = get_unit_path()[-1]) -> void:
 		remove_path()
 		get_area().monitoring = false
 		current_movement -= MapController.map.get_path_cost(unit_class.movement_type, path)
+		current_movement -= _get_map().get_path_cost(unit_class.movement_type, path)
 		while len(path) > 0:
 			var _target: Vector2 = path.pop_at(0)
 			match _target - position:
@@ -629,6 +636,8 @@ func get_unit_path() -> Array[Vector2i]:
 func get_faction() -> Faction:
 	if len(MapController.map.all_factions) > 0:
 		return MapController.map.all_factions[faction_id]
+	if _get_map().all_factions.size() > 0:
+		return _get_map().all_factions[faction_id]
 	else:
 		return Faction.new("INVALID", Faction.colors.BLUE, Faction.player_types.HUMAN, null)
 
@@ -649,6 +658,7 @@ func update_path(destination: Vector2i) -> void:
 			and destination in all_attack_tiles \
 			and Utilities.get_tile_distance(get_unit_path()[-1], destination) > 1:
 		for unit: Unit in MapController.get_units():
+		for unit: Unit in _get_map().get_units():
 			if (Vector2i(unit.position) in all_attack_tiles
 					and Vector2i(unit.position) == destination):
 				var adjacent_movement_tiles: Array[Vector2i] = []
@@ -666,6 +676,7 @@ func update_path(destination: Vector2i) -> void:
 		for tile: Vector2i in _path:
 			if tile != Vector2i(position):
 				total_cost += MapController.map.get_terrain_cost(unit_class.movement_type, tile)
+				total_cost += _get_map().get_terrain_cost(unit_class.movement_type, tile)
 		if destination in _path:
 			_path = _path.slice(0, _path.find(destination) + 1) as Array[Vector2i]
 		else:
@@ -674,6 +685,7 @@ func update_path(destination: Vector2i) -> void:
 				_path.append(destination)
 			else:
 				var new_path: Array[Vector2i] = MapController.map.get_movement_path(
+				var new_path: Array[Vector2i] = _get_map().get_movement_path(
 						unit_class.movement_type, position, destination, get_faction())
 				_path = new_path
 
@@ -722,6 +734,7 @@ func show_path() -> void:
 			tile.position = Vector2(i)
 			_arrows_container.add_child(tile)
 		MapController.map.get_child(0).add_child(_arrows_container)
+		_get_map().get_child(0).add_child(_arrows_container)
 
 
 func get_new_map_attack() -> MapAttack:

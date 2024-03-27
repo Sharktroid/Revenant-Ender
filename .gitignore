@@ -16,3 +16,7 @@ mono_crash.*.json
 
 # Visual Studio Code
 .vscode/
+
+
+.DS_Store
+*.bak

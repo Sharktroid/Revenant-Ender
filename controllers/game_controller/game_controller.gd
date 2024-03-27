@@ -26,7 +26,7 @@ func _input(event: InputEvent) -> void:
 		controller_type = controller_types.KEYBOARD
 
 	if (Utilities.get_debug_constant("print_input_reciever")):
-		print_debug(get_current_input_node())
+		print(get_current_input_node())
 	get_current_input_node().receive_input(event)
 
 	if event.is_action_pressed("fullscreen"):

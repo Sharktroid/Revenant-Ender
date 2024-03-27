@@ -13,6 +13,7 @@ func _init(connected_unit: Unit) -> void:
 	_unit.get_node("Status").queue_free()
 	_unit.remove_from_group("unit")
 	_unit.modulate.a = 0.5
+	_unit._map = connected_unit._get_map()
 	add_child(_unit)
 
 
