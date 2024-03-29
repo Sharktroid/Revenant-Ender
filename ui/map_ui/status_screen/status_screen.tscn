@@ -132,7 +132,7 @@ text = "Cavalier"
 layout_mode = 2
 size_flags_vertical = 4
 focus_neighbor_top = NodePath("../Class Description")
-focus_neighbor_bottom = NodePath("../EXP Container")
+focus_neighbor_bottom = NodePath("../EXP Container/EXP Description")
 script = ExtResource("4_g30x5")
 help_description = "Determines a unit's stats and whether they can promote.
 The first number is the current level, the second is the maximum level."
@@ -160,34 +160,41 @@ layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "1"
 
-[node name="EXP Container" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
+[node name="EXP Container" type="HBoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
-size_flags_vertical = 4
-focus_neighbor_top = NodePath("../Level Container")
-focus_neighbor_bottom = NodePath("../HP Container/HP Description")
-script = ExtResource("4_g30x5")
-help_description = "Experience. When the current (first) value exceeds the maximum (second) value, the unit levels up."
 
-[node name="EXP Label" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/EXP Container"]
+[node name="EXP Description" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/EXP Container"]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+focus_neighbor_top = NodePath("../../Level Container")
+focus_neighbor_bottom = NodePath("../../HP Container/HP Description")
+script = ExtResource("4_g30x5")
+help_description = "Experience. Used to bring the unit's level up. The value is the percentage to the next level."
+
+[node name="EXP Label" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/EXP Container/EXP Description"]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "EXP"
 
-[node name="Current EXP" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/EXP Container"]
+[node name="Exp Stat Help" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/EXP Container"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_constants/separation = 0
+script = ExtResource("4_g30x5")
+
+[node name="Exp Percent" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/EXP Container/Exp Stat Help"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
-text = "NYI"
+text = "99."
 
-[node name="Separator" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/EXP Container"]
+[node name="Percent Label" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/EXP Container/Exp Stat Help"]
 layout_mode = 2
 theme_type_variation = &"YellowLabel"
-text = "/"
-
-[node name="Max EXP" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/EXP Container"]
-layout_mode = 2
-theme_type_variation = &"BlueLabel"
-text = "NYI"
+text = "%"
 
 [node name="HP Container" type="HBoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container"]
 layout_mode = 2
@@ -195,7 +202,7 @@ layout_mode = 2
 [node name="HP Description" type="BoxContainer" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/HP Container"]
 layout_mode = 2
 size_flags_horizontal = 2
-focus_neighbor_top = NodePath("../../EXP Container")
+focus_neighbor_top = NodePath("../../EXP Container/EXP Description")
 focus_neighbor_right = NodePath("../HP Stat Help")
 focus_neighbor_bottom = NodePath("../../Attack Container/Attack Label Description")
 script = ExtResource("4_g30x5")
@@ -212,10 +219,9 @@ text = "Hit Points"
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath("../HP Description")
-focus_neighbor_top = NodePath("../../EXP Container")
+focus_neighbor_top = NodePath("../../EXP Container/EXP Description")
 focus_neighbor_bottom = NodePath("../../Attack Container/Attack Description")
 script = ExtResource("4_g30x5")
-help_description = "TEST"
 
 [node name="Current HP" type="Label" parent="Menu Screen/Constant/Container/High Stats Background/High Stats Margins/High Stats Container/HP Container/HP Stat Help"]
 unique_name_in_owner = true

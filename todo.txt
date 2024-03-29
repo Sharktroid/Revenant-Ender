@@ -1,3 +1,9 @@
+== Minor ==
+* Fix bug when deselecting help description and cannot relectect the same item
+* Add sound effects to status menu
+* Make set/get functions into actual variables
+* Make certain resource properties read-only via getters
+
 == Major ==
 * Implement experience
 * Create a status screen

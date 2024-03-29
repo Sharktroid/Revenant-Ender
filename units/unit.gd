@@ -35,9 +35,14 @@ enum stats {
 @export var base_level: int = 1
 @export var skills: Array[Skill] = [Follow_Up.new()]
 
+var total_experience: int
+var level: int:
+	set(value):
+		total_experience = Unit.get_experience_from_level(value)
+	get:
+		return floori(Unit.get_level_from_experience(total_experience))
 var personal_values: Dictionary
 var effort_values: Dictionary
-var current_level: int
 var current_movement: float
 var dead: bool = false
 var outline_highlight: bool = false
@@ -134,12 +139,12 @@ var _arrows_container: CanvasGroup
 func _enter_tree() -> void:
 	_animation_player = $AnimationPlayer as AnimationPlayer
 	_traveler_animation_player = $"Traveler Icon/AnimationPlayer" as AnimationPlayer
-	current_level = base_level
+	level = base_level
 	for weapon_type: Weapon.types in unit_class.base_weapon_levels.keys() as Array[Weapon.types]:
 		if weapon_type not in weapon_levels.keys():
 			weapon_levels[weapon_type] = lerpf(unit_class.base_weapon_levels[weapon_type] as float,
 					unit_class.max_weapon_levels[weapon_type] as float,
-					inverse_lerp(1, unit_class.max_level, current_level))
+					inverse_lerp(1, unit_class.max_level, level))
 	texture = unit_class.map_sprite
 	material = material.duplicate() as Material
 	current_movement = get_stat(stats.MOVEMENT)
@@ -261,8 +266,8 @@ func get_stat_boost(stat: stats) -> int:
 	return _stat_boosts.get(stat, 0)
 
 
-func get_stat(stat: stats, level: int = current_level) -> int:
-	var weight: float = inverse_lerp(1, unit_class.max_level, level)
+func get_stat(stat: stats, current_level: int = level) -> int:
+	var weight: float = inverse_lerp(1, unit_class.max_level, current_level)
 	var leveled_stat: float = lerpf(unit_class.base_stats.get(stat, 0),
 			unit_class.end_stats.get(stat, 0), weight)
 	var unclamped_stat: int = roundi(leveled_stat * _get_personal_value_multiplier(stat)
@@ -406,6 +411,22 @@ func get_distance(unit: Unit) -> int:
 
 func get_skills() -> Array[Skill]:
 	return skills + unit_class.skills
+
+
+func get_current_experience() -> int:
+	return total_experience - Unit.get_experience_from_level(level)
+
+
+static func get_experience_from_level(current_level: float) -> int:
+	return roundi(100 * 2 ** (current_level - 1) - 100)
+
+
+static func get_level_from_experience(xp: int) -> float:
+	return log(float(xp + 100)/100)/log(2) + 1
+
+
+static func get_experience_to_level(current_level: float) -> int:
+	return get_experience_from_level(current_level) - get_experience_from_level(current_level - 1)
 
 
 func has_skill_attribute(attrib: Skill.all_attributes) -> bool:
