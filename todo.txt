@@ -10,8 +10,9 @@
 * Implement experience
 ** Fix bug where experience is -1% at times
 ** Create level-up screen
-* Create a status screen
+* Add the remaining sub menus of the main map menu
 * Make attack animations skippable
+* Implement durability
 
 == Long-term ==
 * Implement FE6 Chapter 1
