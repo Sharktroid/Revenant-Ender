@@ -16,14 +16,22 @@ const PERSONAL_VALUE_LIMIT: int = 15
 const INDIVIDUAL_EFFORT_VALUE_LIMIT: int = 250
 ## The maximum amount of PVs a unit can have
 const TOTAL_EFFORT_VALUE_LIMIT: float = INDIVIDUAL_EFFORT_VALUE_LIMIT * 4
+## The experience required to go from level 1 to level 2
+const BASE_EXPERIENCE: int = 100
+## The multiplier for the extra amount of experience to go from one level to the next
+## compared to the previous level
+const EXPERIENCE_MULTIPLIER: float = 2
+## The amount of experience for killing an enemy in one round of combat
+const ONE_ROUND_EXP_BASE: int = roundi(float(BASE_EXPERIENCE)/4)
+## The amount of combat experience reserved for when an enemy is killed
+const KILL_EXP_PERCENT: float = 0.25
+
 
 
 enum statuses {ATTACK}
 enum animations {IDLE, MOVING_DOWN, MOVING_UP, MOVING_LEFT, MOVING_RIGHT}
-enum stats {
-	HITPOINTS, STRENGTH, PIERCE, MAGIC, SKILL, SPEED, LUCK, DEFENSE, ARMOR,
-	RESISTANCE, MOVEMENT, CONSTITUTION
-}
+enum stats {HITPOINTS, STRENGTH, PIERCE, MAGIC, SKILL, SPEED, LUCK, DEFENSE, ARMOR,
+	RESISTANCE, MOVEMENT, CONSTITUTION}
 
 ## Unit's faction. Should be in the map's Faction stack.
 @export var unit_name: String = "[Empty]"
@@ -35,7 +43,7 @@ enum stats {
 @export var base_level: int = 1
 @export var skills: Array[Skill] = [Follow_Up.new()]
 
-var total_experience: int
+var total_experience: float
 var level: int:
 	set(value):
 		total_experience = Unit.get_experience_from_level(value)
@@ -413,19 +421,19 @@ func get_skills() -> Array[Skill]:
 	return skills + unit_class.skills
 
 
-func get_current_experience() -> int:
+func get_current_experience() -> float:
 	return total_experience - Unit.get_experience_from_level(level)
 
 
-static func get_experience_from_level(current_level: float) -> int:
-	return roundi(100 * 2 ** (current_level - 1) - 100)
+static func get_experience_from_level(current_level: float) -> float:
+	return BASE_EXPERIENCE * (EXPERIENCE_MULTIPLIER ** (current_level - 1) - 1)
 
 
-static func get_level_from_experience(xp: int) -> float:
-	return log(float(xp + 100)/100)/log(2) + 1
+static func get_level_from_experience(xp: float) -> float:
+	return log(1 + float(xp)/BASE_EXPERIENCE)/log(EXPERIENCE_MULTIPLIER) + 1
 
 
-static func get_experience_to_level(current_level: float) -> int:
+static func get_experience_to_level(current_level: float) -> float:
 	return get_experience_from_level(current_level) - get_experience_from_level(current_level - 1)
 
 

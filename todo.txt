@@ -1,11 +1,15 @@
 == Minor ==
-* Fix bug when deselecting help description and cannot relectect the same item
+* Fix bug when deselecting help description and cannot reselect the same item
 * Add sound effects to status menu
 * Make set/get functions into actual variables
 * Make certain resource properties read-only via getters
+* Fix bug where units occupy space after dying
+* Fix bug where unit palettes break when dying
 
 == Major ==
 * Implement experience
+** Fix bug where experience is -1% at times
+** Create level-up screen
 * Create a status screen
 * Make attack animations skippable
 

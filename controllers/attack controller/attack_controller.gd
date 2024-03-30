@@ -38,6 +38,8 @@ static func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[Comb
 	defender.get_parent().add_child(defender_animation)
 	attacker.visible = false
 	defender.visible = false
+	var attacker_starting_hp: float = attacker.get_current_health()
+	var defender_starting_hp: float = defender.get_current_health()
 	var get_timer: Callable = func() -> SceneTreeTimer:
 		return hp_bar.get_tree().create_timer(DELAY)
 	for combat_round: CombatStage in attack_queue:
@@ -51,6 +53,12 @@ static func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[Comb
 		if attacker.get_current_health() <= 0 or defender.get_current_health() <= 0:
 			break
 	await get_timer.call().timeout
+
+	attacker.total_experience += _get_combat_exp(defender,
+			defender_starting_hp - defender.get_current_health())
+	defender.total_experience += _get_combat_exp(attacker,
+			attacker_starting_hp - attacker.get_current_health())
+
 	hp_bar.queue_free()
 	if defender.get_current_health() <= 0:
 		await _kill(defender, defender_animation)
@@ -127,6 +135,12 @@ static func _calc(unit: Unit, other_unit: Unit) -> attack_types:
 			return attack_types.HIT
 	else:
 		return attack_types.MISS
+
+
+static func _get_combat_exp(distributing_unit: Unit, damage: float) -> float:
+	var base_exp: float = Unit.ONE_ROUND_EXP_BASE * 2 ** (distributing_unit.level - 1)
+	var damage_percent: float = float(damage)/distributing_unit.get_stat(Unit.stats.HITPOINTS)
+	return base_exp * damage_percent
 
 
 class CombatStage extends RefCounted:
