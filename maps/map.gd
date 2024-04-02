@@ -260,6 +260,17 @@ func get_units() -> Array[Unit]:
 	return units
 
 
+func update_position_terrain_cost(pos: Vector2i) -> void:
+	for movement_type: UnitClass.movement_types in _cost_grids.keys():
+		var a_star_grid: AStarGrid2D = _cost_grids[movement_type]
+		var point_id: Vector2i = pos / 16
+		update_a_star_grid_id(a_star_grid, movement_type, point_id)
+		a_star_grid.set_point_solid(point_id, false)
+	for unit: Unit in get_units():
+		if unit.position == Vector2(pos):
+			_update_grid_current_faction()
+
+
 func _get_terrain(coords: Vector2i) -> String:
 	## Gets the name of the terrain at the tile at position "coords"
 	if not borders.has_point(coords):

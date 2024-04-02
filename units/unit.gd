@@ -154,6 +154,10 @@ func _enter_tree() -> void:
 		_portrait = (load(directory) as PackedScene).instantiate() as Portrait
 
 
+func _exit_tree() -> void:
+	_map.update_position_terrain_cost.call_deferred(position)
+
+
 func _process(_delta: float) -> void:
 	if traveler:
 		traveler.position = position
