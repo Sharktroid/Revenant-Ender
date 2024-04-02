@@ -340,4 +340,3 @@ func _update_grid_current_faction() -> void:
 		for unit: Unit in MapController.map.get_units():
 			a_star_grid.set_point_solid(unit.position / 16,
 					not unit.get_faction().is_friend(_grid_current_faction))
-

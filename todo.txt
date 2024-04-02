@@ -8,8 +8,8 @@
 
 == Major ==
 * Implement experience
-** Fix bug where experience is -1% at times
 ** Create level-up screen
+* Make certain scenes into objects that load the scenes to make the code less janky
 * Add the remaining sub menus of the main map menu
 * Make attack animations skippable
 * Implement durability

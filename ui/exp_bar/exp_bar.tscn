@@ -1,0 +1,152 @@
+[gd_scene load_steps=15 format=3 uid="uid://bf0k8bk8enjl2"]
+
+[ext_resource type="Script" path="res://ui/exp_bar/exp_bar.gd" id="1_8yggw"]
+[ext_resource type="Shader" path="res://ui/exp_bar/exp_bar.gdshader" id="1_mpy12"]
+[ext_resource type="Texture2D" uid="uid://b546ynymnfii1" path="res://ui/exp_bar/background.png" id="2_pkrhe"]
+[ext_resource type="Texture2D" uid="uid://beltbhyc6gb2a" path="res://ui/exp_bar/empty_bar.png" id="3_fe4gg"]
+[ext_resource type="Texture2D" uid="uid://ge0q7dslgtuo" path="res://ui/exp_bar/full_bar.png" id="4_6bqof"]
+[ext_resource type="Texture2D" uid="uid://dmdst2hanvfen" path="res://ui/exp_bar/bar_fill.png" id="4_wq3lu"]
+[ext_resource type="Texture2D" uid="uid://b4mel4vd40qsk" path="res://ui/exp_bar/label.png" id="6_kupi6"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_c4han"]
+shader = ExtResource("1_mpy12")
+shader_parameter/visible_ratio = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2a7ic"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7hmn0"]
+texture = ExtResource("2_pkrhe")
+texture_margin_left = 3.0
+texture_margin_top = 4.0
+texture_margin_right = 3.0
+texture_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lb6jr"]
+texture = ExtResource("3_fe4gg")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bc8fj"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xe3xn"]
+texture = ExtResource("4_wq3lu")
+texture_margin_left = 4.0
+texture_margin_top = 3.0
+texture_margin_right = 2.0
+texture_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_opmxk"]
+texture = ExtResource("4_6bqof")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+
+[node name="EXP Bar" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = -4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8yggw")
+
+[node name="Visibility Panel" type="Panel" parent="."]
+unique_name_in_owner = true
+clip_children = 1
+material = SubResource("ShaderMaterial_c4han")
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.2
+anchor_top = 0.5
+anchor_right = 0.8
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_2a7ic")
+
+[node name="PanelContainer" type="PanelContainer" parent="Visibility Panel"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_7hmn0")
+
+[node name="MarginContainer" type="MarginContainer" parent="Visibility Panel/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_right = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Visibility Panel/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Control" type="Control" parent="Visibility Panel/PanelContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Panel" type="Panel" parent="Visibility Panel/PanelContainer/MarginContainer/HBoxContainer/Control"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_lb6jr")
+
+[node name="Exp Bar" type="ProgressBar" parent="Visibility Panel/PanelContainer/MarginContainer/HBoxContainer/Control"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 7)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -1.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme_override_styles/background = SubResource("StyleBoxEmpty_bc8fj")
+theme_override_styles/fill = SubResource("StyleBoxTexture_xe3xn")
+value = 15.0
+show_percentage = false
+
+[node name="Fill Panel" type="Panel" parent="Visibility Panel/PanelContainer/MarginContainer/HBoxContainer/Control"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 7)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_opmxk")
+
+[node name="Exp Value" type="Label" parent="Visibility Panel/PanelContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(66, 0)
+layout_mode = 2
+text = "24444444444"
+horizontal_alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="Visibility Panel"]
+layout_mode = 2
+offset_left = 7.6
+offset_right = 31.6
+offset_bottom = 8.0
+texture = ExtResource("6_kupi6")

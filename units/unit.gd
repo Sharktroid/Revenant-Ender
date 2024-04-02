@@ -22,7 +22,7 @@ const BASE_EXPERIENCE: int = 100
 ## compared to the previous level
 const EXPERIENCE_MULTIPLIER: float = 2
 ## The amount of experience for killing an enemy in one round of combat
-const ONE_ROUND_EXP_BASE: int = roundi(float(BASE_EXPERIENCE)/4)
+const ONE_ROUND_EXP_BASE: float = float(BASE_EXPERIENCE)/3
 ## The amount of combat experience reserved for when an enemy is killed
 const KILL_EXP_PERCENT: float = 0.25
 
@@ -826,7 +826,7 @@ func _on_area2d_area_entered(area: Area2D) -> void:
 		if is_instance_valid(CursorController.get_hovered_unit()):
 			var hovered_unit_selected: bool = CursorController.get_hovered_unit().selected
 			can_be_selected = not hovered_unit_selected or selecting
-		if can_be_selected and not(selected or selecting or waiting):
+		if can_be_selected and not(selected or selecting or waiting or dead):
 			display_movement_tiles()
 		CursorController.set_hovered_unit(self)
 

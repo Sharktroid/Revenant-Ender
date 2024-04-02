@@ -54,22 +54,26 @@ static func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[Comb
 			break
 	await get_timer.call().timeout
 
-	attacker.total_experience += _get_combat_exp(defender,
-			defender_starting_hp - defender.get_current_health())
-	defender.total_experience += _get_combat_exp(attacker,
-			attacker_starting_hp - attacker.get_current_health())
-
 	hp_bar.queue_free()
 	if defender.get_current_health() <= 0:
 		await _kill(defender, defender_animation)
-	if attacker.get_current_health() > 0:
-		attacker.visible = true
-	else:
+	if attacker.get_current_health() <= 0:
 		await _kill(attacker, attacker_animation)
+
+	#await _give_exp(attacker, defender, defender_starting_hp)
+	#await _give_exp(defender, attacker, attacker_starting_hp)
+
 	attacker_animation.queue_free()
-	if is_instance_valid(defender):
-		defender.visible = true
 	defender_animation.queue_free()
+	if attacker.dead:
+		attacker.queue_free()
+	else:
+		attacker.visible = true
+	if defender.dead:
+		defender.queue_free()
+	else:
+		defender.visible = true
+	print_debug(defender.dead)
 	GameController.set_process_input(true)
 
 
@@ -122,8 +126,8 @@ static func _kill(unit: Unit, unit_animation: MapAttack) -> void:
 	sync_fade.tween_property(unit_animation, "modulate:a", 0, Unit.FADE_AWAY_DURATION)
 	sync_fade.play()
 	await sync_fade.finished
-	unit.queue_free()
 	unit_animation.visible = false
+	unit.dead = true
 	await unit_animation.get_tree().process_frame # Prevents visual bug
 
 
@@ -141,6 +145,29 @@ static func _get_combat_exp(distributing_unit: Unit, damage: float) -> float:
 	var base_exp: float = Unit.ONE_ROUND_EXP_BASE * 2 ** (distributing_unit.level - 1)
 	var damage_percent: float = float(damage)/distributing_unit.get_stat(Unit.stats.HITPOINTS)
 	return base_exp * damage_percent
+
+
+static func _give_exp(recieving_unit: Unit, distributing_unit: Unit, old_hp: float) -> void:
+	if not recieving_unit.dead:
+		const EXP_BAR_PATH: String = "res://ui/exp_bar/exp_bar."
+		const EXP_BAR_SCENE: PackedScene = preload(EXP_BAR_PATH + "tscn")
+		const EXP_BAR = preload(EXP_BAR_PATH + "gd")
+		if recieving_unit.get_faction().player_type == Faction.player_types.HUMAN:
+			var exp_bar: EXP_BAR = EXP_BAR_SCENE.instantiate()
+			exp_bar.observing_unit = recieving_unit
+			MapController.get_ui().add_child(exp_bar)
+			await exp_bar.display()
+			var new_experience: float = recieving_unit.total_experience + _get_combat_exp(distributing_unit,
+					old_hp - distributing_unit.get_current_health())
+			await recieving_unit.get_tree().create_timer(0.25).timeout
+			var tween: Tween = recieving_unit.create_tween()
+			tween.tween_property(recieving_unit, "total_experience", new_experience, 0.5)
+			await tween.finished
+			await recieving_unit.get_tree().create_timer(0.25).timeout
+			await exp_bar.close()
+		else:
+			recieving_unit.total_experience += _get_combat_exp(distributing_unit,
+					old_hp - distributing_unit.get_current_health())
 
 
 class CombatStage extends RefCounted:
