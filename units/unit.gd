@@ -30,7 +30,7 @@ const KILL_EXP_PERCENT: float = 0.25
 
 enum statuses {ATTACK}
 enum animations {IDLE, MOVING_DOWN, MOVING_UP, MOVING_LEFT, MOVING_RIGHT}
-enum stats {HITPOINTS, STRENGTH, PIERCE, MAGIC, SKILL, SPEED, LUCK, DEFENSE, ARMOR,
+enum stats {HIT_POINTS, STRENGTH, PIERCE, MAGIC, SKILL, SPEED, LUCK, DEFENSE, ARMOR,
 	RESISTANCE, MOVEMENT, CONSTITUTION}
 
 ## Unit's faction. Should be in the map's Faction stack.
@@ -156,7 +156,7 @@ func _enter_tree() -> void:
 	texture = unit_class.map_sprite
 	material = material.duplicate() as Material
 	current_movement = get_stat(stats.MOVEMENT)
-	set_current_health(get_stat(stats.HITPOINTS))
+	set_current_health(get_stat(stats.HIT_POINTS))
 	add_to_group("units")
 	_update_palette()
 	if _animation_player.current_animation == '':
@@ -237,7 +237,7 @@ func get_crit_damage(defender: Unit) -> int:
 
 ## Sets units current health.
 func set_current_health(health: float, does_die: bool = true) -> void:
-	_current_health = clampf(health, 0, get_stat(stats.HITPOINTS))
+	_current_health = clampf(health, 0, get_stat(stats.HIT_POINTS))
 	if not Engine.is_editor_hint():
 		const HEALTH_BAR = preload("res://units/health_bar/health_bar.gd")
 		($"Health Bar" as HEALTH_BAR).update()

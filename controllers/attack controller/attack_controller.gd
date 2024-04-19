@@ -130,10 +130,9 @@ func _kill(unit: Unit, unit_animation: MapAttack) -> void:
 	await sync_fade.finished
 	unit_animation.visible = false
 	unit.dead = true
-	await unit_animation.get_tree().process_frame # Prevents visual bug
+	await get_tree().process_frame # Prevents visual bug
 
 
-static func _calc(unit: Unit, other_unit: Unit) -> attack_types:
 func _calc(unit: Unit, other_unit: Unit) -> attack_types:
 	if unit.get_hit_rate(other_unit) > randi_range(0, 99):
 		if unit.get_crit_rate(other_unit) > randi_range(0, 99):
@@ -180,6 +179,7 @@ func _give_exp(recieving_unit: Unit, distributing_unit: Unit, old_hp: float) -> 
 				level_up_screen.old_level = old_level
 				MapController.get_ui().add_child(level_up_screen)
 				await level_up_screen.tree_exited
+				GameController.remove_from_input_stack()
 		else:
 			recieving_unit.total_experience += _get_combat_exp(distributing_unit,
 					old_hp - distributing_unit.get_current_health())

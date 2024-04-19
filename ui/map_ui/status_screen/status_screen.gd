@@ -66,7 +66,7 @@ func _update() -> void:
 	_set_label_text_to_number(%"Max Level" as Label, observing_unit.get_max_level())
 
 	_set_label_text_to_number(%"Current HP" as Label, roundi(observing_unit.get_current_health()))
-	_set_label_text_to_number(%"Max HP" as Label, observing_unit.get_stat(Unit.stats.HITPOINTS))
+	_set_label_text_to_number(%"Max HP" as Label, observing_unit.get_stat(Unit.stats.HIT_POINTS))
 
 	var current_experience: float = observing_unit.get_current_experience()
 	var next_level_experience: float = Unit.get_experience_to_level(observing_unit.level + 1)
@@ -146,7 +146,7 @@ func _update() -> void:
 	_update_tab()
 
 	var hp_help := %"HP Stat Help" as HelpContainer
-	hp_help.help_table = observing_unit.get_stat_table(Unit.stats.HITPOINTS)
+	hp_help.help_table = observing_unit.get_stat_table(Unit.stats.HIT_POINTS)
 	hp_help.table_columns = 4
 
 

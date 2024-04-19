@@ -23,7 +23,7 @@ func _init() -> void:
 	}
 
 	base_stats = {
-		Unit.stats.HITPOINTS: 19,
+		Unit.stats.HIT_POINTS: 19,
 		Unit.stats.STRENGTH: 8,
 		Unit.stats.PIERCE: 0,
 		Unit.stats.MAGIC: 1,
@@ -37,7 +37,7 @@ func _init() -> void:
 		Unit.stats.CONSTITUTION: 11,
 	}
 	end_stats = {
-		Unit.stats.HITPOINTS: 51,
+		Unit.stats.HIT_POINTS: 51,
 		Unit.stats.STRENGTH: 28,
 		Unit.stats.PIERCE: 0,
 		Unit.stats.MAGIC: 22,

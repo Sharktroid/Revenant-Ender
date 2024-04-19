@@ -6,7 +6,7 @@ extends Unit
 func _init() -> void:
 	weapon_levels[Weapon.types.SPEAR] = Weapon.ranks.A
 	personal_values = {
-		Unit.stats.HITPOINTS: 0,
+		Unit.stats.HIT_POINTS: 0,
 		Unit.stats.STRENGTH: 0,
 		Unit.stats.PIERCE: 0,
 		Unit.stats.MAGIC: 0,
@@ -20,7 +20,7 @@ func _init() -> void:
 		Unit.stats.CONSTITUTION: 0,
 	}
 	effort_values = {
-		Unit.stats.HITPOINTS: 100,
+		Unit.stats.HIT_POINTS: 100,
 		Unit.stats.STRENGTH: 50,
 		Unit.stats.PIERCE: 0,
 		Unit.stats.MAGIC: 0,
