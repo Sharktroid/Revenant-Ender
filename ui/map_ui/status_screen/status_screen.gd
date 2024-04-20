@@ -70,8 +70,7 @@ func _update() -> void:
 
 	var current_experience: float = observing_unit.get_current_experience()
 	var next_level_experience: float = Unit.get_experience_to_level(observing_unit.level + 1)
-	_set_label_text_to_number(%"Exp Percent" as Label,
-			floori(roundf(current_experience)/next_level_experience * 100))
+	_set_label_text_to_number(%"Exp Percent" as Label, observing_unit.get_experience_percent())
 	(%"Exp Stat Help" as HelpContainer).help_description = \
 			"%d/%d\n%d to next level\nTotal experience: %d" % [
 				roundi(current_experience),

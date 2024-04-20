@@ -10,7 +10,6 @@
 
 # Major
 * Implement experience
-	* Make experience bar percentage based
 	* Animate level-up screen
 * Make certain scenes into objects that load the scenes to make the code less janky
 * Add the remaining sub menus of the main map menu

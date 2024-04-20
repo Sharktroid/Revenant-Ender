@@ -437,6 +437,10 @@ static func get_experience_to_level(current_level: float) -> float:
 	return get_experience_from_level(current_level) - get_experience_from_level(current_level - 1)
 
 
+func get_experience_percent() -> int:
+	return floori((roundf(get_current_experience())/Unit.get_experience_to_level(level + 1)) * 100)
+
+
 func has_skill_attribute(attrib: Skill.all_attributes) -> bool:
 	for skill: Skill in get_skills():
 		if attrib in skill.attributes:

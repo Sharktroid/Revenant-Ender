@@ -10,8 +10,8 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	var progress_bar := %"Exp Bar" as ProgressBar
-	progress_bar.value = observing_unit.get_current_experience()
+	(%"Exp Bar" as ProgressBar).value = observing_unit.get_current_experience()
+	(%"Exp Value" as Label).text = "%d%%" % observing_unit.get_experience_percent()
 
 
 func display() -> void:
