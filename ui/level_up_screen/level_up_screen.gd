@@ -6,9 +6,14 @@ var unit: Unit
 
 
 func _ready() -> void:
+	var children := $Children as Control
+	children.visible = false
+	await ($"Level Up Splash" as Control).tree_exited
+	await get_tree().create_timer(0.25).timeout
+	children.visible = true
 	GameController.add_to_input_stack(self)
-	var left_panel := $"VBoxContainer/Bottom Panel/HBoxContainer/Left" as PanelContainer
-	var right_panel := $"VBoxContainer/Bottom Panel/HBoxContainer/Right" as PanelContainer
+	var left_panel := %"Left" as PanelContainer
+	var right_panel := %"Right" as PanelContainer
 	var max_width: float = ceilf(maxf(left_panel.size.x, right_panel.size.x)/16) * 16
 	left_panel.custom_minimum_size.x = max_width
 	right_panel.custom_minimum_size.x = max_width

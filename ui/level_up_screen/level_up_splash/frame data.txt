@@ -1,0 +1,30 @@
+1-particle start
+16-particle end
+26-bar expansion start; title frame 1
+28-frame 2
+30-frame 3
+32-bar expansion end; frame 4
+34-frame 5
+36-frame 6
+38-frame 7
+40-frame 8
+42-frame 9
+44-frame 10
+46-frame 11
+48-frame 12
+50-frame 13
+52-frame 1
+54-darken frame 1
+56-frame 2
+58-frame 3
+61-fade frame 1
+63-frame 2
+65-frame 3
+67-frame 4
+69-frame 5
+71-frame 6
+73-frame 7
+75-frame 8
+76-frame 9
+77-frame 10
+79-finished - frame 11
