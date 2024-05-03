@@ -167,11 +167,18 @@ func _give_exp(recieving_unit: Unit, distributing_unit: Unit, old_hp: float) -> 
 			var old_level: int = recieving_unit.level
 			var tween: Tween = recieving_unit.create_tween()
 			tween.tween_property(recieving_unit, "total_experience", new_experience, 0.5)
+			var exp_audio_player := AudioStreamPlayer.new()
+			exp_audio_player.stream = preload("res://audio/sfx/experience.ogg")
+			add_child(exp_audio_player)
+			exp_audio_player.play()
 			await tween.finished
+			exp_audio_player.stop()
+			exp_audio_player.queue_free()
 			await get_tree().create_timer(0.25).timeout
 			await exp_bar.close()
 			if recieving_unit.level > old_level:
-				await get_tree().create_timer(0.25).timeout
+				AudioPlayer.pause_track()
+				await get_tree().create_timer(0.75).timeout
 				const LEVEL_UP_SCREEN_PATH = "res://ui/level_up_screen/level_up_screen."
 				const LEVEL_UP_SCREEN = preload(LEVEL_UP_SCREEN_PATH + "gd")
 				var level_up_screen := preload(LEVEL_UP_SCREEN_PATH + "tscn").instantiate() as LEVEL_UP_SCREEN

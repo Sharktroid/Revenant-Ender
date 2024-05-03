@@ -12,9 +12,7 @@
 
 # Major
 * Implement experience
-	* Animate level up screen
-	* Make level up screen multidirectional
-	* Add sound effects to experience bar and level up screen
+	* Move EXP bar code to EXP bar
 * Make certain scenes into objects that load the scenes to make the code less janky
 * Add the remaining sub menus of the main map menu
 * Make attack animations skippable

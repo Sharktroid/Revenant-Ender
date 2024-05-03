@@ -8,8 +8,10 @@ var unit: Unit
 func _ready() -> void:
 	var children := $Children as Control
 	children.visible = false
-	await ($"Level Up Splash" as Control).tree_exited
-	await get_tree().create_timer(0.25).timeout
+	var track: AudioStreamOggVorbis = preload("res://audio/music/level_up!.ogg")
+	AudioPlayer.play_track(track)
+	var track_timer: SceneTreeTimer = get_tree().create_timer(track.loop_offset - 10.0/60)
+	await track_timer.timeout
 
 	#region initialization
 	var left_panel := %"Left" as PanelContainer
@@ -45,12 +47,12 @@ func _ready() -> void:
 			"position:x", bottom_panel.position.x, 8.0/60).set_delay(2.0/60)
 	top_panel.position.x = -top_panel.size.x
 	bottom_panel.position.x = -bottom_panel.size.x
-	await slide_tween.finished
 	await get_tree().create_timer(35.0/60).timeout
 
 	level_value.text = str(unit.level)
 	const SPARKLE = preload("res://ui/level_up_screen/spiral_sparkle.gd")
 	(%"Level Sparkle" as SPARKLE).play()
+	AudioPlayer.play_sound_effect(preload("res://audio/sfx/level_up_level_blip.ogg"))
 	await get_tree().create_timer(20.0/60).timeout
 
 	var stat_order: Array[Unit.stats] = [Unit.stats.HIT_POINTS, Unit.stats.STRENGTH, Unit.stats.PIERCE,
@@ -67,6 +69,7 @@ func _ready() -> void:
 
 		var difference: int = current_stat - old_stat
 		if difference != 0:
+			AudioPlayer.play_sound_effect(preload("res://audio/sfx/level_up_blip.ogg"))
 			const STAT_CHANGE = preload("res://ui/level_up_screen/stat_change.gd")
 			(%"Stat Changes".get_node("%s Change" % formatted_stat) as STAT_CHANGE).value = difference
 
@@ -87,4 +90,6 @@ func _ready() -> void:
 
 func receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
+		await AudioPlayer.stop_track()
+		AudioPlayer.resume_track()
 		queue_free()
