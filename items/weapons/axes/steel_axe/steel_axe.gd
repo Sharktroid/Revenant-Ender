@@ -12,6 +12,6 @@ func _init() -> void:
 	crit = 0
 	max_uses = 25
 	price = 1700
-	weapon_experience = 2
+	weapon_exp = 2
 	_description = "A strong, quality axe."
 	super()

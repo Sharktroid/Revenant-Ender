@@ -12,7 +12,7 @@ _TS_hit =
 _TS_crit =
 _TS_max_uses =
 _TS_price =
-_TS_weapon_experience =
+_TS_weapon_exp =
 _TS_effective_classes =
 _TS_icon = preload("")
 _TS_super()

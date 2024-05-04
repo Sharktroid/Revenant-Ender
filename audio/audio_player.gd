@@ -60,7 +60,6 @@ func stop_track() -> void:
 		_tracks.erase(_track_stack.pop_back())
 
 
-
 func resume_track() -> void:
 	if is_instance_valid(get_current_player()) and music_volume > 0:
 		get_current_player().stream_paused = false
@@ -88,6 +87,11 @@ func fade_out_track(duration: float = 1.0/3) -> void:
 			get_current_player().volume_db = _percent_to_db(new_volume)
 		tween.tween_method(set_volume, music_volume, 0.0, duration)
 		await tween.finished
+
+
+func stop_and_resume_previous_track() -> void:
+	await stop_track()
+	resume_track()
 
 
 func get_current_player() -> AudioStreamPlayer:

@@ -12,7 +12,7 @@ func _init() -> void:
 	crit = 0
 	max_uses = 20
 	price = 1200
-	weapon_experience = 1
+	weapon_exp = 1
 	_description = "A throwing spear that can also attack\nfrom range"
 	super()
 	max_range = 2
