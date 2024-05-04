@@ -10,8 +10,41 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	(%"Exp Bar" as ProgressBar).value = observing_unit.get_current_experience()
-	(%"Exp Value" as Label).text = "%d%%" % observing_unit.get_experience_percent()
+	(%"Exp Bar" as ProgressBar).value = observing_unit.get_current_exp()
+	(%"Exp Value" as Label).text = "%d%%" % observing_unit.get_exp_percent()
+
+
+func play(experience: float) -> void:
+	await display()
+	await get_tree().create_timer(0.25).timeout
+
+	var new_exp: float = (observing_unit.total_exp +
+			experience)
+	var old_level: int = observing_unit.level
+	var tween: Tween = observing_unit.create_tween()
+	var duration: float = experience/Unit.get_exp_to_level(ceilf(Unit.get_level_from_exp(new_exp)))
+	tween.tween_property(observing_unit, "total_exp", new_exp, duration)
+	var exp_audio_player := AudioStreamPlayer.new()
+	exp_audio_player.stream = preload("res://audio/sfx/experience.ogg")
+	add_child(exp_audio_player)
+	exp_audio_player.play()
+	await tween.finished
+	exp_audio_player.stop()
+	exp_audio_player.queue_free()
+	await get_tree().create_timer(0.25).timeout
+	await close()
+	if observing_unit.level > old_level:
+		await AudioPlayer.pause_track()
+		await get_tree().create_timer(0.5).timeout
+		const LVL_UP_PATH = "res://ui/level_up_screen/level_up_screen."
+		const LVL_UP = preload(LVL_UP_PATH + "gd")
+		var level_up_screen := preload(LVL_UP_PATH + "tscn").instantiate() as LVL_UP
+		level_up_screen.unit = observing_unit
+		level_up_screen.old_level = old_level
+		MapController.get_ui().add_child(level_up_screen)
+		await level_up_screen.tree_exited
+		GameController.remove_from_input_stack()
+	queue_free()
 
 
 func display() -> void:
@@ -24,7 +57,7 @@ func close() -> void:
 	var tween: Tween = create_tween()
 	tween.tween_method(_set_visible_ratio, 1.0, 0.0, _TRANSITION_DURATION)
 	await tween.finished
-	queue_free()
+	visible = false
 
 
 func _set_visible_ratio(ratio: float) -> void:

@@ -37,7 +37,7 @@ var hit: int
 var crit: int
 var min_range: int
 var max_range: int
-var weapon_experience: int
+var weapon_exp: int
 var effective_classes: int
 var type: types
 var advantage_types: Array[types]

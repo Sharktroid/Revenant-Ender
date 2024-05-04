@@ -90,6 +90,5 @@ func _ready() -> void:
 
 func receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
-		await AudioPlayer.stop_track()
-		AudioPlayer.resume_track()
+		AudioPlayer.stop_and_resume_previous_track()
 		queue_free()

@@ -158,37 +158,11 @@ func _give_exp(recieving_unit: Unit, distributing_unit: Unit, old_hp: float) -> 
 			var exp_bar := EXP_BAR_SCENE.instantiate() as EXP_BAR
 			exp_bar.observing_unit = recieving_unit
 			MapController.get_ui().add_child(exp_bar)
-			await exp_bar.display()
-			var new_experience: float = (recieving_unit.total_experience +
-					_get_combat_exp(distributing_unit,
+			exp_bar.play(_get_combat_exp(distributing_unit,
 					old_hp - distributing_unit.get_current_health()))
-			await get_tree().create_timer(0.25).timeout
-
-			var old_level: int = recieving_unit.level
-			var tween: Tween = recieving_unit.create_tween()
-			tween.tween_property(recieving_unit, "total_experience", new_experience, 0.5)
-			var exp_audio_player := AudioStreamPlayer.new()
-			exp_audio_player.stream = preload("res://audio/sfx/experience.ogg")
-			add_child(exp_audio_player)
-			exp_audio_player.play()
-			await tween.finished
-			exp_audio_player.stop()
-			exp_audio_player.queue_free()
-			await get_tree().create_timer(0.25).timeout
-			await exp_bar.close()
-			if recieving_unit.level > old_level:
-				AudioPlayer.pause_track()
-				await get_tree().create_timer(0.75).timeout
-				const LEVEL_UP_SCREEN_PATH = "res://ui/level_up_screen/level_up_screen."
-				const LEVEL_UP_SCREEN = preload(LEVEL_UP_SCREEN_PATH + "gd")
-				var level_up_screen := preload(LEVEL_UP_SCREEN_PATH + "tscn").instantiate() as LEVEL_UP_SCREEN
-				level_up_screen.unit = recieving_unit
-				level_up_screen.old_level = old_level
-				MapController.get_ui().add_child(level_up_screen)
-				await level_up_screen.tree_exited
-				GameController.remove_from_input_stack()
+			await exp_bar.tree_exited
 		else:
-			recieving_unit.total_experience += _get_combat_exp(distributing_unit,
+			recieving_unit.total_exp += _get_combat_exp(distributing_unit,
 					old_hp - distributing_unit.get_current_health())
 
 

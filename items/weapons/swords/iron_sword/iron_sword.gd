@@ -12,7 +12,7 @@ func _init() -> void:
 	crit = 0
 	max_uses = 40
 	price = 2200
-	weapon_experience = 1
+	weapon_exp = 1
 	_description = "A cheap, easy to wield sword."
 #	effective_classes =
 	super()

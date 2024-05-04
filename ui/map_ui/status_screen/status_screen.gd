@@ -68,15 +68,15 @@ func _update() -> void:
 	_set_label_text_to_number(%"Current HP" as Label, roundi(observing_unit.get_current_health()))
 	_set_label_text_to_number(%"Max HP" as Label, observing_unit.get_stat(Unit.stats.HIT_POINTS))
 
-	var current_experience: float = observing_unit.get_current_experience()
-	var next_level_experience: float = Unit.get_experience_to_level(observing_unit.level + 1)
-	_set_label_text_to_number(%"Exp Percent" as Label, observing_unit.get_experience_percent())
+	var current_exp: float = observing_unit.get_current_exp()
+	var next_level_exp: float = Unit.get_exp_to_level(observing_unit.level + 1)
+	_set_label_text_to_number(%"Exp Percent" as Label, observing_unit.get_exp_percent())
 	(%"Exp Stat Help" as HelpContainer).help_description = \
-			"%d/%d\n%d to next level\nTotal experience: %d" % [
-				roundi(current_experience),
-				roundi(next_level_experience),
-				roundi(next_level_experience - current_experience),
-				roundi(observing_unit.total_experience)
+			"%d/%d\n%d to next level\nTotal exp: %d" % [
+				roundi(current_exp),
+				roundi(next_level_exp),
+				roundi(next_level_exp - current_exp),
+				roundi(observing_unit.total_exp)
 			]
 
 	var attack_description := %"Attack Description" as HelpContainer

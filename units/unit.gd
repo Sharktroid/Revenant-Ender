@@ -17,12 +17,12 @@ const INDIVIDUAL_EFFORT_VALUE_LIMIT: int = 250
 ## The maximum amount of PVs a unit can have
 const TOTAL_EFFORT_VALUE_LIMIT: float = INDIVIDUAL_EFFORT_VALUE_LIMIT * 4
 ## The experience required to go from level 1 to level 2
-const BASE_EXPERIENCE: int = 100
+const BASE_EXP: int = 100
 ## The multiplier for the extra amount of experience to go from one level to the next
 ## compared to the previous level
-const EXPERIENCE_MULTIPLIER: float = 2
+const EXP_MULTIPLIER: float = 2
 ## The amount of experience for killing an enemy in one round of combat
-const ONE_ROUND_EXP_BASE: float = float(BASE_EXPERIENCE)/3
+const ONE_ROUND_EXP_BASE: float = float(BASE_EXP)/3
 ## The amount of combat experience reserved for when an enemy is killed
 const KILL_EXP_PERCENT: float = 0.25
 
@@ -43,12 +43,12 @@ enum stats {HIT_POINTS, STRENGTH, PIERCE, MAGIC, SKILL, SPEED, LUCK, DEFENSE, AR
 @export var base_level: int = 1
 @export var skills: Array[Skill] = [Follow_Up.new()]
 
-var total_experience: float
+var total_exp: float
 var level: int:
 	set(value):
-		total_experience = Unit.get_experience_from_level(value)
+		total_exp = Unit.get_exp_from_level(value)
 	get:
-		return floori(Unit.get_level_from_experience(total_experience))
+		return floori(Unit.get_level_from_exp(total_exp))
 var personal_values: Dictionary
 var effort_values: Dictionary
 var current_movement: float
@@ -425,24 +425,24 @@ func get_skills() -> Array[Skill]:
 	return skills + unit_class.skills
 
 
-func get_current_experience() -> float:
-	return total_experience - Unit.get_experience_from_level(level)
+func get_current_exp() -> float:
+	return total_exp - Unit.get_exp_from_level(level)
 
 
-static func get_experience_from_level(current_level: float) -> float:
-	return BASE_EXPERIENCE * (EXPERIENCE_MULTIPLIER ** (current_level - 1) - 1)
+static func get_exp_from_level(current_level: float) -> float:
+	return BASE_EXP * (EXP_MULTIPLIER ** (current_level - 1) - 1)
 
 
-static func get_level_from_experience(xp: float) -> float:
-	return log(1 + float(xp)/BASE_EXPERIENCE)/log(EXPERIENCE_MULTIPLIER) + 1
+static func get_level_from_exp(xp: float) -> float:
+	return log(1 + float(xp)/BASE_EXP)/log(EXP_MULTIPLIER) + 1
 
 
-static func get_experience_to_level(current_level: float) -> float:
-	return get_experience_from_level(current_level) - get_experience_from_level(current_level - 1)
+static func get_exp_to_level(current_level: float) -> float:
+	return get_exp_from_level(current_level) - get_exp_from_level(current_level - 1)
 
 
-func get_experience_percent() -> int:
-	return floori((roundf(get_current_experience())/Unit.get_experience_to_level(level + 1)) * 100)
+func get_exp_percent() -> int:
+	return floori((roundf(get_current_exp())/Unit.get_exp_to_level(level + 1)) * 100)
 
 
 func has_skill_attribute(attrib: Skill.all_attributes) -> bool:
