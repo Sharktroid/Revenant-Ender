@@ -29,7 +29,7 @@ func create_main_map_menu() -> void:
 	## Creates map menu.
 	var menu := preload("res://ui/map_ui/map_menus/main_map_menu/" +
 			"main_map_menu.tscn").instantiate() as MapMenu
-	menu.offset = (CursorController.get_screen_position() + Vector2i(16, 0))
+	menu.offset = (CursorController.screen_position + Vector2i(16, 0))
 	MapController.get_ui().add_child(menu)
 	GameController.add_to_input_stack(menu)
 	CursorController.disable()

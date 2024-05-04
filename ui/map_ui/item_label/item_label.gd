@@ -12,7 +12,7 @@ func update() -> void:
 	($Name as Label).text = item.name
 	($"Current Uses" as Label).text = str(item.current_uses)
 	($"Max Uses" as Label).text = str(item.max_uses)
-	help_description = item.get_description()
+	help_description = item.description
 	if item is Weapon:
 		help_table = (item as Weapon).get_stat_table()
 		table_columns = 6

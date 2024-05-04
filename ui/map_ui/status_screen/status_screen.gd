@@ -65,7 +65,7 @@ func _update() -> void:
 	_set_label_text_to_number(%"Current Level" as Label, observing_unit.level)
 	_set_label_text_to_number(%"Max Level" as Label, observing_unit.get_max_level())
 
-	_set_label_text_to_number(%"Current HP" as Label, roundi(observing_unit.get_current_health()))
+	_set_label_text_to_number(%"Current HP" as Label, roundi(observing_unit.current_health))
 	_set_label_text_to_number(%"Max HP" as Label, observing_unit.get_stat(Unit.stats.HIT_POINTS))
 
 	var current_exp: float = observing_unit.get_current_exp()

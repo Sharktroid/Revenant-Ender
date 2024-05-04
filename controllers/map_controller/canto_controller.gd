@@ -27,8 +27,8 @@ func _position_selected() -> void:
 	var _menu_node := load("res://ui/map_ui/map_menus/canto_menu/canto_menu.tscn") as PackedScene
 	var menu := _menu_node.instantiate() as _menu_script
 	menu.connected_unit = _unit
-	menu.offset = CursorController.get_screen_position() \
-			+ MapController.get_map_camera().get_map_offset() + Vector2i(16, -8)
+	menu.offset = (CursorController.screen_position
+			+ MapController.get_map_camera().get_map_offset() + Vector2i(16, -8))
 	menu.caller = self
 	CursorController.disable()
 	MapController.get_ui().add_child(menu)

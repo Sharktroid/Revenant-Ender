@@ -13,5 +13,5 @@ func _init() -> void:
 	max_uses = 30
 	price = 1100
 	weapon_exp = 1
-	_description = "A cheap, easy to wield axe."
+	description = "A cheap, easy to wield axe."
 	super()

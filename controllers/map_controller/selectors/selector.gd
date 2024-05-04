@@ -57,7 +57,7 @@ func _can_select() -> bool:
 
 
 func _within_range() -> bool:
-	var dist: float = Utilities.get_tile_distance(CursorController.get_hovered_unit().position,
+	var dist: float = Utilities.get_tile_distance(CursorController.hovered_unit.position,
 			_selecting_position)
 	return dist >= _minimum_range and dist <= _maximum_range
 

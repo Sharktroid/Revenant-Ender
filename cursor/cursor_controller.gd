@@ -5,18 +5,28 @@ signal moved
 ## Icons that can be displayed.
 enum icons {ATTACK, NONE}
 
+var hovered_unit: Unit:
+	get:
+		if is_instance_valid(hovered_unit) and hovered_unit.position == (map_position as Vector2):
+			return hovered_unit
+		else:
+			return null
 var cursor_visible: bool = true
+var map_position := Vector2i():
+	set = _set_map_position
+var screen_position: Vector2i:
+	set(value):
+		map_position = value + _corner_offset()
+	get:
+		return (map_position - _corner_offset())
 
-var _position: Vector2i
 var _icon_sprite: Sprite2D
-var _hovered_unit: Unit
 var _active: bool = true
 var _delay: int = 0
 var _repeat: bool = false
 
 
 func _init() -> void:
-	set_map_position(Vector2i())
 	set_process_input(true)
 
 
@@ -25,13 +35,13 @@ func _physics_process(_delta: float) -> void:
 		if GameController.controller_type == GameController.controller_types.MOUSE:
 			if (MapController.get_map_camera().get_destination() ==
 					(MapController.get_map_camera().position as Vector2i)):
-				set_map_position(Utilities.round_coords_to_tile(get_viewport().get_mouse_position()
-				+ (_corner_offset() as Vector2)))
+				map_position = Utilities.round_coords_to_tile(get_viewport().get_mouse_position()
+				+ (_corner_offset() as Vector2))
 		else:
 			if _delay <= 0 and _repeat:
 				if (Input.is_action_pressed("left") or Input.is_action_pressed("right")
 						or Input.is_action_pressed("up") or Input.is_action_pressed("down")):
-					var new_pos: Vector2i = get_map_position()
+					var new_pos: Vector2i = map_position
 					var old_pos: Vector2i = new_pos
 					if Input.is_action_pressed("left") and not Input.is_action_pressed("right"):
 						new_pos.x -= 16
@@ -41,8 +51,8 @@ func _physics_process(_delta: float) -> void:
 						new_pos.y -= 16
 					elif Input.is_action_pressed("down"):
 						new_pos.y += 16
-					set_map_position(new_pos)
-					if new_pos != old_pos and get_map_position() != old_pos:
+					map_position = new_pos
+					if new_pos != old_pos and map_position != old_pos:
 						AudioPlayer.play_sound_effect(AudioPlayer.CURSOR)
 					_delay = 4
 				else:
@@ -56,7 +66,7 @@ func _input(event: InputEvent) -> void:
 		await get_tree().create_timer(0.25).timeout
 		_repeat = true
 	if is_active():
-		var new_pos: Vector2i = get_map_position()
+		var new_pos: Vector2i = map_position
 		if event.is_action_pressed("left") and not Input.is_action_pressed("right"):
 			new_pos.x -= 16
 			repeat_callable.call()
@@ -69,7 +79,7 @@ func _input(event: InputEvent) -> void:
 		elif event.is_action_pressed("down"):
 			new_pos.y += 16
 			repeat_callable.call()
-		set_map_position(new_pos)
+		map_position = new_pos
 
 
 func enable() -> void:
@@ -96,37 +106,6 @@ func remove_icon() -> void:
 		_icon_sprite.queue_free()
 
 
-func set_screen_position(new_pos: Vector2i) -> void:
-	set_map_position(new_pos + _corner_offset())
-
-
-func get_screen_position() -> Vector2i:
-	return (_position - _corner_offset())
-
-
-func set_map_position(new_pos: Vector2i) -> void:
-	## Sets cursor position relative to the map
-	var old_pos: Vector2i = _position
-	_position = new_pos.clamp(MapController.map.borders.position,
-			MapController.map.borders.end - Vector2i(16, 16))
-	_position = ((_position - _corner_offset()).
-			clamp(Vector2i(), Utilities.get_screen_size() - Vector2i(16, 16)) + _corner_offset())
-	var map_move := Vector2i()
-	for i: int in 2:
-		if get_screen_position()[i] < 16:
-			map_move[i] -= 16
-		elif get_screen_position()[i] >= Utilities.get_screen_size()[i] - 16:
-			map_move[i] += 16
-	if map_move != Vector2i():
-		MapController.get_map_camera().move(map_move)
-	if _position != old_pos:
-		moved.emit()
-
-
-func get_map_position() -> Vector2i:
-	return _position
-
-
 func get_area() -> Area2D:
 	## Returns the cursor area.
 	if MapController.map.has_node("Map Layer/Cursor Area"):
@@ -135,19 +114,27 @@ func get_area() -> Area2D:
 		return Area2D.new()
 
 
-## Gets the unit under the cursor. Returns null if one is not there.
-func get_hovered_unit() -> Unit:
-	if is_instance_valid(_hovered_unit) and _hovered_unit.position == (get_map_position() as Vector2):
-		return _hovered_unit
-	return null
-
-
-func set_hovered_unit(new_hovered_unit: Unit) -> void:
-	_hovered_unit = new_hovered_unit
-
-
 func is_active() -> bool:
 	return _active
+
+
+func _set_map_position(new_pos: Vector2i) -> void:
+	## Sets cursor position relative to the map
+	var old_pos: Vector2i = map_position
+	map_position = new_pos.clamp(MapController.map.borders.position,
+			MapController.map.borders.end - Vector2i(16, 16))
+	map_position = ((map_position - _corner_offset()).
+			clamp(Vector2i(), Utilities.get_screen_size() - Vector2i(16, 16)) + _corner_offset())
+	var map_move := Vector2i()
+	for i: int in 2:
+		if screen_position[i] < 16:
+			map_move[i] -= 16
+		elif screen_position[i] >= Utilities.get_screen_size()[i] - 16:
+			map_move[i] += 16
+	if map_move != Vector2i():
+		MapController.get_map_camera().move(map_move)
+	if map_position != old_pos:
+		moved.emit()
 
 
 func _set_active(active: bool) -> void:

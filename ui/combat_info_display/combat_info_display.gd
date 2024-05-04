@@ -98,7 +98,7 @@ func _update() -> void:
 		(get_node(format.call("Weapon Icon")) as TextureRect).texture = weapon.icon
 		(get_node(format.call("Weapon Name")) as Label).text = weapon.name
 
-		(get_node(format.call("HP")) as Label).text = str(current_unit.get_current_health())
+		(get_node(format.call("HP")) as Label).text = str(current_unit.current_health)
 
 		if distance in weapon.get_range():
 			(get_node(format.call("Damage")) as Label).text = \
@@ -113,7 +113,7 @@ func _update() -> void:
 			for node_name: String in ["Damage", "Hit", "Crit Damage", "Crit"] as Array[String]:
 				(get_node(format.call(node_name)) as Label).text = "--"
 
-		if current_unit.get_faction().color == Faction.colors.RED:
+		if current_unit.faction.color == Faction.colors.RED:
 			var shader_material: ShaderMaterial = \
 					(get_node(format.call("Unit Panel")) as PanelContainer).material
 			var old_vectors: Array[Color] = []

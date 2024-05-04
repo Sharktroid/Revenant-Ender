@@ -7,11 +7,11 @@ func _position_selected() -> void:
 		const INFO_DISPLAY = preload(INFO_DISPLAY_PATH + "gd")
 		const INFO_DISPLAY_SCENE: PackedScene = preload(INFO_DISPLAY_PATH + "tscn")
 		var info_display := INFO_DISPLAY_SCENE.instantiate() as INFO_DISPLAY
-		if (CursorController.get_screen_position().x + MapController.get_map_camera().get_map_offset().x <
+		if (CursorController.screen_position.x + MapController.get_map_camera().get_map_offset().x <
 				(Utilities.get_screen_size().x as float / 2)):
 			info_display.position.x = Utilities.get_screen_size().x - info_display.size.x
 		info_display.top_unit = unit
-		var bottom_unit: Unit = CursorController.get_hovered_unit()
+		var bottom_unit: Unit = CursorController.hovered_unit
 		info_display.bottom_unit = bottom_unit
 		info_display.distance = roundi(Utilities.get_tile_distance(_selecting_position,
 				bottom_unit.position))
@@ -21,5 +21,5 @@ func _position_selected() -> void:
 		CursorController.enable()
 		if proceed:
 			info_display.queue_free()
-			emit_signal.call_deferred("selected", CursorController.get_hovered_unit())
+			emit_signal.call_deferred("selected", CursorController.hovered_unit)
 			close()

@@ -61,14 +61,14 @@ func update() -> void:
 		Swap = false,
 		Items = false,
 	}
-	if CursorController.get_map_position() in movement_tiles:
+	if CursorController.map_position in movement_tiles:
 		enabled_items.Wait = (movement > 0 and pos in movement_tiles)
 		enabled_items.Drop = connected_unit.traveler != null
 		enabled_items.Items = connected_unit.items.size() > 0
 		# Gets all adjacent units
 		for unit: Unit in MapController.map.get_units():
 			if unit != connected_unit and unit.visible == true:
-				var cursor_pos: Vector2i = CursorController.get_map_position()
+				var cursor_pos: Vector2i = CursorController.map_position
 				if Utilities.get_tile_distance(cursor_pos, unit.get_position()) == 0 \
 						and not unit == connected_unit:
 					# Units occupying the same tile
@@ -92,8 +92,8 @@ func update() -> void:
 				if _can_attack(unit):
 					enabled_items.Attack = true
 	else:
-		if (CursorController.get_hovered_unit()
-				and _can_attack(CursorController.get_hovered_unit())):
+		if (CursorController.hovered_unit
+				and _can_attack(CursorController.hovered_unit)):
 			enabled_items.Attack = true
 	for node: MapMenuItem in _get_item_nodes():
 		node.visible = enabled_items[node.name]
@@ -279,8 +279,8 @@ func _select_map(selector: Selector, tiles_node: Node2D, selected: Callable,
 func _can_attack(unit: Unit) -> bool:
 	var pos: Vector2i = connected_unit.get_path_last_pos()
 	var current_tiles: Array[Vector2i] = connected_unit.get_current_attack_tiles(pos, true)
-	var faction: Faction = unit.get_faction()
-	var diplo_stance := connected_unit.get_faction().get_diplomacy_stance(faction)
+	var faction: Faction = unit.faction
+	var diplo_stance := connected_unit.faction.get_diplomacy_stance(faction)
 	if diplo_stance == Faction.diplo_stances.ENEMY and Vector2i(unit.position) in current_tiles:
 		return true
 	return false

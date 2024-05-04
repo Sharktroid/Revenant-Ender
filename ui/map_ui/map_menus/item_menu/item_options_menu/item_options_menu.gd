@@ -6,9 +6,9 @@ var unit: Unit
 func _enter_tree() -> void:
 	if not item is Weapon:
 		($Items/Equip as MapMenuItem).visible = false
-	if not item.can_use():
+	if not item.can_use:
 		($Items/Use as MapMenuItem).visible = false
-	if not item.can_drop():
+	if not item.droppable:
 		($Items/Drop as MapMenuItem).visible = false
 	reset_size.call_deferred()
 	super()

@@ -17,11 +17,11 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if is_instance_valid(unit):
-		_hp_bar.value = unit.get_current_health()
-		(%"HP Label" as Label).text = str(_hp_bar.value)
+		_hp_bar.value = unit.current_health
+		(%"HP Label" as Label).text = str(roundi(_hp_bar.value))
 		var top_color: Color
 		var bottom_color: Color
-		match unit.get_faction().color:
+		match unit.faction.color:
 			Faction.colors.BLUE:
 				top_color = Color("47B4D8")
 				bottom_color = Color("27647A")

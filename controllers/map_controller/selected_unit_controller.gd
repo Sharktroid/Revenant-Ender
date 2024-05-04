@@ -10,7 +10,7 @@ func _init(connected_unit: Unit) -> void:
 	name = "Selected Unit Controller"
 	_unit.set_animation(Unit.animations.MOVING_DOWN)
 	_unit.selected = true
-	_unit.update_path(CursorController.get_map_position())
+	_unit.update_path(CursorController.map_position)
 	_unit.refresh_tiles()
 	_unit.tree_exited.connect(_on_unit_death)
 	_ghost_unit = GhostUnit.new(_unit)
@@ -53,21 +53,21 @@ func close() -> void:
 	queue_free()
 	_ghost_unit.queue_free()
 	MapController.selecting = false
-	if (CursorController.get_hovered_unit() and CursorController.get_hovered_unit() != _unit
-			and not CursorController.get_hovered_unit().dead):
-		CursorController.get_hovered_unit().display_movement_tiles()
+	if (CursorController.hovered_unit and CursorController.hovered_unit != _unit
+			and not CursorController.hovered_unit.dead):
+		CursorController.hovered_unit.display_movement_tiles()
 	_unit.deselect.call_deferred()
 
 
 func _on_cursor_moved() -> void:
 	if self == GameController.get_current_input_node():
-		_unit.update_path(CursorController.get_map_position())
+		_unit.update_path(CursorController.map_position)
 		_unit.show_path()
 
 
 func _position_selected() -> void:
 	# Creates menu if cursor in _unit's tiles and is same faction as _unit.
-	if _unit.get_faction().name == MapController.map.get_current_faction().name:
+	if _unit.faction.name == MapController.map.get_current_faction().name:
 		AudioPlayer.play_sound_effect(AudioPlayer.MENU_SELECT)
 		_create_unit_menu()
 	else:
@@ -81,7 +81,7 @@ func _create_unit_menu() -> void:
 	var _menu_node := load("res://ui/map_ui/map_menus/unit_menu/unit_menu.tscn") as PackedScene
 	var menu := _menu_node.instantiate() as _menu_script
 	menu.connected_unit = _unit
-	menu.offset = CursorController.get_screen_position() + Vector2i(16, 0)
+	menu.offset = CursorController.screen_position + Vector2i(16, 0)
 	menu.caller = self
 	CursorController.disable()
 	MapController.get_ui().add_child(menu)

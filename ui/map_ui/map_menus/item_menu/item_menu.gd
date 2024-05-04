@@ -47,5 +47,5 @@ func _update() -> void:
 			const MENU_ITEM_NODE = preload("res://ui/map_ui/map_menus/item_menu" +
 					"/item_menu_item/item_menu_item.gd")
 			var item_node := MENU_ITEM_NODE.new(item)
-			item_node.help_description = item.get_description()
+			item_node.help_description = item.description
 			$Items.add_child(item_node)

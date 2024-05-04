@@ -32,8 +32,8 @@ func select_item(item: MapMenuItem) -> void:
 
 		"Print Cursor Position":
 			print("Position relative to UI: %s\nPosition relative to map: %s" % [
-				CursorController.get_screen_position(),
-				CursorController.get_map_position()
+				CursorController.screen_position,
+				CursorController.map_position
 			])
 
 		_: push_error("%s is not a valid menu item" % item)

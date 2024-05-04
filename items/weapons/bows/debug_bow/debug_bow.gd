@@ -13,6 +13,6 @@ func _init() -> void:
 	max_uses = 40
 	price = 2200
 	weapon_exp = 1
-	_description = "A cheap, easy to wield bow."
+	description = "A cheap, easy to wield bow."
 #	effective_classes
 	super()

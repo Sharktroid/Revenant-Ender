@@ -74,6 +74,20 @@ var traveler: Unit:
 		else:
 			_traveler_animation_player.play("RESET")
 var personal_authority: int
+var current_health: float:
+	set(health):
+		current_health = clampf(health, 0, get_stat(stats.HIT_POINTS))
+		if not Engine.is_editor_hint():
+			const HEALTH_BAR = preload("res://units/health_bar/health_bar.gd")
+			($"Health Bar" as HEALTH_BAR).update()
+var faction: Faction:
+	get:
+		if _get_map().all_factions.size() > 0:
+			return _get_map().all_factions[faction_id]
+		else:
+			return Faction.new("INVALID", Faction.colors.BLUE, Faction.player_types.HUMAN, null)
+	set(new_faction):
+		faction_id = _get_map().all_factions.find(new_faction)
 
 
 var _map: Map
@@ -82,7 +96,6 @@ var _traveler_animation_player: AnimationPlayer
 var _portrait: Portrait
 var _path: Array[Vector2i] # Path the unit will follow when moving.
 var _current_statuses: Array[statuses]
-var _current_health: float
 static var _movement_speed: float = 16 # Speed unit moves across the map in tiles/second.
 # Dictionaries that convert faction/variant into animation modifier.
 var _movement_tiles_node: Node2D
@@ -156,7 +169,7 @@ func _enter_tree() -> void:
 	texture = unit_class.map_sprite
 	material = material.duplicate() as Material
 	current_movement = get_stat(stats.MOVEMENT)
-	set_current_health(get_stat(stats.HIT_POINTS))
+	current_health = get_stat(stats.HIT_POINTS)
 	add_to_group("units")
 	_update_palette()
 	if _animation_player.current_animation == '':
@@ -237,25 +250,6 @@ func get_damage(defender: Unit) -> int:
 func get_crit_damage(defender: Unit) -> int:
 	return maxi(0, get_true_attack(defender) * 2 -
 			defender.get_current_defence(get_current_weapon().get_damage_type()))
-
-
-## Sets units current health.
-func set_current_health(health: float, does_die: bool = true) -> void:
-	_current_health = clampf(health, 0, get_stat(stats.HIT_POINTS))
-	if not Engine.is_editor_hint():
-		const HEALTH_BAR = preload("res://units/health_bar/health_bar.gd")
-		($"Health Bar" as HEALTH_BAR).update()
-	if get_current_health() <= 0 and does_die:
-		die()
-
-
-func get_current_health() -> float:
-	return _current_health
-
-
-## Increases "current_health" by "added_health".
-func add_current_health(added_health: float, does_die: bool = true) -> void:
-	set_current_health(get_current_health() + added_health, does_die)
 
 
 func set_animation(animation: animations) -> void:
@@ -484,7 +478,7 @@ func deselect() -> void:
 	set_animation(animations.IDLE)
 	selected = false
 	remove_path()
-	if CursorController.get_hovered_unit() == self:
+	if CursorController.hovered_unit == self:
 		refresh_tiles()
 	else:
 		hide_movement_tiles()
@@ -519,7 +513,7 @@ func get_movement_tiles(custom_movement: int = floori(current_movement)) -> Arra
 		for x: Vector2i in h:
 			var movement_type: UnitClass.movement_types = unit_class.movement_type
 			var cost: float = _get_map().get_path_cost(movement_type,
-					_get_map().get_movement_path(movement_type, position, x, get_faction()))
+					_get_map().get_movement_path(movement_type, position, x, faction))
 			if cost <= current_movement:
 				if not cost in movement_tiles_dict.keys():
 					movement_tiles_dict[cost] = []
@@ -663,18 +657,6 @@ func get_unit_path() -> Array[Vector2i]:
 		return _path
 
 
-func get_faction() -> Faction:
-	if _get_map().all_factions.size() > 0:
-		return _get_map().all_factions[faction_id]
-	else:
-		return Faction.new("INVALID", Faction.colors.BLUE, Faction.player_types.HUMAN, null)
-
-
-## Changes unit's faction.
-func set_faction(new_faction: Faction) -> void:
-	faction_id = _get_map().all_factions.find(new_faction)
-
-
 ## Gets the path of the unit.
 func update_path(destination: Vector2i) -> void:
 	if _path.size() == 0:
@@ -711,7 +693,7 @@ func update_path(destination: Vector2i) -> void:
 				_path.append(destination)
 			else:
 				var new_path: Array[Vector2i] = _get_map().get_movement_path(
-						unit_class.movement_type, position, destination, get_faction())
+						unit_class.movement_type, position, destination, faction)
 				_path = new_path
 
 
@@ -773,7 +755,7 @@ func remove_path() -> void:
 
 
 func is_friend(other_unit: Unit) -> bool:
-	return get_faction().is_friend(other_unit.get_faction())
+	return faction.is_friend(other_unit.faction)
 
 
 func equip_weapon(weapon: Weapon) -> void:
@@ -791,8 +773,8 @@ func drop(item: Item) -> void:
 
 
 func _update_palette() -> void:
-	if get_faction():
-		_set_palette(get_faction().color)
+	if faction:
+		_set_palette(faction.color)
 
 
 func _render_status() -> void:
@@ -831,12 +813,12 @@ func _on_area2d_area_entered(area: Area2D) -> void:
 	if area == CursorController.get_area() and visible:
 		var selecting: bool = MapController.selecting
 		var can_be_selected: bool = true
-		if is_instance_valid(CursorController.get_hovered_unit()):
-			var hovered_unit_selected: bool = CursorController.get_hovered_unit().selected
+		if is_instance_valid(CursorController.hovered_unit):
+			var hovered_unit_selected: bool = CursorController.hovered_unit.selected
 			can_be_selected = not hovered_unit_selected or selecting
 		if can_be_selected and not(selected or selecting or waiting or dead):
 			display_movement_tiles()
-		CursorController.set_hovered_unit(self)
+		CursorController.hovered_unit = self
 
 
 func _get_personal_value_multiplier(stat: stats) -> float:

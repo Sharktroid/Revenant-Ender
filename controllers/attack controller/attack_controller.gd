@@ -42,8 +42,8 @@ func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[CombatStage
 	defender.get_parent().add_child(defender_animation)
 	attacker.visible = false
 	defender.visible = false
-	var attacker_starting_hp: float = attacker.get_current_health()
-	var defender_starting_hp: float = defender.get_current_health()
+	var attacker_starting_hp: float = attacker.current_health
+	var defender_starting_hp: float = defender.current_health
 	var get_timer: Callable = func() -> SceneTreeTimer:
 		return get_tree().create_timer(DELAY)
 	for combat_round: CombatStage in attack_queue:
@@ -54,14 +54,14 @@ func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[CombatStage
 			defender: animation = defender_animation
 		await _map_attack(combat_round.attacker, combat_round.defender, animation,
 				combat_round.attack_type)
-		if attacker.get_current_health() <= 0 or defender.get_current_health() <= 0:
+		if attacker.current_health <= 0 or defender.current_health <= 0:
 			break
 	await get_timer.call().timeout
 
 	hp_bar.queue_free()
-	if defender.get_current_health() <= 0:
+	if defender.current_health <= 0:
 		await _kill(defender, defender_animation)
-	if attacker.get_current_health() <= 0:
+	if attacker.current_health <= 0:
 		await _kill(attacker, attacker_animation)
 
 	await _give_exp(attacker, defender, defender_starting_hp)
@@ -98,7 +98,7 @@ func _map_attack(attacker: Unit, defender: Unit, attacker_animation: MapAttack,
 		if attack_type == attack_types.CRIT:
 			hit_a = HIT_A_CRIT
 			damage = attacker.get_crit_damage(defender)
-		var old_health: int = ceili(defender.get_current_health())
+		var old_health: int = ceili(defender.current_health)
 		var new_health: int = maxi(floori(old_health - damage), 0)
 		if new_health <= 0:
 			hit_b = HIT_B_FATAL
@@ -110,8 +110,7 @@ func _map_attack(attacker: Unit, defender: Unit, attacker_animation: MapAttack,
 		var tween: Tween = defender.create_tween()
 		tween.set_parallel()
 		tween.tween_interval(0.1)
-		tween.tween_method(defender.set_current_health.bind(false), old_health,
-				new_health, duration)
+		tween.tween_property(defender, "current_health", new_health, duration)
 		AudioPlayer.play_sound_effect(hit_a)
 		await get_tree().create_timer(HIT_B_DELAY).timeout
 		await AudioPlayer.play_sound_effect(hit_b)
@@ -154,16 +153,16 @@ func _give_exp(recieving_unit: Unit, distributing_unit: Unit, old_hp: float) -> 
 		const EXP_BAR_PATH: String = "res://ui/exp_bar/exp_bar."
 		const EXP_BAR_SCENE: PackedScene = preload(EXP_BAR_PATH + "tscn")
 		const EXP_BAR = preload(EXP_BAR_PATH + "gd")
-		if recieving_unit.get_faction().player_type == Faction.player_types.HUMAN:
+		if recieving_unit.faction.player_type == Faction.player_types.HUMAN:
 			var exp_bar := EXP_BAR_SCENE.instantiate() as EXP_BAR
 			exp_bar.observing_unit = recieving_unit
 			MapController.get_ui().add_child(exp_bar)
 			exp_bar.play(_get_combat_exp(distributing_unit,
-					old_hp - distributing_unit.get_current_health()))
+					old_hp - distributing_unit.current_health))
 			await exp_bar.tree_exited
 		else:
 			recieving_unit.total_exp += _get_combat_exp(distributing_unit,
-					old_hp - distributing_unit.get_current_health())
+					old_hp - distributing_unit.current_health)
 
 
 class CombatStage extends RefCounted:
