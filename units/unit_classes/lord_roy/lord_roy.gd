@@ -8,7 +8,7 @@ func _init() -> void:
 	name = "Lord"
 	description = "A noble attached to a ruling house. Has great potential."
 	max_level = 20
-	movement_type = movement_types.ADVANCED_FOOT
+	movement_type = movementTypes.ADVANCED_FOOT
 
 	base_weapon_levels[Weapon.types.SWORD] = Weapon.ranks.D
 	max_weapon_levels[Weapon.types.SWORD] = Weapon.ranks.A

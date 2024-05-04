@@ -7,7 +7,7 @@ extends MountedUnit
 func _init() -> void:
 	name = "Social Knight"
 	max_level = 20
-	movement_type = movement_types.HEAVY_CAVALRY
+	movement_type = movementTypes.HEAVY_CAVALRY
 	weight_modifier = 25
 	description = "Mounted knights with superior movement."
 

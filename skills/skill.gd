@@ -1,12 +1,12 @@
 class_name Skill
 extends Resource
 
-enum all_variants {ALPHA, BETA, GAMMA, OMEGA}
-enum all_attributes {
+enum allVariants {ALPHA, BETA, GAMMA, OMEGA}
+enum allAttributes {
 	FOLLOW_UP,
 	CANTO,
 }
 
-var attributes: Array[all_attributes]
-var variants: Array[all_variants]
-var current_variant: all_variants
+var attributes: Array[allAttributes]
+var variants: Array[allVariants]
+var current_variant: allVariants

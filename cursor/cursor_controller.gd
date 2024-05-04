@@ -32,7 +32,7 @@ func _init() -> void:
 
 func _physics_process(_delta: float) -> void:
 	if is_active():
-		if GameController.controller_type == GameController.controller_types.MOUSE:
+		if GameController.controller_type == GameController.controllerTypes.MOUSE:
 			if (MapController.get_map_camera().get_destination() ==
 					(MapController.get_map_camera().position as Vector2i)):
 				map_position = Utilities.round_coords_to_tile(get_viewport().get_mouse_position()

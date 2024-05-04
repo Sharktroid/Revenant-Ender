@@ -24,7 +24,7 @@ enum ranks {
 	E = 1,
 	DISABLED = 0
 }
-enum damage_types {
+enum damageTypes {
 	PHYSICAL,
 	RANGED,
 	MAGIC
@@ -43,22 +43,22 @@ var type: types
 var advantage_types: Array[types]
 var disadvantage_types: Array[types]
 
-var _damage_type: damage_types
-var _damage_type_ranged: damage_types
+var _damage_type: damageTypes
+var _damage_type_ranged: damageTypes
 
 func _init() -> void:
 	if not _damage_type:
 		match type:
-			types.SWORD, types.AXE, types.KNIFE, types.SPEAR: _damage_type = damage_types.PHYSICAL
-			types.BOW: _damage_type = damage_types.RANGED
+			types.SWORD, types.AXE, types.KNIFE, types.SPEAR: _damage_type = damageTypes.PHYSICAL
+			types.BOW: _damage_type = damageTypes.RANGED
 			types.COBALT_STAFF, types.CRIMSON_STAFF, types.LIGHT, types.DARK, \
-			types.ANIMA: _damage_type = damage_types.MAGIC
+			types.ANIMA: _damage_type = damageTypes.MAGIC
 	if not _damage_type_ranged:
 		_damage_type_ranged = _damage_type
 	super()
 
 
-func get_damage_type() -> damage_types:
+func get_damage_type() -> damageTypes:
 	return _damage_type
 
 

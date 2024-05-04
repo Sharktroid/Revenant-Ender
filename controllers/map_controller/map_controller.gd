@@ -3,14 +3,14 @@ extends Control
 signal unit_selected
 
 const _PHASE_DISPLAY_PATH: String = "res://maps/phase_display."
-const _PHASE_DISPLAY = preload(_PHASE_DISPLAY_PATH + "gd")
+const _PhaseDisplay = preload(_PHASE_DISPLAY_PATH + "gd")
 
 @export var map_node: PackedScene
 
 var selecting: bool = false # Whether a unit is currently selected.
 var map := Map.new()
 
-var _phase_diplay: _PHASE_DISPLAY
+var _phase_diplay: _PhaseDisplay
 
 func receive_input(event: InputEvent) -> void:
 	if not event is InputEventMouseMotion:
@@ -57,7 +57,7 @@ func get_dialogue() -> Dialogue:
 func display_turn_change(faction: Faction) -> void:
 	GameController.add_to_input_stack(self)
 	const PHASE_DISPLAY_SCENE: PackedScene = preload(_PHASE_DISPLAY_PATH + "tscn")
-	_phase_diplay = PHASE_DISPLAY_SCENE.instantiate() as _PHASE_DISPLAY
+	_phase_diplay = PHASE_DISPLAY_SCENE.instantiate() as _PhaseDisplay
 	get_ui().add_child(_phase_diplay)
 	_phase_diplay.play(faction)
 	await _phase_diplay.tree_exited

@@ -6,6 +6,5 @@ func update() -> void:
 
 
 func _wait() -> void:
-	const CANTO_CONTROLLER = preload("res://controllers/map_controller/canto_controller.gd")
-	(caller as CANTO_CONTROLLER).remove_tiles()
+	(caller as CantoController).remove_tiles()
 	super()

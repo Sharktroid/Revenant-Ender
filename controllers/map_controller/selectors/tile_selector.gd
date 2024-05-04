@@ -6,7 +6,7 @@ signal selected(position: Vector2i)
 
 func _position_selected() -> void:
 	if _can_select():
-		emit_signal("selected", CursorController.map_position)
+		selected.emit(CursorController.map_position)
 		close()
 
 
@@ -21,5 +21,5 @@ func _within_range() -> bool:
 
 
 func _canceled() -> void:
-	emit_signal("selected", null)
+	selected.emit(null)
 	super()

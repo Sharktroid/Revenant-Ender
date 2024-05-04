@@ -7,7 +7,7 @@ extends UnitClass
 func _init() -> void:
 	name = "Hoplite"
 	max_level = 20
-	movement_type = movement_types.ARMOR
+	movement_type = movementTypes.ARMOR
 	weight_modifier = 5
 	description = "Heavily armored knights with stout defense, but low speed."
 

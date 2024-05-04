@@ -8,34 +8,34 @@ var value: int = 0:
 		visible = false
 		if value != 0:
 			sign_label.visible = false
-			const ARROW = preload("res://ui/level_up_screen/arrow.gd")
-			var arrow := value_label.get_node("Control/Arrow") as ARROW
+			const Arrow = preload("res://ui/level_up_screen/arrow.gd")
+			var arrow := value_label.get_node("Control/Arrow") as Arrow
 			await get_tree().create_timer(1.0/60).timeout
 			visible = true
 			arrow.position.y = -1
-			arrow.set_shape(ARROW.shapes.SQUISHED)
+			arrow.set_shape(Arrow.shapes.SQUISHED)
 			await get_tree().create_timer(1.0/60).timeout
 			arrow.position.y = -4
-			arrow.set_shape(ARROW.shapes.DEFAULT)
+			arrow.set_shape(Arrow.shapes.DEFAULT)
 			await get_tree().create_timer(1.0/60).timeout
 			arrow.position.y = -10
-			arrow.set_shape(ARROW.shapes.TALL)
+			arrow.set_shape(Arrow.shapes.TALL)
 			await get_tree().create_timer(1.0/60).timeout
 			arrow.position.y -= 3
 			await get_tree().create_timer(2.0/60).timeout
-			arrow.set_shape(ARROW.shapes.DEFAULT)
+			arrow.set_shape(Arrow.shapes.DEFAULT)
 			await get_tree().create_timer(2.0/60).timeout
-			arrow.set_shape(ARROW.shapes.SQUISHED)
+			arrow.set_shape(Arrow.shapes.SQUISHED)
 			await get_tree().create_timer(3.0/60).timeout
-			arrow.set_shape(ARROW.shapes.DEFAULT)
+			arrow.set_shape(Arrow.shapes.DEFAULT)
 			await get_tree().create_timer(2.0/60).timeout
 			arrow.position.y += 2
 			await get_tree().create_timer(2.0/60).timeout
 			arrow.position.y += 3
-			arrow.set_shape(ARROW.shapes.SLIGHT_SQUISHED)
+			arrow.set_shape(Arrow.shapes.SLIGHT_SQUISHED)
 			await get_tree().create_timer(1.0/60).timeout
 			arrow.position.y -= 2
-			arrow.set_shape(ARROW.shapes.DEFAULT)
+			arrow.set_shape(Arrow.shapes.DEFAULT)
 			sign_label.visible = true
 			if value > 0:
 				sign_label.text = "+"

@@ -1,7 +1,7 @@
 @tool
 extends PanelContainer
 
-signal complete(proceed: bool)
+signal completed(proceed: bool)
 
 const blue_colors: Array[Color] = [
 	Color("5294D6"),
@@ -59,10 +59,10 @@ func receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
 		AudioPlayer.play_sound_effect(AudioPlayer.BATTLE_SELECT)
 		queue_free()
-		emit_signal("complete", true)
+		completed.emit(true)
 	elif event.is_action_pressed("ui_cancel"):
 		top_unit.equip_weapon(_old_weapon)
-		emit_signal("complete", false)
+		completed.emit(false)
 		queue_free()
 	elif event.is_action_pressed("left") and not Input.is_action_pressed("right"):
 		_weapon_index -= 1

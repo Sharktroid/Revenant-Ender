@@ -6,7 +6,7 @@ signal selected(unit: Unit)
 
 func _position_selected() -> void:
 	if _can_select():
-		emit_signal("selected", CursorController.hovered_unit)
+		selected.emit(CursorController.hovered_unit)
 		close()
 
 
@@ -24,5 +24,5 @@ func _within_range() -> bool:
 
 
 func _canceled() -> void:
-	emit_signal("selected", null)
+	selected.emit(null)
 	super()

@@ -14,9 +14,8 @@ func update() -> void:
 	var item_labels: Array[Node] = []
 	for item: Item in observing_unit.items:
 		const ITEM_LABEL_PATH: String = "res://ui/map_ui/item_label/item_label"
-		const ITEM_LABEL = preload(ITEM_LABEL_PATH + '.gd')
 		const ITEM_LABEL_NODE: PackedScene = preload(ITEM_LABEL_PATH + '.tscn')
-		var item_label := ITEM_LABEL_NODE.instantiate() as ITEM_LABEL
+		var item_label := ITEM_LABEL_NODE.instantiate() as ItemLabel
 		item_label.item = item
 		item_label.set_equip_status(observing_unit)
 		$"Item Panel/Item Label Container".add_child(item_label)

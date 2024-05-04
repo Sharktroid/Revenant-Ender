@@ -1,10 +1,9 @@
 class_name MapAttack
 extends Node2D
 
-signal deal_damage
-signal complete
+signal completed
 signal arrived
-signal proceed
+signal damage_dealt
 
 var target_tile: Vector2i
 var _combat_sprite: Unit
@@ -39,10 +38,10 @@ func play_animation() -> void:
 	var movement: Vector2 = (Vector2(target_tile) - position).normalized() * 4
 	_combat_sprite.sprite_animated = true
 	await _move(movement)
-	emit_signal("deal_damage")
-	await proceed
+	arrived.emit()
+	await damage_dealt
 	await _move(-movement)
-	emit_signal("complete")
+	completed.emit()
 	_combat_sprite.sprite_animated = false
 
 
@@ -52,5 +51,4 @@ func _move(movement: Vector2) -> void:
 	tween.tween_method(func(new_pos: Vector2) -> void: position = new_pos.round(),
 			position, position + movement, 8)
 	await tween.finished
-	emit_signal("arrived")
 

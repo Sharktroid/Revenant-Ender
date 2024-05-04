@@ -1,17 +1,17 @@
 extends Node
 
-const _RECEIVER = preload("res://controllers/game_controller/receive_input_node.gd")
+const _Receiver = preload("res://controllers/game_controller/receive_input_node.gd")
 
-enum controller_types {MOUSE, KEYBOARD}
+enum controllerTypes {MOUSE, KEYBOARD}
 ## Type of controller being used (keyboard, mouse, or controller)
-var controller_type: controller_types
+var controller_type: controllerTypes
 
 var _input_stack: Array[Node] = []
 
 
 func _init() -> void:
 	seed(0) # Sets RNG to be deterministic
-	controller_type = controller_types.MOUSE
+	controller_type = controllerTypes.MOUSE
 
 
 func _physics_process(_delta: float) -> void:
@@ -25,7 +25,7 @@ func _input(event: InputEvent) -> void:
 	elif event is InputEventKey:
 		controller_type = controller_types.KEYBOARD
 
-	if (Utilities.get_debug_constant("print_input_reciever")):
+	if Utilities.get_debug_constant("print_input_reciever"):
 		print(get_current_input_node())
 	get_current_input_node().receive_input(event)
 
@@ -45,13 +45,13 @@ func remove_from_input_stack() -> void:
 	_input_stack.remove_at(_input_stack.size() - 1)
 
 
-func get_current_input_node() -> _RECEIVER:
+func get_current_input_node() -> _Receiver:
 	if (_input_stack.size() == 0):
-		return _RECEIVER.new()
+		return _Receiver.new()
 	while not is_instance_valid(_input_stack[-1]):
 		remove_from_input_stack()
 		if (_input_stack.size() == 0):
-			return _RECEIVER.new()
+			return _Receiver.new()
 	return _input_stack[-1]
 
 

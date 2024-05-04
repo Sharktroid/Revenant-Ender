@@ -1,6 +1,6 @@
 extends Node
 
-enum attack_types {HIT, MISS, CRIT}
+enum attackTypes {HIT, MISS, CRIT}
 
 const DELAY: float = 0.25
 const HEALTH_SCROLL_DURATION: float = 0.5
@@ -16,7 +16,7 @@ func combat(attacker: Unit, defender: Unit) -> void:
 				roundi(Utilities.get_tile_distance(attacker.position, defender.position))
 		if distance in defender.get_current_weapon().get_range():
 			attack_queue.append(CombatStage.new(defender, attacker))
-	if (attacker.has_skill_attribute(Skill.all_attributes.FOLLOW_UP)
+	if (attacker.has_skill_attribute(Skill.allAttributes.FOLLOW_UP)
 			and attacker.get_attack_speed() >= 5 + defender.get_attack_speed()):
 		attack_queue.append(CombatStage.new(attacker, defender))
 	await _map_combat(attacker, defender, attack_queue)
@@ -31,8 +31,8 @@ func receive_input(_event: InputEvent) -> void:
 func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[CombatStage]) -> void:
 	const MAP_BATTLE_HP_BAR_PATH: String = \
 			"res://controllers/attack controller/map_battle_info_display."
-	const MAP_BATTLE_HP_BAR = preload(MAP_BATTLE_HP_BAR_PATH + "gd")
-	var hp_bar := preload(MAP_BATTLE_HP_BAR_PATH + "tscn").instantiate() as MAP_BATTLE_HP_BAR
+	const MapBattleHpBar = preload(MAP_BATTLE_HP_BAR_PATH + "gd")
+	var hp_bar := preload(MAP_BATTLE_HP_BAR_PATH + "tscn").instantiate() as MapBattleHpBar
 	hp_bar.attacker = attacker
 	hp_bar.defender = defender
 	MapController.get_ui().add_child(hp_bar)
@@ -80,10 +80,10 @@ func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[CombatStage
 
 
 func _map_attack(attacker: Unit, defender: Unit, attacker_animation: MapAttack,
-		attack_type: attack_types) -> void:
+		attack_type: attackTypes) -> void:
 	attacker_animation.play_animation()
-	await attacker_animation.deal_damage
-	if attack_type == attack_types.MISS:
+	await attacker_animation.arrived
+	if attack_type == attackTypes.MISS:
 		await AudioPlayer.play_sound_effect(preload("res://audio/sfx/miss.ogg"))
 	else:
 		#region Hit
@@ -95,7 +95,7 @@ func _map_attack(attacker: Unit, defender: Unit, attacker_animation: MapAttack,
 		var hit_a: AudioStream = HIT_A_HEAVY
 		var hit_b: AudioStream = HIT_B_HEAVY
 		var damage: int = attacker.get_damage(defender)
-		if attack_type == attack_types.CRIT:
+		if attack_type == attackTypes.CRIT:
 			hit_a = HIT_A_CRIT
 			damage = attacker.get_crit_damage(defender)
 		var old_health: int = ceili(defender.current_health)
@@ -117,8 +117,8 @@ func _map_attack(attacker: Unit, defender: Unit, attacker_animation: MapAttack,
 		if tween.is_running():
 			await tween.finished
 		#endregion
-	attacker_animation.emit_signal("proceed")
-	await attacker_animation.complete
+	attacker_animation.damage_dealt.emit()
+	await attacker_animation.completed
 
 
 func _kill(unit: Unit, unit_animation: MapAttack) -> void:
@@ -132,14 +132,14 @@ func _kill(unit: Unit, unit_animation: MapAttack) -> void:
 	await get_tree().process_frame # Prevents visual bug
 
 
-func _calc(unit: Unit, other_unit: Unit) -> attack_types:
+func _calc(unit: Unit, other_unit: Unit) -> attackTypes:
 	if unit.get_hit_rate(other_unit) > randi_range(0, 99):
 		if unit.get_crit_rate(other_unit) > randi_range(0, 99):
-			return attack_types.CRIT
+			return attackTypes.CRIT
 		else:
-			return attack_types.HIT
+			return attackTypes.HIT
 	else:
-		return attack_types.MISS
+		return attackTypes.MISS
 
 
 func _get_combat_exp(distributing_unit: Unit, damage: float) -> float:
@@ -152,9 +152,9 @@ func _give_exp(recieving_unit: Unit, distributing_unit: Unit, old_hp: float) -> 
 	if not recieving_unit.dead:
 		const EXP_BAR_PATH: String = "res://ui/exp_bar/exp_bar."
 		const EXP_BAR_SCENE: PackedScene = preload(EXP_BAR_PATH + "tscn")
-		const EXP_BAR = preload(EXP_BAR_PATH + "gd")
-		if recieving_unit.faction.player_type == Faction.player_types.HUMAN:
-			var exp_bar := EXP_BAR_SCENE.instantiate() as EXP_BAR
+		const ExpBar = preload(EXP_BAR_PATH + "gd")
+		if recieving_unit.faction.player_type == Faction.playerTypes.HUMAN:
+			var exp_bar := EXP_BAR_SCENE.instantiate() as ExpBar
 			exp_bar.observing_unit = recieving_unit
 			MapController.get_ui().add_child(exp_bar)
 			exp_bar.play(_get_combat_exp(distributing_unit,
@@ -168,7 +168,7 @@ func _give_exp(recieving_unit: Unit, distributing_unit: Unit, old_hp: float) -> 
 class CombatStage extends RefCounted:
 	var attacker: Unit
 	var defender: Unit
-	var attack_type: attack_types
+	var attack_type: attackTypes
 
 	func _init(attacking_unit: Unit, defending_unit: Unit) -> void:
 		attacker = attacking_unit

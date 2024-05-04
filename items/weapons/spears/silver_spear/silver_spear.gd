@@ -1,4 +1,4 @@
-class_name Silver_Lance
+class_name SilverLance
 extends Spear
 
 

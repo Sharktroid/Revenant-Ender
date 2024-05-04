@@ -1,4 +1,4 @@
-class_name Iron_Axe
+class_name IronAxe
 extends Axe
 
 

@@ -25,8 +25,8 @@ func select_item(menu_item: MapMenuItem) -> void:
 		"Drop":
 			const MENU_PATH: String = ("res://ui/map_ui/map_menus/confirmation_map_menu/" +
 					"confirmation_map_menu.")
-			const MENU = preload(MENU_PATH + "gd")
-			var menu := (load(MENU_PATH + "tscn") as PackedScene).instantiate() as MENU
+			const Menu = preload(MENU_PATH + "gd")
+			var menu := (load(MENU_PATH + "tscn") as PackedScene).instantiate() as Menu
 			menu.offset = offset + Vector2(16, 16)
 			menu.parent_menu = self
 			MapController.get_ui().add_child(menu)

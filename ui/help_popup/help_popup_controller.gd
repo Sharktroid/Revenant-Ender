@@ -3,7 +3,7 @@ extends Control
 const DURATION: float = 5.0/60
 const BORDER := Vector2i(4, 7)
 const TILE_SIZE: int = 32
-const _HELP_POPUP = preload("res://ui/help_popup/help_popup.gd")
+const _HelpPopup = preload("res://ui/help_popup/help_popup.gd")
 
 var _active: bool = false
 var _busy: bool = false
@@ -77,11 +77,11 @@ func is_idle() -> bool:
 	return is_active() and not _busy
 
 
-func get_popup_node() -> _HELP_POPUP:
+func get_popup_node() -> _HelpPopup:
 	if MapController.get_ui().has_node("Help Popup"):
-		return MapController.get_ui().get_node("Help Popup") as _HELP_POPUP
+		return MapController.get_ui().get_node("Help Popup") as _HelpPopup
 	else:
-		return _HELP_POPUP.new()
+		return _HelpPopup.new()
 
 
 func _get_node_size(new_text: String, new_table: Array[String], new_table_cols: int) -> Vector2i:

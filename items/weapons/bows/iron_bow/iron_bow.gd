@@ -1,4 +1,4 @@
-class_name Iron_Bow
+class_name IronBow
 extends Bow
 
 

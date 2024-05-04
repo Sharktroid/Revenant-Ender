@@ -108,7 +108,7 @@ func select_item(item: MapMenuItem) -> void:
 			var tiles: Array[Vector2i] = connected_unit.get_current_attack_tiles(
 					connected_unit.get_path_last_pos(), true)
 			var tiles_node: Node2D = MapController.map.display_highlighted_tiles(tiles,
-					connected_unit, Map.tile_types.ATTACK)
+					connected_unit, Map.tileTypes.ATTACK)
 			var attack: Callable = func(selected_unit: Unit) -> void:
 				await connected_unit.move()
 				await AttackController.combat(connected_unit, selected_unit)
@@ -139,9 +139,9 @@ func select_item(item: MapMenuItem) -> void:
 
 		"Items":
 			const MENU_PATH: String = "res://ui/map_ui/map_menus/item_menu/item_menu."
-			const MENU = preload(MENU_PATH + "gd")
+			const Menu = preload(MENU_PATH + "gd")
 			const MENU_SCENE: PackedScene = preload(MENU_PATH + "tscn")
-			var menu := MENU_SCENE.instantiate() as MENU
+			var menu := MENU_SCENE.instantiate() as Menu
 			menu.offset = offset
 			menu.parent_menu = self
 			menu.connected_unit = connected_unit
@@ -162,7 +162,7 @@ func select_item(item: MapMenuItem) -> void:
 
 		"Drop":
 			var tiles_node: Node2D = (MapController.map as Map).display_tiles(_get_drop_tiles(),
-					Map.tile_types.SUPPORT)
+					Map.tileTypes.SUPPORT)
 			var drop: Callable = func(dropped_tile: Vector2i) -> void:
 				var traveler: Unit = connected_unit.traveler
 				await connected_unit.move()
@@ -249,7 +249,7 @@ func _play_select_sound_effect(item: MapMenuItem) -> void:
 
 
 func _check_canto() -> void:
-	if connected_unit.has_skill_attribute(Skill.all_attributes.CANTO):
+	if connected_unit.has_skill_attribute(Skill.allAttributes.CANTO):
 		_canto = true
 	else:
 		connected_unit.wait()
@@ -281,7 +281,7 @@ func _can_attack(unit: Unit) -> bool:
 	var current_tiles: Array[Vector2i] = connected_unit.get_current_attack_tiles(pos, true)
 	var faction: Faction = unit.faction
 	var diplo_stance := connected_unit.faction.get_diplomacy_stance(faction)
-	if diplo_stance == Faction.diplo_stances.ENEMY and Vector2i(unit.position) in current_tiles:
+	if diplo_stance == Faction.diplomacyStances.ENEMY and Vector2i(unit.position) in current_tiles:
 		return true
 	return false
 
@@ -311,7 +311,7 @@ func _display_adjacent_support_tiles() -> Node2D:
 	var tiles: Array[Vector2i] = connected_unit.get_adjacent_tiles(
 			connected_unit.get_path_last_pos(), 1, 1)
 	return MapController.map.display_highlighted_tiles(tiles, connected_unit,
-			Map.tile_types.SUPPORT)
+			Map.tileTypes.SUPPORT)
 
 
 func _on_unit_death() -> void:

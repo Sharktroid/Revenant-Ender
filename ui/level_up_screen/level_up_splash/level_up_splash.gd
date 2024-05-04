@@ -2,7 +2,6 @@
 extends Control
 
 func _ready() -> void:
-	GameController.add_to_input_stack(self)
 	var line := $Line as HBoxContainer
 	var particle := %Particle as TextureRect
 	line.position.x = -particle.size.x
@@ -51,8 +50,3 @@ func _ready() -> void:
 	fade_anim_player.play("play")
 	await fade_anim_player.animation_finished
 	queue_free()
-
-
-func receive_input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_accept"):
-		queue_free()

@@ -36,8 +36,8 @@ func update() -> void:
 		aid_value.text = "-"
 	else:
 		aid_value.text = str(observing_unit.get_aid())
-	const STARS_LABEL = preload("res://ui/map_ui/status_screen/statistics/stars_label/stars_label.gd")
-	(%"Authority Stars" as STARS_LABEL).stars = observing_unit.get_authority()
+	const StarsLabel = preload("res://ui/map_ui/status_screen/statistics/stars_label/stars_label.gd")
+	(%"Authority Stars" as StarsLabel).stars = observing_unit.get_authority()
 	var traveler_name := %"Traveler Name" as Label
 	if observing_unit.traveler:
 		traveler_name.text = observing_unit.traveler.name

@@ -159,14 +159,14 @@ func _update_tab() -> void:
 	var tab_controls: Array[Control] = []
 	match _menu_tabs.current_tab:
 		0:
-			const STATISTICS = preload("res://ui/map_ui/status_screen/statistics/statistics.gd")
-			var statistics := $"Menu Screen/Menu Tabs/Statistics" as STATISTICS
+			const Statistics = preload("res://ui/map_ui/status_screen/statistics/statistics.gd")
+			var statistics := $"Menu Screen/Menu Tabs/Statistics" as Statistics
 			statistics.observing_unit = observing_unit
 			statistics.update()
 			tab_controls.assign(statistics.get_left_controls())
 		1:
-			const ITEM_SCREEN = preload("res://ui/map_ui/status_screen/item_screen/item_screen.gd")
-			var items := $"Menu Screen/Menu Tabs/Items" as ITEM_SCREEN
+			const ItemScreen = preload("res://ui/map_ui/status_screen/item_screen/item_screen.gd")
+			var items := $"Menu Screen/Menu Tabs/Items" as ItemScreen
 			items.observing_unit = observing_unit
 			items.update()
 			tab_controls.assign(items.get_item_labels())

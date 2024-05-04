@@ -37,8 +37,8 @@ func play(experience: float) -> void:
 		await AudioPlayer.pause_track()
 		await get_tree().create_timer(0.5).timeout
 		const LVL_UP_PATH = "res://ui/level_up_screen/level_up_screen."
-		const LVL_UP = preload(LVL_UP_PATH + "gd")
-		var level_up_screen := preload(LVL_UP_PATH + "tscn").instantiate() as LVL_UP
+		const LevelUp = preload(LVL_UP_PATH + "gd")
+		var level_up_screen := preload(LVL_UP_PATH + "tscn").instantiate() as LevelUp
 		level_up_screen.unit = observing_unit
 		level_up_screen.old_level = old_level
 		MapController.get_ui().add_child(level_up_screen)

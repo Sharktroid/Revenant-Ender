@@ -1,4 +1,4 @@
-class_name Iron_Spear
+class_name IronSpear
 extends Spear
 
 

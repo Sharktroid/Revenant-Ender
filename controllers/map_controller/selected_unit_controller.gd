@@ -77,9 +77,9 @@ func _position_selected() -> void:
 
 func _create_unit_menu() -> void:
 	## Creates _unit menu.
-	const _menu_script = preload("res://ui/map_ui/map_menus/unit_menu/unit_menu.gd")
+	const _MenuScript = preload("res://ui/map_ui/map_menus/unit_menu/unit_menu.gd")
 	var _menu_node := load("res://ui/map_ui/map_menus/unit_menu/unit_menu.tscn") as PackedScene
-	var menu := _menu_node.instantiate() as _menu_script
+	var menu := _menu_node.instantiate() as _MenuScript
 	menu.connected_unit = _unit
 	menu.offset = CursorController.screen_position + Vector2i(16, 0)
 	menu.caller = self

@@ -6,7 +6,7 @@ extends UnitClass
 func _init() -> void:
 	name = "Champion"
 	max_level = 30
-	movement_type = movement_types.ADVANCED_FOOT
+	movement_type = movementTypes.ADVANCED_FOOT
 	weight_modifier = 1
 	description = "An honorific bestowed upon famed mercenary masters."
 

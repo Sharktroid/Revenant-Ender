@@ -3,15 +3,15 @@ extends Control
 
 const _ITEM_LABEL_PATH : String = ("res://ui/map_ui/map_menus/trade_menu/" +
 		"trade_menu_item/trade_menu_item.")
-const _ITEM_LABEL = preload(_ITEM_LABEL_PATH + "gd")
+const _ItemLabel = preload(_ITEM_LABEL_PATH + "gd")
 const _ITEM_LABEL_SCENE: PackedScene = \
 		preload(_ITEM_LABEL_PATH + "tscn")
 
 var left_unit: Unit
 var right_unit: Unit
-var current_label: _ITEM_LABEL
-var selected_label: _ITEM_LABEL
-var empty_bar: _ITEM_LABEL
+var current_label: _ItemLabel
+var selected_label: _ItemLabel
+var empty_bar: _ItemLabel
 
 
 func _ready() -> void:
@@ -67,7 +67,7 @@ func receive_input(event: InputEvent) -> void:
 			var selected_hand := $"Selected Hand" as Sprite2D
 			selected_hand.visible = true
 			selected_hand.position = selected_label.global_position.round()
-			empty_bar = _ITEM_LABEL_SCENE.instantiate() as _ITEM_LABEL
+			empty_bar = _ITEM_LABEL_SCENE.instantiate() as _ItemLabel
 			empty_bar.parent_menu = self
 			var new_parent: VBoxContainer = _get_other_parent(current_label)
 			new_parent.add_child(empty_bar)
@@ -109,7 +109,7 @@ func _update() -> void:
 	current_label = null
 	var add_items: Callable = func(unit: Unit, container: VBoxContainer) -> void:
 		for item: Item in unit.items:
-			var item_label := _ITEM_LABEL_SCENE.instantiate() as _ITEM_LABEL
+			var item_label := _ITEM_LABEL_SCENE.instantiate() as _ItemLabel
 			item_label.item = item
 			item_label.set_equip_status(unit)
 			item_label.parent_menu = self
@@ -128,4 +128,4 @@ func _reset() -> void:
 
 
 func _change_current_label(parent: Node, index: int) -> void:
-	current_label = parent.get_child(posmod(index, parent.get_children().size())) as _ITEM_LABEL
+	current_label = parent.get_child(posmod(index, parent.get_children().size())) as _ItemLabel

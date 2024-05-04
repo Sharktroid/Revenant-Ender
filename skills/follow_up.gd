@@ -1,8 +1,8 @@
-class_name Follow_Up
+class_name FollowUp
 extends Skill
 
 
 func _init() -> void:
 	attributes = [
-		all_attributes.FOLLOW_UP
+		allAttributes.FOLLOW_UP
 	]

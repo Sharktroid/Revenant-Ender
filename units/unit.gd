@@ -41,7 +41,7 @@ enum stats {HIT_POINTS, STRENGTH, PIERCE, MAGIC, SKILL, SPEED, LUCK, DEFENSE, AR
 @export var variant: String # Visual variant.
 @export var items: Array[Item]
 @export var base_level: int = 1
-@export var skills: Array[Skill] = [Follow_Up.new()]
+@export var skills: Array[Skill] = [FollowUp.new()]
 
 var total_exp: float
 var level: int:
@@ -78,14 +78,14 @@ var current_health: float:
 	set(health):
 		current_health = clampf(health, 0, get_stat(stats.HIT_POINTS))
 		if not Engine.is_editor_hint():
-			const HEALTH_BAR = preload("res://units/health_bar/health_bar.gd")
-			($"Health Bar" as HEALTH_BAR).update()
+			const HealthBar = preload("res://units/health_bar/health_bar.gd")
+			($"Health Bar" as HealthBar).update()
 var faction: Faction:
 	get:
 		if _get_map().all_factions.size() > 0:
 			return _get_map().all_factions[faction_id]
 		else:
-			return Faction.new("INVALID", Faction.colors.BLUE, Faction.player_types.HUMAN, null)
+			return Faction.new("INVALID", Faction.colors.BLUE, Faction.playerTypes.HUMAN, null)
 	set(new_faction):
 		faction_id = _get_map().all_factions.find(new_faction)
 
@@ -226,9 +226,9 @@ func get_raw_attack() -> int:
 	if get_current_weapon():
 		var current_attack: int
 		match get_current_weapon().get_damage_type():
-			Weapon.damage_types.PHYSICAL: current_attack = get_stat(stats.STRENGTH)
-			Weapon.damage_types.RANGED: current_attack = get_stat(stats.PIERCE)
-			Weapon.damage_types.MAGIC: current_attack = get_stat(stats.MAGIC)
+			Weapon.damageTypes.PHYSICAL: current_attack = get_stat(stats.STRENGTH)
+			Weapon.damageTypes.RANGED: current_attack = get_stat(stats.PIERCE)
+			Weapon.damageTypes.MAGIC: current_attack = get_stat(stats.MAGIC)
 		return get_current_weapon().might + current_attack
 	else:
 		return 0
@@ -293,11 +293,11 @@ func get_attack_speed() -> int:
 	return get_stat(stats.SPEED) - maxi(weight - get_stat(stats.CONSTITUTION), 0)
 
 
-func get_current_defence(attacker_weapon_type: Weapon.damage_types) -> int:
+func get_current_defence(attacker_weapon_type: Weapon.damageTypes) -> int:
 	match attacker_weapon_type:
-		Weapon.damage_types.RANGED: return get_stat(stats.ARMOR)
-		Weapon.damage_types.MAGIC: return get_stat(stats.RESISTANCE)
-		Weapon.damage_types.PHYSICAL: return get_stat(stats.DEFENSE)
+		Weapon.damageTypes.RANGED: return get_stat(stats.ARMOR)
+		Weapon.damageTypes.MAGIC: return get_stat(stats.RESISTANCE)
+		Weapon.damageTypes.PHYSICAL: return get_stat(stats.DEFENSE)
 		_:
 			push_error("Damage Type %s Invalid" % attacker_weapon_type)
 			return 0
@@ -439,7 +439,7 @@ func get_exp_percent() -> int:
 	return floori((roundf(get_current_exp())/Unit.get_exp_to_level(level + 1)) * 100)
 
 
-func has_skill_attribute(attrib: Skill.all_attributes) -> bool:
+func has_skill_attribute(attrib: Skill.allAttributes) -> bool:
 	for skill: Skill in get_skills():
 		if attrib in skill.attributes:
 			return true
@@ -511,7 +511,7 @@ func get_movement_tiles(custom_movement: int = floori(current_movement)) -> Arra
 		#region Orders tiles by distance from center
 		h.erase(start)
 		for x: Vector2i in h:
-			var movement_type: UnitClass.movement_types = unit_class.movement_type
+			var movement_type: UnitClass.movementTypes = unit_class.movement_type
 			var cost: float = _get_map().get_path_cost(movement_type,
 					_get_map().get_movement_path(movement_type, position, x, faction))
 			if cost <= current_movement:
@@ -555,9 +555,9 @@ func display_movement_tiles() -> void:
 	hide_movement_tiles()
 	var movement_tiles: Array[Vector2i] = get_movement_tiles()
 	_movement_tiles_node = _get_map().display_tiles(movement_tiles,
-			Map.tile_types.MOVEMENT, 1)
+			Map.tileTypes.MOVEMENT, 1)
 	_attack_tile_node = _get_map().display_tiles(get_all_attack_tiles(movement_tiles),
-			Map.tile_types.ATTACK, 1)
+			Map.tileTypes.ATTACK, 1)
 	if not selected:
 		_movement_tiles_node.modulate.a = 0.5
 		_attack_tile_node.modulate.a = 0.5
@@ -597,7 +597,7 @@ func get_current_attack_tiles(pos: Vector2i, all_weapons: bool = false) -> Array
 ## Shows off the tiles the unit can attack from its current position.
 func display_current_attack_tiles(pos: Vector2i) -> void:
 	_current_attack_tiles_node = _get_map().display_highlighted_tiles(
-			get_current_attack_tiles(pos), self, Map.tile_types.ATTACK)
+			get_current_attack_tiles(pos), self, Map.tileTypes.ATTACK)
 
 
 ## Hides current attack tiles.
@@ -836,7 +836,7 @@ func _on_area2d_area_exited(area: Area2D) -> void:
 	# When cursor exits unit's area
 	if area == CursorController.get_area() and not selected:
 		hide_movement_tiles()
-		emit_signal("cursor_exited")
+		cursor_exited.emit()
 
 
 func _get_map() -> Map:

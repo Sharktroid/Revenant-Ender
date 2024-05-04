@@ -7,7 +7,7 @@ extends UnitClass
 func _init() -> void:
 	name = "Brigand"
 	max_level = 20
-	movement_type = movement_types.BANDITS
+	movement_type = movementTypes.BANDITS
 	description = "Mighty mountaineers who prefer axes in combat."
 
 	base_weapon_levels[Weapon.types.AXE] = Weapon.ranks.D

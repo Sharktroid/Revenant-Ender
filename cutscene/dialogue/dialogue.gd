@@ -8,8 +8,8 @@ const SHIFT_DURATION: float = 8.0/60 # In seconds
 const TEXTBOX_HEIGHT: int = 94
 const PORTRAIT_WIDTH: int = 96
 
-enum positions {OUTSIDELEFT = -80, FARLEFT = 0, MIDLEFT = 80, CLOSELEFT = 160,
-		CLOSERIGHT = 256, MIDRIGHT = 336, FARRIGHT = 416, OUTSIDERIGHT = 512}
+enum positions {OUTSIDE_LEFT = -80, FAR_LEFT = 0, MID_LEFT = 80, CLOSE_LEFT = 160,
+		CLOSE_RIGHT = 256, MID_RIGHT = 336, FAR_RIGHT = 416, OUTSIDE_RIGHT = 512}
 enum directions {LEFT, RIGHT}
 
 @onready var _top_bubble_point := $"Top Bubble Point" as TextureRect

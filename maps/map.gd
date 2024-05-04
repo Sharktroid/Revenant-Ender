@@ -1,7 +1,7 @@
 class_name Map
 extends Control
 
-enum tile_types {ATTACK, MOVEMENT, SUPPORT}
+enum tileTypes {ATTACK, MOVEMENT, SUPPORT}
 
 # Border boundaries of the map. units should not exceed these unless aethetic
 @export var left_border: int
@@ -38,7 +38,7 @@ func _ready() -> void:
 	var cell_max: Vector2i = ($"Map Layer/Base Layer" as TileMap).get_used_cells(0).max()
 	size = cell_max * 16 + Vector2i(16, 16)
 	GameController.add_to_input_stack(self)
-	const TYPES = UnitClass.movement_types
+	const TYPES = UnitClass.movementTypes
 	for movement_type: TYPES in movement_cost_dict.keys() as Array[TYPES]:
 		var a_star_grid := AStarGrid2D.new()
 		a_star_grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
@@ -66,10 +66,10 @@ func receive_input(event: InputEvent) -> void:
 
 	elif event.is_action_pressed("status"):
 		if CursorController.hovered_unit:
-			const STATUS_SCREEN = preload("res://ui/map_ui/status_screen/status_screen.gd")
+			const StatusScreen = preload("res://ui/map_ui/status_screen/status_screen.gd")
 			const STATUS_SCREEN_SCENE: PackedScene = \
 					preload("res://ui/map_ui/status_screen/status_screen.tscn")
-			var status_menu := STATUS_SCREEN_SCENE.instantiate() as STATUS_SCREEN
+			var status_menu := STATUS_SCREEN_SCENE.instantiate() as StatusScreen
 			status_menu.observing_unit = CursorController.hovered_unit
 			MapController.get_ui().add_child(status_menu)
 			GameController.add_to_input_stack(status_menu)
@@ -127,7 +127,7 @@ func start_turn() -> void:
 	CursorController.cursor_visible = true
 	if get_current_faction():
 		AudioPlayer.play_track(get_current_faction().theme)
-	if get_current_faction().player_type != Faction.player_types.HUMAN:
+	if get_current_faction().player_type != Faction.playerTypes.HUMAN:
 		end_turn.call_deferred()
 
 
@@ -142,7 +142,7 @@ func end_turn() -> void:
 
 ## Gets the terrain cost of the tiles at "coords".
 ## unit: unit trying to move over "coords".
-func get_terrain_cost(movement_type: UnitClass.movement_types, coords: Vector2) -> float:
+func get_terrain_cost(movement_type: UnitClass.movementTypes, coords: Vector2) -> float:
 	if movement_type in movement_cost_dict.keys():
 		var movement_type_terrain_dict: Dictionary = movement_cost_dict[movement_type]
 		var terrain_name: String = _get_terrain(coords)
@@ -186,7 +186,7 @@ func update_outline() -> void:
 	($"Map Layer/Outline" as Node2D).queue_redraw()
 
 
-func display_tiles(tiles: Array[Vector2i], type: tile_types, modulation: float = 0.5,
+func display_tiles(tiles: Array[Vector2i], type: tileTypes, modulation: float = 0.5,
 		modulate_blacklist: Array[Vector2i] = [], blacklist_as_whitelist: bool = false) -> Node2D:
 	var tiles_node := Node2D.new()
 	tiles_node.name = "%s Move Tiles" % name
@@ -195,9 +195,9 @@ func display_tiles(tiles: Array[Vector2i], type: tile_types, modulation: float =
 	const MOVEMENT_TILE_NODE: PackedScene = preload("res://maps/map_tiles/movement_tile.tscn")
 	const SUPPORT_TILE_NODE: PackedScene = preload("res://maps/map_tiles/support_tile.tscn")
 	match type:
-		tile_types.ATTACK: current_tile_base = ATTACK_TILE_NODE
-		tile_types.MOVEMENT: current_tile_base = MOVEMENT_TILE_NODE
-		tile_types.SUPPORT: current_tile_base = SUPPORT_TILE_NODE
+		tileTypes.ATTACK: current_tile_base = ATTACK_TILE_NODE
+		tileTypes.MOVEMENT: current_tile_base = MOVEMENT_TILE_NODE
+		tileTypes.SUPPORT: current_tile_base = SUPPORT_TILE_NODE
 	for i: Vector2i in tiles:
 		var tile := current_tile_base.instantiate() as Sprite2D
 		tile.name = "Tile"
@@ -209,7 +209,7 @@ func display_tiles(tiles: Array[Vector2i], type: tile_types, modulation: float =
 	return tiles_node
 
 
-func display_highlighted_tiles(tiles: Array[Vector2i], unit: Unit, type: tile_types) -> Node2D:
+func display_highlighted_tiles(tiles: Array[Vector2i], unit: Unit, type: tileTypes) -> Node2D:
 	var unit_coords: Array[Vector2i] = []
 	for e_unit: Unit in MapController.map.get_units():
 		if not(unit.is_friend(e_unit)) and e_unit.visible:
@@ -217,7 +217,7 @@ func display_highlighted_tiles(tiles: Array[Vector2i], unit: Unit, type: tile_ty
 	return display_tiles(tiles, type, 0.5, unit_coords)
 
 
-func get_movement_path(movement_type: UnitClass.movement_types, starting_point: Vector2i,
+func get_movement_path(movement_type: UnitClass.movementTypes, starting_point: Vector2i,
 		destination: Vector2i, faction: Faction) -> Array[Vector2i]:
 	if faction != _grid_current_faction:
 		_grid_current_faction = faction
@@ -233,7 +233,7 @@ func get_movement_path(movement_type: UnitClass.movement_types, starting_point: 
 	return output
 
 
-func get_path_cost(movement_type: UnitClass.movement_types, path: Array[Vector2i]) -> float:
+func get_path_cost(movement_type: UnitClass.movementTypes, path: Array[Vector2i]) -> float:
 	if path.size() == 0:
 		return INF
 	var sum: float = 0
@@ -243,7 +243,7 @@ func get_path_cost(movement_type: UnitClass.movement_types, path: Array[Vector2i
 	return sum
 
 
-func update_a_star_grid_id(a_star_grid: AStarGrid2D, movement_type: UnitClass.movement_types,
+func update_a_star_grid_id(a_star_grid: AStarGrid2D, movement_type: UnitClass.movementTypes,
 		id: Vector2i) -> void:
 	var weight: float = get_terrain_cost(movement_type, id * 16)
 	if weight == INF:
@@ -261,7 +261,7 @@ func get_units() -> Array[Unit]:
 
 
 func update_position_terrain_cost(pos: Vector2i) -> void:
-	for movement_type: UnitClass.movement_types in _cost_grids.keys():
+	for movement_type: UnitClass.movementTypes in _cost_grids.keys():
 		var a_star_grid: AStarGrid2D = _cost_grids[movement_type]
 		var point_id: Vector2i = pos / 16
 		update_a_star_grid_id(a_star_grid, movement_type, point_id)
@@ -306,21 +306,21 @@ func _parse_movement_cost() -> void:
 	for full_type: String in raw_movement_cost:
 		var split: Array[String] = []
 		split.assign(full_type.strip_edges().split(","))
-		var type: UnitClass.movement_types
+		var type: UnitClass.movementTypes
 		match split.pop_at(0):
-			"Foot": type = UnitClass.movement_types.FOOT
-			"Advanced Foot": type = UnitClass.movement_types.ADVANCED_FOOT
-			"Fighters": type = UnitClass.movement_types.FIGHTERS
-			"Armor": type = UnitClass.movement_types.ARMOR
-			"Bandits": type = UnitClass.movement_types.BANDITS
-			"Pirates": type = UnitClass.movement_types.PIRATES
-			"Berserker": type = UnitClass.movement_types.BERSERKER
-			"Mages": type = UnitClass.movement_types.MAGES
-			"Light Cavalry": type = UnitClass.movement_types.LIGHT_CAVALRY
-			"Advanced Light Cavalry": type = UnitClass.movement_types.ADVANCED_LIGHT_CAVALRY
-			"Heavy Cavalry": type = UnitClass.movement_types.HEAVY_CAVALRY
-			"Advanced Heavy Cavalry": type = UnitClass.movement_types.ADVANCED_HEAVY_CAVALRY
-			"Fliers": type = UnitClass.movement_types.FLIERS
+			"Foot": type = UnitClass.movementTypes.FOOT
+			"Advanced Foot": type = UnitClass.movementTypes.ADVANCED_FOOT
+			"Fighters": type = UnitClass.movementTypes.FIGHTERS
+			"Armor": type = UnitClass.movementTypes.ARMOR
+			"Bandits": type = UnitClass.movementTypes.BANDITS
+			"Pirates": type = UnitClass.movementTypes.PIRATES
+			"Berserker": type = UnitClass.movementTypes.BERSERKER
+			"Mages": type = UnitClass.movementTypes.MAGES
+			"Light Cavalry": type = UnitClass.movementTypes.LIGHT_CAVALRY
+			"Advanced Light Cavalry": type = UnitClass.movementTypes.ADVANCED_LIGHT_CAVALRY
+			"Heavy Cavalry": type = UnitClass.movementTypes.HEAVY_CAVALRY
+			"Advanced Heavy Cavalry": type = UnitClass.movementTypes.ADVANCED_HEAVY_CAVALRY
+			"Fliers": type = UnitClass.movementTypes.FLIERS
 		movement_cost_dict[type] = {}
 		for cost: int in split.size():
 			movement_cost_dict[type][header[cost]] = split[cost]
@@ -346,7 +346,7 @@ func _on_cursor_select() -> void:
 
 
 func _update_grid_current_faction() -> void:
-	for movement_type: UnitClass.movement_types in _cost_grids.keys():
+	for movement_type: UnitClass.movementTypes in _cost_grids.keys():
 		var a_star_grid: AStarGrid2D = _cost_grids[movement_type]
 		for unit: Unit in MapController.map.get_units():
 			a_star_grid.set_point_solid(unit.position / 16,

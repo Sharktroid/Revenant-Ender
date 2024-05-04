@@ -50,8 +50,8 @@ func _ready() -> void:
 	await get_tree().create_timer(35.0/60).timeout
 
 	level_value.text = str(unit.level)
-	const SPARKLE = preload("res://ui/level_up_screen/spiral_sparkle.gd")
-	(%"Level Sparkle" as SPARKLE).play()
+	const Sparkle = preload("res://ui/level_up_screen/spiral_sparkle.gd")
+	(%"Level Sparkle" as Sparkle).play()
 	AudioPlayer.play_sound_effect(preload("res://audio/sfx/level_up_level_blip.ogg"))
 	await get_tree().create_timer(20.0/60).timeout
 
@@ -70,8 +70,8 @@ func _ready() -> void:
 		var difference: int = current_stat - old_stat
 		if difference != 0:
 			AudioPlayer.play_sound_effect(preload("res://audio/sfx/level_up_blip.ogg"))
-			const STAT_CHANGE = preload("res://ui/level_up_screen/stat_change.gd")
-			(%"Stat Changes".get_node("%s Change" % formatted_stat) as STAT_CHANGE).value = difference
+			const StatChange = preload("res://ui/level_up_screen/stat_change.gd")
+			(%"Stat Changes".get_node("%s Change" % formatted_stat) as StatChange).value = difference
 
 			var panel := stat_container.get_node("Panel") as Panel
 			panel.visible = true
@@ -82,7 +82,7 @@ func _ready() -> void:
 			panel.position.x += panel.size.x/2
 			panel.size.x = 0
 
-			(%"Sparkles".get_node("%s Sparkle" % formatted_stat) as SPARKLE).play()
+			(%"Sparkles".get_node("%s Sparkle" % formatted_stat) as Sparkle).play()
 
 			await get_tree().create_timer(20.0/60).timeout
 	await get_tree().create_timer(1.0).timeout

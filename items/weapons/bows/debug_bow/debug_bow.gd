@@ -1,4 +1,4 @@
-class_name Debug_Bow
+class_name DebugBow
 extends Bow
 
 

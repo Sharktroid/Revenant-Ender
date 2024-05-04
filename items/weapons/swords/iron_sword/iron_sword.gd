@@ -1,4 +1,4 @@
-class_name Iron_Sword
+class_name IronSword
 extends Sword
 
 
