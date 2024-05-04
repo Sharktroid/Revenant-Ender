@@ -16,14 +16,22 @@ const PERSONAL_VALUE_LIMIT: int = 15
 const INDIVIDUAL_EFFORT_VALUE_LIMIT: int = 250
 ## The maximum amount of PVs a unit can have
 const TOTAL_EFFORT_VALUE_LIMIT: float = INDIVIDUAL_EFFORT_VALUE_LIMIT * 4
+## The experience required to go from level 1 to level 2
+const BASE_EXPERIENCE: int = 100
+## The multiplier for the extra amount of experience to go from one level to the next
+## compared to the previous level
+const EXPERIENCE_MULTIPLIER: float = 2
+## The amount of experience for killing an enemy in one round of combat
+const ONE_ROUND_EXP_BASE: float = float(BASE_EXPERIENCE)/3
+## The amount of combat experience reserved for when an enemy is killed
+const KILL_EXP_PERCENT: float = 0.25
+
 
 
 enum statuses {ATTACK}
 enum animations {IDLE, MOVING_DOWN, MOVING_UP, MOVING_LEFT, MOVING_RIGHT}
-enum stats {
-	HITPOINTS, STRENGTH, PIERCE, MAGIC, SKILL, SPEED, LUCK, DEFENSE, ARMOR,
-	RESISTANCE, MOVEMENT, CONSTITUTION
-}
+enum stats {HIT_POINTS, STRENGTH, PIERCE, MAGIC, SKILL, SPEED, LUCK, DEFENSE, ARMOR,
+	RESISTANCE, MOVEMENT, CONSTITUTION}
 
 ## Unit's faction. Should be in the map's Faction stack.
 @export var unit_name: String = "[Empty]"
@@ -35,9 +43,14 @@ enum stats {
 @export var base_level: int = 1
 @export var skills: Array[Skill] = [Follow_Up.new()]
 
+var total_experience: float
+var level: int:
+	set(value):
+		total_experience = Unit.get_experience_from_level(value)
+	get:
+		return floori(Unit.get_level_from_experience(total_experience))
 var personal_values: Dictionary
 var effort_values: Dictionary
-var current_level: int
 var current_movement: float
 var dead: bool = false
 var outline_highlight: bool = false
@@ -134,16 +147,16 @@ var _arrows_container: CanvasGroup
 func _enter_tree() -> void:
 	_animation_player = $AnimationPlayer as AnimationPlayer
 	_traveler_animation_player = $"Traveler Icon/AnimationPlayer" as AnimationPlayer
-	current_level = base_level
+	level = base_level
 	for weapon_type: Weapon.types in unit_class.base_weapon_levels.keys() as Array[Weapon.types]:
 		if weapon_type not in weapon_levels.keys():
 			weapon_levels[weapon_type] = lerpf(unit_class.base_weapon_levels[weapon_type] as float,
 					unit_class.max_weapon_levels[weapon_type] as float,
-					inverse_lerp(1, unit_class.max_level, current_level))
+					inverse_lerp(1, unit_class.max_level, level))
 	texture = unit_class.map_sprite
 	material = material.duplicate() as Material
 	current_movement = get_stat(stats.MOVEMENT)
-	set_current_health(get_stat(stats.HITPOINTS))
+	set_current_health(get_stat(stats.HIT_POINTS))
 	add_to_group("units")
 	_update_palette()
 	if _animation_player.current_animation == '':
@@ -228,7 +241,7 @@ func get_crit_damage(defender: Unit) -> int:
 
 ## Sets units current health.
 func set_current_health(health: float, does_die: bool = true) -> void:
-	_current_health = clampf(health, 0, get_stat(stats.HITPOINTS))
+	_current_health = clampf(health, 0, get_stat(stats.HIT_POINTS))
 	if not Engine.is_editor_hint():
 		const HEALTH_BAR = preload("res://units/health_bar/health_bar.gd")
 		($"Health Bar" as HEALTH_BAR).update()
@@ -265,8 +278,8 @@ func get_stat_boost(stat: stats) -> int:
 	return _stat_boosts.get(stat, 0)
 
 
-func get_stat(stat: stats, level: int = current_level) -> int:
-	var weight: float = inverse_lerp(1, unit_class.max_level, level)
+func get_stat(stat: stats, current_level: int = level) -> int:
+	var weight: float = inverse_lerp(1, unit_class.max_level, current_level)
 	var leveled_stat: float = lerpf(unit_class.base_stats.get(stat, 0),
 			unit_class.end_stats.get(stat, 0), weight)
 	var unclamped_stat: int = roundi(leveled_stat * _get_personal_value_multiplier(stat)
@@ -410,6 +423,26 @@ func get_distance(unit: Unit) -> int:
 
 func get_skills() -> Array[Skill]:
 	return skills + unit_class.skills
+
+
+func get_current_experience() -> float:
+	return total_experience - Unit.get_experience_from_level(level)
+
+
+static func get_experience_from_level(current_level: float) -> float:
+	return BASE_EXPERIENCE * (EXPERIENCE_MULTIPLIER ** (current_level - 1) - 1)
+
+
+static func get_level_from_experience(xp: float) -> float:
+	return log(1 + float(xp)/BASE_EXPERIENCE)/log(EXPERIENCE_MULTIPLIER) + 1
+
+
+static func get_experience_to_level(current_level: float) -> float:
+	return get_experience_from_level(current_level) - get_experience_from_level(current_level - 1)
+
+
+func get_experience_percent() -> int:
+	return floori((roundf(get_current_experience())/Unit.get_experience_to_level(level + 1)) * 100)
 
 
 func has_skill_attribute(attrib: Skill.all_attributes) -> bool:
@@ -801,7 +834,7 @@ func _on_area2d_area_entered(area: Area2D) -> void:
 		if is_instance_valid(CursorController.get_hovered_unit()):
 			var hovered_unit_selected: bool = CursorController.get_hovered_unit().selected
 			can_be_selected = not hovered_unit_selected or selecting
-		if can_be_selected and not(selected or selecting or waiting):
+		if can_be_selected and not(selected or selecting or waiting or dead):
 			display_movement_tiles()
 		CursorController.set_hovered_unit(self)
 

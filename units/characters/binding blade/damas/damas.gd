@@ -5,7 +5,7 @@ extends Unit
 # Unit-specific variables.
 func _init() -> void:
 	personal_values = {
-		Unit.stats.HITPOINTS: 14,
+		Unit.stats.HIT_POINTS: 14,
 		Unit.stats.STRENGTH: 10,
 		Unit.stats.PIERCE: 5,
 		Unit.stats.MAGIC: 5,
@@ -19,7 +19,7 @@ func _init() -> void:
 		Unit.stats.CONSTITUTION: 5,
 	}
 	effort_values = {
-		Unit.stats.HITPOINTS: 0,
+		Unit.stats.HIT_POINTS: 0,
 		Unit.stats.STRENGTH: 0,
 		Unit.stats.PIERCE: 0,
 		Unit.stats.MAGIC: 0,

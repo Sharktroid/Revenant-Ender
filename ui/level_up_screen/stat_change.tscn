@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 format=3 uid="uid://ci8e4u3byi58c"]
+
+[ext_resource type="Script" path="res://ui/level_up_screen/stat_change.gd" id="1_gqxav"]
+[ext_resource type="PackedScene" uid="uid://bdjeg8jmudvyh" path="res://ui/level_up_screen/arrow.tscn" id="1_txb0l"]
+
+[node name="Stat Change" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 10.0
+offset_bottom = 16.0
+script = ExtResource("1_gqxav")
+
+[node name="Sign" type="Label" parent="."]
+z_index = 1
+layout_mode = 2
+offset_right = 6.0
+offset_bottom = 16.0
+theme_type_variation = &"YellowLabel"
+text = "+"
+
+[node name="Value" type="Label" parent="."]
+z_index = 1
+layout_mode = 2
+offset_left = 6.0
+offset_right = 10.0
+offset_bottom = 16.0
+theme_type_variation = &"YellowLabel"
+theme_override_colors/font_color = Color(1, 0.952941, 0.819608, 1)
+text = "1"
+
+[node name="Control" type="Control" parent="Value"]
+show_behind_parent = true
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Arrow" parent="Value/Control" instance=ExtResource("1_txb0l")]
+show_behind_parent = true
+position = Vector2(-4, -10)

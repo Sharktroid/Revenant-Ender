@@ -1,0 +1,181 @@
+[gd_scene load_steps=16 format=3 uid="uid://d4ca3lxq0obvn"]
+
+[ext_resource type="Texture2D" uid="uid://dtmqkwdo4bkqp" path="res://ui/level_up_screen/level_up_splash/title.png" id="1_hagdh"]
+[ext_resource type="Script" path="res://ui/level_up_screen/level_up_splash/level_up_splash.gd" id="1_l2kem"]
+[ext_resource type="Texture2D" uid="uid://b8wny2jruqu6q" path="res://ui/level_up_screen/level_up_splash/particle.png" id="1_pbwdh"]
+[ext_resource type="Texture2D" uid="uid://cmq2yghg40mkp" path="res://ui/level_up_screen/level_up_splash/darken.png" id="3_jcg87"]
+[ext_resource type="Texture2D" uid="uid://dnr3ed8apl5xf" path="res://ui/level_up_screen/level_up_splash/fade.png" id="4_mafy7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p4kw3"]
+bg_color = Color(1, 1, 1, 0)
+border_width_top = 1
+border_width_bottom = 1
+border_color = Color(0.964706, 0.678431, 0.494118, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qoxoq"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_top = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 0.984314, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ijoku"]
+expand_margin_top = 1.0
+expand_margin_bottom = 1.0
+
+[sub_resource type="Animation" id="Animation_5w58f"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_3bxmf"]
+resource_name = "play"
+length = 0.116668
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ndh63"]
+_data = {
+"RESET": SubResource("Animation_5w58f"),
+"play": SubResource("Animation_3bxmf")
+}
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_rwagm"]
+blend_mode = 1
+
+[sub_resource type="Animation" id="Animation_t5lkm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_6kwau"]
+resource_name = "play"
+length = 0.316668
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2, 0.233333, 0.25, 0.266667, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_n1fk8"]
+_data = {
+"RESET": SubResource("Animation_t5lkm"),
+"play": SubResource("Animation_6kwau")
+}
+
+[node name="Level Up Splash" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_l2kem")
+
+[node name="Line" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.25
+anchor_bottom = 0.25
+offset_left = -80.0
+offset_top = -26.0
+offset_bottom = 26.0
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="Panel" type="PanelContainer" parent="Line"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_p4kw3")
+
+[node name="Panel" type="PanelContainer" parent="Line/Panel"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_qoxoq")
+
+[node name="Bar" type="PanelContainer" parent="Line/Panel/Panel"]
+unique_name_in_owner = true
+show_behind_parent = true
+clip_children = 1
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ijoku")
+
+[node name="CenterContainer" type="CenterContainer" parent="Line/Panel/Panel/Bar"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Text Sprite" type="Sprite2D" parent="Line/Panel/Panel/Bar/CenterContainer"]
+unique_name_in_owner = true
+texture_repeat = 2
+texture = ExtResource("1_hagdh")
+vframes = 13
+
+[node name="Darken Sprite" type="Sprite2D" parent="Line/Panel/Panel/Bar/CenterContainer"]
+unique_name_in_owner = true
+visible = false
+texture = ExtResource("3_jcg87")
+vframes = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Line/Panel/Panel/Bar/CenterContainer/Darken Sprite"]
+libraries = {
+"": SubResource("AnimationLibrary_ndh63")
+}
+
+[node name="Fade Sprite" type="Sprite2D" parent="Line/Panel/Panel/Bar/CenterContainer"]
+unique_name_in_owner = true
+visible = false
+material = SubResource("CanvasItemMaterial_rwagm")
+texture = ExtResource("4_mafy7")
+vframes = 11
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Line/Panel/Panel/Bar/CenterContainer/Fade Sprite"]
+libraries = {
+"": SubResource("AnimationLibrary_n1fk8")
+}
+
+[node name="Particle" type="TextureRect" parent="Line"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+texture = ExtResource("1_pbwdh")
+stretch_mode = 3

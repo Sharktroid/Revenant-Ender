@@ -14,7 +14,7 @@ func _init() -> void:
 	max_weapon_levels[Weapon.types.AXE] = Weapon.ranks.A
 
 	base_stats = {
-		Unit.stats.HITPOINTS: 23,
+		Unit.stats.HIT_POINTS: 23,
 		Unit.stats.STRENGTH: 7,
 		Unit.stats.PIERCE: 0,
 		Unit.stats.MAGIC: 0,
@@ -28,7 +28,7 @@ func _init() -> void:
 		Unit.stats.CONSTITUTION: 11,
 	}
 	end_stats = {
-		Unit.stats.HITPOINTS: 47,
+		Unit.stats.HIT_POINTS: 47,
 		Unit.stats.STRENGTH: 24,
 		Unit.stats.PIERCE: 0,
 		Unit.stats.MAGIC: 0,

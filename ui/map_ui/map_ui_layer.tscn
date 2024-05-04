@@ -12,6 +12,7 @@
 position = Vector2(256, 144)
 
 [node name="Help Popup" parent="." instance=ExtResource("2_urdff")]
+visible = false
 offset_bottom = 10.0
 
 [node name="Dialogue" parent="." instance=ExtResource("3_ufrt0")]
