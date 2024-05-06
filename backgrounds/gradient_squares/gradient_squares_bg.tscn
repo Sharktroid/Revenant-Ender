@@ -12,7 +12,7 @@ shader_parameter/time_frequency = 1.0
 shader_parameter/split = false
 shader_parameter/wrap_around = true
 
-[node name="Gradient Squares BG" instance=ExtResource("1_okkpa")]
+[node name="GradientSquaresBG" instance=ExtResource("1_okkpa")]
 script = ExtResource("3_0kjv6")
 
 [node name="Features" parent="." index="1"]

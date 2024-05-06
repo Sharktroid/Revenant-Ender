@@ -101,7 +101,7 @@ _data = {
 "play": SubResource("Animation_6kwau")
 }
 
-[node name="Level Up Splash" type="Control"]
+[node name="LevelUpSplash" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -144,31 +144,31 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="Text Sprite" type="Sprite2D" parent="Line/Panel/Panel/Bar/CenterContainer"]
+[node name="TextSprite" type="Sprite2D" parent="Line/Panel/Panel/Bar/CenterContainer"]
 unique_name_in_owner = true
 texture_repeat = 2
 texture = ExtResource("1_hagdh")
 vframes = 13
 
-[node name="Darken Sprite" type="Sprite2D" parent="Line/Panel/Panel/Bar/CenterContainer"]
+[node name="DarkenSprite" type="Sprite2D" parent="Line/Panel/Panel/Bar/CenterContainer"]
 unique_name_in_owner = true
 visible = false
 texture = ExtResource("3_jcg87")
 vframes = 3
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Line/Panel/Panel/Bar/CenterContainer/Darken Sprite"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Line/Panel/Panel/Bar/CenterContainer/DarkenSprite"]
 libraries = {
 "": SubResource("AnimationLibrary_ndh63")
 }
 
-[node name="Fade Sprite" type="Sprite2D" parent="Line/Panel/Panel/Bar/CenterContainer"]
+[node name="FadeSprite" type="Sprite2D" parent="Line/Panel/Panel/Bar/CenterContainer"]
 unique_name_in_owner = true
 visible = false
 material = SubResource("CanvasItemMaterial_rwagm")
 texture = ExtResource("4_mafy7")
 vframes = 11
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Line/Panel/Panel/Bar/CenterContainer/Fade Sprite"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Line/Panel/Panel/Bar/CenterContainer/FadeSprite"]
 libraries = {
 "": SubResource("AnimationLibrary_n1fk8")
 }

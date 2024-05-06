@@ -9,7 +9,7 @@ var music_volume: float = 0.5:
 	set(value):
 		music_volume = value
 		get_current_player().volume_db = _percent_to_db(music_volume)
-		get_current_player().stream_paused = not(music_volume > 0)
+		get_current_player().stream_paused = not (music_volume > 0)
 var sfx_volume: float = 1.0
 
 var _music_container := Node.new()
@@ -69,7 +69,7 @@ func pause_track() -> void:
 		get_current_player().stream_paused = true
 
 
-func fade_in_track(duration: float = 1.0/3) -> void:
+func fade_in_track(duration: float = 1.0 / 3) -> void:
 	if is_instance_valid(get_current_player()) and is_inside_tree():
 		var tween: Tween = create_tween()
 		var set_volume: Callable = func(new_volume: float) -> void:
@@ -77,7 +77,7 @@ func fade_in_track(duration: float = 1.0/3) -> void:
 		tween.tween_method(set_volume, 0.0, music_volume, duration)
 
 
-func fade_out_track(duration: float = 1.0/3) -> void:
+func fade_out_track(duration: float = 1.0 / 3) -> void:
 	if is_instance_valid(get_current_player()):
 		var tween: Tween = create_tween()
 		var set_volume: Callable = func(new_volume: float) -> void:
@@ -115,4 +115,4 @@ func clear_sound_effects() -> void:
 
 
 func _percent_to_db(volume: float) -> float:
-	return 6 * (log(volume)/log(2)) if volume > 0 else -100.0
+	return 6 * (log(volume) / log(2)) if volume > 0 else -100.0

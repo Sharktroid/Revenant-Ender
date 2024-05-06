@@ -14,14 +14,14 @@ func _init() -> void:
 func update() -> void:
 	($Icon as TextureRect).texture = item.icon
 	($Name as Label).text = item.name
-	($"Current Uses" as Label).text = str(item.current_uses)
-	($"Max Uses" as Label).text = str(item.max_uses)
+	($CurrentUses as Label).text = str(item.current_uses)
+	($MaxUses as Label).text = str(item.max_uses)
 	help_description = item.description
 	help_table = (item as Weapon).get_stat_table() if item is Weapon else []
 
 
 func set_equip_status(unit: Unit) -> void:
-	var equip_status := $"Equip Status" as Label
+	var equip_status := $EquipStatus as Label
 	if item == unit.get_current_weapon():
 		equip_status.text = "W"
 		equip_status.add_theme_color_override("font_color", Color.ROYAL_BLUE)

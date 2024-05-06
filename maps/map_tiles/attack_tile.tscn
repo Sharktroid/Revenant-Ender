@@ -3,5 +3,5 @@
 [ext_resource type="PackedScene" uid="uid://c8vpqlssnmggo" path="res://maps/map_tiles/movement_tile.tscn" id="1"]
 [ext_resource type="Texture2D" uid="uid://bmjy8ot661jfl" path="res://maps/map_tiles/red_tile.png" id="2_rjhaq"]
 
-[node name="Attack Tile" instance=ExtResource("1")]
+[node name="AttackTile" instance=ExtResource("1")]
 texture = ExtResource("2_rjhaq")

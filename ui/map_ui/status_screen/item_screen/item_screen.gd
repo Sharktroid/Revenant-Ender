@@ -5,10 +5,10 @@ var observing_unit: Unit
 
 func update() -> void:
 	var Ranks: Array[Node] = []
-	for control: Control in $"Weapon Ranks/GridContainer".get_children() as Array[Control]:
+	for control: Control in $"WeaponRanks/GridContainer".get_children() as Array[Control]:
 		if control.get_index() % 2 == 0:
 			Ranks.append(control)
-	for child: Node in $"Item Panel/Item Label Container".get_children():
+	for child: Node in $"ItemPanel/ItemLabelContainer".get_children():
 		for grandchild: Node in child.get_children():
 			grandchild.queue_free()
 	var item_labels: Array[Node] = []
@@ -18,7 +18,7 @@ func update() -> void:
 		var item_label := ITEM_LABEL_NODE.instantiate() as ItemLabel
 		item_label.item = item
 		item_label.set_equip_status(observing_unit)
-		$"Item Panel/Item Label Container".add_child(item_label)
+		$"ItemPanel/ItemLabelContainer".add_child(item_label)
 		item_labels.append(item_label)
 
 	await get_tree().process_frame
@@ -33,12 +33,12 @@ func update() -> void:
 		Utilities.set_neighbor_path("top", index, -1, item_labels)
 		Utilities.set_neighbor_path("bottom", index, 1, item_labels)
 	for type: String in Weapon.Types.keys() as Array[String]:
-		var rank_node_name: String = "%s Rank" % str(type).capitalize()
+		var rank_node_name: String = "%sRank" % str(type).capitalize()
 		const RANK_LABEL = preload("res://ui/map_ui/status_screen/item_screen/weapon_rank_label/" +
 				"weapon_rank_label.gd")
-		var rank_label := $"Weapon Ranks/GridContainer".get_node(rank_node_name) as RANK_LABEL
+		var rank_label := $"WeaponRanks/GridContainer".get_node(rank_node_name) as RANK_LABEL
 		rank_label.weapon_rank = observing_unit.weapon_levels.get(Weapon.Types[type], 0)
 
 
 func get_item_labels() -> Array[Node]:
-	return $"Item Panel/Item Label Container".get_children()
+	return $"ItemPanel/ItemLabelContainer".get_children()

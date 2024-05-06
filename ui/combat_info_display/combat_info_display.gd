@@ -37,10 +37,10 @@ func _enter_tree() -> void:
 	# Removes float rounding errors
 	const LIGHT_BLUE := Color("5294D6")
 	const DARK_BLUE := Color("315A9C")
-	var top_unit_panel := %"Top Unit Panel" as PanelContainer
+	var top_unit_panel := %TopUnitPanel as PanelContainer
 	(top_unit_panel.get_theme_stylebox("panel") as StyleBoxFlat).bg_color = LIGHT_BLUE
 	(top_unit_panel.get_node("Line2D") as Line2D).default_color = DARK_BLUE
-	var bottom_unit_panel := %"Bottom Unit Panel" as PanelContainer
+	var bottom_unit_panel := %BottomUnitPanel as PanelContainer
 	(bottom_unit_panel.get_theme_stylebox("panel") as StyleBoxFlat).bg_color = DARK_BLUE
 	(bottom_unit_panel.get_node("Line2D") as Line2D).default_color = LIGHT_BLUE
 
@@ -85,10 +85,10 @@ func _update() -> void:
 		var other_unit: Unit = bottom_unit if is_top else top_unit
 		var weapon: Weapon = _weapons[_weapon_index] if is_top else bottom_unit.get_current_weapon()
 		var format: Callable = func(input_string: String) -> String:
-			return ("%" + half + " " + input_string)
+			return ("%" + half + input_string)
 		(get_node(format.call("Name")) as Label).text = current_unit.unit_name
-		(get_node(format.call("Weapon Icon")) as TextureRect).texture = weapon.icon
-		(get_node(format.call("Weapon Name")) as Label).text = weapon.name
+		(get_node(format.call("WeaponIcon")) as TextureRect).texture = weapon.icon
+		(get_node(format.call("WeaponName")) as Label).text = weapon.name
 
 		(get_node(format.call("HP")) as Label).text = str(current_unit.current_health)
 
@@ -97,17 +97,17 @@ func _update() -> void:
 					str(current_unit.get_damage(other_unit))
 			(get_node(format.call("Hit")) as Label).text = \
 					str(current_unit.get_hit_rate(other_unit))
-			(get_node(format.call("Crit Damage")) as Label).text = \
+			(get_node(format.call("CritDamage")) as Label).text = \
 					str(current_unit.get_crit_damage(other_unit))
 			(get_node(format.call("Crit")) as Label).text = \
 					str(current_unit.get_crit_rate(other_unit))
 		else:
-			for node_name: String in ["Damage", "Hit", "Crit Damage", "Crit"] as Array[String]:
+			for node_name: String in ["Damage", "Hit", "CritDamage", "Crit"] as Array[String]:
 				(get_node(format.call(node_name)) as Label).text = "--"
 
 		if current_unit.faction.color == Faction.Colors.RED:
 			var shader_material: ShaderMaterial = \
-					(get_node(format.call("Unit Panel")) as PanelContainer).material
+					(get_node(format.call("UnitPanel")) as PanelContainer).material
 			var old_vectors: Array[Color] = []
 			for color: Color in BLUE_COLORS:
 				old_vectors.append(color)

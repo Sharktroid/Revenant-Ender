@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://i3a0mes5l4au" path="res://ui/map_ui/map_menus/unit_menu/unit_menu.tscn" id="1_3h685"]
 [ext_resource type="Script" path="res://ui/map_ui/map_menus/canto_menu/canto_menu.gd" id="2_y21hq"]
 
-[node name="Canto Menu" instance=ExtResource("1_3h685")]
+[node name="CantoMenu" instance=ExtResource("1_3h685")]
 script = ExtResource("2_y21hq")
 
 [node name="Attack" parent="Items" index="0"]

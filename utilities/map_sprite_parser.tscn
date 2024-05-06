@@ -34,17 +34,17 @@ disable_3d = true
 transparent_bg = true
 size = Vector2i(128, 160)
 
-[node name="Shader Controller" type="Node2D" parent="Renderer"]
+[node name="ShaderController" type="Node2D" parent="Renderer"]
 material = SubResource("2")
 
-[node name="Standing 1" type="Sprite2D" parent="Renderer/Shader Controller" groups=["Standing"]]
+[node name="Standing1" type="Sprite2D" parent="Renderer/ShaderController" groups=["Standing"]]
 use_parent_material = true
 position = Vector2(16, 16)
 centered = false
 offset = Vector2(-8, nan)
 vframes = 3
 
-[node name="Standing 2" type="Sprite2D" parent="Renderer/Shader Controller" groups=["Standing"]]
+[node name="Standing2" type="Sprite2D" parent="Renderer/ShaderController" groups=["Standing"]]
 use_parent_material = true
 position = Vector2(48, 16)
 centered = false
@@ -52,7 +52,7 @@ offset = Vector2(-8, nan)
 vframes = 3
 frame = 1
 
-[node name="Standing 3" type="Sprite2D" parent="Renderer/Shader Controller" groups=["Standing"]]
+[node name="Standing3" type="Sprite2D" parent="Renderer/ShaderController" groups=["Standing"]]
 use_parent_material = true
 position = Vector2(80, 16)
 centered = false
@@ -60,104 +60,104 @@ offset = Vector2(-8, nan)
 vframes = 3
 frame = 2
 
-[node name="Walking 1" type="Sprite2D" parent="Renderer/Shader Controller" groups=["Walking"]]
+[node name="Walking1" type="Sprite2D" parent="Renderer/ShaderController" groups=["Walking"]]
 material = SubResource("2")
 position = Vector2(0, 32)
 centered = false
 vframes = 15
 
-[node name="Walking 2" type="Sprite2D" parent="Renderer/Shader Controller" groups=["Walking"]]
+[node name="Walking2" type="Sprite2D" parent="Renderer/ShaderController" groups=["Walking"]]
 use_parent_material = true
 position = Vector2(32, 32)
 centered = false
 vframes = 15
 frame = 1
 
-[node name="Walking 3" type="Sprite2D" parent="Renderer/Shader Controller" groups=["Walking"]]
+[node name="Walking3" type="Sprite2D" parent="Renderer/ShaderController" groups=["Walking"]]
 use_parent_material = true
 position = Vector2(64, 32)
 centered = false
 vframes = 15
 frame = 2
 
-[node name="Walking 4" type="Sprite2D" parent="Renderer/Shader Controller" groups=["Walking"]]
+[node name="Walking4" type="Sprite2D" parent="Renderer/ShaderController" groups=["Walking"]]
 use_parent_material = true
 position = Vector2(96, 32)
 centered = false
 vframes = 15
 frame = 3
 
-[node name="Walking 5" type="Sprite2D" parent="Renderer/Shader Controller" groups=["Walking"]]
+[node name="Walking5" type="Sprite2D" parent="Renderer/ShaderController" groups=["Walking"]]
 use_parent_material = true
 position = Vector2(0, 64)
 centered = false
 vframes = 15
 frame = 4
 
-[node name="Walking 6" type="Sprite2D" parent="Renderer/Shader Controller" groups=["Walking"]]
+[node name="Walking6" type="Sprite2D" parent="Renderer/ShaderController" groups=["Walking"]]
 use_parent_material = true
 position = Vector2(32, 64)
 centered = false
 vframes = 15
 frame = 5
 
-[node name="Walking 7" type="Sprite2D" parent="Renderer/Shader Controller" groups=["Walking"]]
+[node name="Walking7" type="Sprite2D" parent="Renderer/ShaderController" groups=["Walking"]]
 use_parent_material = true
 position = Vector2(64, 64)
 centered = false
 vframes = 15
 frame = 6
 
-[node name="Walking 8" type="Sprite2D" parent="Renderer/Shader Controller" groups=["Walking"]]
+[node name="Walking8" type="Sprite2D" parent="Renderer/ShaderController" groups=["Walking"]]
 use_parent_material = true
 position = Vector2(96, 64)
 centered = false
 vframes = 15
 frame = 7
 
-[node name="Walking 9" type="Sprite2D" parent="Renderer/Shader Controller" groups=["Walking"]]
+[node name="Walking9" type="Sprite2D" parent="Renderer/ShaderController" groups=["Walking"]]
 use_parent_material = true
 position = Vector2(0, 96)
 centered = false
 vframes = 15
 frame = 8
 
-[node name="Walking 10" type="Sprite2D" parent="Renderer/Shader Controller" groups=["Walking"]]
+[node name="Walking10" type="Sprite2D" parent="Renderer/ShaderController" groups=["Walking"]]
 use_parent_material = true
 position = Vector2(32, 96)
 centered = false
 vframes = 15
 frame = 9
 
-[node name="Walking 11" type="Sprite2D" parent="Renderer/Shader Controller" groups=["Walking"]]
+[node name="Walking11" type="Sprite2D" parent="Renderer/ShaderController" groups=["Walking"]]
 use_parent_material = true
 position = Vector2(64, 96)
 centered = false
 vframes = 15
 frame = 10
 
-[node name="Walking 12" type="Sprite2D" parent="Renderer/Shader Controller" groups=["Walking"]]
+[node name="Walking12" type="Sprite2D" parent="Renderer/ShaderController" groups=["Walking"]]
 use_parent_material = true
 position = Vector2(96, 96)
 centered = false
 vframes = 15
 frame = 11
 
-[node name="Walking 13" type="Sprite2D" parent="Renderer/Shader Controller" groups=["Walking"]]
+[node name="Walking13" type="Sprite2D" parent="Renderer/ShaderController" groups=["Walking"]]
 use_parent_material = true
 position = Vector2(0, 128)
 centered = false
 vframes = 15
 frame = 12
 
-[node name="Walking 14" type="Sprite2D" parent="Renderer/Shader Controller" groups=["Walking"]]
+[node name="Walking14" type="Sprite2D" parent="Renderer/ShaderController" groups=["Walking"]]
 use_parent_material = true
 position = Vector2(32, 128)
 centered = false
 vframes = 15
 frame = 13
 
-[node name="Walking 15" type="Sprite2D" parent="Renderer/Shader Controller" groups=["Walking"]]
+[node name="Walking15" type="Sprite2D" parent="Renderer/ShaderController" groups=["Walking"]]
 use_parent_material = true
 position = Vector2(64, 128)
 centered = false

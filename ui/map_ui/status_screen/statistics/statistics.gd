@@ -4,10 +4,10 @@ var observing_unit: Unit
 
 
 func update() -> void:
-	var offensive_labels := %"Offensive Labels" as VBoxContainer
-	var defensive_labels := %"Defensive Labels" as VBoxContainer
-	var misc_labels := %"Misc Labels" as VBoxContainer
-	var other_labels := %"Other Labels" as VBoxContainer
+	var offensive_labels := %OffensiveLabels as VBoxContainer
+	var defensive_labels := %DefensiveLabels as VBoxContainer
+	var misc_labels := %MiscLabels as VBoxContainer
+	var other_labels := %OtherLabels as VBoxContainer
 	var max_width: int = [
 		roundi(offensive_labels.size.x),
 		roundi(defensive_labels.size.x),
@@ -18,33 +18,33 @@ func update() -> void:
 	misc_labels.custom_minimum_size.x = max_width
 	other_labels.custom_minimum_size.x = max_width
 
-	_update_stat_bar(%"Strength Bar" as StatBar, Unit.stats.STRENGTH)
-	_update_stat_bar(%"Pierce Bar" as StatBar, Unit.stats.PIERCE)
-	_update_stat_bar(%"Magic Bar" as StatBar, Unit.stats.MAGIC)
-	_update_stat_bar(%"Defense Bar" as StatBar, Unit.stats.DEFENSE)
-	_update_stat_bar(%"Armor Bar" as StatBar, Unit.stats.ARMOR)
-	_update_stat_bar(%"Resistance Bar" as StatBar, Unit.stats.RESISTANCE)
-	_update_stat_bar(%"Skill Bar" as StatBar, Unit.stats.SKILL)
-	_update_stat_bar(%"Speed Bar" as StatBar, Unit.stats.SPEED)
-	_update_stat_bar(%"Luck Bar" as StatBar, Unit.stats.LUCK)
-	_update_stat_bar(%"Constitution Bar" as StatBar, Unit.stats.CONSTITUTION)
-	_update_stat_bar(%"Movement Bar" as StatBar, Unit.stats.MOVEMENT)
+	_update_stat_bar(%StrengthBar as StatBar, Unit.stats.STRENGTH)
+	_update_stat_bar(%PierceBar as StatBar, Unit.stats.PIERCE)
+	_update_stat_bar(%MagicBar as StatBar, Unit.stats.MAGIC)
+	_update_stat_bar(%DefenseBar as StatBar, Unit.stats.DEFENSE)
+	_update_stat_bar(%ArmorBar as StatBar, Unit.stats.ARMOR)
+	_update_stat_bar(%ResistanceBar as StatBar, Unit.stats.RESISTANCE)
+	_update_stat_bar(%SkillBar as StatBar, Unit.stats.SKILL)
+	_update_stat_bar(%SpeedBar as StatBar, Unit.stats.SPEED)
+	_update_stat_bar(%LuckBar as StatBar, Unit.stats.LUCK)
+	_update_stat_bar(%ConstitutionBar as StatBar, Unit.stats.CONSTITUTION)
+	_update_stat_bar(%MovementBar as StatBar, Unit.stats.MOVEMENT)
 
-	(%"Weight Value" as Label).text = str(observing_unit.get_weight())
-	var aid_value := %"Aid Value" as Label
+	(%WeightValue as Label).text = str(observing_unit.get_weight())
+	var aid_value := %AidValue as Label
 	aid_value.text = "-" if observing_unit.get_aid() < 0 else str(observing_unit.get_aid())
 	const StarsLabel = preload("res://ui/map_ui/status_screen/statistics/stars_label/stars_label.gd")
-	(%"Authority Stars" as StarsLabel).stars = observing_unit.get_authority()
-	(%"Traveler Name" as Label).text = (
+	(%AuthorityStars as StarsLabel).stars = observing_unit.get_authority()
+	(%TravelerName as Label).text = (
 			observing_unit.traveler.name as String if observing_unit.traveler
 			else "-"
 	)
 
-	(%"Weight Number" as HelpContainer).help_description = "%d + %d" % [
+	(%WeightNumber as HelpContainer).help_description = "%d + %d" % [
 		observing_unit.get_stat(Unit.stats.CONSTITUTION),
 		observing_unit.unit_class.weight_modifier
 	]
-	var aid_number := %"Aid Number" as HelpContainer
+	var aid_number := %AidNumber as HelpContainer
 	if observing_unit.unit_class.aid_modifier < 0:
 		aid_number.help_description = "%d - %d" % [
 			observing_unit.get_stat(Unit.stats.CONSTITUTION),
@@ -61,8 +61,8 @@ func update() -> void:
 
 
 func get_left_controls() -> Array[Node]:
-	return (%"Offensive Labels".get_children()
-			+ %"Misc Labels".get_children())
+	return (%OffensiveLabels.get_children()
+			+ %MiscLabels.get_children())
 
 
 func _update_stat_bar(stat_bar: StatBar, stat: Unit.stats) -> void:

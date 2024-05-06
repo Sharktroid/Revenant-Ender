@@ -2,20 +2,20 @@
 
 [ext_resource type="Script" path="res://ui/map_ui/status_screen/statistics/stat_bar/stat_bar.gd" id="1_1r07s"]
 
-[node name="Stat Bar" type="BoxContainer"]
+[node name="StatBar" type="BoxContainer"]
 offset_right = 7.0
 offset_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_1r07s")
 
-[node name="Resize Handler" type="ReferenceRect" parent="."]
+[node name="ResizeHandler" type="ReferenceRect" parent="."]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="Resize Handler"]
+[node name="MarginContainer" type="MarginContainer" parent="ResizeHandler"]
 custom_minimum_size = Vector2(0, 2)
 layout_mode = 1
 anchors_preset = 14
@@ -33,7 +33,7 @@ theme_override_constants/margin_top = 1
 theme_override_constants/margin_right = 2
 theme_override_constants/margin_bottom = 1
 
-[node name="ProgressBar" type="ProgressBar" parent="Resize Handler/MarginContainer"]
+[node name="ProgressBar" type="ProgressBar" parent="ResizeHandler/MarginContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 2)
 layout_mode = 2
@@ -43,7 +43,7 @@ max_value = 2.0
 value = 1.0
 show_percentage = false
 
-[node name="Value Label" type="Label" parent="Resize Handler"]
+[node name="ValueLabel" type="Label" parent="ResizeHandler"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1

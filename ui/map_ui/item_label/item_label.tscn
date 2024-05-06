@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://ui/map_ui/item_label/item_label.gd" id="1_6huud"]
 
-[node name="Item Label" type="BoxContainer"]
+[node name="ItemLabel" type="BoxContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -10,7 +10,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_6huud")
 
-[node name="Equip Status" type="Label" parent="."]
+[node name="EquipStatus" type="Label" parent="."]
 custom_minimum_size = Vector2(8, 0)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -26,7 +26,7 @@ stretch_mode = 3
 layout_mode = 2
 size_flags_horizontal = 2
 
-[node name="Current Uses" type="Label" parent="."]
+[node name="CurrentUses" type="Label" parent="."]
 layout_mode = 2
 size_flags_horizontal = 10
 theme_type_variation = &"BlueLabel"
@@ -36,7 +36,7 @@ layout_mode = 2
 theme_type_variation = &"YellowLabel"
 text = "/"
 
-[node name="Max Uses" type="Label" parent="."]
+[node name="MaxUses" type="Label" parent="."]
 custom_minimum_size = Vector2(11, 0)
 layout_mode = 2
 theme_type_variation = &"BlueLabel"

@@ -4,35 +4,35 @@
 [ext_resource type="Script" path="res://ui/map_ui/map_menus/debug_menu/debug_menu.gd" id="2"]
 [ext_resource type="Script" path="res://ui/map_ui/map_menus/map_menu_item.gd" id="3_cx8w0"]
 
-[node name="Debug Menu" instance=ExtResource("1")]
+[node name="DebugMenu" instance=ExtResource("1")]
 script = ExtResource("2")
 
-[node name="Unit Wait" type="BoxContainer" parent="Items" index="0"]
+[node name="UnitWait" type="BoxContainer" parent="Items" index="0"]
 layout_mode = 2
 script = ExtResource("3_cx8w0")
 help_description = "Whether using a turn ending action will end a unit's turn."
 
-[node name="Display Borders" type="BoxContainer" parent="Items" index="1"]
+[node name="DisplayBorders" type="BoxContainer" parent="Items" index="1"]
 layout_mode = 2
 script = ExtResource("3_cx8w0")
 help_description = "Whether to display the map's borders."
 
-[node name="Display Terrain" type="BoxContainer" parent="Items" index="2"]
+[node name="DisplayTerrain" type="BoxContainer" parent="Items" index="2"]
 layout_mode = 2
 script = ExtResource("3_cx8w0")
 help_description = "Whether to display a terrain overlay."
 
-[node name="Display Map Cursor" type="BoxContainer" parent="Items" index="3"]
+[node name="DisplayMapCursor" type="BoxContainer" parent="Items" index="3"]
 layout_mode = 2
 script = ExtResource("3_cx8w0")
 help_description = "Whether to display the map cursor's area."
 
-[node name="Output Input Reciever" type="BoxContainer" parent="Items" index="4"]
+[node name="OutputInputReciever" type="BoxContainer" parent="Items" index="4"]
 layout_mode = 2
 script = ExtResource("3_cx8w0")
 help_description = "Whether to display the map cursor's area."
 
-[node name="Print Cursor Position" type="BoxContainer" parent="Items" index="5"]
+[node name="PrintCursorPosition" type="BoxContainer" parent="Items" index="5"]
 layout_mode = 2
 script = ExtResource("3_cx8w0")
 help_description = "Prints the cursor's position."

@@ -71,9 +71,9 @@ func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[CombatStage
 
 	for unit: Unit in [attacker, defender]:
 		if unit.dead:
-			attacker.queue_free()
+			unit.queue_free()
 		else:
-			attacker.visible = true
+			unit.visible = true
 
 
 func _map_attack(attacker: Unit, defender: Unit, attacker_animation: MapAttack,

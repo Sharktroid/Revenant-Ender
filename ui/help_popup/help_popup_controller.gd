@@ -77,7 +77,7 @@ func is_idle() -> bool:
 
 
 func get_popup_node() -> _HelpPopup:
-	var path := NodePath("%s/Help Popup" % MapController.get_ui().get_path())
+	var path := NodePath("%s/HelpPopup" % MapController.get_ui().get_path())
 	return get_node(path) if has_node(path) else _HelpPopup.new()
 
 

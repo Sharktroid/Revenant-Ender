@@ -11,7 +11,7 @@ shader_parameter/time_frequency = 0.5
 shader_parameter/split = true
 shader_parameter/wrap_around = true
 
-[node name="BG 1" instance=ExtResource("1_nafvo")]
+[node name="BG1" instance=ExtResource("1_nafvo")]
 hue_min = 0.25
 hue_max = 0.6
 

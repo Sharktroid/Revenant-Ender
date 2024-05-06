@@ -8,10 +8,10 @@ extends Node2D
 
 func _process(_delta: float) -> void:
 	for standing: Sprite2D in get_tree().get_nodes_in_group("Standing") as Array[Sprite2D]:
-		standing.texture = ($Standing as Sprite2D).texture
+		standing.texture = ($Standingas Sprite2D).texture
 		standing.offset.y = standing_offset_y
 	for walking: Sprite2D in get_tree().get_nodes_in_group("Walking") as Array[Sprite2D]:
-		walking.texture = ($Walking as Sprite2D).texture
+		walking.texture = ($Walkingas Sprite2D).texture
 
 
 func _on_button_pressed() -> void:
@@ -24,4 +24,4 @@ func _on_button_pressed() -> void:
 	#$Parser.texture = texture
 	#image.flip_y()
 	#image.convert(image.FORMAT_RGBAF)
-	#image.save_exr("res://Map Sprites/%s.exr" % text)
+	#image.save_exr("res://MapSprites/%s.exr" % text)

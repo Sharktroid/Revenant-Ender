@@ -44,7 +44,7 @@ texture_margin_top = 4.0
 texture_margin_right = 4.0
 texture_margin_bottom = 4.0
 
-[node name="EXP Bar" type="Control"]
+[node name="EXPBar" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -53,7 +53,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_8yggw")
 
-[node name="Visibility Panel" type="Panel" parent="."]
+[node name="VisibilityPanel" type="Panel" parent="."]
 unique_name_in_owner = true
 clip_children = 1
 material = SubResource("ShaderMaterial_c4han")
@@ -68,7 +68,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_2a7ic")
 
-[node name="PanelContainer" type="PanelContainer" parent="Visibility Panel"]
+[node name="PanelContainer" type="PanelContainer" parent="VisibilityPanel"]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 1
 anchors_preset = 15
@@ -78,20 +78,20 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_7hmn0")
 
-[node name="MarginContainer" type="MarginContainer" parent="Visibility Panel/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VisibilityPanel/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_right = 5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Visibility Panel/PanelContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VisibilityPanel/PanelContainer/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Control" type="Control" parent="Visibility Panel/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="VisibilityPanel/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Panel" type="Panel" parent="Visibility Panel/PanelContainer/MarginContainer/HBoxContainer/Control"]
+[node name="Panel" type="Panel" parent="VisibilityPanel/PanelContainer/MarginContainer/HBoxContainer/Control"]
 custom_minimum_size = Vector2(0, 5)
 layout_mode = 1
 anchors_preset = 14
@@ -102,7 +102,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_lb6jr")
 
-[node name="Exp Bar" type="ProgressBar" parent="Visibility Panel/PanelContainer/MarginContainer/HBoxContainer/Control"]
+[node name="EXPBar" type="ProgressBar" parent="VisibilityPanel/PanelContainer/MarginContainer/HBoxContainer/Control"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 7)
 layout_mode = 1
@@ -120,7 +120,7 @@ theme_override_styles/fill = SubResource("StyleBoxTexture_xe3xn")
 value = 15.0
 show_percentage = false
 
-[node name="Fill Panel" type="Panel" parent="Visibility Panel/PanelContainer/MarginContainer/HBoxContainer/Control"]
+[node name="FillPanel" type="Panel" parent="VisibilityPanel/PanelContainer/MarginContainer/HBoxContainer/Control"]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(0, 7)
@@ -133,14 +133,14 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_opmxk")
 
-[node name="Exp Value" type="Label" parent="Visibility Panel/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="ExpValue" type="Label" parent="VisibilityPanel/PanelContainer/MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 text = "100%"
 horizontal_alignment = 2
 
-[node name="TextureRect" type="TextureRect" parent="Visibility Panel"]
+[node name="TextureRect" type="TextureRect" parent="VisibilityPanel"]
 layout_mode = 2
 offset_left = 7.6
 offset_right = 31.6

@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://dvyyy1vag5her" path="res://ui/textbox/textbox_background.tscn" id="1_t2cu5"]
 [ext_resource type="Script" path="res://ui/help_popup/help_popup.gd" id="2_c4kfo"]
 
-[node name="Help Popup" instance=ExtResource("1_t2cu5")]
+[node name="HelpPopup" instance=ExtResource("1_t2cu5")]
 z_index = 1
 anchors_preset = 0
 anchor_right = 0.0

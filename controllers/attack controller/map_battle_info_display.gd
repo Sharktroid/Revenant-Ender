@@ -7,8 +7,8 @@ var defender: Unit
 
 
 func _enter_tree() -> void:
-	($"Left HP Bar" as MapHPBar).unit = attacker
-	($"Right HP Bar" as MapHPBar).unit = defender
+	($LeftHPBar as MapHPBar).unit = attacker
+	($RightHPBar as MapHPBar).unit = defender
 	position = (Vector2((attacker.position.x + defender.position.x)/2 - size.x/2,
 			maxf(attacker.position.y, defender.position.y))
 			- Vector2(MapController.get_map_camera().map_position)

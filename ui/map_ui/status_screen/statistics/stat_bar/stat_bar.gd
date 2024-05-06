@@ -16,7 +16,7 @@ func update() -> void:
 	var current_value: float = unit.get_stat(stat)
 	var max_value: float = maxi(unit.get_stat_cap(stat), 10)
 
-	(%"Value Label" as Label).text = str(roundi(current_value))
+	(%ValueLabel as Label).text = str(roundi(current_value))
 	var progress_bar := %ProgressBar as ProgressBar
 	if max_value <= 0:
 		progress_bar.visible = false
@@ -24,7 +24,7 @@ func update() -> void:
 		progress_bar.visible = true
 		progress_bar.max_value = max_value
 		progress_bar.value = current_value
-	var resize_handler := $"Resize Handler" as ReferenceRect
+	var resize_handler := $ResizeHandler as ReferenceRect
 	resize_handler.set_size.call_deferred(Vector2(size.x * (float(max_value) / ABSOLUTE_MAX_VALUE),
 			resize_handler.size.y))
 

@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://ui/map_ui/map_menus/confirmation_map_menu/confirmation_map_menu.gd" id="2_chonj"]
 [ext_resource type="Script" path="res://ui/map_ui/map_menus/map_menu_item.gd" id="2_fsage"]
 
-[node name="Confirmation Map Menu" instance=ExtResource("1_ivnti")]
+[node name="ConfirmationMapMenu" instance=ExtResource("1_ivnti")]
 script = ExtResource("2_chonj")
 
 [node name="Yes" type="BoxContainer" parent="Items" index="0"]

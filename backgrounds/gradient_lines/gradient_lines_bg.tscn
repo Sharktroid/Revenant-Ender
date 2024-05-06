@@ -1,12 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://bm8qo5r81mo2y"]
+[gd_scene load_steps=10 format=3 uid="uid://bm8qo5r81mo2y"]
 
 [ext_resource type="PackedScene" uid="uid://b5rhtmfvnnqvb" path="res://backgrounds/animated_background.tscn" id="1_8xr0r"]
 [ext_resource type="Shader" path="res://backgrounds/horizontal_distortion.gdshader" id="2_fxdsw"]
 [ext_resource type="Shader" path="res://backgrounds/gradient.gdshader" id="4_e1cjp"]
 [ext_resource type="Shader" path="res://backgrounds/scrolling_bg.gdshader" id="4_ne7kf"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dt0ek"]
-bg_color = Color(0, 0, 0, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vqmsm"]
 shader = ExtResource("4_ne7kf")
@@ -35,24 +32,21 @@ shader_parameter/wrap_around = true
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pbu75"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
-[node name="Gradient Lines BG" instance=ExtResource("1_8xr0r")]
-
-[node name="Base Color" parent="." index="0"]
-theme_override_styles/panel = SubResource("StyleBoxFlat_dt0ek")
+[node name="GradientLinesBG" instance=ExtResource("1_8xr0r")]
 
 [node name="Features" parent="." index="1"]
 material = SubResource("ShaderMaterial_vqmsm")
 
-[node name="Line Container" type="Node2D" parent="Features" index="0"]
+[node name="LineContainer" type="Node2D" parent="Features" index="0"]
 material = SubResource("ShaderMaterial_gfwqa")
 
-[node name="Line2D" type="Line2D" parent="Features/Line Container" index="0"]
+[node name="Line2D" type="Line2D" parent="Features/LineContainer" index="0"]
 use_parent_material = true
 points = PackedVector2Array(0, 0, 2, 2, 16, 16, 30, 30, 32, 32)
 width = 2.0
 gradient = SubResource("Gradient_tc1cb")
 
-[node name="Line2D2" type="Line2D" parent="Features/Line Container" index="1"]
+[node name="Line2D2" type="Line2D" parent="Features/LineContainer" index="1"]
 use_parent_material = true
 position = Vector2(64, 0)
 rotation = 1.5708
@@ -60,7 +54,7 @@ points = PackedVector2Array(0, 0, 2, 2, 16, 16, 30, 30, 32, 32)
 width = 2.0
 gradient = SubResource("Gradient_tc1cb")
 
-[node name="Line2D3" type="Line2D" parent="Features/Line Container" index="2"]
+[node name="Line2D3" type="Line2D" parent="Features/LineContainer" index="2"]
 use_parent_material = true
 position = Vector2(32, 32)
 rotation = 1.5708
@@ -68,7 +62,7 @@ points = PackedVector2Array(0, 0, 2, 2, 16, 16, 30, 30, 32, 32)
 width = 2.0
 gradient = SubResource("Gradient_tc1cb")
 
-[node name="Line2D4" type="Line2D" parent="Features/Line Container" index="3"]
+[node name="Line2D4" type="Line2D" parent="Features/LineContainer" index="3"]
 use_parent_material = true
 position = Vector2(32, 32)
 points = PackedVector2Array(0, 0, 2, 2, 16, 16, 30, 30, 32, 32)

@@ -11,7 +11,7 @@ shader_parameter/time_frequency = 0.0
 shader_parameter/split = false
 shader_parameter/wrap_around = true
 
-[node name="Horizontal Distortion Test" instance=ExtResource("1_86syr")]
+[node name="HorizontalDistortionTest" instance=ExtResource("1_86syr")]
 
 [node name="Features" parent="." index="1"]
 material = SubResource("ShaderMaterial_uogkq")

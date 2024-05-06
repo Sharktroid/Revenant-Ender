@@ -8,7 +8,7 @@ texture = ExtResource("2_6jqyi")
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
-[node name="Stars Label" type="HBoxContainer"]
+[node name="StarsLabel" type="HBoxContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -19,18 +19,18 @@ size_flags_vertical = 3
 theme_override_constants/separation = 2
 script = ExtResource("1_rsmud")
 
-[node name="Number Label" type="Label" parent="."]
+[node name="NumberLabel" type="Label" parent="."]
 visible = false
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
 
-[node name="Stars Width" type="Control" parent="."]
+[node name="StarsWidth" type="Control" parent="."]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(8, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="Stars Display" type="Panel" parent="Stars Width"]
+[node name="StarsDisplay" type="Panel" parent="StarsWidth"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 8)
 layout_mode = 1

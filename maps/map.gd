@@ -10,7 +10,7 @@ enum TileTypes {ATTACK, MOVEMENT, SUPPORT}
 @export var bottom_border: int
 # See _ready() for these next two
 var borders: Rect2i
-var movement_cost_dict: Dictionary # Movement costs for every movement type
+var movement_cost_dict: Dictionary # Movementcosts for every movement type
 var all_factions: Array[Faction] # All factions
 var map_position: Vector2i # Position of the map, used for scrolling
 
@@ -19,8 +19,8 @@ var _cost_grids: Dictionary = {}
 var _grid_current_faction: Faction
 var _current_turn: int
 
-@onready var _terrain_layer := $"Map Layer/Terrain Layer" as TileMap
-@onready var _border_overlay := $"Map Layer/Debug Border Overlay Container" as CanvasGroup
+@onready var _terrain_layer := $"MapLayer/TerrainLayer" as TileMap
+@onready var _border_overlay := $"MapLayer/DebugBorderOverlayContainer" as CanvasGroup
 
 
 func _init() -> void:
@@ -33,9 +33,9 @@ func _ready() -> void:
 	_create_debug_borders() # Only shows up when collison shapes are enabled
 	_terrain_layer.visible = Utilities.get_debug_constant("display_map_terrain")
 	_border_overlay.visible = Utilities.get_debug_constant("display_map_borders")
-	($"Map Layer/Cursor Area" as Area2D).visible = \
+	($"MapLayer/CursorArea" as Area2D).visible = \
 			Utilities.get_debug_constant("display_map_cursor")
-	var cell_max: Vector2i = ($"Map Layer/Base Layer" as TileMap).get_used_cells(0).max()
+	var cell_max: Vector2i = ($"MapLayer/BaseLayer" as TileMap).get_used_cells(0).max()
 	size = cell_max * 16 + Vector2i(16, 16)
 	GameController.add_to_input_stack(self)
 	const TYPES = UnitClass.MovementTypes
@@ -47,7 +47,7 @@ func _ready() -> void:
 		a_star_grid.default_estimate_heuristic = AStarGrid2D.HEURISTIC_MANHATTAN
 		a_star_grid.jumping_enabled = false
 		a_star_grid.update()
-		for cell: Vector2i in ($"Map Layer/Base Layer" as TileMap).get_used_cells(0):
+		for cell: Vector2i in ($"MapLayer/BaseLayer" as TileMap).get_used_cells(0):
 			update_a_star_grid_id(a_star_grid, movement_type, cell)
 		_cost_grids[movement_type] = a_star_grid
 	start_turn.call_deferred()
@@ -161,7 +161,7 @@ func get_terrain_cost(movement_type: UnitClass.MovementTypes, coords: Vector2) -
 		else:
 			push_error('Terrain "%s" is invalid' % terrain_name)
 	else:
-		push_error('Movement type "%s" is invalid' % movement_type)
+		push_error('Movementtype "%s" is invalid' % movement_type)
 	return INF
 
 
@@ -183,7 +183,7 @@ func toggle_outline_unit(unit: Unit) -> void:
 
 
 func update_outline() -> void:
-	($"Map Layer/Outline" as Node2D).queue_redraw()
+	($"MapLayer/Outline" as Node2D).queue_redraw()
 
 
 func display_tiles(tiles: Array[Vector2i], type: TileTypes, modulation: float = 0.5,
@@ -205,7 +205,7 @@ func display_tiles(tiles: Array[Vector2i], type: TileTypes, modulation: float = 
 		if Utilities.xor(not(i in modulate_blacklist), blacklist_as_whitelist):
 			tile.modulate.a = modulation
 		tiles_node.add_child(tile)
-	get_node("Map Layer/Base Layer").add_child(tiles_node)
+	get_node("MapLayer/BaseLayer").add_child(tiles_node)
 	return tiles_node
 
 
@@ -275,7 +275,7 @@ func _get_terrain(coords: Vector2i) -> String:
 	## Gets the name of the terrain at the tile at position "coords"'
 	return (
 			"Blocked" if not borders.has_point(coords)
-			else _terrain_layer.get_cell_tile_data(0, coords/16).get_custom_data("Terrain Name")
+			else _terrain_layer.get_cell_tile_data(0, coords/16).get_custom_data("TerrainName")
 	)
 
 
@@ -286,7 +286,7 @@ func _create_debug_borders() -> void:
 			if x < borders.position.x or x + 16 > borders.end.x \
 					or y < borders.position.y or y + 16 > borders.end.y:
 				var border_tile := \
-						$"Map Layer/Debug Border Overlay Tile Base".duplicate() as Sprite2D
+						$"MapLayer/DebugBorderOverlayTileBase".duplicate() as Sprite2D
 				border_tile.position = Vector2(x, y)
 				border_tile.visible = true
 				_border_overlay.add_child(border_tile)

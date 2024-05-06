@@ -10,8 +10,8 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	(%"Exp Bar" as ProgressBar).value = observing_unit.get_current_exp()
-	(%"Exp Value" as Label).text = "%d%%" % observing_unit.get_exp_percent()
+	(%EXPBar as ProgressBar).value = observing_unit.get_current_exp()
+	(%ExpValue as Label).text = "%d%%" % observing_unit.get_exp_percent()
 
 
 func play(experience: float) -> void:
@@ -61,5 +61,5 @@ func close() -> void:
 
 
 func _set_visible_ratio(ratio: float) -> void:
-	var shader_material := (%"Visibility Panel" as Panel).material as ShaderMaterial
+	var shader_material := (%VisibilityPanel as Panel).material as ShaderMaterial
 	shader_material.set_shader_parameter("visible_ratio", ratio)

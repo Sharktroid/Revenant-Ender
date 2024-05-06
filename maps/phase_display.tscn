@@ -12,7 +12,7 @@ shader_parameter/old_colors = [Color(39, 39, 39, 255), null]
 shader_parameter/new_colors = [Color(0, 0, 127, 255)]
 shader_parameter/modulate = Vector4(1, 1, 1, 1)
 
-[node name="Phase Display" type="Control"]
+[node name="PhaseDisplay" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,7 +21,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_facvv")
 
-[node name="Darken Panel" type="Panel" parent="."]
+[node name="DarkenPanel" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -47,7 +47,7 @@ offset_bottom = 8.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Name Label" type="Label" parent="CanvasGroup/HBoxContainer"]
+[node name="NameLabel" type="Label" parent="CanvasGroup/HBoxContainer"]
 unique_name_in_owner = true
 use_parent_material = true
 layout_mode = 2

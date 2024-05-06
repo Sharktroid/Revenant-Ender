@@ -28,10 +28,6 @@ func _process(_delta: float) -> void:
 			_label.add_theme_color_override("font_color", Color.GRAY)
 
 
-func set_text(text: String) -> void:
-	_label.text = text
-
-
 func _get_parent_menu() -> MapMenu:
 	return get_parent().get_parent()
 
@@ -42,4 +38,5 @@ func _on_mouse_entered() -> void:
 
 
 func _update() -> void:
-	_label.text = name as String if value == "" else "%s: %s" % [name, value]
+	var proper_name: String = name.to_snake_case().replace("_", " ").capitalize()
+	_label.text = proper_name as String if value == "" else "%s: %s" % [proper_name, value]

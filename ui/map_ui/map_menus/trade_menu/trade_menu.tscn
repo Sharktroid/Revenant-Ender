@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://ui/map_ui/map_menus/trade_menu/trade_menu.gd" id="1_xggw2"]
 [ext_resource type="Texture2D" uid="uid://c5wpipk2fwgpk" path="res://ui/selection_hand.png" id="2_t4g01"]
 
-[node name="Trade Menu" type="Control"]
+[node name="TradeMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,7 +34,7 @@ theme_override_constants/separation = 12
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Left Items" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Panel"]
+[node name="LeftItems" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Panel"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 0
@@ -43,18 +43,18 @@ theme_override_constants/separation = 0
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Right Items" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Panel2"]
+[node name="RightItems" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Panel2"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Selection Hand" type="Sprite2D" parent="."]
+[node name="SelectionHand" type="Sprite2D" parent="."]
 position = Vector2(21, 121)
 texture = ExtResource("2_t4g01")
 centered = false
 offset = Vector2(-11, 3)
 
-[node name="Selected Hand" type="Sprite2D" parent="."]
+[node name="SelectedHand" type="Sprite2D" parent="."]
 visible = false
 position = Vector2(21, 121)
 texture = ExtResource("2_t4g01")

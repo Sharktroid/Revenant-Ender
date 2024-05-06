@@ -3,18 +3,18 @@ extends Polygon2D
 enum Shapes {DEFAULT, SQUISHED, TALL, SLIGHT_SQUISHED}
 
 #region Shape Nodes
-@onready var _inner_coloring := $"Inner Coloring" as Polygon2D
-@onready var _squished_arrow := $"Squished Arrow" as Polygon2D
-@onready var _squished_arrow_inner := $"Squished Arrow/Squished Inner" as Polygon2D
-@onready var _tall_arrow := $"Tall Arrow" as Polygon2D
-@onready var _tall_arrow_inner := $"Tall Arrow/Tall Inner" as Polygon2D
-@onready var _slight_squished_arrow := $"Slight Squished Arrow" as Polygon2D
-@onready var _slight_squished_arrow_inner := $"Slight Squished Arrow/Slight Squished Inner" as Polygon2D
+@onready var _inner_coloring := $InnerColoring as Polygon2D
+@onready var _squished_arrow := $SquishedArrow as Polygon2D
+@onready var _squished_arrow_inner := $"SquishedArrow/SquishedInner" as Polygon2D
+@onready var _tall_arrow := $TallArrow as Polygon2D
+@onready var _tall_arrow_inner := $"TallArrow/TallInner" as Polygon2D
+@onready var _slight_squished_arrow := $SlightSquishedArrow as Polygon2D
+@onready var _slight_squished_arrow_inner := $"SlightSquishedArrow/SlightSquishedInner" as Polygon2D
 #endregion
 
 #region Shape Polygons
 @onready var _default_outer: PackedVector2Array = polygon
-@onready var _default_inner: PackedVector2Array = ($"Inner Coloring" as Polygon2D).polygon
+@onready var _default_inner: PackedVector2Array = ($InnerColoring as Polygon2D).polygon
 @onready var _squished_outer: PackedVector2Array = _squished_arrow.polygon
 @onready var _squished_inner: PackedVector2Array = _squished_arrow_inner.polygon
 @onready var _tall_outer: PackedVector2Array = _tall_arrow.polygon

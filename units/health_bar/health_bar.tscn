@@ -8,7 +8,7 @@ bg_color = Color(0, 0, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tlhdi"]
 bg_color = Color(0, 0.75, 0, 1)
 
-[node name="Health Bar" type="ProgressBar"]
+[node name="HealthBar" type="ProgressBar"]
 offset_left = 1.0
 offset_top = 1.0
 offset_right = 15.0

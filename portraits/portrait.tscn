@@ -17,7 +17,7 @@ use_parent_material = true
 centered = false
 vframes = 3
 
-[node name="Mouth Happy" type="Sprite2D" parent="." groups=["mouth"]]
+[node name="MouthHappy" type="Sprite2D" parent="." groups=["mouth"]]
 visible = false
 use_parent_material = true
 centered = false

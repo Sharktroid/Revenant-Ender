@@ -14,7 +14,7 @@ var end_stats: Dictionary
 var base_weapon_levels: Dictionary
 var max_weapon_levels: Dictionary
 var max_level: int = 30
-var movement_type: MovementTypes # Movement class for handling moving over terrain.
+var movement_type: MovementTypes # Movementclass for handling moving over terrain.
 var map_sprite: CompressedTexture2D
 var default_portrait: Texture2D
 ## Modifier applied to constitution when calculating aid.

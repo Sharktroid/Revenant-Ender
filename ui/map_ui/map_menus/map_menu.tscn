@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://ui/map_ui/map_menus/map_menu.gd" id="1_xuaav"]
 
-[node name="Base Map Menu" type="PanelContainer"]
+[node name="BaseMapMenu" type="PanelContainer"]
 offset_right = 9.0
 offset_bottom = 9.0
 size_flags_horizontal = 3

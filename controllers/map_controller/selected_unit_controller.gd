@@ -7,7 +7,7 @@ var current_animation: Unit.animations = Unit.animations.IDLE
 
 func _init(connected_unit: Unit) -> void:
 	_unit = connected_unit
-	name = "Selected Unit Controller"
+	name = "Selected UnitController"
 	_unit.set_animation(Unit.animations.MOVING_DOWN)
 	_unit.selected = true
 	_unit.update_path(CursorController.map_position)

@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://dykuitu61sv1n" path="res://ui/level_up_screen/spiral_sparkle.png" id="1_hetsj"]
 [ext_resource type="Script" path="res://ui/level_up_screen/spiral_sparkle.gd" id="2_oi7j0"]
 
-[node name="Spiral Sparkle" type="Sprite2D"]
+[node name="SpiralSparkle" type="Sprite2D"]
 visible = false
 texture = ExtResource("1_hetsj")
 vframes = 11

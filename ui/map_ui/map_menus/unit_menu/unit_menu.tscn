@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://ui/map_ui/map_menus/unit_menu/unit_menu.gd" id="2_amlfl"]
 [ext_resource type="Script" path="res://ui/map_ui/map_menus/map_menu_item.gd" id="3_ead2k"]
 
-[node name="Unit Menu" instance=ExtResource("1_dy0ek")]
+[node name="UnitMenu" instance=ExtResource("1_dy0ek")]
 script = ExtResource("2_amlfl")
 
 [node name="Attack" type="BoxContainer" parent="Items" index="0"]

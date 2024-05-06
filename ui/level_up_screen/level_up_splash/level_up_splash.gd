@@ -24,7 +24,7 @@ func _ready() -> void:
 	var expand_tweener: MethodTweener = \
 			expand_tween.tween_method(set_min_size, 0, max_distance_to_edge * 2, 6.0/60)
 	expand_tweener.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
-	var text_sprite := %"Text Sprite" as Sprite2D
+	var text_sprite := %TextSprite as Sprite2D
 	var text_tween: Tween = create_tween()
 	text_tween.set_loops()
 	var advance_frame: Callable = func() -> void:
@@ -34,14 +34,14 @@ func _ready() -> void:
 	text_tween.stop()
 
 	text_sprite.visible = false
-	var darken_sprite := %"Darken Sprite" as Sprite2D
+	var darken_sprite := %DarkenSprite as Sprite2D
 	darken_sprite.visible = true
 	var darken_anim_player := darken_sprite.get_node("AnimationPlayer") as AnimationPlayer
 	darken_anim_player.play("play")
 	await darken_anim_player.animation_finished
 
 	darken_sprite.visible = false
-	var fade_sprite := %"Fade Sprite" as Sprite2D
+	var fade_sprite := %FadeSprite as Sprite2D
 	fade_sprite.visible = true
 	var fade_anim_player := fade_sprite.get_node("AnimationPlayer") as AnimationPlayer
 	fade_anim_player.play("play")

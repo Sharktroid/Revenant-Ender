@@ -37,7 +37,7 @@ texture = ExtResource("2_vuq7b")
 position = Vector2({mouth_x * 8}, {mouth_y * 8})
 texture = ExtResource("3_h8b72")
 
-[node name="Mouth Happy" parent="." index="1"]
+[node name="MouthHappy" parent="." index="1"]
 position = Vector2({mouth_x * 8}, {mouth_y * 8})
 texture = ExtResource("4_85h1k")
 """

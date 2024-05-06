@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://ui/map_ui/map_menus/item_menu/item_options_menu/item_options_menu.gd" id="2_rwnj0"]
 [ext_resource type="Script" path="res://ui/map_ui/map_menus/map_menu_item.gd" id="3_jkodk"]
 
-[node name="Item Options Menu" instance=ExtResource("1_ohgwd")]
+[node name="ItemOptionsMenu" instance=ExtResource("1_ohgwd")]
 script = ExtResource("2_rwnj0")
 
 [node name="Equip" type="BoxContainer" parent="Items" index="0"]

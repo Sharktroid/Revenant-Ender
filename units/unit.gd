@@ -79,7 +79,7 @@ var current_health: float:
 		current_health = clampf(health, 0, get_stat(stats.HIT_POINTS))
 		if not Engine.is_editor_hint():
 			const HealthBar = preload("res://units/health_bar/health_bar.gd")
-			($"Health Bar" as HealthBar).update()
+			($HealthBar as HealthBar).update()
 var faction: Faction:
 	get:
 		if _get_map().all_factions.size() > 0:
@@ -96,7 +96,7 @@ var _traveler_animation_player: AnimationPlayer
 var _portrait: Portrait
 var _path: Array[Vector2i] # Path the unit will follow when moving.
 var _current_statuses: Array[statuses]
-static var _movement_speed: float = 16 # Speed unit moves across the map in tiles/second.
+static var _movement_speed: float = 16 # Speedunit moves across the map in tiles/second.
 # Dictionaries that convert faction/variant into animation modifier.
 var _movement_tiles_node: Node2D
 var _attack_tile_node: Node2D
@@ -159,7 +159,7 @@ var _arrows_container: CanvasGroup
 
 func _enter_tree() -> void:
 	_animation_player = $AnimationPlayer as AnimationPlayer
-	_traveler_animation_player = $"Traveler Icon/AnimationPlayer" as AnimationPlayer
+	_traveler_animation_player = $"TravelerIcon/AnimationPlayer" as AnimationPlayer
 	level = base_level
 	for weapon_type: Weapon.Types in unit_class.base_weapon_levels.keys() as Array[Weapon.Types]:
 		if weapon_type not in weapon_levels.keys():
@@ -380,8 +380,8 @@ func get_stat_table(stat: stats) -> Array[String]:
 	var table_items: Dictionary = {
 		"Class Base" = str(unit_class.base_stats.get(stat, 0)),
 		"Class Final" = str(unit_class.end_stats.get(stat, 0)),
-		"Personal Values " = str(personal_values.get(stat, 0)),
-		"Effort Values" = str(effort_values.get(stat, 0)),
+		"PersonalValues " = str(personal_values.get(stat, 0)),
+		"EffortValues" = str(effort_values.get(stat, 0)),
 	}
 	return Utilities.dict_to_table(table_items)
 
@@ -550,9 +550,9 @@ func display_movement_tiles() -> void:
 	hide_movement_tiles()
 	var movement_tiles: Array[Vector2i] = get_movement_tiles()
 	_movement_tiles_node = _get_map().display_tiles(movement_tiles,
-			Map.tileTypes.MOVEMENT, 1)
+			Map.TileTypes.MOVEMENT, 1)
 	_attack_tile_node = _get_map().display_tiles(get_all_attack_tiles(movement_tiles),
-			Map.tileTypes.ATTACK, 1)
+			Map.TileTypes.ATTACK, 1)
 	if not selected:
 		_movement_tiles_node.modulate.a = 0.5
 		_attack_tile_node.modulate.a = 0.5
@@ -592,7 +592,7 @@ func get_current_attack_tiles(pos: Vector2i, all_weapons: bool = false) -> Array
 ## Shows off the tiles the unit can attack from its current position.
 func display_current_attack_tiles(pos: Vector2i) -> void:
 	_current_attack_tiles_node = _get_map().display_highlighted_tiles(
-			get_current_attack_tiles(pos), self, Map.tileTypes.ATTACK)
+			get_current_attack_tiles(pos), self, Map.TileTypes.ATTACK)
 
 
 ## Hides current attack tiles.
@@ -646,7 +646,7 @@ func move(move_target: Vector2i = get_unit_path()[-1]) -> void:
 
 
 func get_unit_path() -> Array[Vector2i]:
-	return [position] if _path.size() == 0 else _path
+	return [position] as Array[Vector2i] if _path.size() == 0 else _path
 
 
 ## Gets the path of the unit.

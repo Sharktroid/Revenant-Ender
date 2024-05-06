@@ -25,7 +25,7 @@ grow_vertical = 2
 mouse_filter = 1
 script = ExtResource("1_qkrfo")
 
-[node name="Item Panel" type="PanelContainer" parent="."]
+[node name="ItemPanel" type="PanelContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.65
@@ -35,12 +35,12 @@ grow_vertical = 2
 mouse_filter = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="Item Label Container" type="VBoxContainer" parent="Item Panel"]
+[node name="ItemLabelContainer" type="VBoxContainer" parent="ItemPanel"]
 layout_mode = 2
 theme_override_constants/separation = 0
 metadata/_edit_use_anchors_ = true
 
-[node name="Weapon Ranks" type="PanelContainer" parent="."]
+[node name="WeaponRanks" type="PanelContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.65
@@ -51,86 +51,86 @@ grow_horizontal = 0
 grow_vertical = 2
 mouse_filter = 1
 
-[node name="GridContainer" type="GridContainer" parent="Weapon Ranks"]
+[node name="GridContainer" type="GridContainer" parent="WeaponRanks"]
 layout_mode = 2
 columns = 2
 
-[node name="Sword Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
+[node name="SwordRank" parent="WeaponRanks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
-focus_neighbor_right = NodePath("../Light Rank")
-focus_neighbor_bottom = NodePath("../Spear Rank")
+focus_neighbor_right = NodePath("../LightRank")
+focus_neighbor_bottom = NodePath("../SpearRank")
 icon = ExtResource("3_wklau")
 
-[node name="Light Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
+[node name="LightRank" parent="WeaponRanks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
-focus_neighbor_left = NodePath("../Sword Rank")
-focus_neighbor_bottom = NodePath("../Anima Rank")
+focus_neighbor_left = NodePath("../SwordRank")
+focus_neighbor_bottom = NodePath("../AnimaRank")
 icon = ExtResource("4_x7had")
 
-[node name="Spear Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
+[node name="SpearRank" parent="WeaponRanks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
-focus_neighbor_top = NodePath("../Sword Rank")
-focus_neighbor_right = NodePath("../Anima Rank")
-focus_neighbor_bottom = NodePath("../Axe Rank")
+focus_neighbor_top = NodePath("../SwordRank")
+focus_neighbor_right = NodePath("../AnimaRank")
+focus_neighbor_bottom = NodePath("../AxeRank")
 icon = ExtResource("8_qs8wo")
 
-[node name="Anima Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
+[node name="AnimaRank" parent="WeaponRanks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
-focus_neighbor_left = NodePath("../Spear Rank")
-focus_neighbor_top = NodePath("../Light Rank")
-focus_neighbor_bottom = NodePath("../Dark Rank")
+focus_neighbor_left = NodePath("../SpearRank")
+focus_neighbor_top = NodePath("../LightRank")
+focus_neighbor_bottom = NodePath("../DarkRank")
 icon = ExtResource("5_f51kn")
 
-[node name="Axe Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
+[node name="AxeRank" parent="WeaponRanks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
-focus_neighbor_top = NodePath("../Spear Rank")
-focus_neighbor_right = NodePath("../Dark Rank")
-focus_neighbor_bottom = NodePath("../Knife Rank")
+focus_neighbor_top = NodePath("../SpearRank")
+focus_neighbor_right = NodePath("../DarkRank")
+focus_neighbor_bottom = NodePath("../KnifeRank")
 icon = ExtResource("13_2vcxs")
 
-[node name="Dark Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
+[node name="DarkRank" parent="WeaponRanks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
-focus_neighbor_left = NodePath("../Axe Rank")
-focus_neighbor_top = NodePath("../Anima Rank")
-focus_neighbor_bottom = NodePath("../Crimson Staff Rank")
+focus_neighbor_left = NodePath("../AxeRank")
+focus_neighbor_top = NodePath("../AnimaRank")
+focus_neighbor_bottom = NodePath("../CrimsonStaffRank")
 icon = ExtResource("15_p5osc")
 
-[node name="Knife Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
+[node name="KnifeRank" parent="WeaponRanks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
-focus_neighbor_top = NodePath("../Axe Rank")
-focus_neighbor_right = NodePath("../Crimson Staff Rank")
-focus_neighbor_bottom = NodePath("../Bow Rank")
+focus_neighbor_top = NodePath("../AxeRank")
+focus_neighbor_right = NodePath("../CrimsonStaffRank")
+focus_neighbor_bottom = NodePath("../BowRank")
 icon = ExtResource("4_ih0af")
 
-[node name="Crimson Staff Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
+[node name="CrimsonStaffRank" parent="WeaponRanks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
-focus_neighbor_left = NodePath("../Knife Rank")
-focus_neighbor_top = NodePath("../Dark Rank")
-focus_neighbor_bottom = NodePath("../Cobalt Staff Rank")
+focus_neighbor_left = NodePath("../KnifeRank")
+focus_neighbor_top = NodePath("../DarkRank")
+focus_neighbor_bottom = NodePath("../CobaltStaffRank")
 icon = ExtResource("7_eia1s")
 
-[node name="Bow Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
+[node name="BowRank" parent="WeaponRanks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
-focus_neighbor_top = NodePath("../Knife Rank")
-focus_neighbor_right = NodePath("../Cobalt Staff Rank")
-focus_neighbor_bottom = NodePath("../Claw Rank")
+focus_neighbor_top = NodePath("../KnifeRank")
+focus_neighbor_right = NodePath("../CobaltStaffRank")
+focus_neighbor_bottom = NodePath("../ClawRank")
 icon = ExtResource("9_eltdm")
 
-[node name="Cobalt Staff Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
+[node name="CobaltStaffRank" parent="WeaponRanks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
-focus_neighbor_left = NodePath("../Bow Rank")
-focus_neighbor_top = NodePath("../Crimson Staff Rank")
-focus_neighbor_bottom = NodePath("../Siege Rank")
+focus_neighbor_left = NodePath("../BowRank")
+focus_neighbor_top = NodePath("../CrimsonStaffRank")
+focus_neighbor_bottom = NodePath("../SiegeRank")
 icon = ExtResource("12_lufwk")
 
-[node name="Claw Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
+[node name="ClawRank" parent="WeaponRanks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
-focus_neighbor_top = NodePath("../Bow Rank")
-focus_neighbor_right = NodePath("../Siege Rank")
+focus_neighbor_top = NodePath("../BowRank")
+focus_neighbor_right = NodePath("../SiegeRank")
 icon = ExtResource("14_8nbi0")
 
-[node name="Siege Rank" parent="Weapon Ranks/GridContainer" instance=ExtResource("2_wxaj3")]
+[node name="SiegeRank" parent="WeaponRanks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
-focus_neighbor_left = NodePath("../Claw Rank")
-focus_neighbor_top = NodePath("../Cobalt Staff Rank")
+focus_neighbor_left = NodePath("../ClawRank")
+focus_neighbor_top = NodePath("../CobaltStaffRank")
 icon = ExtResource("17_2eyif")

@@ -44,7 +44,7 @@ func set_emotion(emotion: Emotions) -> void:
 	for mouth: Sprite2D in get_tree().get_nodes_in_group("mouth") as Array[Sprite2D]:
 		mouth.visible = false
 	match _emotion:
-		Emotions.HAPPY: _current_mouth = $"Mouth Happy" as Sprite2D
+		Emotions.HAPPY: _current_mouth = $MouthHappy as Sprite2D
 		Emotions.NONE: _current_mouth = Sprite2D.new()
 		_: _current_mouth = $Mouth as Sprite2D
 	if _emotion != Emotions.NONE:

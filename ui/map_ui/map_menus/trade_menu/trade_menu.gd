@@ -18,7 +18,7 @@ func _ready() -> void:
 	GameController.add_to_input_stack(self)
 	_update()
 
-	var hand := $"Selection Hand" as Sprite2D
+	var hand := $SelectionHand as Sprite2D
 	var tween: Tween = hand.create_tween()
 	tween.set_loops()
 	tween.set_speed_scale(60)
@@ -29,7 +29,7 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	($"Selection Hand" as Sprite2D).position = current_label.global_position.round()
+	($SelectionHand as Sprite2D).position = current_label.global_position.round()
 
 
 func receive_input(event: InputEvent) -> void:
@@ -39,8 +39,8 @@ func receive_input(event: InputEvent) -> void:
 			var new_item_node: ItemLabel = current_label
 			var old_item_index: int = old_item_node.get_index()
 			var new_item_index: int = new_item_node.get_index()
-			var old_item: Item = old_item_node.item
-			var new_item: Item = new_item_node.item
+			var old_item: Item= old_item_node.item
+			var new_item: Item= new_item_node.item
 			var old_item_unit: Unit = _get_unit(old_item_node)
 			var new_item_unit: Unit = _get_unit(new_item_node)
 
@@ -64,7 +64,7 @@ func receive_input(event: InputEvent) -> void:
 			_reset()
 		else:
 			selected_label = current_label
-			var selected_hand := $"Selected Hand" as Sprite2D
+			var selected_hand := $SelectedHand as Sprite2D
 			selected_hand.visible = true
 			selected_hand.position = selected_label.global_position.round()
 			empty_bar = _ITEM_LABEL_SCENE.instantiate() as _ItemLabel
@@ -91,17 +91,17 @@ func receive_input(event: InputEvent) -> void:
 
 func _get_other_parent(label: ItemLabel) -> VBoxContainer:
 	return (
-			%"Right Items" if label.get_parent() == %"Left Items"
-			else  %"Left Items"
+			%RightItems if label.get_parent() == %LeftItems
+			else  %LeftItems
 	) as VBoxContainer
 
 
 func _get_unit(label: ItemLabel) -> Unit:
-	return left_unit if label.get_parent() == %"Left Items" else right_unit
+	return left_unit if label.get_parent() == %LeftItems else right_unit
 
 
 func _update() -> void:
-	for child: Node in (%"Left Items".get_children() + %"Right Items".get_children()):
+	for child: Node in (%LeftItems.get_children() + %RightItems.get_children()):
 		child.queue_free()
 	current_label = null
 	var add_items: Callable = func(unit: Unit, container: VBoxContainer) -> void:
@@ -113,13 +113,13 @@ func _update() -> void:
 			if not current_label:
 				current_label = item_label
 			container.add_child(item_label)
-	add_items.call(left_unit, %"Left Items")
-	add_items.call(right_unit, %"Right Items")
+	add_items.call(left_unit, %LeftItems)
+	add_items.call(right_unit, %RightItems)
 
 
 func _reset() -> void:
 	selected_label = null
-	($"Selected Hand" as Sprite2D).visible = false
+	($SelectedHand as Sprite2D).visible = false
 	if empty_bar:
 		empty_bar.queue_free()
 

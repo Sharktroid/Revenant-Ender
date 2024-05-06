@@ -3,13 +3,13 @@ extends Control
 @onready var _canvas_group := $CanvasGroup as CanvasGroup
 @onready var _hbox_container := $CanvasGroup/HBoxContainer as HBoxContainer
 @onready var _shader_material := _hbox_container.material as ShaderMaterial
-@onready var _darken_panel := $"Darken Panel" as Panel
+@onready var _darken_panel := $DarkenPanel as Panel
 
 func play(faction: Faction) -> void:
 	_canvas_group.self_modulate.a = 0
 	_darken_panel.modulate.a = 0
 	AudioPlayer.play_sound_effect(preload("res://audio/sfx/phase_change.ogg"))
-	(%"Name Label" as Label).text = faction.name
+	(%NameLabel as Label).text = faction.name
 	var base_color := Color.BLACK
 	match faction.color:
 		Faction.Colors.BLUE: base_color = Color.NAVY_BLUE

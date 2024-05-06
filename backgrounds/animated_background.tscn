@@ -8,7 +8,7 @@ bg_color = Color(0, 0, 0.25098, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pbu75"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
-[node name="Animated Background" type="Control"]
+[node name="AnimatedBackground" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,7 +16,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Base Color" type="Panel" parent="."]
+[node name="BaseColor" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,7 +28,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_hj53u")
 [node name="Features" type="CanvasGroup" parent="."]
 material = SubResource("ShaderMaterial_774e6")
 
-[node name="Placeholder Panel" type="Panel" parent="Features"]
+[node name="PlaceholderPanel" type="Panel" parent="Features"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

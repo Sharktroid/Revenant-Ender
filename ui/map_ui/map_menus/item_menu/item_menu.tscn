@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://ui/map_ui/map_menus/item_menu/item_menu.gd" id="2_a0525"]
 
-[node name="Item Menu" type="PanelContainer"]
+[node name="ItemMenu" type="PanelContainer"]
 offset_right = 9.0
 offset_bottom = 9.0
 size_flags_horizontal = 3

@@ -3,12 +3,12 @@ extends Control
 
 
 var unit: Unit
-@onready var _hp_bar := %"HP Bar" as ProgressBar
+@onready var _hp_bar := %HPBar as ProgressBar
 var _bg_gradient: Panel
 
 
 func _ready() -> void:
-	_bg_gradient = %"BG Gradient" as Panel
+	_bg_gradient = %BGGradient as Panel
 	_hp_bar.max_value = unit.get_stat(Unit.stats.HIT_POINTS)
 	(%Name as Label).text = unit.unit_name
 	_bg_gradient.add_theme_stylebox_override("panel",
@@ -18,7 +18,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if is_instance_valid(unit):
 		_hp_bar.value = unit.current_health
-		(%"HP Label" as Label).text = str(roundi(_hp_bar.value))
+		(%HPLabel as Label).text = str(roundi(_hp_bar.value))
 		var top_color: Color
 		var bottom_color: Color
 		match unit.faction.color:

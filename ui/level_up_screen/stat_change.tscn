@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://ui/level_up_screen/stat_change.gd" id="1_gqxav"]
 [ext_resource type="PackedScene" uid="uid://bdjeg8jmudvyh" path="res://ui/level_up_screen/arrow.tscn" id="1_txb0l"]
 
-[node name="Stat Change" type="Control"]
+[node name="StatChange" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 10.0

@@ -12,10 +12,10 @@ enum Positions {OUTSIDE_LEFT = -80, FAR_LEFT = 0, MID_LEFT = 80, CLOSE_LEFT = 16
 		CLOSE_RIGHT = 256, MID_RIGHT = 336, FAR_RIGHT = 416, OUTSIDE_RIGHT = 512}
 enum Directions {LEFT, RIGHT}
 
-@onready var _top_bubble_point := $"Top Bubble Point" as TextureRect
-@onready var _bottom_bubble_point := $"Bottom Bubble Point" as TextureRect
-@onready var _top_textbox := %"Top Textbox" as RichTextLabel
-@onready var _bottom_textbox := %"Bottom Textbox" as RichTextLabel
+@onready var _top_bubble_point := $TopBubblePoint as TextureRect
+@onready var _bottom_bubble_point := $BottomBubblePoint as TextureRect
+@onready var _top_textbox := %TopTextbox as RichTextLabel
+@onready var _bottom_textbox := %BottomTextbox as RichTextLabel
 var _portraits: Dictionary = {}
 var _top_speaker: Unit
 var _bottom_speaker: Unit
@@ -61,7 +61,7 @@ func set_top_speaker(new_speaker: Unit) -> void:
 			_configure_point(_top_bubble_point,
 					roundi(_get_portrait(new_speaker as Unit).position.x))
 		await clear_top()
-		await _set_speaker(%"Top Name" as RichTextLabel, new_speaker as Unit)
+		await _set_speaker(%TopName as RichTextLabel, new_speaker as Unit)
 
 
 func set_bottom_speaker(new_speaker: Unit) -> void:
@@ -71,7 +71,7 @@ func set_bottom_speaker(new_speaker: Unit) -> void:
 			_configure_point(_bottom_bubble_point,
 					roundi(_get_portrait(new_speaker as Unit).position.x))
 		await clear_bottom()
-		await _set_speaker(%"Bottom Name" as RichTextLabel, new_speaker as Unit)
+		await _set_speaker(%BottomName as RichTextLabel, new_speaker as Unit)
 
 
 func add_portrait(new_speaker: Unit, portrait_position: Positions,
