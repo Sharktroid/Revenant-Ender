@@ -13,29 +13,29 @@ var value: int = 0:
 			await get_tree().create_timer(1.0/60).timeout
 			visible = true
 			arrow.position.y = -1
-			arrow.set_shape(Arrow.shapes.SQUISHED)
+			arrow.set_shape(Arrow.Shapes.SQUISHED)
 			await get_tree().create_timer(1.0/60).timeout
 			arrow.position.y = -4
-			arrow.set_shape(Arrow.shapes.DEFAULT)
+			arrow.set_shape(Arrow.Shapes.DEFAULT)
 			await get_tree().create_timer(1.0/60).timeout
 			arrow.position.y = -10
-			arrow.set_shape(Arrow.shapes.TALL)
+			arrow.set_shape(Arrow.Shapes.TALL)
 			await get_tree().create_timer(1.0/60).timeout
 			arrow.position.y -= 3
 			await get_tree().create_timer(2.0/60).timeout
-			arrow.set_shape(Arrow.shapes.DEFAULT)
+			arrow.set_shape(Arrow.Shapes.DEFAULT)
 			await get_tree().create_timer(2.0/60).timeout
-			arrow.set_shape(Arrow.shapes.SQUISHED)
+			arrow.set_shape(Arrow.Shapes.SQUISHED)
 			await get_tree().create_timer(3.0/60).timeout
-			arrow.set_shape(Arrow.shapes.DEFAULT)
+			arrow.set_shape(Arrow.Shapes.DEFAULT)
 			await get_tree().create_timer(2.0/60).timeout
 			arrow.position.y += 2
 			await get_tree().create_timer(2.0/60).timeout
 			arrow.position.y += 3
-			arrow.set_shape(Arrow.shapes.SLIGHT_SQUISHED)
+			arrow.set_shape(Arrow.Shapes.SLIGHT_SQUISHED)
 			await get_tree().create_timer(1.0/60).timeout
 			arrow.position.y -= 2
-			arrow.set_shape(Arrow.shapes.DEFAULT)
+			arrow.set_shape(Arrow.Shapes.DEFAULT)
 			sign_label.visible = true
 			sign_label.text = "+" if value > 0 else "-"
 			value_label.text = str(abs(value))

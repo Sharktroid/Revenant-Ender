@@ -42,4 +42,4 @@ func _on_mouse_entered() -> void:
 
 
 func _update() -> void:
-	_label.text = name if value == "" else "%s: %s" % [name, value]
+	_label.text = name as String if value == "" else "%s: %s" % [name, value]

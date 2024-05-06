@@ -5,7 +5,7 @@ extends Bow
 # Weapon-specific variables.
 func _init() -> void:
 	name = "Iron Bow"
-	level = ranks.E
+	level = Ranks.E
 	might = 7
 	weight = 6
 	hit = 65

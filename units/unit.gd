@@ -85,7 +85,7 @@ var faction: Faction:
 		if _get_map().all_factions.size() > 0:
 			return _get_map().all_factions[faction_id]
 		else:
-			return Faction.new("INVALID", Faction.colors.BLUE, Faction.playerTypes.HUMAN, null)
+			return Faction.new("INVALID", Faction.Colors.BLUE, Faction.PlayerTypes.HUMAN, null)
 	set(new_faction):
 		faction_id = _get_map().all_factions.find(new_faction)
 
@@ -161,7 +161,7 @@ func _enter_tree() -> void:
 	_animation_player = $AnimationPlayer as AnimationPlayer
 	_traveler_animation_player = $"Traveler Icon/AnimationPlayer" as AnimationPlayer
 	level = base_level
-	for weapon_type: Weapon.types in unit_class.base_weapon_levels.keys() as Array[Weapon.types]:
+	for weapon_type: Weapon.Types in unit_class.base_weapon_levels.keys() as Array[Weapon.Types]:
 		if weapon_type not in weapon_levels.keys():
 			weapon_levels[weapon_type] = lerpf(unit_class.base_weapon_levels[weapon_type] as float,
 					unit_class.max_weapon_levels[weapon_type] as float,
@@ -223,9 +223,9 @@ func get_raw_attack() -> int:
 	if get_current_weapon():
 		var current_attack: int
 		match get_current_weapon().get_damage_type():
-			Weapon.damageTypes.PHYSICAL: current_attack = get_stat(stats.STRENGTH)
-			Weapon.damageTypes.RANGED: current_attack = get_stat(stats.PIERCE)
-			Weapon.damageTypes.MAGIC: current_attack = get_stat(stats.MAGIC)
+			Weapon.DamageTypes.PHYSICAL: current_attack = get_stat(stats.STRENGTH)
+			Weapon.DamageTypes.RANGED: current_attack = get_stat(stats.PIERCE)
+			Weapon.DamageTypes.MAGIC: current_attack = get_stat(stats.MAGIC)
 		return get_current_weapon().might + current_attack
 	else:
 		return 0
@@ -288,11 +288,11 @@ func get_attack_speed() -> int:
 	return get_stat(stats.SPEED) - maxi(weight - get_stat(stats.CONSTITUTION), 0)
 
 
-func get_current_defence(attacker_weapon_type: Weapon.damageTypes) -> int:
+func get_current_defence(attacker_weapon_type: Weapon.DamageTypes) -> int:
 	match attacker_weapon_type:
-		Weapon.damageTypes.RANGED: return get_stat(stats.ARMOR)
-		Weapon.damageTypes.MAGIC: return get_stat(stats.RESISTANCE)
-		Weapon.damageTypes.PHYSICAL: return get_stat(stats.DEFENSE)
+		Weapon.DamageTypes.RANGED: return get_stat(stats.ARMOR)
+		Weapon.DamageTypes.MAGIC: return get_stat(stats.RESISTANCE)
+		Weapon.DamageTypes.PHYSICAL: return get_stat(stats.DEFENSE)
 		_:
 			push_error("Damage Type %s Invalid" % attacker_weapon_type)
 			return 0
@@ -434,7 +434,7 @@ func get_exp_percent() -> int:
 	return floori((roundf(get_current_exp())/Unit.get_exp_to_level(level + 1)) * 100)
 
 
-func has_skill_attribute(attrib: Skill.allAttributes) -> bool:
+func has_skill_attribute(attrib: Skill.AllAttributes) -> bool:
 	for skill: Skill in get_skills():
 		if attrib in skill.attributes:
 			return true
@@ -506,7 +506,7 @@ func get_movement_tiles(custom_movement: int = floori(current_movement)) -> Arra
 		#region Orders tiles by distance from center
 		h.erase(start)
 		for x: Vector2i in h:
-			var movement_type: UnitClass.movementTypes = unit_class.movement_type
+			var movement_type: UnitClass.MovementTypes = unit_class.movement_type
 			var cost: float = _get_map().get_path_cost(movement_type,
 					_get_map().get_movement_path(movement_type, position, x, faction))
 			if cost <= current_movement:
@@ -773,17 +773,17 @@ func _render_status() -> void:
 	pass
 
 
-func _set_palette(color: Faction.colors) -> void:
+func _set_palette(color: Faction.Colors) -> void:
 	var palette: Array[Array]
 	#region sets palette
 	match waiting:
 		true: palette = _wait_palette
 		false:
 			match color:
-				Faction.colors.RED: palette = _red_palette
-				Faction.colors.GREEN : palette = _green_palette
-				Faction.colors.BLUE: palette = _default_palette
-				Faction.colors.PURPLE: palette = _purple_palette
+				Faction.Colors.RED: palette = _red_palette
+				Faction.Colors.GREEN : palette = _green_palette
+				Faction.Colors.BLUE: palette = _default_palette
+				Faction.Colors.PURPLE: palette = _purple_palette
 				var invalid:
 					palette = _default_palette
 					push_error("Color %s does not have a palette." % invalid)

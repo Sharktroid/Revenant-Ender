@@ -7,17 +7,17 @@ extends MountedUnit
 func _init() -> void:
 	name = "Social Knight"
 	max_level = 20
-	movement_type = movementTypes.HEAVY_CAVALRY
+	movement_type = MovementTypes.HEAVY_CAVALRY
 	weight_modifier = 25
 	description = "Mounted knights with superior movement."
 
 	base_weapon_levels = {
-		Weapon.types.SWORD: Weapon.ranks.E,
-		Weapon.types.SPEAR: Weapon.ranks.D,
+		Weapon.Types.SWORD: Weapon.Ranks.E,
+		Weapon.Types.SPEAR: Weapon.Ranks.D,
 	}
 	max_weapon_levels = {
-		Weapon.types.SWORD: Weapon.ranks.B,
-		Weapon.types.SPEAR: Weapon.ranks.A,
+		Weapon.Types.SWORD: Weapon.Ranks.B,
+		Weapon.Types.SPEAR: Weapon.Ranks.A,
 	}
 
 	base_stats = {

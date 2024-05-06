@@ -4,7 +4,7 @@ extends Unit
 
 # Unit-specific variables.
 func _init() -> void:
-	weapon_levels[Weapon.types.SPEAR] = Weapon.ranks.A
+	weapon_levels[Weapon.Types.SPEAR] = Weapon.Ranks.A
 	personal_values = {
 		Unit.stats.HIT_POINTS: 0,
 		Unit.stats.STRENGTH: 0,

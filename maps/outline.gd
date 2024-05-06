@@ -13,10 +13,10 @@ func _draw() -> void:
 		var all_general_coords: Array[Vector2i] = []
 		var unit_highlight: Color
 		match outline_faction.color:
-			Faction.colors.BLUE: unit_highlight = Color.BLUE
-			Faction.colors.RED: unit_highlight = Color.RED
-			Faction.colors.GREEN: unit_highlight = Color.GREEN
-			Faction.colors.PURPLE: unit_highlight = Color.PURPLE
+			Faction.Colors.BLUE: unit_highlight = Color.BLUE
+			Faction.Colors.RED: unit_highlight = Color.RED
+			Faction.Colors.GREEN: unit_highlight = Color.GREEN
+			Faction.Colors.PURPLE: unit_highlight = Color.PURPLE
 		for unit: Unit in current_outlined_units:
 			var attack_tiles: Array[Vector2i] = unit.get_all_attack_tiles()
 			if is_instance_valid(unit) and attack_tiles.size() > 0:
@@ -30,7 +30,7 @@ func _draw() -> void:
 				and outline_faction != current_faction:
 			for unit: Unit in MapController.map.get_units():
 				if (current_faction.get_diplomacy_stance(unit.faction) ==
-						Faction.diplomacyStances.ENEMY)\
+						Faction.DiplomacyStances.ENEMY)\
 						and unit.get_all_attack_tiles().size() > 0:
 					for coord: Vector2i in (unit.get_all_attack_tiles() +
 							unit.get_movement_tiles()):

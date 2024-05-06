@@ -5,7 +5,7 @@ extends Spear
 # Weapon-specific variables.
 func _init() -> void:
 	name = "Javelin"
-	level = ranks.D
+	level = Ranks.D
 	might = 6
 	weight = 12
 	hit = 50

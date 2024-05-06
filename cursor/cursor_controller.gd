@@ -3,7 +3,7 @@ extends Node
 signal moved
 
 ## Icons that can be displayed.
-enum icons {ATTACK, NONE}
+enum Icons {ATTACK, NONE}
 
 var hovered_unit: Unit:
 	get:
@@ -32,7 +32,7 @@ func _init() -> void:
 
 func _physics_process(_delta: float) -> void:
 	if is_active():
-		if GameController.controller_type == GameController.controllerTypes.MOUSE:
+		if GameController.controller_type == GameController.ControllerTypes.MOUSE:
 			if (MapController.get_map_camera().get_destination() ==
 					(MapController.get_map_camera().position as Vector2i)):
 				map_position = Utilities.round_coords_to_tile(get_viewport().get_mouse_position()
@@ -90,13 +90,13 @@ func disable() -> void:
 	_set_active(false)
 
 
-func draw_icon(icon: icons) -> void:
+func draw_icon(icon: Icons) -> void:
 	if not _icon_sprite:
 		_icon_sprite = Sprite2D.new()
 		_icon_sprite.centered = false
 		add_child(_icon_sprite)
 	match icon:
-		icons.ATTACK:
+		Icons.ATTACK:
 			_icon_sprite.texture = preload("res://Cursor/attack.png")
 			_icon_sprite.position = Vector2i(0, -16)
 

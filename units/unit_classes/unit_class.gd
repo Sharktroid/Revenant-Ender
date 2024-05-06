@@ -2,7 +2,7 @@
 class_name UnitClass
 extends Resource
 
-enum movementTypes {
+enum MovementTypes {
 	FOOT, ADVANCED_FOOT, FIGHTERS, ARMOR, BANDITS, PIRATES, BERSERKER, MAGES,
 	LIGHT_CAVALRY, ADVANCED_LIGHT_CAVALRY, HEAVY_CAVALRY, ADVANCED_HEAVY_CAVALRY,
 	FLIERS
@@ -14,7 +14,7 @@ var end_stats: Dictionary
 var base_weapon_levels: Dictionary
 var max_weapon_levels: Dictionary
 var max_level: int = 30
-var movement_type: movementTypes # Movement class for handling moving over terrain.
+var movement_type: MovementTypes # Movement class for handling moving over terrain.
 var map_sprite: CompressedTexture2D
 var default_portrait: Texture2D
 ## Modifier applied to constitution when calculating aid.

@@ -8,9 +8,9 @@ const SHIFT_DURATION: float = 8.0/60 # In seconds
 const TEXTBOX_HEIGHT: int = 94
 const PORTRAIT_WIDTH: int = 96
 
-enum positions {OUTSIDE_LEFT = -80, FAR_LEFT = 0, MID_LEFT = 80, CLOSE_LEFT = 160,
+enum Positions {OUTSIDE_LEFT = -80, FAR_LEFT = 0, MID_LEFT = 80, CLOSE_LEFT = 160,
 		CLOSE_RIGHT = 256, MID_RIGHT = 336, FAR_RIGHT = 416, OUTSIDE_RIGHT = 512}
-enum directions {LEFT, RIGHT}
+enum Directions {LEFT, RIGHT}
 
 @onready var _top_bubble_point := $"Top Bubble Point" as TextureRect
 @onready var _bottom_bubble_point := $"Bottom Bubble Point" as TextureRect
@@ -74,7 +74,7 @@ func set_bottom_speaker(new_speaker: Unit) -> void:
 		await _set_speaker(%"Bottom Name" as RichTextLabel, new_speaker as Unit)
 
 
-func add_portrait(new_speaker: Unit, portrait_position: positions,
+func add_portrait(new_speaker: Unit, portrait_position: Positions,
 		flip_h: bool = false) -> void:
 	if not _skipping:
 		var portrait: Portrait = new_speaker.get_portrait()
@@ -100,12 +100,12 @@ func remove_portrait(old_speaker: Unit) -> void:
 		portrait.queue_free()
 
 
-func show_top_textbox(box_position: positions) -> void:
+func show_top_textbox(box_position: Positions) -> void:
 	await _show_textbox(box_position, $MarginContainerTop as MarginContainer,
 			false, _top_bubble_point)
 
 
-func show_bottom_textbox(box_position: positions) -> void:
+func show_bottom_textbox(box_position: Positions) -> void:
 	await _show_textbox(box_position, $MarginContainerBottom as MarginContainer,
 			true, _bottom_bubble_point)
 
@@ -118,7 +118,7 @@ func hide_bottom_textbox() -> void:
 	await _hide_textbox($MarginContainerBottom as MarginContainer, true, _bottom_bubble_point)
 
 
-func _show_textbox(box_position: positions, textbox: MarginContainer, align_bottom: bool,
+func _show_textbox(box_position: Positions, textbox: MarginContainer, align_bottom: bool,
 		bubble_point: TextureRect) -> void:
 	if not _skipping:
 		textbox.visible = true

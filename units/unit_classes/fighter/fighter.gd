@@ -7,11 +7,11 @@ extends UnitClass
 func _init() -> void:
 	name = "Fighter"
 	max_level = 20
-	movement_type = movementTypes.FIGHTERS
+	movement_type = MovementTypes.FIGHTERS
 	description = "Axe-wielding soldiers whose attack offers little defense."
 
-	base_weapon_levels[Weapon.types.AXE] = Weapon.ranks.D
-	max_weapon_levels[Weapon.types.AXE] = Weapon.ranks.A
+	base_weapon_levels[Weapon.Types.AXE] = Weapon.Ranks.D
+	max_weapon_levels[Weapon.Types.AXE] = Weapon.Ranks.A
 
 	base_stats = {
 		Unit.stats.HIT_POINTS: 23,

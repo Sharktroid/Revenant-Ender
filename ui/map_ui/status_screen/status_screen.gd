@@ -52,7 +52,7 @@ func _update() -> void:
 	var new_portrait: Portrait = observing_unit.get_portrait()
 	new_portrait.position = observing_unit.get_portrait_offset()
 	old_portrait.replace_by(new_portrait)
-	new_portrait.set_emotion(Portrait.emotions.NONE)
+	new_portrait.set_emotion(Portrait.Emotions.NONE)
 	_portrait = new_portrait
 	old_portrait.queue_free()
 

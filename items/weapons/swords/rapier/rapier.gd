@@ -3,7 +3,7 @@ extends Sword
 
 func _init() -> void:
 	name = "Rapier"
-	level = ranks.C
+	level = Ranks.C
 	might = 7
 	weight = 5
 	hit = 95

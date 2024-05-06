@@ -7,12 +7,12 @@ extends UnitClass
 func _init() -> void:
 	name = "Hoplite"
 	max_level = 20
-	movement_type = movementTypes.ARMOR
+	movement_type = MovementTypes.ARMOR
 	weight_modifier = 5
 	description = "Heavily armored knights with stout defense, but low speed."
 
-	base_weapon_levels[Weapon.types.SPEAR] = Weapon.ranks.D
-	max_weapon_levels[Weapon.types.SPEAR] = Weapon.ranks.A
+	base_weapon_levels[Weapon.Types.SPEAR] = Weapon.Ranks.D
+	max_weapon_levels[Weapon.Types.SPEAR] = Weapon.Ranks.A
 
 	base_stats = {
 		Unit.stats.HIT_POINTS: 19,

@@ -22,18 +22,18 @@ func _process(_delta: float) -> void:
 		var top_color: Color
 		var bottom_color: Color
 		match unit.faction.color:
-			Faction.colors.BLUE:
+			Faction.Colors.BLUE:
 				top_color = Color("47B4D8")
 				bottom_color = Color("27647A")
-			Faction.colors.RED:
+			Faction.Colors.RED:
 				top_color = Color("E36468")
 				bottom_color = Color("80363A")
-			Faction.colors.GREEN:
+			Faction.Colors.GREEN:
 				top_color = Color.GREEN
 				top_color.s = 0.75
 				top_color = Color.GREEN
 				top_color.v = 0.5
-			Faction.colors.PURPLE:
+			Faction.Colors.PURPLE:
 				top_color = Color.PURPLE
 				top_color.s = 0.75
 				top_color = Color.PURPLE

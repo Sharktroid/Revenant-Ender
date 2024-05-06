@@ -105,7 +105,7 @@ func _update() -> void:
 			for node_name: String in ["Damage", "Hit", "Crit Damage", "Crit"] as Array[String]:
 				(get_node(format.call(node_name)) as Label).text = "--"
 
-		if current_unit.faction.color == Faction.colors.RED:
+		if current_unit.faction.color == Faction.Colors.RED:
 			var shader_material: ShaderMaterial = \
 					(get_node(format.call("Unit Panel")) as PanelContainer).material
 			var old_vectors: Array[Color] = []

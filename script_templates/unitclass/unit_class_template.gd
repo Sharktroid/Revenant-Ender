@@ -6,7 +6,7 @@ extends _BASE_
 # Unit class-specific variables.
 func _init() -> void:
 _TS_name = ""
-_TS_movement_type = movementTypes.
+_TS_movement_type = MovementTypes.
 _TS_base_weapon_levels
 _TS_max_weapon_levels
 _TS__class_base_stats = {

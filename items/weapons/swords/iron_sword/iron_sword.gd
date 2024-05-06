@@ -5,7 +5,7 @@ extends Sword
 # Weapon-specific variables.
 func _init() -> void:
 	name = "Iron Sword"
-	level = ranks.E
+	level = Ranks.E
 	might = 6
 	weight = 6
 	hit = 70

@@ -1,6 +1,6 @@
 extends Polygon2D
 
-enum shapes {DEFAULT, SQUISHED, TALL, SLIGHT_SQUISHED}
+enum Shapes {DEFAULT, SQUISHED, TALL, SLIGHT_SQUISHED}
 
 #region Shape Nodes
 @onready var _inner_coloring := $"Inner Coloring" as Polygon2D
@@ -34,17 +34,17 @@ func _process(delta: float) -> void:
 	_inner_coloring.texture_offset.y += 64.0/60 * 8 * delta
 
 
-func set_shape(shape: shapes) -> void:
+func set_shape(shape: Shapes) -> void:
 	match shape:
-		shapes.DEFAULT:
+		Shapes.DEFAULT:
 			polygon = _default_outer
 			_inner_coloring.polygon = _default_inner
-		shapes.SQUISHED:
+		Shapes.SQUISHED:
 			polygon = _squished_outer
 			_inner_coloring.polygon = _squished_inner
-		shapes.SLIGHT_SQUISHED:
+		Shapes.SLIGHT_SQUISHED:
 			polygon = _slight_squished_outer
 			_inner_coloring.polygon = _slight_squished_inner
-		shapes.TALL:
+		Shapes.TALL:
 			polygon = _tall_outer
 			_inner_coloring.polygon = _tall_inner

@@ -4,5 +4,5 @@ extends Skill
 
 func _init() -> void:
 	attributes = [
-		allAttributes.CANTO
+		AllAttributes.CANTO
 	]

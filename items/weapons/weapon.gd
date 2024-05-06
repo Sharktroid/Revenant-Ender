@@ -1,7 +1,7 @@
 class_name Weapon
 extends Item
 
-enum types {
+enum Types {
 	SWORD,
 	SPEAR,
 	AXE,
@@ -15,7 +15,7 @@ enum types {
 	SIEGE,
 	CLAW,
 }
-enum ranks {
+enum Ranks {
 	S = 251,
 	A = 181,
 	B = 121,
@@ -24,7 +24,7 @@ enum ranks {
 	E = 1,
 	DISABLED = 0
 }
-enum damageTypes {
+enum DamageTypes {
 	PHYSICAL,
 	RANGED,
 	MAGIC
@@ -39,26 +39,26 @@ var min_range: int
 var max_range: int
 var weapon_exp: int
 var effective_classes: int
-var type: types
-var advantage_types: Array[types]
-var disadvantage_types: Array[types]
+var type: Types
+var advantage_types: Array[Types]
+var disadvantage_types: Array[Types]
 
-var _damage_type: damageTypes
-var _damage_type_ranged: damageTypes
+var _damage_type: DamageTypes
+var _damage_type_ranged: DamageTypes
 
 func _init() -> void:
 	if not _damage_type:
 		match type:
-			types.SWORD, types.AXE, types.KNIFE, types.SPEAR: _damage_type = damageTypes.PHYSICAL
-			types.BOW: _damage_type = damageTypes.RANGED
-			types.COBALT_STAFF, types.CRIMSON_STAFF, types.LIGHT, types.DARK, \
-			types.ANIMA: _damage_type = damageTypes.MAGIC
+			Types.SWORD, Types.AXE, Types.KNIFE, Types.SPEAR: _damage_type = DamageTypes.PHYSICAL
+			Types.BOW: _damage_type = DamageTypes.RANGED
+			Types.COBALT_STAFF, Types.CRIMSON_STAFF, Types.LIGHT, Types.DARK, \
+			Types.ANIMA: _damage_type = DamageTypes.MAGIC
 	if not _damage_type_ranged:
 		_damage_type_ranged = _damage_type
 	super()
 
 
-func get_damage_type() -> damageTypes:
+func get_damage_type() -> DamageTypes:
 	return _damage_type
 
 
@@ -68,7 +68,7 @@ func get_range() -> Array:
 
 func get_stat_table() -> Array[String]:
 	return Utilities.dict_to_table.call({
-		str(types.find_key(type)).capitalize(): str(ranks.find_key(level)).capitalize(),
+		str(Types.find_key(type)).capitalize(): str(Ranks.find_key(level)).capitalize(),
 		"Range": str(min_range) if min_range == max_range else "%d-%d" % [min_range, max_range],
 		"Weight": weight,
 		"Might": might,
@@ -90,7 +90,7 @@ func get_hit_bonus(weapon: Weapon, distance: int) -> int:
 	if weapon is Bow:
 		return -10 * weapon.get_weapon_triangle_advantage(self, distance)
 	else:
-		var bonus: int = 10 if level >= ranks.B else 5 if level >= ranks.D else 0
+		var bonus: int = 10 if level >= Ranks.B else 5 if level >= Ranks.D else 0
 		return bonus * get_weapon_triangle_advantage(weapon, distance)
 
 
@@ -98,4 +98,4 @@ func get_damage_bonus(weapon: Weapon, distance: int) -> int:
 	if weapon is Bow:
 		return -weapon.get_weapon_triangle_advantage(self, distance)
 	else:
-		return get_weapon_triangle_advantage(weapon, distance) if level >= ranks.S else 0
+		return get_weapon_triangle_advantage(weapon, distance) if level >= Ranks.S else 0

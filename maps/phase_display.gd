@@ -12,8 +12,8 @@ func play(faction: Faction) -> void:
 	(%"Name Label" as Label).text = faction.name
 	var base_color := Color.BLACK
 	match faction.color:
-		Faction.colors.BLUE: base_color = Color.NAVY_BLUE
-		Faction.colors.RED: base_color = Color.DARK_RED
+		Faction.Colors.BLUE: base_color = Color.NAVY_BLUE
+		Faction.Colors.RED: base_color = Color.DARK_RED
 	_shader_material.set_shader_parameter("old_colors", [Color("272727")])
 	_shader_material.set_shader_parameter("new_colors", [Color.TRANSPARENT])
 	_hbox_container.add_theme_constant_override("separation",

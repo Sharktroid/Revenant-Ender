@@ -2,16 +2,16 @@ extends Node
 
 const _Receiver = preload("res://controllers/game_controller/receive_input_node.gd")
 
-enum controllerTypes {MOUSE, KEYBOARD}
+enum ControllerTypes {MOUSE, KEYBOARD}
 ## Type of controller being used (keyboard, mouse, or controller)
-var controller_type: controllerTypes
+var controller_type: ControllerTypes
 
 var _input_stack: Array[Node] = []
 
 
 func _init() -> void:
 	seed(0) # Sets RNG to be deterministic
-	controller_type = controllerTypes.MOUSE
+	controller_type = ControllerTypes.MOUSE
 
 
 func _physics_process(_delta: float) -> void:
@@ -20,9 +20,9 @@ func _physics_process(_delta: float) -> void:
 
 func _input(event: InputEvent) -> void:
 	controller_type = (
-			controllerTypes.MOUSE if (event is InputEventMouseButton
+			ControllerTypes.MOUSE if (event is InputEventMouseButton
 					or event is InputEventMouseMotion)
-			else controllerTypes.KEYBOARD)
+			else ControllerTypes.KEYBOARD)
 
 	if Utilities.get_debug_constant("print_input_reciever"):
 		print(get_current_input_node())

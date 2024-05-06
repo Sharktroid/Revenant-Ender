@@ -6,9 +6,9 @@ const DEBUG_CUTSCENE: bool = false
 func _init() -> void:
 	# Initializing variables for this map.
 	all_factions = [
-		Faction.new("Roy's Army", Faction.colors.BLUE, Faction.playerTypes.HUMAN,
+		Faction.new("Roy's Army", Faction.Colors.BLUE, Faction.PlayerTypes.HUMAN,
 				preload("res://audio/music/beyond_distant_skies.ogg")),
-		Faction.new("Bandits", Faction.colors.RED, Faction.playerTypes.HUMAN,
+		Faction.new("Bandits", Faction.Colors.RED, Faction.PlayerTypes.HUMAN,
 				preload("res://audio/music/deer_of_the_plains.ogg")),
 	]
 	super()
@@ -27,24 +27,24 @@ func _ready() -> void:
 		var dialogue: Dialogue = MapController.get_dialogue()
 		await get_tree().process_frame
 		GameController.add_to_input_stack(dialogue)
-		await dialogue.show_top_textbox(Dialogue.positions.CLOSE_RIGHT)
-		dialogue.add_portrait(roy, Dialogue.positions.CLOSE_RIGHT)
-		dialogue.add_portrait(lance, Dialogue.positions.MID_LEFT, true)
+		await dialogue.show_top_textbox(Dialogue.Positions.CLOSE_RIGHT)
+		dialogue.add_portrait(roy, Dialogue.Positions.CLOSE_RIGHT)
+		dialogue.add_portrait(lance, Dialogue.Positions.MID_LEFT, true)
 		await dialogue.set_top_speaker(roy)
 		await dialogue.set_top_text("Oh, it's Lance! What's the matter? " +
 				"Why are you in such a hurry?")
-		await dialogue.show_bottom_textbox(Dialogue.positions.MID_LEFT)
+		await dialogue.show_bottom_textbox(Dialogue.Positions.MID_LEFT)
 		await dialogue.set_bottom_speaker(lance)
 		await dialogue.set_bottom_text("Lord Roy! Bandits have appeared and are " +
 				"attacking the castle as we speak!")
-		dialogue.add_portrait(alen, Dialogue.positions.FAR_RIGHT)
+		dialogue.add_portrait(alen, Dialogue.Positions.FAR_RIGHT)
 		await dialogue.set_top_speaker(alen)
 		await dialogue.set_top_text("No! Is the marquess unharmed?")
 		await dialogue.clear_bottom()
 		await dialogue.set_bottom_text("He's inside, defending against the bandits' attack. " +
 				"But I don't know how long he can last with his illness...!")
 		await dialogue.remove_portrait(alen)
-		dialogue.add_portrait(bors, Dialogue.positions.FAR_RIGHT)
+		dialogue.add_portrait(bors, Dialogue.Positions.FAR_RIGHT)
 		await dialogue.set_top_speaker(bors)
 		await dialogue.set_top_text("Excuse me. Lance, is it? Is Lady Lilina safe?")
 		await dialogue.clear_bottom()
@@ -55,11 +55,11 @@ func _ready() -> void:
 		await dialogue.set_top_speaker(roy)
 		await dialogue.set_top_text("No... I shouldn't have let Lilina go to the castle before me.")
 		await dialogue.remove_portrait(lance)
-		dialogue.add_portrait(wolt, Dialogue.positions.FAR_LEFT, true)
+		dialogue.add_portrait(wolt, Dialogue.Positions.FAR_LEFT, true)
 		await dialogue.set_bottom_speaker(wolt)
 		await dialogue.set_bottom_text("Lord Roy, regret won't solve anything! \
 We must retake the castle!")
-		dialogue.add_portrait(marcus, Dialogue.positions.CLOSE_LEFT, true)
+		dialogue.add_portrait(marcus, Dialogue.Positions.CLOSE_LEFT, true)
 		await dialogue.set_bottom_speaker(marcus)
 		await dialogue.set_bottom_text("Wolt is right. We must make haste!")
 		await dialogue.clear_top()

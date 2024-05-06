@@ -1,6 +1,6 @@
 extends Node
 
-enum attackTypes {HIT, MISS, CRIT}
+enum AttackTypes {HIT, MISS, CRIT}
 
 const DELAY: float = 0.25
 const HEALTH_SCROLL_DURATION: float = 0.5
@@ -11,13 +11,16 @@ func combat(attacker: Unit, defender: Unit) -> void:
 	GameController.add_to_input_stack(self)
 	CursorController.disable()
 	var attack_queue: Array[CombatStage] = [CombatStage.new(attacker, defender)]
-	if defender.get_current_weapon() != null:
-		var distance: int = \
-				roundi(Utilities.get_tile_distance(attacker.position, defender.position))
-		if distance in defender.get_current_weapon().get_range():
-			attack_queue.append(CombatStage.new(defender, attacker))
-	if (attacker.has_skill_attribute(Skill.allAttributes.FOLLOW_UP)
-			and attacker.get_attack_speed() >= 5 + defender.get_attack_speed()):
+	var distance: int = roundi(Utilities.get_tile_distance(attacker.position, defender.position))
+	if (
+			defender.get_current_weapon() != null
+			and distance in defender.get_current_weapon().get_range()
+	):
+		attack_queue.append(CombatStage.new(defender, attacker))
+	if (
+			attacker.has_skill_attribute(Skill.AllAttributes.FOLLOW_UP)
+			and attacker.get_attack_speed() >= 5 + defender.get_attack_speed()
+	):
 		attack_queue.append(CombatStage.new(attacker, defender))
 	await _map_combat(attacker, defender, attack_queue)
 	CursorController.enable()
@@ -74,10 +77,10 @@ func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[CombatStage
 
 
 func _map_attack(attacker: Unit, defender: Unit, attacker_animation: MapAttack,
-		attack_type: attackTypes) -> void:
+		attack_type: AttackTypes) -> void:
 	attacker_animation.play_animation()
 	await attacker_animation.arrived
-	if attack_type == attackTypes.MISS:
+	if attack_type == AttackTypes.MISS:
 		await AudioPlayer.play_sound_effect(preload("res://audio/sfx/miss.ogg"))
 	else:
 		#region Hit
@@ -86,7 +89,7 @@ func _map_attack(attacker: Unit, defender: Unit, attacker_animation: MapAttack,
 		const HIT_B_HEAVY: AudioStream = preload("res://audio/sfx/hit_b_heavy.ogg")
 		const HIT_B_FATAL: AudioStream = preload("res://audio/sfx/hit_b_fatal.ogg")
 
-		var is_crit: bool = attack_type == attackTypes.CRIT
+		var is_crit: bool = attack_type == AttackTypes.CRIT
 		var hit_a: AudioStream = HIT_A_CRIT if is_crit else HIT_A_HEAVY
 		var damage: int = (
 				attacker.get_crit_damage(defender) if is_crit
@@ -127,11 +130,11 @@ func _kill(unit: Unit, unit_animation: MapAttack) -> void:
 	await get_tree().process_frame # Prevents visual bug
 
 
-func _calc(unit: Unit, other_unit: Unit) -> attackTypes:
+func _calc(unit: Unit, other_unit: Unit) -> AttackTypes:
 	return (
-			attackTypes.MISS if unit.get_hit_rate(other_unit) <= randi_range(0, 99)
-			else attackTypes.HIT if unit.get_crit_rate(other_unit) > randi_range(0, 99)
-			else attackTypes.CRIT
+			AttackTypes.MISS if unit.get_hit_rate(other_unit) <= randi_range(0, 99)
+			else AttackTypes.HIT if unit.get_crit_rate(other_unit) > randi_range(0, 99)
+			else AttackTypes.CRIT
 	)
 
 
@@ -143,7 +146,7 @@ func _get_combat_exp(distributing_unit: Unit, damage: float) -> float:
 
 func _give_exp(recieving_unit: Unit, distributing_unit: Unit, old_hp: float) -> void:
 	if not recieving_unit.dead:
-		if recieving_unit.faction.player_type == Faction.playerTypes.HUMAN:
+		if recieving_unit.faction.player_type == Faction.PlayerTypes.HUMAN:
 			const EXP_BAR_PATH: String = "res://ui/exp_bar/exp_bar."
 			const EXP_BAR_SCENE: PackedScene = preload(EXP_BAR_PATH + "tscn")
 			const ExpBar = preload(EXP_BAR_PATH + "gd")
@@ -161,7 +164,7 @@ func _give_exp(recieving_unit: Unit, distributing_unit: Unit, old_hp: float) -> 
 class CombatStage extends RefCounted:
 	var attacker: Unit
 	var defender: Unit
-	var attack_type: attackTypes
+	var attack_type: AttackTypes
 
 	func _init(attacking_unit: Unit, defending_unit: Unit) -> void:
 		attacker = attacking_unit

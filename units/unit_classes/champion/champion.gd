@@ -6,17 +6,17 @@ extends UnitClass
 func _init() -> void:
 	name = "Champion"
 	max_level = 30
-	movement_type = movementTypes.ADVANCED_FOOT
+	movement_type = MovementTypes.ADVANCED_FOOT
 	weight_modifier = 1
 	description = "An honorific bestowed upon famed mercenary masters."
 
 	base_weapon_levels = {
-		Weapon.types.SWORD: Weapon.ranks.C,
-		Weapon.types.AXE: Weapon.ranks.C,
+		Weapon.Types.SWORD: Weapon.Ranks.C,
+		Weapon.Types.AXE: Weapon.Ranks.C,
 	}
 	max_weapon_levels = {
-		Weapon.types.SWORD: Weapon.ranks.S,
-		Weapon.types.AXE: Weapon.ranks.S,
+		Weapon.Types.SWORD: Weapon.Ranks.S,
+		Weapon.Types.AXE: Weapon.Ranks.S,
 	}
 
 	base_stats = {
