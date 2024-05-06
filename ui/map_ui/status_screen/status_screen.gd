@@ -152,10 +152,7 @@ func _update() -> void:
 func _update_tab() -> void:
 	var constant_labels: Array[Control] = [%"Unit Description"]
 	for child: Node in %"High Stats Container".get_children():
-		if child is HelpContainer:
-			constant_labels.append(child)
-		else:
-			constant_labels.append(child.get_child(1))
+		constant_labels.append(child if child is HelpContainer else child.get_child(1))
 	var tab_controls: Array[Control] = []
 	match _menu_tabs.current_tab:
 		0:

@@ -10,6 +10,9 @@
 * Fix bug where unit palettes break when dying
 * Make attack icon work again
 * Fix crash when viewing status screen of an enemy with an empty inventory
+* Fix debug cutscene playing at the same time as the phase intro
+* Make it so that the selection of a menu doesn't change when unfocused
+* Have menus reset size when entries are removed
 
 # Major
 * Make certain scenes into objects that load the scenes to make the code less janky

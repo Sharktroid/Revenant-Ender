@@ -1,11 +1,4 @@
 ,Road,Plains,Forest,Hill,Mountain,River,Ocean,Cliff,Blocked
-Infantry,0.75,1,1,2,N/A,2,N/A,N/A,N/A
-Mech,0.75,1,1,1,N/A,1,N/A,N/A,N/A
-Tires,0.75,2,3,N/A,N/A,N/A,N/A,N/A,N/A
-Tread,0.75,1,2,N/A,N/A,N/A,N/A,N/A,N/A
-Air,1,1,1,1,1,1,1,1,N/A
-Ships,N/A,N/A,N/A,N/A,N/A,N/A,1,N/A,N/A
-Transport Ship,N/A,N/A,N/A,N/A,N/A,N/A,1,N/A,N/A
 Foot,0.75,1,2,4,N/A,N/A,N/A,N/A,N/A
 Advanced Foot,0.75,1,2,4,N/A,N/A,N/A,N/A,N/A
 Fighters,0.75,1,2,3,N/A,N/A,N/A,N/A,N/A

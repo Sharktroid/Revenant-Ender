@@ -111,7 +111,7 @@ func finish_profiling() -> void:
 	profiler_checkpoint()
 	var sum: float = 0
 	for checkpoint: int in _profile.size():
-		var usec: float = float(_profile[checkpoint])
+		var usec := float(_profile[checkpoint])
 		print("Checkpoint %s: %s ms" % [checkpoint, usec / 1000])
 		sum += usec
 	print("Total length: %s ms" % (sum / 1000))

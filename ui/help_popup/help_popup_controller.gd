@@ -20,9 +20,9 @@ func _ready() -> void:
 
 func receive_input(event: InputEvent) -> void:
 	var move_popup: Callable = func(direction: String) -> void:
-		var path: NodePath = _current_container.get("focus_neighbor_%s" % direction)
-		if _current_container.has_node(path):
-			(_current_container.get_node(path) as HelpContainer).set_as_current_help_container()
+		var path := NodePath("%s:focus_neighbor_%s" % [_current_container.get_path(), direction])
+		if has_node(path):
+			(get_node(path) as HelpContainer).set_as_current_help_container()
 	if event.is_action_pressed("ui_cancel"):
 		shrink()
 	elif event.is_action_pressed("up", true) and not Input.is_action_pressed("down"):
@@ -40,10 +40,9 @@ func display_text(text: String, pos: Vector2, new_container: HelpContainer,
 	if (not _busy and
 			(text != _current_text or table != _current_table)):
 		var new_size: Vector2 = _get_node_size(text, table, table_cols)
-		if pos.y + new_size.y + new_container.size.y >= Utilities.get_screen_size().y:
-			pos.y -= new_size.y
-		else:
-			pos.y += new_container.size.y
+		var bottom_bound: float = pos.y + new_size.y + new_container.size.y
+		var above_bottom: bool = (bottom_bound >= Utilities.get_screen_size().y)
+		pos.y += -new_size.y if above_bottom else new_container.size.y
 		if new_size.x / 2 + pos.x > Utilities.get_screen_size().x:
 			pos.x = Utilities.get_screen_size().x - new_size.x /2
 		elif pos.x < new_size.x / 2:
@@ -78,10 +77,8 @@ func is_idle() -> bool:
 
 
 func get_popup_node() -> _HelpPopup:
-	if MapController.get_ui().has_node("Help Popup"):
-		return MapController.get_ui().get_node("Help Popup") as _HelpPopup
-	else:
-		return _HelpPopup.new()
+	var path := NodePath("%s/Help Popup" % MapController.get_ui().get_path())
+	return get_node(path) if has_node(path) else _HelpPopup.new()
 
 
 func _get_node_size(new_text: String, new_table: Array[String], new_table_cols: int) -> Vector2i:

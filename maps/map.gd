@@ -272,11 +272,11 @@ func update_position_terrain_cost(pos: Vector2i) -> void:
 
 
 func _get_terrain(coords: Vector2i) -> String:
-	## Gets the name of the terrain at the tile at position "coords"
-	if not borders.has_point(coords):
-		return "Blocked"
-	var cell_id: TileData = _terrain_layer.get_cell_tile_data(0, coords/16)
-	return cell_id.get_custom_data("Terrain Name")
+	## Gets the name of the terrain at the tile at position "coords"'
+	return (
+			"Blocked" if not borders.has_point(coords)
+			else _terrain_layer.get_cell_tile_data(0, coords/16).get_custom_data("Terrain Name")
+	)
 
 
 func _create_debug_borders() -> void:
@@ -306,21 +306,8 @@ func _parse_movement_cost() -> void:
 	for full_type: String in raw_movement_cost:
 		var split: Array[String] = []
 		split.assign(full_type.strip_edges().split(","))
-		var type: UnitClass.movementTypes
-		match split.pop_at(0):
-			"Foot": type = UnitClass.movementTypes.FOOT
-			"Advanced Foot": type = UnitClass.movementTypes.ADVANCED_FOOT
-			"Fighters": type = UnitClass.movementTypes.FIGHTERS
-			"Armor": type = UnitClass.movementTypes.ARMOR
-			"Bandits": type = UnitClass.movementTypes.BANDITS
-			"Pirates": type = UnitClass.movementTypes.PIRATES
-			"Berserker": type = UnitClass.movementTypes.BERSERKER
-			"Mages": type = UnitClass.movementTypes.MAGES
-			"Light Cavalry": type = UnitClass.movementTypes.LIGHT_CAVALRY
-			"Advanced Light Cavalry": type = UnitClass.movementTypes.ADVANCED_LIGHT_CAVALRY
-			"Heavy Cavalry": type = UnitClass.movementTypes.HEAVY_CAVALRY
-			"Advanced Heavy Cavalry": type = UnitClass.movementTypes.ADVANCED_HEAVY_CAVALRY
-			"Fliers": type = UnitClass.movementTypes.FLIERS
+		var type_name: String = (split.pop_at(0) as String).to_snake_case().to_upper()
+		var type: UnitClass.movementTypes = UnitClass.movementTypes[type_name]
 		movement_cost_dict[type] = {}
 		for cost: int in split.size():
 			movement_cost_dict[type][header[cost]] = split[cost]

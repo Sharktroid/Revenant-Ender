@@ -3,11 +3,6 @@ extends Sprite2D
 const _DURATION: float = 2.0/60
 
 
-func _ready() -> void:
-	#play()
-	pass
-
-
 func play() -> void:
 	visible = true
 	while (frame < 10):

@@ -90,17 +90,14 @@ func receive_input(event: InputEvent) -> void:
 
 
 func _get_other_parent(label: ItemLabel) -> VBoxContainer:
-	if label.get_parent() == %"Left Items":
-		return %"Right Items" as VBoxContainer
-	else:
-		return %"Left Items" as VBoxContainer
+	return (
+			%"Right Items" if label.get_parent() == %"Left Items"
+			else  %"Left Items"
+	) as VBoxContainer
 
 
 func _get_unit(label: ItemLabel) -> Unit:
-	if label.get_parent() == %"Left Items":
-		return left_unit
-	else:
-		return right_unit
+	return left_unit if label.get_parent() == %"Left Items" else right_unit
 
 
 func _update() -> void:

@@ -32,17 +32,13 @@ func update() -> void:
 
 	(%"Weight Value" as Label).text = str(observing_unit.get_weight())
 	var aid_value := %"Aid Value" as Label
-	if observing_unit.get_aid() < 0:
-		aid_value.text = "-"
-	else:
-		aid_value.text = str(observing_unit.get_aid())
+	aid_value.text = "-" if observing_unit.get_aid() < 0 else str(observing_unit.get_aid())
 	const StarsLabel = preload("res://ui/map_ui/status_screen/statistics/stars_label/stars_label.gd")
 	(%"Authority Stars" as StarsLabel).stars = observing_unit.get_authority()
-	var traveler_name := %"Traveler Name" as Label
-	if observing_unit.traveler:
-		traveler_name.text = observing_unit.traveler.name
-	else:
-		traveler_name.text = "-"
+	(%"Traveler Name" as Label).text = (
+			observing_unit.traveler.name if observing_unit.traveler
+			else "-"
+	)
 
 	(%"Weight Number" as HelpContainer).help_description = "%d + %d" % [
 		observing_unit.get_stat(Unit.stats.CONSTITUTION),

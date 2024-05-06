@@ -19,11 +19,10 @@ func _physics_process(_delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if ((controller_type != controller_types.MOUSE) and
-			(event is InputEventMouseButton or event is InputEventMouseMotion)):
-		controller_type = controller_types.MOUSE
-	elif event is InputEventKey:
-		controller_type = controller_types.KEYBOARD
+	controller_type = (
+			controllerTypes.MOUSE if (event is InputEventMouseButton
+					or event is InputEventMouseMotion)
+			else controllerTypes.KEYBOARD)
 
 	if Utilities.get_debug_constant("print_input_reciever"):
 		print(get_current_input_node())
@@ -57,7 +56,5 @@ func get_current_input_node() -> _Receiver:
 
 func get_root() -> Viewport:
 	const PATH: String = "SubViewportContainer/SubViewport"
-	if get_viewport() and get_viewport().has_node(PATH):
-		return get_viewport().get_node(PATH) as Viewport
-	else:
-		return Window.new()
+	var has_viewport: bool = get_viewport() and get_viewport().has_node(PATH)
+	return get_viewport().get_node(PATH) as Viewport if has_viewport else Window.new()

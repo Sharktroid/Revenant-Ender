@@ -53,9 +53,9 @@ func close() -> void:
 	queue_free()
 	_ghost_unit.queue_free()
 	MapController.selecting = false
-	if (CursorController.hovered_unit and CursorController.hovered_unit != _unit
-			and not CursorController.hovered_unit.dead):
-		CursorController.hovered_unit.display_movement_tiles()
+	var hovered_unit: Unit = CursorController.hovered_unit
+	if hovered_unit and hovered_unit != _unit and not hovered_unit.dead:
+		hovered_unit.display_movement_tiles()
 	_unit.deselect.call_deferred()
 
 

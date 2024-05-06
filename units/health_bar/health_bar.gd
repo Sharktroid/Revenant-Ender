@@ -13,20 +13,18 @@ func update() -> void:
 	var unit := get_parent() as Unit
 	max_value = unit.get_stat(Unit.stats.HIT_POINTS)
 	value = unit.current_health
-	if ratio == 1:
-		visible = false
-	else:
-		visible = true
+	visible = ratio != 1
+	if visible == true:
 		(get_theme_stylebox("fill") as StyleBoxFlat).bg_color = _get_color()
 
 
 func _get_color() -> Color:
 	# Colors used
-	const full_color := Color(0, 0.75, 0) # color at full health
-	const half_color := Color(0.9, 0.9, 0) # color at half health
-	const zero_color := Color(0.75, 0, 0) # color at no health
+	const FULL_COLOR := Color(0, 0.75, 0) # color at full health
+	const HALF_COLOR := Color(0.9, 0.9, 0) # color at half health
+	const ZERO_COLOR := Color(0.75, 0, 0) # color at no health
 	# Deriving color from linear regresson
-	if ratio > 0.5:
-		return half_color.lerp(full_color, inverse_lerp(0.5, 1, ratio))
-	else:
-		return zero_color.lerp(half_color, inverse_lerp(0, 0.5, ratio))
+	return (
+			HALF_COLOR.lerp(FULL_COLOR, inverse_lerp(0.5, 1, ratio)) if ratio > 0.5
+			else ZERO_COLOR.lerp(HALF_COLOR, inverse_lerp(0, 0.5, ratio))
+	)

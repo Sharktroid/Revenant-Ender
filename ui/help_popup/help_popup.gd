@@ -27,10 +27,8 @@ func set_table(table_items: Array[String], columns: int) -> void:
 
 func set_description(description_text: String) -> void:
 	var description: RichTextLabel = (%Description as RichTextLabel)
-	if description_text.length() == 0:
-		description.visible = false
-	else:
-		description.visible = true
+	description.visible = description_text.length() != 0
+	if description.visible:
 		description.autowrap_mode = TextServer.AUTOWRAP_OFF
 		description.text = description_text
 		reset_size()

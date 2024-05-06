@@ -35,7 +35,7 @@ func _process(delta: float) -> void:
 
 
 func set_shape(shape: shapes) -> void:
-	match(shape):
+	match shape:
 		shapes.DEFAULT:
 			polygon = _default_outer
 			_inner_coloring.polygon = _default_inner

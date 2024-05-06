@@ -27,12 +27,10 @@ func _init(faction_name: String, faction_color: colors, faction_player_type: pla
 
 
 func get_diplomacy_stance(faction: Faction) -> diplomacyStances:
-	if faction == self:
-		return diplomacyStances.SELF
-	elif faction in _diplomacy.keys():
-		return _diplomacy[faction]
-	else:
-		return diplomacyStances.ENEMY
+	return (
+			diplomacyStances.SELF if faction == self
+			else _diplomacy.get(faction, diplomacyStances.ENEMY)
+	)
 
 
 func set_diplomacy_stance(faction: Faction, new_stance: diplomacyStances) -> void:

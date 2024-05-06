@@ -30,8 +30,7 @@ func select_item(menu_item: MapMenuItem) -> void:
 			menu.offset = offset + Vector2(16, 16)
 			menu.parent_menu = self
 			MapController.get_ui().add_child(menu)
-			var drop: bool = await menu.selection_made
-			if drop:
+			if await menu.selection_made:
 				unit.drop(item)
 				close()
 			menu.queue_free()

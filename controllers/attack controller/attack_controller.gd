@@ -29,10 +29,9 @@ func receive_input(_event: InputEvent) -> void:
 
 
 func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[CombatStage]) -> void:
-	const MAP_BATTLE_HP_BAR_PATH: String = \
-			"res://controllers/attack controller/map_battle_info_display."
-	const MapBattleHpBar = preload(MAP_BATTLE_HP_BAR_PATH + "gd")
-	var hp_bar := preload(MAP_BATTLE_HP_BAR_PATH + "tscn").instantiate() as MapBattleHpBar
+	const HP_BAR_PATH: String = "res://controllers/attack controller/map_battle_info_display."
+	const MapBattleHpBar = preload(HP_BAR_PATH + "gd")
+	var hp_bar := preload(HP_BAR_PATH + "tscn").instantiate() as MapBattleHpBar
 	hp_bar.attacker = attacker
 	hp_bar.defender = defender
 	MapController.get_ui().add_child(hp_bar)
@@ -48,11 +47,8 @@ func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[CombatStage
 		return get_tree().create_timer(DELAY)
 	for combat_round: CombatStage in attack_queue:
 		await get_timer.call().timeout
-		var animation: MapAttack
-		match combat_round.attacker:
-			attacker: animation = attacker_animation
-			defender: animation = defender_animation
-		await _map_attack(combat_round.attacker, combat_round.defender, animation,
+		await _map_attack(combat_round.attacker, combat_round.defender,
+				attacker_animation if combat_round.attacker == attacker else defender_animation,
 				combat_round.attack_type)
 		if attacker.current_health <= 0 or defender.current_health <= 0:
 			break
@@ -69,14 +65,12 @@ func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[CombatStage
 
 	attacker_animation.queue_free()
 	defender_animation.queue_free()
-	if attacker.dead:
-		attacker.queue_free()
-	else:
-		attacker.visible = true
-	if defender.dead:
-		defender.queue_free()
-	else:
-		defender.visible = true
+
+	for unit: Unit in [attacker, defender]:
+		if unit.dead:
+			attacker.queue_free()
+		else:
+			attacker.visible = true
 
 
 func _map_attack(attacker: Unit, defender: Unit, attacker_animation: MapAttack,
@@ -92,21 +86,22 @@ func _map_attack(attacker: Unit, defender: Unit, attacker_animation: MapAttack,
 		const HIT_B_HEAVY: AudioStream = preload("res://audio/sfx/hit_b_heavy.ogg")
 		const HIT_B_FATAL: AudioStream = preload("res://audio/sfx/hit_b_fatal.ogg")
 
-		var hit_a: AudioStream = HIT_A_HEAVY
-		var hit_b: AudioStream = HIT_B_HEAVY
-		var damage: int = attacker.get_damage(defender)
-		if attack_type == attackTypes.CRIT:
-			hit_a = HIT_A_CRIT
-			damage = attacker.get_crit_damage(defender)
+		var is_crit: bool = attack_type == attackTypes.CRIT
+		var hit_a: AudioStream = HIT_A_CRIT if is_crit else HIT_A_HEAVY
+		var damage: int = (
+				attacker.get_crit_damage(defender) if is_crit
+				else attacker.get_damage(defender)
+		)
 		var old_health: int = ceili(defender.current_health)
 		var new_health: int = maxi(floori(old_health - damage), 0)
-		if new_health <= 0:
-			hit_b = HIT_B_FATAL
-		elif damage == 0:
-			hit_b = preload("res://audio/sfx/no_damage.ogg")
+		var hit_b: AudioStream = (
+				HIT_B_FATAL if new_health <= 0
+				else preload("res://audio/sfx/no_damage.ogg") if damage == 0
+				else HIT_B_HEAVY
+		)
 
-		var duration: float = (HEALTH_SCROLL_DURATION *
-				float(old_health - new_health)/defender.get_stat(Unit.stats.HIT_POINTS))
+		var total_hp: int = defender.get_stat(Unit.stats.HIT_POINTS)
+		var duration: float = HEALTH_SCROLL_DURATION * (float(old_health - new_health)/total_hp)
 		var tween: Tween = defender.create_tween()
 		tween.set_parallel()
 		tween.tween_interval(0.1)
@@ -133,13 +128,11 @@ func _kill(unit: Unit, unit_animation: MapAttack) -> void:
 
 
 func _calc(unit: Unit, other_unit: Unit) -> attackTypes:
-	if unit.get_hit_rate(other_unit) > randi_range(0, 99):
-		if unit.get_crit_rate(other_unit) > randi_range(0, 99):
-			return attackTypes.CRIT
-		else:
-			return attackTypes.HIT
-	else:
-		return attackTypes.MISS
+	return (
+			attackTypes.MISS if unit.get_hit_rate(other_unit) <= randi_range(0, 99)
+			else attackTypes.HIT if unit.get_crit_rate(other_unit) > randi_range(0, 99)
+			else attackTypes.CRIT
+	)
 
 
 func _get_combat_exp(distributing_unit: Unit, damage: float) -> float:
@@ -150,10 +143,10 @@ func _get_combat_exp(distributing_unit: Unit, damage: float) -> float:
 
 func _give_exp(recieving_unit: Unit, distributing_unit: Unit, old_hp: float) -> void:
 	if not recieving_unit.dead:
-		const EXP_BAR_PATH: String = "res://ui/exp_bar/exp_bar."
-		const EXP_BAR_SCENE: PackedScene = preload(EXP_BAR_PATH + "tscn")
-		const ExpBar = preload(EXP_BAR_PATH + "gd")
 		if recieving_unit.faction.player_type == Faction.playerTypes.HUMAN:
+			const EXP_BAR_PATH: String = "res://ui/exp_bar/exp_bar."
+			const EXP_BAR_SCENE: PackedScene = preload(EXP_BAR_PATH + "tscn")
+			const ExpBar = preload(EXP_BAR_PATH + "gd")
 			var exp_bar := EXP_BAR_SCENE.instantiate() as ExpBar
 			exp_bar.observing_unit = recieving_unit
 			MapController.get_ui().add_child(exp_bar)

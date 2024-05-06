@@ -25,7 +25,7 @@ func _enter_tree() -> void:
 
 func receive_input(event: InputEvent) -> void:
 	if not HelpPopupController.is_active():
-		if event.is_action_pressed("up"):
+		if event.is_action_pressed("up") and not Input.is_action_pressed("down"):
 			_current_item_index -= 1
 
 		elif event.is_action_pressed("down"):
@@ -50,9 +50,12 @@ func close() -> void:
 func update_position() -> void:
 	reset_size()
 	position = offset.clamp(Vector2i(), Utilities.get_screen_size() - Vector2i(size))
-	if (offset.x >= float(Utilities.get_screen_size().x)/2 and _to_center):
-		if offset.x >= CursorController.screen_position.x:
-			position.x -= ceili(16 + size.x)
+	if (
+			offset.x >= float(Utilities.get_screen_size().x)/2
+			and _to_center
+			and offset.x >= CursorController.screen_position.x
+	):
+		position.x -= ceili(16 + size.x)
 
 
 func select_item(_item: MapMenuItem) -> void:

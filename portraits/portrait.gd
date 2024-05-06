@@ -30,10 +30,7 @@ func _physics_process(_delta: float) -> void:
 		else:
 			_delay -= 1
 	if _emotion != emotions.NONE:
-		if _talking_frame == 3:
-			_current_mouth.frame = 1
-		else:
-			_current_mouth.frame = _talking_frame
+		_current_mouth.frame = 1 if _talking_frame == 3 else _talking_frame
 
 
 func set_talking(talking: bool) -> void:

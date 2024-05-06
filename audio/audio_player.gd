@@ -8,11 +8,8 @@ const CURSOR = preload("res://audio/sfx/cursor.ogg")
 var music_volume: float = 0.5:
 	set(value):
 		music_volume = value
-		if music_volume > 0:
-			get_current_player().volume_db = _percent_to_db(music_volume)
-			get_current_player().stream_paused = false
-		else:
-			get_current_player().stream_paused = true
+		get_current_player().volume_db = _percent_to_db(music_volume)
+		get_current_player().stream_paused = not(music_volume > 0)
 var sfx_volume: float = 1.0
 
 var _music_container := Node.new()
@@ -95,10 +92,7 @@ func stop_and_resume_previous_track() -> void:
 
 
 func get_current_player() -> AudioStreamPlayer:
-	if (_track_stack.size() == 0):
-		return null
-	else:
-		return _tracks.get(_track_stack.back())
+	return null if _track_stack.is_empty() else _tracks.get(_track_stack.back())
 
 
 func play_sound_effect(stream: AudioStream) -> void:
@@ -121,7 +115,4 @@ func clear_sound_effects() -> void:
 
 
 func _percent_to_db(volume: float) -> float:
-	if volume == 0: # Fallback; better to manually disable playback
-		return -100 # Generally too low to hear
-	else:
-		return 6 * (log(volume)/log(2))
+	return 6 * (log(volume)/log(2)) if volume > 0 else -100.0

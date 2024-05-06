@@ -281,9 +281,10 @@ func _can_attack(unit: Unit) -> bool:
 	var current_tiles: Array[Vector2i] = connected_unit.get_current_attack_tiles(pos, true)
 	var faction: Faction = unit.faction
 	var diplo_stance := connected_unit.faction.get_diplomacy_stance(faction)
-	if diplo_stance == Faction.diplomacyStances.ENEMY and Vector2i(unit.position) in current_tiles:
-		return true
-	return false
+	return (
+			diplo_stance == Faction.diplomacyStances.ENEMY
+			and Vector2i(unit.position) in current_tiles
+	)
 
 
 func _can_drop(pos: Vector2i) -> bool:

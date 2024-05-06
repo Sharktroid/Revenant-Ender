@@ -190,10 +190,7 @@ func _process(_delta: float) -> void:
 	_render_status()
 	if _animation_player.current_animation == "idle":
 		var anim_frame: int = floori((Engine.get_physics_frames() as float) / 16) % 4
-		if anim_frame == 3:
-			frame = 1
-		else:
-			frame = anim_frame
+		frame = 1 if anim_frame == 3 else anim_frame
 	z_index = Utilities.round_coords_to_tile(position).y
 	(material as ShaderMaterial).set_shader_parameter("modulate", modulate)
 
@@ -287,9 +284,7 @@ func get_stat_cap(stat: stats) -> int:
 
 
 func get_attack_speed() -> int:
-	var weight: int = 0
-	if get_current_weapon():
-		weight = get_current_weapon().weight
+	var weight: int = get_current_weapon().weight if get_current_weapon() else 0
 	return get_stat(stats.SPEED) - maxi(weight - get_stat(stats.CONSTITUTION), 0)
 
 
@@ -651,10 +646,7 @@ func move(move_target: Vector2i = get_unit_path()[-1]) -> void:
 
 
 func get_unit_path() -> Array[Vector2i]:
-	if _path.size() == 0:
-		return [position]
-	else:
-		return _path
+	return [position] if _path.size() == 0 else _path
 
 
 ## Gets the path of the unit.
@@ -705,12 +697,12 @@ func show_path() -> void:
 	if get_unit_path().size() > 1:
 		for i: Vector2i in get_unit_path():
 			var tile := _MOVEMENT_ARROWS.instantiate() as Sprite2D
-			var prev: Vector2i
+			var prev: Vector2i = i
+			prev -= (
+					Vector2i(position) if get_unit_path().find(i) == 0
+					else get_unit_path()[get_unit_path().find(i) - 1]
+			)
 			var next: Vector2i
-			if get_unit_path().find(i) == 0:
-				prev = i - Vector2i(position)
-			else:
-				prev = i - get_unit_path()[get_unit_path().find(i) - 1]
 			if i != get_unit_path()[-1]:
 				next = i - get_unit_path()[get_unit_path().find(i) + 1]
 			if get_unit_path()[0] == i:

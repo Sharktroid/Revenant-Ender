@@ -28,10 +28,7 @@ func _ready() -> void:
 	var text_tween: Tween = create_tween()
 	text_tween.set_loops()
 	var advance_frame: Callable = func() -> void:
-		if (text_sprite.frame == 12):
-			text_sprite.frame = 0
-		else:
-			text_sprite.frame += 1
+		text_sprite.frame = 0 if text_sprite.frame == 12 else text_sprite.frame + 1
 	text_tween.tween_callback(advance_frame).set_delay(2.0/60)
 	await get_tree().create_timer(28.0/60).timeout
 	text_tween.stop()

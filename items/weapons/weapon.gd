@@ -67,15 +67,9 @@ func get_range() -> Array:
 
 
 func get_stat_table() -> Array[String]:
-	var get_range_string: Callable = func() -> String:
-		if min_range == max_range:
-			return str(min_range)
-		else:
-			return "%d-%d" % [min_range, max_range]
-
 	return Utilities.dict_to_table.call({
 		str(types.find_key(type)).capitalize(): str(ranks.find_key(level)).capitalize(),
-		"Range": get_range_string.call(),
+		"Range": str(min_range) if min_range == max_range else "%d-%d" % [min_range, max_range],
 		"Weight": weight,
 		"Might": might,
 		"Hit": hit,
@@ -85,23 +79,18 @@ func get_stat_table() -> Array[String]:
 
 ## Returns 1 with normal advantage, 0 with neutrality, -1 with disadvantage
 func get_weapon_triangle_advantage(weapon: Weapon, _distance: int) -> int:
-	if weapon.type in advantage_types:
-		return 1
-	elif weapon.type in disadvantage_types:
-		return -1
-	else:
-		return 0
+	return (
+			1 if weapon.type in advantage_types
+			else -1 if weapon.type in disadvantage_types
+			else 0
+	)
 
 
 func get_hit_bonus(weapon: Weapon, distance: int) -> int:
 	if weapon is Bow:
 		return -10 * weapon.get_weapon_triangle_advantage(self, distance)
 	else:
-		var bonus: int = 0
-		if level >= ranks.B:
-			bonus = 10
-		elif level >= ranks.D:
-			bonus = 5
+		var bonus: int = 10 if level >= ranks.B else 5 if level >= ranks.D else 0
 		return bonus * get_weapon_triangle_advantage(weapon, distance)
 
 
@@ -109,7 +98,4 @@ func get_damage_bonus(weapon: Weapon, distance: int) -> int:
 	if weapon is Bow:
 		return -weapon.get_weapon_triangle_advantage(self, distance)
 	else:
-		if level >= ranks.S:
-			return get_weapon_triangle_advantage(weapon, distance)
-		else:
-			return 0
+		return get_weapon_triangle_advantage(weapon, distance) if level >= ranks.S else 0

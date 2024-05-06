@@ -3,7 +3,7 @@ extends PanelContainer
 
 signal completed(proceed: bool)
 
-const blue_colors: Array[Color] = [
+const BLUE_COLORS: Array[Color] = [
 	Color("5294D6"),
 	Color("4284CE"),
 	Color("5294D6"),
@@ -13,7 +13,7 @@ const blue_colors: Array[Color] = [
 	Color("315A9C"),
 	Color("293984"),
 ]
-const red_colors: Array[Color] = [
+const RED_COLORS: Array[Color] = [
 	Color("D65A63"),
 	Color("CE4A4A"),
 	Color("D65A63"),
@@ -35,14 +35,14 @@ var _old_weapon: Weapon
 
 func _enter_tree() -> void:
 	# Removes float rounding errors
-	var light_blue := Color("5294D6")
-	var dark_blue := Color("315A9C")
+	const LIGHT_BLUE := Color("5294D6")
+	const DARK_BLUE := Color("315A9C")
 	var top_unit_panel := %"Top Unit Panel" as PanelContainer
-	(top_unit_panel.get_theme_stylebox("panel") as StyleBoxFlat).bg_color = light_blue
-	(top_unit_panel.get_node("Line2D") as Line2D).default_color = dark_blue
+	(top_unit_panel.get_theme_stylebox("panel") as StyleBoxFlat).bg_color = LIGHT_BLUE
+	(top_unit_panel.get_node("Line2D") as Line2D).default_color = DARK_BLUE
 	var bottom_unit_panel := %"Bottom Unit Panel" as PanelContainer
-	(bottom_unit_panel.get_theme_stylebox("panel") as StyleBoxFlat).bg_color = dark_blue
-	(bottom_unit_panel.get_node("Line2D") as Line2D).default_color = light_blue
+	(bottom_unit_panel.get_theme_stylebox("panel") as StyleBoxFlat).bg_color = DARK_BLUE
+	(bottom_unit_panel.get_node("Line2D") as Line2D).default_color = LIGHT_BLUE
 
 	_old_weapon = top_unit.get_current_weapon()
 	for item: Item in top_unit.items:
@@ -80,20 +80,12 @@ func _update() -> void:
 	_weapon_index = posmod(_weapon_index, _weapons.size())
 	top_unit.equip_weapon(_get_current_weapon())
 	for half: String in ["Top", "Bottom"] as Array[String]:
-		var current_unit: Unit
-		var other_unit: Unit
-		var weapon: Weapon
+		var is_top: bool = half == "Top"
+		var current_unit: Unit = top_unit if is_top else bottom_unit
+		var other_unit: Unit = bottom_unit if is_top else top_unit
+		var weapon: Weapon = _weapons[_weapon_index] if is_top else bottom_unit.get_current_weapon()
 		var format: Callable = func(input_string: String) -> String:
 			return ("%" + half + " " + input_string)
-		match half:
-			"Top":
-				current_unit = top_unit
-				other_unit = bottom_unit
-				weapon = _weapons[_weapon_index]
-			"Bottom":
-				current_unit = bottom_unit
-				other_unit = top_unit
-				weapon = bottom_unit.get_current_weapon()
 		(get_node(format.call("Name")) as Label).text = current_unit.unit_name
 		(get_node(format.call("Weapon Icon")) as TextureRect).texture = weapon.icon
 		(get_node(format.call("Weapon Name")) as Label).text = weapon.name
@@ -117,10 +109,10 @@ func _update() -> void:
 			var shader_material: ShaderMaterial = \
 					(get_node(format.call("Unit Panel")) as PanelContainer).material
 			var old_vectors: Array[Color] = []
-			for color: Color in blue_colors:
+			for color: Color in BLUE_COLORS:
 				old_vectors.append(color)
 			var new_vectors: Array[Color] = []
-			for color: Color in red_colors:
+			for color: Color in RED_COLORS:
 				new_vectors.append(color)
 			shader_material.set_shader_parameter("old_colors", old_vectors)
 			shader_material.set_shader_parameter("new_colors", new_vectors)

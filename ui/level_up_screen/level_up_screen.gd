@@ -55,10 +55,20 @@ func _ready() -> void:
 	AudioPlayer.play_sound_effect(preload("res://audio/sfx/level_up_level_blip.ogg"))
 	await get_tree().create_timer(20.0/60).timeout
 
-	var stat_order: Array[Unit.stats] = [Unit.stats.HIT_POINTS, Unit.stats.STRENGTH, Unit.stats.PIERCE,
-			Unit.stats.MAGIC, Unit.stats.SKILL, Unit.stats.SPEED, Unit.stats.MOVEMENT,
-			Unit.stats.DEFENSE, Unit.stats.ARMOR, Unit.stats.RESISTANCE, Unit.stats.LUCK,
-			Unit.stats.CONSTITUTION]
+	var stat_order: Array[Unit.stats] = [
+		Unit.stats.HIT_POINTS,
+		Unit.stats.STRENGTH,
+		Unit.stats.PIERCE,
+		Unit.stats.MAGIC,
+		Unit.stats.SKILL,
+		Unit.stats.SPEED,
+		Unit.stats.MOVEMENT,
+		Unit.stats.DEFENSE,
+		Unit.stats.ARMOR,
+		Unit.stats.RESISTANCE,
+		Unit.stats.LUCK,
+		Unit.stats.CONSTITUTION
+	]
 	for stat: Unit.stats in stat_order:
 		var old_stat: int = unit.get_stat(stat, old_level)
 		var current_stat: int = unit.get_stat(stat, unit.level)

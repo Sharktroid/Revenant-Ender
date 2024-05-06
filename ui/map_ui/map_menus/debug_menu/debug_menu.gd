@@ -27,7 +27,7 @@ func select_item(item: MapMenuItem) -> void:
 			var cursor_area: Area2D = CursorController.get_area()
 			cursor_area.visible = Utilities.get_debug_constant("display_map_cursor")
 
-		"Output Input Reciever":
+		"Print Input Reciever":
 			Utilities.invert_debug_constant("print_input_reciever")
 
 		"Print Cursor Position":

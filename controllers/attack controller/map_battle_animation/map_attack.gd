@@ -9,7 +9,7 @@ var target_tile: Vector2i
 var _combat_sprite: Unit
 
 
-func _init(connected_unit: Unit = null, targeted_tile: Vector2i = Vector2i(0, 16)) -> void:
+func _init(connected_unit: Unit = null, targeted_tile := Vector2i(0, 16)) -> void:
 	_combat_sprite = connected_unit.duplicate() as Unit
 	target_tile = targeted_tile
 	for child: Node in _combat_sprite.get_children():
@@ -22,16 +22,12 @@ func _init(connected_unit: Unit = null, targeted_tile: Vector2i = Vector2i(0, 16
 	await _combat_sprite.tree_entered
 	_combat_sprite.sprite_animated = false
 	var angle: float = ((Vector2(target_tile) - position).angle() * 4)/PI
-	var animation: Unit.animations
-	if angle <= 1 and angle >= -1:
-		animation = Unit.animations.MOVING_RIGHT
-	elif angle > -3 and angle < -1:
-		animation = Unit.animations.MOVING_UP
-	elif angle > 1 and angle < 3:
-		animation = Unit.animations.MOVING_DOWN
-	else:
-		animation = Unit.animations.MOVING_LEFT
-	_combat_sprite.set_animation.call_deferred(animation)
+	_combat_sprite.set_animation.call_deferred(
+			Unit.animations.MOVING_RIGHT if angle <= 1 and angle >= -1
+			else Unit.animations.MOVING_UP if angle > -3 and angle < -1
+			else Unit.animations.MOVING_DOWN if angle > 1 and angle < 3
+			else Unit.animations.MOVING_LEFT
+	)
 
 
 func play_animation() -> void:

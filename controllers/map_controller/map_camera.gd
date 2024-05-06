@@ -37,11 +37,7 @@ func get_destination() -> Vector2i:
 func can_move(new_dest: Vector2i) -> bool:
 	var old_pos: Vector2i = map_position
 	move(new_dest)
-	var answer: bool
-	if map_position == old_pos:
-		answer = false
-	else:
-		answer = true
+	var answer: bool = map_position != old_pos
 	map_position = old_pos
 	return answer
 

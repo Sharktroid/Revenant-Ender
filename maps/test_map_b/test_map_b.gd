@@ -17,7 +17,6 @@ func _init() -> void:
 func _ready() -> void:
 	super()
 	if DEBUG_CUTSCENE:
-		await CursorController.ready
 		CursorController.disable()
 		var roy := $"Map Layer/Units/Player/Roy" as Unit
 		var marcus := $"Map Layer/Units/Player/Marcus" as Unit

@@ -37,8 +37,5 @@ var value: int = 0:
 			arrow.position.y -= 2
 			arrow.set_shape(Arrow.shapes.DEFAULT)
 			sign_label.visible = true
-			if value > 0:
-				sign_label.text = "+"
-			else:
-				sign_label.text = "-"
+			sign_label.text = "+" if value > 0 else "-"
 			value_label.text = str(abs(value))

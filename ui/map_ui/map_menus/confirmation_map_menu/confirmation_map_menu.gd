@@ -12,7 +12,5 @@ func _enter_tree() -> void:
 
 
 func select_item(menu_item: MapMenuItem) -> void:
-	match menu_item.name:
-		"Yes": selection_made.emit(true)
-		"No": selection_made.emit(false)
+	selection_made.emit(menu_item.name == "Yes")
 	super(menu_item)

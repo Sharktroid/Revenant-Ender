@@ -10,12 +10,12 @@ const _PhaseDisplay = preload(_PHASE_DISPLAY_PATH + "gd")
 var selecting: bool = false # Whether a unit is currently selected.
 var map := Map.new()
 
-var _phase_diplay: _PhaseDisplay
+var _phase_display: _PhaseDisplay
 
 func receive_input(event: InputEvent) -> void:
 	if not event is InputEventMouseMotion:
 		AudioPlayer.clear_sound_effects()
-		_phase_diplay.queue_free()
+		_phase_display.queue_free()
 
 
 func set_scaling(new_scaling: int) -> void:
@@ -30,24 +30,19 @@ func create_main_map_menu() -> void:
 	var menu := preload("res://ui/map_ui/map_menus/main_map_menu/" +
 			"main_map_menu.tscn").instantiate() as MapMenu
 	menu.offset = (CursorController.screen_position + Vector2i(16, 0))
-	MapController.get_ui().add_child(menu)
+	get_ui().add_child(menu)
 	GameController.add_to_input_stack(menu)
 	CursorController.disable()
 
 
 func get_ui() -> CanvasLayer:
-	if GameController.get_root() and GameController.get_root().has_node("Map UI Layer"):
-		return GameController.get_root().get_node("Map UI Layer") as CanvasLayer
-	else:
-		return CanvasLayer.new()
+	var path := NodePath("%s/Map UI Layer" % GameController.get_root().get_path())
+	return get_node(path) as CanvasLayer if has_node(path) else CanvasLayer.new()
 
 
 func get_map_camera() -> MapCamera:
-	const PATH: String = "Map Camera"
-	if map.has_node(PATH):
-		return (map.get_node(PATH) as MapCamera)
-	else:
-		return MapCamera.new()
+	var path: String = NodePath("%s/Map Camera" % map.get_path())
+	return (get_node(path) as MapCamera) if has_node(path) else MapCamera.new()
 
 
 func get_dialogue() -> Dialogue:
@@ -57,9 +52,8 @@ func get_dialogue() -> Dialogue:
 func display_turn_change(faction: Faction) -> void:
 	GameController.add_to_input_stack(self)
 	const PHASE_DISPLAY_SCENE: PackedScene = preload(_PHASE_DISPLAY_PATH + "tscn")
-	_phase_diplay = PHASE_DISPLAY_SCENE.instantiate() as _PhaseDisplay
-	get_ui().add_child(_phase_diplay)
-	_phase_diplay.play(faction)
-	await _phase_diplay.tree_exited
+	_phase_display = PHASE_DISPLAY_SCENE.instantiate() as _PhaseDisplay
+	get_ui().add_child(_phase_display)
+	_phase_display.play(faction)
+	await _phase_display.tree_exited
 	GameController.remove_from_input_stack()
-
