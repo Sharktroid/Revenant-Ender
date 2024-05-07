@@ -17,7 +17,6 @@ var _char_frame: Dictionary = {
 	"-": 5,
 	".": 3,
 	"/": 6,
-
 	"0": 6,
 	"1": 5,
 	"2": 6,
@@ -34,7 +33,6 @@ var _char_frame: Dictionary = {
 	"=": 5,
 	">": 6,
 	"?": 7,
-
 	"@": 8,
 	"A": 8,
 	"B": 7,
@@ -51,7 +49,6 @@ var _char_frame: Dictionary = {
 	"M": 9,
 	"N": 7,
 	"O": 7,
-
 	"P": 7,
 	"Q": 8,
 	"R": 7,
@@ -59,7 +56,7 @@ var _char_frame: Dictionary = {
 	"T": 7,
 	"U": 7,
 	"V": 7,
-	"W":9,
+	"W": 9,
 	"X": 7,
 	"Y": 7,
 	"Z": 7,
@@ -68,7 +65,6 @@ var _char_frame: Dictionary = {
 	"]": 5,
 	"^": 5,
 	"_": 5,
-
 	"`": 4,
 	"a": 7,
 	"b": 6,
@@ -85,7 +81,6 @@ var _char_frame: Dictionary = {
 	"m": 9,
 	"n": 6,
 	"o": 6,
-
 	"p": 6,
 	"q": 6,
 	"r": 5,
@@ -102,7 +97,6 @@ var _char_frame: Dictionary = {
 	"}": 5,
 	"~": 7,
 	"Γ": 7,
-
 	"Δ": 7,
 	"Θ": 7,
 	"Λ": 7,
@@ -119,7 +113,6 @@ var _char_frame: Dictionary = {
 	"ε": 6,
 	"ζ": 6,
 	"η": 6,
-
 	"θ": 6,
 	"ι": 5,
 	"κ": 6,
@@ -136,17 +129,17 @@ var _char_frame: Dictionary = {
 	"φ": 7,
 	"χ": 7,
 	"ψ": 7,
-
 	"ω": 7,
 	"ϛ": 6,
 	"ϟ": 6,
 	"ϡ": 7,
-
 }
 
+
 func _run() -> void:
-	var font: FontFile = preload("res://font/full_text_font.png")
+	const FONT: FontFile = preload("res://font/full_text_font.png")
 	for character: String in _char_frame.keys() as Array[String]:
-		font.set_glyph_advance(0, 16, character.unicode_at(0),
-				Vector2(_char_frame[character] - 1, 0))
-	ResourceSaver.save(font, "res://font/item_font.tres")
+		FONT.set_glyph_advance(
+			0, 16, character.unicode_at(0), Vector2(_char_frame[character] - 1, 0)
+		)
+	ResourceSaver.save(FONT, "res://font/item_font.tres")

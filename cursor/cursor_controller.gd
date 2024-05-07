@@ -3,14 +3,14 @@ extends Node
 signal moved
 
 ## Icons that can be displayed.
-enum Icons {ATTACK, NONE}
+enum Icons { ATTACK, NONE }
 
 var hovered_unit: Unit:
 	get:
-		if is_instance_valid(hovered_unit) and hovered_unit.position == (map_position as Vector2):
-			return hovered_unit
-		else:
-			return null
+		var is_cursor_over_unit: bool = (
+			is_instance_valid(hovered_unit) and (hovered_unit.position == (map_position as Vector2))
+		)
+		return hovered_unit if is_cursor_over_unit else null
 var cursor_visible: bool = true
 var map_position := Vector2i():
 	set = _set_map_position
@@ -18,7 +18,7 @@ var screen_position: Vector2i:
 	set(value):
 		map_position = value + _corner_offset()
 	get:
-		return (map_position - _corner_offset())
+		return map_position - _corner_offset()
 
 var _icon_sprite: Sprite2D
 var _active: bool = true
@@ -33,14 +33,19 @@ func _init() -> void:
 func _physics_process(_delta: float) -> void:
 	if is_active():
 		if GameController.controller_type == GameController.ControllerTypes.MOUSE:
-			if (MapController.get_map_camera().get_destination() ==
-					(MapController.get_map_camera().position as Vector2i)):
-				map_position = Utilities.round_coords_to_tile(get_viewport().get_mouse_position()
-				+ (_corner_offset() as Vector2))
+			var destination: Vector2 = MapController.get_map_camera().get_destination()
+			if destination == (MapController.get_map_camera().position):
+				map_position = Utilities.round_coords_to_tile(
+					get_viewport().get_mouse_position() + (_corner_offset() as Vector2)
+				)
 		else:
 			if _delay <= 0 and _repeat:
-				if (Input.is_action_pressed("left") or Input.is_action_pressed("right")
-						or Input.is_action_pressed("up") or Input.is_action_pressed("down")):
+				if (
+					Input.is_action_pressed("left")
+					or Input.is_action_pressed("right")
+					or Input.is_action_pressed("up")
+					or Input.is_action_pressed("down")
+				):
 					var new_pos: Vector2i = map_position
 					var old_pos: Vector2i = new_pos
 					if Input.is_action_pressed("left") and not Input.is_action_pressed("right"):
@@ -119,10 +124,15 @@ func is_active() -> bool:
 func _set_map_position(new_pos: Vector2i) -> void:
 	## Sets cursor position relative to the map
 	var old_pos: Vector2i = map_position
-	map_position = new_pos.clamp(MapController.map.borders.position,
-			MapController.map.borders.end - Vector2i(16, 16))
-	map_position = ((map_position - _corner_offset()).
-			clamp(Vector2i(), Utilities.get_screen_size() - Vector2i(16, 16)) + _corner_offset())
+	map_position = new_pos.clamp(
+		MapController.map.borders.position, MapController.map.borders.end - Vector2i(16, 16)
+	)
+	map_position = (
+		(map_position - _corner_offset()).clamp(
+			Vector2i(), Utilities.get_screen_size() - Vector2i(16, 16)
+		)
+		+ _corner_offset()
+	)
 	var map_move := Vector2i()
 	for i: int in 2:
 		if screen_position[i] < 16:
@@ -142,5 +152,7 @@ func _set_active(active: bool) -> void:
 
 
 func _corner_offset() -> Vector2i:
-	return (Vector2i((MapController.get_map_camera().map_position))
-			- MapController.get_map_camera().get_map_offset())
+	return (
+		Vector2i(MapController.get_map_camera().map_position)
+		- MapController.get_map_camera().get_map_offset()
+	)

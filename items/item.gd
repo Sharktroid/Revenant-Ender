@@ -1,7 +1,7 @@
 class_name Item
 extends Resource
 
-enum EquipType {DISABLED, ENABLED, WEAPON, ARMOR, OTHER}
+enum EquipType { DISABLED, ENABLED, WEAPON, ARMOR, OTHER }
 
 var name: String
 var icon: Texture2D = PlaceholderTexture2D.new()

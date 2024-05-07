@@ -29,6 +29,5 @@ func set_equip_status(unit: Unit) -> void:
 		equip_status.text = ""
 
 	($Name as Label).theme_type_variation = (
-			"" if item is Weapon and unit.can_use_weapon(item as Weapon)
-			else "GreyLabel"
+		"" if item is Weapon and unit.can_use_weapon(item as Weapon) else "GreyLabel"
 	)

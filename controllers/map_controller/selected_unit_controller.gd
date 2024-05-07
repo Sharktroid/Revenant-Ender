@@ -1,14 +1,15 @@
 class_name SelectedUnitController
 extends Control
 
+var current_animation: Unit.Animations = Unit.Animations.IDLE
 var _unit: Unit
 var _ghost_unit: GhostUnit
-var current_animation: Unit.animations = Unit.animations.IDLE
+
 
 func _init(connected_unit: Unit) -> void:
 	_unit = connected_unit
 	name = "Selected UnitController"
-	_unit.set_animation(Unit.animations.MOVING_DOWN)
+	_unit.set_animation(Unit.Animations.MOVING_DOWN)
 	_unit.selected = true
 	_unit.update_path(CursorController.map_position)
 	_unit.refresh_tiles()
@@ -26,14 +27,18 @@ func _process(_delta: float) -> void:
 	else:
 		_ghost_unit.visible = true
 		var distance := Vector2i()
-		if _unit.get_unit_path().size()  >= 2:
+		if _unit.get_unit_path().size() >= 2:
 			distance = _unit.get_unit_path()[-1] - _unit.get_unit_path()[-2]
-		var next_animation: Unit.animations
+		var next_animation: Unit.Animations
 		match distance:
-			Vector2i(16, 0): next_animation = Unit.animations.MOVING_RIGHT
-			Vector2i(-16, 0): next_animation = Unit.animations.MOVING_LEFT
-			Vector2i(0, -16): next_animation = Unit.animations.MOVING_UP
-			_: next_animation = Unit.animations.MOVING_DOWN
+			Vector2i(16, 0):
+				next_animation = Unit.Animations.MOVING_RIGHT
+			Vector2i(-16, 0):
+				next_animation = Unit.Animations.MOVING_LEFT
+			Vector2i(0, -16):
+				next_animation = Unit.Animations.MOVING_UP
+			_:
+				next_animation = Unit.Animations.MOVING_DOWN
 		if current_animation != next_animation:
 			_ghost_unit.set_animation(next_animation)
 			current_animation = next_animation
@@ -77,9 +82,9 @@ func _position_selected() -> void:
 
 func _create_unit_menu() -> void:
 	## Creates _unit menu.
-	const _MenuScript = preload("res://ui/map_ui/map_menus/unit_menu/unit_menu.gd")
-	var _menu_node := load("res://ui/map_ui/map_menus/unit_menu/unit_menu.tscn") as PackedScene
-	var menu := _menu_node.instantiate() as _MenuScript
+	const MenuScript = preload("res://ui/map_ui/map_menus/unit_menu/unit_menu.gd")
+	var menu_node := load("res://ui/map_ui/map_menus/unit_menu/unit_menu.tscn") as PackedScene
+	var menu := menu_node.instantiate() as MenuScript
 	menu.connected_unit = _unit
 	menu.offset = CursorController.screen_position + Vector2i(16, 0)
 	menu.caller = self

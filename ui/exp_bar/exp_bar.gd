@@ -1,6 +1,6 @@
 extends Control
 
-const _TRANSITION_DURATION: float = 8.0/60
+const _TRANSITION_DURATION: float = 8.0 / 60
 
 var observing_unit := Unit.new()
 
@@ -18,11 +18,12 @@ func play(experience: float) -> void:
 	await display()
 	await get_tree().create_timer(0.25).timeout
 
-	var new_exp: float = (observing_unit.total_exp +
-			experience)
+	var new_exp: float = observing_unit.total_exp + experience
 	var old_level: int = observing_unit.level
 	var tween: Tween = observing_unit.create_tween()
-	var duration: float = experience/Unit.get_exp_to_level(ceilf(Unit.get_level_from_exp(new_exp)))
+	var duration: float = (
+		experience / Unit.get_exp_to_level(ceilf(Unit.get_level_from_exp(new_exp)))
+	)
 	tween.tween_property(observing_unit, "total_exp", new_exp, duration)
 	var exp_audio_player := AudioStreamPlayer.new()
 	exp_audio_player.stream = preload("res://audio/sfx/experience.ogg")

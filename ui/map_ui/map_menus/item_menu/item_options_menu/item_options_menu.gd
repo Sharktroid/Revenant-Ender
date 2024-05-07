@@ -23,8 +23,7 @@ func select_item(menu_item: MapMenuItem) -> void:
 			item.use()
 			close()
 		"Drop":
-			const MENU_PATH: String = ("res://ui/map_ui/map_menus/confirmation_map_menu/" +
-					"confirmation_map_menu.")
+			const MENU_PATH: String = "res://ui/map_ui/map_menus/confirmation_map_menu/confirmation_map_menu."
 			const Menu = preload(MENU_PATH + "gd")
 			var menu := (load(MENU_PATH + "tscn") as PackedScene).instantiate() as Menu
 			menu.offset = offset + Vector2(16, 16)

@@ -1,9 +1,11 @@
 # Minor
-* Add ternary operator
+* Replace callables with functions
 * Make certain resource properties read-only via getters
+* Make certain get functions read-only properties
+* Add read-only properties for each of a unit's Stats
 * Rename "Magic" to "Intelligence" and "Constitution" to "Build"
 * Remove "E" weapon rank
-* Have unit end stats be interpolated from level 30 for all classes
+* Have unit end Stats be interpolated from level 30 for all classes
 * Have the PV and EV multipliers be set to √(4/3)
 * Fix bug when deselecting help description and cannot reselect the same item
 * Add sound effects to status menu
@@ -18,7 +20,7 @@
 # Major
 * Make certain scenes into objects that load the scenes to make the code less janky
 * Add the remaining sub menus of the main map menu
-* Make attack animations skippable
+* Make attack Animations skippable
 * Implement durability
 
 # Long-term

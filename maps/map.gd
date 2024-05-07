@@ -1,7 +1,7 @@
 class_name Map
 extends Control
 
-enum TileTypes {ATTACK, MOVEMENT, SUPPORT}
+enum TileTypes { ATTACK, MOVEMENT, SUPPORT }
 
 # Border boundaries of the map. units should not exceed these unless aethetic
 @export var left_border: int
@@ -10,9 +10,9 @@ enum TileTypes {ATTACK, MOVEMENT, SUPPORT}
 @export var bottom_border: int
 # See _ready() for these next two
 var borders: Rect2i
-var movement_cost_dict: Dictionary # Movementcosts for every movement type
-var all_factions: Array[Faction] # All factions
-var map_position: Vector2i # Position of the map, used for scrolling
+var movement_cost_dict: Dictionary  # Movementcosts for every movement type
+var all_factions: Array[Faction]  # All factions
+var map_position: Vector2i  # Position of the map, used for scrolling
 
 var _curr_faction: int = 0
 var _cost_grids: Dictionary = {}
@@ -30,11 +30,10 @@ func _init() -> void:
 func _ready() -> void:
 	borders = Rect2i(left_border, top_border, 32, 32)
 	borders = borders.expand(get_size() - Vector2(right_border, bottom_border))
-	_create_debug_borders() # Only shows up when collison shapes are enabled
+	_create_debug_borders()  # Only shows up when collison shapes are enabled
 	_terrain_layer.visible = Utilities.get_debug_constant("display_map_terrain")
 	_border_overlay.visible = Utilities.get_debug_constant("display_map_borders")
-	($"MapLayer/CursorArea" as Area2D).visible = \
-			Utilities.get_debug_constant("display_map_cursor")
+	($"MapLayer/CursorArea" as Area2D).visible = Utilities.get_debug_constant("display_map_cursor")
 	var cell_max: Vector2i = ($"MapLayer/BaseLayer" as TileMap).get_used_cells(0).max()
 	size = cell_max * 16 + Vector2i(16, 16)
 	GameController.add_to_input_stack(self)
@@ -67,8 +66,9 @@ func receive_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("status"):
 		if CursorController.hovered_unit:
 			const StatusScreen = preload("res://ui/map_ui/status_screen/status_screen.gd")
-			const STATUS_SCREEN_SCENE: PackedScene = \
-					preload("res://ui/map_ui/status_screen/status_screen.tscn")
+			const STATUS_SCREEN_SCENE: PackedScene = preload(
+				"res://ui/map_ui/status_screen/status_screen.tscn"
+			)
 			var status_menu := STATUS_SCREEN_SCENE.instantiate() as StatusScreen
 			status_menu.observing_unit = CursorController.hovered_unit
 			MapController.get_ui().add_child(status_menu)
@@ -148,16 +148,17 @@ func get_terrain_cost(movement_type: UnitClass.MovementTypes, coords: Vector2) -
 		var terrain_name: String = _get_terrain(coords)
 		# Combines several terrain names for compactness.
 		match terrain_name:
-			"HQ", "Factory", "City", "House", "Gate", "Village": terrain_name = "Road"
-			"Sea": terrain_name = "Ocean"
+			"HQ", "Factory", "City", "House", "Gate", "Village":
+				terrain_name = "Road"
+			"Sea":
+				terrain_name = "Ocean"
 		if terrain_name in movement_type_terrain_dict:
 			var cost: String = movement_type_terrain_dict[terrain_name]
 			if cost.is_valid_float():
 				return float(cost)
-			elif cost in "N/A":
+			if cost in "N/A":
 				return INF
-			else:
-				push_error('Terrain cost "%s" is invalid' % cost)
+			push_error('Terrain cost "%s" is invalid' % cost)
 		else:
 			push_error('Terrain "%s" is invalid' % terrain_name)
 	else:
@@ -166,13 +167,13 @@ func get_terrain_cost(movement_type: UnitClass.MovementTypes, coords: Vector2) -
 
 
 func toggle_full_outline() -> void:
-	all_factions[_curr_faction].full_outline = not(get_current_faction().full_outline)
+	all_factions[_curr_faction].full_outline = not (get_current_faction().full_outline)
 	update_outline()
 
 
 func toggle_outline_unit(unit: Unit) -> void:
 	var outlined_units: Dictionary = get_current_faction().outlined_units
-	if not(unit.faction in outlined_units):
+	if not (unit.faction in outlined_units):
 		outlined_units[unit.faction] = []
 	if unit in outlined_units[unit.faction]:
 		(outlined_units[unit.faction] as Array).erase(unit)
@@ -186,8 +187,13 @@ func update_outline() -> void:
 	($"MapLayer/Outline" as Node2D).queue_redraw()
 
 
-func display_tiles(tiles: Array[Vector2i], type: TileTypes, modulation: float = 0.5,
-		modulate_blacklist: Array[Vector2i] = [], blacklist_as_whitelist: bool = false) -> Node2D:
+func display_tiles(
+	tiles: Array[Vector2i],
+	type: TileTypes,
+	modulation: float = 0.5,
+	modulate_blacklist: Array[Vector2i] = [],
+	blacklist_as_whitelist: bool = false
+) -> Node2D:
 	var tiles_node := Node2D.new()
 	tiles_node.name = "%s Move Tiles" % name
 	var current_tile_base: PackedScene
@@ -195,14 +201,17 @@ func display_tiles(tiles: Array[Vector2i], type: TileTypes, modulation: float = 
 	const MOVEMENT_TILE_NODE: PackedScene = preload("res://maps/map_tiles/movement_tile.tscn")
 	const SUPPORT_TILE_NODE: PackedScene = preload("res://maps/map_tiles/support_tile.tscn")
 	match type:
-		TileTypes.ATTACK: current_tile_base = ATTACK_TILE_NODE
-		TileTypes.MOVEMENT: current_tile_base = MOVEMENT_TILE_NODE
-		TileTypes.SUPPORT: current_tile_base = SUPPORT_TILE_NODE
+		TileTypes.ATTACK:
+			current_tile_base = ATTACK_TILE_NODE
+		TileTypes.MOVEMENT:
+			current_tile_base = MOVEMENT_TILE_NODE
+		TileTypes.SUPPORT:
+			current_tile_base = SUPPORT_TILE_NODE
 	for i: Vector2i in tiles:
 		var tile := current_tile_base.instantiate() as Sprite2D
 		tile.name = "Tile"
 		tile.position = Vector2(i)
-		if Utilities.xor(not(i in modulate_blacklist), blacklist_as_whitelist):
+		if Utilities.xor(not (i in modulate_blacklist), blacklist_as_whitelist):
 			tile.modulate.a = modulation
 		tiles_node.add_child(tile)
 	get_node("MapLayer/BaseLayer").add_child(tiles_node)
@@ -212,22 +221,29 @@ func display_tiles(tiles: Array[Vector2i], type: TileTypes, modulation: float = 
 func display_highlighted_tiles(tiles: Array[Vector2i], unit: Unit, type: TileTypes) -> Node2D:
 	var unit_coords: Array[Vector2i] = []
 	for e_unit: Unit in MapController.map.get_units():
-		if not(unit.is_friend(e_unit)) and e_unit.visible:
+		if not (unit.is_friend(e_unit)) and e_unit.visible:
 			unit_coords.append(Vector2i(e_unit.position))
 	return display_tiles(tiles, type, 0.5, unit_coords)
 
 
-func get_movement_path(movement_type: UnitClass.MovementTypes, starting_point: Vector2i,
-		destination: Vector2i, faction: Faction) -> Array[Vector2i]:
+func get_movement_path(
+	movement_type: UnitClass.MovementTypes,
+	starting_point: Vector2i,
+	destination: Vector2i,
+	faction: Faction
+) -> Array[Vector2i]:
 	if faction != _grid_current_faction:
 		_grid_current_faction = faction
 		_update_grid_current_faction()
 	var movement_grid: AStarGrid2D = _cost_grids[movement_type]
 	var output: Array[Vector2i] = []
-	if (movement_grid.is_in_boundsv(starting_point / 16)
-			and movement_grid.is_in_boundsv(destination / 16)):
-		var raw_path: PackedVector2Array = \
-				movement_grid.get_point_path(starting_point / 16, destination / 16)
+	if (
+		movement_grid.is_in_boundsv(starting_point / 16)
+		and movement_grid.is_in_boundsv(destination / 16)
+	):
+		var raw_path: PackedVector2Array = movement_grid.get_point_path(
+			starting_point / 16, destination / 16
+		)
 		for vector: Vector2i in raw_path:
 			output.append(vector * 16)
 	return output
@@ -243,8 +259,9 @@ func get_path_cost(movement_type: UnitClass.MovementTypes, path: Array[Vector2i]
 	return sum
 
 
-func update_a_star_grid_id(a_star_grid: AStarGrid2D, movement_type: UnitClass.MovementTypes,
-		id: Vector2i) -> void:
+func update_a_star_grid_id(
+	a_star_grid: AStarGrid2D, movement_type: UnitClass.MovementTypes, id: Vector2i
+) -> void:
 	var weight: float = get_terrain_cost(movement_type, id * 16)
 	if weight == INF:
 		a_star_grid.set_point_solid(id)
@@ -274,8 +291,9 @@ func update_position_terrain_cost(pos: Vector2i) -> void:
 func _get_terrain(coords: Vector2i) -> String:
 	## Gets the name of the terrain at the tile at position "coords"'
 	return (
-			"Blocked" if not borders.has_point(coords)
-			else _terrain_layer.get_cell_tile_data(0, coords/16).get_custom_data("TerrainName")
+		"Blocked"
+		if not borders.has_point(coords)
+		else _terrain_layer.get_cell_tile_data(0, coords / 16).get_custom_data("TerrainName")
 	)
 
 
@@ -283,10 +301,13 @@ func _create_debug_borders() -> void:
 	# Creates a visualization of the map's borders
 	for x: int in range(0, get_size().x, 16):
 		for y: int in range(0, get_size().y, 16):
-			if x < borders.position.x or x + 16 > borders.end.x \
-					or y < borders.position.y or y + 16 > borders.end.y:
-				var border_tile := \
-						$"MapLayer/DebugBorderOverlayTileBase".duplicate() as Sprite2D
+			if (
+				x < borders.position.x
+				or x + 16 > borders.end.x
+				or y < borders.position.y
+				or y + 16 > borders.end.y
+			):
+				var border_tile := $"MapLayer/DebugBorderOverlayTileBase".duplicate() as Sprite2D
 				border_tile.position = Vector2(x, y)
 				border_tile.visible = true
 				_border_overlay.add_child(border_tile)
@@ -336,5 +357,6 @@ func _update_grid_current_faction() -> void:
 	for movement_type: UnitClass.MovementTypes in _cost_grids.keys():
 		var a_star_grid: AStarGrid2D = _cost_grids[movement_type]
 		for unit: Unit in MapController.map.get_units():
-			a_star_grid.set_point_solid(unit.position / 16,
-					not unit.faction.is_friend(_grid_current_faction))
+			a_star_grid.set_point_solid(
+				unit.position / 16, not unit.faction.is_friend(_grid_current_faction)
+			)

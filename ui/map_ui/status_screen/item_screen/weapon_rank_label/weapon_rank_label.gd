@@ -65,8 +65,12 @@ func _update_rank() -> void:
 				"[colorblue]%d[/color]\n" % [progress_bar.max_value],
 				"[colorblue]%d[/color]" % [progress_bar.max_value - progress_bar.value],
 				" to ",
-				"[colorblue]%s[/color]" %
-						(Weapon.Ranks as Dictionary).find_key(roundi(progress_bar.max_value)),
+				(
+					"[colorblue]%s[/color]"
+					% (Weapon.Ranks as Dictionary).find_key(roundi(progress_bar.max_value))
+				),
 				" rank[/center]",
 			]
-			help_description = "".join(string_array).replace("colorblue", "color=%s" % Utilities.font_blue)
+			help_description = "".join(string_array).replace(
+				"colorblue", "color=%s" % Utilities.font_blue
+			)

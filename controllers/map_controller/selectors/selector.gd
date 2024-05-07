@@ -12,9 +12,15 @@ var _icon: CursorController.Icons
 var _selecting_position: Vector2i
 var _select_sound_effect: AudioStream
 
-func _init(connected_unit: Unit, min_range: int, max_range: int, condition: Callable,
-		icon: CursorController.Icons = CursorController.Icons.NONE,
-		selection_sound_effect: AudioStream = AudioPlayer.MENU_SELECT) -> void:
+
+func _init(
+	connected_unit: Unit,
+	min_range: int,
+	max_range: int,
+	condition: Callable,
+	icon: CursorController.Icons = CursorController.Icons.NONE,
+	selection_sound_effect: AudioStream = AudioPlayer.MENU_SELECT
+) -> void:
 	unit = connected_unit
 	_minimum_range = min_range
 	_maximum_range = max_range
@@ -49,16 +55,17 @@ func close() -> void:
 
 
 func _position_selected() -> void:
-	pass # Abstract
+	pass  # Abstract
 
 
 func _can_select() -> bool:
-	return false # Abstract
+	return false  # Abstract
 
 
 func _within_range() -> bool:
-	var dist: float = Utilities.get_tile_distance(CursorController.hovered_unit.position,
-			_selecting_position)
+	var dist: float = Utilities.get_tile_distance(
+		CursorController.hovered_unit.position, _selecting_position
+	)
 	return dist >= _minimum_range and dist <= _maximum_range
 
 

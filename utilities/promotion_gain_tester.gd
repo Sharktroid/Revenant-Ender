@@ -6,6 +6,7 @@ var new_class: UnitClass = Cavalier.new()
 var old_unit: Unit
 var new_unit: Unit
 
+
 func _run() -> void:
 	old_unit = Unit.new()
 	old_unit.unit_class = old_class
@@ -17,6 +18,6 @@ func _run() -> void:
 
 func _gets_stats(level: int) -> Array[int]:
 	var output: Array[int] = []
-	for stat: Unit.stats in Unit.stats.values():
+	for stat: Unit.Stats in Unit.Stats.values():
 		output.append(new_unit.get_stat(stat, level) - old_unit.get_stat(stat, level))
 	return output

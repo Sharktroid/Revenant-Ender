@@ -11,13 +11,7 @@ func _init() -> void:
 
 
 func get_weapon_triangle_advantage(weapon: Weapon, distance: int) -> int:
-	if weapon.type == Types.BOW:
-		return 0
-	else:
-		if distance == 1:
-			return -1
-		else:
-			return 1
+	return 0 if weapon.type == Types.BOW else -1 if distance == 1 else 1
 
 
 func get_hit_bonus(weapon: Weapon, distance: int) -> int:

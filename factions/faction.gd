@@ -3,23 +3,27 @@ class_name Faction
 extends RefCounted
 
 # Valid inputs for the "player_type" field.
-enum PlayerTypes {HUMAN, COMPUTER, NONE}
+enum PlayerTypes { HUMAN, COMPUTER, NONE }
 # Valid inputs for the "color" field.
-enum Colors {BLUE, RED, GREEN, PURPLE}
-enum DiplomacyStances {ALLY, PEACE, ENEMY, SELF}
+enum Colors { BLUE, RED, GREEN, PURPLE }
+enum DiplomacyStances { ALLY, PEACE, ENEMY, SELF }
 
-var full_outline: bool = false # Whether the full outline is shown.
-var name: String # Faction's name.
-var color: Colors # Color of all units.
+var full_outline: bool = false  # Whether the full outline is shown.
+var name: String  # Faction's name.
+var color: Colors  # Color of all units.
 var player_type: PlayerTypes
-var outlined_units: Dictionary # The units that are outlined.
+var outlined_units: Dictionary  # The units that are outlined.
 var theme: AudioStream
 
 var _diplomacy: Dictionary
 
 
-func _init(faction_name: String, faction_color: Colors, faction_player_type: PlayerTypes,
-		faction_theme: AudioStream) -> void:
+func _init(
+	faction_name: String,
+	faction_color: Colors,
+	faction_player_type: PlayerTypes,
+	faction_theme: AudioStream
+) -> void:
 	name = faction_name
 	color = faction_color
 	player_type = faction_player_type
@@ -28,8 +32,8 @@ func _init(faction_name: String, faction_color: Colors, faction_player_type: Pla
 
 func get_diplomacy_stance(faction: Faction) -> DiplomacyStances:
 	return (
-			DiplomacyStances.SELF if faction == self
-			else _diplomacy.get(faction, DiplomacyStances.ENEMY)
+		DiplomacyStances.SELF if faction == self
+		else _diplomacy.get(faction, DiplomacyStances.ENEMY)
 	)
 
 

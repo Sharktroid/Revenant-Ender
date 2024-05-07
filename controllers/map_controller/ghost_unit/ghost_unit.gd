@@ -13,9 +13,9 @@ func _init(connected_unit: Unit) -> void:
 	_unit.get_node("Status").queue_free()
 	_unit.remove_from_group("unit")
 	_unit.modulate.a = 0.5
-	_unit._map = connected_unit._get_map()
+	_unit._map = connected_unit.get_map()
 	add_child(_unit)
 
 
-func set_animation(new_animation: Unit.animations) -> void:
+func set_animation(new_animation: Unit.Animations) -> void:
 	_unit.set_animation(new_animation)

@@ -13,27 +13,33 @@ func _draw() -> void:
 		var all_general_coords: Array[Vector2i] = []
 		var unit_highlight: Color
 		match outline_faction.color:
-			Faction.Colors.BLUE: unit_highlight = Color.BLUE
-			Faction.Colors.RED: unit_highlight = Color.RED
-			Faction.Colors.GREEN: unit_highlight = Color.GREEN
-			Faction.Colors.PURPLE: unit_highlight = Color.PURPLE
+			Faction.Colors.BLUE:
+				unit_highlight = Color.BLUE
+			Faction.Colors.RED:
+				unit_highlight = Color.RED
+			Faction.Colors.GREEN:
+				unit_highlight = Color.GREEN
+			Faction.Colors.PURPLE:
+				unit_highlight = Color.PURPLE
 		for unit: Unit in current_outlined_units:
 			var attack_tiles: Array[Vector2i] = unit.get_all_attack_tiles()
 			if is_instance_valid(unit) and attack_tiles.size() > 0:
 				unit.modulate = unit_highlight
 				unit.modulate.s *= 0.5
-				for coord: Vector2i in (attack_tiles + unit.get_movement_tiles()):
+				for coord: Vector2i in attack_tiles + unit.get_movement_tiles():
 					if not (coord in all_current_coords):
 						all_current_coords.append(coord)
 		var current_faction: Faction = MapController.map.get_current_faction()
-		if current_faction.full_outline \
-				and outline_faction != current_faction:
+		if current_faction.full_outline and outline_faction != current_faction:
 			for unit: Unit in MapController.map.get_units():
-				if (current_faction.get_diplomacy_stance(unit.faction) ==
-						Faction.DiplomacyStances.ENEMY)\
-						and unit.get_all_attack_tiles().size() > 0:
-					for coord: Vector2i in (unit.get_all_attack_tiles() +
-							unit.get_movement_tiles()):
+				var current_stance: Faction.DiplomacyStances = current_faction.get_diplomacy_stance(
+					unit.faction
+				)
+				if (
+					current_stance == Faction.DiplomacyStances.ENEMY
+					and unit.get_all_attack_tiles().size() > 0
+				):
+					for coord: Vector2i in unit.get_all_attack_tiles() + unit.get_movement_tiles():
 						if not (coord in all_general_coords):
 							all_general_coords.append(coord)
 		var tile_current: Color = unit_highlight
@@ -46,17 +52,18 @@ func _draw() -> void:
 		var line_general: Color = tile_general
 		line_general.v *= .5
 		for coords: Vector2i in all_general_coords:
-			if not(coords in all_current_coords):
+			if not (coords in all_current_coords):
 				_create_outline_tile(tile_general, line_general, coords, all_general_coords)
 
 
-func _create_outline_tile(tile_color: Color, line_color: Color, coords: Vector2i,
-		all_coords: Array[Vector2i]) -> void:
+func _create_outline_tile(
+	tile_color: Color, line_color: Color, coords: Vector2i, all_coords: Array[Vector2i]
+) -> void:
 	tile_color.a = 0.5
 	line_color.a = 0.5
 	draw_rect(Rect2(coords, Vector2i(16, 16)), tile_color, true)
 	for tile_offset: Vector2i in Utilities.adjacent_tiles:
-		if not(coords + tile_offset in all_coords):
+		if not (coords + tile_offset in all_coords):
 			var offset: Vector2 = coords
 			match tile_offset:
 				Vector2i(-16, 0):

@@ -1,17 +1,17 @@
 class_name TradeMenu
 extends Control
 
-const _ITEM_LABEL_PATH : String = ("res://ui/map_ui/map_menus/trade_menu/" +
-		"trade_menu_item/trade_menu_item.")
-const _ItemLabel = preload(_ITEM_LABEL_PATH + "gd")
-const _ITEM_LABEL_SCENE: PackedScene = \
-		preload(_ITEM_LABEL_PATH + "tscn")
+const _ITEM_LABEL_PATH: String = (
+		"res://ui/map_ui/map_menus/trade_menu/trade_menu_item/trade_menu_item."
+)
+const _ITEM_LABEL = preload(_ITEM_LABEL_PATH + "gd")
+const _ITEM_LABEL_SCENE: PackedScene = preload(_ITEM_LABEL_PATH + "tscn")
 
 var left_unit: Unit
 var right_unit: Unit
-var current_label: _ItemLabel
-var selected_label: _ItemLabel
-var empty_bar: _ItemLabel
+var current_label: _ITEM_LABEL
+var selected_label: _ITEM_LABEL
+var empty_bar: _ITEM_LABEL
 
 
 func _ready() -> void:
@@ -39,8 +39,8 @@ func receive_input(event: InputEvent) -> void:
 			var new_item_node: ItemLabel = current_label
 			var old_item_index: int = old_item_node.get_index()
 			var new_item_index: int = new_item_node.get_index()
-			var old_item: Item= old_item_node.item
-			var new_item: Item= new_item_node.item
+			var old_item: Item = old_item_node.item
+			var new_item: Item = new_item_node.item
 			var old_item_unit: Unit = _get_unit(old_item_node)
 			var new_item_unit: Unit = _get_unit(new_item_node)
 
@@ -67,7 +67,7 @@ func receive_input(event: InputEvent) -> void:
 			var selected_hand := $SelectedHand as Sprite2D
 			selected_hand.visible = true
 			selected_hand.position = selected_label.global_position.round()
-			empty_bar = _ITEM_LABEL_SCENE.instantiate() as _ItemLabel
+			empty_bar = _ITEM_LABEL_SCENE.instantiate() as _ITEM_LABEL
 			empty_bar.parent_menu = self
 			var new_parent: VBoxContainer = _get_other_parent(current_label)
 			new_parent.add_child(empty_bar)
@@ -85,15 +85,13 @@ func receive_input(event: InputEvent) -> void:
 		_change_current_label(current_label.get_parent(), current_label.get_index() + 1)
 	elif event.is_action_pressed("left") or event.is_action_pressed("right"):
 		var new_parent: VBoxContainer = _get_other_parent(current_label)
-		_change_current_label(new_parent,
-				mini(current_label.get_index(), new_parent.get_children().size()))
+		_change_current_label(
+			new_parent, mini(current_label.get_index(), new_parent.get_children().size())
+		)
 
 
 func _get_other_parent(label: ItemLabel) -> VBoxContainer:
-	return (
-			%RightItems if label.get_parent() == %LeftItems
-			else  %LeftItems
-	) as VBoxContainer
+	return (%RightItems if label.get_parent() == %LeftItems else %LeftItems) as VBoxContainer
 
 
 func _get_unit(label: ItemLabel) -> Unit:
@@ -101,12 +99,12 @@ func _get_unit(label: ItemLabel) -> Unit:
 
 
 func _update() -> void:
-	for child: Node in (%LeftItems.get_children() + %RightItems.get_children()):
+	for child: Node in %LeftItems.get_children() + %RightItems.get_children():
 		child.queue_free()
 	current_label = null
 	var add_items: Callable = func(unit: Unit, container: VBoxContainer) -> void:
 		for item: Item in unit.items:
-			var item_label := _ITEM_LABEL_SCENE.instantiate() as _ItemLabel
+			var item_label := _ITEM_LABEL_SCENE.instantiate() as _ITEM_LABEL
 			item_label.item = item
 			item_label.set_equip_status(unit)
 			item_label.parent_menu = self
@@ -125,4 +123,4 @@ func _reset() -> void:
 
 
 func _change_current_label(parent: Node, index: int) -> void:
-	current_label = parent.get_child(posmod(index, parent.get_children().size())) as _ItemLabel
+	current_label = parent.get_child(posmod(index, parent.get_children().size())) as _ITEM_LABEL

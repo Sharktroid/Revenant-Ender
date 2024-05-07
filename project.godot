@@ -40,6 +40,10 @@ window/stretch/mode="canvas_items"
 window/stretch/scale_mode="integer"
 window/vsync/vsync_mode=2
 
+[editor_plugins]
+
+enabled=PackedStringArray()
+
 [global]
 
 warning=false

@@ -1,18 +1,18 @@
 class_name MapHPBar
 extends Control
 
-
 var unit: Unit
-@onready var _hp_bar := %HPBar as ProgressBar
 var _bg_gradient: Panel
+@onready var _hp_bar := %HPBar as ProgressBar
 
 
 func _ready() -> void:
 	_bg_gradient = %BGGradient as Panel
-	_hp_bar.max_value = unit.get_stat(Unit.stats.HIT_POINTS)
+	_hp_bar.max_value = unit.get_stat(Unit.Stats.HIT_POINTS)
 	(%Name as Label).text = unit.unit_name
-	_bg_gradient.add_theme_stylebox_override("panel",
-			_get_gradient_stylebox().duplicate(true) as StyleBoxTexture)
+	_bg_gradient.add_theme_stylebox_override(
+		"panel", _get_gradient_stylebox().duplicate(true) as StyleBoxTexture
+	)
 
 
 func _process(_delta: float) -> void:

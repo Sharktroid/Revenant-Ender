@@ -92,22 +92,24 @@ func _update() -> void:
 
 		(get_node(format.call("HP")) as Label).text = str(current_unit.current_health)
 
-		if distance in weapon.get_range():
-			(get_node(format.call("Damage")) as Label).text = \
-					str(current_unit.get_damage(other_unit))
-			(get_node(format.call("Hit")) as Label).text = \
-					str(current_unit.get_hit_rate(other_unit))
-			(get_node(format.call("CritDamage")) as Label).text = \
-					str(current_unit.get_crit_damage(other_unit))
-			(get_node(format.call("Crit")) as Label).text = \
-					str(current_unit.get_crit_rate(other_unit))
-		else:
-			for node_name: String in ["Damage", "Hit", "CritDamage", "Crit"] as Array[String]:
-				(get_node(format.call(node_name)) as Label).text = "--"
+		var in_range: bool = distance in weapon.get_range()
+		(get_node(format.call("Damage")) as Label).text = (
+			str(current_unit.get_damage(other_unit)) if in_range else "--"
+		)
+		(get_node(format.call("Hit")) as Label).text = (
+			str(current_unit.get_hit_rate(other_unit)) if in_range else "--"
+		)
+		(get_node(format.call("CritDamage")) as Label).text = (
+			str(current_unit.get_crit_damage(other_unit)) if in_range else "--"
+		)
+		(get_node(format.call("Crit")) as Label).text = (
+			str(current_unit.get_crit_rate(other_unit)) if in_range else "--"
+		)
 
 		if current_unit.faction.color == Faction.Colors.RED:
-			var shader_material: ShaderMaterial = \
-					(get_node(format.call("UnitPanel")) as PanelContainer).material
+			var shader_material: ShaderMaterial = (
+				(get_node(format.call("UnitPanel")) as PanelContainer).material
+			)
 			var old_vectors: Array[Color] = []
 			for color: Color in BLUE_COLORS:
 				old_vectors.append(color)

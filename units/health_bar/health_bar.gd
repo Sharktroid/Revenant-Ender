@@ -11,7 +11,7 @@ func _enter_tree() -> void:
 
 func update() -> void:
 	var unit := get_parent() as Unit
-	max_value = unit.get_stat(Unit.stats.HIT_POINTS)
+	max_value = unit.get_stat(Unit.Stats.HIT_POINTS)
 	value = unit.current_health
 	visible = ratio != 1
 	if visible == true:

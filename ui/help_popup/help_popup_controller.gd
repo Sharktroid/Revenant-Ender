@@ -1,9 +1,9 @@
 extends Control
 
-const DURATION: float = 5.0/60
+const DURATION: float = 5.0 / 60
 const BORDER := Vector2i(4, 7)
 const TILE_SIZE: int = 32
-const _HelpPopup = preload("res://ui/help_popup/help_popup.gd")
+const _HELP_POPUP = preload("res://ui/help_popup/help_popup.gd")
 
 var _active: bool = false
 var _busy: bool = false
@@ -35,16 +35,20 @@ func receive_input(event: InputEvent) -> void:
 		move_popup.call("right")
 
 
-func display_text(text: String, pos: Vector2, new_container: HelpContainer,
-		table: Array[String] = [], table_cols: int = 1) -> void:
-	if (not _busy and
-			(text != _current_text or table != _current_table)):
+func display_text(
+	text: String,
+	pos: Vector2,
+	new_container: HelpContainer,
+	table: Array[String] = [],
+	table_cols: int = 1
+) -> void:
+	if not _busy and (text != _current_text or table != _current_table):
 		var new_size: Vector2 = _get_node_size(text, table, table_cols)
 		var bottom_bound: float = pos.y + new_size.y + new_container.size.y
-		var above_bottom: bool = (bottom_bound >= Utilities.get_screen_size().y)
+		var above_bottom: bool = bottom_bound >= Utilities.get_screen_size().y
 		pos.y += -new_size.y if above_bottom else new_container.size.y
 		if new_size.x / 2 + pos.x > Utilities.get_screen_size().x:
-			pos.x = Utilities.get_screen_size().x - new_size.x /2
+			pos.x = Utilities.get_screen_size().x - new_size.x / 2
 		elif pos.x < new_size.x / 2:
 			pos.x = new_size.x / 2
 		if pos != _default_position():
@@ -76,9 +80,9 @@ func is_idle() -> bool:
 	return is_active() and not _busy
 
 
-func get_popup_node() -> _HelpPopup:
+func get_popup_node() -> _HELP_POPUP:
 	var path := NodePath("%s/HelpPopup" % MapController.get_ui().get_path())
-	return get_node(path) if has_node(path) else _HelpPopup.new()
+	return get_node(path) if has_node(path) else _HELP_POPUP.new()
 
 
 func _get_node_size(new_text: String, new_table: Array[String], new_table_cols: int) -> Vector2i:
@@ -96,9 +100,12 @@ func _expand(text: String, table: Array[String], table_cols: int, pos: Vector2) 
 	await _resize(_get_node_size(text, table, table_cols), pos, Vector2(), pos)
 
 
-func _resize(new_size: Vector2, pos: Vector2 = _default_position(),
-		init_size: Vector2 = get_popup_node().size,
-		init_position: Vector2 = _default_position()) -> void:
+func _resize(
+	new_size: Vector2,
+	pos: Vector2 = _default_position(),
+	init_size: Vector2 = get_popup_node().size,
+	init_position: Vector2 = _default_position()
+) -> void:
 	var set_pos: Callable = func(new_pos: Vector2) -> void:
 		new_pos -= Vector2(get_popup_node().size.x/2, 0)
 		get_popup_node().position = new_pos
@@ -119,4 +126,4 @@ func _resize(new_size: Vector2, pos: Vector2 = _default_position(),
 
 
 func _default_position() -> Vector2:
-	return get_popup_node().position + Vector2(get_popup_node().size.x/2, 0)
+	return get_popup_node().position + Vector2(get_popup_node().size.x / 2, 0)

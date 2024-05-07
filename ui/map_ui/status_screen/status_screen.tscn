@@ -134,7 +134,7 @@ size_flags_vertical = 4
 focus_neighbor_top = NodePath("../ClassDescription")
 focus_neighbor_bottom = NodePath("../EXPContainer/EXPDescription")
 script = ExtResource("4_g30x5")
-help_description = "Determines a unit's stats and whether they can promote.
+help_description = "Determines a unit's Stats and whether they can promote.
 The first number is the current level, the second is the maximum level."
 
 [node name="LevelLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/LevelContainer"]

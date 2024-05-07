@@ -28,7 +28,7 @@ func awaken() -> void:
 
 #func _update_sprite() -> void:
 #	super._update_sprite()
-#	if map_animation == animations.IDLE:
+#	if map_animation == Animations.IDLE:
 #		var frame_num: int = int(get_tree().get_frame()) % 50
 #		if (frame_num >= 17 and frame_num < 25) or frame_num >= 42:
 #			frame += 1
@@ -36,15 +36,15 @@ func awaken() -> void:
 #			frame += 2
 #	else:
 #		match map_animation:
-#			animations.MOVING_RIGHT, animations.MOVING_LEFT: frame += 6
-#			animations.MOVING_DOWN: frame += 9
-#			animations.MOVING_UP: frame += 12
+#			Animations.MOVING_RIGHT, Animations.MOVING_LEFT: frame += 6
+#			Animations.MOVING_DOWN: frame += 9
+#			Animations.MOVING_UP: frame += 12
 #		var frame_num: int = int(get_tree().get_frame()) % 26
 #		if (frame_num >= 8 and frame_num < 13) or frame_num >= 21:
 #			frame += 1
 #		elif frame_num >= 13 and frame_num < 21:
 #			frame += 2
-#	if map_animation == animations.MOVING_LEFT:
+#	if map_animation == Animations.MOVING_LEFT:
 #		flip_h = true
 #	else:
 #		flip_h = false

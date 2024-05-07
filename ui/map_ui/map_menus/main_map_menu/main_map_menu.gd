@@ -8,8 +8,8 @@ func _init() -> void:
 func select_item(item: MapMenuItem) -> void:
 	match item.name:
 		"Debug":
-			var menu: MapMenu = \
-					preload("res://ui/map_ui/map_menus/debug_menu/debug_menu.tscn").instantiate()
+			const DebugMenu = preload("res://ui/map_ui/map_menus/debug_menu/debug_menu.tscn")
+			var menu: MapMenu = DebugMenu.instantiate()
 			menu.offset = offset
 			menu.parent_menu = self
 			MapController.get_ui().add_child(menu)
@@ -17,7 +17,8 @@ func select_item(item: MapMenuItem) -> void:
 		"End":
 			close()
 			MapController.map.end_turn()
-		var node_name: push_error("%s is not a valid menu item" % node_name)
+		var node_name:
+			push_error("%s is not a valid menu item" % node_name)
 	super(item)
 
 

@@ -3,6 +3,4 @@ extends Skill
 
 
 func _init() -> void:
-	attributes = [
-		AllAttributes.FOLLOW_UP
-	]
+	attributes = [AllAttributes.FOLLOW_UP]

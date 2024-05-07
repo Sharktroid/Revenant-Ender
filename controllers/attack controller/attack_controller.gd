@@ -1,11 +1,12 @@
 extends Node
 
-enum AttackTypes {HIT, MISS, CRIT}
+enum AttackTypes { HIT, MISS, CRIT }
 
 const DELAY: float = 0.25
 const HEALTH_SCROLL_DURATION: float = 0.5
 
-const HIT_B_DELAY: float = 5.0/60
+const HIT_B_DELAY: float = 5.0 / 60
+
 
 func combat(attacker: Unit, defender: Unit) -> void:
 	GameController.add_to_input_stack(self)
@@ -13,13 +14,13 @@ func combat(attacker: Unit, defender: Unit) -> void:
 	var attack_queue: Array[CombatStage] = [CombatStage.new(attacker, defender)]
 	var distance: int = roundi(Utilities.get_tile_distance(attacker.position, defender.position))
 	if (
-			defender.get_current_weapon() != null
-			and distance in defender.get_current_weapon().get_range()
+		defender.get_current_weapon() != null
+		and distance in defender.get_current_weapon().get_range()
 	):
 		attack_queue.append(CombatStage.new(defender, attacker))
 	if (
-			attacker.has_skill_attribute(Skill.AllAttributes.FOLLOW_UP)
-			and attacker.get_attack_speed() >= 5 + defender.get_attack_speed()
+		attacker.has_skill_attribute(Skill.AllAttributes.FOLLOW_UP)
+		and attacker.get_attack_speed() >= 5 + defender.get_attack_speed()
 	):
 		attack_queue.append(CombatStage.new(attacker, defender))
 	await _map_combat(attacker, defender, attack_queue)
@@ -46,13 +47,15 @@ func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[CombatStage
 	defender.visible = false
 	var attacker_starting_hp: float = attacker.current_health
 	var defender_starting_hp: float = defender.current_health
-	var get_timer: Callable = func() -> SceneTreeTimer:
-		return get_tree().create_timer(DELAY)
+	var get_timer: Callable = func() -> SceneTreeTimer: return get_tree().create_timer(DELAY)
 	for combat_round: CombatStage in attack_queue:
 		await get_timer.call().timeout
-		await _map_attack(combat_round.attacker, combat_round.defender,
-				attacker_animation if combat_round.attacker == attacker else defender_animation,
-				combat_round.attack_type)
+		await _map_attack(
+			combat_round.attacker,
+			combat_round.defender,
+			attacker_animation if combat_round.attacker == attacker else defender_animation,
+			combat_round.attack_type
+		)
 		if attacker.current_health <= 0 or defender.current_health <= 0:
 			break
 	await get_timer.call().timeout
@@ -76,8 +79,9 @@ func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[CombatStage
 			unit.visible = true
 
 
-func _map_attack(attacker: Unit, defender: Unit, attacker_animation: MapAttack,
-		attack_type: AttackTypes) -> void:
+func _map_attack(
+	attacker: Unit, defender: Unit, attacker_animation: MapAttack, attack_type: AttackTypes
+) -> void:
 	attacker_animation.play_animation()
 	await attacker_animation.arrived
 	if attack_type == AttackTypes.MISS:
@@ -92,19 +96,18 @@ func _map_attack(attacker: Unit, defender: Unit, attacker_animation: MapAttack,
 		var is_crit: bool = attack_type == AttackTypes.CRIT
 		var hit_a: AudioStream = HIT_A_CRIT if is_crit else HIT_A_HEAVY
 		var damage: int = (
-				attacker.get_crit_damage(defender) if is_crit
-				else attacker.get_damage(defender)
+			attacker.get_crit_damage(defender) if is_crit else attacker.get_damage(defender)
 		)
 		var old_health: int = ceili(defender.current_health)
 		var new_health: int = maxi(floori(old_health - damage), 0)
 		var hit_b: AudioStream = (
-				HIT_B_FATAL if new_health <= 0
-				else preload("res://audio/sfx/no_damage.ogg") if damage == 0
-				else HIT_B_HEAVY
+			HIT_B_FATAL
+			if new_health <= 0
+			else preload("res://audio/sfx/no_damage.ogg") if damage == 0 else HIT_B_HEAVY
 		)
 
-		var total_hp: int = defender.get_stat(Unit.stats.HIT_POINTS)
-		var duration: float = HEALTH_SCROLL_DURATION * (float(old_health - new_health)/total_hp)
+		var total_hp: int = defender.get_stat(Unit.Stats.HIT_POINTS)
+		var duration: float = HEALTH_SCROLL_DURATION * (float(old_health - new_health) / total_hp)
 		var tween: Tween = defender.create_tween()
 		tween.set_parallel()
 		tween.tween_interval(0.1)
@@ -127,20 +130,12 @@ func _kill(unit: Unit, unit_animation: MapAttack) -> void:
 	await sync_fade.finished
 	unit_animation.visible = false
 	unit.dead = true
-	await get_tree().process_frame # Prevents visual bug
-
-
-func _calc(unit: Unit, other_unit: Unit) -> AttackTypes:
-	return (
-			AttackTypes.MISS if unit.get_hit_rate(other_unit) <= randi_range(0, 99)
-			else AttackTypes.HIT if unit.get_crit_rate(other_unit) > randi_range(0, 99)
-			else AttackTypes.CRIT
-	)
+	await get_tree().process_frame  # Prevents visual bug
 
 
 func _get_combat_exp(distributing_unit: Unit, damage: float) -> float:
 	var base_exp: float = Unit.ONE_ROUND_EXP_BASE * 2 ** (distributing_unit.level - 1)
-	var damage_percent: float = float(damage)/distributing_unit.get_stat(Unit.stats.HIT_POINTS)
+	var damage_percent: float = float(damage) / distributing_unit.get_stat(Unit.Stats.HIT_POINTS)
 	return base_exp * damage_percent
 
 
@@ -153,15 +148,18 @@ func _give_exp(recieving_unit: Unit, distributing_unit: Unit, old_hp: float) -> 
 			var exp_bar := EXP_BAR_SCENE.instantiate() as ExpBar
 			exp_bar.observing_unit = recieving_unit
 			MapController.get_ui().add_child(exp_bar)
-			exp_bar.play(_get_combat_exp(distributing_unit,
-					old_hp - distributing_unit.current_health))
+			exp_bar.play(
+				_get_combat_exp(distributing_unit, old_hp - distributing_unit.current_health)
+			)
 			await exp_bar.tree_exited
 		else:
-			recieving_unit.total_exp += _get_combat_exp(distributing_unit,
-					old_hp - distributing_unit.current_health)
+			recieving_unit.total_exp += _get_combat_exp(
+				distributing_unit, old_hp - distributing_unit.current_health
+			)
 
 
-class CombatStage extends RefCounted:
+class CombatStage:
+	extends RefCounted
 	var attacker: Unit
 	var defender: Unit
 	var attack_type: AttackTypes
@@ -169,4 +167,15 @@ class CombatStage extends RefCounted:
 	func _init(attacking_unit: Unit, defending_unit: Unit) -> void:
 		attacker = attacking_unit
 		defender = defending_unit
-		attack_type = AttackController._calc(attacker, defender)
+		attack_type = _calc(attacker, defender)
+
+	func _calc(unit: Unit, other_unit: Unit) -> AttackTypes:
+		return (
+			AttackTypes.MISS
+			if unit.get_hit_rate(other_unit) <= randi_range(0, 99)
+			else (
+				AttackTypes.HIT
+				if unit.get_crit_rate(other_unit) > randi_range(0, 99)
+				else AttackTypes.CRIT
+			)
+		)

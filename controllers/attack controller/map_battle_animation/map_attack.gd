@@ -24,15 +24,15 @@ func _init(connected_unit: Unit = null, targeted_tile := Vector2i(0, 16)) -> voi
 	var angle: float = ((Vector2(target_tile) - position).angle() * 4) / PI
 	_combat_sprite.set_animation.call_deferred(
 		(
-			Unit.animations.MOVING_RIGHT
+			Unit.Animations.MOVING_RIGHT
 			if angle <= 1 and angle >= -1
 			else (
-				Unit.animations.MOVING_UP
+				Unit.Animations.MOVING_UP
 				if angle > -3 and angle < -1
 				else (
-					Unit.animations.MOVING_DOWN
+					Unit.Animations.MOVING_DOWN
 					if angle > 1 and angle < 3
-					else Unit.animations.MOVING_LEFT
+					else Unit.Animations.MOVING_LEFT
 				)
 			)
 		)

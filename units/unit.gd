@@ -4,8 +4,25 @@ extends Sprite2D
 
 signal cursor_exited
 
+enum Statuses { ATTACK }
+enum Animations { IDLE, MOVING_DOWN, MOVING_UP, MOVING_LEFT, MOVING_RIGHT }
+enum Stats {
+	HIT_POINTS,
+	STRENGTH,
+	PIERCE,
+	MAGIC,
+	SKILL,
+	SPEED,
+	LUCK,
+	DEFENSE,
+	ARMOR,
+	RESISTANCE,
+	MOVEMENT,
+	CONSTITUTION,
+}
+
 ## Duration of fade-away upon death
-const FADE_AWAY_DURATION: float = 20.0/60
+const FADE_AWAY_DURATION: float = 20.0 / 60
 ## The amount that the stat is multiplied by with max PVs
 const PERSONAL_VALUE_MULTIPLIER: float = 0.15
 ## The amount that the stat is multiplied by with max EVs
@@ -22,23 +39,17 @@ const BASE_EXP: int = 100
 ## compared to the previous level
 const EXP_MULTIPLIER: float = 2
 ## The amount of experience for killing an enemy in one round of combat
-const ONE_ROUND_EXP_BASE: float = float(BASE_EXP)/3
+const ONE_ROUND_EXP_BASE: float = float(BASE_EXP) / 3
 ## The amount of combat experience reserved for when an enemy is killed
 const KILL_EXP_PERCENT: float = 0.25
-
-
-
-enum statuses {ATTACK}
-enum animations {IDLE, MOVING_DOWN, MOVING_UP, MOVING_LEFT, MOVING_RIGHT}
-enum stats {HIT_POINTS, STRENGTH, PIERCE, MAGIC, SKILL, SPEED, LUCK, DEFENSE, ARMOR,
-	RESISTANCE, MOVEMENT, CONSTITUTION}
+const _MOVEMENT_ARROWS: PackedScene = preload("res://maps/map_tiles/movement_arrows.tscn")
 
 ## Unit's faction. Should be in the map's Faction stack.
 @export var unit_name: String = "[Empty]"
 @export_multiline var unit_description: String = "[Empty]"
 @export var unit_class: UnitClass
 @export var faction_id: int
-@export var variant: String # Visual variant.
+@export var variant: String  # Visual variant.
 @export var items: Array[Item]
 @export var base_level: int = 1
 @export var skills: Array[Skill] = [FollowUp.new()]
@@ -56,7 +67,7 @@ var dead: bool = false
 var outline_highlight: bool = false
 ## Whether the unit is selected.
 var selected: bool = false
-var selectable: bool = true # Whether the unit can be selected.
+var selectable: bool = true  # Whether the unit can be selected.
 var waiting: bool = false
 var sprite_animated: bool = true:
 	set(value):
@@ -76,33 +87,30 @@ var traveler: Unit:
 var personal_authority: int
 var current_health: float:
 	set(health):
-		current_health = clampf(health, 0, get_stat(stats.HIT_POINTS))
+		current_health = clampf(health, 0, get_stat(Stats.HIT_POINTS))
 		if not Engine.is_editor_hint():
 			const HealthBar = preload("res://units/health_bar/health_bar.gd")
 			($HealthBar as HealthBar).update()
 var faction: Faction:
 	get:
-		if _get_map().all_factions.size() > 0:
-			return _get_map().all_factions[faction_id]
-		else:
-			return Faction.new("INVALID", Faction.Colors.BLUE, Faction.PlayerTypes.HUMAN, null)
+		return (
+			get_map().all_factions[faction_id]
+			if get_map().all_factions.size() > 0
+			else Faction.new("INVALID", Faction.Colors.BLUE, Faction.PlayerTypes.HUMAN, null)
+		)
 	set(new_faction):
-		faction_id = _get_map().all_factions.find(new_faction)
-
+		faction_id = get_map().all_factions.find(new_faction)
 
 var _map: Map
 var _animation_player: AnimationPlayer
 var _traveler_animation_player: AnimationPlayer
 var _portrait: Portrait
-var _path: Array[Vector2i] # Path the unit will follow when moving.
-var _current_statuses: Array[statuses]
-static var _movement_speed: float = 16 # Speedunit moves across the map in tiles/second.
-# Dictionaries that convert faction/variant into animation modifier.
+var _path: Array[Vector2i]  # Path the unit will follow when moving.
+var _current_statuses: Array[Statuses]
 var _movement_tiles_node: Node2D
 var _attack_tile_node: Node2D
 var _current_attack_tiles_node: Node2D
 # Resources to be loaded.
-const _MOVEMENT_ARROWS: PackedScene = preload("res://maps/map_tiles/movement_arrows.tscn")
 var _stat_boosts: Dictionary
 var _default_palette: Array[Array] = [[Vector3(), Vector3()]]
 var _wait_palette: Array[Array] = [
@@ -155,6 +163,8 @@ var _purple_palette: Array[Array] = [
 	[Vector3(64, 56, 56), Vector3(72, 40, 64)],
 ]
 var _arrows_container: CanvasGroup
+static var _movement_speed: float = 16  # Speedunit moves across the map in tiles/second.
+# Dictionaries that convert faction/variant into animation modifier.
 
 
 func _enter_tree() -> void:
@@ -163,16 +173,18 @@ func _enter_tree() -> void:
 	level = base_level
 	for weapon_type: Weapon.Types in unit_class.base_weapon_levels.keys() as Array[Weapon.Types]:
 		if weapon_type not in weapon_levels.keys():
-			weapon_levels[weapon_type] = lerpf(unit_class.base_weapon_levels[weapon_type] as float,
-					unit_class.max_weapon_levels[weapon_type] as float,
-					inverse_lerp(1, unit_class.max_level, level))
+			weapon_levels[weapon_type] = lerpf(
+				unit_class.base_weapon_levels[weapon_type] as float,
+				unit_class.max_weapon_levels[weapon_type] as float,
+				inverse_lerp(1, unit_class.max_level, level)
+			)
 	texture = unit_class.map_sprite
 	material = material.duplicate() as Material
-	current_movement = get_stat(stats.MOVEMENT)
-	current_health = get_stat(stats.HIT_POINTS)
+	current_movement = get_stat(Stats.MOVEMENT)
+	current_health = get_stat(Stats.HIT_POINTS)
 	add_to_group("units")
 	_update_palette()
-	if _animation_player.current_animation == '':
+	if _animation_player.current_animation == "":
 		_animation_player.play("idle")
 	Utilities.sync_animation(_animation_player)
 	var directory: String = "res://portraits/name/name.tscn".replace("name", unit_name.to_lower())
@@ -223,41 +235,61 @@ func get_raw_attack() -> int:
 	if get_current_weapon():
 		var current_attack: int
 		match get_current_weapon().get_damage_type():
-			Weapon.DamageTypes.PHYSICAL: current_attack = get_stat(stats.STRENGTH)
-			Weapon.DamageTypes.RANGED: current_attack = get_stat(stats.PIERCE)
-			Weapon.DamageTypes.MAGIC: current_attack = get_stat(stats.MAGIC)
+			Weapon.DamageTypes.PHYSICAL:
+				current_attack = get_stat(Stats.STRENGTH)
+			Weapon.DamageTypes.RANGED:
+				current_attack = get_stat(Stats.PIERCE)
+			Weapon.DamageTypes.MAGIC:
+				current_attack = get_stat(Stats.MAGIC)
 		return get_current_weapon().might + current_attack
-	else:
-		return 0
+	return 0
 
 
 func get_true_attack(enemy: Unit) -> int:
-	if get_current_weapon():
-		return get_raw_attack() + get_current_weapon().get_damage_bonus(enemy.get_current_weapon(),
-				get_distance(enemy))
-	else:
-		return 0
+	return (
+		(
+			get_raw_attack()
+			+ get_current_weapon().get_damage_bonus(enemy.get_current_weapon(), get_distance(enemy))
+		)
+		if get_current_weapon()
+		else 0
+	)
 
 
 func get_damage(defender: Unit) -> int:
-	return maxi(0, get_true_attack(defender) -
-			defender.get_current_defence(get_current_weapon().get_damage_type()))
+	return maxi(
+		0,
+		(
+			get_true_attack(defender)
+			- defender.get_current_defence(get_current_weapon().get_damage_type())
+		)
+	)
 
 
 func get_crit_damage(defender: Unit) -> int:
-	return maxi(0, get_true_attack(defender) * 2 -
-			defender.get_current_defence(get_current_weapon().get_damage_type()))
+	return maxi(
+		0,
+		(
+			get_true_attack(defender) * 2
+			- defender.get_current_defence(get_current_weapon().get_damage_type())
+		)
+	)
 
 
-func set_animation(animation: animations) -> void:
+func set_animation(animation: Animations) -> void:
 	_animation_player.play("RESET")
 	_animation_player.advance(0)
 	match animation:
-		animations.IDLE: _animation_player.play("idle")
-		animations.MOVING_LEFT: _animation_player.play("moving_left")
-		animations.MOVING_RIGHT: _animation_player.play("moving_right")
-		animations.MOVING_UP: _animation_player.play("moving_up")
-		animations.MOVING_DOWN: _animation_player.play("moving_down")
+		Animations.IDLE:
+			_animation_player.play("idle")
+		Animations.MOVING_LEFT:
+			_animation_player.play("moving_left")
+		Animations.MOVING_RIGHT:
+			_animation_player.play("moving_right")
+		Animations.MOVING_UP:
+			_animation_player.play("moving_up")
+		Animations.MOVING_DOWN:
+			_animation_player.play("moving_down")
 	if sprite_animated:
 		Utilities.sync_animation(_animation_player)
 	else:
@@ -265,34 +297,44 @@ func set_animation(animation: animations) -> void:
 		_animation_player.pause()
 
 
-func get_stat_boost(stat: stats) -> int:
+func get_stat_boost(stat: Stats) -> int:
 	return _stat_boosts.get(stat, 0)
 
 
-func get_stat(stat: stats, current_level: int = level) -> int:
+func get_stat(stat: Stats, current_level: int = level) -> int:
 	var weight: float = inverse_lerp(1, unit_class.max_level, current_level)
-	var leveled_stat: float = lerpf(unit_class.base_stats.get(stat, 0),
-			unit_class.end_stats.get(stat, 0), weight)
-	var unclamped_stat: int = roundi(leveled_stat * _get_personal_value_multiplier(stat)
-			* _get_effort_value_multiplier(stat))
+	var leveled_stat: float = lerpf(
+		unit_class.base_stats.get(stat, 0), unit_class.end_stats.get(stat, 0), weight
+	)
+	var unclamped_stat: int = roundi(
+		leveled_stat * _get_personal_value_multiplier(stat) * _get_effort_value_multiplier(stat)
+	)
 	return clampi(unclamped_stat, 0, get_stat_cap(stat)) + get_stat_boost(stat)
 
 
-func get_stat_cap(stat: stats) -> int:
-	return roundi((unit_class.end_stats.get(stat, 0))
-			* (1 + PERSONAL_VALUE_MULTIPLIER) * (1 + EFFORT_VALUE_MULTIPLIER))
+func get_stat_cap(stat: Stats) -> int:
+	return roundi(
+		(
+			(unit_class.end_stats.get(stat, 0))
+			* (1 + PERSONAL_VALUE_MULTIPLIER)
+			* (1 + EFFORT_VALUE_MULTIPLIER)
+		)
+	)
 
 
 func get_attack_speed() -> int:
 	var weight: int = get_current_weapon().weight if get_current_weapon() else 0
-	return get_stat(stats.SPEED) - maxi(weight - get_stat(stats.CONSTITUTION), 0)
+	return get_stat(Stats.SPEED) - maxi(weight - get_stat(Stats.CONSTITUTION), 0)
 
 
 func get_current_defence(attacker_weapon_type: Weapon.DamageTypes) -> int:
 	match attacker_weapon_type:
-		Weapon.DamageTypes.RANGED: return get_stat(stats.ARMOR)
-		Weapon.DamageTypes.MAGIC: return get_stat(stats.RESISTANCE)
-		Weapon.DamageTypes.PHYSICAL: return get_stat(stats.DEFENSE)
+		Weapon.DamageTypes.RANGED:
+			return get_stat(Stats.ARMOR)
+		Weapon.DamageTypes.MAGIC:
+			return get_stat(Stats.RESISTANCE)
+		Weapon.DamageTypes.PHYSICAL:
+			return get_stat(Stats.DEFENSE)
 		_:
 			push_error("Damage Type %s Invalid" % attacker_weapon_type)
 			return 0
@@ -309,54 +351,56 @@ func get_area() -> Area2D:
 func get_portrait() -> Portrait:
 	if _portrait:
 		return _portrait.duplicate() as Portrait
-	else:
-		var portrait := Portrait.new()
-		portrait.texture = unit_class.default_portrait
-		portrait.centered = false
-		portrait.material = ShaderMaterial.new()
-		(portrait.material as ShaderMaterial).shader = preload("res://gba_color.gdshader")
-		return portrait
+	var portrait := Portrait.new()
+	portrait.texture = unit_class.default_portrait
+	portrait.centered = false
+	portrait.material = ShaderMaterial.new()
+	(portrait.material as ShaderMaterial).shader = preload("res://gba_color.gdshader")
+	return portrait
 
 
 func get_portrait_offset() -> Vector2i:
-	if _portrait:
-		return Vector2i(-8, 0)
-	else:
-		return Vector2i()
+	return Vector2i(-8, 0) if _portrait else Vector2i()
 
 
 func get_aid() -> int:
 	var aid_mod: int = unit_class.aid_modifier
-	if aid_mod <= 0:
-		return get_stat(stats.CONSTITUTION) + aid_mod
-	else:
-		return aid_mod - get_stat(stats.CONSTITUTION)
+	return (
+		get_stat(Stats.CONSTITUTION) + aid_mod if aid_mod <= 0
+		else aid_mod - get_stat(Stats.CONSTITUTION)
+	)
 
 
 func get_weight() -> int:
-	return get_stat(stats.CONSTITUTION) + unit_class.weight_modifier
+	return get_stat(Stats.CONSTITUTION) + unit_class.weight_modifier
 
 
 func get_hit() -> int:
-	return get_current_weapon().hit + get_stat(stats.SKILL) * 2 + get_stat(stats.LUCK)
+	return get_current_weapon().hit + get_stat(Stats.SKILL) * 2 + get_stat(Stats.LUCK)
 
 
 func get_avoid() -> int:
-	return get_attack_speed() * 2 + get_stat(stats.LUCK)
+	return get_attack_speed() * 2 + get_stat(Stats.LUCK)
 
 
 func get_hit_rate(enemy: Unit) -> int:
-	return clampi(get_hit() - enemy.get_avoid() +
-			get_current_weapon().get_hit_bonus(enemy.get_current_weapon(),
-					get_distance(enemy)), 0, 100)
+	return clampi(
+		(
+			get_hit()
+			- enemy.get_avoid()
+			+ get_current_weapon().get_hit_bonus(enemy.get_current_weapon(), get_distance(enemy))
+		),
+		0,
+		100
+	)
 
 
 func get_crit() -> int:
-	return get_current_weapon().crit + get_stat(stats.SKILL)
+	return get_current_weapon().crit + get_stat(Stats.SKILL)
 
 
 func get_crit_avoid() -> int:
-	return get_stat(stats.LUCK)
+	return get_stat(Stats.LUCK)
 
 
 func get_crit_rate(enemy: Unit) -> int:
@@ -366,7 +410,7 @@ func get_crit_rate(enemy: Unit) -> int:
 func get_path_last_pos() -> Vector2i:
 	var path: Array[Vector2i] = get_unit_path()
 	var unit_positions: Array[Vector2i] = []
-	for unit: Unit in _get_map().get_units():
+	for unit: Unit in get_map().get_units():
 		unit_positions.append(Vector2i(unit.position))
 	while path.size() > 0:
 		if path[-1] in unit_positions:
@@ -376,12 +420,12 @@ func get_path_last_pos() -> Vector2i:
 	return position
 
 
-func get_stat_table(stat: stats) -> Array[String]:
+func get_stat_table(stat: Stats) -> Array[String]:
 	var table_items: Dictionary = {
-		"Class Base" = str(unit_class.base_stats.get(stat, 0)),
-		"Class Final" = str(unit_class.end_stats.get(stat, 0)),
-		"PersonalValues " = str(personal_values.get(stat, 0)),
-		"EffortValues" = str(effort_values.get(stat, 0)),
+		"Class Base": str(unit_class.base_stats.get(stat, 0)),
+		"Class Final": str(unit_class.end_stats.get(stat, 0)),
+		"PersonalValues ": str(personal_values.get(stat, 0)),
+		"EffortValues": str(effort_values.get(stat, 0)),
 	}
 	return Utilities.dict_to_table(table_items)
 
@@ -423,7 +467,7 @@ static func get_exp_from_level(current_level: float) -> float:
 
 
 static func get_level_from_exp(xp: float) -> float:
-	return log(1 + float(xp)/BASE_EXP)/log(EXP_MULTIPLIER) + 1
+	return log(1 + float(xp) / BASE_EXP) / log(EXP_MULTIPLIER) + 1
 
 
 static func get_exp_to_level(current_level: float) -> float:
@@ -431,7 +475,7 @@ static func get_exp_to_level(current_level: float) -> float:
 
 
 func get_exp_percent() -> int:
-	return floori((roundf(get_current_exp())/Unit.get_exp_to_level(level + 1)) * 100)
+	return floori((roundf(get_current_exp()) / Unit.get_exp_to_level(level + 1)) * 100)
 
 
 func has_skill_attribute(attrib: Skill.AllAttributes) -> bool:
@@ -451,11 +495,11 @@ func can_rescue(unit: Unit) -> bool:
 
 ## Causes unit to wait.
 func wait() -> void:
-	current_movement = get_stat(stats.MOVEMENT)
+	current_movement = get_stat(Stats.MOVEMENT)
 	if Utilities.get_debug_constant("unit_wait"):
 		selectable = false
 		waiting = true
-	_get_map().unit_wait(self)
+	get_map().unit_wait(self)
 	_update_palette()
 
 
@@ -470,7 +514,7 @@ func die() -> void:
 
 ## Deselects unit.
 func deselect() -> void:
-	set_animation(animations.IDLE)
+	set_animation(Animations.IDLE)
 	selected = false
 	remove_path()
 	if CursorController.hovered_unit == self:
@@ -481,7 +525,7 @@ func deselect() -> void:
 
 ## Un-waits unit.
 func awaken() -> void:
-	current_movement = get_stat(stats.MOVEMENT)
+	current_movement = get_stat(Stats.MOVEMENT)
 	selectable = true
 	waiting = false
 	_update_palette()
@@ -491,15 +535,17 @@ func get_movement_tiles(custom_movement: int = floori(current_movement)) -> Arra
 	# Gets the movement tiles of the unit
 	var h: Array[Vector2i] = []
 	var start: Vector2i = position
-	const RANGE_MULT: float = 4.0/3
+	const RANGE_MULT: float = 4.0 / 3
 	var movement_tiles_dict: Dictionary = {custom_movement as float: [start]}
 	var movement_tiles: Array[Vector2i] = []
-	if position == ((position/16).floor() * 16):
+	if position == ((position / 16).floor() * 16):
 		#region Gets the initial grid
 		for y in range(-custom_movement * RANGE_MULT, custom_movement * RANGE_MULT + 1):
 			var v := []
-			for x in range(-(custom_movement * RANGE_MULT - absi(y)),
-					(custom_movement * RANGE_MULT - absi(y)) + 1):
+			for x in range(
+				-(custom_movement * RANGE_MULT - absi(y)),
+				(custom_movement * RANGE_MULT - absi(y)) + 1
+			):
 				v.append(start + Vector2i(x * 16, y * 16))
 			h.append_array(v)
 		#endregion
@@ -507,8 +553,9 @@ func get_movement_tiles(custom_movement: int = floori(current_movement)) -> Arra
 		h.erase(start)
 		for x: Vector2i in h:
 			var movement_type: UnitClass.MovementTypes = unit_class.movement_type
-			var cost: float = _get_map().get_path_cost(movement_type,
-					_get_map().get_movement_path(movement_type, position, x, faction))
+			var cost: float = get_map().get_path_cost(
+				movement_type, get_map().get_movement_path(movement_type, position, x, faction)
+			)
 			if cost <= current_movement:
 				if not cost in movement_tiles_dict.keys():
 					movement_tiles_dict[cost] = []
@@ -521,12 +568,13 @@ func get_movement_tiles(custom_movement: int = floori(current_movement)) -> Arra
 	return movement_tiles
 
 
-func get_all_attack_tiles(movement_tiles: Array[Vector2i] = \
-		get_movement_tiles()) -> Array[Vector2i]:
+func get_all_attack_tiles(
+	movement_tiles: Array[Vector2i] = get_movement_tiles()
+) -> Array[Vector2i]:
 	var all_attack_tiles: Array[Vector2i] = []
 	if get_current_weapon():
 		var basis_movement_tiles := movement_tiles.duplicate() as Array[Vector2i]
-		for unit: Unit in _get_map().get_units():
+		for unit: Unit in get_map().get_units():
 			if unit != self:
 				var unit_pos: Vector2i = unit.position
 				if unit_pos in basis_movement_tiles:
@@ -537,8 +585,10 @@ func get_all_attack_tiles(movement_tiles: Array[Vector2i] = \
 			for y in range(-max_range, max_range + 1):
 				for x in range(-max_range, max_range + 1):
 					var attack_tile: Vector2i = tile + Vector2i(x * 16, y * 16)
-					if (not(attack_tile in all_attack_tiles + movement_tiles)
-							and _get_map().borders.has_point(attack_tile)):
+					if (
+						not (attack_tile in all_attack_tiles + movement_tiles)
+						and get_map().borders.has_point(attack_tile)
+					):
 						var distance: int = floori(Utilities.get_tile_distance(tile, attack_tile))
 						if distance >= min_range and distance <= max_range:
 							all_attack_tiles.append(attack_tile)
@@ -549,10 +599,10 @@ func get_all_attack_tiles(movement_tiles: Array[Vector2i] = \
 func display_movement_tiles() -> void:
 	hide_movement_tiles()
 	var movement_tiles: Array[Vector2i] = get_movement_tiles()
-	_movement_tiles_node = _get_map().display_tiles(movement_tiles,
-			Map.TileTypes.MOVEMENT, 1)
-	_attack_tile_node = _get_map().display_tiles(get_all_attack_tiles(movement_tiles),
-			Map.TileTypes.ATTACK, 1)
+	_movement_tiles_node = get_map().display_tiles(movement_tiles, Map.TileTypes.MOVEMENT, 1)
+	_attack_tile_node = get_map().display_tiles(
+		get_all_attack_tiles(movement_tiles), Map.TileTypes.ATTACK, 1
+	)
 	if not selected:
 		_movement_tiles_node.modulate.a = 0.5
 		_attack_tile_node.modulate.a = 0.5
@@ -585,14 +635,14 @@ func get_current_attack_tiles(pos: Vector2i, all_weapons: bool = false) -> Array
 			min_range = get_min_range()
 			max_range = get_max_range()
 		return get_adjacent_tiles(pos, min_range, max_range)
-	else:
-		return []
+	return []
 
 
 ## Shows off the tiles the unit can attack from its current position.
 func display_current_attack_tiles(pos: Vector2i) -> void:
-	_current_attack_tiles_node = _get_map().display_highlighted_tiles(
-			get_current_attack_tiles(pos), self, Map.TileTypes.ATTACK)
+	_current_attack_tiles_node = get_map().display_highlighted_tiles(
+		get_current_attack_tiles(pos), self, Map.TileTypes.ATTACK
+	)
 
 
 ## Hides current attack tiles.
@@ -625,28 +675,43 @@ func move(move_target: Vector2i = get_unit_path()[-1]) -> void:
 	if move_target in path:
 		remove_path()
 		get_area().monitoring = false
-		current_movement -= _get_map().get_path_cost(unit_class.movement_type, path)
+		current_movement -= get_map().get_path_cost(unit_class.movement_type, path)
 		while path.size() > 0:
-			var _target: Vector2 = path.pop_at(0)
-			match _target - position:
-				Vector2(16, 0): set_animation(animations.MOVING_RIGHT)
-				Vector2(-16, 0): set_animation(animations.MOVING_LEFT)
-				Vector2(0, 16): set_animation(animations.MOVING_DOWN)
-				Vector2(0, -16): set_animation(animations.MOVING_UP)
-				_: set_animation(animations.IDLE)
+			var target: Vector2 = path.pop_at(0)
+			match target - position:
+				Vector2(16, 0):
+					set_animation(Animations.MOVING_RIGHT)
+				Vector2(-16, 0):
+					set_animation(Animations.MOVING_LEFT)
+				Vector2(0, 16):
+					set_animation(Animations.MOVING_DOWN)
+				Vector2(0, -16):
+					set_animation(Animations.MOVING_UP)
+				_:
+					set_animation(Animations.IDLE)
 
-			while position != _target:
+			while position != target:
 				var tween: Tween = create_tween()
 				tween.set_speed_scale(_movement_speed)
-				tween.tween_method(func(new_pos: Vector2) -> void: position = new_pos.round(),
-						position, _target, 1)
+				tween.tween_method(
+					func(new_pos: Vector2) -> void: position = new_pos.round(), position, target, 1
+				)
 				await tween.finished
 		get_area().monitoring = true
-		set_animation(animations.IDLE)
+		set_animation(Animations.IDLE)
 
 
 func get_unit_path() -> Array[Vector2i]:
 	return [position] as Array[Vector2i] if _path.size() == 0 else _path
+
+
+func get_map() -> Map:
+	if _map == null:
+		var units_node: Node2D = get_parent()
+		while units_node.name != "Units":
+			units_node = units_node.get_parent()
+		_map = units_node.get_parent().get_parent()
+	return _map
 
 
 ## Gets the path of the unit.
@@ -656,12 +721,16 @@ func update_path(destination: Vector2i) -> void:
 	# Sets destination to an adjacent tile to a unit if a unit is hovered and over an attack tile.
 	var movement_tiles: Array[Vector2i] = get_movement_tiles()
 	var all_attack_tiles: Array[Vector2i] = get_all_attack_tiles(movement_tiles)
-	if not destination in movement_tiles \
-			and destination in all_attack_tiles \
-			and Utilities.get_tile_distance(get_unit_path()[-1], destination) > 1:
-		for unit: Unit in _get_map().get_units():
-			if (Vector2i(unit.position) in all_attack_tiles
-					and Vector2i(unit.position) == destination):
+	if (
+		not destination in movement_tiles
+		and destination in all_attack_tiles
+		and Utilities.get_tile_distance(get_unit_path()[-1], destination) > 1
+	):
+		for unit: Unit in get_map().get_units():
+			if (
+				Vector2i(unit.position) in all_attack_tiles
+				and Vector2i(unit.position) == destination
+			):
 				var adjacent_movement_tiles: Array[Vector2i] = []
 				for tile_offset: Vector2i in Utilities.adjacent_tiles:
 					if Vector2i(unit.position) + tile_offset in movement_tiles:
@@ -676,16 +745,19 @@ func update_path(destination: Vector2i) -> void:
 		var total_cost: float = 0
 		for tile: Vector2i in _path:
 			if tile != Vector2i(position):
-				total_cost += _get_map().get_terrain_cost(unit_class.movement_type, tile)
+				total_cost += get_map().get_terrain_cost(unit_class.movement_type, tile)
 		if destination in _path:
 			_path = _path.slice(0, _path.find(destination) + 1) as Array[Vector2i]
 		else:
-			if (total_cost <= current_movement and
-					destination - get_unit_path()[-1] in Utilities.adjacent_tiles):
+			if (
+				total_cost <= current_movement
+				and destination - get_unit_path()[-1] in Utilities.adjacent_tiles
+			):
 				_path.append(destination)
 			else:
-				var new_path: Array[Vector2i] = _get_map().get_movement_path(
-						unit_class.movement_type, position, destination, faction)
+				var new_path: Array[Vector2i] = get_map().get_movement_path(
+					unit_class.movement_type, position, destination, faction
+				)
 				_path = new_path
 
 
@@ -699,24 +771,33 @@ func show_path() -> void:
 			var tile := _MOVEMENT_ARROWS.instantiate() as Sprite2D
 			var prev: Vector2i = i
 			prev -= (
-					Vector2i(position) if get_unit_path().find(i) == 0
-					else get_unit_path()[get_unit_path().find(i) - 1]
+				Vector2i(position)
+				if get_unit_path().find(i) == 0
+				else get_unit_path()[get_unit_path().find(i) - 1]
 			)
 			var next: Vector2i
 			if i != get_unit_path()[-1]:
 				next = i - get_unit_path()[get_unit_path().find(i) + 1]
 			if get_unit_path()[0] == i:
 				match next:
-					Vector2i(-16, 0): tile.frame = 0
-					Vector2i(16, 0): tile.frame = 8
-					Vector2i(0, 16): tile.frame = 7
-					Vector2i(0, -16): tile.frame = 1
+					Vector2i(-16, 0):
+						tile.frame = 0
+					Vector2i(16, 0):
+						tile.frame = 8
+					Vector2i(0, 16):
+						tile.frame = 7
+					Vector2i(0, -16):
+						tile.frame = 1
 			elif i == get_unit_path()[-1]:
 				match prev:
-						Vector2i(16, 0): tile.frame = 4
-						Vector2i(-16, 0): tile.frame = 12
-						Vector2i(0, 16): tile.frame = 5
-						Vector2i(0, -16): tile.frame = 11
+					Vector2i(16, 0):
+						tile.frame = 4
+					Vector2i(-16, 0):
+						tile.frame = 12
+					Vector2i(0, 16):
+						tile.frame = 5
+					Vector2i(0, -16):
+						tile.frame = 11
 			else:
 				if Vector2i(16, 0) in [prev, next] and Vector2i(-16, 0) in [prev, next]:
 					tile.frame = 13
@@ -732,7 +813,7 @@ func show_path() -> void:
 					tile.frame = 6
 			tile.position = Vector2(i)
 			_arrows_container.add_child(tile)
-		_get_map().get_child(0).add_child(_arrows_container)
+		get_map().get_child(0).add_child(_arrows_container)
 
 
 func get_new_map_attack() -> MapAttack:
@@ -777,13 +858,18 @@ func _set_palette(color: Faction.Colors) -> void:
 	var palette: Array[Array]
 	#region sets palette
 	match waiting:
-		true: palette = _wait_palette
+		true:
+			palette = _wait_palette
 		false:
 			match color:
-				Faction.Colors.RED: palette = _red_palette
-				Faction.Colors.GREEN : palette = _green_palette
-				Faction.Colors.BLUE: palette = _default_palette
-				Faction.Colors.PURPLE: palette = _purple_palette
+				Faction.Colors.RED:
+					palette = _red_palette
+				Faction.Colors.GREEN:
+					palette = _green_palette
+				Faction.Colors.BLUE:
+					palette = _default_palette
+				Faction.Colors.PURPLE:
+					palette = _purple_palette
 				var invalid:
 					palette = _default_palette
 					push_error("Color %s does not have a palette." % invalid)
@@ -808,19 +894,20 @@ func _on_area2d_area_entered(area: Area2D) -> void:
 		if is_instance_valid(CursorController.hovered_unit):
 			var hovered_unit_selected: bool = CursorController.hovered_unit.selected
 			can_be_selected = not hovered_unit_selected or selecting
-		if can_be_selected and not(selected or selecting or waiting or dead):
+		if can_be_selected and not (selected or selecting or waiting or dead):
 			display_movement_tiles()
 		CursorController.hovered_unit = self
 
 
-func _get_personal_value_multiplier(stat: stats) -> float:
+func _get_personal_value_multiplier(stat: Stats) -> float:
 	var personal_value: int = clampi(personal_values.get(stat, 5), 0, PERSONAL_VALUE_LIMIT)
 	return 1 + ((personal_value as float) / PERSONAL_VALUE_LIMIT * PERSONAL_VALUE_MULTIPLIER)
 
 
-func _get_effort_value_multiplier(stat: stats) -> float:
-	var effort_value: int = \
-			clampi(effort_values.get(stat, 0) as int, 0, INDIVIDUAL_EFFORT_VALUE_LIMIT)
+func _get_effort_value_multiplier(stat: Stats) -> float:
+	var effort_value: int = clampi(
+		effort_values.get(stat, 0) as int, 0, INDIVIDUAL_EFFORT_VALUE_LIMIT
+	)
 	return 1 + ((effort_value as float) / INDIVIDUAL_EFFORT_VALUE_LIMIT * EFFORT_VALUE_MULTIPLIER)
 
 
@@ -829,12 +916,3 @@ func _on_area2d_area_exited(area: Area2D) -> void:
 	if area == CursorController.get_area() and not selected:
 		hide_movement_tiles()
 		cursor_exited.emit()
-
-
-func _get_map() -> Map:
-	if _map == null:
-		var units_node: Node2D = get_parent()
-		while units_node.name != "Units":
-			units_node = units_node.get_parent()
-		_map = units_node.get_parent().get_parent()
-	return _map

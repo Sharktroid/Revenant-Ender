@@ -1,7 +1,7 @@
 class_name Portrait
 extends Sprite2D
 
-enum Emotions {NONE, DEFAULT, HAPPY}
+enum Emotions { NONE, DEFAULT, HAPPY }
 
 var _talking: bool = false
 var _talking_frame: int = 0
@@ -44,9 +44,12 @@ func set_emotion(emotion: Emotions) -> void:
 	for mouth: Sprite2D in get_tree().get_nodes_in_group("mouth") as Array[Sprite2D]:
 		mouth.visible = false
 	match _emotion:
-		Emotions.HAPPY: _current_mouth = $MouthHappy as Sprite2D
-		Emotions.NONE: _current_mouth = Sprite2D.new()
-		_: _current_mouth = $Mouth as Sprite2D
+		Emotions.HAPPY:
+			_current_mouth = $MouthHappy as Sprite2D
+		Emotions.NONE:
+			_current_mouth = Sprite2D.new()
+		_:
+			_current_mouth = $Mouth as Sprite2D
 	if _emotion != Emotions.NONE:
 		_current_mouth.visible = true
 

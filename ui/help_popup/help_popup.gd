@@ -6,7 +6,7 @@ func display_contents(display: bool) -> void:
 
 
 func set_table(table_items: Array[String], columns: int) -> void:
-	var table: GridContainer = (%Table as GridContainer)
+	var table: GridContainer = %Table as GridContainer
 	if table_items.size() == 0:
 		table.visible = false
 	else:
@@ -26,7 +26,7 @@ func set_table(table_items: Array[String], columns: int) -> void:
 
 
 func set_description(description_text: String) -> void:
-	var description: RichTextLabel = (%Description as RichTextLabel)
+	var description: RichTextLabel = %Description as RichTextLabel
 	description.visible = description_text.length() != 0
 	if description.visible:
 		description.autowrap_mode = TextServer.AUTOWRAP_OFF
