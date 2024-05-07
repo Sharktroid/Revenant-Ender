@@ -141,17 +141,19 @@ func set_neighbor_path(
 
 
 func get_control_within_height(checking_control: Control, control_array: Array[Node]) -> Control:
-	var get_center: Callable = func(control: Control) -> float:
-		return control.get_screen_position().y + control.size.y / 2
-	var center: float = get_center.call(checking_control)
+	var center: float = _get_center(checking_control)
 	var get_distance: Callable = func(control: Control) -> float:
-		return absf(center - get_center.call(control))
+		return absf(center - _get_center(control))
 
 	var closest_control := control_array[0] as Control
 	for control: Control in control_array.slice(1) as Array[Control]:
 		if get_distance.call(control) < get_distance.call(closest_control):
 			closest_control = control
 	return closest_control
+
+
+func _get_center(control: Control) -> float:
+	return control.get_screen_position().y + control.size.y / 2
 
 
 func _load_config() -> void:

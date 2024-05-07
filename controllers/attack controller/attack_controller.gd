@@ -47,9 +47,8 @@ func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[CombatStage
 	defender.visible = false
 	var attacker_starting_hp: float = attacker.current_health
 	var defender_starting_hp: float = defender.current_health
-	var get_timer: Callable = func() -> SceneTreeTimer: return get_tree().create_timer(DELAY)
 	for combat_round: CombatStage in attack_queue:
-		await get_timer.call().timeout
+		await get_tree().create_timer(DELAY).timeout
 		await _map_attack(
 			combat_round.attacker,
 			combat_round.defender,
@@ -58,7 +57,7 @@ func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[CombatStage
 		)
 		if attacker.current_health <= 0 or defender.current_health <= 0:
 			break
-	await get_timer.call().timeout
+	await get_tree().create_timer(DELAY).timeout
 
 	hp_bar.queue_free()
 	if defender.current_health <= 0:

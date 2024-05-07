@@ -1,5 +1,4 @@
 # Minor
-* Replace callables with functions
 * Make certain resource properties read-only via getters
 * Make certain get functions read-only properties
 * Add read-only properties for each of a unit's Stats

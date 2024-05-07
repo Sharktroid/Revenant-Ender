@@ -66,24 +66,20 @@ func _physics_process(_delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
-	var repeat_callable: Callable = func() -> void:
-		AudioPlayer.play_sound_effect(AudioPlayer.CURSOR)
-		await get_tree().create_timer(0.25).timeout
-		_repeat = true
 	if is_active():
 		var new_pos: Vector2i = map_position
 		if event.is_action_pressed("left") and not Input.is_action_pressed("right"):
 			new_pos.x -= 16
-			repeat_callable.call()
 		elif event.is_action_pressed("right"):
 			new_pos.x += 16
-			repeat_callable.call()
 		if event.is_action_pressed("up") and not Input.is_action_pressed("down"):
 			new_pos.y -= 16
-			repeat_callable.call()
 		elif event.is_action_pressed("down"):
 			new_pos.y += 16
-			repeat_callable.call()
+		if new_pos != map_position:
+			AudioPlayer.play_sound_effect(AudioPlayer.CURSOR)
+			await get_tree().create_timer(0.25).timeout
+			_repeat = true
 		map_position = new_pos
 
 

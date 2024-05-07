@@ -72,17 +72,13 @@ func pause_track() -> void:
 func fade_in_track(duration: float = 1.0 / 3) -> void:
 	if is_instance_valid(get_current_player()) and is_inside_tree():
 		var tween: Tween = create_tween()
-		var set_volume: Callable = func(new_volume: float) -> void:
-			get_current_player().volume_db = _percent_to_db(new_volume)
-		tween.tween_method(set_volume, 0.0, music_volume, duration)
+		tween.tween_method(_set_volume, 0.0, music_volume, duration)
 
 
 func fade_out_track(duration: float = 1.0 / 3) -> void:
 	if is_instance_valid(get_current_player()):
 		var tween: Tween = create_tween()
-		var set_volume: Callable = func(new_volume: float) -> void:
-			get_current_player().volume_db = _percent_to_db(new_volume)
-		tween.tween_method(set_volume, music_volume, 0.0, duration)
+		tween.tween_method(_set_volume, music_volume, 0.0, duration)
 		await tween.finished
 
 
@@ -116,3 +112,7 @@ func clear_sound_effects() -> void:
 
 func _percent_to_db(volume: float) -> float:
 	return 6 * (log(volume) / log(2)) if volume > 0 else -100.0
+
+
+func _set_volume(new_volume: float) -> void:
+	get_current_player().volume_db = _percent_to_db(new_volume)
