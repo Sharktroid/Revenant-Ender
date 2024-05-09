@@ -189,7 +189,7 @@ script = ExtResource("4_g30x5")
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
-text = "99."
+text = "99"
 
 [node name="PercentLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/EXPContainer/EXPStatHelp"]
 layout_mode = 2
@@ -213,7 +213,7 @@ The first value is the current value, the second is the maximum."
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
-text = "HitPoints"
+text = "Hit Points"
 
 [node name="HitPointsStatHelp" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/HitPointsContainer"]
 unique_name_in_owner = true
@@ -321,7 +321,7 @@ help_description = "The unit's current hit rate when attacking.
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
-text = "HitRate"
+text = "Hit Rate"
 
 [node name="HitDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/HitContainer"]
 unique_name_in_owner = true
@@ -355,7 +355,7 @@ help_description = "The unit's current avoid rate. Decreases attacker's hit rate
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
-text = "AvoidRate"
+text = "Avoid Rate"
 
 [node name="AvoidDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/AvoidContainer"]
 unique_name_in_owner = true
@@ -388,7 +388,7 @@ help_description = "Chance to get a critical hit.
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
-text = "Critical HitRate"
+text = "Critical Hit Rate"
 
 [node name="CritDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/CritContainer"]
 unique_name_in_owner = true
@@ -422,7 +422,7 @@ If the resulting rate is below 5%, a critical can not occur.
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
-text = "Crit. AvoidRate"
+text = "Crit. Avoid Rate"
 
 [node name="CritAvoidDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/CritAvoidContainer"]
 unique_name_in_owner = true

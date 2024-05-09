@@ -1,3 +1,4 @@
+# gdlint:ignore = max-public-methods
 @tool
 class_name Unit
 extends Sprite2D
@@ -171,14 +172,14 @@ func _enter_tree() -> void:
 	_animation_player = $AnimationPlayer as AnimationPlayer
 	_traveler_animation_player = $"TravelerIcon/AnimationPlayer" as AnimationPlayer
 	level = base_level
-	for weapon_type: Weapon.Types in unit_class.base_weapon_levels.keys() as Array[Weapon.Types]:
+	for weapon_type: Weapon.Types in unit_class.get_base_weapon_levels().keys() as Array[Weapon.Types]:
 		if weapon_type not in weapon_levels.keys():
 			weapon_levels[weapon_type] = lerpf(
-				unit_class.base_weapon_levels[weapon_type] as float,
-				unit_class.max_weapon_levels[weapon_type] as float,
-				inverse_lerp(1, unit_class.max_level, level)
+				unit_class.get_base_weapon_levels()[weapon_type] as float,
+				unit_class.get_max_weapon_levels()[weapon_type] as float,
+				inverse_lerp(1, unit_class.get_max_level(), level)
 			)
-	texture = unit_class.map_sprite
+	texture = unit_class.get_map_sprite()
 	material = material.duplicate() as Material
 	current_movement = get_stat(Stats.MOVEMENT)
 	current_health = get_stat(Stats.HIT_POINTS)
@@ -193,7 +194,7 @@ func _enter_tree() -> void:
 
 
 func _exit_tree() -> void:
-	_map.update_position_terrain_cost.call_deferred(position)
+	get_map().update_position_terrain_cost.call_deferred(position)
 
 
 func _process(_delta: float) -> void:
@@ -220,7 +221,7 @@ func remove_status(status: int) -> void:
 
 
 func get_class_name() -> String:
-	return unit_class.name
+	return unit_class.resource_name
 
 
 func get_current_weapon() -> Weapon:
@@ -241,7 +242,7 @@ func get_raw_attack() -> int:
 				current_attack = get_stat(Stats.PIERCE)
 			Weapon.DamageTypes.MAGIC:
 				current_attack = get_stat(Stats.MAGIC)
-		return get_current_weapon().might + current_attack
+		return get_current_weapon().get_might() + current_attack
 	return 0
 
 
@@ -302,9 +303,9 @@ func get_stat_boost(stat: Stats) -> int:
 
 
 func get_stat(stat: Stats, current_level: int = level) -> int:
-	var weight: float = inverse_lerp(1, unit_class.max_level, current_level)
+	var weight: float = inverse_lerp(1, unit_class.get_max_level(), current_level)
 	var leveled_stat: float = lerpf(
-		unit_class.base_stats.get(stat, 0), unit_class.end_stats.get(stat, 0), weight
+		unit_class.get_base_stats().get(stat, 0), unit_class.get_end_stats().get(stat, 0), weight
 	)
 	var unclamped_stat: int = roundi(
 		leveled_stat * _get_personal_value_multiplier(stat) * _get_effort_value_multiplier(stat)
@@ -315,7 +316,7 @@ func get_stat(stat: Stats, current_level: int = level) -> int:
 func get_stat_cap(stat: Stats) -> int:
 	return roundi(
 		(
-			(unit_class.end_stats.get(stat, 0))
+			(unit_class.get_end_stats().get(stat, 0))
 			* (1 + PERSONAL_VALUE_MULTIPLIER)
 			* (1 + EFFORT_VALUE_MULTIPLIER)
 		)
@@ -323,7 +324,7 @@ func get_stat_cap(stat: Stats) -> int:
 
 
 func get_attack_speed() -> int:
-	var weight: int = get_current_weapon().weight if get_current_weapon() else 0
+	var weight: int = get_current_weapon().get_weight() if get_current_weapon() else 0
 	return get_stat(Stats.SPEED) - maxi(weight - get_stat(Stats.CONSTITUTION), 0)
 
 
@@ -352,7 +353,7 @@ func get_portrait() -> Portrait:
 	if _portrait:
 		return _portrait.duplicate() as Portrait
 	var portrait := Portrait.new()
-	portrait.texture = unit_class.default_portrait
+	portrait.texture = unit_class.get_default_portrait()
 	portrait.centered = false
 	portrait.material = ShaderMaterial.new()
 	(portrait.material as ShaderMaterial).shader = preload("res://gba_color.gdshader")
@@ -364,19 +365,20 @@ func get_portrait_offset() -> Vector2i:
 
 
 func get_aid() -> int:
-	var aid_mod: int = unit_class.aid_modifier
+	var aid_mod: int = unit_class.get_aid_modifier()
 	return (
-		get_stat(Stats.CONSTITUTION) + aid_mod if aid_mod <= 0
+		get_stat(Stats.CONSTITUTION) + aid_mod
+		if aid_mod <= 0
 		else aid_mod - get_stat(Stats.CONSTITUTION)
 	)
 
 
 func get_weight() -> int:
-	return get_stat(Stats.CONSTITUTION) + unit_class.weight_modifier
+	return get_stat(Stats.CONSTITUTION) + unit_class.get_weight_modifier()
 
 
 func get_hit() -> int:
-	return get_current_weapon().hit + get_stat(Stats.SKILL) * 2 + get_stat(Stats.LUCK)
+	return get_current_weapon().get_hit() + get_stat(Stats.SKILL) * 2 + get_stat(Stats.LUCK)
 
 
 func get_avoid() -> int:
@@ -396,7 +398,7 @@ func get_hit_rate(enemy: Unit) -> int:
 
 
 func get_crit() -> int:
-	return get_current_weapon().crit + get_stat(Stats.SKILL)
+	return get_current_weapon().get_crit() + get_stat(Stats.SKILL)
 
 
 func get_crit_avoid() -> int:
@@ -422,8 +424,8 @@ func get_path_last_pos() -> Vector2i:
 
 func get_stat_table(stat: Stats) -> Array[String]:
 	var table_items: Dictionary = {
-		"Class Base": str(unit_class.base_stats.get(stat, 0)),
-		"Class Final": str(unit_class.end_stats.get(stat, 0)),
+		"Class Base": str(unit_class.get_base_stats().get(stat, 0)),
+		"Class Final": str(unit_class.get_end_stats().get(stat, 0)),
 		"PersonalValues ": str(personal_values.get(stat, 0)),
 		"EffortValues": str(effort_values.get(stat, 0)),
 	}
@@ -431,23 +433,23 @@ func get_stat_table(stat: Stats) -> Array[String]:
 
 
 func get_min_range() -> int:
-	var min_range: int = get_current_weapon().min_range
+	var min_range: int = get_current_weapon().get_min_range()
 	for weapon: Item in items:
 		if weapon is Weapon:
-			min_range = mini((weapon as Weapon).min_range, min_range)
+			min_range = mini((weapon as Weapon).get_min_range(), min_range)
 	return min_range
 
 
 func get_max_range() -> int:
-	var max_range: int = get_current_weapon().max_range
+	var max_range: int = get_current_weapon().get_max_range()
 	for weapon: Item in items:
 		if weapon is Weapon:
-			max_range = maxi((weapon as Weapon).max_range, max_range)
+			max_range = maxi((weapon as Weapon).get_max_range(), max_range)
 	return max_range
 
 
 func get_authority() -> int:
-	return personal_authority + unit_class.authority
+	return personal_authority + unit_class.get_authority()
 
 
 func get_distance(unit: Unit) -> int:
@@ -455,7 +457,7 @@ func get_distance(unit: Unit) -> int:
 
 
 func get_skills() -> Array[Skill]:
-	return skills + unit_class.skills
+	return skills + unit_class.get_skills()
 
 
 func get_current_exp() -> float:
@@ -486,7 +488,7 @@ func has_skill_attribute(attrib: Skill.AllAttributes) -> bool:
 
 
 func can_use_weapon(weapon: Weapon) -> bool:
-	return weapon.level <= weapon_levels.get(weapon.type, 0)
+	return weapon.get_rank() <= weapon_levels.get(weapon.get_type(), 0)
 
 
 func can_rescue(unit: Unit) -> bool:
@@ -552,7 +554,7 @@ func get_movement_tiles(custom_movement: int = floori(current_movement)) -> Arra
 		#region Orders tiles by distance from center
 		h.erase(start)
 		for x: Vector2i in h:
-			var movement_type: UnitClass.MovementTypes = unit_class.movement_type
+			var movement_type: UnitClass.MovementTypes = unit_class.get_movement_type()
 			var cost: float = get_map().get_path_cost(
 				movement_type, get_map().get_movement_path(movement_type, position, x, faction)
 			)
@@ -629,8 +631,8 @@ func get_adjacent_tiles(pos: Vector2i, min_range: int, max_range: int) -> Array[
 
 func get_current_attack_tiles(pos: Vector2i, all_weapons: bool = false) -> Array[Vector2i]:
 	if is_instance_valid(get_current_weapon()):
-		var min_range: int = get_current_weapon().min_range
-		var max_range: int = get_current_weapon().max_range
+		var min_range: int = get_current_weapon().get_min_range()
+		var max_range: int = get_current_weapon().get_max_range()
 		if all_weapons:
 			min_range = get_min_range()
 			max_range = get_max_range()
@@ -675,7 +677,7 @@ func move(move_target: Vector2i = get_unit_path()[-1]) -> void:
 	if move_target in path:
 		remove_path()
 		get_area().monitoring = false
-		current_movement -= get_map().get_path_cost(unit_class.movement_type, path)
+		current_movement -= get_map().get_path_cost(unit_class.get_movement_type(), path)
 		while path.size() > 0:
 			var target: Vector2 = path.pop_at(0)
 			match target - position:
@@ -707,10 +709,7 @@ func get_unit_path() -> Array[Vector2i]:
 
 func get_map() -> Map:
 	if _map == null:
-		var units_node: Node2D = get_parent()
-		while units_node.name != "Units":
-			units_node = units_node.get_parent()
-		_map = units_node.get_parent().get_parent()
+		return MapController.map
 	return _map
 
 
@@ -745,7 +744,7 @@ func update_path(destination: Vector2i) -> void:
 		var total_cost: float = 0
 		for tile: Vector2i in _path:
 			if tile != Vector2i(position):
-				total_cost += get_map().get_terrain_cost(unit_class.movement_type, tile)
+				total_cost += get_map().get_terrain_cost(unit_class.get_movement_type(), tile)
 		if destination in _path:
 			_path = _path.slice(0, _path.find(destination) + 1) as Array[Vector2i]
 		else:
@@ -756,7 +755,7 @@ func update_path(destination: Vector2i) -> void:
 				_path.append(destination)
 			else:
 				var new_path: Array[Vector2i] = get_map().get_movement_path(
-					unit_class.movement_type, position, destination, faction
+					unit_class.get_movement_type(), position, destination, faction
 				)
 				_path = new_path
 
@@ -836,7 +835,9 @@ func equip_weapon(weapon: Weapon) -> void:
 		items.erase(weapon)
 		items.push_front(weapon)
 	else:
-		push_error('Tried equipping invalid weapon "%s" on unit "%s"' % [weapon.name, unit_name])
+		push_error(
+			'Tried equipping invalid weapon "%s" on unit "%s"' % [weapon.resource_name, unit_name]
+		)
 
 
 func drop(item: Item) -> void:

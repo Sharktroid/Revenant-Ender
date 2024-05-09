@@ -4,15 +4,15 @@ extends Spear
 
 # Weapon-specific variables.
 func _init() -> void:
-	name = "Silver Spear"
-	level = Ranks.A
-	might = 15
-	weight = 10
-	hit = 75
-	crit = 0
-	max_uses = 20
-	price = 4000
-	weapon_exp = 1
-	description = "A very powerful and expensive spear."
+	resource_name = "Silver Spear"
+	_rank = Ranks.A
+	_might = 15
+	_weight = 10
+	_hit = 75
+	_crit = 0
+	_max_uses = 20
+	_price = 4000
+	_weapon_exp = 1
+	_description = "A very powerful and expensive spear."
 	super()
 

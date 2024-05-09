@@ -4,25 +4,25 @@ extends MountedUnit
 
 
 func _init() -> void:
-	name = "Cavalier"
-	max_level = 30
-	movement_type = MovementTypes.ADVANCED_HEAVY_CAVALRY
-	weight_modifier = 25
-	description = "Dedicated cavalry with superior abilities all around."
+	resource_name = "Cavalier"
+	_max_level = 30
+	_movement_type = MovementTypes.ADVANCED_HEAVY_CAVALRY
+	_weight_modifier = 25
+	_description = "Dedicated cavalry with superior abilities all around."
 
-	base_weapon_levels = {
+	_base_weapon_levels = {
 		Weapon.Types.SWORD: Weapon.Ranks.C,
 		Weapon.Types.SPEAR: Weapon.Ranks.C,
 		Weapon.Types.AXE: Weapon.Ranks.D,
 	}
 
-	max_weapon_levels = {
+	_max_weapon_levels = {
 		Weapon.Types.SWORD: Weapon.Ranks.S,
 		Weapon.Types.SPEAR: Weapon.Ranks.S,
 		Weapon.Types.AXE: Weapon.Ranks.A,
 	}
 
-	base_stats = {
+	_base_stats = {
 		Unit.Stats.HIT_POINTS: 19,
 		Unit.Stats.STRENGTH: 8,
 		Unit.Stats.PIERCE: 0,
@@ -36,7 +36,7 @@ func _init() -> void:
 		Unit.Stats.MOVEMENT: 9,
 		Unit.Stats.CONSTITUTION: 11,
 	}
-	end_stats = {
+	_end_stats = {
 		Unit.Stats.HIT_POINTS: 51,
 		Unit.Stats.STRENGTH: 28,
 		Unit.Stats.PIERCE: 0,

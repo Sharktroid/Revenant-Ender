@@ -4,14 +4,14 @@ extends Axe
 
 # Weapon-specific variables.
 func _init() -> void:
-	name = "Steel Axe"
-	level = Ranks.D
-	might = 13
-	weight = 15
-	hit = 55
-	crit = 0
-	max_uses = 25
-	price = 1700
-	weapon_exp = 2
-	description = "A strong, quality axe."
+	resource_name = "Steel Axe"
+	_rank = Ranks.D
+	_might = 13
+	_weight = 15
+	_hit = 55
+	_crit = 0
+	_max_uses = 25
+	_price = 1700
+	_weapon_exp = 2
+	_description = "A strong, quality axe."
 	super()

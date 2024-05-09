@@ -5,16 +5,16 @@ extends UnitClass
 
 # Unit-specific variables.
 func _init() -> void:
-	name = "Hoplite"
-	max_level = 20
-	movement_type = MovementTypes.ARMOR
-	weight_modifier = 5
-	description = "Heavily armored knights with stout defense, but low speed."
+	resource_name = "Hoplite"
+	_max_level = 20
+	_movement_type = MovementTypes.ARMOR
+	_weight_modifier = 5
+	_description = "Heavily armored knights with stout defense, but low speed."
 
-	base_weapon_levels[Weapon.Types.SPEAR] = Weapon.Ranks.D
-	max_weapon_levels[Weapon.Types.SPEAR] = Weapon.Ranks.A
+	_base_weapon_levels[Weapon.Types.SPEAR] = Weapon.Ranks.D
+	_max_weapon_levels[Weapon.Types.SPEAR] = Weapon.Ranks.A
 
-	base_stats = {
+	_base_stats = {
 		Unit.Stats.HIT_POINTS: 19,
 		Unit.Stats.STRENGTH: 8,
 		Unit.Stats.PIERCE: 0,
@@ -28,7 +28,7 @@ func _init() -> void:
 		Unit.Stats.MOVEMENT: 6,
 		Unit.Stats.CONSTITUTION: 13,
 	}
-	end_stats = {
+	_end_stats = {
 		Unit.Stats.HIT_POINTS: 50,
 		Unit.Stats.STRENGTH: 22,
 		Unit.Stats.PIERCE: 0,

@@ -5,7 +5,7 @@ extends UnitClass
 
 # Unit class-specific variables.
 func _init() -> void:
-	aid_modifier = 25
-	skills = [Canto.new()]
+	_aid_modifier = 25
+	_skills = [Canto.new()]
 	super()
 

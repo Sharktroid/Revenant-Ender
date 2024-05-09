@@ -21,5 +21,5 @@ func _ready() -> void:
 
 
 #func _update_sprite() -> void:
-#	super._update_sprite()
+#	super.get_update_sprite()()
 #	frame = _base_frame

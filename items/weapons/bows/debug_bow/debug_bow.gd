@@ -4,15 +4,15 @@ extends Bow
 
 # Weapon-specific variables.
 func _init() -> void:
-	name = "Debug Bow"
-	level = Ranks.E
-	might = 257
-	weight = 6
-	hit = 65537
-	crit = 0
-	max_uses = 40
-	price = 2200
-	weapon_exp = 1
-	description = "A cheap, easy to wield bow."
+	resource_name = "Debug Bow"
+	_rank = Ranks.E
+	_might = 257
+	_weight = 6
+	_hit = 65537
+	_crit = 0
+	_max_uses = 40
+	_price = 2200
+	_weapon_exp = 1
+	_description = "A cheap, easy to wield bow."
 #	effective_classes
 	super()

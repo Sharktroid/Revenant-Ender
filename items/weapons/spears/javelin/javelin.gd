@@ -4,16 +4,16 @@ extends Spear
 
 # Weapon-specific variables.
 func _init() -> void:
-	name = "Javelin"
-	level = Ranks.D
-	might = 6
-	weight = 12
-	hit = 50
-	crit = 0
-	max_uses = 20
-	price = 1200
-	weapon_exp = 1
-	description = "A throwing spear that can also attack\nfrom range"
+	resource_name = "Javelin"
+	_rank = Ranks.D
+	_might = 6
+	_weight = 12
+	_hit = 50
+	_crit = 0
+	_max_uses = 20
+	_price = 1200
+	_weapon_exp = 1
+	_description = "A throwing spear that can also attack\nfrom range"
 	super()
-	max_range = 2
+	_max_range = 2
 

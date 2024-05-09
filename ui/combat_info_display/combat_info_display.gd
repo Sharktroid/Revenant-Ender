@@ -87,8 +87,8 @@ func _update() -> void:
 		var format: Callable = func(input_string: String) -> String:
 			return ("%" + half + input_string)
 		(get_node(format.call("Name")) as Label).text = current_unit.unit_name
-		(get_node(format.call("WeaponIcon")) as TextureRect).texture = weapon.icon
-		(get_node(format.call("WeaponName")) as Label).text = weapon.name
+		(get_node(format.call("WeaponIcon")) as TextureRect).texture = weapon.get_icon()
+		(get_node(format.call("WeaponName")) as Label).text = weapon.get_name()
 
 		(get_node(format.call("HP")) as Label).text = str(current_unit.current_health)
 

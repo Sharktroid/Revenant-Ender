@@ -4,9 +4,9 @@ extends Weapon
 
 # Weapon-specific variables.
 func _init() -> void:
-	type = Types.AXE
-	min_range = 1
-	max_range = 1
-	advantage_types = [Types.SPEAR]
-	disadvantage_types = [Types.SWORD]
+	_type = Types.AXE
+	_min_range = 1
+	_max_range = 1
+	_advantage_types = [Types.SPEAR]
+	_disadvantage_types = [Types.SWORD]
 	super()

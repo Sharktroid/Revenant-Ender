@@ -59,8 +59,8 @@ func _update() -> void:
 	(%UnitName as Label).text = observing_unit.unit_name
 	(%UnitDescription as HelpContainer).help_description = observing_unit.unit_description
 
-	(%ClassName as Label).text = observing_unit.unit_class.name
-	(%ClassDescription as HelpContainer).help_description = observing_unit.unit_class.description
+	(%ClassName as Label).text = observing_unit.unit_class.resource_name
+	(%ClassDescription as HelpContainer).help_description = observing_unit.unit_class.get_description()
 
 	_set_label_text_to_number(%CurrentLevel as Label, observing_unit.level)
 	_set_label_text_to_number(%MaxLevel as Label, observing_unit.get_max_level())
@@ -93,8 +93,8 @@ func _update() -> void:
 		attack_description.help_description = (
 			"%d + %d"
 			% [
-				observing_unit.get_raw_attack() - observing_unit.get_current_weapon().might,
-				observing_unit.get_current_weapon().might
+				observing_unit.get_raw_attack() - observing_unit.get_current_weapon().get_might(),
+				observing_unit.get_current_weapon().get_might()
 			]
 		)
 		_set_label_text_to_number(attack_label, observing_unit.get_raw_attack())
@@ -102,7 +102,7 @@ func _update() -> void:
 		hit_description.help_description = (
 			"%d + %d * 2 + %d"
 			% [
-				observing_unit.get_current_weapon().hit,
+				observing_unit.get_current_weapon().get_hit(),
 				observing_unit.get_stat(Unit.Stats.SKILL),
 				observing_unit.get_stat(Unit.Stats.LUCK)
 			]
@@ -111,7 +111,7 @@ func _update() -> void:
 
 		crit_description.help_description = (
 			"%d + %d"
-			% [observing_unit.get_current_weapon().crit, observing_unit.get_stat(Unit.Stats.SKILL)]
+			% [observing_unit.get_current_weapon().get_crit(), observing_unit.get_stat(Unit.Stats.SKILL)]
 		)
 		_set_label_text_to_number(crit_label, observing_unit.get_crit())
 	else:
@@ -149,14 +149,14 @@ func _update() -> void:
 	var range_separator := %RangeSeparator as Label
 	var max_range := %MaxRange as Label
 	if current_weapon:
-		_set_label_text_to_number(min_range, current_weapon.min_range)
-		if current_weapon.min_range == current_weapon.max_range:
+		_set_label_text_to_number(min_range, current_weapon.get_min_range())
+		if current_weapon.get_min_range() == current_weapon.get_max_range():
 			range_separator.visible = false
 			max_range.visible = false
 		else:
 			range_separator.visible = true
 			max_range.visible = true
-			_set_label_text_to_number(max_range, current_weapon.max_range)
+			_set_label_text_to_number(max_range, current_weapon.get_max_range())
 	else:
 		min_range.text = "--"
 		range_separator.visible = false

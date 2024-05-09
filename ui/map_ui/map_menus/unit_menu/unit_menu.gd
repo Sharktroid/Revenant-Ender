@@ -296,7 +296,7 @@ func _get_drop_tiles() -> Array[Vector2i]:
 	var tiles: Array[Vector2i] = []
 	for tile: Vector2i in \
 			connected_unit.get_adjacent_tiles(connected_unit.get_path_last_pos(), 1, 1):
-		var cost: float = MapController.map.get_terrain_cost(traveler.unit_class.movement_type, tile)
+		var cost: float = MapController.map.get_terrain_cost(traveler.unit_class.get_movement_type(), tile)
 		var movement: int = traveler.get_stat(Unit.Stats.MOVEMENT)
 		if cost <= movement:
 			tiles.append(tile)

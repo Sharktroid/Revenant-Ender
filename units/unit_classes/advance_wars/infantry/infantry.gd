@@ -1,14 +1,14 @@
 extends "res://units/unit_classes/advance_wars/aw_unit.gd"
 
 
-func _init():
-	_starting_frame = 0
+# func _init() -> void:
+	# _starting_frame = 0
 #	movement_type = "Infantry"
 #	tags.append("Infantry")
-	_faction_dict = {"Red": 0, "Blue": 15, "Green": 810, "Yellow": 825,
-		"Black": 1620}
-	_variant_dict = {"Orange Star": 0, "Blue Moon": 30, "Green Earth": 60,
-		"Yellow Comet": 90, "Black Hole": 120}
+	# _faction_dict = {"Red": 0, "Blue": 15, "Green": 810, "Yellow": 825,
+	# 	"Black": 1620}
+	# _variant_dict = {"Orange Star": 0, "Blue Moon": 30, "Green Earth": 60,
+	# 	"Yellow Comet": 90, "Black Hole": 120}
 #	unit_class = "Infantry"
 
 
@@ -27,7 +27,7 @@ func awaken() -> void:
 
 
 #func _update_sprite() -> void:
-#	super._update_sprite()
+#	super.get_update_sprite()()
 #	if map_animation == Animations.IDLE:
 #		var frame_num: int = int(get_tree().get_frame()) % 50
 #		if (frame_num >= 17 and frame_num < 25) or frame_num >= 42:

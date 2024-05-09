@@ -1,7 +1,5 @@
 # Minor
-* Make certain resource properties read-only via getters
-* Make certain get functions read-only properties
-* Add read-only properties for each of a unit's Stats
+* Make unit and class stats their own variables
 * Rename "Magic" to "Intelligence" and "Constitution" to "Build"
 * Remove "E" weapon rank
 * Have unit end Stats be interpolated from level 30 for all classes
@@ -15,6 +13,7 @@
 * Make it so that the selection of a menu doesn't change when unfocused
 * Have menus reset size when entries are removed
 * Fix bug where unit path doesn't update when exiting a menu
+* Fix status screen not scrolling up/down
 
 # Major
 * Make certain scenes into objects that load the scenes to make the code less janky

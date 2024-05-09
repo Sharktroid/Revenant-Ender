@@ -12,11 +12,11 @@ func _init() -> void:
 
 
 func update() -> void:
-	($Icon as TextureRect).texture = item.icon
-	($Name as Label).text = item.name
+	($Icon as TextureRect).texture = item.get_icon()
+	($Name as Label).text = item.resource_name
 	($CurrentUses as Label).text = str(item.current_uses)
-	($MaxUses as Label).text = str(item.max_uses)
-	help_description = item.description
+	($MaxUses as Label).text = str(item.get_max_uses())
+	help_description = item.get_description()
 	help_table = (item as Weapon).get_stat_table() if item is Weapon else []
 
 

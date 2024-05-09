@@ -33,7 +33,7 @@ func update() -> void:
 		Utilities.set_neighbor_path("top", index, -1, item_labels)
 		Utilities.set_neighbor_path("bottom", index, 1, item_labels)
 	for type: String in Weapon.Types.keys() as Array[String]:
-		var rank_node_name: String = "%sRank" % str(type).capitalize()
+		var rank_node_name: String = "%sRank" % str(type).to_pascal_case()
 		const RANK_LABEL = preload(
 			"res://ui/map_ui/status_screen/item_screen/weapon_rank_label/weapon_rank_label.gd"
 		)

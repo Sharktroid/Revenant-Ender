@@ -49,19 +49,19 @@ func update() -> void:
 		"%d + %d"
 		% [
 			observing_unit.get_stat(Unit.Stats.CONSTITUTION),
-			observing_unit.unit_class.weight_modifier
+			observing_unit.unit_class.get_weight_modifier()
 		]
 	)
 	var aid_number := %AidNumber as HelpContainer
-	if observing_unit.unit_class.aid_modifier < 0:
+	if observing_unit.unit_class.get_aid_modifier() < 0:
 		aid_number.help_description = (
 			"%d - %d"
 			% [
 				observing_unit.get_stat(Unit.Stats.CONSTITUTION),
-				-observing_unit.unit_class.aid_modifier
+				-observing_unit.unit_class.get_aid_modifier()
 			]
 		)
-	elif observing_unit.unit_class.aid_modifier == 0:
+	elif observing_unit.unit_class.get_aid_modifier() == 0:
 		aid_number.help_description = (
 			"%d + 0" % [observing_unit.get_stat(Unit.Stats.CONSTITUTION)]
 		)
@@ -69,7 +69,7 @@ func update() -> void:
 		aid_number.help_description = (
 			"%d - %d"
 			% [
-				observing_unit.unit_class.aid_modifier,
+				observing_unit.unit_class.get_aid_modifier(),
 				observing_unit.get_stat(Unit.Stats.CONSTITUTION)
 			]
 		)
