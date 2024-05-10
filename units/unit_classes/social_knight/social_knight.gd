@@ -33,16 +33,16 @@ func _init() -> void:
 	_base_movement = 8
 	_base_build = 9
 
-	_end_hit_points = 42
-	_end_strength = 21
-	_end_pierce = 0
-	_end_intelligence = 0
-	_end_skill = 21
-	_end_speed = 19
-	_end_luck = 15
-	_end_defense = 21
-	_end_armor = 19
-	_end_resistance = 18
+	_end_hit_points = 45
+	_end_strength = 23
+	_end_pierce = 20
+	_end_intelligence = 21
+	_end_skill = 23
+	_end_speed = 22
+	_end_luck = 20
+	_end_defense = 24
+	_end_armor = 20
+	_end_resistance = 25
 	_end_movement = 8
 	_end_build = 9
 	super()

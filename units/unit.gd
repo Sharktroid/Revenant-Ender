@@ -22,6 +22,7 @@ enum Stats {
 	BUILD,
 }
 
+const LEVEL_CAP: int = 30
 ## Duration of fade-away upon death
 const FADE_AWAY_DURATION: float = 20.0 / 60
 ## The amount that the stat is multiplied by with max PVs
@@ -346,7 +347,7 @@ func get_stat_boost(stat: Stats) -> int:
 func get_stat(stat: Stats, current_level: int = level) -> int:
 	var leveled_stat: float = unit_class.get_stat(stat, current_level)
 	var unclamped_stat: int = roundi(
-		leveled_stat * _get_personal_value_multiplier(stat) * _get_effort_value_multiplier(stat)
+		leveled_stat * _get_personal_multiplier(stat) * _get_effort_multiplier(stat)
 	)
 	return clampi(unclamped_stat, 0, get_stat_cap(stat)) + get_stat_boost(stat)
 
@@ -355,8 +356,8 @@ func get_stat_cap(stat: Stats) -> int:
 	return roundi(
 		(
 			(unit_class.get_end_stat(stat))
-			* (1 + PERSONAL_VALUE_MULTIPLIER)
-			* (1 + EFFORT_VALUE_MULTIPLIER)
+			* (PERSONAL_VALUE_MULTIPLIER)
+			* (EFFORT_VALUE_MULTIPLIER)
 		)
 	)
 
@@ -942,12 +943,12 @@ func _on_area2d_area_entered(area: Area2D) -> void:
 		CursorController.hovered_unit = self
 
 
-func _get_personal_value_multiplier(stat: Stats) -> float:
+func _get_personal_multiplier(stat: Stats) -> float:
 	var personal_value: int = clampi(get_personal_value(stat) as int, 0, PERSONAL_VALUE_LIMIT)
-	return 1 + ((personal_value as float) / PERSONAL_VALUE_LIMIT * PERSONAL_VALUE_MULTIPLIER)
+	return 1 + ((personal_value as float) / PERSONAL_VALUE_LIMIT * (PERSONAL_VALUE_MULTIPLIER - 1))
 
 
-func _get_effort_value_multiplier(stat: Stats) -> float:
+func _get_effort_multiplier(stat: Stats) -> float:
 	var effort_value: int = clampi(get_effort_value(stat) as int, 0, INDIVIDUAL_EFFORT_VALUE_LIMIT)
 	return 1 + ((effort_value as float) / INDIVIDUAL_EFFORT_VALUE_LIMIT * EFFORT_VALUE_MULTIPLIER)
 

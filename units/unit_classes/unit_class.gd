@@ -174,7 +174,7 @@ func get_end_build() -> int:
 
 
 func get_stat(stat: Unit.Stats, level: int) -> float:
-	return lerpf(get_base_stat(stat), get_end_stat(stat), inverse_lerp(1, get_max_level(), level))
+	return lerpf(get_base_stat(stat), get_end_stat(stat), inverse_lerp(1, Unit.LEVEL_CAP, level))
 
 
 func get_base_weapon_levels() -> Dictionary:

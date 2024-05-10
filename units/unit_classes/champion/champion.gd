@@ -1,5 +1,5 @@
 @tool
-class_name Hero
+class_name Champion
 extends UnitClass
 
 
@@ -28,20 +28,20 @@ func _init() -> void:
 	_base_luck = 6
 	_base_defense = 5
 	_base_armor = 3
-	_base_resistance = 6
+	_base_resistance = 4
 	_base_movement = 7
 	_base_build = 11
 
 	_end_hit_points = 50
 	_end_strength = 28
-	_end_pierce = 0
-	_end_intelligence = 24
+	_end_pierce = 23
+	_end_intelligence = 26
 	_end_skill = 30
 	_end_speed = 30
 	_end_luck = 23
 	_end_defense = 24
 	_end_armor = 20
-	_end_resistance = 26
+	_end_resistance = 22
 	_end_movement = 7
 	_end_build = 11
 
