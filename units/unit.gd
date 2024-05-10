@@ -227,7 +227,9 @@ func _enter_tree() -> void:
 	if _animation_player.current_animation == "":
 		_animation_player.play("idle")
 	Utilities.sync_animation(_animation_player)
-	var directory: String = "res://portraits/name/name.tscn".replace("name", unit_name.to_lower())
+	var directory: String = "res://portraits/{name}/{name}.tscn".format(
+		{"name": unit_name.to_snake_case()}
+	)
 	if FileAccess.file_exists(directory):
 		_portrait = (load(directory) as PackedScene).instantiate() as Portrait
 
@@ -402,11 +404,7 @@ func get_portrait_offset() -> Vector2i:
 
 func get_aid() -> int:
 	var aid_mod: int = unit_class.get_aid_modifier()
-	return (
-		get_stat(Stats.BUILD) + aid_mod
-		if aid_mod <= 0
-		else aid_mod - get_stat(Stats.BUILD)
-	)
+	return get_stat(Stats.BUILD) + aid_mod if aid_mod <= 0 else aid_mod - get_stat(Stats.BUILD)
 
 
 func get_weight() -> int:
