@@ -44,13 +44,13 @@ func receive_input(event: InputEvent) -> void:
 
 func set_top_text(string: String) -> void:
 	if not _skipping:
-		await _set_text_base(string, _top_textbox, _portraits.get(_top_speaker, Portrait.new()))
+		await _set_text_base(string, _top_textbox, _portraits.get(_top_speaker, Portrait.new()) as Portrait)
 
 
 func set_bottom_text(string: String) -> void:
 	if not _skipping:
 		await _set_text_base(
-			string, _bottom_textbox, _portraits.get(_bottom_speaker, Portrait.new())
+			string, _bottom_textbox, _portraits.get(_bottom_speaker, Portrait.new()) as Portrait
 		)
 
 

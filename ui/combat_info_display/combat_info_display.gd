@@ -86,29 +86,29 @@ func _update() -> void:
 		var weapon: Weapon = _weapons[_weapon_index] if is_top else bottom_unit.get_current_weapon()
 		var format: Callable = func(input_string: String) -> String:
 			return ("%" + half + input_string)
-		(get_node(format.call("Name")) as Label).text = current_unit.unit_name
-		(get_node(format.call("WeaponIcon")) as TextureRect).texture = weapon.get_icon()
-		(get_node(format.call("WeaponName")) as Label).text = weapon.get_name()
+		(get_node(format.call("Name") as NodePath) as Label).text = current_unit.unit_name
+		(get_node(format.call("WeaponIcon") as NodePath) as TextureRect).texture = weapon.get_icon()
+		(get_node(format.call("WeaponName") as NodePath) as Label).text = weapon.get_name()
 
-		(get_node(format.call("HP")) as Label).text = str(current_unit.current_health)
+		(get_node(format.call("HP") as NodePath) as Label).text = str(current_unit.current_health)
 
 		var in_range: bool = distance in weapon.get_range()
-		(get_node(format.call("Damage")) as Label).text = (
+		(get_node(format.call("Damage") as NodePath) as Label).text = (
 			str(current_unit.get_damage(other_unit)) if in_range else "--"
 		)
-		(get_node(format.call("Hit")) as Label).text = (
+		(get_node(format.call("Hit") as NodePath) as Label).text = (
 			str(current_unit.get_hit_rate(other_unit)) if in_range else "--"
 		)
-		(get_node(format.call("CritDamage")) as Label).text = (
+		(get_node(format.call("CritDamage") as NodePath) as Label).text = (
 			str(current_unit.get_crit_damage(other_unit)) if in_range else "--"
 		)
-		(get_node(format.call("Crit")) as Label).text = (
+		(get_node(format.call("Crit") as NodePath) as Label).text = (
 			str(current_unit.get_crit_rate(other_unit)) if in_range else "--"
 		)
 
 		if current_unit.faction.color == Faction.Colors.RED:
 			var shader_material: ShaderMaterial = (
-				(get_node(format.call("UnitPanel")) as PanelContainer).material
+				(get_node(format.call("UnitPanel") as NodePath) as PanelContainer).material
 			)
 			var old_vectors: Array[Color] = []
 			for color: Color in BLUE_COLORS:

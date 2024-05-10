@@ -5,33 +5,30 @@ extends Unit
 # Unit-specific variables.
 func _init() -> void:
 	weapon_levels[Weapon.Types.SPEAR] = Weapon.Ranks.A
-	personal_values = {
-		Unit.Stats.HIT_POINTS: 0,
-		Unit.Stats.STRENGTH: 0,
-		Unit.Stats.PIERCE: 0,
-		Unit.Stats.MAGIC: 0,
-		Unit.Stats.SKILL: 0,
-		Unit.Stats.SPEED: 0,
-		Unit.Stats.LUCK: 0,
-		Unit.Stats.DEFENSE: 0,
-		Unit.Stats.ARMOR: 0,
-		Unit.Stats.RESISTANCE: 0,
-		Unit.Stats.MOVEMENT: 0,
-		Unit.Stats.CONSTITUTION: 0,
-	}
-	effort_values = {
-		Unit.Stats.HIT_POINTS: 100,
-		Unit.Stats.STRENGTH: 50,
-		Unit.Stats.PIERCE: 0,
-		Unit.Stats.MAGIC: 0,
-		Unit.Stats.SKILL: 250,
-		Unit.Stats.SPEED: 150,
-		Unit.Stats.LUCK: 200,
-		Unit.Stats.DEFENSE: 50,
-		Unit.Stats.ARMOR: 50,
-		Unit.Stats.RESISTANCE: 150,
-		Unit.Stats.MOVEMENT: 0,
-		Unit.Stats.CONSTITUTION: 0,
-	}
+	_personal_hit_points = 0
+	_personal_strength = 0
+	_personal_pierce = 0
+	_personal_magic = 0
+	_personal_skill = 0
+	_personal_speed = 0
+	_personal_luck = 0
+	_personal_defense = 0
+	_personal_armor = 0
+	_personal_resistance = 0
+	_personal_movement = 0
+	_personal_constitution = 0
+
+	effort_hit_points = 100
+	effort_strength = 50
+	effort_pierce = 0
+	effort_magic = 0
+	effort_skill = 250
+	effort_speed = 150
+	effort_luck = 200
+	effort_defense = 50
+	effort_armor = 50
+	effort_resistance = 150
+	effort_movement = 0
+	effort_constitution = 0
 	personal_authority = 1
 

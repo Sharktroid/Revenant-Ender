@@ -13,32 +13,29 @@ func _init() -> void:
 	_base_weapon_levels[Weapon.Types.BOW] = Weapon.Ranks.D
 	_max_weapon_levels[Weapon.Types.BOW] = Weapon.Ranks.A
 
-	_base_stats = {
-		Unit.Stats.HIT_POINTS: 23,
-		Unit.Stats.STRENGTH: 0,
-		Unit.Stats.PIERCE: 5,
-		Unit.Stats.MAGIC: 3,
-		Unit.Stats.SKILL: 6,
-		Unit.Stats.SPEED: 5,
-		Unit.Stats.LUCK: 4,
-		Unit.Stats.DEFENSE: 2,
-		Unit.Stats.ARMOR: 7,
-		Unit.Stats.RESISTANCE: 6,
-		Unit.Stats.MOVEMENT: 6,
-		Unit.Stats.CONSTITUTION: 7,
-	}
-	_end_stats = {
-		Unit.Stats.HIT_POINTS: 42,
-		Unit.Stats.STRENGTH: 0,
-		Unit.Stats.PIERCE: 21,
-		Unit.Stats.MAGIC: 17,
-		Unit.Stats.SKILL: 24,
-		Unit.Stats.SPEED: 19,
-		Unit.Stats.LUCK: 23,
-		Unit.Stats.DEFENSE: 16,
-		Unit.Stats.ARMOR: 25,
-		Unit.Stats.RESISTANCE: 25,
-		Unit.Stats.MOVEMENT: 6,
-		Unit.Stats.CONSTITUTION: 7,
-	}
+	_base_hit_points = 23
+	_base_strength = 0
+	_base_pierce = 5
+	_base_magic = 3
+	_base_skill = 6
+	_base_speed = 5
+	_base_luck = 4
+	_base_defense = 2
+	_base_armor = 7
+	_base_resistance = 6
+	_base_movement = 6
+	_base_constitution = 7
+
+	_end_hit_points = 42
+	_end_strength = 0
+	_end_pierce = 21
+	_end_magic = 17
+	_end_skill = 24
+	_end_speed = 19
+	_end_luck = 23
+	_end_defense = 16
+	_end_armor = 25
+	_end_resistance = 25
+	_end_movement = 6
+	_end_constitution = 7
 	super()

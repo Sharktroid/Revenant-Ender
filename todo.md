@@ -1,5 +1,4 @@
 # Minor
-* Make unit and class stats their own variables
 * Rename "Magic" to "Intelligence" and "Constitution" to "Build"
 * Remove "E" weapon rank
 * Have unit end Stats be interpolated from level 30 for all classes
@@ -14,6 +13,9 @@
 * Have menus reset size when entries are removed
 * Fix bug where unit path doesn't update when exiting a menu
 * Fix status screen not scrolling up/down
+* Fix Exp Bar
+* Make the get tiles functions all derive from one function and optimise the iterations
+* Improve performance with big attack ranges
 
 # Major
 * Make certain scenes into objects that load the scenes to make the code less janky

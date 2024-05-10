@@ -4,32 +4,29 @@ extends Unit
 
 # Unit-specific variables.
 func _init() -> void:
-	personal_values = {
-		Unit.Stats.HIT_POINTS: 7,
-		Unit.Stats.STRENGTH: 12,
-		Unit.Stats.PIERCE: 5,
-		Unit.Stats.MAGIC: 5,
-		Unit.Stats.SKILL: 5,
-		Unit.Stats.SPEED: 7,
-		Unit.Stats.LUCK: 10,
-		Unit.Stats.DEFENSE: 6,
-		Unit.Stats.ARMOR: 5,
-		Unit.Stats.RESISTANCE: 5,
-		Unit.Stats.MOVEMENT: 5,
-		Unit.Stats.CONSTITUTION: 5,
-	}
-	effort_values = {
-		Unit.Stats.HIT_POINTS: 0,
-		Unit.Stats.STRENGTH: 0,
-		Unit.Stats.PIERCE: 0,
-		Unit.Stats.MAGIC: 0,
-		Unit.Stats.SKILL: 0,
-		Unit.Stats.SPEED: 0,
-		Unit.Stats.LUCK: 0,
-		Unit.Stats.DEFENSE: 0,
-		Unit.Stats.ARMOR: 0,
-		Unit.Stats.RESISTANCE: 0,
-		Unit.Stats.MOVEMENT: 0,
-		Unit.Stats.CONSTITUTION: 0,
-	}
+	_personal_hit_points = 7
+	_personal_strength = 12
+	_personal_pierce = 5
+	_personal_magic = 5
+	_personal_skill = 5
+	_personal_speed = 7
+	_personal_luck = 10
+	_personal_defense = 6
+	_personal_armor = 5
+	_personal_resistance = 5
+	_personal_movement = 5
+	_personal_constitution = 5
+
+	effort_hit_points = 0
+	effort_strength = 0
+	effort_pierce = 0
+	effort_magic = 0
+	effort_skill = 0
+	effort_speed = 0
+	effort_luck = 0
+	effort_defense = 0
+	effort_armor = 0
+	effort_resistance = 0
+	effort_movement = 0
+	effort_constitution = 0
 

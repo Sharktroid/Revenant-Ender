@@ -22,32 +22,29 @@ func _init() -> void:
 		Weapon.Types.AXE: Weapon.Ranks.A,
 	}
 
-	_base_stats = {
-		Unit.Stats.HIT_POINTS: 19,
-		Unit.Stats.STRENGTH: 8,
-		Unit.Stats.PIERCE: 0,
-		Unit.Stats.MAGIC: 1,
-		Unit.Stats.SKILL: 7,
-		Unit.Stats.SPEED: 7,
-		Unit.Stats.LUCK: 4,
-		Unit.Stats.DEFENSE: 7,
-		Unit.Stats.ARMOR: 6,
-		Unit.Stats.RESISTANCE: 6,
-		Unit.Stats.MOVEMENT: 9,
-		Unit.Stats.CONSTITUTION: 11,
-	}
-	_end_stats = {
-		Unit.Stats.HIT_POINTS: 51,
-		Unit.Stats.STRENGTH: 28,
-		Unit.Stats.PIERCE: 0,
-		Unit.Stats.MAGIC: 22,
-		Unit.Stats.SKILL: 25,
-		Unit.Stats.SPEED: 25,
-		Unit.Stats.LUCK: 16,
-		Unit.Stats.DEFENSE: 29,
-		Unit.Stats.ARMOR: 27,
-		Unit.Stats.RESISTANCE: 26,
-		Unit.Stats.MOVEMENT: 9,
-		Unit.Stats.CONSTITUTION: 11,
-	}
+	_base_hit_points = 19
+	_base_strength = 8
+	_base_pierce = 0
+	_base_magic = 1
+	_base_skill = 7
+	_base_speed = 7
+	_base_luck = 4
+	_base_defense = 7
+	_base_armor = 6
+	_base_resistance = 6
+	_base_movement = 9
+	_base_constitution = 11
+
+	_end_hit_points = 51
+	_end_strength = 28
+	_end_pierce = 0
+	_end_magic = 22
+	_end_skill = 25
+	_end_speed = 25
+	_end_luck = 16
+	_end_defense = 29
+	_end_armor = 27
+	_end_resistance = 26
+	_end_movement = 9
+	_end_constitution = 11
 	super()

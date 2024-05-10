@@ -1,3 +1,4 @@
+# gdlint:ignore = max-public-methods
 @tool
 class_name UnitClass
 extends Resource
@@ -18,8 +19,32 @@ enum MovementTypes {
 	FLIERS,
 }
 
-var _base_stats: Dictionary
-var _end_stats: Dictionary
+var _base_hit_points: int
+var _base_strength: int
+var _base_pierce: int
+var _base_magic: int
+var _base_skill: int
+var _base_speed: int
+var _base_luck: int
+var _base_defense: int
+var _base_armor: int
+var _base_resistance: int
+var _base_movement: int
+var _base_constitution: int
+
+var _end_hit_points: int
+var _end_strength: int
+var _end_pierce: int
+var _end_magic: int
+var _end_skill: int
+var _end_speed: int
+var _end_luck: int
+var _end_defense: int
+var _end_armor: int
+var _end_resistance: int
+var _end_movement: int
+var _end_constitution: int
+
 var _base_weapon_levels: Dictionary
 var _max_weapon_levels: Dictionary
 var _max_level: int = 30
@@ -44,12 +69,112 @@ func _init() -> void:
 		_default_portrait = load(portrait_dir)
 
 
-func get_base_stats() -> Dictionary:
-	return _base_stats
+func get_base_stat(stat: Unit.Stats) -> int:
+	return get("_base_%s" % (Unit.Stats.find_key(stat) as String).to_snake_case())
 
 
-func get_end_stats() -> Dictionary:
-	return _end_stats
+func get_base_hit_points() -> int:
+	return _base_hit_points
+
+
+func get_base_strength() -> int:
+	return _base_strength
+
+
+func get_base_pierce() -> int:
+	return _base_pierce
+
+
+func get_base_magic() -> int:
+	return _base_magic
+
+
+func get_base_skill() -> int:
+	return _base_skill
+
+
+func get_base_speed() -> int:
+	return _base_speed
+
+
+func get_base_luck() -> int:
+	return _base_luck
+
+
+func get_base_defense() -> int:
+	return _base_defense
+
+
+func get_base_armor() -> int:
+	return _base_armor
+
+
+func get_base_resistance() -> int:
+	return _base_resistance
+
+
+func get_base_movement() -> int:
+	return _base_movement
+
+
+func get_base_constitution() -> int:
+	return _base_constitution
+
+
+func get_end_stat(stat: Unit.Stats) -> int:
+	return get("_end_%s" % (Unit.Stats.find_key(stat) as String).to_snake_case())
+
+
+func get_end_hit_points() -> int:
+	return _end_hit_points
+
+
+func get_end_strength() -> int:
+	return _end_strength
+
+
+func get_end_pierce() -> int:
+	return _end_pierce
+
+
+func get_end_magic() -> int:
+	return _end_magic
+
+
+func get_end_skill() -> int:
+	return _end_skill
+
+
+func get_end_speed() -> int:
+	return _end_speed
+
+
+func get_end_luck() -> int:
+	return _end_luck
+
+
+func get_end_defense() -> int:
+	return _end_defense
+
+
+func get_end_armor() -> int:
+	return _end_armor
+
+
+func get_end_resistance() -> int:
+	return _end_resistance
+
+
+func get_end_movement() -> int:
+	return _end_movement
+
+
+func get_end_constitution() -> int:
+	return _end_constitution
+
+
+func get_stat(stat: Unit.Stats, level: int) -> float:
+	return lerpf(get_base_stat(stat), get_end_stat(stat), inverse_lerp(1, get_max_level(), level))
 
 
 func get_base_weapon_levels() -> Dictionary:

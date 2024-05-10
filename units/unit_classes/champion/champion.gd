@@ -19,33 +19,30 @@ func _init() -> void:
 		Weapon.Types.AXE: Weapon.Ranks.S,
 	}
 
-	_base_stats = {
-		Unit.Stats.HIT_POINTS: 29,
-		Unit.Stats.STRENGTH: 11,
-		Unit.Stats.PIERCE: 0,
-		Unit.Stats.MAGIC: 5,
-		Unit.Stats.SKILL: 13,
-		Unit.Stats.SPEED: 12,
-		Unit.Stats.LUCK: 6,
-		Unit.Stats.DEFENSE: 5,
-		Unit.Stats.ARMOR: 3,
-		Unit.Stats.RESISTANCE: 6,
-		Unit.Stats.MOVEMENT: 7,
-		Unit.Stats.CONSTITUTION: 11,
-	}
-	_end_stats = {
-		Unit.Stats.HIT_POINTS: 50,
-		Unit.Stats.STRENGTH: 28,
-		Unit.Stats.PIERCE: 0,
-		Unit.Stats.MAGIC: 24,
-		Unit.Stats.SKILL: 30,
-		Unit.Stats.SPEED: 30,
-		Unit.Stats.LUCK: 23,
-		Unit.Stats.DEFENSE: 24,
-		Unit.Stats.ARMOR: 20,
-		Unit.Stats.RESISTANCE: 26,
-		Unit.Stats.MOVEMENT: 7,
-		Unit.Stats.CONSTITUTION: 11,
-	}
+	_base_hit_points = 29
+	_base_strength = 11
+	_base_pierce = 0
+	_base_magic = 5
+	_base_skill = 13
+	_base_speed = 12
+	_base_luck = 6
+	_base_defense = 5
+	_base_armor = 3
+	_base_resistance = 6
+	_base_movement = 7
+	_base_constitution = 11
+
+	_end_hit_points = 50
+	_end_strength = 28
+	_end_pierce = 0
+	_end_magic = 24
+	_end_skill = 30
+	_end_speed = 30
+	_end_luck = 23
+	_end_defense = 24
+	_end_armor = 20
+	_end_resistance = 26
+	_end_movement = 7
+	_end_constitution = 11
 
 	_map_sprite = load("res://units/unit_classes/champion/champion_m.png")

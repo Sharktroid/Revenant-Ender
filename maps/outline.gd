@@ -8,7 +8,7 @@ func _draw() -> void:
 	for outline_faction: Faction in MapController.map.all_factions:
 		var current_outlined_units: Array[Unit] = []
 		if outline_faction in outlined_units:
-			current_outlined_units.assign(outlined_units[outline_faction])
+			current_outlined_units.assign(outlined_units[outline_faction] as Array)
 		var all_current_coords: Array[Vector2i] = []
 		var all_general_coords: Array[Vector2i] = []
 		var unit_highlight: Color

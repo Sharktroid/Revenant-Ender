@@ -16,3 +16,5 @@ func _init() -> void:
 	_description = "A cheap, easy to wield bow."
 #	effective_classes
 	super()
+	_min_range = 1
+	_max_range = 10

@@ -43,6 +43,7 @@ const EXP_MULTIPLIER: float = 2
 const ONE_ROUND_EXP_BASE: float = float(BASE_EXP) / 3
 ## The amount of combat experience reserved for when an enemy is killed
 const KILL_EXP_PERCENT: float = 0.25
+const DEFAULT_PERSONAL_VALUE: int = 5
 const _MOVEMENT_ARROWS: PackedScene = preload("res://maps/map_tiles/movement_arrows.tscn")
 
 ## Unit's faction. Should be in the map's Faction stack.
@@ -61,8 +62,6 @@ var level: int:
 		total_exp = Unit.get_exp_from_level(value)
 	get:
 		return floori(Unit.get_level_from_exp(total_exp))
-var personal_values: Dictionary
-var effort_values: Dictionary
 var current_movement: float
 var dead: bool = false
 var outline_highlight: bool = false
@@ -101,6 +100,44 @@ var faction: Faction:
 		)
 	set(new_faction):
 		faction_id = get_map().all_factions.find(new_faction)
+
+var effort_hit_points: int
+var effort_strength: int
+var effort_pierce: int
+var effort_magic: int
+var effort_skill: int
+var effort_speed: int
+var effort_luck: int
+var effort_defense: int
+var effort_armor: int
+var effort_resistance: int
+var effort_movement: int
+var effort_constitution: int
+
+@warning_ignore("unused_private_class_variable")
+var _personal_hit_points: int
+@warning_ignore("unused_private_class_variable")
+var _personal_strength: int
+@warning_ignore("unused_private_class_variable")
+var _personal_pierce: int
+@warning_ignore("unused_private_class_variable")
+var _personal_magic: int
+@warning_ignore("unused_private_class_variable")
+var _personal_skill: int
+@warning_ignore("unused_private_class_variable")
+var _personal_speed: int
+@warning_ignore("unused_private_class_variable")
+var _personal_luck: int
+@warning_ignore("unused_private_class_variable")
+var _personal_defense: int
+@warning_ignore("unused_private_class_variable")
+var _personal_armor: int
+@warning_ignore("unused_private_class_variable")
+var _personal_resistance: int
+@warning_ignore("unused_private_class_variable")
+var _personal_movement: int
+@warning_ignore("unused_private_class_variable")
+var _personal_constitution: int
 
 var _map: Map
 var _animation_player: AnimationPlayer
@@ -172,7 +209,9 @@ func _enter_tree() -> void:
 	_animation_player = $AnimationPlayer as AnimationPlayer
 	_traveler_animation_player = $"TravelerIcon/AnimationPlayer" as AnimationPlayer
 	level = base_level
-	for weapon_type: Weapon.Types in unit_class.get_base_weapon_levels().keys() as Array[Weapon.Types]:
+	for weapon_type: Weapon.Types in (
+		unit_class.get_base_weapon_levels().keys() as Array[Weapon.Types]
+	):
 		if weapon_type not in weapon_levels.keys():
 			weapon_levels[weapon_type] = lerpf(
 				unit_class.get_base_weapon_levels()[weapon_type] as float,
@@ -303,10 +342,7 @@ func get_stat_boost(stat: Stats) -> int:
 
 
 func get_stat(stat: Stats, current_level: int = level) -> int:
-	var weight: float = inverse_lerp(1, unit_class.get_max_level(), current_level)
-	var leveled_stat: float = lerpf(
-		unit_class.get_base_stats().get(stat, 0), unit_class.get_end_stats().get(stat, 0), weight
-	)
+	var leveled_stat: float = unit_class.get_stat(stat, current_level)
 	var unclamped_stat: int = roundi(
 		leveled_stat * _get_personal_value_multiplier(stat) * _get_effort_value_multiplier(stat)
 	)
@@ -316,7 +352,7 @@ func get_stat(stat: Stats, current_level: int = level) -> int:
 func get_stat_cap(stat: Stats) -> int:
 	return roundi(
 		(
-			(unit_class.get_end_stats().get(stat, 0))
+			(unit_class.get_end_stat(stat))
 			* (1 + PERSONAL_VALUE_MULTIPLIER)
 			* (1 + EFFORT_VALUE_MULTIPLIER)
 		)
@@ -424,10 +460,10 @@ func get_path_last_pos() -> Vector2i:
 
 func get_stat_table(stat: Stats) -> Array[String]:
 	var table_items: Dictionary = {
-		"Class Base": str(unit_class.get_base_stats().get(stat, 0)),
-		"Class Final": str(unit_class.get_end_stats().get(stat, 0)),
-		"PersonalValues ": str(personal_values.get(stat, 0)),
-		"EffortValues": str(effort_values.get(stat, 0)),
+		"Class Base": str(unit_class.get_base_stat(stat)),
+		"Class Final": str(unit_class.get_end_stat(stat)),
+		"Personal Value": str(get_personal_value(stat)),
+		"Effort Value": str(get_effort_value(stat)),
 	}
 	return Utilities.dict_to_table(table_items)
 
@@ -478,6 +514,14 @@ static func get_exp_to_level(current_level: float) -> float:
 
 func get_exp_percent() -> int:
 	return floori((roundf(get_current_exp()) / Unit.get_exp_to_level(level + 1)) * 100)
+
+
+func get_personal_value(stat: Stats) -> int:
+	return get("_personal_%s" % (Unit.Stats.find_key(stat) as String).to_snake_case())
+
+
+func get_effort_value(stat: Stats) -> int:
+	return get("effort_%s" % (Unit.Stats.find_key(stat) as String).to_snake_case())
 
 
 func has_skill_attribute(attrib: Skill.AllAttributes) -> bool:
@@ -901,14 +945,12 @@ func _on_area2d_area_entered(area: Area2D) -> void:
 
 
 func _get_personal_value_multiplier(stat: Stats) -> float:
-	var personal_value: int = clampi(personal_values.get(stat, 5), 0, PERSONAL_VALUE_LIMIT)
+	var personal_value: int = clampi(get_personal_value(stat) as int, 0, PERSONAL_VALUE_LIMIT)
 	return 1 + ((personal_value as float) / PERSONAL_VALUE_LIMIT * PERSONAL_VALUE_MULTIPLIER)
 
 
 func _get_effort_value_multiplier(stat: Stats) -> float:
-	var effort_value: int = clampi(
-		effort_values.get(stat, 0) as int, 0, INDIVIDUAL_EFFORT_VALUE_LIMIT
-	)
+	var effort_value: int = clampi(get_effort_value(stat) as int, 0, INDIVIDUAL_EFFORT_VALUE_LIMIT)
 	return 1 + ((effort_value as float) / INDIVIDUAL_EFFORT_VALUE_LIMIT * EFFORT_VALUE_MULTIPLIER)
 
 
@@ -916,4 +958,5 @@ func _on_area2d_area_exited(area: Area2D) -> void:
 	# When cursor exits unit's area
 	if area == CursorController.get_area() and not selected:
 		hide_movement_tiles()
+		# gdlint:ignore = max-file-lines
 		cursor_exited.emit()
