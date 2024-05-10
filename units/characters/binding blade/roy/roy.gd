@@ -8,7 +8,7 @@ func _init() -> void:
 	_personal_hit_points = 5
 	_personal_strength = 5
 	_personal_pierce = 5
-	_personal_magic = 5
+	_personal_intelligence = 5
 	_personal_skill = 5
 	_personal_speed = 8
 	_personal_luck = 12
@@ -16,6 +16,5 @@ func _init() -> void:
 	_personal_armor = 5
 	_personal_resistance = 5
 	_personal_movement = 5
-	_personal_constitution = 5
+	_personal_build = 5
 	personal_authority = 1
-	print_debug(effort_hit_points)

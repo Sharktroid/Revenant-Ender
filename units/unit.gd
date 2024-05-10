@@ -11,7 +11,7 @@ enum Stats {
 	HIT_POINTS,
 	STRENGTH,
 	PIERCE,
-	MAGIC,
+	INTELLIGENCE,
 	SKILL,
 	SPEED,
 	LUCK,
@@ -19,7 +19,7 @@ enum Stats {
 	ARMOR,
 	RESISTANCE,
 	MOVEMENT,
-	CONSTITUTION,
+	BUILD,
 }
 
 ## Duration of fade-away upon death
@@ -104,7 +104,7 @@ var faction: Faction:
 var effort_hit_points: int
 var effort_strength: int
 var effort_pierce: int
-var effort_magic: int
+var effort_intelligence: int
 var effort_skill: int
 var effort_speed: int
 var effort_luck: int
@@ -112,7 +112,7 @@ var effort_defense: int
 var effort_armor: int
 var effort_resistance: int
 var effort_movement: int
-var effort_constitution: int
+var effort_build: int
 
 @warning_ignore("unused_private_class_variable")
 var _personal_hit_points: int
@@ -121,7 +121,7 @@ var _personal_strength: int
 @warning_ignore("unused_private_class_variable")
 var _personal_pierce: int
 @warning_ignore("unused_private_class_variable")
-var _personal_magic: int
+var _personal_intelligence: int
 @warning_ignore("unused_private_class_variable")
 var _personal_skill: int
 @warning_ignore("unused_private_class_variable")
@@ -137,7 +137,7 @@ var _personal_resistance: int
 @warning_ignore("unused_private_class_variable")
 var _personal_movement: int
 @warning_ignore("unused_private_class_variable")
-var _personal_constitution: int
+var _personal_build: int
 
 var _map: Map
 var _animation_player: AnimationPlayer
@@ -279,8 +279,8 @@ func get_raw_attack() -> int:
 				current_attack = get_stat(Stats.STRENGTH)
 			Weapon.DamageTypes.RANGED:
 				current_attack = get_stat(Stats.PIERCE)
-			Weapon.DamageTypes.MAGIC:
-				current_attack = get_stat(Stats.MAGIC)
+			Weapon.DamageTypes.INTELLIGENCE:
+				current_attack = get_stat(Stats.INTELLIGENCE)
 		return get_current_weapon().get_might() + current_attack
 	return 0
 
@@ -361,14 +361,14 @@ func get_stat_cap(stat: Stats) -> int:
 
 func get_attack_speed() -> int:
 	var weight: int = get_current_weapon().get_weight() if get_current_weapon() else 0
-	return get_stat(Stats.SPEED) - maxi(weight - get_stat(Stats.CONSTITUTION), 0)
+	return get_stat(Stats.SPEED) - maxi(weight - get_stat(Stats.BUILD), 0)
 
 
 func get_current_defence(attacker_weapon_type: Weapon.DamageTypes) -> int:
 	match attacker_weapon_type:
 		Weapon.DamageTypes.RANGED:
 			return get_stat(Stats.ARMOR)
-		Weapon.DamageTypes.MAGIC:
+		Weapon.DamageTypes.INTELLIGENCE:
 			return get_stat(Stats.RESISTANCE)
 		Weapon.DamageTypes.PHYSICAL:
 			return get_stat(Stats.DEFENSE)
@@ -403,14 +403,14 @@ func get_portrait_offset() -> Vector2i:
 func get_aid() -> int:
 	var aid_mod: int = unit_class.get_aid_modifier()
 	return (
-		get_stat(Stats.CONSTITUTION) + aid_mod
+		get_stat(Stats.BUILD) + aid_mod
 		if aid_mod <= 0
-		else aid_mod - get_stat(Stats.CONSTITUTION)
+		else aid_mod - get_stat(Stats.BUILD)
 	)
 
 
 func get_weight() -> int:
-	return get_stat(Stats.CONSTITUTION) + unit_class.get_weight_modifier()
+	return get_stat(Stats.BUILD) + unit_class.get_weight_modifier()
 
 
 func get_hit() -> int:

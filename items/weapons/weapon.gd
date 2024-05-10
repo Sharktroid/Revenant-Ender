@@ -16,7 +16,7 @@ enum Types {
 	CLAW,
 }
 enum Ranks { S = 251, A = 181, B = 121, C = 71, D = 31, E = 1, DISABLED = 0 }
-enum DamageTypes { PHYSICAL, RANGED, MAGIC }
+enum DamageTypes { PHYSICAL, RANGED, INTELLIGENCE }
 
 var _rank: int
 var _might: int
@@ -42,7 +42,7 @@ func _init() -> void:
 			Types.BOW:
 				_damage_type = DamageTypes.RANGED
 			Types.COBALT_STAFF, Types.CRIMSON_STAFF, Types.LIGHT, Types.DARK, Types.ANIMA:
-				_damage_type = DamageTypes.MAGIC
+				_damage_type = DamageTypes.INTELLIGENCE
 	if not _damage_type_ranged:
 		_damage_type_ranged = _damage_type
 	super()

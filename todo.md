@@ -1,5 +1,4 @@
 # Minor
-* Rename "Magic" to "Intelligence" and "Constitution" to "Build"
 * Remove "E" weapon rank
 * Have unit end Stats be interpolated from level 30 for all classes
 * Have the PV and EV multipliers be set to √(4/3)

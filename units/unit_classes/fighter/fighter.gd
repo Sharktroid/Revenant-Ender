@@ -16,7 +16,7 @@ func _init() -> void:
 	_base_hit_points = 23
 	_base_strength = 7
 	_base_pierce = 0
-	_base_magic = 0
+	_base_intelligence = 0
 	_base_skill = 6
 	_base_speed = 6
 	_base_luck = 2
@@ -24,12 +24,12 @@ func _init() -> void:
 	_base_armor = 2
 	_base_resistance = 1
 	_base_movement = 6
-	_base_constitution = 11
+	_base_build = 11
 
 	_end_hit_points = 47
 	_end_strength = 24
 	_end_pierce = 0
-	_end_magic = 0
+	_end_intelligence = 0
 	_end_skill = 23
 	_end_speed = 21
 	_end_luck = 15
@@ -37,5 +37,5 @@ func _init() -> void:
 	_end_armor = 16
 	_end_resistance = 17
 	_end_movement = 6
-	_end_constitution = 11
+	_end_build = 11
 	super()

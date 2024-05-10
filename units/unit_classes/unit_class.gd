@@ -22,7 +22,7 @@ enum MovementTypes {
 var _base_hit_points: int
 var _base_strength: int
 var _base_pierce: int
-var _base_magic: int
+var _base_intelligence: int
 var _base_skill: int
 var _base_speed: int
 var _base_luck: int
@@ -30,12 +30,12 @@ var _base_defense: int
 var _base_armor: int
 var _base_resistance: int
 var _base_movement: int
-var _base_constitution: int
+var _base_build: int
 
 var _end_hit_points: int
 var _end_strength: int
 var _end_pierce: int
-var _end_magic: int
+var _end_intelligence: int
 var _end_skill: int
 var _end_speed: int
 var _end_luck: int
@@ -43,7 +43,7 @@ var _end_defense: int
 var _end_armor: int
 var _end_resistance: int
 var _end_movement: int
-var _end_constitution: int
+var _end_build: int
 
 var _base_weapon_levels: Dictionary
 var _max_weapon_levels: Dictionary
@@ -51,7 +51,7 @@ var _max_level: int = 30
 var _movement_type: MovementTypes  # Movement class for handling moving over terrain.
 var _map_sprite: CompressedTexture2D
 var _default_portrait: Texture2D
-## Modifier applied to constitution when calculating aid.
+## Modifier applied to build when calculating aid.
 ## Negative values means aid = (con + _aid_modifier);
 ## positive values means aid = (_aid_modifier - con); zero means aid = con
 var _aid_modifier: int = -1
@@ -85,8 +85,8 @@ func get_base_pierce() -> int:
 	return _base_pierce
 
 
-func get_base_magic() -> int:
-	return _base_magic
+func get_base_intelligence() -> int:
+	return _base_intelligence
 
 
 func get_base_skill() -> int:
@@ -117,8 +117,8 @@ func get_base_movement() -> int:
 	return _base_movement
 
 
-func get_base_constitution() -> int:
-	return _base_constitution
+func get_base_build() -> int:
+	return _base_build
 
 
 func get_end_stat(stat: Unit.Stats) -> int:
@@ -137,8 +137,8 @@ func get_end_pierce() -> int:
 	return _end_pierce
 
 
-func get_end_magic() -> int:
-	return _end_magic
+func get_end_intelligence() -> int:
+	return _end_intelligence
 
 
 func get_end_skill() -> int:
@@ -169,8 +169,8 @@ func get_end_movement() -> int:
 	return _end_movement
 
 
-func get_end_constitution() -> int:
-	return _end_constitution
+func get_end_build() -> int:
+	return _end_build
 
 
 func get_stat(stat: Unit.Stats, level: int) -> float:

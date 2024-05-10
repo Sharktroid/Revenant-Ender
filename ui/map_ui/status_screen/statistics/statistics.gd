@@ -24,14 +24,14 @@ func update() -> void:
 
 	_update_stat_bar(%StrengthBar as StatBar, Unit.Stats.STRENGTH)
 	_update_stat_bar(%PierceBar as StatBar, Unit.Stats.PIERCE)
-	_update_stat_bar(%MagicBar as StatBar, Unit.Stats.MAGIC)
+	_update_stat_bar(%IntelligenceBar as StatBar, Unit.Stats.INTELLIGENCE)
 	_update_stat_bar(%DefenseBar as StatBar, Unit.Stats.DEFENSE)
 	_update_stat_bar(%ArmorBar as StatBar, Unit.Stats.ARMOR)
 	_update_stat_bar(%ResistanceBar as StatBar, Unit.Stats.RESISTANCE)
 	_update_stat_bar(%SkillBar as StatBar, Unit.Stats.SKILL)
 	_update_stat_bar(%SpeedBar as StatBar, Unit.Stats.SPEED)
 	_update_stat_bar(%LuckBar as StatBar, Unit.Stats.LUCK)
-	_update_stat_bar(%ConstitutionBar as StatBar, Unit.Stats.CONSTITUTION)
+	_update_stat_bar(%BuildBar as StatBar, Unit.Stats.BUILD)
 	_update_stat_bar(%MovementBar as StatBar, Unit.Stats.MOVEMENT)
 
 	(%WeightValue as Label).text = str(observing_unit.get_weight())
@@ -48,7 +48,7 @@ func update() -> void:
 	(%WeightNumber as HelpContainer).help_description = (
 		"%d + %d"
 		% [
-			observing_unit.get_stat(Unit.Stats.CONSTITUTION),
+			observing_unit.get_stat(Unit.Stats.BUILD),
 			observing_unit.unit_class.get_weight_modifier()
 		]
 	)
@@ -57,20 +57,20 @@ func update() -> void:
 		aid_number.help_description = (
 			"%d - %d"
 			% [
-				observing_unit.get_stat(Unit.Stats.CONSTITUTION),
+				observing_unit.get_stat(Unit.Stats.BUILD),
 				-observing_unit.unit_class.get_aid_modifier()
 			]
 		)
 	elif observing_unit.unit_class.get_aid_modifier() == 0:
 		aid_number.help_description = (
-			"%d + 0" % [observing_unit.get_stat(Unit.Stats.CONSTITUTION)]
+			"%d + 0" % [observing_unit.get_stat(Unit.Stats.BUILD)]
 		)
 	else:
 		aid_number.help_description = (
 			"%d - %d"
 			% [
 				observing_unit.unit_class.get_aid_modifier(),
-				observing_unit.get_stat(Unit.Stats.CONSTITUTION)
+				observing_unit.get_stat(Unit.Stats.BUILD)
 			]
 		)
 

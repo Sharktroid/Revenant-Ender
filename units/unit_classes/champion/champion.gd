@@ -22,7 +22,7 @@ func _init() -> void:
 	_base_hit_points = 29
 	_base_strength = 11
 	_base_pierce = 0
-	_base_magic = 5
+	_base_intelligence = 5
 	_base_skill = 13
 	_base_speed = 12
 	_base_luck = 6
@@ -30,12 +30,12 @@ func _init() -> void:
 	_base_armor = 3
 	_base_resistance = 6
 	_base_movement = 7
-	_base_constitution = 11
+	_base_build = 11
 
 	_end_hit_points = 50
 	_end_strength = 28
 	_end_pierce = 0
-	_end_magic = 24
+	_end_intelligence = 24
 	_end_skill = 30
 	_end_speed = 30
 	_end_luck = 23
@@ -43,6 +43,6 @@ func _init() -> void:
 	_end_armor = 20
 	_end_resistance = 26
 	_end_movement = 7
-	_end_constitution = 11
+	_end_build = 11
 
 	_map_sprite = load("res://units/unit_classes/champion/champion_m.png")

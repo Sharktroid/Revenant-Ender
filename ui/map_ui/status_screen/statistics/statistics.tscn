@@ -68,7 +68,7 @@ layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_top = NodePath("../StrengthHelp")
 focus_neighbor_right = NodePath("../../Values/PierceBar")
-focus_neighbor_bottom = NodePath("../MagicHelp")
+focus_neighbor_bottom = NodePath("../IntelligenceHelp")
 script = ExtResource("2_6g5y4")
 help_description = "Increases the damage that bows and similar weapons deal by +1."
 
@@ -79,21 +79,21 @@ theme_type_variation = &"YellowLabel"
 text = "Pierce"
 vertical_alignment = 1
 
-[node name="MagicHelp" type="BoxContainer" parent="TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels"]
+[node name="IntelligenceHelp" type="BoxContainer" parent="TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels"]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_top = NodePath("../PierceHelp")
-focus_neighbor_right = NodePath("../../Values/MagicBar")
+focus_neighbor_right = NodePath("../../Values/IntelligenceBar")
 focus_neighbor_bottom = NodePath("../../../../../BottomPanels/MiscStats/HBoxContainer/MiscLabels/SkillHelp")
 script = ExtResource("2_6g5y4")
-help_description = "Increases the damage that tomes and magical weapons deal by +1.
+help_description = "Increases the damage that tomes and intelligenceal weapons deal by +1.
 It also raises the accuracy of crimson staves by +10."
 
-[node name="MagicLabel" type="Label" parent="TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels/MagicHelp" groups=["values"]]
+[node name="IntelligenceLabel" type="Label" parent="TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels/IntelligenceHelp" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
-text = "Magic"
+text = "Intelligence"
 vertical_alignment = 1
 
 [node name="Values" type="VBoxContainer" parent="TopPanels/OffensiveStats/HBoxContainer"]
@@ -115,12 +115,12 @@ layout_mode = 2
 focus_neighbor_left = NodePath("../../OffensiveLabels/PierceHelp")
 focus_neighbor_top = NodePath("../StrengthBar")
 focus_neighbor_right = NodePath("../../../../DefensiveStats/HBoxContainer/DefensiveLabels/ArmorHelp")
-focus_neighbor_bottom = NodePath("../MagicBar")
+focus_neighbor_bottom = NodePath("../IntelligenceBar")
 
-[node name="MagicBar" parent="TopPanels/OffensiveStats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
+[node name="IntelligenceBar" parent="TopPanels/OffensiveStats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
 unique_name_in_owner = true
 layout_mode = 2
-focus_neighbor_left = NodePath("../../OffensiveLabels/MagicHelp")
+focus_neighbor_left = NodePath("../../OffensiveLabels/IntelligenceHelp")
 focus_neighbor_top = NodePath("../PierceBar")
 focus_neighbor_right = NodePath("../../../../DefensiveStats/HBoxContainer/DefensiveLabels/ResistanceHelp")
 focus_neighbor_bottom = NodePath("../../../../../BottomPanels/MiscStats/HBoxContainer/Values/SkillBar")
@@ -177,12 +177,12 @@ vertical_alignment = 1
 [node name="ResistanceHelp" type="BoxContainer" parent="TopPanels/DefensiveStats/HBoxContainer/DefensiveLabels"]
 layout_mode = 2
 size_flags_vertical = 3
-focus_neighbor_left = NodePath("../../../../OffensiveStats/HBoxContainer/Values/MagicBar")
+focus_neighbor_left = NodePath("../../../../OffensiveStats/HBoxContainer/Values/IntelligenceBar")
 focus_neighbor_top = NodePath("../ArmorHelp")
 focus_neighbor_right = NodePath("../../Values/ResistanceBar")
 focus_neighbor_bottom = NodePath("../../../../../BottomPanels/Other/HBoxContainer/OtherLabels/AuthorityHelp")
 script = ExtResource("2_6g5y4")
-help_description = "Reduces the damage tomes and magical weapons deal.
+help_description = "Reduces the damage tomes and intelligenceal weapons deal.
 It also lowers the accuracy of crimson staves by -10."
 
 [node name="ResistanceLabel" type="Label" parent="TopPanels/DefensiveStats/HBoxContainer/DefensiveLabels/ResistanceHelp" groups=["values"]]
@@ -244,7 +244,7 @@ theme_override_constants/separation = 0
 [node name="SkillHelp" type="BoxContainer" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels"]
 layout_mode = 2
 size_flags_vertical = 3
-focus_neighbor_top = NodePath("../../../../../TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels/MagicHelp")
+focus_neighbor_top = NodePath("../../../../../TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels/IntelligenceHelp")
 focus_neighbor_right = NodePath("../../Values/SkillBar")
 focus_neighbor_bottom = NodePath("../SpeedHelp")
 script = ExtResource("2_6g5y4")
@@ -280,7 +280,7 @@ layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_top = NodePath("../SpeedHelp")
 focus_neighbor_right = NodePath("../../Values/LuckBar")
-focus_neighbor_bottom = NodePath("../ConstitutionHelp")
+focus_neighbor_bottom = NodePath("../BuildHelp")
 script = ExtResource("2_6g5y4")
 help_description = "Increases hit rate, avoid rate, and critical avoid rate by +1 each."
 
@@ -291,27 +291,27 @@ theme_type_variation = &"YellowLabel"
 text = "Luck"
 vertical_alignment = 1
 
-[node name="ConstitutionHelp" type="BoxContainer" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels"]
+[node name="BuildHelp" type="BoxContainer" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels"]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_top = NodePath("../LuckHelp")
-focus_neighbor_right = NodePath("../../Values/ConstitutionBar")
+focus_neighbor_right = NodePath("../../Values/BuildBar")
 focus_neighbor_bottom = NodePath("../MovementHelp")
 script = ExtResource("2_6g5y4")
 help_description = "Reduces weapon weight and increases weight.
 Increases foot units' aid, decreases mounted units' aid."
 
-[node name="ConstitutionLabel" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/ConstitutionHelp" groups=["values"]]
+[node name="BuildLabel" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/BuildHelp" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
-text = "Constitution"
+text = "Build"
 vertical_alignment = 1
 
 [node name="MovementHelp" type="BoxContainer" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels"]
 layout_mode = 2
 size_flags_vertical = 3
-focus_neighbor_top = NodePath("../ConstitutionHelp")
+focus_neighbor_top = NodePath("../BuildHelp")
 focus_neighbor_right = NodePath("../../Values/MovementBar")
 script = ExtResource("2_6g5y4")
 help_description = "Increases the amount of tiles that can be traversed in a turn."
@@ -333,7 +333,7 @@ theme_override_constants/separation = 0
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath("../../MiscLabels/SkillHelp")
-focus_neighbor_top = NodePath("../../../../../TopPanels/OffensiveStats/HBoxContainer/Values/MagicBar")
+focus_neighbor_top = NodePath("../../../../../TopPanels/OffensiveStats/HBoxContainer/Values/IntelligenceBar")
 focus_neighbor_right = NodePath("../../../../Other/HBoxContainer/OtherLabels/AuthorityHelp")
 focus_neighbor_bottom = NodePath("../SpeedBar")
 
@@ -350,12 +350,12 @@ layout_mode = 2
 focus_neighbor_left = NodePath("../../MiscLabels/LuckHelp")
 focus_neighbor_top = NodePath("../SpeedBar")
 focus_neighbor_right = NodePath("../../../../Other/HBoxContainer/OtherLabels/AidHelp")
-focus_neighbor_bottom = NodePath("../ConstitutionBar")
+focus_neighbor_bottom = NodePath("../BuildBar")
 
-[node name="ConstitutionBar" parent="BottomPanels/MiscStats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
+[node name="BuildBar" parent="BottomPanels/MiscStats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
 unique_name_in_owner = true
 layout_mode = 2
-focus_neighbor_left = NodePath("../../MiscLabels/ConstitutionHelp")
+focus_neighbor_left = NodePath("../../MiscLabels/BuildHelp")
 focus_neighbor_top = NodePath("../LuckBar")
 focus_neighbor_right = NodePath("../../../../Other/HBoxContainer/OtherLabels/TravelerHelp")
 focus_neighbor_bottom = NodePath("../MovementBar")
@@ -364,7 +364,7 @@ focus_neighbor_bottom = NodePath("../MovementBar")
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath("../../MiscLabels/MovementHelp")
-focus_neighbor_top = NodePath("../ConstitutionBar")
+focus_neighbor_top = NodePath("../BuildBar")
 focus_neighbor_right = NodePath("../../../../Other/HBoxContainer/OtherLabels/StatusHelp")
 
 [node name="Other" type="PanelContainer" parent="BottomPanels"]
@@ -406,7 +406,7 @@ focus_neighbor_right = NodePath("../../Values/WeightNumber")
 focus_neighbor_bottom = NodePath("../AidHelp")
 script = ExtResource("2_6g5y4")
 help_description = "Determines what the unit can shove, be shoved by, and be rescued by.
-Affected by class and Constitution."
+Affected by class and Build."
 
 [node name="Weight" type="Label" parent="BottomPanels/Other/HBoxContainer/OtherLabels/WeightHelp" groups=["values"]]
 layout_mode = 2
@@ -435,7 +435,7 @@ vertical_alignment = 1
 [node name="TravelerHelp" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/OtherLabels"]
 layout_mode = 2
 size_flags_vertical = 3
-focus_neighbor_left = NodePath("../../../../MiscStats/HBoxContainer/Values/ConstitutionBar")
+focus_neighbor_left = NodePath("../../../../MiscStats/HBoxContainer/Values/BuildBar")
 focus_neighbor_top = NodePath("../AidHelp")
 focus_neighbor_bottom = NodePath("../StatusHelp")
 script = ExtResource("2_6g5y4")

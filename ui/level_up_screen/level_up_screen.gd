@@ -63,7 +63,7 @@ func _ready() -> void:
 		Unit.Stats.HIT_POINTS,
 		Unit.Stats.STRENGTH,
 		Unit.Stats.PIERCE,
-		Unit.Stats.MAGIC,
+		Unit.Stats.INTELLIGENCE,
 		Unit.Stats.SKILL,
 		Unit.Stats.SPEED,
 		Unit.Stats.MOVEMENT,
@@ -71,7 +71,7 @@ func _ready() -> void:
 		Unit.Stats.ARMOR,
 		Unit.Stats.RESISTANCE,
 		Unit.Stats.LUCK,
-		Unit.Stats.CONSTITUTION
+		Unit.Stats.BUILD
 	]
 	for stat: Unit.Stats in stat_order:
 		var old_stat: int = unit.get_stat(stat, old_level)

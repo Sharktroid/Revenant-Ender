@@ -1,9 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://vj0tla3sjiqf"]
+[gd_scene load_steps=16 format=3 uid="uid://vj0tla3sjiqf"]
 
 [ext_resource type="Script" path="res://ui/level_up_screen/level_up_screen.gd" id="1_3uup4"]
 [ext_resource type="Texture2D" uid="uid://3o8kne07fkpy" path="res://ui/level_up_screen/tile.png" id="2_irpi1"]
 [ext_resource type="Texture2D" uid="uid://bfgrhf7nr6cdp" path="res://ui/level_up_screen/border.png" id="2_tpnit"]
-[ext_resource type="PackedScene" uid="uid://d4ca3lxq0obvn" path="res://ui/level_up_screen/level_up_splash/level_up_splash.tscn" id="2_v3b6j"]
 [ext_resource type="Texture2D" uid="uid://cjaf0211l33ch" path="res://ui/level_up_screen/top.png" id="3_0ovg7"]
 [ext_resource type="Texture2D" uid="uid://dsv45xgk13ln3" path="res://ui/level_up_screen/separator.png" id="3_foq5t"]
 [ext_resource type="Texture2D" uid="uid://cuxknjdd6ib13" path="res://ui/level_up_screen/bar.png" id="3_liwl3"]
@@ -67,9 +66,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_3uup4")
-
-[node name="LevelUpSplash" parent="." instance=ExtResource("2_v3b6j")]
-layout_mode = 1
 
 [node name="Children" type="Control" parent="."]
 anchors_preset = 0
@@ -176,7 +172,7 @@ grow_vertical = 2
 [node name="HPLabel" type="Label" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/HitPointsContainer/HBoxContainer"]
 layout_mode = 2
 theme_type_variation = &"YellowLabel"
-text = "HitPoints"
+text = "Hit Points"
 
 [node name="HitPointsValue" type="Label" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/HitPointsContainer/HBoxContainer"]
 unique_name_in_owner = true
@@ -269,12 +265,12 @@ horizontal_alignment = 2
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 
-[node name="MagicContainer" type="Control" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer"]
+[node name="IntelligenceContainer" type="Control" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Panel" type="Panel" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/MagicContainer"]
+[node name="Panel" type="Panel" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/IntelligenceContainer"]
 visible = false
 layout_mode = 0
 offset_top = 10.0
@@ -282,7 +278,7 @@ offset_right = 79.0
 offset_bottom = 13.0
 theme_override_styles/panel = SubResource("StyleBoxTexture_prpvg")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/MagicContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/IntelligenceContainer"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -290,12 +286,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MagicLabel" type="Label" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/MagicContainer/HBoxContainer"]
+[node name="IntelligenceLabel" type="Label" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/IntelligenceContainer/HBoxContainer"]
 layout_mode = 2
 theme_type_variation = &"YellowLabel"
-text = "Magic"
+text = "Intelligence"
 
-[node name="MagicValue" type="Label" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/MagicContainer/HBoxContainer"]
+[node name="IntelligenceValue" type="Label" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/IntelligenceContainer/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(11, 0)
 layout_mode = 2
@@ -304,7 +300,7 @@ theme_type_variation = &"BlueLabel"
 text = "19"
 horizontal_alignment = 2
 
-[node name="Spacer" type="Control" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/MagicContainer/HBoxContainer"]
+[node name="Spacer" type="Control" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/IntelligenceContainer/HBoxContainer"]
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 
@@ -604,12 +600,12 @@ horizontal_alignment = 2
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 
-[node name="ConstitutionContainer" type="Control" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer"]
+[node name="BuildContainer" type="Control" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Panel" type="Panel" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer/ConstitutionContainer"]
+[node name="Panel" type="Panel" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer/BuildContainer"]
 visible = false
 layout_mode = 0
 offset_left = 1.0
@@ -618,7 +614,7 @@ offset_right = 79.0
 offset_bottom = 13.0
 theme_override_styles/panel = SubResource("StyleBoxTexture_prpvg")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer/ConstitutionContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer/BuildContainer"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -626,12 +622,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ConstitutionLabel" type="Label" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer/ConstitutionContainer/HBoxContainer"]
+[node name="BuildLabel" type="Label" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer/BuildContainer/HBoxContainer"]
 layout_mode = 2
 theme_type_variation = &"YellowLabel"
-text = "Constitution"
+text = "Build"
 
-[node name="ConstitutionValue" type="Label" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer/ConstitutionContainer/HBoxContainer"]
+[node name="BuildValue" type="Label" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer/BuildContainer/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(11, 0)
 layout_mode = 2
@@ -640,7 +636,7 @@ theme_type_variation = &"BlueLabel"
 text = "19"
 horizontal_alignment = 2
 
-[node name="Spacer" type="Control" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer/ConstitutionContainer/HBoxContainer"]
+[node name="Spacer" type="Control" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer/BuildContainer/HBoxContainer"]
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 
@@ -673,7 +669,7 @@ offset_top = 143.0
 offset_right = 255.0
 offset_bottom = 159.0
 
-[node name="MagicChange" parent="Children/StatChanges" instance=ExtResource("8_mke8r")]
+[node name="IntelligenceChange" parent="Children/StatChanges" instance=ExtResource("8_mke8r")]
 visible = false
 layout_mode = 0
 offset_left = 245.0
@@ -737,7 +733,7 @@ offset_top = 175.0
 offset_right = 351.0
 offset_bottom = 191.0
 
-[node name="ConstitutionChange" parent="Children/StatChanges" instance=ExtResource("8_mke8r")]
+[node name="BuildChange" parent="Children/StatChanges" instance=ExtResource("8_mke8r")]
 visible = false
 layout_mode = 0
 offset_left = 341.0
@@ -767,7 +763,7 @@ position = Vector2(236, 134)
 [node name="PierceSparkle" parent="Children/Sparkles" instance=ExtResource("10_k7t2k")]
 position = Vector2(236, 150)
 
-[node name="MagicSparkle" parent="Children/Sparkles" instance=ExtResource("10_k7t2k")]
+[node name="IntelligenceSparkle" parent="Children/Sparkles" instance=ExtResource("10_k7t2k")]
 position = Vector2(236, 166)
 
 [node name="SkillSparkle" parent="Children/Sparkles" instance=ExtResource("10_k7t2k")]
@@ -791,5 +787,5 @@ position = Vector2(332, 166)
 [node name="LuckSparkle" parent="Children/Sparkles" instance=ExtResource("10_k7t2k")]
 position = Vector2(332, 182)
 
-[node name="ConstitutionSparkle" parent="Children/Sparkles" instance=ExtResource("10_k7t2k")]
+[node name="BuildSparkle" parent="Children/Sparkles" instance=ExtResource("10_k7t2k")]
 position = Vector2(332, 198)
