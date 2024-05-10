@@ -1,5 +1,4 @@
 # Minor
-* Have the PV and EV multipliers be set to √(4/3)
 * Fix bug when deselecting help description and cannot reselect the same item
 * Add sound effects to status menu
 * Fix bug where unit palettes break when dying

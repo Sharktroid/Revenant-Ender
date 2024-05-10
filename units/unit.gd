@@ -26,9 +26,9 @@ const LEVEL_CAP: int = 30
 ## Duration of fade-away upon death
 const FADE_AWAY_DURATION: float = 20.0 / 60
 ## The amount that the stat is multiplied by with max PVs
-const PERSONAL_VALUE_MULTIPLIER: float = 0.15
+const PERSONAL_VALUE_MULTIPLIER: float = sqrt(4.0/3)
 ## The amount that the stat is multiplied by with max EVs
-const EFFORT_VALUE_MULTIPLIER: float = 0.15
+const EFFORT_VALUE_MULTIPLIER: float = sqrt(4.0/3)
 ## The maximum value that a PV can be
 const PERSONAL_VALUE_LIMIT: int = 15
 ## The maximum value that an EV can be
