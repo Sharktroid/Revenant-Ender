@@ -5,7 +5,7 @@ extends Axe
 # Weapon-specific variables.
 func _init() -> void:
 	resource_name = "Iron Axe"
-	_rank = Ranks.E
+	_rank = Ranks.D
 	_might = 9
 	_weight = 10
 	_hit = 65

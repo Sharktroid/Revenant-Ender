@@ -5,7 +5,7 @@ extends Bow
 # Weapon-specific variables.
 func _init() -> void:
 	resource_name = "Debug Bow"
-	_rank = Ranks.E
+	_rank = Ranks.D
 	_might = 257
 	_weight = 6
 	_hit = 65537

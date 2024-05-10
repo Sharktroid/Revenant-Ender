@@ -15,7 +15,7 @@ enum Types {
 	SIEGE,
 	CLAW,
 }
-enum Ranks { S = 251, A = 181, B = 121, C = 71, D = 31, E = 1, DISABLED = 0 }
+enum Ranks { S = 181, A = 121, B = 71, C = 31, D = 1, DISABLED = 0 }
 enum DamageTypes { PHYSICAL, RANGED, INTELLIGENCE }
 
 var _rank: int
@@ -82,15 +82,15 @@ func get_weapon_triangle_advantage(weapon: Weapon, _distance: int) -> int:
 func get_hit_bonus(weapon: Weapon, distance: int) -> int:
 	if weapon is Bow:
 		return -10 * weapon.get_weapon_triangle_advantage(self, distance)
-	var bonus: int = 10 if _rank >= Ranks.B else 5 if _rank >= Ranks.D else 0
+	var bonus: int = 5 if _rank >= Ranks.C else 0
 	return bonus * get_weapon_triangle_advantage(weapon, distance)
 
 
 func get_damage_bonus(weapon: Weapon, distance: int) -> int:
 	return (
-		-weapon.get_weapon_triangle_advantage(self, distance)
-		if weapon is Bow
-		else get_weapon_triangle_advantage(weapon, distance) if _rank >= Ranks.S else 0
+		-weapon.get_weapon_triangle_advantage(self, distance) if weapon is Bow
+		else get_weapon_triangle_advantage(weapon, distance) if _rank >= Ranks.A
+		else 0
 	)
 
 

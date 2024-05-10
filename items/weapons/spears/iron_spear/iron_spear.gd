@@ -5,7 +5,7 @@ extends Spear
 # Weapon-specific variables.
 func _init() -> void:
 	resource_name = "Iron Spear"
-	_rank = Ranks.E
+	_rank = Ranks.D
 	_might = 7
 	_weight = 9
 	_hit = 70

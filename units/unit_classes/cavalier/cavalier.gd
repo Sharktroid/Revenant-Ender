@@ -12,12 +12,12 @@ func _init() -> void:
 
 	_base_weapon_levels = {
 		Weapon.Types.SWORD: Weapon.Ranks.C,
-		Weapon.Types.SPEAR: Weapon.Ranks.C,
-		Weapon.Types.AXE: Weapon.Ranks.D,
+		Weapon.Types.SPEAR: Weapon.Ranks.B,
+		Weapon.Types.AXE: Weapon.Ranks.C,
 	}
 
 	_max_weapon_levels = {
-		Weapon.Types.SWORD: Weapon.Ranks.S,
+		Weapon.Types.SWORD: Weapon.Ranks.A,
 		Weapon.Types.SPEAR: Weapon.Ranks.S,
 		Weapon.Types.AXE: Weapon.Ranks.A,
 	}

@@ -12,8 +12,8 @@ func _init() -> void:
 	_description = "Mounted knights with superior movement."
 
 	_base_weapon_levels = {
-		Weapon.Types.SWORD: Weapon.Ranks.E,
-		Weapon.Types.SPEAR: Weapon.Ranks.D,
+		Weapon.Types.SWORD: Weapon.Ranks.D,
+		Weapon.Types.SPEAR: Weapon.Ranks.C,
 	}
 	_max_weapon_levels = {
 		Weapon.Types.SWORD: Weapon.Ranks.B,

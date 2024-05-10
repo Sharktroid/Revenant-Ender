@@ -10,7 +10,7 @@ func _init() -> void:
 	_max_level = 20
 	_movement_type = MovementTypes.ADVANCED_FOOT
 
-	_base_weapon_levels[Weapon.Types.SWORD] = Weapon.Ranks.D
+	_base_weapon_levels[Weapon.Types.SWORD] = Weapon.Ranks.C
 	_max_weapon_levels[Weapon.Types.SWORD] = Weapon.Ranks.A
 
 	_base_hit_points = 23
