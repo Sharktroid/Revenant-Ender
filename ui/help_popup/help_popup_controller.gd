@@ -42,7 +42,7 @@ func display_text(
 	table: Array[String] = [],
 	table_cols: int = 1
 ) -> void:
-	if not _busy and (text != _current_text or table != _current_table):
+	if not _busy:
 		var new_size: Vector2 = _get_node_size(text, table, table_cols)
 		var bottom_bound: float = pos.y + new_size.y + new_container.size.y
 		var above_bottom: bool = bottom_bound >= Utilities.get_screen_size().y

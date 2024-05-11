@@ -1,6 +1,6 @@
 # Minor
-* Fix bug when deselecting help description and cannot reselect the same item
 * Add sound effects to status menu
+* Replace regular controls with reference rects
 * Fix bug where unit palettes break when dying
 * Make attack icon work again
 * Fix crash when viewing status screen of an enemy with an empty inventory
@@ -12,9 +12,9 @@
 * Fix Exp Bar
 * Make the get tiles functions all derive from one function and optimise the iterations
 * Improve performance with big attack ranges
-* Fix bug where the help menu doesn't update when two things have the same description
 * Show doubling on combat display
 * Have combat display show on hovering and show arrows to indicate the ability to swap weapons
+* Replace claws with shields
 
 # Major
 * Make certain scenes into objects that load the scenes to make the code less janky
