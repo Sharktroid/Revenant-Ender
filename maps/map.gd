@@ -69,6 +69,7 @@ func receive_input(event: InputEvent) -> void:
 			const STATUS_SCREEN_SCENE: PackedScene = preload(
 				"res://ui/map_ui/status_screen/status_screen.tscn"
 			)
+			AudioPlayer.play_sound_effect(AudioPlayer.MENU_SELECT)
 			var status_menu := STATUS_SCREEN_SCENE.instantiate() as StatusScreen
 			status_menu.observing_unit = CursorController.hovered_unit
 			MapController.get_ui().add_child(status_menu)
@@ -349,7 +350,7 @@ func _on_cursor_select() -> void:
 		add_child(controller)
 		MapController.selecting = true
 	else:
-		AudioPlayer.play_sound_effect(preload("res://audio/sfx/map_select.ogg"))
+		AudioPlayer.play_sound_effect(preload("res://audio/sfx/menu_open.ogg"))
 		MapController.create_main_map_menu()
 
 

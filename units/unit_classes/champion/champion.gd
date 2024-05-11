@@ -45,4 +45,4 @@ func _init() -> void:
 	_end_movement = 7
 	_end_build = 11
 
-	_map_sprite = load("res://units/unit_classes/champion/champion_m.png")
+	super()

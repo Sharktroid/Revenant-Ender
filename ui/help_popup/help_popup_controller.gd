@@ -23,8 +23,10 @@ func receive_input(event: InputEvent) -> void:
 		var path := NodePath("%s:focus_neighbor_%s" % [_current_container.get_path(), direction])
 		if has_node(path):
 			(get_node(path) as HelpContainer).set_as_current_help_container()
+			AudioPlayer.play_sound_effect(AudioPlayer.MENU_TICK)
 	if event.is_action_pressed("ui_cancel"):
 		shrink()
+		AudioPlayer.play_sound_effect(preload("res://audio/sfx/help_close.ogg"))
 	elif event.is_action_pressed("up", true) and not Input.is_action_pressed("down"):
 		move_popup.call("top")
 	elif event.is_action_pressed("down", true):

@@ -26,10 +26,13 @@ func receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		close()
 	if _delay <= 0:
+		const TAB_SWITCH: AudioStreamOggVorbis = preload("res://audio/sfx/status_switch.ogg")
 		if event.is_action_pressed("left", true) and not Input.is_action_pressed("right"):
+			AudioPlayer.play_sound_effect(TAB_SWITCH)
 			Utilities.switch_tab(_menu_tabs as TabContainer, -1)
 			_delay = 5
 		elif event.is_action_pressed("right", true):
+			AudioPlayer.play_sound_effect(TAB_SWITCH)
 			Utilities.switch_tab(_menu_tabs as TabContainer, 1)
 			_delay = 5
 	if not _scroll_lock:
@@ -45,6 +48,7 @@ func close() -> void:
 	queue_free()
 	previous_tab = _menu_tabs.current_tab
 	CursorController.enable()
+	AudioPlayer.play_sound_effect(AudioPlayer.DESELECT)
 
 
 func _update() -> void:
@@ -206,16 +210,17 @@ func _set_label_text_to_number(label: Label, num: int) -> void:
 
 func _move(dir: int) -> void:
 	_scroll_lock = true
-	const DURATION = 1.0 / 6
+	const DURATION: float = 0.32
 	var menu := $MenuScreen as HBoxContainer
 	var dest: float = menu.size.y
 	const SWAP_THRESHOLD: float = 1.0 / 3
+	AudioPlayer.play_sound_effect(preload("res://audio/sfx/status_swap.ogg"))
 
 	var fade_out: Tween = create_tween()
 	fade_out.set_speed_scale(2)
 	fade_out.set_parallel(true)
-	fade_out.tween_property(menu, "position:y", dest * SWAP_THRESHOLD * dir, DURATION)
-	fade_out.tween_property(menu, "modulate:a", 0, DURATION)
+	fade_out.tween_property(menu, "position:y", dest * SWAP_THRESHOLD * dir, DURATION/2)
+	fade_out.tween_property(menu, "modulate:a", 0, DURATION/2)
 	await fade_out.finished
 
 	menu.position.y = -dest * dir * SWAP_THRESHOLD
@@ -224,8 +229,8 @@ func _move(dir: int) -> void:
 	var fade_in: Tween = create_tween()
 	fade_in.set_speed_scale(2)
 	fade_in.set_parallel(true)
-	fade_in.tween_property(menu, "position:y", 0, DURATION)
-	fade_in.tween_property(menu, "modulate:a", 1, DURATION)
+	fade_in.tween_property(menu, "position:y", 0, DURATION/2)
+	fade_in.tween_property(menu, "modulate:a", 1, DURATION/2)
 	await fade_in.finished
 
 	menu.position.y = 0

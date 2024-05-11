@@ -27,9 +27,11 @@ func receive_input(event: InputEvent) -> void:
 	if not HelpPopupController.is_active():
 		if event.is_action_pressed("up") and not Input.is_action_pressed("down"):
 			_current_item_index -= 1
+			AudioPlayer.play_sound_effect(AudioPlayer.MENU_TICK)
 
 		elif event.is_action_pressed("down"):
 			_current_item_index += 1
+			AudioPlayer.play_sound_effect(AudioPlayer.MENU_TICK)
 
 		if event.is_action_pressed("ui_accept"):
 			_play_select_sound_effect(get_current_item_node())

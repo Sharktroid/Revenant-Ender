@@ -1,5 +1,4 @@
 # Minor
-* Add sound effects to status menu
 * Replace regular controls with reference rects
 * Fix bug where unit palettes break when dying
 * Make attack icon work again
@@ -14,6 +13,7 @@
 * Show doubling on combat display
 * Have combat display show on hovering and show arrows to indicate the ability to swap weapons
 * Replace claws with shields
+* Fix bug preventing scrolling with arrow keys in status menu
 
 # Major
 * Make certain scenes into objects that load the scenes to make the code less janky

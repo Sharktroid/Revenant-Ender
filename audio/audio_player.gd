@@ -4,6 +4,7 @@ const BATTLE_SELECT = preload("res://audio/sfx/battle_select.ogg")
 const MENU_SELECT = preload("res://audio/sfx/menu_select.ogg")
 const DESELECT = preload("res://audio/sfx/deselect.ogg")
 const CURSOR = preload("res://audio/sfx/cursor.ogg")
+const MENU_TICK = preload("res://audio/sfx/menu_tick.ogg")
 
 var music_volume: float = 0.5:
 	set(value):

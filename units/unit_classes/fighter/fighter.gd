@@ -29,7 +29,7 @@ func _init() -> void:
 	_end_hit_points = 50
 	_end_strength = 24
 	_end_pierce = 20
-	_end_intelligence = 24
+	_end_intelligence = 22
 	_end_skill = 23
 	_end_speed = 24
 	_end_luck = 20
