@@ -1,5 +1,4 @@
 # Minor
-* Fix bug where unit palettes break when dying
 * Make attack icon work again
 * Fix crash when viewing status screen of an enemy with an empty inventory
 * Fix debug cutscene playing at the same time as the phase intro

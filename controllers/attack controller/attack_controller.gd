@@ -124,8 +124,7 @@ func _map_attack(
 func _kill(unit: Unit, unit_animation: MapAttack) -> void:
 	AudioPlayer.play_sound_effect(preload("res://audio/sfx/death_fade.ogg"))
 	var sync_fade: Tween = unit.create_tween()
-	sync_fade.tween_property(unit_animation, "modulate:a", 0, Unit.FADE_AWAY_DURATION)
-	sync_fade.play()
+	sync_fade.tween_method(unit_animation.set_alpha, 1.0, 0.0, Unit.FADE_AWAY_DURATION)
 	await sync_fade.finished
 	unit_animation.visible = false
 	unit.dead = true

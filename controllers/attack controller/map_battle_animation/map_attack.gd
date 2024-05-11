@@ -50,6 +50,11 @@ func play_animation() -> void:
 	_combat_sprite.sprite_animated = false
 
 
+func set_alpha(alpha: float) -> void:
+	_combat_sprite.modulate.a = alpha
+	_combat_sprite.update_shader()
+
+
 func _move(movement: Vector2) -> void:
 	var tween: Tween = create_tween()
 	tween.set_speed_scale(60)

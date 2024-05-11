@@ -26,9 +26,9 @@ const LEVEL_CAP: int = 30
 ## Duration of fade-away upon death
 const FADE_AWAY_DURATION: float = 20.0 / 60
 ## The amount that the stat is multiplied by with max PVs
-const PERSONAL_VALUE_MULTIPLIER: float = sqrt(4.0/3)
+const PERSONAL_VALUE_MULTIPLIER: float = sqrt(4.0 / 3)
 ## The amount that the stat is multiplied by with max EVs
-const EFFORT_VALUE_MULTIPLIER: float = sqrt(4.0/3)
+const EFFORT_VALUE_MULTIPLIER: float = sqrt(4.0 / 3)
 ## The maximum value that a PV can be
 const PERSONAL_VALUE_LIMIT: int = 15
 ## The maximum value that an EV can be
@@ -240,6 +240,7 @@ func _exit_tree() -> void:
 
 
 func _process(_delta: float) -> void:
+	update_shader()
 	if traveler:
 		traveler.position = position
 	_render_status()
@@ -247,6 +248,10 @@ func _process(_delta: float) -> void:
 		var anim_frame: int = floori((Engine.get_physics_frames() as float) / 16) % 4
 		frame = 1 if anim_frame == 3 else anim_frame
 	z_index = Utilities.round_coords_to_tile(position).y
+	update_shader()
+
+
+func update_shader() -> void:
 	(material as ShaderMaterial).set_shader_parameter("modulate", modulate)
 
 
@@ -354,11 +359,7 @@ func get_stat(stat: Stats, current_level: int = level) -> int:
 
 func get_stat_cap(stat: Stats) -> int:
 	return roundi(
-		(
-			(unit_class.get_end_stat(stat))
-			* (PERSONAL_VALUE_MULTIPLIER)
-			* (EFFORT_VALUE_MULTIPLIER)
-		)
+		(unit_class.get_end_stat(stat)) * (PERSONAL_VALUE_MULTIPLIER) * (EFFORT_VALUE_MULTIPLIER)
 	)
 
 
