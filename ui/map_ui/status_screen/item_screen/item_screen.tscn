@@ -15,7 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://dvhj25tofwef" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/dark_icon.png" id="15_p5osc"]
 [ext_resource type="Texture2D" uid="uid://cbim7d0v5s20i" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/siege_icon.png" id="17_2eyif"]
 
-[node name="Items" type="Control"]
+[node name="Items" type="ReferenceRect"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

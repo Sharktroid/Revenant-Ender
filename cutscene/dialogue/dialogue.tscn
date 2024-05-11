@@ -21,7 +21,7 @@ gradient = SubResource("Gradient_1paxs")
 texture = SubResource("GradientTexture1D_wjq6m")
 axis_stretch_horizontal = 1
 
-[node name="Dialogue" type="Control"]
+[node name="Dialogue" type="ReferenceRect"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -84,11 +84,11 @@ layout_mode = 2
 size_flags_vertical = 8
 mouse_filter = 1
 
-[node name="Control" type="Control" parent="MarginContainerTop/PanelContainer/MarginContainer"]
+[node name="ReferenceRect" type="ReferenceRect" parent="MarginContainerTop/PanelContainer/MarginContainer"]
 layout_mode = 2
 mouse_filter = 1
 
-[node name="Line2D" type="Panel" parent="MarginContainerTop/PanelContainer/MarginContainer/Control"]
+[node name="Line2D" type="Panel" parent="MarginContainerTop/PanelContainer/MarginContainer/ReferenceRect"]
 material = SubResource("ShaderMaterial_mfi7y")
 custom_minimum_size = Vector2(0, 1)
 layout_mode = 1
@@ -158,11 +158,11 @@ mouse_filter = 1
 theme_override_constants/line_separation = -2
 scroll_active = false
 
-[node name="Control" type="Control" parent="MarginContainerBottom/PanelContainer/MarginContainer"]
+[node name="ReferenceRect" type="ReferenceRect" parent="MarginContainerBottom/PanelContainer/MarginContainer"]
 layout_mode = 2
 mouse_filter = 1
 
-[node name="Line2D" type="Panel" parent="MarginContainerBottom/PanelContainer/MarginContainer/Control"]
+[node name="Line2D" type="Panel" parent="MarginContainerBottom/PanelContainer/MarginContainer/ReferenceRect"]
 material = SubResource("ShaderMaterial_mfi7y")
 custom_minimum_size = Vector2(0, 1)
 layout_mode = 1
@@ -177,7 +177,7 @@ mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxTexture_u8lc8")
 metadata/_edit_use_anchors_ = true
 
-[node name="Portraits" type="Control" parent="."]
+[node name="Portraits" type="ReferenceRect" parent="."]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 anchors_preset = 0

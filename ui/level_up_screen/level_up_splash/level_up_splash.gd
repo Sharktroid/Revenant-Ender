@@ -1,5 +1,5 @@
 @tool
-extends Control
+extends ReferenceRect
 
 func _ready() -> void:
 	var line := $Line as HBoxContainer

@@ -101,7 +101,7 @@ _data = {
 "play": SubResource("Animation_6kwau")
 }
 
-[node name="LevelUpSplash" type="Control"]
+[node name="LevelUpSplash" type="ReferenceRect"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

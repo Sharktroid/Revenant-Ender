@@ -17,4 +17,4 @@ func _init() -> void:
 #	effective_classes
 	super()
 	_min_range = 1
-	_max_range = 10
+	_max_range = 11

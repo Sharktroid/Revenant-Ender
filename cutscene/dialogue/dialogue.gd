@@ -1,5 +1,5 @@
 class_name Dialogue
-extends Control
+extends ReferenceRect
 
 enum Positions {
 	OUTSIDE_LEFT = -80,

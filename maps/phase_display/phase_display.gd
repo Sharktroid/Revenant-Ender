@@ -1,4 +1,4 @@
-extends Control
+extends ReferenceRect
 
 @onready var _canvas_group := $CanvasGroup as CanvasGroup
 @onready var _hbox_container := $CanvasGroup/HBoxContainer as HBoxContainer

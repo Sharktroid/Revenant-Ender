@@ -2,7 +2,7 @@ extends Control
 
 signal unit_selected
 
-const _PHASE_DISPLAY_PATH: String = "res://maps/phase_display."
+const _PHASE_DISPLAY_PATH: String = "res://maps/phase_display/phase_display."
 const _PHASE_DISPLAY = preload(_PHASE_DISPLAY_PATH + "gd")
 
 @export var map_node: PackedScene

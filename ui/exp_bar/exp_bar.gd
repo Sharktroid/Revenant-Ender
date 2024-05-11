@@ -1,4 +1,4 @@
-extends Control
+extends ReferenceRect
 
 const _TRANSITION_DURATION: float = 8.0 / 60
 

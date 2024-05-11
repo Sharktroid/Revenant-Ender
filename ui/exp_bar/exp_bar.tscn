@@ -44,7 +44,7 @@ texture_margin_top = 4.0
 texture_margin_right = 4.0
 texture_margin_bottom = 4.0
 
-[node name="EXPBar" type="Control"]
+[node name="EXPBar" type="ReferenceRect"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -87,11 +87,11 @@ theme_override_constants/margin_right = 5
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Control" type="Control" parent="VisibilityPanel/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="ReferenceRect" type="ReferenceRect" parent="VisibilityPanel/PanelContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Panel" type="Panel" parent="VisibilityPanel/PanelContainer/MarginContainer/HBoxContainer/Control"]
+[node name="Panel" type="Panel" parent="VisibilityPanel/PanelContainer/MarginContainer/HBoxContainer/ReferenceRect"]
 custom_minimum_size = Vector2(0, 5)
 layout_mode = 1
 anchors_preset = 14
@@ -102,7 +102,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_lb6jr")
 
-[node name="EXPBar" type="ProgressBar" parent="VisibilityPanel/PanelContainer/MarginContainer/HBoxContainer/Control"]
+[node name="EXPBar" type="ProgressBar" parent="VisibilityPanel/PanelContainer/MarginContainer/HBoxContainer/ReferenceRect"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 7)
 layout_mode = 1
@@ -120,7 +120,7 @@ theme_override_styles/fill = SubResource("StyleBoxTexture_xe3xn")
 value = 15.0
 show_percentage = false
 
-[node name="FillPanel" type="Panel" parent="VisibilityPanel/PanelContainer/MarginContainer/HBoxContainer/Control"]
+[node name="FillPanel" type="Panel" parent="VisibilityPanel/PanelContainer/MarginContainer/HBoxContainer/ReferenceRect"]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(0, 7)

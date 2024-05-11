@@ -1,5 +1,5 @@
 @tool
-extends Control
+extends ReferenceRect
 
 @export_range(0, 1) var hue_min: float = 0
 @export_range(0, 1) var hue_max: float = 1

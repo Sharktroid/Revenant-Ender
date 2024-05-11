@@ -58,7 +58,7 @@ axis_stretch_horizontal = 1
 texture = ExtResource("3_foq5t")
 axis_stretch_vertical = 1
 
-[node name="LevelUpScreen" type="Control"]
+[node name="LevelUpScreen" type="ReferenceRect"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -67,7 +67,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_3uup4")
 
-[node name="Children" type="Control" parent="."]
+[node name="Children" type="ReferenceRect" parent="."]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -145,7 +145,7 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_egsh6")
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="HitPointsContainer" type="Control" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer"]
+[node name="HitPointsContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 3
@@ -183,11 +183,11 @@ theme_type_variation = &"BlueLabel"
 text = "19"
 horizontal_alignment = 2
 
-[node name="Spacer" type="Control" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/HitPointsContainer/HBoxContainer"]
+[node name="Spacer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/HitPointsContainer/HBoxContainer"]
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 
-[node name="StrengthContainer" type="Control" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer"]
+[node name="StrengthContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 3
@@ -222,11 +222,11 @@ theme_type_variation = &"BlueLabel"
 text = "21"
 horizontal_alignment = 2
 
-[node name="Spacer" type="Control" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/StrengthContainer/HBoxContainer"]
+[node name="Spacer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/StrengthContainer/HBoxContainer"]
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 
-[node name="PierceContainer" type="Control" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer"]
+[node name="PierceContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 3
@@ -261,11 +261,11 @@ theme_type_variation = &"BlueLabel"
 text = "19"
 horizontal_alignment = 2
 
-[node name="Spacer" type="Control" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/PierceContainer/HBoxContainer"]
+[node name="Spacer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/PierceContainer/HBoxContainer"]
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 
-[node name="IntelligenceContainer" type="Control" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer"]
+[node name="IntelligenceContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 3
@@ -300,11 +300,11 @@ theme_type_variation = &"BlueLabel"
 text = "19"
 horizontal_alignment = 2
 
-[node name="Spacer" type="Control" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/IntelligenceContainer/HBoxContainer"]
+[node name="Spacer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/IntelligenceContainer/HBoxContainer"]
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 
-[node name="SkillContainer" type="Control" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer"]
+[node name="SkillContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 3
@@ -339,11 +339,11 @@ theme_type_variation = &"BlueLabel"
 text = "19"
 horizontal_alignment = 2
 
-[node name="Spacer" type="Control" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/SkillContainer/HBoxContainer"]
+[node name="Spacer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/SkillContainer/HBoxContainer"]
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 
-[node name="SpeedContainer" type="Control" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer"]
+[node name="SpeedContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 3
@@ -378,7 +378,7 @@ theme_type_variation = &"BlueLabel"
 text = "19"
 horizontal_alignment = 2
 
-[node name="Spacer" type="Control" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/SpeedContainer/HBoxContainer"]
+[node name="Spacer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/SpeedContainer/HBoxContainer"]
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 
@@ -398,7 +398,7 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_egsh6")
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="MovementContainer" type="Control" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer"]
+[node name="MovementContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 3
@@ -434,11 +434,11 @@ theme_type_variation = &"BlueLabel"
 text = "10"
 horizontal_alignment = 2
 
-[node name="Spacer" type="Control" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer/MovementContainer/HBoxContainer"]
+[node name="Spacer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer/MovementContainer/HBoxContainer"]
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 
-[node name="DefenseContainer" type="Control" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer"]
+[node name="DefenseContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 3
@@ -474,11 +474,11 @@ theme_type_variation = &"BlueLabel"
 text = "19"
 horizontal_alignment = 2
 
-[node name="Spacer" type="Control" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer/DefenseContainer/HBoxContainer"]
+[node name="Spacer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer/DefenseContainer/HBoxContainer"]
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 
-[node name="ArmorContainer" type="Control" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer"]
+[node name="ArmorContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 3
@@ -516,11 +516,11 @@ theme_type_variation = &"BlueLabel"
 text = "19"
 horizontal_alignment = 2
 
-[node name="Spacer" type="Control" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer/ArmorContainer/HBoxContainer"]
+[node name="Spacer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer/ArmorContainer/HBoxContainer"]
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 
-[node name="ResistanceContainer" type="Control" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer"]
+[node name="ResistanceContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 3
@@ -556,11 +556,11 @@ theme_type_variation = &"BlueLabel"
 text = "19"
 horizontal_alignment = 2
 
-[node name="Spacer" type="Control" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer/ResistanceContainer/HBoxContainer"]
+[node name="Spacer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer/ResistanceContainer/HBoxContainer"]
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 
-[node name="LuckContainer" type="Control" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer"]
+[node name="LuckContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 3
@@ -596,11 +596,11 @@ theme_type_variation = &"BlueLabel"
 text = "19"
 horizontal_alignment = 2
 
-[node name="Spacer" type="Control" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer/LuckContainer/HBoxContainer"]
+[node name="Spacer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer/LuckContainer/HBoxContainer"]
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 
-[node name="BuildContainer" type="Control" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer"]
+[node name="BuildContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 3
@@ -636,11 +636,11 @@ theme_type_variation = &"BlueLabel"
 text = "19"
 horizontal_alignment = 2
 
-[node name="Spacer" type="Control" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer/BuildContainer/HBoxContainer"]
+[node name="Spacer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer/BuildContainer/HBoxContainer"]
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 
-[node name="StatChanges" type="Control" parent="Children"]
+[node name="StatChanges" type="ReferenceRect" parent="Children"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 0
@@ -741,7 +741,7 @@ offset_top = 191.0
 offset_right = 351.0
 offset_bottom = 207.0
 
-[node name="Sparkles" type="Control" parent="Children"]
+[node name="Sparkles" type="ReferenceRect" parent="Children"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15

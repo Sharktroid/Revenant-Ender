@@ -1,5 +1,5 @@
 class_name Map
-extends Control
+extends ReferenceRect
 
 enum TileTypes { ATTACK, MOVEMENT, SUPPORT }
 
@@ -10,7 +10,7 @@ enum TileTypes { ATTACK, MOVEMENT, SUPPORT }
 @export var bottom_border: int
 # See _ready() for these next two
 var borders: Rect2i
-var movement_cost_dict: Dictionary  # Movementcosts for every movement type
+var movement_cost_dict: Dictionary  # Movement costs for every movement type
 var all_factions: Array[Faction]  # All factions
 var map_position: Vector2i  # Position of the map, used for scrolling
 

@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://ui/level_up_screen/stat_change.gd" id="1_gqxav"]
 [ext_resource type="PackedScene" uid="uid://bdjeg8jmudvyh" path="res://ui/level_up_screen/arrow.tscn" id="1_txb0l"]
 
-[node name="StatChange" type="Control"]
+[node name="StatChange" type="ReferenceRect"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 10.0
@@ -28,7 +28,7 @@ theme_type_variation = &"YellowLabel"
 theme_override_colors/font_color = Color(1, 0.952941, 0.819608, 1)
 text = "1"
 
-[node name="Control" type="Control" parent="Value"]
+[node name="ReferenceRect" type="ReferenceRect" parent="Value"]
 show_behind_parent = true
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 1
@@ -40,6 +40,6 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Arrow" parent="Value/Control" instance=ExtResource("1_txb0l")]
+[node name="Arrow" parent="Value/ReferenceRect" instance=ExtResource("1_txb0l")]
 show_behind_parent = true
 position = Vector2(-4, -10)

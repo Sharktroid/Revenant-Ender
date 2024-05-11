@@ -11,7 +11,7 @@
 [sub_resource type="Theme" id="Theme_ux5tw"]
 HSeparator/styles/separator = SubResource("StyleBoxEmpty_3i0vf")
 
-[node name="Columns" type="Control"]
+[node name="Columns" type="ReferenceRect"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

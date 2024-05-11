@@ -1,5 +1,5 @@
 class_name MapHPBar
-extends Control
+extends ReferenceRect
 
 var unit: Unit
 var _bg_gradient: Panel

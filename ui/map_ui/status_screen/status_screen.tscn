@@ -14,7 +14,7 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 anti_aliasing = false
 
-[node name="StatusScreen" type="Control"]
+[node name="StatusScreen" type="ReferenceRect"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

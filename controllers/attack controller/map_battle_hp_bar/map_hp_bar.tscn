@@ -89,7 +89,7 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 anti_aliasing = false
 
-[node name="MapHPBar" type="Control"]
+[node name="MapHPBar" type="ReferenceRect"]
 custom_minimum_size = Vector2(80, 31)
 layout_mode = 3
 anchors_preset = 0
