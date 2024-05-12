@@ -1,4 +1,3 @@
-@tool
 extends ReferenceRect
 
 func _ready() -> void:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://vj0tla3sjiqf"]
+[gd_scene load_steps=17 format=3 uid="uid://vj0tla3sjiqf"]
 
 [ext_resource type="Script" path="res://ui/level_up_screen/level_up_screen.gd" id="1_3uup4"]
 [ext_resource type="Texture2D" uid="uid://3o8kne07fkpy" path="res://ui/level_up_screen/tile.png" id="2_irpi1"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://cuxknjdd6ib13" path="res://ui/level_up_screen/bar.png" id="3_liwl3"]
 [ext_resource type="Texture2D" uid="uid://c7a72cj8vj3br" path="res://ui/level_up_screen/bar_fill.png" id="6_8hqvi"]
 [ext_resource type="PackedScene" uid="uid://ci8e4u3byi58c" path="res://ui/level_up_screen/stat_change.tscn" id="8_mke8r"]
+[ext_resource type="PackedScene" uid="uid://d4ca3lxq0obvn" path="res://ui/level_up_screen/level_up_splash/level_up_splash.tscn" id="10_aemcd"]
 [ext_resource type="PackedScene" uid="uid://cspkyhim36qps" path="res://ui/level_up_screen/spiral_sparkle.tscn" id="10_k7t2k"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3251e"]
@@ -59,7 +60,6 @@ texture = ExtResource("3_foq5t")
 axis_stretch_vertical = 1
 
 [node name="LevelUpScreen" type="ReferenceRect"]
-layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -68,7 +68,7 @@ grow_vertical = 2
 script = ExtResource("1_3uup4")
 
 [node name="Children" type="ReferenceRect" parent="."]
-anchors_preset = 0
+layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
@@ -643,7 +643,6 @@ layout_mode = 2
 [node name="StatChanges" type="ReferenceRect" parent="Children"]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 0
 
 [node name="HitPointsChange" parent="Children/StatChanges" instance=ExtResource("8_mke8r")]
 visible = false
@@ -789,3 +788,6 @@ position = Vector2(332, 182)
 
 [node name="BuildSparkle" parent="Children/Sparkles" instance=ExtResource("10_k7t2k")]
 position = Vector2(332, 198)
+
+[node name="LevelUpSplash" parent="." instance=ExtResource("10_aemcd")]
+layout_mode = 1
