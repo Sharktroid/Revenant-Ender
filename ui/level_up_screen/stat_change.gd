@@ -1,4 +1,4 @@
-extends Control
+extends ReferenceRect
 
 var value: int = 0:
 	set(new_value):
@@ -9,7 +9,7 @@ var value: int = 0:
 		if value != 0:
 			sign_label.visible = false
 			const Arrow = preload("res://ui/level_up_screen/arrow.gd")
-			var arrow := value_label.get_node("Control/Arrow") as Arrow
+			var arrow := value_label.get_node("ReferenceRect/Arrow") as Arrow
 			await get_tree().create_timer(1.0 / 60).timeout
 			visible = true
 			arrow.position.y = -1

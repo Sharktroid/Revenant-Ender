@@ -2,6 +2,7 @@ extends ReferenceRect
 
 const _TRANSITION_DURATION: float = 8.0 / 60
 
+@onready var _exp_bar := (%EXPBar as ProgressBar)
 var observing_unit := Unit.new()
 
 
@@ -10,7 +11,8 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	(%EXPBar as ProgressBar).value = observing_unit.get_current_exp()
+	_exp_bar.value = observing_unit.get_current_exp()
+	_exp_bar.max_value = Unit.get_exp_to_level(observing_unit.level + 1)
 	(%ExpValue as Label).text = "%d%%" % observing_unit.get_exp_percent()
 
 
@@ -34,6 +36,7 @@ func play(experience: float) -> void:
 	exp_audio_player.queue_free()
 	await get_tree().create_timer(0.25).timeout
 	await close()
+
 	if observing_unit.level > old_level:
 		await AudioPlayer.pause_track()
 		await get_tree().create_timer(0.5).timeout
