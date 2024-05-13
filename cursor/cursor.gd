@@ -5,7 +5,7 @@ func _enter_tree() -> void:
 	var tween: Tween = create_tween()
 	tween.set_loops()
 	tween.set_speed_scale(60)
-	var icon: Sprite2D = $Icon
+	var icon: Sprite2D = $Sprite
 	tween.tween_callback(icon.set_frame.bind(0))
 	tween.tween_callback(icon.set_frame.bind(1)).set_delay(20)
 	tween.tween_callback(icon.set_frame.bind(2)).set_delay(2)

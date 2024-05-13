@@ -1,6 +1,4 @@
 # Minor
-* Fix Exp Bar
-* Make attack icon work again
 * Fix crash when viewing status screen of an enemy with an empty inventory
 * Fix debug cutscene playing at the same time as the phase intro
 * Make it so that the selection of a menu doesn't change when unfocused

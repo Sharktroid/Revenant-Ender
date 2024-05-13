@@ -20,7 +20,6 @@ var screen_position: Vector2i:
 	get:
 		return map_position - _corner_offset()
 
-var _icon_sprite: Sprite2D
 var _active: bool = true
 var _delay: int = 0
 var _repeat: bool = false
@@ -28,6 +27,7 @@ var _repeat: bool = false
 
 func _init() -> void:
 	set_process_input(true)
+	set_icon.call_deferred(Icons.NONE)
 
 
 func _physics_process(_delta: float) -> void:
@@ -91,20 +91,17 @@ func disable() -> void:
 	_set_active(false)
 
 
-func draw_icon(icon: Icons) -> void:
-	if not _icon_sprite:
-		_icon_sprite = Sprite2D.new()
-		_icon_sprite.centered = false
-		add_child(_icon_sprite)
-	match icon:
-		Icons.ATTACK:
-			_icon_sprite.texture = preload("res://Cursor/attack.png")
-			_icon_sprite.position = Vector2i(0, -16)
+func set_icon(icon: Icons) -> void:
+	var icon_sprite := MapController.get_ui().get_node("Cursor/Icon") as Sprite2D
+	if icon == Icons.NONE:
+		icon_sprite.visible = false
+	else:
+		icon_sprite.visible = true
+		match icon:
+			Icons.ATTACK:
+				icon_sprite.texture = preload("res://cursor/attack.png")
+				icon_sprite.position = Vector2i(0, -16)
 
-
-func remove_icon() -> void:
-	if is_instance_valid(_icon_sprite):
-		_icon_sprite.queue_free()
 
 
 func get_area() -> Area2D:

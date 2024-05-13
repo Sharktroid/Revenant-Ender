@@ -2,6 +2,16 @@ class_name AttackSelector
 extends UnitSelector
 
 
+func _init(
+	connected_unit: Unit,
+	min_range: int,
+	max_range: int,
+	condition: Callable,
+	icon: CursorController.Icons = CursorController.Icons.ATTACK,
+	selection_sound_effect: AudioStream = AudioPlayer.MENU_SELECT
+) -> void:
+	super(connected_unit, min_range, max_range, condition, icon, selection_sound_effect)
+
 func _position_selected() -> void:
 	if _can_select():
 		const INFO_DISPLAY_PATH: String = "res://ui/combat_info_display/combat_info_display."

@@ -36,9 +36,9 @@ func _init(
 
 func _process(_delta: float) -> void:
 	if _can_select():
-		CursorController.draw_icon(_icon)
+		CursorController.set_icon(_icon)
 	else:
-		CursorController.remove_icon()
+		CursorController.set_icon(CursorController.Icons.NONE)
 
 
 func receive_input(event: InputEvent) -> void:
@@ -50,7 +50,7 @@ func receive_input(event: InputEvent) -> void:
 
 
 func close() -> void:
-	CursorController.remove_icon()
+	CursorController.set_icon(CursorController.Icons.NONE)
 	queue_free()
 
 

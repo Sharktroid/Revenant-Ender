@@ -12,10 +12,14 @@ mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_p66rh")
 script = ExtResource("1_comwu")
 
-[node name="Icon" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_jncmw")
 centered = false
 offset = Vector2(-4, -4)
 hframes = 4
 vframes = 4
 frame = 2
+
+[node name="Icon" type="Sprite2D" parent="."]
+position = Vector2(0, -16)
+centered = false
