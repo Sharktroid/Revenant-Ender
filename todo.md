@@ -1,5 +1,5 @@
 # Minor
-* Fix crash when viewing status screen of an enemy with an empty inventory
+* Fix bug preventing scrolling with arrow keys in status menu
 * Fix debug cutscene playing at the same time as the phase intro
 * Make it so that the selection of a menu doesn't change when unfocused
 * Have menus reset size when entries are removed
@@ -9,7 +9,6 @@
 * Show doubling on combat display
 * Have combat display show on hovering and show arrows to indicate the ability to swap weapons
 * Replace claws with shields
-* Fix bug preventing scrolling with arrow keys in status menu
 
 # Major
 * Make certain scenes into objects that load the scenes to make the code less janky

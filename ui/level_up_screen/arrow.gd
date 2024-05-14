@@ -5,11 +5,11 @@ enum Shapes { DEFAULT, SQUISHED, TALL, SLIGHT_SQUISHED }
 #region Shape Nodes
 @onready var _inner_coloring := $InnerColoring as Polygon2D
 @onready var _squished_arrow := $SquishedArrow as Polygon2D
-@onready var _squished_arrow_inner := $"SquishedArrow/SquishedInner" as Polygon2D
+@onready var _squished_arrow_inner := $SquishedArrow/SquishedInner as Polygon2D
 @onready var _tall_arrow := $TallArrow as Polygon2D
-@onready var _tall_arrow_inner := $"TallArrow/TallInner" as Polygon2D
+@onready var _tall_arrow_inner := $TallArrow/TallInner as Polygon2D
 @onready var _slight_squished_arrow := $SlightSquishedArrow as Polygon2D
-@onready var _slight_squished_arrow_inner := $"SlightSquishedArrow/SlightSquishedInner" as Polygon2D
+@onready var _slight_squished_arrow_inner := $SlightSquishedArrow/SlightSquishedInner as Polygon2D
 #endregion
 
 #region Shape Polygons

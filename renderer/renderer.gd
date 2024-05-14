@@ -3,7 +3,7 @@ extends SubViewportContainer
 
 func _enter_tree() -> void:
 	# Placeholder
-	MapController.map = $"SubViewport/TestMapB" as Map
+	MapController.map = $SubViewport/TestMapB as Map
 	_on_size_changed.call_deferred()
 	get_viewport().size_changed.connect(_on_size_changed)
 

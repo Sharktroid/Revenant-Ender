@@ -19,8 +19,8 @@ var _cost_grids: Dictionary = {}
 var _grid_current_faction: Faction
 var _current_turn: int
 
-@onready var _terrain_layer := $"MapLayer/TerrainLayer" as TileMap
-@onready var _border_overlay := $"MapLayer/DebugBorderOverlayContainer" as CanvasGroup
+@onready var _terrain_layer := $MapLayer/TerrainLayer as TileMap
+@onready var _border_overlay := $MapLayer/DebugBorderOverlayContainer as CanvasGroup
 
 
 func _init() -> void:
@@ -33,8 +33,8 @@ func _ready() -> void:
 	_create_debug_borders()  # Only shows up when collison shapes are enabled
 	_terrain_layer.visible = Utilities.get_debug_constant("display_map_terrain")
 	_border_overlay.visible = Utilities.get_debug_constant("display_map_borders")
-	($"MapLayer/CursorArea" as Area2D).visible = Utilities.get_debug_constant("display_map_cursor")
-	var cell_max: Vector2i = ($"MapLayer/BaseLayer" as TileMap).get_used_cells(0).max()
+	($MapLayer/CursorArea as Area2D).visible = Utilities.get_debug_constant("display_map_cursor")
+	var cell_max: Vector2i = ($MapLayer/BaseLayer as TileMap).get_used_cells(0).max()
 	size = cell_max * 16 + Vector2i(16, 16)
 	GameController.add_to_input_stack(self)
 	const TYPES = UnitClass.MovementTypes
@@ -46,7 +46,7 @@ func _ready() -> void:
 		a_star_grid.default_estimate_heuristic = AStarGrid2D.HEURISTIC_MANHATTAN
 		a_star_grid.jumping_enabled = false
 		a_star_grid.update()
-		for cell: Vector2i in ($"MapLayer/BaseLayer" as TileMap).get_used_cells(0):
+		for cell: Vector2i in ($MapLayer/BaseLayer as TileMap).get_used_cells(0):
 			update_a_star_grid_id(a_star_grid, movement_type, cell)
 		_cost_grids[movement_type] = a_star_grid
 	start_turn.call_deferred()
@@ -185,7 +185,7 @@ func toggle_outline_unit(unit: Unit) -> void:
 
 
 func update_outline() -> void:
-	($"MapLayer/Outline" as Node2D).queue_redraw()
+	($MapLayer/Outline as Node2D).queue_redraw()
 
 
 func display_tiles(
@@ -308,7 +308,7 @@ func _create_debug_borders() -> void:
 				or y < borders.position.y
 				or y + 16 > borders.end.y
 			):
-				var border_tile := $"MapLayer/DebugBorderOverlayTileBase".duplicate() as Sprite2D
+				var border_tile := $MapLayer/DebugBorderOverlayTileBase.duplicate() as Sprite2D
 				border_tile.position = Vector2(x, y)
 				border_tile.visible = true
 				_border_overlay.add_child(border_tile)

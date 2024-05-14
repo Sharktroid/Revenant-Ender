@@ -208,7 +208,7 @@ static var _movement_speed: float = 16  # Speedunit moves across the map in tile
 
 func _enter_tree() -> void:
 	_animation_player = $AnimationPlayer as AnimationPlayer
-	_traveler_animation_player = $"TravelerIcon/AnimationPlayer" as AnimationPlayer
+	_traveler_animation_player = $TravelerIcon/AnimationPlayer as AnimationPlayer
 	level = base_level
 	for weapon_type: Weapon.Types in (
 		unit_class.get_base_weapon_levels().keys() as Array[Weapon.Types]

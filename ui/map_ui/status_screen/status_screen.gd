@@ -5,7 +5,7 @@ var observing_unit := Unit.new()
 var _scroll_lock: bool = false
 var _delay: int = 0
 @onready var _portrait := %Portrait as Portrait
-@onready var _menu_tabs := $"MenuScreen/MenuTabs" as TabContainer
+@onready var _menu_tabs := $MenuScreen/MenuTabs as TabContainer
 
 static var previous_tab: int = 0
 
@@ -181,25 +181,23 @@ func _update_tab() -> void:
 	match _menu_tabs.current_tab:
 		0:
 			const Statistics = preload("res://ui/map_ui/status_screen/statistics/statistics.gd")
-			var statistics := $"MenuScreen/MenuTabs/Statistics" as Statistics
+			var statistics := $MenuScreen/MenuTabs/Statistics as Statistics
 			statistics.observing_unit = observing_unit
 			statistics.update()
 			tab_controls.assign(statistics.get_left_controls())
 		1:
 			const ItemScreen = preload("res://ui/map_ui/status_screen/item_screen/item_screen.gd")
-			var items := $"MenuScreen/MenuTabs/Items" as ItemScreen
+			var items := $MenuScreen/MenuTabs/Items as ItemScreen
 			items.observing_unit = observing_unit
 			items.update()
-			tab_controls.assign(items.get_item_labels())
+			tab_controls.assign(items.get_rank_labels() if items.get_item_labels().is_empty() else items.get_item_labels())
 	await get_tree().process_frame
+	var nodes: Array[Node] = []
+	nodes.assign(tab_controls)
 	for control: Control in constant_labels:
-		var nodes: Array[Node] = []
-		nodes.assign(tab_controls)
 		var matching_control: Control = Utilities.get_control_within_height(control, nodes)
 		control.focus_neighbor_right = control.get_path_to(matching_control)
 	for control: Control in tab_controls:
-		var nodes: Array[Node] = []
-		nodes.assign(constant_labels)
 		var matching_control: Control = Utilities.get_control_within_height(control, nodes)
 		control.focus_neighbor_left = control.get_path_to(matching_control)
 

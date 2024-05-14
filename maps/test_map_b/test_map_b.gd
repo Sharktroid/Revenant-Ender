@@ -27,12 +27,12 @@ func _ready() -> void:
 	super()
 	if DEBUG_CUTSCENE:
 		CursorController.disable()
-		var roy := $"MapLayer/Units/Player/Roy" as Unit
-		var marcus := $"MapLayer/Units/Player/Marcus" as Unit
-		var alen := $"MapLayer/Units/Player/Alen" as Unit
-		var lance := $"MapLayer/Units/Player/Lance" as Unit
-		var wolt := $"MapLayer/Units/Player/Wolt" as Unit
-		var bors := $"MapLayer/Units/Player/Bors" as Unit
+		var roy := $MapLayer/Units/Player/Roy as Unit
+		var marcus := $MapLayer/Units/Player/Marcus as Unit
+		var alen := $MapLayer/Units/Player/Alen as Unit
+		var lance := $MapLayer/Units/Player/Lance as Unit
+		var wolt := $MapLayer/Units/Player/Wolt as Unit
+		var bors := $MapLayer/Units/Player/Bors as Unit
 		var dialogue: Dialogue = MapController.get_dialogue()
 		await get_tree().process_frame
 		GameController.add_to_input_stack(dialogue)
