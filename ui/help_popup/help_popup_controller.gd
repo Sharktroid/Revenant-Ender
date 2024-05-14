@@ -20,9 +20,9 @@ func _ready() -> void:
 
 func receive_input(event: InputEvent) -> void:
 	var move_popup: Callable = func(direction: String) -> void:
-		var path := NodePath("%s:focus_neighbor_%s" % [_current_container.get_path(), direction])
-		if has_node(path):
-			(get_node(path) as HelpContainer).set_as_current_help_container()
+		var path: NodePath = _current_container.get("focus_neighbor_%s" % direction)
+		if _current_container.has_node(path):
+			(_current_container.get_node(path) as HelpContainer).set_as_current_help_container()
 			AudioPlayer.play_sound_effect(AudioPlayer.MENU_TICK)
 	if event.is_action_pressed("ui_cancel"):
 		shrink()
