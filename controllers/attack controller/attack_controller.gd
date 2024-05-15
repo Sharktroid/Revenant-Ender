@@ -174,8 +174,7 @@ class CombatStage:
 			AttackTypes.MISS
 			if unit.get_hit_rate(other_unit) <= randi_range(0, 99)
 			else (
-				AttackTypes.HIT
-				if unit.get_crit_rate(other_unit) > randi_range(0, 99)
-				else AttackTypes.CRIT
+				AttackTypes.CRIT if unit.get_crit_rate(other_unit) > randi_range(0, 99)
+				else AttackTypes.HIT
 			)
 		)
