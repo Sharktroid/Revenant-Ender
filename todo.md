@@ -1,5 +1,4 @@
 # Minor
-* Make exponential growth sqrt2 instead of 2
 * Make PVs and EVs are half additive and half multiplicative
 * Fix debug cutscene playing at the same time as the phase intro
 * Make it so that the selection of a menu doesn't change when unfocused

@@ -39,7 +39,7 @@ const TOTAL_EFFORT_VALUE_LIMIT: float = INDIVIDUAL_EFFORT_VALUE_LIMIT * 4
 const BASE_EXP: int = 100
 ## The multiplier for the extra amount of experience to go from one level to the next
 ## compared to the previous level
-const EXP_MULTIPLIER: float = 2
+const EXP_MULTIPLIER: float = 2 ** (1.0 / 3)
 ## The amount of experience for killing an enemy in one round of combat
 const ONE_ROUND_EXP_BASE: float = float(BASE_EXP) / 3
 ## The amount of combat experience reserved for when an enemy is killed
@@ -501,11 +501,11 @@ func get_current_exp() -> float:
 
 
 static func get_exp_from_level(current_level: float) -> float:
-	return BASE_EXP * (EXP_MULTIPLIER ** (current_level - 1) - 1)
+	return BASE_EXP * ((EXP_MULTIPLIER ** (current_level - 1)) - 1) / (EXP_MULTIPLIER - 1)
 
 
 static func get_level_from_exp(xp: float) -> float:
-	return log(1 + float(xp) / BASE_EXP) / log(EXP_MULTIPLIER) + 1
+	return log(float(xp) * (EXP_MULTIPLIER - 1) / BASE_EXP + 1) / log(EXP_MULTIPLIER) + 1
 
 
 static func get_exp_to_level(current_level: float) -> float:

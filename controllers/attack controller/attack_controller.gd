@@ -132,7 +132,9 @@ func _kill(unit: Unit, unit_animation: MapAttack) -> void:
 
 
 func _get_combat_exp(distributing_unit: Unit, damage: float) -> float:
-	var base_exp: float = Unit.ONE_ROUND_EXP_BASE * 2 ** (distributing_unit.level - 1)
+	var base_exp: float = (
+		Unit.ONE_ROUND_EXP_BASE * Unit.EXP_MULTIPLIER ** (distributing_unit.level - 1)
+	)
 	var damage_percent: float = float(damage) / distributing_unit.get_stat(Unit.Stats.HIT_POINTS)
 	return base_exp * damage_percent
 
