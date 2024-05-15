@@ -25,10 +25,14 @@ enum Stats {
 const LEVEL_CAP: int = 30
 ## Duration of fade-away upon death
 const FADE_AWAY_DURATION: float = 20.0 / 60
-## The amount that the stat is multiplied by with max PVs
-const PERSONAL_VALUE_MULTIPLIER: float = sqrt(4.0 / 3)
-## The amount that the stat is multiplied by with max EVs
-const EFFORT_VALUE_MULTIPLIER: float = sqrt(4.0 / 3)
+## The added amount when the stat is 0 and PVs are maxed
+const PERSONAL_VALUE_MIN_MODIFIER: float = 2.5
+## The added amount when the stat is the unit class max and PVs are maxed
+const PERSONAL_VALUE_MAX_MODIFIER: float = 5
+## The added amount when the stat is 0 and PVs are maxed
+const EFFORT_VALUE_MIN_MODIFIER: float = 2.5
+## The added amount when the stat is the unit class max and PVs are maxed
+const EFFORT_VALUE_MAX_MODIFIER: float = 5
 ## The maximum value that a PV can be
 const PERSONAL_VALUE_LIMIT: int = 15
 ## The maximum value that an EV can be
@@ -138,7 +142,6 @@ var _personal_resistance: int = 5
 @warning_ignore("unused_private_class_variable")
 var _personal_movement: int
 @warning_ignore("unused_private_class_variable")
-var _personal_build: int
 var _personal_build: int = 5
 
 var _map: Map
@@ -353,14 +356,20 @@ func get_stat_boost(stat: Stats) -> int:
 func get_stat(stat: Stats, current_level: int = level) -> int:
 	var leveled_stat: float = unit_class.get_stat(stat, current_level)
 	var unclamped_stat: int = roundi(
-		leveled_stat * _get_personal_multiplier(stat) * _get_effort_multiplier(stat)
+		leveled_stat
+		+ _get_personal_modifier(stat, current_level)
+		+ _get_effort_modifier(stat, current_level)
 	)
 	return clampi(unclamped_stat, 0, get_stat_cap(stat)) + get_stat_boost(stat)
 
 
 func get_stat_cap(stat: Stats) -> int:
 	return roundi(
-		(unit_class.get_end_stat(stat)) * (PERSONAL_VALUE_MULTIPLIER) * (EFFORT_VALUE_MULTIPLIER)
+		(
+			(unit_class.get_end_stat(stat))
+			+ (PERSONAL_VALUE_MAX_MODIFIER)
+			+ (EFFORT_VALUE_MAX_MODIFIER)
+		)
 	)
 
 
@@ -945,14 +954,43 @@ func _on_area2d_area_entered(area: Area2D) -> void:
 		CursorController.hovered_unit = self
 
 
-func _get_personal_multiplier(stat: Stats) -> float:
-	var personal_value: int = clampi(get_personal_value(stat) as int, 0, PERSONAL_VALUE_LIMIT)
-	return 1 + ((personal_value as float) / PERSONAL_VALUE_LIMIT * (PERSONAL_VALUE_MULTIPLIER - 1))
+func _get_personal_modifier(stat: Stats, current_level: int) -> float:
+	var personal_value: float = clampf(get_personal_value(stat) as int, 0, PERSONAL_VALUE_LIMIT)
+	return _get_value_modifier(
+		stat,
+		current_level,
+		PERSONAL_VALUE_MIN_MODIFIER,
+		PERSONAL_VALUE_MAX_MODIFIER,
+		personal_value / PERSONAL_VALUE_LIMIT
+	)
 
 
-func _get_effort_multiplier(stat: Stats) -> float:
-	var effort_value: int = clampi(get_effort_value(stat) as int, 0, INDIVIDUAL_EFFORT_VALUE_LIMIT)
-	return 1 + ((effort_value as float) / INDIVIDUAL_EFFORT_VALUE_LIMIT * EFFORT_VALUE_MULTIPLIER)
+func _get_effort_modifier(stat: Stats, current_level: int) -> float:
+	var effort_value: float = clampf(
+		get_effort_value(stat) as int, 0, INDIVIDUAL_EFFORT_VALUE_LIMIT
+	)
+	return _get_value_modifier(
+		stat,
+		current_level,
+		EFFORT_VALUE_MIN_MODIFIER,
+		EFFORT_VALUE_MAX_MODIFIER,
+		effort_value / INDIVIDUAL_EFFORT_VALUE_LIMIT
+	)
+
+
+func _get_value_modifier(
+	stat: Stats, current_level: int, min_value: float, max_value: float, value_weight: float
+) -> float:
+	return (
+		remap(
+			unit_class.get_stat(stat, current_level),
+			0,
+			UnitClass.MAX_END_STAT,
+			min_value,
+			max_value
+		)
+		* value_weight
+	)
 
 
 func _on_area2d_area_exited(area: Area2D) -> void:

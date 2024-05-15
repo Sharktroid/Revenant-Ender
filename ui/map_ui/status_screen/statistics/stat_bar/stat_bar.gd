@@ -4,7 +4,7 @@ extends HelpContainer
 
 ## Highest value that can be ever displayed.
 const ABSOLUTE_MAX_VALUE: int = ceili(
-	30 * (Unit.PERSONAL_VALUE_MULTIPLIER) * (Unit.EFFORT_VALUE_MULTIPLIER)
+	30 + (Unit.PERSONAL_VALUE_MAX_MODIFIER) + (Unit.EFFORT_VALUE_MAX_MODIFIER)
 )
 
 var margins: Vector2i

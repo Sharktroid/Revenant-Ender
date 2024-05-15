@@ -19,6 +19,8 @@ enum MovementTypes {
 	FLIERS,
 }
 
+const MAX_END_STAT: int = 30
+
 var _base_hit_points: int
 var _base_strength: int
 var _base_pierce: int
@@ -122,7 +124,9 @@ func get_base_build() -> int:
 
 
 func get_end_stat(stat: Unit.Stats) -> int:
-	return get("_end_%s" % (Unit.Stats.find_key(stat) as String).to_snake_case())
+	return mini(
+		get("_end_%s" % (Unit.Stats.find_key(stat) as String).to_snake_case()) as int, MAX_END_STAT
+	)
 
 
 func get_end_hit_points() -> int:
