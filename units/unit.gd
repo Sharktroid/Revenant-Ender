@@ -116,29 +116,30 @@ var effort_movement: int
 var effort_build: int
 
 @warning_ignore("unused_private_class_variable")
-var _personal_hit_points: int
+var _personal_hit_points: int = 5
 @warning_ignore("unused_private_class_variable")
-var _personal_strength: int
+var _personal_strength: int = 5
 @warning_ignore("unused_private_class_variable")
-var _personal_pierce: int
+var _personal_pierce: int = 5
 @warning_ignore("unused_private_class_variable")
-var _personal_intelligence: int
+var _personal_intelligence: int = 5
 @warning_ignore("unused_private_class_variable")
-var _personal_skill: int
+var _personal_skill: int = 5
 @warning_ignore("unused_private_class_variable")
-var _personal_speed: int
+var _personal_speed: int = 5
 @warning_ignore("unused_private_class_variable")
-var _personal_luck: int
+var _personal_luck: int = 5
 @warning_ignore("unused_private_class_variable")
-var _personal_defense: int
+var _personal_defense: int = 5
 @warning_ignore("unused_private_class_variable")
-var _personal_armor: int
+var _personal_armor: int = 5
 @warning_ignore("unused_private_class_variable")
-var _personal_resistance: int
+var _personal_resistance: int = 5
 @warning_ignore("unused_private_class_variable")
 var _personal_movement: int
 @warning_ignore("unused_private_class_variable")
 var _personal_build: int
+var _personal_build: int = 5
 
 var _map: Map
 var _animation_player: AnimationPlayer
