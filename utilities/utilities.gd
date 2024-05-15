@@ -140,7 +140,7 @@ func set_neighbor_path(
 		)
 
 
-func get_control_within_height(checking_control: Control, control_array: Array[Node]) -> Control:
+func get_control_within_height(checking_control: Control, control_array: Array[Control]) -> Control:
 	var center: float = _get_center(checking_control)
 	var get_distance: Callable = func(control: Control) -> float:
 		return absf(center - _get_center(control))

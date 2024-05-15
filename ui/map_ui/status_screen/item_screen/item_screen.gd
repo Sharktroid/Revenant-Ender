@@ -4,14 +4,14 @@ var observing_unit: Unit
 
 
 func update() -> void:
-	var ranks: Array[Node] = []
+	var ranks: Array[Control] = []
 	for control: Control in $WeaponRanks/GridContainer.get_children() as Array[Control]:
 		if control.get_index() % 2 == 0:
 			ranks.append(control)
 	for child: Node in $ItemPanel/ItemLabelContainer.get_children():
 		for grandchild: Node in child.get_children():
 			grandchild.queue_free()
-	var item_labels: Array[Node] = []
+	var item_labels: Array[Control] = []
 	for item: Item in observing_unit.items:
 		const ITEM_LABEL_PATH: String = "res://ui/map_ui/item_label/item_label"
 		const ITEM_LABEL_NODE: PackedScene = preload(ITEM_LABEL_PATH + ".tscn")
@@ -30,9 +30,11 @@ func update() -> void:
 			var closest_item_label: Control = Utilities.get_control_within_height(rank, item_labels)
 			rank.focus_neighbor_left = rank.get_path_to(closest_item_label)
 
+	var item_label_nodes: Array[Node] = []
+	item_label_nodes.assign(item_labels)
 	for index in item_labels.size():
-		Utilities.set_neighbor_path("top", index, -1, item_labels)
-		Utilities.set_neighbor_path("bottom", index, 1, item_labels)
+		Utilities.set_neighbor_path("top", index, -1, item_label_nodes)
+		Utilities.set_neighbor_path("bottom", index, 1, item_label_nodes)
 	for type: String in Weapon.Types.keys() as Array[String]:
 		var rank_node_name: String = "%sRank" % str(type).to_pascal_case()
 		const RANK_LABEL = preload(

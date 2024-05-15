@@ -64,7 +64,9 @@ func _update() -> void:
 	(%UnitDescription as HelpContainer).help_description = observing_unit.unit_description
 
 	(%ClassName as Label).text = observing_unit.unit_class.resource_name
-	(%ClassDescription as HelpContainer).help_description = observing_unit.unit_class.get_description()
+	(%ClassDescription as HelpContainer).help_description = (
+		observing_unit.unit_class.get_description()
+	)
 
 	_set_label_text_to_number(%CurrentLevel as Label, observing_unit.level)
 	_set_label_text_to_number(%MaxLevel as Label, observing_unit.get_max_level())
@@ -115,7 +117,10 @@ func _update() -> void:
 
 		crit_description.help_description = (
 			"%d + %d"
-			% [observing_unit.get_current_weapon().get_crit(), observing_unit.get_stat(Unit.Stats.SKILL)]
+			% [
+				observing_unit.get_current_weapon().get_crit(),
+				observing_unit.get_stat(Unit.Stats.SKILL)
+			]
 		)
 		_set_label_text_to_number(crit_label, observing_unit.get_crit())
 	else:
@@ -190,15 +195,19 @@ func _update_tab() -> void:
 			var items := $MenuScreen/MenuTabs/Items as ItemScreen
 			items.observing_unit = observing_unit
 			items.update()
-			tab_controls.assign(items.get_rank_labels() if items.get_item_labels().is_empty() else items.get_item_labels())
+			tab_controls.assign(
+				(
+					items.get_rank_labels()
+					if items.get_item_labels().is_empty()
+					else items.get_item_labels()
+				)
+			)
 	await get_tree().process_frame
-	var nodes: Array[Node] = []
-	nodes.assign(tab_controls)
 	for control: Control in constant_labels:
-		var matching_control: Control = Utilities.get_control_within_height(control, nodes)
+		var matching_control: Control = Utilities.get_control_within_height(control, tab_controls)
 		control.focus_neighbor_right = control.get_path_to(matching_control)
 	for control: Control in tab_controls:
-		var matching_control: Control = Utilities.get_control_within_height(control, nodes)
+		var matching_control: Control = Utilities.get_control_within_height(control, constant_labels)
 		control.focus_neighbor_left = control.get_path_to(matching_control)
 
 
@@ -217,8 +226,8 @@ func _move(dir: int) -> void:
 	var fade_out: Tween = create_tween()
 	fade_out.set_speed_scale(2)
 	fade_out.set_parallel(true)
-	fade_out.tween_property(menu, "position:y", dest * SWAP_THRESHOLD * dir, DURATION/2)
-	fade_out.tween_property(menu, "modulate:a", 0, DURATION/2)
+	fade_out.tween_property(menu, "position:y", dest * SWAP_THRESHOLD * dir, DURATION / 2)
+	fade_out.tween_property(menu, "modulate:a", 0, DURATION / 2)
 	await fade_out.finished
 
 	menu.position.y = -dest * dir * SWAP_THRESHOLD
@@ -227,8 +236,8 @@ func _move(dir: int) -> void:
 	var fade_in: Tween = create_tween()
 	fade_in.set_speed_scale(2)
 	fade_in.set_parallel(true)
-	fade_in.tween_property(menu, "position:y", 0, DURATION/2)
-	fade_in.tween_property(menu, "modulate:a", 1, DURATION/2)
+	fade_in.tween_property(menu, "position:y", 0, DURATION / 2)
+	fade_in.tween_property(menu, "modulate:a", 1, DURATION / 2)
 	await fade_in.finished
 
 	menu.position.y = 0
