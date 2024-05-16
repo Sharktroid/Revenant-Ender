@@ -1,5 +1,4 @@
 # Minor
-* Make it so that the selection of a menu doesn't change when unfocused
 * Have menus reset size when entries are removed
 * Fix bug where unit path doesn't update when exiting a menu
 * Make the get tiles functions all derive from one function and optimise the iterations
