@@ -36,6 +36,12 @@ func select_item(item: MapMenuItem) -> void:
 				CursorController.map_position
 			])
 
+		"DisplayFrameRate":
+			Utilities.invert_debug_constant("show_fps")
+			(MapController.get_ui().get_node("FPS Display") as HBoxContainer).visible = (
+				Utilities.get_debug_constant("show_fps")
+			)
+
 		_: push_error("%s is not a valid menu item" % item)
 	Utilities.save_config()
 	_update_items()
@@ -48,7 +54,8 @@ func _update_items() -> void:
 		"DisplayBorders": Utilities.get_debug_constant("display_map_borders"),
 		"DisplayTerrain": Utilities.get_debug_constant("display_map_terrain"),
 		"DisplayMapCursor": Utilities.get_debug_constant("display_map_cursor"),
-		"OutputInputReciever": Utilities.get_debug_constant("print_input_reciever"),
+		"PrintInputReciever": Utilities.get_debug_constant("print_input_reciever"),
+		"DisplayFrameRate": Utilities.get_debug_constant("show_fps"),
 	}
 	for key: String in values.keys() as Array[String]:
 		var value: String = str(values[key])

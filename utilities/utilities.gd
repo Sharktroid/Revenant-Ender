@@ -14,6 +14,7 @@ var _debug_constants: Dictionary = {  # Constants used in the debug menu.
 	display_map_terrain = false,
 	display_map_cursor = false,
 	print_input_reciever = false,
+	show_fps = false
 }
 var _config_file := ConfigFile.new()  # File used for saving and loading of configuration settings.
 var _default_screen_size: Vector2i

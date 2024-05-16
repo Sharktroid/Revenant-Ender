@@ -13,6 +13,23 @@ var map := Map.new()
 var _phase_display: _PHASE_DISPLAY
 
 
+func _ready() -> void:
+	(MapController.get_ui().get_node("FPS Display") as HBoxContainer).visible = (
+		Utilities.get_debug_constant("show_fps")
+	)
+
+
+func _process(delta: float) -> void:
+	(get_ui().get_node("%Average Process Frame Label") as Label).text = (
+		str(Engine.get_frames_per_second())
+	)
+	(get_ui().get_node("%Immediate Process Frame Label") as Label).text = str(roundi(1 / delta))
+
+
+func _physics_process(delta: float) -> void:
+	(get_ui().get_node("%Physic Frame Label") as Label).text = str(roundi(1 / delta))
+
+
 func receive_input(event: InputEvent) -> void:
 	if not event is InputEventMouseMotion:
 		AudioPlayer.clear_sound_effects()

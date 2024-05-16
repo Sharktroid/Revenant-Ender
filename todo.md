@@ -3,6 +3,7 @@
 * Show doubling on combat display
 * Have combat display show on hovering and show arrows to indicate the ability to swap weapons
 * Replace claws with shields
+* Have debug constants use enums
 
 # Major
 * Make certain scenes into objects that load the scenes to make the code less janky

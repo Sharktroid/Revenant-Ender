@@ -6,6 +6,46 @@
 
 [node name="MapUILayer" type="CanvasLayer"]
 
+[node name="FPS Display" type="HBoxContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -34.0
+offset_top = 2.0
+offset_right = -6.0
+offset_bottom = 18.0
+grow_horizontal = 0
+theme_override_constants/separation = 0
+
+[node name="Average Process Frame Label" type="Label" parent="FPS Display"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+text = "75"
+horizontal_alignment = 2
+
+[node name="Left Separator" type="Label" parent="FPS Display"]
+layout_mode = 2
+text = " ("
+
+[node name="Immediate Process Frame Label" type="Label" parent="FPS Display"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(18, 0)
+layout_mode = 2
+text = "75"
+horizontal_alignment = 1
+
+[node name="Right Separator" type="Label" parent="FPS Display"]
+layout_mode = 2
+text = ") | "
+
+[node name="Physic Frame Label" type="Label" parent="FPS Display"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+text = "60"
+horizontal_alignment = 2
+
 [node name="Cursor" parent="." instance=ExtResource("1_opi3l")]
 
 [node name="TurnBanner" type="Sprite2D" parent="."]
