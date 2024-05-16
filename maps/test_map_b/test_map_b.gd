@@ -23,8 +23,7 @@ func _init() -> void:
 	super()
 
 
-func _ready() -> void:
-	super()
+func _intro() -> void:
 	if DEBUG_CUTSCENE:
 		CursorController.disable()
 		var roy := $MapLayer/Units/Player/Roy as Unit

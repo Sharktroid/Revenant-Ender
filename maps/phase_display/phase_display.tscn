@@ -13,7 +13,6 @@ shader_parameter/new_colors = [Color(0, 0, 127, 255)]
 shader_parameter/modulate = Vector4(1, 1, 1, 1)
 
 [node name="PhaseDisplay" type="ReferenceRect"]
-layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

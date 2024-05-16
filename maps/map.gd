@@ -49,7 +49,11 @@ func _ready() -> void:
 		for cell: Vector2i in ($MapLayer/BaseLayer as TileMap).get_used_cells(0):
 			update_a_star_grid_id(a_star_grid, movement_type, cell)
 		_cost_grids[movement_type] = a_star_grid
-	start_turn.call_deferred()
+	await _intro()
+	if not MapController.get_ui().is_node_ready():
+		await MapController.get_ui().ready
+	start_turn()
+
 
 
 func receive_input(event: InputEvent) -> void:
@@ -287,6 +291,10 @@ func update_position_terrain_cost(pos: Vector2i) -> void:
 	for unit: Unit in get_units():
 		if unit.position == Vector2(pos):
 			_update_grid_current_faction()
+
+
+func _intro() -> void:
+	await get_tree().process_frame
 
 
 func _get_terrain(coords: Vector2i) -> String:

@@ -32,7 +32,8 @@ var _skipping: bool = false
 
 func receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
-		var portraits := _portraits.keys() as Array[Unit]
+		var portraits: Array[Unit] = []
+		portraits.assign(_portraits.keys())
 		var last_portrait: Unit = portraits.pop_back()
 		for portrait: Unit in portraits:
 			remove_portrait(portrait)
