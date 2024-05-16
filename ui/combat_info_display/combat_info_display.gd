@@ -87,12 +87,15 @@ func _update() -> void:
 		var node_path: String = "%%{half}%s".format({"half": half})
 
 		(get_node(node_path % "Name") as Label).text = current_unit.unit_name
-		(get_node(node_path % "WeaponIcon") as TextureRect).texture = weapon.get_icon()
-		(get_node(node_path % "WeaponName") as Label).text = weapon.get_name()
+
+		(get_node(node_path % "WeaponIcon") as TextureRect).texture = (
+			weapon.get_icon() if weapon else null
+		)
+		(get_node(node_path % "WeaponName") as Label).text = weapon.get_name() if weapon else ""
 
 		(get_node(node_path % "HP") as Label).text = str(current_unit.current_health)
 
-		var in_range: bool = distance in weapon.get_range()
+		var in_range: bool = weapon and distance in weapon.get_range()
 		(get_node(node_path % "Damage") as Label).text = (
 			str(current_unit.get_damage(other_unit)) if in_range else "--"
 		)
