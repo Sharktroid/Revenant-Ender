@@ -1,5 +1,4 @@
 # Minor
-* Fix bug where unit path doesn't update when exiting a menu
 * Make the get tiles functions all derive from one function and optimise the iterations
 * Improve performance with big attack ranges
 * Show doubling on combat display

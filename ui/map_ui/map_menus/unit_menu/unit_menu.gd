@@ -35,7 +35,6 @@ func receive_input(event: InputEvent) -> void:
 
 
 func close(return_to_caller: bool = false) -> void:
-	CursorController.enable()
 	if not actionable:
 		_check_canto()
 	queue_free()
@@ -43,6 +42,7 @@ func close(return_to_caller: bool = false) -> void:
 		caller.close()
 	if _canto:
 		CantoController.new(connected_unit)
+	CursorController.enable.call_deferred()
 
 
 func update() -> void:
