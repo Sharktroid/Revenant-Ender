@@ -77,10 +77,10 @@ func _input(event: InputEvent) -> void:
 		elif event.is_action_pressed("down"):
 			new_pos.y += 16
 		if new_pos != map_position:
+			map_position = new_pos
 			AudioPlayer.play_sound_effect(AudioPlayer.CURSOR)
 			await get_tree().create_timer(0.25).timeout
 			_repeat = true
-		map_position = new_pos
 
 
 func enable() -> void:
