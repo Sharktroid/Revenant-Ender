@@ -1,5 +1,4 @@
 # Minor
-* Have kill experience be properly calculated
 * Fix debug cutscene playing at the same time as the phase intro
 * Make it so that the selection of a menu doesn't change when unfocused
 * Have menus reset size when entries are removed

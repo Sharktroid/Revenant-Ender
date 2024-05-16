@@ -136,7 +136,12 @@ func _get_combat_exp(distributing_unit: Unit, damage: float) -> float:
 		Unit.ONE_ROUND_EXP_BASE * Unit.EXP_MULTIPLIER ** (distributing_unit.level - 1)
 	)
 	var damage_percent: float = float(damage) / distributing_unit.get_stat(Unit.Stats.HIT_POINTS)
-	return base_exp * damage_percent
+	var chip_exp: float = base_exp * damage_percent * (1 - Unit.KILL_EXP_PERCENT)
+	var kill_exp: float = (
+		base_exp * Unit.KILL_EXP_PERCENT if distributing_unit.current_health <= 0
+		else 0.0
+	)
+	return chip_exp + kill_exp
 
 
 func _give_exp(recieving_unit: Unit, distributing_unit: Unit, old_hp: float) -> void:
@@ -167,14 +172,9 @@ class CombatStage:
 	func _init(attacking_unit: Unit, defending_unit: Unit) -> void:
 		attacker = attacking_unit
 		defender = defending_unit
-		attack_type = _calc(attacker, defender)
-
-	func _calc(unit: Unit, other_unit: Unit) -> AttackTypes:
-		return (
-			AttackTypes.MISS
-			if unit.get_hit_rate(other_unit) <= randi_range(0, 99)
-			else (
-				AttackTypes.CRIT if unit.get_crit_rate(other_unit) > randi_range(0, 99)
-				else AttackTypes.HIT
-			)
+		var did_hit: bool = attacker.get_hit_rate(defender) > randi_range(0, 99)
+		attack_type = (
+			AttackTypes.MISS if not did_hit
+			else AttackTypes.CRIT if attacker.get_crit_rate(defender) > randi_range(0, 99)
+			else AttackTypes.HIT
 		)
