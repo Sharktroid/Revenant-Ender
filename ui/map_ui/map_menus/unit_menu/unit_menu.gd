@@ -277,13 +277,15 @@ func _select_map(selector: Selector, tiles_node: Node2D, selected: Callable,
 
 
 func _can_attack(unit: Unit) -> bool:
-	var pos: Vector2i = connected_unit.get_path_last_pos()
-	var current_tiles: Array[Vector2i] = connected_unit.get_current_attack_tiles(pos, true)
-	var faction: Faction = unit.faction
-	var diplo_stance := connected_unit.faction.get_diplomacy_stance(faction)
+	var current_tiles: Array[Vector2i] = (
+		connected_unit.get_current_attack_tiles(connected_unit.get_path_last_pos(), true)
+	)
+	var diplo_stance: Faction.DiplomacyStances = (
+		connected_unit.faction.get_diplomacy_stance(unit.faction)
+	)
 	return (
-			diplo_stance == Faction.DiplomacyStances.ENEMY
-			and Vector2i(unit.position) in current_tiles
+		diplo_stance == Faction.DiplomacyStances.ENEMY
+		and Vector2i(unit.position) in current_tiles
 	)
 
 
@@ -295,8 +297,10 @@ func _get_drop_tiles() -> Array[Vector2i]:
 	var traveler: Unit = connected_unit.traveler
 	var tiles: Array[Vector2i] = []
 	for tile: Vector2i in \
-			connected_unit.get_adjacent_tiles(connected_unit.get_path_last_pos(), 1, 1):
-		var cost: float = MapController.map.get_terrain_cost(traveler.unit_class.get_movement_type(), tile)
+			Utilities.get_tiles(connected_unit.get_path_last_pos(), 1, 1):
+		var cost: float = (
+			MapController.map.get_terrain_cost(traveler.unit_class.get_movement_type(), tile)
+		)
 		var movement: int = traveler.get_stat(Unit.Stats.MOVEMENT)
 		if cost <= movement:
 			tiles.append(tile)
@@ -309,7 +313,7 @@ func _get_drop_tiles() -> Array[Vector2i]:
 
 
 func _display_adjacent_support_tiles() -> Node2D:
-	var tiles: Array[Vector2i] = connected_unit.get_adjacent_tiles(
+	var tiles: Array[Vector2i] = Utilities.get_tiles(
 			connected_unit.get_path_last_pos(), 1, 1)
 	return MapController.map.display_highlighted_tiles(tiles, connected_unit,
 			Map.TileTypes.SUPPORT)

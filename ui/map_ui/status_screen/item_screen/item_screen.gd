@@ -32,7 +32,7 @@ func update() -> void:
 
 	var item_label_nodes: Array[Node] = []
 	item_label_nodes.assign(item_labels)
-	for index in item_labels.size():
+	for index: int in item_labels.size():
 		Utilities.set_neighbor_path("top", index, -1, item_label_nodes)
 		Utilities.set_neighbor_path("bottom", index, 1, item_label_nodes)
 	for type: String in Weapon.Types.keys() as Array[String]:

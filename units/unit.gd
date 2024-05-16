@@ -589,21 +589,13 @@ func awaken() -> void:
 
 func get_movement_tiles(custom_movement: int = floori(current_movement)) -> Array[Vector2i]:
 	# Gets the movement tiles of the unit
-	var h: Array[Vector2i] = []
 	var start: Vector2i = position
 	const RANGE_MULT: float = 4.0 / 3
 	var movement_tiles_dict: Dictionary = {custom_movement as float: [start]}
 	var movement_tiles: Array[Vector2i] = []
 	if position == ((position / 16).floor() * 16):
 		#region Gets the initial grid
-		for y in range(-custom_movement * RANGE_MULT, custom_movement * RANGE_MULT + 1):
-			var v := []
-			for x in range(
-				-(custom_movement * RANGE_MULT - absi(y)),
-				(custom_movement * RANGE_MULT - absi(y)) + 1
-			):
-				v.append(start + Vector2i(x * 16, y * 16))
-			h.append_array(v)
+		var h: Array[Vector2i] = Utilities.get_tiles(start, ceili(custom_movement * RANGE_MULT))
 		#endregion
 		#region Orders tiles by distance from center
 		h.erase(start)
@@ -638,16 +630,10 @@ func get_all_attack_tiles(
 		var min_range: int = get_min_range()
 		var max_range: int = get_max_range()
 		for tile: Vector2i in basis_movement_tiles:
-			for y in range(-max_range, max_range + 1):
-				for x in range(-max_range, max_range + 1):
-					var attack_tile: Vector2i = tile + Vector2i(x * 16, y * 16)
-					if (
-						not (attack_tile in all_attack_tiles + movement_tiles)
-						and get_map().borders.has_point(attack_tile)
-					):
-						var distance: int = floori(Utilities.get_tile_distance(tile, attack_tile))
-						if distance >= min_range and distance <= max_range:
-							all_attack_tiles.append(attack_tile)
+			var current_tiles: Array[Vector2i] = all_attack_tiles + movement_tiles
+			for attack_tile: Vector2i in Utilities.get_tiles(tile, max_range, min_range):
+				if not attack_tile in current_tiles:
+					all_attack_tiles.append(attack_tile)
 	return all_attack_tiles
 
 
@@ -671,26 +657,17 @@ func hide_movement_tiles() -> void:
 		_attack_tile_node.queue_free()
 
 
-func get_adjacent_tiles(pos: Vector2i, min_range: int, max_range: int) -> Array[Vector2i]:
-	var adjacent_tiles: Array[Vector2i] = []
-	for y: int in range(-max_range, max_range + 1):
-		var v: Array[Vector2i] = []
-		for x: int in range(-max_range, max_range + 1):
-			var distance: int = floori(Utilities.get_tile_distance(Vector2i(), Vector2i(x, y) * 16))
-			if distance in range(min_range, max_range + 1):
-				v.append(Vector2i(pos) + Vector2i(x * 16, y * 16))
-		adjacent_tiles.append_array(v)
-	return adjacent_tiles
-
-
 func get_current_attack_tiles(pos: Vector2i, all_weapons: bool = false) -> Array[Vector2i]:
 	if is_instance_valid(get_current_weapon()):
-		var min_range: int = get_current_weapon().get_min_range()
-		var max_range: int = get_current_weapon().get_max_range()
-		if all_weapons:
-			min_range = get_min_range()
-			max_range = get_max_range()
-		return get_adjacent_tiles(pos, min_range, max_range)
+		var min_range: int = (
+			get_min_range() if all_weapons
+			else get_current_weapon().get_min_range()
+		)
+		var max_range: int = (
+			get_max_range() if all_weapons
+			else get_current_weapon().get_max_range()
+		)
+		return Utilities.get_tiles(pos, max_range, min_range)
 	return []
 
 
@@ -931,7 +908,7 @@ func _set_palette(color: Faction.Colors) -> void:
 	#endregion
 	var old_colors: Array[Color] = []
 	var new_colors: Array[Color] = []
-	for color_set in palette:
+	for color_set: Array[Vector3] in palette:
 		var old_color: Vector3 = color_set[0] / 255
 		old_colors.append(Color(old_color.x, old_color.y, old_color.z, 1))
 		var new_color: Vector3 = color_set[1] / 255

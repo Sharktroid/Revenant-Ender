@@ -1,5 +1,4 @@
 # Minor
-* Make the get tiles functions all derive from one function and optimise the iterations
 * Improve performance with big attack ranges
 * Show doubling on combat display
 * Have combat display show on hovering and show arrows to indicate the ability to swap weapons

@@ -27,10 +27,33 @@ func _init() -> void:
 		ProjectSettings.get_setting("display/window/size/viewport_width") as int,
 		ProjectSettings.get_setting("display/window/size/viewport_height") as int
 	)
+	#var r: int = 2
+	#var tiles: Array[Vector2i] = get_tiles(Vector2i(r*16, r*16), r, 2)
+	#for x: int in r * 2 + 1:
+		#var output: Array[int] = []
+		#for y: int in r * 2 + 1:
+			#output.append(1 if Vector2i(x*16, y*16) in tiles else 0)
+		#print(" ".join(output))
 
 
 func _exit_tree() -> void:
 	save_config()
+
+
+func get_tiles(center: Vector2i, max_range: int, min_range: int = 0) -> Array[Vector2i]:
+	var output: Array[Vector2i] = []
+	if min_range > max_range:
+		return output
+	for x: int in range(-max_range, max_range + 1):
+		var curr_max: int = -abs(x) + max_range
+		var curr_min: int = -abs(x) + min_range
+		var ranges: Array = (
+			range(-curr_max, -curr_min + 1) + range(curr_min, curr_max + 1) if curr_min > 0
+			else range(-curr_max, curr_max + 1)
+		)
+		for y: int in ranges:
+			output.append(Vector2i(x, y) * 16 + center)
+	return output
 
 
 func get_screen_size() -> Vector2i:

@@ -15,7 +15,7 @@ var _current_item_index: int = 0
 func _enter_tree() -> void:
 	update_position.call_deferred()
 	var visible_children: Array[Node] = []
-	for child in _get_visible_children():
+	for child: MapMenuItem in _get_visible_children():
 		visible_children.append(child)
 	for index: int in visible_children.size():
 		Utilities.set_neighbor_path("top", index, -1, visible_children)
