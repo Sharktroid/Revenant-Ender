@@ -51,3 +51,4 @@ func _update() -> void:
 			var item_node := _ITEM_MENU_ITEM.new(item)
 			item_node.help_description = item.get_description()
 			$Items.add_child(item_node)
+	reset_size()
