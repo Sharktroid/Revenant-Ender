@@ -62,7 +62,7 @@ func _create_outline_tile(
 	tile_color.a = 0.5
 	line_color.a = 0.5
 	draw_rect(Rect2(coords, Vector2i(16, 16)), tile_color, true)
-	for tile_offset: Vector2i in Utilities.adjacent_tiles:
+	for tile_offset: Vector2i in Utilities.ADJACENT_TILES:
 		if not (coords + tile_offset in all_coords):
 			var offset: Vector2 = coords
 			match tile_offset:

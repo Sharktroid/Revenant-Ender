@@ -597,7 +597,9 @@ func get_movement_tiles() -> Array[Vector2i]:
 		var movement_tiles_dict: Dictionary = {floori(current_movement) as float: [start]}
 		if position == ((position / 16).floor() * 16):
 			#region Gets the initial grid
-			var h: Array[Vector2i] = Utilities.get_tiles(start, ceili(current_movement * RANGE_MULT))
+			var h: Array[Vector2i] = Utilities.get_tiles(
+				start, ceili(current_movement * RANGE_MULT), 0, MapController.map.borders
+			)
 			#endregion
 			#region Orders tiles by distance from center
 			h.erase(start)
@@ -628,14 +630,15 @@ func get_all_attack_tiles() -> Array[Vector2i]:
 					basis_movement_tiles.erase(unit_pos)
 		var min_range: int = get_min_range()
 		var max_range: int = get_max_range()
-		print_debug(max_range - min_range)
 		for tile: Vector2i in basis_movement_tiles:
 			var subtiles: Dictionary = {}
 			for subtile: Vector2i in Utilities.get_tiles(tile, min_range, 1):
 				subtiles[subtile] = subtile in get_movement_tiles()
 			if subtiles.values().any(func(value: bool) -> bool: return not value):
 				var current_tiles: Array[Vector2i] = _attack_tiles + get_movement_tiles()
-				for attack_tile: Vector2i in Utilities.get_tiles(tile, max_range, min_range):
+				for attack_tile: Vector2i in Utilities.get_tiles(
+					tile, max_range, min_range, MapController.map.borders
+				):
 					if not attack_tile in current_tiles:
 						_attack_tiles.append(attack_tile)
 	return _attack_tiles
@@ -646,9 +649,7 @@ func display_movement_tiles() -> void:
 	hide_movement_tiles()
 	var movement_tiles: Array[Vector2i] = get_movement_tiles()
 	_movement_tiles_node = get_map().display_tiles(movement_tiles, Map.TileTypes.MOVEMENT, 1)
-	_attack_tile_node = get_map().display_tiles(
-		get_all_attack_tiles(), Map.TileTypes.ATTACK, 1
-	)
+	_attack_tile_node = get_map().display_tiles(get_all_attack_tiles(), Map.TileTypes.ATTACK, 1)
 	if not selected:
 		_movement_tiles_node.modulate.a = 0.5
 		_attack_tile_node.modulate.a = 0.5
@@ -664,14 +665,12 @@ func hide_movement_tiles() -> void:
 func get_current_attack_tiles(pos: Vector2i, all_weapons: bool = false) -> Array[Vector2i]:
 	if is_instance_valid(get_current_weapon()):
 		var min_range: int = (
-			get_min_range() if all_weapons
-			else get_current_weapon().get_min_range()
+			get_min_range() if all_weapons else get_current_weapon().get_min_range()
 		)
 		var max_range: int = (
-			get_max_range() if all_weapons
-			else get_current_weapon().get_max_range()
+			get_max_range() if all_weapons else get_current_weapon().get_max_range()
 		)
-		return Utilities.get_tiles(pos, max_range, min_range)
+		return Utilities.get_tiles(pos, max_range, min_range, MapController.map.borders)
 	return []
 
 
@@ -766,7 +765,7 @@ func update_path(destination: Vector2i) -> void:
 				and Vector2i(unit.position) == destination
 			):
 				var adjacent_movement_tiles: Array[Vector2i] = []
-				for tile_offset: Vector2i in Utilities.adjacent_tiles:
+				for tile_offset: Vector2i in Utilities.ADJACENT_TILES:
 					if Vector2i(unit.position) + tile_offset in movement_tiles:
 						adjacent_movement_tiles.append(Vector2i(unit.position) + tile_offset)
 				if adjacent_movement_tiles.size() > 0:
@@ -785,7 +784,7 @@ func update_path(destination: Vector2i) -> void:
 		else:
 			if (
 				total_cost <= current_movement
-				and destination - get_unit_path()[-1] in Utilities.adjacent_tiles
+				and destination - get_unit_path()[-1] in Utilities.ADJACENT_TILES
 			):
 				_path.append(destination)
 			else:

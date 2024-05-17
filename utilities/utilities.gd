@@ -1,12 +1,10 @@
 @tool
 extends Node
 
-const adjacent_tiles: Array[Vector2i] = [
+const ADJACENT_TILES: Array[Vector2i] = [
 	Vector2i(16, 0), Vector2i(-16, 0), Vector2i(0, 16), Vector2i(0, -16)
 ]
 var theme: Theme = preload("res://ui/theme/menu_theme.tres")
-@onready var font_yellow: String = theme.get_color("font_color", "YellowLabel").to_html()
-@onready var font_blue: String = theme.get_color("font_color", "BlueLabel").to_html()
 
 var _debug_constants: Dictionary = {  # Constants used in the debug menu.
 	unit_wait = true,  # Whether units are unable to move after movement.
@@ -21,6 +19,9 @@ var _default_screen_size: Vector2i
 var _profile: Array[int] = []
 var _current_checkpoint: int
 
+@onready var font_yellow: String = theme.get_color("font_color", "YellowLabel").to_html()
+@onready var font_blue: String = theme.get_color("font_color", "BlueLabel").to_html()
+
 
 func _init() -> void:
 	_load_config()
@@ -28,32 +29,39 @@ func _init() -> void:
 		ProjectSettings.get_setting("display/window/size/viewport_width") as int,
 		ProjectSettings.get_setting("display/window/size/viewport_height") as int
 	)
-	#var r: int = 10
-	#var tiles: Array[Vector2i] = get_tiles(Vector2i(r*16, r*16), r, 3)
-	#for x: int in r * 2 + 1:
-		#var output: Array[int] = []
-		#for y: int in r * 2 + 1:
-			#output.append(1 if Vector2i(x*16, y*16) in tiles else 0)
-		#print(" ".join(output))
 
 
 func _exit_tree() -> void:
 	save_config()
 
 
-func get_tiles(center: Vector2i, max_range: int, min_range: int = 0) -> Array[Vector2i]:
+func get_tiles(
+	center: Vector2i, max_range: int, min_range: int = 0, boundaries := Rect2i(0, 0, 16000, 16000)
+) -> Array[Vector2i]:
 	var output: Array[Vector2i] = []
 	if min_range > max_range:
 		return output
-	for x: int in range(-max_range, max_range + 1):
-		var curr_max: int = -abs(x) + max_range
-		var curr_min: int = -abs(x) + min_range
-		var ranges: Array = (
-			range(-curr_max, -curr_min + 1) + range(curr_min, curr_max + 1) if curr_min > 0
-			else range(-curr_max, curr_max + 1)
-		)
+
+	var left_bound: int = maxi(-max_range * 16 + center.x, boundaries.position.x)
+	var right_bound: int = mini(max_range * 16 + center.x, boundaries.end.x - 16)
+	var top_bound: int = -max_range * 16 + center.y
+	var bottom_bound: int = max_range * 16 + center.y
+	for x: int in range(left_bound, right_bound + 1, 16):
+		var x_offset: int = -abs(x - center.x)
+		var curr_min: int = x_offset + min_range * 16
+		var top_max: int = maxi(-x_offset + top_bound, boundaries.position.y)
+		var bottom_max: int = mini(x_offset + bottom_bound, boundaries.end.y - 16)
+
+		var ranges: Array = []
+		if curr_min > 0:
+			if -curr_min + center.y >= top_bound:
+				ranges += range(top_max, -curr_min + center.y + 1, 16)
+			if curr_min + center.y <= bottom_bound:
+				ranges += range(curr_min + center.y, bottom_max + 1, 16)
+		else:
+			ranges = range(top_max, bottom_max + 1, 16)
 		for y: int in ranges:
-			output.append(Vector2i(x, y) * 16 + center)
+			output.append(Vector2i(x, y))
 	return output
 
 

@@ -28,8 +28,8 @@ func _init() -> void:
 
 
 func _ready() -> void:
-	borders = Rect2i(left_border, top_border, 32, 32)
-	borders = borders.expand(get_size() - Vector2(right_border, bottom_border))
+	borders = Rect2i(left_border * 16, top_border * 16, 32, 32)
+	borders = borders.expand(get_size() - Vector2(right_border * 16, bottom_border * 16))
 	_create_debug_borders()  # Only shows up when collison shapes are enabled
 	_terrain_layer.visible = Utilities.get_debug_constant("display_map_terrain")
 	_border_overlay.visible = Utilities.get_debug_constant("display_map_borders")
