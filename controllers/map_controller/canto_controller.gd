@@ -6,7 +6,7 @@ var _movement_tiles: Node2D
 
 func _init(unit: Unit) -> void:
 	_movement_tiles = MapController.map.display_tiles(
-		unit.get_movement_tiles(floori(unit.current_movement)), Map.TileTypes.MOVEMENT, 1.0
+		unit.get_movement_tiles(), Map.TileTypes.MOVEMENT, 1.0
 	)
 	unit.selected = true
 	super(unit)

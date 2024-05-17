@@ -84,6 +84,8 @@ func receive_input(event: InputEvent) -> void:
 func unit_wait(_unit: Unit) -> void:
 	# Called whenever a unit waits.
 	update_outline()
+	for unit: Unit in get_units():
+		unit.reset_tile_cache()
 
 
 func next_faction() -> void:

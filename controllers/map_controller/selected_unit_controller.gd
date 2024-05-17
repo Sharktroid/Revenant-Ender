@@ -12,7 +12,7 @@ func _init(connected_unit: Unit) -> void:
 	_unit.set_animation(Unit.Animations.MOVING_DOWN)
 	_unit.selected = true
 	_unit.update_path(CursorController.map_position)
-	_unit.refresh_tiles()
+	_unit.update_displayed_tiles()
 	_unit.tree_exited.connect(_on_unit_death)
 	_ghost_unit = GhostUnit.new(_unit)
 	MapController.map.get_child(0).add_child(_ghost_unit)
