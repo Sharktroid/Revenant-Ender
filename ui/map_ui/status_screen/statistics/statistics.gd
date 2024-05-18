@@ -45,34 +45,18 @@ func update() -> void:
 		observing_unit.traveler.name as String if observing_unit.traveler else "-"
 	)
 
-	(%WeightNumber as HelpContainer).help_description = (
-		"%d + %d"
-		% [
-			observing_unit.get_stat(Unit.Stats.BUILD),
-			observing_unit.unit_class.get_weight_modifier()
-		]
-	)
+	(%WeightNumber as HelpContainer).help_description = ("{build} + {weight_modifier}".format({
+		"build": observing_unit.get_stat(Unit.Stats.BUILD),
+		"weight_modifier": observing_unit.unit_class.get_weight_modifier()
+	}))
 	var aid_number := %AidNumber as HelpContainer
-	if observing_unit.unit_class.get_aid_modifier() < 0:
-		aid_number.help_description = (
-			"%d - %d"
-			% [
-				observing_unit.get_stat(Unit.Stats.BUILD),
-				-observing_unit.unit_class.get_aid_modifier()
-			]
-		)
-	elif observing_unit.unit_class.get_aid_modifier() == 0:
-		aid_number.help_description = (
-			"%d + 0" % [observing_unit.get_stat(Unit.Stats.BUILD)]
-		)
-	else:
-		aid_number.help_description = (
-			"%d - %d"
-			% [
-				observing_unit.unit_class.get_aid_modifier(),
-				observing_unit.get_stat(Unit.Stats.BUILD)
-			]
-		)
+	var aid_description: String = _get_unformatted_aid_description(
+		observing_unit.unit_class.get_aid_modifier()
+	)
+	aid_number.help_description = aid_description.format({
+		"build": observing_unit.get_stat(Unit.Stats.BUILD),
+		"aid_modifier": absi(observing_unit.unit_class.get_aid_modifier())
+	})
 
 
 func get_left_controls() -> Array[Node]:
@@ -83,3 +67,13 @@ func _update_stat_bar(stat_bar: StatBar, stat: Unit.Stats) -> void:
 	stat_bar.unit = observing_unit
 	stat_bar.stat = stat
 	stat_bar.update.call_deferred()
+
+
+func _get_unformatted_aid_description(aid_modifier: int) -> String:
+	match sign(aid_modifier):
+		1:
+			return "{aid_modifier} - {build}"
+		-1:
+			return "{build} - {aid_modifier}"
+		_:
+			return "{build} + 0"

@@ -1,5 +1,4 @@
 # Minor
-* Format strings use dictionaries
 * Fix attack tiles showing up out of bounds
 * Show doubling on combat display
 * Have combat display show on hovering and show arrows to indicate the ability to swap weapons
@@ -13,12 +12,14 @@
 	* Disallow viewing unit's tiles
 * Fix crash when backing out of drop
 * Fix EXP percent not being navigable with arrows
+* Fix help menu expanding in the x-axis while closing a small popup
 
 # Major
 * Make certain scenes into objects that load the scenes to make the code less janky
 * Add the remaining sub menus of the main map menu
 * Make attack Animations skippable
 * Implement durability
+* Implement authority
 
 # Long-term
 * Implement FE6 Chapter 1

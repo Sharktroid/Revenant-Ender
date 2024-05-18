@@ -79,15 +79,21 @@ func _update() -> void:
 	var current_exp: float = observing_unit.get_current_exp()
 	var next_level_exp: float = Unit.get_exp_to_level(observing_unit.level + 1)
 	_set_label_text_to_number(%EXPPercent as Label, observing_unit.get_exp_percent())
-	(%EXPStatHelp as HelpContainer).help_description = (
-		"%d/%d\n%d to next level\nTotal exp: %d"
-		% [
-			roundi(current_exp),
-			roundi(next_level_exp),
-			roundi(next_level_exp - current_exp),
-			roundi(observing_unit.total_exp)
-		]
+
+	var exp_description: String = (
+		"[center][color={blue}]{curr_exp}[color={yellow}]/"
+		+ "[/color]{next_level_exp}[/color][/center]\n"
+		+ "[color={blue}]{remaining_exp}[/color] to next level\n"
+		+ "Total exp: [color={blue}]{total_exp}[/color]"
 	)
+	(%EXPStatHelp as HelpContainer).help_description = exp_description.format({
+		"blue": Utilities.font_blue,
+		"yellow": Utilities.font_yellow,
+		"curr_exp": roundi(current_exp),
+		"next_level_exp": roundi(next_level_exp),
+		"remaining_exp": roundi(next_level_exp - current_exp),
+		"total_exp": roundi(observing_unit.total_exp),
+	})
 
 	var attack_description := %AttackDescription as HelpContainer
 	var attack_label := %AttackValue as Label
@@ -96,32 +102,23 @@ func _update() -> void:
 	var crit_description := %CritDescription as HelpContainer
 	var crit_label := %CritValue as Label
 	if observing_unit.get_current_weapon():
-		attack_description.help_description = (
-			"%d + %d"
-			% [
-				observing_unit.get_raw_attack() - observing_unit.get_current_weapon().get_might(),
-				observing_unit.get_current_weapon().get_might()
-			]
-		)
+		attack_description.help_description = ("{attack} + {might} + bonuses".format({
+			"attack": observing_unit.get_current_attack(),
+			"might": observing_unit.get_current_weapon().get_might()
+		}))
 		_set_label_text_to_number(attack_label, observing_unit.get_raw_attack())
 
-		hit_description.help_description = (
-			"%d + %d * 2 + %d"
-			% [
-				observing_unit.get_current_weapon().get_hit(),
-				observing_unit.get_stat(Unit.Stats.SKILL),
-				observing_unit.get_stat(Unit.Stats.LUCK)
-			]
-		)
+		hit_description.help_description = ("{hit} + {skill} * 2 + {luck} + bonuses".format({
+			"hit": observing_unit.get_current_weapon().get_hit(),
+			"skill": observing_unit.get_stat(Unit.Stats.SKILL),
+			"luck": observing_unit.get_stat(Unit.Stats.LUCK)
+		}))
 		_set_label_text_to_number(hit_label, observing_unit.get_hit())
 
-		crit_description.help_description = (
-			"%d + %d"
-			% [
-				observing_unit.get_current_weapon().get_crit(),
-				observing_unit.get_stat(Unit.Stats.SKILL)
-			]
-		)
+		crit_description.help_description = ("{weapon_crit} + {skill}".format({
+			"weapon_crit": observing_unit.get_current_weapon().get_crit(),
+			"skill": observing_unit.get_stat(Unit.Stats.SKILL)
+		}))
 		_set_label_text_to_number(crit_label, observing_unit.get_crit())
 	else:
 		attack_description.help_description = "--"
@@ -133,32 +130,31 @@ func _update() -> void:
 		crit_description.help_description = "--"
 		crit_label.text = "--"
 
-	(%ASDescription as HelpContainer).help_description = (
-		"%d - %d"
-		% [
-			observing_unit.get_stat(Unit.Stats.SPEED),
-			observing_unit.get_stat(Unit.Stats.SPEED) - observing_unit.get_attack_speed()
-		]
-	)
+	(%ASDescription as HelpContainer).help_description = ("{speed} - {weight}".format({
+		"speed": observing_unit.get_stat(Unit.Stats.SPEED),
+		"weight": observing_unit.get_weapon_effective_weight()
+	}))
 	_set_label_text_to_number(%ASValue as Label, observing_unit.get_attack_speed())
 
-	(%AvoidDescription as HelpContainer).help_description = (
-		"%d * 2 + %d"
-		% [observing_unit.get_attack_speed(), observing_unit.get_stat(Unit.Stats.LUCK)]
-	)
+	(%AvoidDescription as HelpContainer).help_description = ("{attack_speed} * 2 + {luck}".format({
+		"attack_speed": observing_unit.get_attack_speed(),
+		"luck": observing_unit.get_stat(Unit.Stats.LUCK)
+	}))
 	_set_label_text_to_number(%AvoidValue as Label, observing_unit.get_avoid())
 
-	(%CritAvoidDescription as HelpContainer).help_description = (
-		"%d" % [observing_unit.get_stat(Unit.Stats.LUCK)]
-	)
+	(%CritAvoidDescription as HelpContainer).help_description = (str(
+		observing_unit.get_stat(Unit.Stats.LUCK)
+	))
 	_set_label_text_to_number(%CritAvoidValue as Label, observing_unit.get_crit_avoid())
 
 	var current_weapon: Weapon = observing_unit.get_current_weapon()
 	var range_value := %RangeValue as RichTextLabel
 	var range_text: String = current_weapon.get_range_text().replace(
-		"-", " [color=%s]-[/color] " % Utilities.font_yellow
+		"-", " [color={yellow}]-[/color] ".format({"yellow": Utilities.font_yellow})
 	)
-	range_value.text = ("[color=%s]%s[/color]" % [Utilities.font_blue, range_text])
+	range_value.text = ("[color={blue}]{text}[/color]".format(
+		{"blue": Utilities.font_blue, "text": range_text}
+	))
 
 	_update_tab()
 
@@ -186,8 +182,7 @@ func _update_tab() -> void:
 			items.update()
 			tab_controls.assign(
 				(
-					items.get_rank_labels()
-					if items.get_item_labels().is_empty()
+					items.get_rank_labels() if items.get_item_labels().is_empty()
 					else items.get_item_labels()
 				)
 			)

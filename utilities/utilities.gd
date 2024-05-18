@@ -128,8 +128,12 @@ func dict_to_table(dict: Dictionary) -> Array[String]:
 	for key: String in dict.keys() as Array[String]:
 		table.append_array(
 			[
-				"[color=%s]%s[/color]" % [Utilities.font_yellow, str(key)],
-				"[color=%s]%s[/color]" % [Utilities.font_blue, str(dict[key])]
+				"[color={yellow}]{key}[/color]".format(
+					{"yellow": Utilities.font_yellow, "key": str(key)}
+				),
+				"[color={blue}]{value}[/color]".format(
+					{"blue": Utilities.font_blue, "value": str(dict[key])}
+				)
 			]
 		)
 	return table

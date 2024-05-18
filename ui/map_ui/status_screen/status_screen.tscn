@@ -354,7 +354,7 @@ help_description = "The unit's current avoid rate. Decreases attacker's hit rate
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
-text = "Avoid Rate"
+text = "Avoid"
 
 [node name="AvoidDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/AvoidContainer"]
 unique_name_in_owner = true
@@ -421,7 +421,7 @@ If the resulting rate is below 5%, a critical can not occur.
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
-text = "Crit. Avoid Rate"
+text = "Crit. Avoid"
 
 [node name="CritAvoidDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/CritAvoidContainer"]
 unique_name_in_owner = true

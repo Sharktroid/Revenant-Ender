@@ -40,4 +40,7 @@ func _on_mouse_entered() -> void:
 
 func _update() -> void:
 	var proper_name: String = name.to_snake_case().capitalize()
-	_label.text = proper_name as String if value == "" else "%s: %s" % [proper_name, value]
+	_label.text = (
+		proper_name as String if value == ""
+		else "{name}: {val}".format({"name": proper_name, "val": value})
+	)

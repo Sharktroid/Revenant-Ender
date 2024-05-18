@@ -61,16 +61,14 @@ func in_range(distance: int) -> bool:
 
 
 func get_stat_table() -> Array[String]:
-	return Utilities.dict_to_table.call(
-		{
-			str(Types.find_key(_type)).capitalize(): str(Ranks.find_key(_rank)).capitalize(),
-			"Range": get_range_text(),
-			"Weight": _weight,
-			"Might": _might,
-			"Hit": _hit,
-			"Critical": _crit
-		}
-	)
+	return Utilities.dict_to_table({
+		str(Types.find_key(_type)).capitalize(): str(Ranks.find_key(_rank)).capitalize(),
+		"Range": get_range_text(),
+		"Weight": _weight,
+		"Might": _might,
+		"Hit": _hit,
+		"Critical": _crit
+	})
 
 
 ## Returns 1 with normal advantage, 0 with neutrality, -1 with disadvantage

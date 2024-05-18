@@ -13,8 +13,9 @@ func select_item(item: MapMenuItem) -> void:
 
 		"DisplayBorders":
 			Utilities.invert_debug_constant("display_map_borders")
-			var map_borders := \
-					MapController.map.get_node("MapLayer/DebugBorderOverlayContainer") as Node2D
+			var map_borders := (
+				MapController.map.get_node("MapLayer/DebugBorderOverlayContainer") as Node2D
+			)
 			map_borders.visible = Utilities.get_debug_constant("display_map_borders")
 
 		"DisplayTerrain":
@@ -31,10 +32,12 @@ func select_item(item: MapMenuItem) -> void:
 			Utilities.invert_debug_constant("print_input_reciever")
 
 		"PrintCursorPosition":
-			print("Position relative to UI: %s\nPosition relative to map: %s" % [
-				CursorController.screen_position,
-				CursorController.map_position
-			])
+			print(
+				"Position relative to UI: {screen_pos}\nPosition relative to map: {map_pos}".format({
+					"screen_pos": CursorController.screen_position,
+					"map_pos": CursorController.map_position
+				})
+			)
 
 		"DisplayFrameRate":
 			Utilities.invert_debug_constant("show_fps")
@@ -42,7 +45,8 @@ func select_item(item: MapMenuItem) -> void:
 				Utilities.get_debug_constant("show_fps")
 			)
 
-		_: push_error("%s is not a valid menu item" % item)
+		_:
+			push_error("%s is not a valid menu item" % item)
 	Utilities.save_config()
 	_update_items()
 	super(item)

@@ -284,49 +284,39 @@ func get_current_weapon() -> Weapon:
 	return null
 
 
-## Attack without weapon triangle bonuses
-func get_raw_attack() -> int:
+func get_current_attack() -> int:
 	if get_current_weapon():
-		var current_attack: int
 		match get_current_weapon().get_damage_type():
 			Weapon.DamageTypes.PHYSICAL:
-				current_attack = get_stat(Stats.STRENGTH)
+				return get_stat(Stats.STRENGTH)
 			Weapon.DamageTypes.RANGED:
-				current_attack = get_stat(Stats.PIERCE)
+				return get_stat(Stats.PIERCE)
 			Weapon.DamageTypes.INTELLIGENCE:
-				current_attack = get_stat(Stats.INTELLIGENCE)
-		return get_current_weapon().get_might() + current_attack
+				return get_stat(Stats.INTELLIGENCE)
 	return 0
 
 
+## Attack without weapon triangle bonuses
+func get_raw_attack() -> int:
+	return (get_current_weapon().get_might() if get_current_weapon() else 0) + get_current_attack()
+
+
 func get_true_attack(enemy: Unit) -> int:
-	return (
-		(
+	if get_current_weapon():
+		return (
 			get_raw_attack()
 			+ get_current_weapon().get_damage_bonus(enemy.get_current_weapon(), get_distance(enemy))
 		)
-		if get_current_weapon()
-		else 0
-	)
+	return 0
 
 
 func get_damage(defender: Unit) -> int:
-	return maxi(
-		0,
-		(
-			get_true_attack(defender)
-			- defender.get_current_defence(get_current_weapon().get_damage_type())
-		)
-	)
+	return maxi(0, get_true_attack(defender) - defender.get_current_defence(get_current_weapon()))
 
 
 func get_crit_damage(defender: Unit) -> int:
 	return maxi(
-		0,
-		(
-			get_true_attack(defender) * 2
-			- defender.get_current_defence(get_current_weapon().get_damage_type())
-		)
+		0, get_true_attack(defender) * 2 - defender.get_current_defence(get_current_weapon())
 	)
 
 
@@ -375,21 +365,27 @@ func get_stat_cap(stat: Stats) -> int:
 	)
 
 
+func get_weapon_effective_weight() -> int:
+	return (
+		maxi(get_current_weapon().get_weight() - get_stat(Stats.BUILD), 0) if get_current_weapon()
+		else 0
+	)
+
+
 func get_attack_speed() -> int:
-	var weight: int = get_current_weapon().get_weight() if get_current_weapon() else 0
-	return get_stat(Stats.SPEED) - maxi(weight - get_stat(Stats.BUILD), 0)
+	return get_stat(Stats.SPEED) - get_weapon_effective_weight()
 
 
-func get_current_defence(attacker_weapon_type: Weapon.DamageTypes) -> int:
-	match attacker_weapon_type:
+func get_current_defence(weapon: Weapon) -> int:
+	match weapon.get_damage_type():
 		Weapon.DamageTypes.RANGED:
 			return get_stat(Stats.ARMOR)
 		Weapon.DamageTypes.INTELLIGENCE:
 			return get_stat(Stats.RESISTANCE)
 		Weapon.DamageTypes.PHYSICAL:
 			return get_stat(Stats.DEFENSE)
-		_:
-			push_error("Damage Type %s Invalid" % attacker_weapon_type)
+		var damage_type:
+			push_error("Damage Type %s Invalid" % damage_type)
 			return 0
 
 
