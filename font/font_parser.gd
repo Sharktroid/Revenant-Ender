@@ -133,10 +133,12 @@ var _char_frame: Dictionary = {
 	"ϛ": 6,
 	"ϟ": 6,
 	"ϡ": 7,
+	"∞": 11,
 }
 
 
 func _run() -> void:
+	OS.execute("CMD.exe", ["/C", "copy .\\font\\full_text_image.png .\\font\\full_text_font.png"])
 	const FONT: FontFile = preload("res://font/full_text_font.png")
 	for character: String in _char_frame.keys() as Array[String]:
 		FONT.set_glyph_advance(

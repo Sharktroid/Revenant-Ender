@@ -15,7 +15,6 @@ corner_radius_bottom_right = 6
 anti_aliasing = false
 
 [node name="StatusScreen" type="ReferenceRect"]
-layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -450,23 +449,13 @@ size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Range"
 
-[node name="MinRange" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/RangeContainer"]
+[node name="RangeValue" type="RichTextLabel" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/RangeContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_type_variation = &"BlueLabel"
-text = "1"
-
-[node name="RangeSeparator" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/RangeContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"YellowLabel"
-text = "-"
-
-[node name="MaxRange" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/RangeContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-theme_type_variation = &"BlueLabel"
-text = "2"
+bbcode_enabled = true
+text = "1-2"
+fit_content = true
+autowrap_mode = 0
 
 [node name="MenuTabs" type="TabContainer" parent="MenuScreen"]
 layout_mode = 2

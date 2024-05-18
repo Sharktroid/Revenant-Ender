@@ -48,7 +48,7 @@ func _enter_tree() -> void:
 	for item: Item in top_unit.items:
 		if item is Weapon:
 			var weapon := item as Weapon
-			if distance in weapon.get_range():
+			if weapon.in_range(distance):
 				_weapons.append(weapon)
 
 	_update()
@@ -95,7 +95,7 @@ func _update() -> void:
 
 		(get_node(node_path % "HP") as Label).text = str(current_unit.current_health)
 
-		var in_range: bool = weapon and distance in weapon.get_range()
+		var in_range: bool = weapon and weapon.in_range(distance)
 		(get_node(node_path % "Damage") as Label).text = (
 			str(current_unit.get_damage(other_unit)) if in_range else "--"
 		)

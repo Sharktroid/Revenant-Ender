@@ -14,8 +14,7 @@ func combat(attacker: Unit, defender: Unit) -> void:
 	var attack_queue: Array[CombatStage] = [CombatStage.new(attacker, defender)]
 	var distance: int = roundi(Utilities.get_tile_distance(attacker.position, defender.position))
 	if (
-		defender.get_current_weapon() != null
-		and distance in defender.get_current_weapon().get_range()
+		defender.get_current_weapon() != null and defender.get_current_weapon().in_range(distance)
 	):
 		attack_queue.append(CombatStage.new(defender, attacker))
 	if (

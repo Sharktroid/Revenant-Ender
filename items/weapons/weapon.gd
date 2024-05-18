@@ -18,13 +18,17 @@ enum Types {
 enum Ranks { S = 181, A = 121, B = 71, C = 31, D = 1, DISABLED = 0 }
 enum DamageTypes { PHYSICAL, RANGED, INTELLIGENCE }
 
+# Too high (>2 ** 58) causes errors;
+# Set to a value larger than a map would be expected to be in either axis
+const INFINITE_RANGE: int = 2 ** 32
+
 var _rank: int
 var _might: int
 var _weight: int
 var _hit: int
 var _crit: int
 var _min_range: int
-var _max_range: int
+var _max_range: float
 var _weapon_exp: int
 var _effective_classes: int
 var _type: Types
@@ -52,16 +56,15 @@ func get_damage_type() -> DamageTypes:
 	return _damage_type
 
 
-func get_range() -> Array:
-	return range(_min_range, _max_range + 1)
+func in_range(distance: int) -> bool:
+	return distance <= get_max_range() and distance >= get_min_range()
 
 
 func get_stat_table() -> Array[String]:
 	return Utilities.dict_to_table.call(
 		{
 			str(Types.find_key(_type)).capitalize(): str(Ranks.find_key(_rank)).capitalize(),
-			"Range":
-			str(_min_range) if _min_range == _max_range else "%d-%d" % [_min_range, _max_range],
+			"Range": get_range_text(),
 			"Weight": _weight,
 			"Might": _might,
 			"Hit": _hit,
@@ -120,7 +123,7 @@ func get_min_range() -> int:
 
 
 func get_max_range() -> int:
-	return _max_range
+	return INFINITE_RANGE if _max_range == INF else roundi(_max_range)
 
 
 func get_weapon_exp() -> int:
@@ -141,3 +144,17 @@ func get_advantage_types() -> Array[Types]:
 
 func get_disadvantage_types() -> Array[Types]:
 	return _disadvantage_types
+
+
+func get_range_text() -> String:
+	var min_range_text: String = str(get_min_range())
+	var max_range_text: String = (
+		"∞" if get_max_range() == INFINITE_RANGE
+		else str(get_max_range())
+	)
+	return (
+		"--" if get_min_range() == INFINITE_RANGE
+		else max_range_text if get_min_range() == 1 and get_max_range() == INFINITE_RANGE
+		else max_range_text if _min_range == get_max_range()
+		else "{min}-{max}".format({"min": min_range_text, "max": max_range_text})
+	)

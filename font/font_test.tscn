@@ -2,29 +2,15 @@
 
 [ext_resource type="FontFile" uid="uid://b41m8ooqollu6" path="res://font/item_font.tres" id="1_ulsxb"]
 
-[node name="Panel" type="Panel"]
+[node name="Panel" type="PanelContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="Panel" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="RichTextLabel" type="RichTextLabel" parent="Panel"]
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
 layout_mode = 2
-offset_left = 4.0
-offset_top = 4.0
-offset_right = 242.0
-offset_bottom = 274.0
-grow_horizontal = 2
-grow_vertical = 2
 theme_override_fonts/normal_font = ExtResource("1_ulsxb")
 text = "!\"#$%&'()*+,-./
 0123456789:;<=>?
@@ -34,4 +20,4 @@ PQRSTUVWXYZ[\\]^_
 pqrstuvwxyz{|}~Γ
 ΔΘΛΞΠΣΦΨΩαβγδεζη
 θικλμνξπρςστυφχψ
-ωϛϟϡ"
+ωϛϟϡ∞"

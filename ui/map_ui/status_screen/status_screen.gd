@@ -153,23 +153,12 @@ func _update() -> void:
 	)
 	_set_label_text_to_number(%CritAvoidValue as Label, observing_unit.get_crit_avoid())
 
-	var current_weapon := observing_unit.get_current_weapon()
-	var min_range := %MinRange as Label
-	var range_separator := %RangeSeparator as Label
-	var max_range := %MaxRange as Label
-	if current_weapon:
-		_set_label_text_to_number(min_range, current_weapon.get_min_range())
-		if current_weapon.get_min_range() == current_weapon.get_max_range():
-			range_separator.visible = false
-			max_range.visible = false
-		else:
-			range_separator.visible = true
-			max_range.visible = true
-			_set_label_text_to_number(max_range, current_weapon.get_max_range())
-	else:
-		min_range.text = "--"
-		range_separator.visible = false
-		max_range.text = ""
+	var current_weapon: Weapon = observing_unit.get_current_weapon()
+	var range_value := %RangeValue as RichTextLabel
+	var range_text: String = current_weapon.get_range_text().replace(
+		"-", " [color=%s]-[/color] " % Utilities.font_yellow
+	)
+	range_value.text = ("[color=%s]%s[/color]" % [Utilities.font_blue, range_text])
 
 	_update_tab()
 
@@ -207,7 +196,9 @@ func _update_tab() -> void:
 		var matching_control: Control = Utilities.get_control_within_height(control, tab_controls)
 		control.focus_neighbor_right = control.get_path_to(matching_control)
 	for control: Control in tab_controls:
-		var matching_control: Control = Utilities.get_control_within_height(control, constant_labels)
+		var matching_control: Control = Utilities.get_control_within_height(
+			control, constant_labels
+		)
 		control.focus_neighbor_left = control.get_path_to(matching_control)
 
 
