@@ -1,4 +1,3 @@
-@tool
 extends PanelContainer
 
 signal completed(proceed: bool)
@@ -55,6 +54,11 @@ func _enter_tree() -> void:
 	GameController.add_to_input_stack(self)
 
 
+func _ready() -> void:
+	_animate_double_sprite(%TopDouble as Sprite2D)
+	_animate_double_sprite(%BottomDouble as Sprite2D)
+
+
 func receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
 		AudioPlayer.play_sound_effect(AudioPlayer.BATTLE_SELECT)
@@ -109,6 +113,10 @@ func _update() -> void:
 			str(current_unit.get_crit_rate(other_unit)) if in_range else "--"
 		)
 
+		var double_sprite := get_node(node_path % "Double") as Sprite2D
+		if not current_unit.can_follow_up(other_unit):
+			double_sprite.visible = false
+
 		if current_unit.faction.color == Faction.Colors.RED:
 			var shader_material: ShaderMaterial = (
 				(get_node(node_path % "UnitPanel") as PanelContainer).material
@@ -121,3 +129,15 @@ func _update() -> void:
 				new_vectors.append(color)
 			shader_material.set_shader_parameter("old_colors", old_vectors)
 			shader_material.set_shader_parameter("new_colors", new_vectors)
+
+
+func _animate_double_sprite(sprite: Sprite2D) -> void:
+	if not sprite.is_node_ready():
+		await sprite.ready
+	var tween: Tween = sprite.create_tween()
+	tween.set_loops()
+	tween.set_speed_scale(60)
+	tween.tween_property(sprite, "position:y", sprite.position.y - 3, 9)
+	tween.tween_property(sprite, "position:x", sprite.position.x - 7, 21)
+	tween.tween_property(sprite, "position:y", sprite.position.y, 9)
+	tween.tween_property(sprite, "position:x", sprite.position.x, 21)

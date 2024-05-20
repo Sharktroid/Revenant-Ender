@@ -17,11 +17,10 @@ func combat(attacker: Unit, defender: Unit) -> void:
 		defender.get_current_weapon() != null and defender.get_current_weapon().in_range(distance)
 	):
 		attack_queue.append(CombatStage.new(defender, attacker))
-	if (
-		attacker.has_skill_attribute(Skill.AllAttributes.FOLLOW_UP)
-		and attacker.get_attack_speed() >= 5 + defender.get_attack_speed()
-	):
+	if attacker.can_follow_up(defender):
 		attack_queue.append(CombatStage.new(attacker, defender))
+	elif defender.can_follow_up(attacker):
+		attack_queue.append(CombatStage.new(defender, attacker))
 	await _map_combat(attacker, defender, attack_queue)
 	CursorController.enable()
 	GameController.remove_from_input_stack()

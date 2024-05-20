@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bss6lqt2xeb3"]
+[gd_scene load_steps=24 format=3 uid="uid://bss6lqt2xeb3"]
 
 [ext_resource type="Script" path="res://ui/combat_info_display/combat_info_display.gd" id="1_1wwld"]
 [ext_resource type="Texture2D" uid="uid://ch8tv43kw8yv4" path="res://ui/theme/menu.png" id="1_olcin"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://dy85eew67wq2x" path="res://ui/combat_info_display/descriptor_panel.png" id="5_ookqn"]
 [ext_resource type="Texture2D" uid="uid://dcyho1cc1b5do" path="res://items/weapons/axes/iron_axe/icon.png" id="6_eeidu"]
 [ext_resource type="Texture2D" uid="uid://g1vrpin100mt" path="res://ui/combat_info_display/label_background.png" id="7_qq6e3"]
+[ext_resource type="Texture2D" uid="uid://bgmuk7i8ltxac" path="res://ui/combat_info_display/double.png" id="8_oeh72"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nwvkw"]
 shader = ExtResource("1_xv5ia")
@@ -270,27 +271,39 @@ theme_override_constants/separation = 0
 [node name="BottomHP" type="Label" parent="VBoxContainer/ReferenceRect/Control2/BottomUnit/BottomUnit/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_type_variation = &"BlueLabel"
 text = "50"
 
 [node name="BottomDamage" type="Label" parent="VBoxContainer/ReferenceRect/Control2/BottomUnit/BottomUnit/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_type_variation = &"BlueLabel"
 text = "13"
 
 [node name="BottomHit" type="Label" parent="VBoxContainer/ReferenceRect/Control2/BottomUnit/BottomUnit/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_type_variation = &"BlueLabel"
 text = "86"
 
 [node name="BottomCritDamage" type="Label" parent="VBoxContainer/ReferenceRect/Control2/BottomUnit/BottomUnit/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_type_variation = &"BlueLabel"
 text = "26"
 
 [node name="BottomCrit" type="Label" parent="VBoxContainer/ReferenceRect/Control2/BottomUnit/BottomUnit/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_type_variation = &"BlueLabel"
 text = "3"
+
+[node name="BottomDouble" type="Sprite2D" parent="VBoxContainer/ReferenceRect/Control2/BottomUnit/BottomUnit/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+z_index = 2
+position = Vector2(10, 21)
+texture = ExtResource("8_oeh72")
+centered = false
 
 [node name="VBoxContainer" type="PanelContainer" parent="VBoxContainer/ReferenceRect/Control2"]
 z_index = 1
@@ -386,32 +399,44 @@ theme_override_constants/separation = 0
 [node name="TopHP" type="Label" parent="VBoxContainer/ReferenceRect/Control2/TopUnit/TopUnit/MarginContainer/VBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_type_variation = &"BlueLabel"
 text = "50"
 horizontal_alignment = 2
 
 [node name="TopDamage" type="Label" parent="VBoxContainer/ReferenceRect/Control2/TopUnit/TopUnit/MarginContainer/VBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_type_variation = &"BlueLabel"
 text = "13"
 horizontal_alignment = 2
 
 [node name="TopHit" type="Label" parent="VBoxContainer/ReferenceRect/Control2/TopUnit/TopUnit/MarginContainer/VBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_type_variation = &"BlueLabel"
 text = "86"
 horizontal_alignment = 2
 
 [node name="TopCritDamage" type="Label" parent="VBoxContainer/ReferenceRect/Control2/TopUnit/TopUnit/MarginContainer/VBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_type_variation = &"BlueLabel"
 text = "26"
 horizontal_alignment = 2
 
 [node name="TopCrit" type="Label" parent="VBoxContainer/ReferenceRect/Control2/TopUnit/TopUnit/MarginContainer/VBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_type_variation = &"BlueLabel"
 text = "3"
 horizontal_alignment = 2
+
+[node name="TopDouble" type="Sprite2D" parent="VBoxContainer/ReferenceRect/Control2/TopUnit/TopUnit/MarginContainer/VBoxContainer2"]
+unique_name_in_owner = true
+z_index = 1
+position = Vector2(27, 21)
+texture = ExtResource("8_oeh72")
+centered = false
 
 [node name="BottomUnitPanel" type="PanelContainer" parent="VBoxContainer"]
 unique_name_in_owner = true

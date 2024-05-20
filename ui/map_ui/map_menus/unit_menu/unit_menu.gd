@@ -249,7 +249,8 @@ func _play_select_sound_effect(item: MapMenuItem) -> void:
 
 
 func _check_canto() -> void:
-	if connected_unit.has_skill_attribute(Skill.AllAttributes.CANTO):
+	print_debug(connected_unit.get_skills())
+	if connected_unit.get_skills().any(func(skill: Skill) -> bool: return skill is Canto):
 		_canto = true
 	else:
 		connected_unit.wait()

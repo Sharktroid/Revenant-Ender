@@ -1,9 +1,11 @@
 class_name Skill
 extends Resource
 
-enum AllVariants {ALPHA, BETA, GAMMA, OMEGA}
-enum AllAttributes { FOLLOW_UP, CANTO }
+enum Variants {ALPHA, BETA, GAMMA, OMEGA}
 
-var attributes: Array[AllAttributes]
-var variants: Array[AllVariants]
-var current_variant: AllVariants
+var current_variant: Variants
+var _variants: Array[Variants]
+
+
+func get_variants() -> Array[Variants]:
+	return _variants

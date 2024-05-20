@@ -60,7 +60,7 @@ var _aid_modifier: int = -1
 var _weight_modifier: int = 0
 var _description: String = "[Empty]"
 var _authority: int
-var _skills: Array[Skill]
+var _skills: Array[Skill] = [FollowUp.new()]
 
 
 func _init() -> void:

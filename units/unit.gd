@@ -59,7 +59,7 @@ const _MOVEMENT_ARROWS: PackedScene = preload("res://maps/map_tiles/movement_arr
 @export var variant: String  # Visual variant.
 @export var items: Array[Item]
 @export var base_level: int = 1
-@export var skills: Array[Skill] = [FollowUp.new()]
+@export var personal_skills: Array[Skill]
 
 var total_exp: float
 var level: int:
@@ -501,7 +501,7 @@ func get_distance(unit: Unit) -> int:
 
 
 func get_skills() -> Array[Skill]:
-	return skills + unit_class.get_skills()
+	return personal_skills + unit_class.get_skills()
 
 
 func get_current_exp() -> float:
@@ -530,13 +530,6 @@ func get_personal_value(stat: Stats) -> int:
 
 func get_effort_value(stat: Stats) -> int:
 	return get("effort_%s" % (Unit.Stats.find_key(stat) as String).to_snake_case())
-
-
-func has_skill_attribute(attrib: Skill.AllAttributes) -> bool:
-	for skill: Skill in get_skills():
-		if attrib in skill.attributes:
-			return true
-	return false
 
 
 func can_use_weapon(weapon: Weapon) -> bool:
@@ -694,9 +687,9 @@ func update_displayed_tiles() -> void:
 				_attack_tile_node.modulate.a = .5
 
 
-## Adds skill to this unit's skills.
+## Adds skill to this unit's personal_skills.
 func add_skill(skill: Skill) -> void:
-	skills.append(skill)
+	personal_skills.append(skill)
 
 
 ## Moves unit to "move_target"
@@ -879,6 +872,13 @@ func drop(item: Item) -> void:
 func reset_tile_cache() -> void:
 	_movement_tiles = []
 	_attack_tiles = []
+
+
+func can_follow_up(opponent: Unit) -> bool:
+	return (
+		get_skills().filter(func(skill: Skill) -> bool: return skill is FollowUp)
+		.any(func(skill: FollowUp) -> bool: return skill.can_follow_up(self, opponent))
+	)
 
 
 func _update_palette() -> void:
