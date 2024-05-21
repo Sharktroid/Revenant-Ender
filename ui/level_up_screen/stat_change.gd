@@ -8,7 +8,7 @@ var value: int = 0:
 		visible = false
 		if value != 0:
 			sign_label.visible = false
-			const Arrow = preload("res://ui/level_up_screen/arrow.gd")
+			const Arrow = preload("res://ui/level_up_screen/stat_arrow.gd")
 			var arrow := value_label.get_node("ReferenceRect/Arrow") as Arrow
 			await get_tree().create_timer(1.0 / 60).timeout
 			visible = true

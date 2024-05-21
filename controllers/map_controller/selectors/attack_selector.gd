@@ -22,7 +22,9 @@ func _position_selected() -> void:
 			CursorController.screen_position.x + MapController.get_map_camera().get_map_offset().x
 			< (Utilities.get_screen_size().x as float / 2)
 		):
-			info_display.position.x = Utilities.get_screen_size().x - info_display.size.x
+			info_display.position.x = (
+				Utilities.get_screen_size().x - info_display.size.x - info_display.position.x
+			)
 		info_display.top_unit = unit
 		var bottom_unit: Unit = CursorController.hovered_unit
 		info_display.bottom_unit = bottom_unit

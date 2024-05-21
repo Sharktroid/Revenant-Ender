@@ -57,6 +57,9 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	_animate_double_sprite(%TopDouble as Sprite2D)
 	_animate_double_sprite(%BottomDouble as Sprite2D)
+	if _weapons.size() == 1:
+		for node: Sprite2D in get_tree().get_nodes_in_group("arrows"):
+			node.queue_free()
 
 
 func receive_input(event: InputEvent) -> void:

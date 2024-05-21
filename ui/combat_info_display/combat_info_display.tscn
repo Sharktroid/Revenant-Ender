@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://bss6lqt2xeb3"]
+[gd_scene load_steps=25 format=3 uid="uid://bss6lqt2xeb3"]
 
 [ext_resource type="Script" path="res://ui/combat_info_display/combat_info_display.gd" id="1_1wwld"]
 [ext_resource type="Texture2D" uid="uid://ch8tv43kw8yv4" path="res://ui/theme/menu.png" id="1_olcin"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://dy85eew67wq2x" path="res://ui/combat_info_display/descriptor_panel.png" id="5_ookqn"]
 [ext_resource type="Texture2D" uid="uid://dcyho1cc1b5do" path="res://items/weapons/axes/iron_axe/icon.png" id="6_eeidu"]
 [ext_resource type="Texture2D" uid="uid://g1vrpin100mt" path="res://ui/combat_info_display/label_background.png" id="7_qq6e3"]
+[ext_resource type="PackedScene" uid="uid://dvo0wyjym5xwk" path="res://ui/arrow.tscn" id="8_o70de"]
 [ext_resource type="Texture2D" uid="uid://bgmuk7i8ltxac" path="res://ui/combat_info_display/double.png" id="8_oeh72"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nwvkw"]
@@ -104,8 +105,10 @@ bg_color = Color(0.192157, 0.352941, 0.611765, 1)
 [node name="CombatInfoDisplay" type="PanelContainer"]
 material = SubResource("ShaderMaterial_nwvkw")
 custom_minimum_size = Vector2(97, 0)
-offset_right = 84.0
-offset_bottom = 161.0
+offset_left = 13.0
+offset_top = 5.0
+offset_right = 115.0
+offset_bottom = 166.0
 size_flags_vertical = 3
 focus_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_velkt")
@@ -174,8 +177,11 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_g07b5")
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 1
-text = "TopWeapon"
+text = "Top Weapon"
 horizontal_alignment = 2
+
+[node name="LeftArrow" parent="VBoxContainer/TopUnitPanel/MarginContainer/VBoxContainer/HBoxContainer" groups=["arrows"] instance=ExtResource("8_o70de")]
+position = Vector2(-12, 2)
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/TopUnitPanel/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -185,7 +191,7 @@ theme_override_constants/margin_right = 4
 [node name="TopName" type="Label" parent="VBoxContainer/TopUnitPanel/MarginContainer/VBoxContainer/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "TopName"
+text = "Top Name"
 horizontal_alignment = 2
 
 [node name="TextureRect" type="Panel" parent="VBoxContainer/TopUnitPanel/MarginContainer/VBoxContainer/MarginContainer/TopName"]
@@ -210,10 +216,14 @@ layout_mode = 2
 [node name="Line2D" type="Line2D" parent="VBoxContainer/TopUnitPanel"]
 z_index = 1
 use_parent_material = true
-position = Vector2(0.5, 0)
+position = Vector2(6, 0)
 points = PackedVector2Array(91, 1, 91, 118)
 width = 1.0
 default_color = Color(0.192157, 0.352941, 0.611765, 1)
+
+[node name="RightArrow" parent="VBoxContainer/TopUnitPanel/Line2D" groups=["arrows"] instance=ExtResource("8_o70de")]
+position = Vector2(95, 3)
+flip_h = true
 
 [node name="ReferenceRect" type="ReferenceRect" parent="VBoxContainer"]
 layout_mode = 2
@@ -301,7 +311,7 @@ text = "3"
 [node name="BottomDouble" type="Sprite2D" parent="VBoxContainer/ReferenceRect/Control2/BottomUnit/BottomUnit/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 z_index = 2
-position = Vector2(10, 21)
+position = Vector2(12, 21)
 texture = ExtResource("8_oeh72")
 centered = false
 
@@ -434,7 +444,7 @@ horizontal_alignment = 2
 [node name="TopDouble" type="Sprite2D" parent="VBoxContainer/ReferenceRect/Control2/TopUnit/TopUnit/MarginContainer/VBoxContainer2"]
 unique_name_in_owner = true
 z_index = 1
-position = Vector2(27, 21)
+position = Vector2(30, 21)
 texture = ExtResource("8_oeh72")
 centered = false
 
@@ -506,7 +516,7 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_g07b5")
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 1
-text = "BottomWeapon"
+text = "Bottom Weapon"
 
 [node name="BottomWeaponIcon" type="TextureRect" parent="VBoxContainer/BottomUnitPanel/MarginContainer/VBoxContainer2/HBoxContainer"]
 unique_name_in_owner = true
@@ -522,7 +532,7 @@ theme_override_constants/margin_right = 5
 [node name="BottomName" type="Label" parent="VBoxContainer/BottomUnitPanel/MarginContainer/VBoxContainer2/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "BottomName"
+text = "Bottom Name"
 
 [node name="TextureRect" type="Panel" parent="VBoxContainer/BottomUnitPanel/MarginContainer/VBoxContainer2/MarginContainer/BottomName"]
 show_behind_parent = true

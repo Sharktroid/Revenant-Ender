@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bj3x6ioamg6fe"
-path="res://.godot/imported/formatted.png-c56460be7d7b76efa53605f5d5c16ce8.ctex"
+uid="uid://ba4ad56y4wova"
+path="res://.godot/imported/swordmaster_female.png-52fc0ad1508d00a764c5fe883370d864.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://utilities/formatted.png"
-dest_files=["res://.godot/imported/formatted.png-c56460be7d7b76efa53605f5d5c16ce8.ctex"]
+source_file="res://utilities/swordmaster_female.png"
+dest_files=["res://.godot/imported/swordmaster_female.png-52fc0ad1508d00a764c5fe883370d864.ctex"]
 
 [params]
 

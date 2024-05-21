@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bdjeg8jmudvyh"]
 
-[ext_resource type="Script" path="res://ui/level_up_screen/arrow.gd" id="2_yg7qn"]
+[ext_resource type="Script" path="res://ui/level_up_screen/stat_arrow.gd" id="1_w4ckp"]
 
 [sub_resource type="Gradient" id="Gradient_leub6"]
 colors = PackedColorArray(0.337255, 0.721569, 0.784314, 1, 0.972549, 0.898039, 0.639216, 1)
@@ -12,10 +12,10 @@ height = 8
 fill_to = Vector2(0, 1)
 repeat = 2
 
-[node name="Arrow" type="Polygon2D"]
+[node name="StatArrow" type="Polygon2D"]
 color = Color(0.231373, 0.152941, 0.12549, 1)
 polygon = PackedVector2Array(4, 0, 5, 0, 5, 1, 6, 1, 6, 2, 7, 2, 7, 3, 8, 3, 8, 4, 9, 4, 9, 6, 8, 6, 8, 9, 1, 9, 1, 6, 0, 6, 0, 4, 1, 4, 1, 3, 2, 3, 2, 2, 3, 2, 3, 1, 4, 1)
-script = ExtResource("2_yg7qn")
+script = ExtResource("1_w4ckp")
 
 [node name="InnerColoring" type="Polygon2D" parent="."]
 texture_filter = 2
