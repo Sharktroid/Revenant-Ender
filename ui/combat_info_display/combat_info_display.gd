@@ -1,4 +1,4 @@
-extends PanelContainer
+extends SubViewportContainer
 
 signal completed(proceed: bool)
 
@@ -24,15 +24,20 @@ const RED_COLORS: Array[Color] = [
 ]
 
 var top_unit: Unit
-var bottom_unit: Unit
+var bottom_unit: Unit:
+	set(value):
+		bottom_unit = value
+		_update()
 var distance: int
 
-var _weapons: Array[Weapon]
+var _focused: bool = false
+var _all_weapons: Array[Weapon]
+var _current_weapons: Array[Weapon] = []
 var _weapon_index: int = 0
 var _old_weapon: Weapon
 
 
-func _enter_tree() -> void:
+func _ready() -> void:
 	# Removes float rounding errors
 	const LIGHT_BLUE := Color("5294D6")
 	const DARK_BLUE := Color("315A9C")
@@ -43,23 +48,15 @@ func _enter_tree() -> void:
 	(bottom_unit_panel.get_theme_stylebox("panel") as StyleBoxFlat).bg_color = DARK_BLUE
 	(bottom_unit_panel.get_node("Line2D") as Line2D).default_color = LIGHT_BLUE
 
-	_old_weapon = top_unit.get_current_weapon()
-	for item: Item in top_unit.items:
-		if item is Weapon:
-			var weapon := item as Weapon
-			if weapon.in_range(distance):
-				_weapons.append(weapon)
-
-	_update()
-	GameController.add_to_input_stack(self)
-
-
-func _ready() -> void:
 	_animate_double_sprite(%TopDouble as Sprite2D)
 	_animate_double_sprite(%BottomDouble as Sprite2D)
-	if _weapons.size() == 1:
-		for node: Sprite2D in get_tree().get_nodes_in_group("arrows"):
-			node.queue_free()
+
+	modulate.a = 2.0 / 3
+	visible = false
+
+	for item: Item in top_unit.items:
+		if item is Weapon:
+			_all_weapons.append(item)
 
 
 func receive_input(event: InputEvent) -> void:
@@ -70,7 +67,7 @@ func receive_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("ui_cancel"):
 		top_unit.equip_weapon(_old_weapon)
 		completed.emit(false)
-		queue_free()
+		_set_focus(false)
 	elif event.is_action_pressed("left") and not Input.is_action_pressed("right"):
 		_weapon_index -= 1
 		_update()
@@ -79,18 +76,42 @@ func receive_input(event: InputEvent) -> void:
 		_update()
 
 
+func focus() -> void:
+	_set_focus(true)
+
+
+func _set_focus(is_focused: bool) -> void:
+	_focused = is_focused
+	modulate.a = 1.0 if is_focused else 2.0 / 3
+	_update()
+	if is_focused:
+		GameController.add_to_input_stack(self)
+	else:
+		GameController.remove_from_input_stack()
+
+
 func _get_current_weapon() -> Weapon:
-	return _weapons[_weapon_index]
+	return _current_weapons[_weapon_index]
 
 
 func _update() -> void:
-	_weapon_index = posmod(_weapon_index, _weapons.size())
+	_old_weapon = top_unit.get_current_weapon()
+	_current_weapons = []
+	for item: Item in _all_weapons:
+		if item is Weapon:
+			var weapon := item as Weapon
+			if weapon.in_range(distance):
+				_current_weapons.append(weapon)
+	for node: Sprite2D in get_tree().get_nodes_in_group("arrows"):
+		node.visible = _current_weapons.size() != 1 and _focused
+
+	_weapon_index = posmod(_weapon_index, _current_weapons.size())
 	top_unit.equip_weapon(_get_current_weapon())
 	for half: String in ["Top", "Bottom"] as Array[String]:
 		var is_top: bool = half == "Top"
 		var current_unit: Unit = top_unit if is_top else bottom_unit
 		var other_unit: Unit = bottom_unit if is_top else top_unit
-		var weapon: Weapon = _weapons[_weapon_index] if is_top else bottom_unit.get_current_weapon()
+		var weapon: Weapon = _get_current_weapon() if is_top else bottom_unit.get_current_weapon()
 		var node_path: String = "%%{half}%s".format({"half": half})
 
 		(get_node(node_path % "Name") as Label).text = current_unit.unit_name
@@ -117,8 +138,7 @@ func _update() -> void:
 		)
 
 		var double_sprite := get_node(node_path % "Double") as Sprite2D
-		if not current_unit.can_follow_up(other_unit):
-			double_sprite.visible = false
+		double_sprite.visible = current_unit.can_follow_up(other_unit)
 
 		if current_unit.faction.color == Faction.Colors.RED:
 			var shader_material: ShaderMaterial = (

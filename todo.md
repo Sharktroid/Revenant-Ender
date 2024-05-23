@@ -1,5 +1,5 @@
 # Minor
-* Have combat display show on hovering
+* Show list of items when combat display is selected
 * Use more node groups
 * Replace claws with shields
 * Have debug constants use enums and have them not be called "constants"

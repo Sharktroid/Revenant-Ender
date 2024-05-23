@@ -62,20 +62,20 @@ func receive_input(event: InputEvent) -> void:
 			_on_cursor_select()
 
 	elif event.is_action_pressed("ranges"):
-		if CursorController.hovered_unit:
-			toggle_outline_unit(CursorController.hovered_unit)
+		if CursorController.get_hovered_unit():
+			toggle_outline_unit(CursorController.get_hovered_unit())
 		else:
 			toggle_full_outline()
 
 	elif event.is_action_pressed("status"):
-		if CursorController.hovered_unit:
+		if CursorController.get_hovered_unit():
 			const StatusScreen = preload("res://ui/map_ui/status_screen/status_screen.gd")
 			const STATUS_SCREEN_SCENE: PackedScene = preload(
 				"res://ui/map_ui/status_screen/status_screen.tscn"
 			)
 			AudioPlayer.play_sound_effect(AudioPlayer.MENU_SELECT)
 			var status_menu := STATUS_SCREEN_SCENE.instantiate() as StatusScreen
-			status_menu.observing_unit = CursorController.hovered_unit
+			status_menu.observing_unit = CursorController.get_hovered_unit()
 			MapController.get_ui().add_child(status_menu)
 			GameController.add_to_input_stack(status_menu)
 			CursorController.disable()
@@ -353,7 +353,7 @@ func _get_unit_relative(unit: Unit, rel_index: int) -> Unit:
 
 
 func _on_cursor_select() -> void:
-	var hovered_unit: Unit = CursorController.hovered_unit
+	var hovered_unit: Unit = CursorController.get_hovered_unit()
 	if hovered_unit and hovered_unit.selectable == true:
 		AudioPlayer.play_sound_effect(preload("res://audio/sfx/double_select.ogg"))
 		var controller := SelectedUnitController.new(hovered_unit)

@@ -5,12 +5,6 @@ signal moved
 ## Icons that can be displayed.
 enum Icons { ATTACK, NONE }
 
-var hovered_unit: Unit:
-	get:
-		var is_cursor_over_unit: bool = (
-			is_instance_valid(hovered_unit) and (hovered_unit.position == (map_position as Vector2))
-		)
-		return hovered_unit if is_cursor_over_unit else null
 var cursor_visible: bool = true
 var map_position := Vector2i():
 	set = _set_map_position
@@ -114,6 +108,13 @@ func is_active() -> bool:
 	return _active
 
 
+func get_hovered_unit() -> Unit:
+	for unit: Unit in MapController.map.get_units():
+		if unit.position.round() as Vector2i == map_position:
+			return unit
+	return null
+
+
 func _set_map_position(new_pos: Vector2i) -> void:
 	## Sets cursor position relative to the map
 	var old_pos: Vector2i = map_position
@@ -135,7 +136,8 @@ func _set_map_position(new_pos: Vector2i) -> void:
 	if map_move != Vector2i():
 		MapController.get_map_camera().move(map_move)
 	if map_position != old_pos:
-		moved.emit()
+		var emit_moved: Callable = func() -> void: moved.emit()
+		emit_moved.call_deferred()
 
 
 func _set_active(active: bool) -> void:

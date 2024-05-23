@@ -564,7 +564,7 @@ func deselect() -> void:
 	set_animation(Animations.IDLE)
 	selected = false
 	remove_path()
-	if CursorController.hovered_unit == self:
+	if CursorController.get_hovered_unit() == self:
 		update_displayed_tiles()
 	else:
 		hide_movement_tiles()
@@ -927,12 +927,10 @@ func _on_area2d_area_entered(area: Area2D) -> void:
 	if area == CursorController.get_area() and visible:
 		var selecting: bool = MapController.selecting
 		var can_be_selected: bool = true
-		if is_instance_valid(CursorController.hovered_unit):
-			var hovered_unit_selected: bool = CursorController.hovered_unit.selected
-			can_be_selected = not hovered_unit_selected or selecting
+		if is_instance_valid(CursorController.get_hovered_unit()):
+			can_be_selected = not CursorController.get_hovered_unit().selected or selecting
 		if can_be_selected and not (selected or selecting or waiting or dead):
 			display_movement_tiles()
-		CursorController.hovered_unit = self
 
 
 func _get_personal_modifier(stat: Stats, current_level: int) -> float:

@@ -92,8 +92,8 @@ func update() -> void:
 				if _can_attack(unit):
 					enabled_items.Attack = true
 	else:
-		if (CursorController.hovered_unit
-				and _can_attack(CursorController.hovered_unit)):
+		if (CursorController.get_hovered_unit()
+				and _can_attack(CursorController.get_hovered_unit())):
 			enabled_items.Attack = true
 	for node: MapMenuItem in _get_item_nodes():
 		node.visible = enabled_items[node.name]
