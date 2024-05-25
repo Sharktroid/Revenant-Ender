@@ -23,6 +23,8 @@ const RED_COLORS: Array[Color] = [
 	Color("843129"),
 ]
 
+const _COMBAT_DISPLAY_SUBMENU = preload("res://ui/combat_info_display/combat_display_submenu.gd")
+
 var top_unit: Unit
 var bottom_unit: Unit:
 	set(value):
@@ -33,8 +35,14 @@ var distance: int
 var _focused: bool = false
 var _all_weapons: Array[Weapon]
 var _current_weapons: Array[Weapon] = []
-var _weapon_index: int = 0
+var _weapon_index: int = 0:
+	set(value):
+		_weapon_index = value
+		_weapon_index = posmod(_weapon_index, _current_weapons.size())
+		_update()
+		_item_menu.set_current_item_index(_weapon_index)
 var _old_weapon: Weapon
+@onready var _item_menu := %ItemMenu as _COMBAT_DISPLAY_SUBMENU
 
 
 func _ready() -> void:
@@ -58,6 +66,8 @@ func _ready() -> void:
 		if item is Weapon:
 			_all_weapons.append(item)
 
+	_item_menu.weapon_selected.connect(_on_weapon_selected)
+
 
 func receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
@@ -68,12 +78,10 @@ func receive_input(event: InputEvent) -> void:
 		top_unit.equip_weapon(_old_weapon)
 		completed.emit(false)
 		_set_focus(false)
-	elif event.is_action_pressed("left") and not Input.is_action_pressed("right"):
+	elif event.is_action_pressed("up") and not Input.is_action_pressed("down"):
 		_weapon_index -= 1
-		_update()
-	elif event.is_action_pressed("right"):
+	elif event.is_action_pressed("down"):
 		_weapon_index += 1
-		_update()
 
 
 func focus() -> void:
@@ -105,7 +113,7 @@ func _update() -> void:
 	for node: Sprite2D in get_tree().get_nodes_in_group("arrows"):
 		node.visible = _current_weapons.size() != 1 and _focused
 
-	_weapon_index = posmod(_weapon_index, _current_weapons.size())
+	_item_menu.weapons = _current_weapons
 	top_unit.equip_weapon(_get_current_weapon())
 	for half: String in ["Top", "Bottom"] as Array[String]:
 		var is_top: bool = half == "Top"
@@ -164,3 +172,7 @@ func _animate_double_sprite(sprite: Sprite2D) -> void:
 	tween.tween_property(sprite, "position:x", sprite.position.x - 7, 21)
 	tween.tween_property(sprite, "position:y", sprite.position.y, 9)
 	tween.tween_property(sprite, "position:x", sprite.position.x, 21)
+
+
+func _on_weapon_selected(weapon: Weapon) -> void:
+	_weapon_index = _current_weapons.find(weapon)

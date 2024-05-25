@@ -1,6 +1,7 @@
 # Minor
-* Show list of items when combat display is selected
+* Have base stats be end stats - 20
 * Use more node groups
+* Make updating more efficient with setters
 * Replace claws with shields
 * Have debug constants use enums and have them not be called "constants"
 * Fix canto jank
@@ -21,6 +22,9 @@
 * Make attack Animations skippable
 * Implement durability
 * Implement authority
+* Implement AI
+* Implement staves
+	* Duration = (staff might) + (mag - target res)/4
 
 # Long-term
 * Implement FE6 Chapter 1

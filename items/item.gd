@@ -20,6 +20,10 @@ func _init() -> void:
 	current_uses = _max_uses
 
 
+func _to_string() -> String:
+	return "{name}:<Resource#{id}>".format({"name": resource_name, "id": get_instance_id()})
+
+
 func get_item_name() -> String:
 	return resource_name
 
