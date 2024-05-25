@@ -1,5 +1,5 @@
 # Minor
-* Have base stats be end stats - 20
+* Have base stats be end stats - 15
 * Use more node groups
 * Make updating more efficient with setters
 * Replace claws with shields

@@ -103,7 +103,7 @@ func _map_attack(
 			else preload("res://audio/sfx/no_damage.ogg") if damage == 0 else HIT_B_HEAVY
 		)
 
-		var total_hp: int = defender.get_stat(Unit.Stats.HIT_POINTS)
+		var total_hp: int = defender.get_hit_points()
 		var duration: float = HEALTH_SCROLL_DURATION * (float(old_health - new_health) / total_hp)
 		var tween: Tween = defender.create_tween()
 		tween.set_parallel()
@@ -133,7 +133,7 @@ func _get_combat_exp(distributing_unit: Unit, damage: float) -> float:
 	var base_exp: float = (
 		Unit.ONE_ROUND_EXP_BASE * Unit.EXP_MULTIPLIER ** (distributing_unit.level - 1)
 	)
-	var damage_percent: float = float(damage) / distributing_unit.get_stat(Unit.Stats.HIT_POINTS)
+	var damage_percent: float = float(damage) / distributing_unit.get_hit_points()
 	var chip_exp: float = base_exp * damage_percent * (1 - Unit.KILL_EXP_PERCENT)
 	var kill_exp: float = (
 		base_exp * Unit.KILL_EXP_PERCENT if distributing_unit.current_health <= 0

@@ -46,7 +46,7 @@ func update() -> void:
 	)
 
 	(%WeightNumber as HelpContainer).help_description = ("{build} + {weight_modifier}".format({
-		"build": observing_unit.get_stat(Unit.Stats.BUILD),
+		"build": observing_unit.get_build(),
 		"weight_modifier": observing_unit.unit_class.get_weight_modifier()
 	}))
 	var aid_number := %AidNumber as HelpContainer
@@ -54,7 +54,7 @@ func update() -> void:
 		observing_unit.unit_class.get_aid_modifier()
 	)
 	aid_number.help_description = aid_description.format({
-		"build": observing_unit.get_stat(Unit.Stats.BUILD),
+		"build": observing_unit.get_build(),
 		"aid_modifier": absi(observing_unit.unit_class.get_aid_modifier())
 	})
 

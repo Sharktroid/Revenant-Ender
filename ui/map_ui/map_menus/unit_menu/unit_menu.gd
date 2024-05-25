@@ -48,7 +48,7 @@ func close(return_to_caller: bool = false) -> void:
 func update() -> void:
 	# Gets the items for the unit menu.
 	var pos: Vector2i = connected_unit.get_path_last_pos()
-	var movement: int = connected_unit.get_stat(Unit.Stats.MOVEMENT)
+	var movement: int = connected_unit.get_movement()
 	var movement_tiles: Array[Vector2i] = connected_unit.get_movement_tiles()
 	var enabled_items: Dictionary = {
 		Attack = false,
@@ -302,7 +302,7 @@ func _get_drop_tiles() -> Array[Vector2i]:
 		var cost: float = (
 			MapController.map.get_terrain_cost(traveler.unit_class.get_movement_type(), tile)
 		)
-		var movement: int = traveler.get_stat(Unit.Stats.MOVEMENT)
+		var movement: int = traveler.get_movement()
 		if cost <= movement:
 			tiles.append(tile)
 	for unit: Unit in MapController.map.get_units():

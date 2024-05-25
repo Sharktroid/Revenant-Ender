@@ -92,7 +92,7 @@ var traveler: Unit:
 var personal_authority: int
 var current_health: float:
 	set(health):
-		current_health = clampf(health, 0, get_stat(Stats.HIT_POINTS))
+		current_health = clampf(health, 0, get_hit_points())
 		if not Engine.is_editor_hint():
 			const HealthBar = preload("res://units/health_bar/health_bar.gd")
 			($HealthBar as HealthBar).update()
@@ -227,8 +227,8 @@ func _enter_tree() -> void:
 			)
 	texture = unit_class.get_map_sprite()
 	material = material.duplicate() as Material
-	current_movement = get_stat(Stats.MOVEMENT)
-	current_health = get_stat(Stats.HIT_POINTS)
+	current_movement = get_movement()
+	current_health = get_hit_points()
 	add_to_group("units")
 	_update_palette()
 	if _animation_player.current_animation == "":
@@ -288,11 +288,11 @@ func get_current_attack() -> int:
 	if get_current_weapon():
 		match get_current_weapon().get_damage_type():
 			Weapon.DamageTypes.PHYSICAL:
-				return get_stat(Stats.STRENGTH)
+				return get_strength()
 			Weapon.DamageTypes.RANGED:
-				return get_stat(Stats.PIERCE)
+				return get_pierce()
 			Weapon.DamageTypes.INTELLIGENCE:
-				return get_stat(Stats.INTELLIGENCE)
+				return get_intelligence()
 	return 0
 
 
@@ -355,6 +355,54 @@ func get_stat(stat: Stats, current_level: int = level) -> int:
 	return clampi(unclamped_stat, 0, get_stat_cap(stat)) + get_stat_boost(stat)
 
 
+func get_hit_points(current_level: int = level) -> int:
+	return get_stat(Stats.HIT_POINTS, current_level)
+
+
+func get_strength(current_level: int = level) -> int:
+	return get_stat(Stats.STRENGTH, current_level)
+
+
+func get_pierce(current_level: int = level) -> int:
+	return get_stat(Stats.PIERCE, current_level)
+
+
+func get_intelligence(current_level: int = level) -> int:
+	return get_stat(Stats.INTELLIGENCE, current_level)
+
+
+func get_skill(current_level: int = level) -> int:
+	return get_stat(Stats.SKILL, current_level)
+
+
+func get_speed(current_level: int = level) -> int:
+	return get_stat(Stats.SPEED, current_level)
+
+
+func get_luck(current_level: int = level) -> int:
+	return get_stat(Stats.LUCK, current_level)
+
+
+func get_defense(current_level: int = level) -> int:
+	return get_stat(Stats.DEFENSE, current_level)
+
+
+func get_armor(current_level: int = level) -> int:
+	return get_stat(Stats.ARMOR, current_level)
+
+
+func get_resistance(current_level: int = level) -> int:
+	return get_stat(Stats.RESISTANCE, current_level)
+
+
+func get_build(current_level: int = level) -> int:
+	return get_stat(Stats.BUILD, current_level)
+
+
+func get_movement(current_level: int = level) -> int:
+	return get_stat(Stats.MOVEMENT, current_level)
+
+
 func get_stat_cap(stat: Stats) -> int:
 	return roundi(
 		(
@@ -367,23 +415,23 @@ func get_stat_cap(stat: Stats) -> int:
 
 func get_weapon_effective_weight() -> int:
 	return (
-		maxi(get_current_weapon().get_weight() - get_stat(Stats.BUILD), 0) if get_current_weapon()
+		maxi(get_current_weapon().get_weight() - get_build(), 0) if get_current_weapon()
 		else 0
 	)
 
 
 func get_attack_speed() -> int:
-	return get_stat(Stats.SPEED) - get_weapon_effective_weight()
+	return get_speed() - get_weapon_effective_weight()
 
 
 func get_current_defence(weapon: Weapon) -> int:
 	match weapon.get_damage_type():
-		Weapon.DamageTypes.RANGED:
-			return get_stat(Stats.ARMOR)
-		Weapon.DamageTypes.INTELLIGENCE:
-			return get_stat(Stats.RESISTANCE)
 		Weapon.DamageTypes.PHYSICAL:
-			return get_stat(Stats.DEFENSE)
+			return get_defense()
+		Weapon.DamageTypes.RANGED:
+			return get_armor()
+		Weapon.DamageTypes.INTELLIGENCE:
+			return get_resistance()
 		var damage_type:
 			push_error("Damage Type %s Invalid" % damage_type)
 			return 0
@@ -414,19 +462,19 @@ func get_portrait_offset() -> Vector2i:
 
 func get_aid() -> int:
 	var aid_mod: int = unit_class.get_aid_modifier()
-	return get_stat(Stats.BUILD) + aid_mod if aid_mod <= 0 else aid_mod - get_stat(Stats.BUILD)
+	return get_build() + aid_mod if aid_mod <= 0 else aid_mod - get_build()
 
 
 func get_weight() -> int:
-	return get_stat(Stats.BUILD) + unit_class.get_weight_modifier()
+	return get_build() + unit_class.get_weight_modifier()
 
 
 func get_hit() -> int:
-	return get_current_weapon().get_hit() + get_stat(Stats.SKILL) * 2 + get_stat(Stats.LUCK)
+	return get_current_weapon().get_hit() + get_skill() * 2 + get_luck()
 
 
 func get_avoid() -> int:
-	return get_attack_speed() * 2 + get_stat(Stats.LUCK)
+	return get_attack_speed() * 2 + get_luck()
 
 
 func get_hit_rate(enemy: Unit) -> int:
@@ -442,11 +490,11 @@ func get_hit_rate(enemy: Unit) -> int:
 
 
 func get_crit() -> int:
-	return get_current_weapon().get_crit() + get_stat(Stats.SKILL)
+	return get_current_weapon().get_crit() + get_skill()
 
 
 func get_crit_avoid() -> int:
-	return get_stat(Stats.LUCK)
+	return get_luck()
 
 
 func get_crit_rate(enemy: Unit) -> int:
@@ -542,7 +590,7 @@ func can_rescue(unit: Unit) -> bool:
 
 ## Causes unit to wait.
 func wait() -> void:
-	current_movement = get_stat(Stats.MOVEMENT)
+	current_movement = get_movement()
 	if Utilities.get_debug_constant("unit_wait"):
 		selectable = false
 		waiting = true
@@ -572,7 +620,7 @@ func deselect() -> void:
 
 ## Un-waits unit.
 func awaken() -> void:
-	current_movement = get_stat(Stats.MOVEMENT)
+	current_movement = get_movement()
 	selectable = true
 	waiting = false
 	_update_palette()

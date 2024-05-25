@@ -73,7 +73,7 @@ func _update() -> void:
 
 	_set_label_text_to_number(%Current as Label, roundi(observing_unit.current_health))
 	_set_label_text_to_number(
-		%MaxHitPoints as Label, observing_unit.get_stat(Unit.Stats.HIT_POINTS)
+		%MaxHitPoints as Label, observing_unit.get_hit_points()
 	)
 
 	var current_exp: float = observing_unit.get_current_exp()
@@ -110,14 +110,14 @@ func _update() -> void:
 
 		hit_description.help_description = ("{hit} + {skill} * 2 + {luck} + bonuses".format({
 			"hit": observing_unit.get_current_weapon().get_hit(),
-			"skill": observing_unit.get_stat(Unit.Stats.SKILL),
-			"luck": observing_unit.get_stat(Unit.Stats.LUCK)
+			"skill": observing_unit.get_skill(),
+			"luck": observing_unit.get_luck()
 		}))
 		_set_label_text_to_number(hit_label, observing_unit.get_hit())
 
 		crit_description.help_description = ("{weapon_crit} + {skill}".format({
 			"weapon_crit": observing_unit.get_current_weapon().get_crit(),
-			"skill": observing_unit.get_stat(Unit.Stats.SKILL)
+			"skill": observing_unit.get_skill()
 		}))
 		_set_label_text_to_number(crit_label, observing_unit.get_crit())
 	else:
@@ -131,19 +131,19 @@ func _update() -> void:
 		crit_label.text = "--"
 
 	(%ASDescription as HelpContainer).help_description = ("{speed} - {weight}".format({
-		"speed": observing_unit.get_stat(Unit.Stats.SPEED),
+		"speed": observing_unit.get_speed(),
 		"weight": observing_unit.get_weapon_effective_weight()
 	}))
 	_set_label_text_to_number(%ASValue as Label, observing_unit.get_attack_speed())
 
 	(%AvoidDescription as HelpContainer).help_description = ("{attack_speed} * 2 + {luck}".format({
 		"attack_speed": observing_unit.get_attack_speed(),
-		"luck": observing_unit.get_stat(Unit.Stats.LUCK)
+		"luck": observing_unit.get_luck()
 	}))
 	_set_label_text_to_number(%AvoidValue as Label, observing_unit.get_avoid())
 
 	(%CritAvoidDescription as HelpContainer).help_description = (str(
-		observing_unit.get_stat(Unit.Stats.LUCK)
+		observing_unit.get_luck()
 	))
 	_set_label_text_to_number(%CritAvoidValue as Label, observing_unit.get_crit_avoid())
 

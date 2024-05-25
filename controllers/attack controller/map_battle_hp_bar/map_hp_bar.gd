@@ -8,7 +8,7 @@ var _bg_gradient: Panel
 
 func _ready() -> void:
 	_bg_gradient = %BGGradient as Panel
-	_hp_bar.max_value = unit.get_stat(Unit.Stats.HIT_POINTS)
+	_hp_bar.max_value = unit.get_hit_points()
 	(%Name as Label).text = unit.unit_name
 	_bg_gradient.add_theme_stylebox_override(
 		"panel", _get_gradient_stylebox().duplicate(true) as StyleBoxTexture
