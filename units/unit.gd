@@ -27,12 +27,20 @@ const LEVEL_CAP: int = 30
 const FADE_AWAY_DURATION: float = 20.0 / 60
 ## The added amount when the stat is 0 and PVs are maxed
 const PERSONAL_VALUE_MIN_MODIFIER: float = 2.5
+## The added amount when hit points are 0 and PVs are maxed
+const PERSONAL_VALUE_MIN_HIT_POINTS_MODIFIER: float = 5
 ## The added amount when the stat is the unit class max and PVs are maxed
 const PERSONAL_VALUE_MAX_MODIFIER: float = 5
-## The added amount when the stat is 0 and PVs are maxed
+## The added amount when hit points are the unit class max and PVs are maxed
+const PERSONAL_VALUE_MAX_HIT_POINTS_MODIFIER: float = 10
+## The added amount when the stat is 0 and EVs are maxed
 const EFFORT_VALUE_MIN_MODIFIER: float = 2.5
-## The added amount when the stat is the unit class max and PVs are maxed
+## The added amount when the stat is 0 and EVs are maxed
+const EFFORT_VALUE_MIN_HIT_POINTS_MODIFIER: float = 5
+## The added amount when hit points are the unit class max and EVs are maxed
 const EFFORT_VALUE_MAX_MODIFIER: float = 5
+## The added amount when hit points are the unit class max and EVs are maxed
+const EFFORT_VALUE_MAX_HIT_POINTS_MODIFIER: float = 10
 ## The maximum value that a PV can be
 const PERSONAL_VALUE_LIMIT: int = 15
 ## The maximum value that an EV can be
@@ -49,6 +57,7 @@ const ONE_ROUND_EXP_BASE: float = float(BASE_EXP) / 3
 ## The amount of combat experience reserved for when an enemy is killed
 const KILL_EXP_PERCENT: float = 0.25
 const DEFAULT_PERSONAL_VALUE: int = 5
+const MAX_LEVEL: int = 30
 const _MOVEMENT_ARROWS: PackedScene = preload("res://maps/map_tiles/movement_arrows.tscn")
 
 ## Unit's faction. Should be in the map's Faction stack.
@@ -404,20 +413,16 @@ func get_movement(current_level: int = level) -> int:
 
 
 func get_stat_cap(stat: Stats) -> int:
+	var is_hit_points: int = stat == Stats.HIT_POINTS
 	return roundi(
-		(
-			(unit_class.get_end_stat(stat))
-			+ (PERSONAL_VALUE_MAX_MODIFIER)
-			+ (EFFORT_VALUE_MAX_MODIFIER)
-		)
+		(unit_class.get_end_stat(stat))
+		+ (PERSONAL_VALUE_MAX_HIT_POINTS_MODIFIER if is_hit_points else PERSONAL_VALUE_MAX_MODIFIER)
+		+ (EFFORT_VALUE_MAX_HIT_POINTS_MODIFIER if is_hit_points else EFFORT_VALUE_MAX_MODIFIER)
 	)
 
 
 func get_weapon_effective_weight() -> int:
-	return (
-		maxi(get_current_weapon().get_weight() - get_build(), 0) if get_current_weapon()
-		else 0
-	)
+	return maxi(get_current_weapon().get_weight() - get_build(), 0) if get_current_weapon() else 0
 
 
 func get_attack_speed() -> int:
@@ -435,10 +440,6 @@ func get_current_defence(weapon: Weapon) -> int:
 		var damage_type:
 			push_error("Damage Type %s Invalid" % damage_type)
 			return 0
-
-
-func get_max_level() -> int:
-	return 30
 
 
 func get_area() -> Area2D:
@@ -923,9 +924,8 @@ func reset_tile_cache() -> void:
 
 
 func can_follow_up(opponent: Unit) -> bool:
-	return (
-		get_skills().filter(func(skill: Skill) -> bool: return skill is FollowUp)
-		.any(func(skill: FollowUp) -> bool: return skill.can_follow_up(self, opponent))
+	return get_skills().filter(func(skill: Skill) -> bool: return skill is FollowUp).any(
+		func(skill: FollowUp) -> bool: return skill.can_follow_up(self, opponent)
 	)
 
 
@@ -983,11 +983,12 @@ func _on_area2d_area_entered(area: Area2D) -> void:
 
 func _get_personal_modifier(stat: Stats, current_level: int) -> float:
 	var personal_value: float = clampf(get_personal_value(stat) as int, 0, PERSONAL_VALUE_LIMIT)
+	var is_hit_points: bool = stat == Stats.HIT_POINTS
 	return _get_value_modifier(
 		stat,
 		current_level,
-		PERSONAL_VALUE_MIN_MODIFIER,
-		PERSONAL_VALUE_MAX_MODIFIER,
+		PERSONAL_VALUE_MIN_HIT_POINTS_MODIFIER if is_hit_points else PERSONAL_VALUE_MIN_MODIFIER,
+		PERSONAL_VALUE_MAX_HIT_POINTS_MODIFIER if is_hit_points else PERSONAL_VALUE_MAX_MODIFIER,
 		personal_value / PERSONAL_VALUE_LIMIT
 	)
 
@@ -996,11 +997,12 @@ func _get_effort_modifier(stat: Stats, current_level: int) -> float:
 	var effort_value: float = clampf(
 		get_effort_value(stat) as int, 0, INDIVIDUAL_EFFORT_VALUE_LIMIT
 	)
+	var is_hit_points: bool = stat == Stats.HIT_POINTS
 	return _get_value_modifier(
 		stat,
 		current_level,
-		EFFORT_VALUE_MIN_MODIFIER,
-		EFFORT_VALUE_MAX_MODIFIER,
+		EFFORT_VALUE_MIN_HIT_POINTS_MODIFIER if is_hit_points else EFFORT_VALUE_MIN_MODIFIER,
+		EFFORT_VALUE_MAX_HIT_POINTS_MODIFIER if is_hit_points else EFFORT_VALUE_MAX_MODIFIER,
 		effort_value / INDIVIDUAL_EFFORT_VALUE_LIMIT
 	)
 
@@ -1011,8 +1013,8 @@ func _get_value_modifier(
 	return (
 		remap(
 			unit_class.get_stat(stat, current_level),
-			0,
-			UnitClass.MAX_END_STAT,
+			UnitClass.MIN_HIT_POINTS if stat == Stats.HIT_POINTS else 0,
+			UnitClass.MAX_HIT_POINTS if stat == Stats.HIT_POINTS else UnitClass.MAX_END_STAT,
 			min_value,
 			max_value
 		)

@@ -20,6 +20,8 @@ enum MovementTypes {
 }
 
 const MAX_END_STAT: int = 30
+const MIN_HIT_POINTS: int = 20
+const MAX_HIT_POINTS: int = 60
 
 var _base_hit_points: int
 var _base_strength: int
@@ -72,11 +74,14 @@ func _init() -> void:
 
 
 func get_base_stat(stat: Unit.Stats) -> int:
-	return get("_base_%s" % (Unit.Stats.find_key(stat) as String).to_snake_case())
+	return (
+		get_base_hit_points() if stat == Unit.Stats.HIT_POINTS
+		else get("_base_%s" % (Unit.Stats.find_key(stat) as String).to_snake_case())
+	)
 
 
 func get_base_hit_points() -> int:
-	return _base_hit_points
+	return maxi(_base_hit_points, MIN_HIT_POINTS)
 
 
 func get_base_strength() -> int:
@@ -125,7 +130,8 @@ func get_base_build() -> int:
 
 func get_end_stat(stat: Unit.Stats) -> int:
 	return mini(
-		get("_end_%s" % (Unit.Stats.find_key(stat) as String).to_snake_case()) as int, MAX_END_STAT
+		get("_end_%s" % (Unit.Stats.find_key(stat) as String).to_snake_case()) as int,
+		MAX_HIT_POINTS if stat == Unit.Stats.HIT_POINTS else MAX_END_STAT
 	)
 
 
@@ -178,7 +184,7 @@ func get_end_build() -> int:
 
 
 func get_stat(stat: Unit.Stats, level: int) -> float:
-	return lerpf(get_base_stat(stat), get_end_stat(stat), inverse_lerp(1, Unit.LEVEL_CAP, level))
+	return remap(level, 1, Unit.LEVEL_CAP, get_base_stat(stat), get_end_stat(stat))
 
 
 func get_base_weapon_levels() -> Dictionary:
