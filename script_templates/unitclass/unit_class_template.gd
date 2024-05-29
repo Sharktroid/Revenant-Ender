@@ -23,16 +23,4 @@ _TS__base_resistance =
 _TS__base_movement =
 _TS__base_build =
 
-_TS__end_hit_points =
-_TS__end_strength =
-_TS__end_pierce =
-_TS__end_intelligence =
-_TS__end_skill =
-_TS__end_speed =
-_TS__end_luck =
-_TS__end_defense =
-_TS__end_armor =
-_TS__end_resistance =
-_TS__end_movement =
-_TS__end_build =
 _TS_super()

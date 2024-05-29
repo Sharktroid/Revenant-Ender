@@ -415,7 +415,7 @@ func get_movement(current_level: int = level) -> int:
 func get_stat_cap(stat: Stats) -> int:
 	var is_hit_points: int = stat == Stats.HIT_POINTS
 	return roundi(
-		(unit_class.get_end_stat(stat))
+		(unit_class.get_stat(stat, MAX_LEVEL))
 		+ (PERSONAL_VALUE_MAX_HIT_POINTS_MODIFIER if is_hit_points else PERSONAL_VALUE_MAX_MODIFIER)
 		+ (EFFORT_VALUE_MAX_HIT_POINTS_MODIFIER if is_hit_points else EFFORT_VALUE_MAX_MODIFIER)
 	)
@@ -517,8 +517,8 @@ func get_path_last_pos() -> Vector2i:
 
 func get_stat_table(stat: Stats) -> Array[String]:
 	var table_items: Dictionary = {
-		"Class Base": str(unit_class.get_base_stat(stat)),
-		"Class Final": str(unit_class.get_end_stat(stat)),
+		"Class Initial": str(roundi(unit_class.get_stat(stat, 1))),
+		"Class Final": str(unit_class.get_stat(stat, MAX_LEVEL)),
 		"Personal Value": str(get_personal_value(stat)),
 		"Effort Value": str(get_effort_value(stat)),
 	}

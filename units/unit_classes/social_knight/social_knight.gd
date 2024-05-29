@@ -20,29 +20,16 @@ func _init() -> void:
 		Weapon.Types.SPEAR: Weapon.Ranks.A,
 	}
 
-	_base_hit_points = 17
-	_base_strength = 6
-	_base_pierce = 0
-	_base_intelligence = 0
-	_base_skill = 5
-	_base_speed = 5
-	_base_luck = 3
-	_base_defense = 5
-	_base_armor = 4
-	_base_resistance = 3
+	_base_hit_points = 40
+	_base_strength = 25
+	_base_pierce = 20
+	_base_intelligence = 21
+	_base_skill = 22
+	_base_speed = 25
+	_base_luck = 20
+	_base_defense = 25
+	_base_armor = 20
+	_base_resistance = 25
 	_base_movement = 8
 	_base_build = 9
-
-	_end_hit_points = 45
-	_end_strength = 23
-	_end_pierce = 20
-	_end_intelligence = 21
-	_end_skill = 23
-	_end_speed = 22
-	_end_luck = 20
-	_end_defense = 24
-	_end_armor = 20
-	_end_resistance = 25
-	_end_movement = 8
-	_end_build = 9
 	super()

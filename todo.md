@@ -1,6 +1,9 @@
 # Minor
 * Have base stats be end stats - 20, multiplied by a coefficient to make max PVs and EVs with 30 base at level 1 have a stat of 10
 	* HP is just HP/2
+* Add DS font
+* Replace map sprites with Thracia equivalents
+* Have enemy sprites be horizontally swapped
 * Use more node groups
 * Make updating more efficient with setters
 * Replace claws with shields

@@ -14,30 +14,17 @@ func _init() -> void:
 	_base_weapon_levels[Weapon.Types.SPEAR] = Weapon.Ranks.B
 	_max_weapon_levels[Weapon.Types.SPEAR] = Weapon.Ranks.S
 
-	_base_hit_points = 19
-	_base_strength = 8
+	_base_hit_points = 50
+	_base_strength = 22
 	_base_pierce = 0
 	_base_intelligence = 0
-	_base_skill = 5
-	_base_speed = 3
-	_base_luck = 3
-	_base_defense = 8
-	_base_armor = 5
-	_base_resistance = 1
+	_base_skill = 21
+	_base_speed = 15
+	_base_luck = 24
+	_base_defense = 25
+	_base_armor = 24
+	_base_resistance = 17
 	_base_movement = 6
 	_base_build = 13
-
-	_end_hit_points = 50
-	_end_strength = 22
-	_end_pierce = 0
-	_end_intelligence = 0
-	_end_skill = 21
-	_end_speed = 15
-	_end_luck = 24
-	_end_defense = 25
-	_end_armor = 24
-	_end_resistance = 17
-	_end_movement = 6
-	_end_build = 13
 	super()
 

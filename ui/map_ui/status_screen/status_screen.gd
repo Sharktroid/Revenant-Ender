@@ -69,7 +69,7 @@ func _update() -> void:
 	)
 
 	_set_label_text_to_number(%CurrentLevel as Label, observing_unit.level)
-	_set_label_text_to_number(%MaxLevel as Label, observing_unit.get_max_level())
+	_set_label_text_to_number(%MaxLevel as Label, observing_unit.MAX_LEVEL)
 
 	_set_label_text_to_number(%Current as Label, roundi(observing_unit.current_health))
 	_set_label_text_to_number(

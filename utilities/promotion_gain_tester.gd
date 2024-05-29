@@ -1,8 +1,8 @@
 @tool
 extends EditorScript
 
-var old_class: UnitClass = Fighter.new()
-var new_class: UnitClass = Champion.new()
+var old_class: UnitClass = SocialKnight.new()
+var new_class: UnitClass = Cavalier.new()
 var old_unit: Unit
 var new_unit: Unit
 
