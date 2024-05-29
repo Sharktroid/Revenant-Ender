@@ -15,7 +15,10 @@ var _current_table_cols: int
 
 
 func _ready() -> void:
-	get_popup_node().visible = false
+	if Utilities.is_running_project():
+		get_popup_node().visible = false
+	else:
+		queue_free()
 
 
 func receive_input(event: InputEvent) -> void:

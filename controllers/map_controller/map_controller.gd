@@ -14,14 +14,18 @@ var _phase_display: _PHASE_DISPLAY
 
 
 func _ready() -> void:
-	(MapController.get_ui().get_node("FPS Display") as HBoxContainer).visible = (
-		Utilities.get_debug_constant("show_fps")
-	)
+	if Utilities.is_running_project():
+		(get_ui().get_node("FPS Display") as HBoxContainer).visible = Utilities.get_debug_constant(
+			"show_fps"
+		)
+	else:
+		queue_free()
+		set_physics_process(false)
 
 
 func _process(delta: float) -> void:
-	(get_ui().get_node("%Average Process Frame Label") as Label).text = (
-		str(Engine.get_frames_per_second())
+	(get_ui().get_node("%Average Process Frame Label") as Label).text = str(
+		Engine.get_frames_per_second()
 	)
 	(get_ui().get_node("%Immediate Process Frame Label") as Label).text = str(roundi(1 / delta))
 
@@ -55,7 +59,7 @@ func create_main_map_menu() -> void:
 
 func get_ui() -> CanvasLayer:
 	var path := NodePath("%s/MapUILayer" % GameController.get_root().get_path())
-	return get_node(path) as CanvasLayer if has_node(path) else CanvasLayer.new()
+	return get_node(path) as CanvasLayer if has_node(path) else null
 
 
 func get_map_camera() -> MapCamera:

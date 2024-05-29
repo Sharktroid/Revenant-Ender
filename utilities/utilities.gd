@@ -188,6 +188,11 @@ func get_control_within_height(checking_control: Control, control_array: Array[C
 	return closest_control
 
 
+func is_running_project() -> bool:
+	const Renderer = preload("res://renderer/renderer.gd")
+	return get_tree().root.get_child(-1) is Renderer
+
+
 func _get_center(control: Control) -> float:
 	return control.get_screen_position().y + control.size.y / 2
 

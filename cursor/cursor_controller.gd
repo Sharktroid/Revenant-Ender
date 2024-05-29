@@ -21,7 +21,13 @@ var _repeat: bool = false
 
 func _init() -> void:
 	set_process_input(true)
-	set_icon.call_deferred(Icons.NONE)
+
+
+func _ready() -> void:
+	if Utilities.is_running_project():
+		set_icon(Icons.NONE)
+	else:
+		queue_free()
 
 
 func _physics_process(_delta: float) -> void:
@@ -95,7 +101,6 @@ func set_icon(icon: Icons) -> void:
 			Icons.ATTACK:
 				icon_sprite.texture = preload("res://cursor/attack.png")
 				icon_sprite.position = Vector2i(0, -16)
-
 
 
 func get_area() -> Area2D:
