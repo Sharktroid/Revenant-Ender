@@ -17,8 +17,6 @@ func _enter_tree() -> void:
 
 
 func _update() -> void:
-	print_stack()
-	print()
 	var items := %Items as VBoxContainer
 	for child: Node in items.get_children():
 		child.queue_free()

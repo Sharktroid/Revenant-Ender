@@ -166,56 +166,6 @@ var _attack_tile_node: Node2D
 var _current_attack_tiles_node: Node2D
 # Resources to be loaded.
 var _stat_boosts: Dictionary
-var _default_palette: Array[Array] = [[Vector3(), Vector3()]]
-var _wait_palette: Array[Array] = [
-	[Vector3(24, 240, 248), Vector3(184, 184, 184)],
-	[Vector3(144, 184, 232), Vector3(120, 120, 120)],
-	[Vector3(248, 248, 64), Vector3(200, 200, 200)],
-	[Vector3(232, 16, 24), Vector3(112, 112, 112)],
-	[Vector3(56, 56, 144), Vector3(72, 72, 72)],
-	[Vector3(248, 248, 248), Vector3(208, 208, 208)],
-	[Vector3(56, 80, 224), Vector3(88, 88, 88)],
-	[Vector3(112, 96, 96), Vector3(80, 80, 80)],
-	[Vector3(248, 248, 208), Vector3(200, 200, 200)],
-	[Vector3(88, 72, 120), Vector3(64, 64, 64)],
-	[Vector3(216, 232, 240), Vector3(184, 184, 184)],
-	[Vector3(40, 160, 248), Vector3(152, 152, 152)],
-	[Vector3(176, 144, 88), Vector3(128, 128, 128)],
-]
-var _red_palette: Array[Array] = [
-	[Vector3(56, 56, 144), Vector3(96, 40, 32)],
-	[Vector3(56, 80, 224), Vector3(168, 48, 40)],
-	[Vector3(40, 160, 248), Vector3(224, 16, 16)],
-	[Vector3(24, 240, 248), Vector3(248, 80, 72)],
-	[Vector3(232, 16, 24), Vector3(56, 208, 48)],
-	[Vector3(88, 72, 120), Vector3(104, 72, 96)],
-	[Vector3(216, 232, 240), Vector3(224, 224, 224)],
-	[Vector3(144, 184, 232), Vector3(192, 168, 184)],
-]
-var _green_palette: Array[Array] = [
-	[Vector3(56, 56, 144), Vector3(32, 80, 16)],
-	[Vector3(56, 80, 224), Vector3(8, 144, 0)],
-	[Vector3(40, 160, 248), Vector3(24, 208, 16)],
-	[Vector3(24, 240, 248), Vector3(80, 248, 56)],
-	[Vector3(232, 16, 24), Vector3(0, 120, 200)],
-	[Vector3(88, 72, 120), Vector3(56, 80, 56)],
-	[Vector3(144, 184, 232), Vector3(152, 200, 158)],
-	[Vector3(216, 232, 240), Vector3(216, 248, 184)],
-	[Vector3(112, 96, 96), Vector3(88, 88, 80)],
-	[Vector3(176, 144, 88), Vector3(160, 136, 64)],
-	[Vector3(248, 248, 208), Vector3(248, 248, 192)],
-	[Vector3(248, 248, 64), Vector3(224, 248, 40)],
-]
-var _purple_palette: Array[Array] = [
-	[Vector3(56, 56, 144), Vector3(88, 32, 96)],
-	[Vector3(56, 80, 224), Vector3(128, 48, 144)],
-	[Vector3(40, 160, 248), Vector3(184, 72, 224)],
-	[Vector3(24, 240, 248), Vector3(208, 96, 248)],
-	[Vector3(232, 16, 24), Vector3(56, 208, 48)],
-	[Vector3(88, 72, 120), Vector3(88, 64, 104)],
-	[Vector3(144, 184, 232), Vector3(168, 168, 232)],
-	[Vector3(64, 56, 56), Vector3(72, 40, 64)],
-]
 var _arrows_container: CanvasGroup
 static var _movement_speed: float = 16  # Speedunit moves across the map in tiles/second.
 # Dictionaries that convert faction/variant into animation modifier.
@@ -357,9 +307,11 @@ func get_stat_boost(stat: Stats) -> int:
 func get_stat(stat: Stats, current_level: int = level) -> int:
 	var leveled_stat: float = unit_class.get_stat(stat, current_level)
 	var unclamped_stat: int = roundi(
-		leveled_stat
-		+ _get_personal_modifier(stat, current_level)
-		+ _get_effort_modifier(stat, current_level)
+		(
+			leveled_stat
+			+ _get_personal_modifier(stat, current_level)
+			+ _get_effort_modifier(stat, current_level)
+		)
 	)
 	return clampi(unclamped_stat, 0, get_stat_cap(stat)) + get_stat_boost(stat)
 
@@ -415,9 +367,15 @@ func get_movement(current_level: int = level) -> int:
 func get_stat_cap(stat: Stats) -> int:
 	var is_hit_points: int = stat == Stats.HIT_POINTS
 	return roundi(
-		(unit_class.get_stat(stat, MAX_LEVEL))
-		+ (PERSONAL_VALUE_MAX_HIT_POINTS_MODIFIER if is_hit_points else PERSONAL_VALUE_MAX_MODIFIER)
-		+ (EFFORT_VALUE_MAX_HIT_POINTS_MODIFIER if is_hit_points else EFFORT_VALUE_MAX_MODIFIER)
+		(
+			(unit_class.get_stat(stat, MAX_LEVEL))
+			+ (
+				PERSONAL_VALUE_MAX_HIT_POINTS_MODIFIER
+				if is_hit_points
+				else PERSONAL_VALUE_MAX_MODIFIER
+			)
+			+ (EFFORT_VALUE_MAX_HIT_POINTS_MODIFIER if is_hit_points else EFFORT_VALUE_MAX_MODIFIER)
+		)
 	)
 
 
@@ -939,35 +897,12 @@ func _render_status() -> void:
 
 
 func _set_palette(color: Faction.Colors) -> void:
-	var palette: Array[Array]
-	#region sets palette
-	match waiting:
-		true:
-			palette = _wait_palette
-		false:
-			match color:
-				Faction.Colors.RED:
-					palette = _red_palette
-				Faction.Colors.GREEN:
-					palette = _green_palette
-				Faction.Colors.BLUE:
-					palette = _default_palette
-				Faction.Colors.PURPLE:
-					palette = _purple_palette
-				var invalid:
-					palette = _default_palette
-					push_error("Color %s does not have a palette." % invalid)
-	#endregion
-	var old_colors: Array[Color] = []
-	var new_colors: Array[Color] = []
-	for color_set: Array[Vector3] in palette:
-		var old_color: Vector3 = color_set[0] / 255
-		old_colors.append(Color(old_color.x, old_color.y, old_color.z, 1))
-		var new_color: Vector3 = color_set[1] / 255
-		new_colors.append(Color(new_color.x, new_color.y, new_color.z, 1))
 	var shader_material := material as ShaderMaterial
-	shader_material.set_shader_parameter("old_colors", old_colors)
-	shader_material.set_shader_parameter("new_colors", new_colors)
+	shader_material.set_shader_parameter("old_colors", unit_class.get_palette_basis())
+	shader_material.set_shader_parameter(
+		"new_colors",
+		unit_class.get_wait_palette() if waiting else unit_class.get_palette(faction.color)
+	)
 
 
 func _on_area2d_area_entered(area: Area2D) -> void:

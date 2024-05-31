@@ -136,5 +136,84 @@ func get_skills() -> Array[Skill]:
 	return _skills
 
 
+## Returns the colors used by the palette for palette swapping
+func get_palette_basis() -> Array[Color]:
+	return _get_blue_palette()
+
+
+func get_palette(color: Faction.Colors) -> Array[Color]:
+	match color:
+		Faction.Colors.BLUE:
+			return _get_blue_palette()
+		Faction.Colors.RED:
+			return _get_red_palette()
+		_:
+			push_error("Color %s not found." % Faction.Colors.find_key(color))
+			return _get_blue_palette()
+
+
+func get_wait_palette() -> Array[Color]:
+	const WAIT_PALETTE: Array[Color] = [
+		Color("404040"),
+		Color("787878"),
+		Color("B8B8B8"),
+		Color("505050"),
+		Color("808080"),
+		Color("C8C8C8"),
+		Color("484848"),
+		Color("585858"),
+		Color("989898"),
+		Color("B8B8B8"),
+		Color("707070"),
+		Color("707070"),
+		Color("808870"),
+		Color("D0D0D0"),
+		Color("403838"),
+	]
+	return WAIT_PALETTE.duplicate()
+
+
 func _get_base_stat(stat: Unit.Stats) -> int:
 	return get("_base_%s" % (Unit.Stats.find_key(stat) as String).to_snake_case())
+
+
+func _get_blue_palette() -> Array[Color]:
+	const BLUE_PALETTE: Array[Color] = [
+		Color("584878"),
+		Color("90B8E8"),
+		Color("D8E8F0"),
+		Color("706060"),
+		Color("B09058"),
+		Color("F8F8D0"),
+		Color("383890"),
+		Color("3850E0"),
+		Color("28A0F8"),
+		Color("18F0F8"),
+		Color("E81018"),
+		Color("F8F840"),
+		Color("808870"),
+		Color("F8F8F8"),
+		Color("403838"),
+	]
+	return BLUE_PALETTE.duplicate()
+
+
+func _get_red_palette() -> Array[Color]:
+	const RED_PALETTE: Array[Color] = [
+		Color("684860"),
+		Color("C0A8B8"),
+		Color("C0A8B8"),
+		Color("706060"),
+		Color("B09058"),
+		Color("F8F8D0"),
+		Color("602820"),
+		Color("A83028"),
+		Color("E01010"),
+		Color("F85048"),
+		Color("38D030"),
+		Color("F8F840"),
+		Color("808870"),
+		Color("F8F8F8"),
+		Color("403838"),
+	]
+	return RED_PALETTE.duplicate()

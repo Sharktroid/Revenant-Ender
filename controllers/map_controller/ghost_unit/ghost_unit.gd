@@ -16,5 +16,9 @@ func _init(connected_unit: Unit) -> void:
 	add_child(_unit)
 
 
+func _exit_tree() -> void:
+	await _unit.tree_exited
+
+
 func set_animation(new_animation: Unit.Animations) -> void:
 	_unit.set_animation(new_animation)

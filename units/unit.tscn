@@ -1,9 +1,8 @@
-[gd_scene load_steps=19 format=3 uid="uid://klwwp0vjyw6"]
+[gd_scene load_steps=17 format=3 uid="uid://klwwp0vjyw6"]
 
 [ext_resource type="Script" path="res://units/unit.gd" id="1"]
 [ext_resource type="Shader" path="res://gba_palette.gdshader" id="1_6ujht"]
 [ext_resource type="PackedScene" uid="uid://c3u8sd6ld0tlh" path="res://units/health_bar/health_bar.tscn" id="2"]
-[ext_resource type="Script" path="res://skills/follow_up.gd" id="2_py8tn"]
 [ext_resource type="Texture2D" uid="uid://c8e54ae40dql" path="res://units/traveler_icon.png" id="5_k1iet"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lgtg6"]
@@ -12,9 +11,6 @@ shader_parameter/darken_screen = 0.5
 shader_parameter/old_colors = null
 shader_parameter/new_colors = null
 shader_parameter/modulate = Vector4(1, 1, 1, 1)
-
-[sub_resource type="Resource" id="Resource_snaox"]
-script = ExtResource("2_py8tn")
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(7, 7)
@@ -192,7 +188,6 @@ offset = Vector2(-8, -16)
 hframes = 4
 vframes = 5
 script = ExtResource("1")
-skills = Array[Resource("res://skills/skill.gd")]([SubResource("Resource_snaox")])
 
 [node name="Area2D" type="Area2D" parent="."]
 visible = false
