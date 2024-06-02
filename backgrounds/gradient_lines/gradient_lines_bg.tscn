@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bm8qo5r81mo2y"]
+[gd_scene load_steps=11 format=3 uid="uid://bm8qo5r81mo2y"]
 
 [ext_resource type="PackedScene" uid="uid://b5rhtmfvnnqvb" path="res://backgrounds/animated_background.tscn" id="1_8xr0r"]
 [ext_resource type="Shader" path="res://backgrounds/horizontal_distortion.gdshader" id="2_fxdsw"]
@@ -21,6 +21,9 @@ shader_parameter/use_screen_texture = false
 offsets = PackedFloat32Array(0, 0.1, 0.5, 0.9, 1)
 colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pbu75"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ftjtc"]
 shader = ExtResource("2_fxdsw")
 shader_parameter/amplitude = 32.0
@@ -29,7 +32,7 @@ shader_parameter/time_frequency = 0.65
 shader_parameter/split = false
 shader_parameter/wrap_around = true
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pbu75"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ykwi7"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [node name="GradientLinesBG" instance=ExtResource("1_8xr0r")]
@@ -69,6 +72,16 @@ points = PackedVector2Array(0, 0, 2, 2, 16, 16, 30, 30, 32, 32)
 width = 2.0
 gradient = SubResource("Gradient_tc1cb")
 
+[node name="PlaceholderPanel" type="Panel" parent="Features" index="1"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 512.0
+offset_bottom = 288.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pbu75")
+
 [node name="Panel" type="Panel" parent="." index="2"]
 material = SubResource("ShaderMaterial_ftjtc")
 layout_mode = 1
@@ -79,4 +92,4 @@ offset_right = 512.0
 offset_bottom = 288.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_pbu75")
+theme_override_styles/panel = SubResource("StyleBoxFlat_ykwi7")

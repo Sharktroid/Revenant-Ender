@@ -60,7 +60,7 @@ func update() -> void:
 
 
 func get_left_controls() -> Array[Node]:
-	return %OffensiveLabels.get_children() + %MiscLabels.get_children()
+	return get_tree().get_nodes_in_group("left_nodes")
 
 
 func _update_stat_bar(stat_bar: StatBar, stat: Unit.Stats) -> void:

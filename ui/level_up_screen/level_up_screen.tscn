@@ -145,7 +145,7 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_egsh6")
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="HitPointsContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer"]
+[node name="HitPointsContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer" groups=["stats"]]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 3
@@ -187,7 +187,7 @@ horizontal_alignment = 2
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 
-[node name="StrengthContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer"]
+[node name="StrengthContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer" groups=["stats"]]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 3
@@ -226,7 +226,7 @@ horizontal_alignment = 2
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 
-[node name="PierceContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer"]
+[node name="PierceContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer" groups=["stats"]]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 3
@@ -265,7 +265,7 @@ horizontal_alignment = 2
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 
-[node name="IntelligenceContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer"]
+[node name="IntelligenceContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer" groups=["stats"]]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 3
@@ -304,7 +304,7 @@ horizontal_alignment = 2
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 
-[node name="SkillContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer"]
+[node name="SkillContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer" groups=["stats"]]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 3
@@ -343,7 +343,7 @@ horizontal_alignment = 2
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 
-[node name="SpeedContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer"]
+[node name="SpeedContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer" groups=["stats"]]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 3
@@ -398,7 +398,7 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_egsh6")
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="MovementContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer"]
+[node name="MovementContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer" groups=["stats"]]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 3
@@ -438,7 +438,7 @@ horizontal_alignment = 2
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 
-[node name="DefenseContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer"]
+[node name="DefenseContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer" groups=["stats"]]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 3
@@ -478,7 +478,7 @@ horizontal_alignment = 2
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 
-[node name="ArmorContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer"]
+[node name="ArmorContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer" groups=["stats"]]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 3
@@ -520,7 +520,7 @@ horizontal_alignment = 2
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 
-[node name="ResistanceContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer"]
+[node name="ResistanceContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer" groups=["stats"]]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 3
@@ -560,7 +560,7 @@ horizontal_alignment = 2
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 
-[node name="LuckContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer"]
+[node name="LuckContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer" groups=["stats"]]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 3
@@ -600,7 +600,7 @@ horizontal_alignment = 2
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 
-[node name="BuildContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer"]
+[node name="BuildContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Right/VBoxContainer" groups=["stats"]]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 3

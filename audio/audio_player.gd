@@ -5,6 +5,8 @@ const MENU_SELECT = preload("res://audio/sfx/menu_select.ogg")
 const DESELECT = preload("res://audio/sfx/deselect.ogg")
 const CURSOR = preload("res://audio/sfx/cursor.ogg")
 const MENU_TICK = preload("res://audio/sfx/menu_tick.ogg")
+const _MUSIC_GROUP: StringName = &"music_track"
+const _SFX_GROUP: StringName = &"sound_effect"
 
 var music_volume: float = 0.5:
 	set(value):
@@ -13,14 +15,8 @@ var music_volume: float = 0.5:
 		get_current_player().stream_paused = not (music_volume > 0)
 var sfx_volume: float = 1.0
 
-var _music_container := Node.new()
 var _tracks: Dictionary = {}
 var _track_stack: Array[AudioStream]
-var _current_sfx: Array[AudioStreamPlayer] = []
-
-
-func _ready() -> void:
-	add_child(_music_container)
 
 
 func play_track(stream: AudioStream) -> void:
@@ -39,14 +35,14 @@ func play_track(stream: AudioStream) -> void:
 		if music_volume == 0:
 			new_player.stream_paused = true
 		_tracks[stream] = new_player
-		_music_container.add_child(new_player)
+		add_child(new_player)
+		new_player.add_to_group(_MUSIC_GROUP)
 		new_player.play()
 	get_current_player().volume_db = _percent_to_db(music_volume)
 
 
 func clear_tracks() -> void:
-	for child: Node in _music_container.get_children():
-		child.queue_free()
+	get_tree().call_group(_MUSIC_GROUP, "queue_free")
 	_tracks = {}
 
 
@@ -99,16 +95,13 @@ func play_sound_effect(stream: AudioStream) -> void:
 		add_child(player)
 		player.volume_db = _percent_to_db(sfx_volume)
 		player.play()
-		_current_sfx.append(player)
+		player.add_to_group(_SFX_GROUP)
 		await player.finished
-		_current_sfx.erase(player)
 		player.queue_free()
 
 
 func clear_sound_effects() -> void:
-	for sound_effect: AudioStreamPlayer in _current_sfx:
-		sound_effect.queue_free()
-	_current_sfx = []
+	get_tree().call_group(_SFX_GROUP, "queue_free")
 
 
 func _percent_to_db(volume: float) -> float:

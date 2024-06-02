@@ -6,6 +6,7 @@ const _ITEM_LABEL_PATH: String = (
 )
 const _ITEM_LABEL = preload(_ITEM_LABEL_PATH + "gd")
 const _ITEM_LABEL_SCENE: PackedScene = preload(_ITEM_LABEL_PATH + "tscn")
+const _ITEM_GROUP: StringName = &"item_group"
 
 var left_unit: Unit
 var right_unit: Unit
@@ -99,20 +100,10 @@ func _get_unit(label: ItemLabel) -> Unit:
 
 
 func _update() -> void:
-	for child: Node in %LeftItems.get_children() + %RightItems.get_children():
-		child.queue_free()
+	get_tree().call_group(_ITEM_GROUP, "queue_free")
 	current_label = null
-	var add_items: Callable = func(unit: Unit, container: VBoxContainer) -> void:
-		for item: Item in unit.items:
-			var item_label := _ITEM_LABEL_SCENE.instantiate() as _ITEM_LABEL
-			item_label.item = item
-			item_label.set_equip_status(unit)
-			item_label.parent_menu = self
-			if not current_label:
-				current_label = item_label
-			container.add_child(item_label)
-	add_items.call(left_unit, %LeftItems)
-	add_items.call(right_unit, %RightItems)
+	_add_items(left_unit, %LeftItems as VBoxContainer)
+	_add_items(right_unit, %RightItems as VBoxContainer)
 
 
 func _reset() -> void:
@@ -124,3 +115,15 @@ func _reset() -> void:
 
 func _change_current_label(parent: Node, index: int) -> void:
 	current_label = parent.get_child(posmod(index, parent.get_children().size())) as _ITEM_LABEL
+
+
+func _add_items(unit: Unit, container: VBoxContainer) -> void:
+	for item: Item in unit.items:
+		var item_label := _ITEM_LABEL_SCENE.instantiate() as _ITEM_LABEL
+		item_label.item = item
+		item_label.set_equip_status(unit)
+		item_label.parent_menu = self
+		if not current_label:
+			current_label = item_label
+		container.add_child(item_label)
+		item_label.add_to_group(_ITEM_GROUP)

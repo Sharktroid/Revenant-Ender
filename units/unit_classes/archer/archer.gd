@@ -18,9 +18,9 @@ func _init() -> void:
 	_base_pierce = 24
 	_base_intelligence = 22
 	_base_skill = 24
-	_base_speed = 19
+	_base_speed = 22
 	_base_luck = 23
-	_base_defense = 16
+	_base_defense = 20
 	_base_armor = 25
 	_base_resistance = 25
 	_base_movement = 6

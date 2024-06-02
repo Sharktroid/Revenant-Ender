@@ -1,5 +1,4 @@
 # Minor
-* Use more node groups
 * Make updating more efficient with setters
 * Replace claws with shields
 * Have debug constants use enums and have them not be called "constants"

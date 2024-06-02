@@ -25,7 +25,7 @@ func _ready() -> void:
 
 	var stat_containers: Dictionary = {}
 	for control: Control in (
-		left_panel.get_child(0).get_children() + right_panel.get_child(0).get_children()
+		get_tree().get_nodes_in_group("stats")
 	):
 		stat_containers[control.name] = control
 	for stat_name: String in Unit.Stats.keys():

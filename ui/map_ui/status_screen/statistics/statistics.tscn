@@ -12,7 +12,6 @@
 HSeparator/styles/separator = SubResource("StyleBoxEmpty_3i0vf")
 
 [node name="Columns" type="ReferenceRect"]
-layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -56,7 +55,7 @@ focus_neighbor_bottom = NodePath("../PierceHelp")
 script = ExtResource("2_6g5y4")
 help_description = "Increases the damage that physical weapons deal by +1."
 
-[node name="StrengthLabel" type="Label" parent="TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels/StrengthHelp" groups=["values"]]
+[node name="StrengthLabel" type="Label" parent="TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels/StrengthHelp" groups=["left_nodes", "values"]]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"YellowLabel"
@@ -72,7 +71,7 @@ focus_neighbor_bottom = NodePath("../IntelligenceHelp")
 script = ExtResource("2_6g5y4")
 help_description = "Increases the damage that bows and similar weapons deal by +1."
 
-[node name="PierceLabel" type="Label" parent="TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels/PierceHelp" groups=["values"]]
+[node name="PierceLabel" type="Label" parent="TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels/PierceHelp" groups=["left_nodes", "values"]]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"YellowLabel"
@@ -89,7 +88,7 @@ script = ExtResource("2_6g5y4")
 help_description = "Increases the damage that tomes and intelligenceal weapons deal by +1.
 It also raises the accuracy of crimson staves by +10."
 
-[node name="IntelligenceLabel" type="Label" parent="TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels/IntelligenceHelp" groups=["values"]]
+[node name="IntelligenceLabel" type="Label" parent="TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels/IntelligenceHelp" groups=["left_nodes", "values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
@@ -250,7 +249,7 @@ focus_neighbor_bottom = NodePath("../SpeedHelp")
 script = ExtResource("2_6g5y4")
 help_description = "Increases hit rate by +2, and critical rate by +1."
 
-[node name="SkillLabel" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/SkillHelp" groups=["values"]]
+[node name="SkillLabel" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/SkillHelp" groups=["left_nodes", "values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
@@ -268,7 +267,7 @@ focus_neighbor_bottom = NodePath("../LuckHelp")
 script = ExtResource("2_6g5y4")
 help_description = "Increases avoid rate by -2. Base value; can be reduced by heavy weapons."
 
-[node name="SpeedLabel" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/SpeedHelp" groups=["values"]]
+[node name="SpeedLabel" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/SpeedHelp" groups=["left_nodes", "values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
@@ -284,7 +283,7 @@ focus_neighbor_bottom = NodePath("../BuildHelp")
 script = ExtResource("2_6g5y4")
 help_description = "Increases hit rate, avoid rate, and critical avoid rate by +1 each."
 
-[node name="LuckHelp" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/LuckHelp" groups=["values"]]
+[node name="LuckHelp" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/LuckHelp" groups=["left_nodes", "values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
@@ -301,7 +300,7 @@ script = ExtResource("2_6g5y4")
 help_description = "Reduces weapon weight and increases weight.
 Increases foot units' aid, decreases mounted units' aid."
 
-[node name="BuildLabel" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/BuildHelp" groups=["values"]]
+[node name="BuildLabel" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/BuildHelp" groups=["left_nodes", "values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
@@ -316,7 +315,7 @@ focus_neighbor_right = NodePath("../../Values/MovementBar")
 script = ExtResource("2_6g5y4")
 help_description = "Increases the amount of tiles that can be traversed in a turn."
 
-[node name="MovementLabel" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/MovementHelp" groups=["values"]]
+[node name="MovementLabel" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/MovementHelp" groups=["left_nodes", "values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
