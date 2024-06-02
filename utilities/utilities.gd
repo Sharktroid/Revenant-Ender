@@ -73,7 +73,6 @@ func save_config() -> void:
 	# Saves configuration.
 	for constant: String in _debug_constants.keys() as Array[String]:
 		_config_file.set_value("Debug", constant, get_debug_constant(constant))
-	# warning-ignore:return_value_discarded
 	_config_file.save("user://config.ini")
 
 

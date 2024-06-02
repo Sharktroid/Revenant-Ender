@@ -1,10 +1,17 @@
-[gd_scene load_steps=8 format=3 uid="uid://cnrpvuqmny1m3"]
+[gd_scene load_steps=10 format=3 uid="uid://cnrpvuqmny1m3"]
 
 [ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit.tscn" id="1_er2ak"]
 [ext_resource type="Script" path="res://units/characters/binding blade/damas/damas.gd" id="2_8cmre"]
+[ext_resource type="Shader" path="res://palette.gdshader" id="2_c5syf"]
 [ext_resource type="Texture2D" uid="uid://dgli13fqa0m3n" path="res://units/unit_classes/fighter/map_sprite.png" id="3_gi6qr"]
 [ext_resource type="Script" path="res://units/unit_classes/fighter/fighter.gd" id="3_vonah"]
 [ext_resource type="Script" path="res://items/weapons/axes/steel_axe/steel_axe.gd" id="5_egi04"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qj8o1"]
+shader = ExtResource("2_c5syf")
+shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
+shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.66, 0.1914, 0.19921, 1), Color(0.37, 0.1369, 0.171865, 1)])
+shader_parameter/modulate = Vector4(1, 1, 1, 1)
 
 [sub_resource type="Resource" id="Resource_3oqhl"]
 resource_name = "Fighter"
@@ -14,6 +21,7 @@ script = ExtResource("3_vonah")
 script = ExtResource("5_egi04")
 
 [node name="Damas" instance=ExtResource("1_er2ak")]
+material = SubResource("ShaderMaterial_qj8o1")
 texture = ExtResource("3_gi6qr")
 script = ExtResource("2_8cmre")
 unit_name = "Damas"
@@ -22,3 +30,6 @@ unit_class = SubResource("Resource_3oqhl")
 faction_id = 1
 items = Array[Resource("res://items/item.gd")]([SubResource("Resource_7l5kg")])
 base_level = 5
+custom_hair = true
+hair_color_light = Color(0.66, 0, 0.0109998, 1)
+hair_color_dark = Color(0.37, 0.1295, 0.165575, 1)

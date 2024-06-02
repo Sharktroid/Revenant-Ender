@@ -1,4 +1,3 @@
-# gdlint:ignore = max-public-methods
 @tool
 class_name UnitClass
 extends Resource
@@ -138,7 +137,7 @@ func get_skills() -> Array[Skill]:
 
 ## Returns the colors used by the palette for palette swapping
 func get_palette_basis() -> Array[Color]:
-	return _get_blue_palette()
+	return _get_blue_palette() + _get_default_blue_hair_palette()
 
 
 func get_palette(color: Faction.Colors) -> Array[Color]:
@@ -147,27 +146,39 @@ func get_palette(color: Faction.Colors) -> Array[Color]:
 			return _get_blue_palette()
 		Faction.Colors.RED:
 			return _get_red_palette()
+		Faction.Colors.GREEN:
+			return _get_green_palette()
 		_:
 			push_error("Color %s not found." % Faction.Colors.find_key(color))
 			return _get_blue_palette()
 
 
 func get_wait_palette() -> Array[Color]:
-	const WAIT_PALETTE: Array[Color] = [
+	return [
 		Color("D8D8D8"),
 		Color("808080"),
 		Color("383838"),
 		Color("B8B8B8"),
 		Color("606060"),
 		Color("383838"),
-		Color("909090"),
-		Color("383838"),
 		Color("101818"),
 		Color("909090"),
 		Color("585858"),
 		Color("080810"),
 	]
-	return WAIT_PALETTE.duplicate()
+
+
+func get_default_hair_palette(color: Faction.Colors) -> Array[Color]:
+	match color:
+		Faction.Colors.BLUE:
+			return _get_default_blue_hair_palette()
+		Faction.Colors.RED:
+			return _get_default_red_hair_palette()
+		Faction.Colors.GREEN:
+			return _get_default_green_hair_palette()
+		_:
+			push_error("Color %s not found." % Faction.Colors.find_key(color))
+			return _get_blue_palette()
 
 
 func _get_base_stat(stat: Unit.Stats) -> int:
@@ -175,54 +186,66 @@ func _get_base_stat(stat: Unit.Stats) -> int:
 
 
 func _get_blue_palette() -> Array[Color]:
-	const BLUE_PALETTE: Array[Color] = [
+	return [
 		Color("F8F8F8"),
 		Color("A8A898"),
 		Color("484840"),
 		Color("B0D0F8"),
 		Color("4048F8"),
 		Color("101850"),
-		Color("D07030"),
-		Color("783018"),
 		Color("202028"),
 		Color("D8B890"),
 		Color("806048"),
 		Color("081020"),
 	]
-	return BLUE_PALETTE.duplicate()
 
 
 func _get_red_palette() -> Array[Color]:
-	const RED_PALETTE: Array[Color] = [
+	return [
 		Color("F8F8F8"),
 		Color("989060"),
 		Color("484830"),
 		Color("E8B8B0"),
 		Color("A83818"),
 		Color("481018"),
-		Color("8070D8"),
-		Color("502098"),
 		Color("282020"),
 		Color("D8B890"),
 		Color("886850"),
 		Color("100000"),
 	]
-	return RED_PALETTE.duplicate()
 
 
 func _get_green_palette() -> Array[Color]:
-	const GREEN_PALETTE: Array[Color] = [
+	return [
 		Color("F8F8F8"),
 		Color("887038"),
 		Color("503810"),
 		Color("A8E0B8"),
 		Color("389848"),
 		Color("083010"),
-		Color("D03830"),
-		Color("581000"),
 		Color("202820"),
 		Color("D8B890"),
 		Color("886850"),
 		Color("082010"),
 	]
-	return GREEN_PALETTE.duplicate()
+
+
+func _get_default_blue_hair_palette() -> Array[Color]:
+	return [
+		Color("D07030"),
+		Color("783018"),
+	]
+
+
+func _get_default_red_hair_palette() -> Array[Color]:
+	return [
+		Color("8070D8"),
+		Color("502098"),
+	]
+
+
+func _get_default_green_hair_palette() -> Array[Color]:
+	return [
+		Color("D03830"),
+		Color("581000"),
+	]

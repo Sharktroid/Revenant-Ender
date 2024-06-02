@@ -1,5 +1,4 @@
 # Minor
-* Add hair color palettes
 * Have enemy sprites be horizontally swapped
 * Use more node groups
 * Make updating more efficient with setters
@@ -16,6 +15,7 @@
 * Fix EXP percent not being navigable with arrows
 * Fix help menu expanding in the x-axis while closing a small popup
 * Fix ranged units not being able to attack via attack tiles
+* Document exports
 
 # Major
 * Make certain scenes into objects that load the scenes to make the code less janky

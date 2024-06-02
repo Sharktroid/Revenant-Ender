@@ -1,4 +1,3 @@
-# gdlint:ignore = max-public-methods
 @tool
 class_name Unit
 extends Sprite2D
@@ -60,15 +59,26 @@ const DEFAULT_PERSONAL_VALUE: int = 5
 const MAX_LEVEL: int = 30
 const _MOVEMENT_ARROWS: PackedScene = preload("res://maps/map_tiles/movement_arrows.tscn")
 
-## Unit's faction. Should be in the map's Faction stack.
 @export var unit_name: String = "[Empty]"
 @export_multiline var unit_description: String = "[Empty]"
 @export var unit_class: UnitClass
+## Unit's faction. Should be in the map's Faction stack.
 @export var faction_id: int
 @export var variant: String  # Visual variant.
 @export var items: Array[Item]
 @export var base_level: int = 1
 @export var personal_skills: Array[Skill]
+
+@export_group("Hair")
+@export var custom_hair: bool = false
+@export_color_no_alpha var hair_color_light: Color:
+	set(value):
+		hair_color_light = value
+		custom_hair = true
+@export_color_no_alpha var hair_color_dark: Color:
+	set(value):
+		hair_color_dark = value
+		custom_hair = true
 
 var total_exp: float
 var level: int:
@@ -205,7 +215,6 @@ func _exit_tree() -> void:
 
 
 func _process(_delta: float) -> void:
-	update_shader()
 	if traveler:
 		traveler.position = position
 	_render_status()
@@ -667,7 +676,8 @@ func get_current_attack_tiles(pos: Vector2i, all_weapons: bool = false) -> Array
 			get_max_range() if all_weapons else get_current_weapon().get_max_range()
 		)
 		return Utilities.get_tiles(pos, max_range, min_range, MapController.map.borders)
-	return []
+	else:
+		return []
 
 
 ## Shows off the tiles the unit can attack from its current position.
@@ -744,8 +754,10 @@ func get_map() -> Map:
 			while not curr_parent is Map:
 				curr_parent = curr_parent.get_parent()
 			return curr_parent as Map
-		return MapController.map
-	return _map
+		else:
+			return MapController.map
+	else:
+		return _map
 
 
 ## Gets the path of the unit.
@@ -893,21 +905,23 @@ func can_follow_up(opponent: Unit) -> bool:
 
 
 func _update_palette() -> void:
-	if faction:
-		_set_palette(faction.color)
-
-
-func _render_status() -> void:
-	pass
-
-
-func _set_palette(color: Faction.Colors) -> void:
 	var shader_material := material as ShaderMaterial
 	shader_material.set_shader_parameter("old_colors", unit_class.get_palette_basis())
 	shader_material.set_shader_parameter(
 		"new_colors",
-		unit_class.get_wait_palette() if waiting else unit_class.get_palette(faction.color)
+		(
+			unit_class.get_wait_palette() + _get_greyscale_hair_palette()
+			if waiting
+			else (
+				unit_class.get_palette(faction.color if faction else Faction.Colors.BLUE)
+				+ _get_hair_palette()
+			)
+		)
 	)
+
+
+func _render_status() -> void:
+	pass
 
 
 func _on_area2d_area_entered(area: Area2D) -> void:
@@ -966,5 +980,36 @@ func _on_area2d_area_exited(area: Area2D) -> void:
 	# When cursor exits unit's area
 	if area == CursorController.get_area() and not selected:
 		hide_movement_tiles()
-		# gdlint:ignore = max-file-lines
 		cursor_exited.emit()
+
+
+func _get_hair_palette() -> Array[Color]:
+	var default_palette: Array[Color] = unit_class.get_default_hair_palette(
+		faction.color if faction else Faction.Colors.BLUE
+	)
+	if custom_hair:
+		var palette_length: int = default_palette.size()
+		var palette: Array[Color] = []
+		for index in palette_length:
+			palette.append(
+				hair_color_light.lerp(hair_color_dark, inverse_lerp(0, palette_length - 1, index))
+			)
+		return palette
+	else:
+		return default_palette
+
+
+func _get_greyscale_hair_palette() -> Array[Color]:
+	var default_palette: Array[Color] = unit_class.get_default_hair_palette(faction.color)
+	if custom_hair:
+		var palette_length: int = default_palette.size()
+		var palette: Array[Color] = []
+		var light_value: float = hair_color_light.v
+		var dark_value: float = hair_color_dark.v
+		for index in palette_length:
+			var new_color := Color()
+			new_color.v = remap(index, 0, palette_length, light_value, dark_value)
+			palette.append(new_color)
+		return palette
+	else:
+		return default_palette
