@@ -14,6 +14,7 @@ var color: Colors  # Color of all units.
 var player_type: PlayerTypes
 var outlined_units: Dictionary  # The units that are outlined.
 var theme: AudioStream
+var flipped: bool
 
 var _diplomacy: Dictionary
 
@@ -22,12 +23,14 @@ func _init(
 	faction_name: String,
 	faction_color: Colors,
 	faction_player_type: PlayerTypes,
-	faction_theme: AudioStream
+	faction_theme: AudioStream,
+	flip: bool = false
 ) -> void:
 	name = faction_name
 	color = faction_color
 	player_type = faction_player_type
 	theme = faction_theme
+	flipped = flip
 
 
 func get_diplomacy_stance(faction: Faction) -> DiplomacyStances:

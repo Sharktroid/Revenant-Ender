@@ -1,5 +1,4 @@
 # Minor
-* Have enemy sprites be horizontally swapped
 * Use more node groups
 * Make updating more efficient with setters
 * Replace claws with shields

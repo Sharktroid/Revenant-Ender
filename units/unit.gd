@@ -119,7 +119,7 @@ var faction: Faction:
 	get:
 		return (
 			get_map().all_factions[faction_id]
-			if get_map().all_factions.size() > 0
+			if get_map() and get_map().all_factions.size() > 0
 			else Faction.new("INVALID", Faction.Colors.BLUE, Faction.PlayerTypes.HUMAN, null)
 		)
 	set(new_faction):
@@ -223,6 +223,7 @@ func _process(_delta: float) -> void:
 		frame = 1 if anim_frame == 3 else anim_frame
 	z_index = Utilities.round_coords_to_tile(position).y
 	update_shader()
+	flip_h = faction.flipped if faction else false
 
 
 func update_shader() -> void:
@@ -751,7 +752,7 @@ func get_map() -> Map:
 	if _map == null:
 		if Engine.is_editor_hint():
 			var curr_parent: Node = get_parent()
-			while not curr_parent is Map:
+			while not curr_parent is Map and curr_parent:
 				curr_parent = curr_parent.get_parent()
 			return curr_parent as Map
 		else:

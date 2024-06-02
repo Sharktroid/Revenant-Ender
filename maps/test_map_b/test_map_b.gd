@@ -17,7 +17,8 @@ func _init() -> void:
 			"Bandits",
 			Faction.Colors.RED,
 			Faction.PlayerTypes.HUMAN,
-			preload("res://audio/music/deer_of_the_plains.ogg")
+			preload("res://audio/music/deer_of_the_plains.ogg"),
+			true
 		),
 	]
 	super()

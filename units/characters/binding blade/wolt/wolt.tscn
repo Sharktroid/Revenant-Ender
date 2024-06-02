@@ -1,11 +1,18 @@
-[gd_scene load_steps=10 format=3 uid="uid://8f0f7er5vqbo"]
+[gd_scene load_steps=12 format=3 uid="uid://8f0f7er5vqbo"]
 
 [ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit.tscn" id="1_7spn5"]
+[ext_resource type="Shader" path="res://palette.gdshader" id="2_4nmmf"]
 [ext_resource type="Script" path="res://units/characters/binding blade/wolt/wolt.gd" id="2_xqfau"]
 [ext_resource type="Script" path="res://items/weapons/bows/iron_bow/iron_bow.gd" id="3_64m4l"]
 [ext_resource type="Texture2D" uid="uid://dhm1yqcs0uc71" path="res://units/unit_classes/archer/map_sprite.png" id="3_h3txp"]
 [ext_resource type="Script" path="res://units/unit_classes/archer/archer.gd" id="4_jlrml"]
 [ext_resource type="Script" path="res://items/weapons/bows/debug_bow/debug_bow.gd" id="7_yo3g6"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dphgr"]
+shader = ExtResource("2_4nmmf")
+shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
+shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
+shader_parameter/modulate = Vector4(1, 1, 1, 1)
 
 [sub_resource type="Resource" id="Resource_7fxf3"]
 resource_name = "Archer"
@@ -18,6 +25,7 @@ script = ExtResource("7_yo3g6")
 script = ExtResource("3_64m4l")
 
 [node name="Wolt" instance=ExtResource("1_7spn5")]
+material = SubResource("ShaderMaterial_dphgr")
 texture = ExtResource("3_h3txp")
 script = ExtResource("2_xqfau")
 unit_name = "Wolt"
@@ -25,3 +33,6 @@ unit_description = "An archer serving Pherae.
 Was raised like a brother to Roy."
 unit_class = SubResource("Resource_7fxf3")
 items = Array[Resource("res://items/item.gd")]([SubResource("Resource_7ii4a"), SubResource("Resource_2dpxt")])
+custom_hair = true
+hair_color_light = Color(0.73, 0.715643, 0.2993, 1)
+hair_color_dark = Color(0.4, 0.3688, 0.296, 1)
