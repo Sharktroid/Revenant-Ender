@@ -1,5 +1,5 @@
 @tool
-class_name LordRoy
+class_name Lord
 extends UnitClass
 
 

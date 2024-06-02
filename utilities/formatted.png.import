@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://e06fesjgacd4"
-path="res://.godot/imported/melee attack.png-a5386f316a66de7812859cd288a5b1ee.ctex"
+uid="uid://blhv0tmqd75ne"
+path="res://.godot/imported/formatted.png-c56460be7d7b76efa53605f5d5c16ce8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://units/unit_classes/lord_leif/melee attack.png"
-dest_files=["res://.godot/imported/melee attack.png-a5386f316a66de7812859cd288a5b1ee.ctex"]
+source_file="res://utilities/formatted.png"
+dest_files=["res://.godot/imported/formatted.png-c56460be7d7b76efa53605f5d5c16ce8.ctex"]
 
 [params]
 

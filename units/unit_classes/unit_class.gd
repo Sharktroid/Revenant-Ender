@@ -154,21 +154,18 @@ func get_palette(color: Faction.Colors) -> Array[Color]:
 
 func get_wait_palette() -> Array[Color]:
 	const WAIT_PALETTE: Array[Color] = [
-		Color("404040"),
-		Color("787878"),
-		Color("B8B8B8"),
-		Color("505050"),
+		Color("D8D8D8"),
 		Color("808080"),
-		Color("C8C8C8"),
-		Color("484848"),
-		Color("585858"),
-		Color("989898"),
+		Color("383838"),
 		Color("B8B8B8"),
-		Color("707070"),
-		Color("707070"),
-		Color("808870"),
-		Color("D0D0D0"),
-		Color("403838"),
+		Color("606060"),
+		Color("383838"),
+		Color("909090"),
+		Color("383838"),
+		Color("101818"),
+		Color("909090"),
+		Color("585858"),
+		Color("080810"),
 	]
 	return WAIT_PALETTE.duplicate()
 
@@ -179,41 +176,53 @@ func _get_base_stat(stat: Unit.Stats) -> int:
 
 func _get_blue_palette() -> Array[Color]:
 	const BLUE_PALETTE: Array[Color] = [
-		Color("584878"),
-		Color("90B8E8"),
-		Color("D8E8F0"),
-		Color("706060"),
-		Color("B09058"),
-		Color("F8F8D0"),
-		Color("383890"),
-		Color("3850E0"),
-		Color("28A0F8"),
-		Color("18F0F8"),
-		Color("E81018"),
-		Color("F8F840"),
-		Color("808870"),
 		Color("F8F8F8"),
-		Color("403838"),
+		Color("A8A898"),
+		Color("484840"),
+		Color("B0D0F8"),
+		Color("4048F8"),
+		Color("101850"),
+		Color("D07030"),
+		Color("783018"),
+		Color("202028"),
+		Color("D8B890"),
+		Color("806048"),
+		Color("081020"),
 	]
 	return BLUE_PALETTE.duplicate()
 
 
 func _get_red_palette() -> Array[Color]:
 	const RED_PALETTE: Array[Color] = [
-		Color("684860"),
-		Color("C0A8B8"),
-		Color("C0A8B8"),
-		Color("706060"),
-		Color("B09058"),
-		Color("F8F8D0"),
-		Color("602820"),
-		Color("A83028"),
-		Color("E01010"),
-		Color("F85048"),
-		Color("38D030"),
-		Color("F8F840"),
-		Color("808870"),
 		Color("F8F8F8"),
-		Color("403838"),
+		Color("989060"),
+		Color("484830"),
+		Color("E8B8B0"),
+		Color("A83818"),
+		Color("481018"),
+		Color("8070D8"),
+		Color("502098"),
+		Color("282020"),
+		Color("D8B890"),
+		Color("886850"),
+		Color("100000"),
 	]
 	return RED_PALETTE.duplicate()
+
+
+func _get_green_palette() -> Array[Color]:
+	const GREEN_PALETTE: Array[Color] = [
+		Color("F8F8F8"),
+		Color("887038"),
+		Color("503810"),
+		Color("A8E0B8"),
+		Color("389848"),
+		Color("083010"),
+		Color("D03830"),
+		Color("581000"),
+		Color("202820"),
+		Color("D8B890"),
+		Color("886850"),
+		Color("082010"),
+	]
+	return GREEN_PALETTE.duplicate()

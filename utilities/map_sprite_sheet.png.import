@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cmhfiso5t0t0t"
-path="res://.godot/imported/movement.png-a5519684a85b62a313c6446e84b56d7b.ctex"
+uid="uid://dappvpeojpk3x"
+path="res://.godot/imported/map_sprite_sheet.png-361757ff6e524c0d66a2e52687dddce8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://units/unit_classes/lord_leif/movement.png"
-dest_files=["res://.godot/imported/movement.png-a5519684a85b62a313c6446e84b56d7b.ctex"]
+source_file="res://utilities/map_sprite_sheet.png"
+dest_files=["res://.godot/imported/map_sprite_sheet.png-361757ff6e524c0d66a2e52687dddce8.ctex"]
 
 [params]
 

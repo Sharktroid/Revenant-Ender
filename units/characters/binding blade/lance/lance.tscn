@@ -1,19 +1,14 @@
-[gd_scene load_steps=12 format=3 uid="uid://blysgn0u4e6ar"]
+[gd_scene load_steps=10 format=3 uid="uid://blysgn0u4e6ar"]
 
 [ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit.tscn" id="1_iwuln"]
-[ext_resource type="Shader" path="res://gba_palette.gdshader" id="2_engba"]
 [ext_resource type="Script" path="res://units/characters/binding blade/lance/lance.gd" id="2_qgif2"]
 [ext_resource type="Texture2D" uid="uid://dcbp6yac31ins" path="res://units/unit_classes/social_knight/map_sprite.png" id="3_t16q6"]
 [ext_resource type="Script" path="res://items/weapons/swords/iron_sword/iron_sword.gd" id="5_e6nko"]
 [ext_resource type="Script" path="res://units/unit_classes/social_knight/social_knight.gd" id="5_w0fo1"]
 [ext_resource type="Script" path="res://items/weapons/spears/javelin/javelin.gd" id="6_5ps04"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_66dwl"]
-shader = ExtResource("2_engba")
-shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
-shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
-
 [sub_resource type="Resource" id="Resource_qo8hb"]
+resource_name = "Social Knight"
 script = ExtResource("5_w0fo1")
 
 [sub_resource type="Resource" id="Resource_qra60"]
@@ -23,7 +18,6 @@ script = ExtResource("5_e6nko")
 script = ExtResource("6_5ps04")
 
 [node name="Lance" instance=ExtResource("1_iwuln")]
-material = SubResource("ShaderMaterial_66dwl")
 texture = ExtResource("3_t16q6")
 script = ExtResource("2_qgif2")
 unit_name = "Lance"

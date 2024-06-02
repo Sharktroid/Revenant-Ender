@@ -1,5 +1,5 @@
 # Minor
-* Replace map sprites with Thracia equivalents
+* Add hair color palettes
 * Have enemy sprites be horizontally swapped
 * Use more node groups
 * Make updating more efficient with setters
@@ -26,7 +26,9 @@
 * Implement AI
 * Implement staves
 	* Duration = (staff might) + (mag - target res)/4
+* Implement split screen like in demo
+* Replace test map with Thracia chapter 1
 
 # Long-term
-* Implement FE6 Chapter 1
+* Implement FE5 Chapter 1
 * Make game based on design document

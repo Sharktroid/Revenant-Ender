@@ -1,20 +1,14 @@
-[gd_scene load_steps=12 format=3 uid="uid://8gwj2xxrhmht"]
+[gd_scene load_steps=10 format=3 uid="uid://8gwj2xxrhmht"]
 
 [ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit.tscn" id="1_x0tds"]
-[ext_resource type="Shader" path="res://gba_palette.gdshader" id="2_0j8mr"]
 [ext_resource type="Script" path="res://units/unit_classes/social_knight/social_knight.gd" id="2_am6bc"]
 [ext_resource type="Script" path="res://units/characters/binding blade/alen/alen.gd" id="2_k3lvx"]
 [ext_resource type="Texture2D" uid="uid://dcbp6yac31ins" path="res://units/unit_classes/social_knight/map_sprite.png" id="3_qjqc5"]
 [ext_resource type="Script" path="res://items/weapons/swords/iron_sword/iron_sword.gd" id="5_v11hb"]
 [ext_resource type="Script" path="res://items/weapons/spears/iron_spear/iron_spear.gd" id="6_ou60j"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_nrgoa"]
-shader = ExtResource("2_0j8mr")
-shader_parameter/darken_screen = 0.5
-shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
-shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
-
 [sub_resource type="Resource" id="Resource_ms2vb"]
+resource_name = "Social Knight"
 script = ExtResource("2_am6bc")
 
 [sub_resource type="Resource" id="Resource_r84p6"]
@@ -24,7 +18,6 @@ script = ExtResource("5_v11hb")
 script = ExtResource("6_ou60j")
 
 [node name="Alen" instance=ExtResource("1_x0tds")]
-material = SubResource("ShaderMaterial_nrgoa")
 texture = ExtResource("3_qjqc5")
 script = ExtResource("2_k3lvx")
 unit_name = "Alen"

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dtexaf8rj3l56"
-path="res://.godot/imported/map_sprite.png-7d5e19671f7e8e4ae4ab27be88b49a80.ctex"
+uid="uid://cmhfiso5t0t0t"
+path="res://.godot/imported/map_sprite.png-9b3483948660f90ecbf73bf3aee5bb3e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://units/unit_classes/lord_roy/map_sprite.png"
-dest_files=["res://.godot/imported/map_sprite.png-7d5e19671f7e8e4ae4ab27be88b49a80.ctex"]
+source_file="res://units/unit_classes/lord/map_sprite.png"
+dest_files=["res://.godot/imported/map_sprite.png-9b3483948660f90ecbf73bf3aee5bb3e.ctex"]
 
 [params]
 

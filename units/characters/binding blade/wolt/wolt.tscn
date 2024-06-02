@@ -1,21 +1,14 @@
-[gd_scene load_steps=12 format=3 uid="uid://8f0f7er5vqbo"]
+[gd_scene load_steps=10 format=3 uid="uid://8f0f7er5vqbo"]
 
 [ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit.tscn" id="1_7spn5"]
-[ext_resource type="Shader" path="res://gba_palette.gdshader" id="2_4pejp"]
 [ext_resource type="Script" path="res://units/characters/binding blade/wolt/wolt.gd" id="2_xqfau"]
 [ext_resource type="Script" path="res://items/weapons/bows/iron_bow/iron_bow.gd" id="3_64m4l"]
 [ext_resource type="Texture2D" uid="uid://dhm1yqcs0uc71" path="res://units/unit_classes/archer/map_sprite.png" id="3_h3txp"]
 [ext_resource type="Script" path="res://units/unit_classes/archer/archer.gd" id="4_jlrml"]
 [ext_resource type="Script" path="res://items/weapons/bows/debug_bow/debug_bow.gd" id="7_yo3g6"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jtwmg"]
-shader = ExtResource("2_4pejp")
-shader_parameter/darken_screen = 0.5
-shader_parameter/old_colors = Array[Vector3]([Vector3(0, 0, 0)])
-shader_parameter/new_colors = Array[Vector3]([Vector3(0, 0, 0)])
-shader_parameter/modulate = Vector4(1, 1, 1, 1)
-
 [sub_resource type="Resource" id="Resource_7fxf3"]
+resource_name = "Archer"
 script = ExtResource("4_jlrml")
 
 [sub_resource type="Resource" id="Resource_7ii4a"]
@@ -25,7 +18,6 @@ script = ExtResource("7_yo3g6")
 script = ExtResource("3_64m4l")
 
 [node name="Wolt" instance=ExtResource("1_7spn5")]
-material = SubResource("ShaderMaterial_jtwmg")
 texture = ExtResource("3_h3txp")
 script = ExtResource("2_xqfau")
 unit_name = "Wolt"

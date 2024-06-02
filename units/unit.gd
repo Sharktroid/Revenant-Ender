@@ -739,6 +739,11 @@ func get_unit_path() -> Array[Vector2i]:
 
 func get_map() -> Map:
 	if _map == null:
+		if Engine.is_editor_hint():
+			var curr_parent: Node = get_parent()
+			while not curr_parent is Map:
+				curr_parent = curr_parent.get_parent()
+			return curr_parent as Map
 		return MapController.map
 	return _map
 
