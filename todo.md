@@ -1,5 +1,4 @@
 # Minor
-* Fix map animations
 * Fix menu inconsistancy
 * Implement infinite hit
 * Replace claws with shields

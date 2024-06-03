@@ -5,6 +5,7 @@ extends Sprite2D
 signal cursor_exited
 signal health_changed
 signal experience_changed
+signal arrived
 
 enum Statuses { ATTACK }
 enum Animations { IDLE, MOVING_DOWN, MOVING_UP, MOVING_LEFT, MOVING_RIGHT }
@@ -73,14 +74,8 @@ const _MOVEMENT_ARROWS: PackedScene = preload("res://maps/map_tiles/movement_arr
 
 @export_group("Hair")
 @export var custom_hair: bool = false
-@export_color_no_alpha var hair_color_light: Color:
-	set(value):
-		hair_color_light = value
-		custom_hair = true
-@export_color_no_alpha var hair_color_dark: Color:
-	set(value):
-		hair_color_dark = value
-		custom_hair = true
+@export_color_no_alpha var hair_color_light: Color
+@export_color_no_alpha var hair_color_dark: Color
 
 var total_exp: float:
 	set(value):
@@ -130,6 +125,7 @@ var faction: Faction:
 		)
 	set(new_faction):
 		faction_id = get_map().all_factions.find(new_faction)
+		flip_h = faction.flipped if faction else false
 
 var effort_hit_points: int
 var effort_strength: int
@@ -229,7 +225,6 @@ func _process(_delta: float) -> void:
 		frame = 1 if anim_frame == 3 else anim_frame
 	z_index = Utilities.round_coords_to_tile(position).y
 	update_shader()
-	flip_h = faction.flipped if faction else false
 
 
 func update_shader() -> void:
@@ -748,6 +743,7 @@ func move(move_target: Vector2i = get_unit_path()[-1]) -> void:
 				await tween.finished
 		get_area().monitoring = true
 		set_animation(Animations.IDLE)
+		arrived.emit()
 
 
 func get_unit_path() -> Array[Vector2i]:

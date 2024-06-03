@@ -18,6 +18,7 @@ func _init(connected_unit: Unit) -> void:
 	MapController.map.get_child(0).add_child(_ghost_unit)
 	CursorController.moved.connect(_on_cursor_moved)
 	GameController.add_to_input_stack(self)
+	_unit.arrived.connect(_update_ghost_unit_visibility)
 
 
 func receive_input(event: InputEvent) -> void:
@@ -45,10 +46,7 @@ func _on_cursor_moved() -> void:
 		_unit.update_path(CursorController.map_position)
 		_unit.show_path()
 		_ghost_unit.position = _unit.get_path_last_pos()
-		if _ghost_unit.position == _unit.position:
-			_ghost_unit.visible = false
-		else:
-			_ghost_unit.visible = true
+		if _ghost_unit.visible == true:
 			var distance := Vector2i()
 			if _unit.get_unit_path().size() >= 2:
 				distance = _unit.get_unit_path()[-1] - _unit.get_unit_path()[-2]
@@ -65,6 +63,10 @@ func _on_cursor_moved() -> void:
 			if current_animation != next_animation:
 				_ghost_unit.set_animation(next_animation)
 				current_animation = next_animation
+
+
+func _update_ghost_unit_visibility() -> void:
+	_ghost_unit.visible = _ghost_unit.position != _unit.position
 
 
 func _position_selected() -> void:

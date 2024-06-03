@@ -21,6 +21,7 @@ func _init(connected_unit: Unit = null, targeted_tile := Vector2i(0, 16)) -> voi
 	add_child(_combat_sprite)
 	await _combat_sprite.tree_entered
 	_combat_sprite.sprite_animated = false
+	_combat_sprite.flip_h = false
 	var angle: float = ((Vector2(target_tile) - position).angle() * 4) / PI
 	_combat_sprite.set_animation.call_deferred(
 		(
