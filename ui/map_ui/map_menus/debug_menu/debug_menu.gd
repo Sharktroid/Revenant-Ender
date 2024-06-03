@@ -1,6 +1,10 @@
 extends MapMenu
 
 
+func _init() -> void:
+	_to_center = true
+
+
 func _enter_tree() -> void:
 	_update_items()
 	super()

@@ -7,7 +7,7 @@ var offset: Vector2:
 		update_position()
 var parent_menu: MapMenu
 ## If true, the menu will move to the left if on the right side of the screen
-var _to_center: bool = false
+var _to_center: bool = true
 
 var _current_item_index: int = 0:
 	set(value):

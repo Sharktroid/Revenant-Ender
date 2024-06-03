@@ -9,6 +9,10 @@ var connected_unit: Unit
 var _items: Array[Item] = []
 
 
+func _init() -> void:
+	_to_center = true
+
+
 func _enter_tree() -> void:
 	_update()
 	reset_size()
