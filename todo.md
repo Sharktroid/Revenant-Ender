@@ -1,5 +1,7 @@
 # Minor
-* Make updating more efficient with setters
+* Fix map animations
+* Fix menu inconsistancy
+* Implement infinite hit
 * Replace claws with shields
 * Have debug constants use enums and have them not be called "constants"
 * Fix canto jank

@@ -3,6 +3,8 @@ class_name Unit
 extends Sprite2D
 
 signal cursor_exited
+signal health_changed
+signal experience_changed
 
 enum Statuses { ATTACK }
 enum Animations { IDLE, MOVING_DOWN, MOVING_UP, MOVING_LEFT, MOVING_RIGHT }
@@ -80,7 +82,10 @@ const _MOVEMENT_ARROWS: PackedScene = preload("res://maps/map_tiles/movement_arr
 		hair_color_dark = value
 		custom_hair = true
 
-var total_exp: float
+var total_exp: float:
+	set(value):
+		total_exp = value
+		experience_changed.emit()
 var level: int:
 	set(value):
 		total_exp = Unit.get_exp_from_level(value)
@@ -115,6 +120,7 @@ var current_health: float:
 		if not Engine.is_editor_hint():
 			const HealthBar = preload("res://units/health_bar/health_bar.gd")
 			($HealthBar as HealthBar).update()
+		health_changed.emit()
 var faction: Faction:
 	get:
 		return (

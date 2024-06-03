@@ -67,7 +67,11 @@ func select_item(_item: MapMenuItem) -> void:
 
 
 func set_current_item_node(item: HelpContainer) -> void:
+	var old_node: MapMenuItem = get_current_item_node()
 	_current_item_index = _get_visible_children().find(item)
+	if old_node != get_current_item_node():
+		old_node.deselect()
+		get_current_item_node().select()
 
 
 func get_current_item_node() -> MapMenuItem:

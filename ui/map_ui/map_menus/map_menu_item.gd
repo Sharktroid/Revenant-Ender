@@ -17,15 +17,19 @@ func _init() -> void:
 
 func _enter_tree() -> void:
 	_update()
+	select()
+	if not self == _get_parent_menu().get_current_item_node():
+		deselect()
 
 
-func _process(_delta: float) -> void:
-	if self == _get_parent_menu().get_current_item_node():
-		if _label.has_theme_color_override("font_color"):
-			_label.remove_theme_color_override("font_color")
-	else:
-		if not _label.has_theme_color_override("font_color"):
-			_label.add_theme_color_override("font_color", Color.GRAY)
+func select() -> void:
+	if _label.has_theme_color_override("font_color"):
+		_label.remove_theme_color_override("font_color")
+
+
+func deselect() -> void:
+	if not _label.has_theme_color_override("font_color"):
+		_label.add_theme_color_override("font_color", Color.GRAY)
 
 
 func _get_parent_menu() -> MapMenu:
@@ -41,6 +45,7 @@ func _on_mouse_entered() -> void:
 func _update() -> void:
 	var proper_name: String = name.to_snake_case().capitalize()
 	_label.text = (
-		proper_name as String if value == ""
+		proper_name as String
+		if value == ""
 		else "{name}: {val}".format({"name": proper_name, "val": value})
 	)

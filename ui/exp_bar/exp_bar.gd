@@ -2,18 +2,14 @@ extends ReferenceRect
 
 const _TRANSITION_DURATION: float = 8.0 / 60
 
-@onready var _exp_bar := (%EXPBar as ProgressBar)
 var observing_unit := Unit.new()
+@onready var _exp_bar := %EXPBar as ProgressBar
 
 
 func _ready() -> void:
 	_set_visible_ratio(0)
-
-
-func _process(_delta: float) -> void:
-	_exp_bar.value = observing_unit.get_current_exp()
-	_exp_bar.max_value = Unit.get_exp_to_level(observing_unit.level + 1)
-	(%ExpValue as Label).text = "%d%%" % observing_unit.get_exp_percent()
+	observing_unit.experience_changed.connect(_on_experience_changed)
+	_update()
 
 
 func play(experience: float) -> void:
@@ -62,6 +58,16 @@ func close() -> void:
 	tween.tween_method(_set_visible_ratio, 1.0, 0.0, _TRANSITION_DURATION)
 	await tween.finished
 	visible = false
+
+
+func _on_experience_changed() -> void:
+	_update()
+
+
+func _update() -> void:
+	_exp_bar.value = observing_unit.get_current_exp()
+	_exp_bar.max_value = Unit.get_exp_to_level(observing_unit.level + 1)
+	(%ExpValue as Label).text = "%d%%" % observing_unit.get_exp_percent()
 
 
 func _set_visible_ratio(ratio: float) -> void:

@@ -11,6 +11,7 @@ var _maximum_range: int
 var _icon: CursorController.Icons
 var _selecting_position: Vector2i
 var _select_sound_effect: AudioStream
+var _showing_icon: bool
 
 
 func _init(
@@ -35,10 +36,10 @@ func _init(
 
 
 func _process(_delta: float) -> void:
-	if _can_select():
-		CursorController.set_icon(_icon)
-	else:
-		CursorController.set_icon(CursorController.Icons.NONE)
+	var should_show_icon: bool = _can_select()
+	if should_show_icon != _showing_icon:
+		CursorController.set_icon(_icon if should_show_icon else CursorController.Icons.NONE)
+		_showing_icon = should_show_icon
 
 
 func receive_input(event: InputEvent) -> void:

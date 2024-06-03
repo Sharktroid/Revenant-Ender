@@ -50,4 +50,4 @@ func _update() -> void:
 		for item: Item in connected_unit.items:
 			var item_node := _ITEM_MENU_ITEM.new(item)
 			$Items.add_child(item_node)
-	reset_size()
+		reset_size()

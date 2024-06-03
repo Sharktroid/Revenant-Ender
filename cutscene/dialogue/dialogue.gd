@@ -202,7 +202,6 @@ func _set_text_base(string: String, label: RichTextLabel, portrait: Portrait) ->
 			label.visible_ratio = 1
 		label.visible_characters = label.text.length() - string.length()
 		var autoscroll: bool = false
-		var timer: int = 0
 		#region Gradually displays text
 		while label.visible_ratio < 1 and not _skipping:
 			if not autoscroll:
@@ -210,31 +209,29 @@ func _set_text_base(string: String, label: RichTextLabel, portrait: Portrait) ->
 			if Input.is_action_just_pressed("ui_accept"):
 				autoscroll = true
 				await get_tree().physics_frame  # Prevents input from being double read
-			if timer > 0:
-				timer -= 1
-			else:
-				var next_visible_chars: int = (
-					label.visible_characters + roundi(CHARS_PER_SECOND * get_process_delta_time())
-				)
-				while label.visible_characters < next_visible_chars and label.visible_ratio < 1:
-					label.visible_characters += 1
-					# Scrolls when overflowing
-					if (
-						label.get_line_count()
-						> LINE_COUNT + (label.position.y / -_get_line_height())
-					):
-						label.visible_characters -= 1
-						autoscroll = false
-						await _scroll(label)
-						break
-					# Delays for punctuation
-					elif label.text[label.visible_characters - 1] in [",", ".", ";", ":"]:
-						if not autoscroll:
-							timer = roundi(1000.0 / CHARS_PER_SECOND)
-						break
+			var next_visible_chars: int = (
+				label.visible_characters + roundi(CHARS_PER_SECOND * get_process_delta_time())
+			)
+			while label.visible_characters < next_visible_chars and label.visible_ratio < 1:
+				label.visible_characters += 1
+				# Scrolls when overflowing
+				if (
+					label.get_line_count()
+					> LINE_COUNT + (label.position.y / -_get_line_height())
+				):
+					label.visible_characters -= 1
+					autoscroll = false
+					await _scroll(label)
+					break
+				# Delays for punctuation
+				elif label.text[label.visible_characters - 1] in [",", ".", ";", ":"]:
+					if not autoscroll:
+						await get_tree().create_timer(30.0 / CHARS_PER_SECOND).timeout
+					break
 		label.visible_ratio = 1
 		#endregion
-		portrait.set_talking(false)
+		if portrait:
+			portrait.set_talking(false)
 		while not (Input.is_action_just_pressed("ui_accept") or _skipping):
 			await get_tree().physics_frame
 

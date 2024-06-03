@@ -1,12 +1,12 @@
 extends Sprite2D
 
 
-func _physics_process(_delta: float) -> void:
-	if Engine.get_physics_frames() % 8 == 0:
-		_add_frame()
+func _enter_tree() -> void:
+	var tween: Tween = create_tween()
+	tween.set_speed_scale(60)
+	tween.tween_callback(_add_frame).set_delay(8)
+
 
 func _add_frame() -> void:
-	if frame == 5:
-		frame = 0
-	else:
-		frame += 1
+	frame += 1
+	frame %= 5

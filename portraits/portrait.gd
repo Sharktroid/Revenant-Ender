@@ -3,9 +3,16 @@ extends Sprite2D
 
 enum Emotions { NONE, DEFAULT, HAPPY }
 
-var _talking: bool = false
-var _talking_frame: int = 0
-var _delay: int = 0
+var _talking: bool = false:
+	set(value):
+		if _talking != value:
+			_animate_mouth.call_deferred()
+		_talking = value
+var _talking_frame: int = 0:
+	set(value):
+		_talking_frame = value % 4
+		if _emotion != Emotions.NONE:
+			_current_mouth.frame = 1 if _talking_frame == 3 else _talking_frame
 var _current_mouth: Sprite2D
 var _emotion := Emotions.DEFAULT
 
@@ -16,21 +23,6 @@ func _ready() -> void:
 	else:
 		_current_mouth = Sprite2D.new()
 		_current_mouth.vframes = 3
-
-
-func _physics_process(_delta: float) -> void:
-	# Based on values from FE8
-	# FE6: 0x02024492 for frame, 0x02024493 for duration
-	# FE8: 0x02025774 for frame, 0x02025776 for duration
-	if _talking:
-		if _delay == 0:
-			_talking_frame += 1
-			_talking_frame %= 4
-			_delay = randi_range(2, 9)
-		else:
-			_delay -= 1
-	if _emotion != Emotions.NONE:
-		_current_mouth.frame = 1 if _talking_frame == 3 else _talking_frame
 
 
 func set_talking(talking: bool) -> void:
@@ -59,3 +51,12 @@ func flip() -> void:
 	for child: Sprite2D in get_children() as Array[Sprite2D]:
 		child.position.x = texture.get_size().x - child.position.x - child.texture.get_size().x
 		child.flip_h = not child.flip_h
+
+
+func _animate_mouth() -> void:
+	while _talking:
+		# Based on values from FE8
+		# FE6: 0x02024492 for frame, 0x02024493 for duration
+		# FE8: 0x02025774 for frame, 0x02025776 for duration
+		_talking_frame += 1
+		await get_tree().create_timer(randf_range(2.0, 9.0) / 60).timeout

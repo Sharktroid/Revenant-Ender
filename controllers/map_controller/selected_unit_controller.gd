@@ -20,30 +20,6 @@ func _init(connected_unit: Unit) -> void:
 	GameController.add_to_input_stack(self)
 
 
-func _process(_delta: float) -> void:
-	_ghost_unit.position = _unit.get_path_last_pos()
-	if _ghost_unit.position == _unit.position:
-		_ghost_unit.visible = false
-	else:
-		_ghost_unit.visible = true
-		var distance := Vector2i()
-		if _unit.get_unit_path().size() >= 2:
-			distance = _unit.get_unit_path()[-1] - _unit.get_unit_path()[-2]
-		var next_animation: Unit.Animations
-		match distance:
-			Vector2i(16, 0):
-				next_animation = Unit.Animations.MOVING_RIGHT
-			Vector2i(-16, 0):
-				next_animation = Unit.Animations.MOVING_LEFT
-			Vector2i(0, -16):
-				next_animation = Unit.Animations.MOVING_UP
-			_:
-				next_animation = Unit.Animations.MOVING_DOWN
-		if current_animation != next_animation:
-			_ghost_unit.set_animation(next_animation)
-			current_animation = next_animation
-
-
 func receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
 		_position_selected()
@@ -68,6 +44,27 @@ func _on_cursor_moved() -> void:
 	if self == GameController.get_current_input_node():
 		_unit.update_path(CursorController.map_position)
 		_unit.show_path()
+		_ghost_unit.position = _unit.get_path_last_pos()
+		if _ghost_unit.position == _unit.position:
+			_ghost_unit.visible = false
+		else:
+			_ghost_unit.visible = true
+			var distance := Vector2i()
+			if _unit.get_unit_path().size() >= 2:
+				distance = _unit.get_unit_path()[-1] - _unit.get_unit_path()[-2]
+			var next_animation: Unit.Animations
+			match distance:
+				Vector2i(16, 0):
+					next_animation = Unit.Animations.MOVING_RIGHT
+				Vector2i(-16, 0):
+					next_animation = Unit.Animations.MOVING_LEFT
+				Vector2i(0, -16):
+					next_animation = Unit.Animations.MOVING_UP
+				_:
+					next_animation = Unit.Animations.MOVING_DOWN
+			if current_animation != next_animation:
+				_ghost_unit.set_animation(next_animation)
+				current_animation = next_animation
 
 
 func _position_selected() -> void:
