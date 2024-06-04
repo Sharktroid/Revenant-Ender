@@ -267,25 +267,26 @@ func get_current_attack() -> int:
 
 
 ## Attack without weapon triangle bonuses
-func get_raw_attack() -> int:
-	return (get_current_weapon().get_might() if get_current_weapon() else 0) + get_current_attack()
+func get_raw_attack() -> float:
+	return (get_current_weapon().get_might() if get_current_weapon() else 0.0) + get_current_attack()
 
 
-func get_true_attack(enemy: Unit) -> int:
+func get_true_attack(enemy: Unit) -> float:
 	if get_current_weapon():
 		return (
 			get_raw_attack()
 			+ get_current_weapon().get_damage_bonus(enemy.get_current_weapon(), get_distance(enemy))
 		)
-	return 0
+	else:
+		return 0
 
 
-func get_damage(defender: Unit) -> int:
-	return maxi(0, get_true_attack(defender) - defender.get_current_defence(get_current_weapon()))
+func get_damage(defender: Unit) -> float:
+	return maxf(0, get_true_attack(defender) - defender.get_current_defence(get_current_weapon()))
 
 
-func get_crit_damage(defender: Unit) -> int:
-	return maxi(
+func get_crit_damage(defender: Unit) -> float:
+	return maxf(
 		0, get_true_attack(defender) * 2 - defender.get_current_defence(get_current_weapon())
 	)
 
@@ -390,11 +391,11 @@ func get_stat_cap(stat: Stats) -> int:
 	)
 
 
-func get_weapon_effective_weight() -> int:
-	return maxi(get_current_weapon().get_weight() - get_build(), 0) if get_current_weapon() else 0
+func get_weapon_effective_weight() -> float:
+	return maxf(get_current_weapon().get_weight() - get_build(), 0) if get_current_weapon() else 0.0
 
 
-func get_attack_speed() -> int:
+func get_attack_speed() -> float:
 	return get_speed() - get_weapon_effective_weight()
 
 
@@ -439,27 +440,31 @@ func get_weight() -> int:
 	return get_build() + unit_class.get_weight_modifier()
 
 
-func get_hit() -> int:
+func get_hit() -> float:
 	return get_current_weapon().get_hit() + get_skill() * 2 + get_luck()
 
 
-func get_avoid() -> int:
+func get_avoid() -> float:
 	return get_attack_speed() * 2 + get_luck()
 
 
 func get_hit_rate(enemy: Unit) -> int:
-	return clampi(
-		(
-			get_hit()
-			- enemy.get_avoid()
-			+ get_current_weapon().get_hit_bonus(enemy.get_current_weapon(), get_distance(enemy))
-		),
-		0,
-		100
+	return roundi(
+		clampf(
+			(
+				get_hit()
+				- enemy.get_avoid()
+				+ get_current_weapon().get_hit_bonus(
+					enemy.get_current_weapon(), get_distance(enemy)
+				)
+			),
+			0,
+			100
+		)
 	)
 
 
-func get_crit() -> int:
+func get_crit() -> float:
 	return get_current_weapon().get_crit() + get_skill()
 
 
@@ -468,7 +473,7 @@ func get_crit_avoid() -> int:
 
 
 func get_crit_rate(enemy: Unit) -> int:
-	return clampi(get_crit() - enemy.get_crit_avoid(), 0, 100)
+	return roundi(clampf(get_crit() - enemy.get_crit_avoid(), 0, 100))
 
 
 func get_path_last_pos() -> Vector2i:
@@ -502,11 +507,14 @@ func get_min_range() -> int:
 	return min_range
 
 
-func get_max_range() -> int:
-	var max_range: int = get_current_weapon().get_max_range()
+func get_max_range() -> float:
+	var max_range: float = get_current_weapon().get_max_range()
 	for weapon: Item in items:
 		if weapon is Weapon:
-			max_range = maxi((weapon as Weapon).get_max_range(), max_range)
+			var curr_max_range: float = (weapon as Weapon).get_max_range()
+			if curr_max_range == INF:
+				return INF # Nothing bigger than infinity
+			max_range = maxf(curr_max_range, max_range)
 	return max_range
 
 
@@ -636,7 +644,7 @@ func get_all_attack_tiles() -> Array[Vector2i]:
 				if unit_pos in basis_movement_tiles:
 					basis_movement_tiles.erase(unit_pos)
 		var min_range: int = get_min_range()
-		var max_range: int = get_max_range()
+		var max_range: float = get_max_range()
 		for tile: Vector2i in basis_movement_tiles:
 			var subtiles: Dictionary = {}
 			for subtile: Vector2i in Utilities.get_tiles(tile, min_range, 1):
@@ -674,7 +682,7 @@ func get_current_attack_tiles(pos: Vector2i, all_weapons: bool = false) -> Array
 		var min_range: int = (
 			get_min_range() if all_weapons else get_current_weapon().get_min_range()
 		)
-		var max_range: int = (
+		var max_range: float = (
 			get_max_range() if all_weapons else get_current_weapon().get_max_range()
 		)
 		return Utilities.get_tiles(pos, max_range, min_range, MapController.map.borders)

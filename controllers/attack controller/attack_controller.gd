@@ -92,11 +92,11 @@ func _map_attack(
 
 		var is_crit: bool = attack_type == AttackTypes.CRIT
 		var hit_a: AudioStream = HIT_A_CRIT if is_crit else HIT_A_HEAVY
-		var damage: int = (
+		var damage: float = (
 			attacker.get_crit_damage(defender) if is_crit else attacker.get_damage(defender)
 		)
 		var old_health: int = ceili(defender.current_health)
-		var new_health: int = maxi(floori(old_health - damage), 0)
+		var new_health: int = roundi(maxf(floorf(old_health - damage), 0))
 		var hit_b: AudioStream = (
 			HIT_B_FATAL
 			if new_health <= 0

@@ -36,32 +36,44 @@ func _exit_tree() -> void:
 
 
 func get_tiles(
-	center: Vector2i, max_range: int, min_range: int = 0, boundaries := Rect2i(0, 0, 16000, 16000)
+	center: Vector2i, true_max_range: float, min_range: int = 0, boundaries := Rect2i(0, 0, 16000, 16000)
 ) -> Array[Vector2i]:
 	var output: Array[Vector2i] = []
-	if min_range > max_range:
-		return output
+	if true_max_range == INF:
+		var tile_blacklist: Dictionary = {}
+		if min_range > 0:
+			for tile in get_tiles(center, min_range - 1, 0, boundaries):
+				tile_blacklist[tile] = true
+		for x: int in range(boundaries.position.x, boundaries.end.x, 16):
+			for y: int in range(boundaries.position.y, boundaries.end.y, 16):
+				var tile := Vector2i(x, y)
+				if not tile_blacklist.get(tile):
+					output.append(tile)
+	else:
+		var max_range: int = roundi(true_max_range)
+		if min_range > max_range:
+			return output
 
-	var left_bound: int = maxi(-max_range * 16 + center.x, boundaries.position.x)
-	var right_bound: int = mini(max_range * 16 + center.x, boundaries.end.x - 16)
-	var top_bound: int = -max_range * 16 + center.y
-	var bottom_bound: int = max_range * 16 + center.y
-	for x: int in range(left_bound, right_bound + 1, 16):
-		var x_offset: int = -abs(x - center.x)
-		var curr_min: int = x_offset + min_range * 16
-		var top_max: int = maxi(-x_offset + top_bound, boundaries.position.y)
-		var bottom_max: int = mini(x_offset + bottom_bound, boundaries.end.y - 16)
+		var left_bound: int = maxi(-max_range * 16 + center.x, boundaries.position.x)
+		var right_bound: int = mini(max_range * 16 + center.x, boundaries.end.x - 16)
+		var top_bound: int = -max_range * 16 + center.y
+		var bottom_bound: int = max_range * 16 + center.y
+		for x: int in range(left_bound, right_bound + 1, 16):
+			var x_offset: int = -abs(x - center.x)
+			var curr_min: int = x_offset + min_range * 16
+			var top_max: int = maxi(-x_offset + top_bound, boundaries.position.y)
+			var bottom_max: int = mini(x_offset + bottom_bound, boundaries.end.y - 16)
 
-		var ranges: Array = []
-		if curr_min > 0:
-			if -curr_min + center.y >= top_bound:
-				ranges += range(top_max, -curr_min + center.y + 1, 16)
-			if curr_min + center.y <= bottom_bound:
-				ranges += range(curr_min + center.y, bottom_max + 1, 16)
-		else:
-			ranges = range(top_max, bottom_max + 1, 16)
-		for y: int in ranges:
-			output.append(Vector2i(x, y))
+			var ranges: Array = []
+			if curr_min > 0:
+				if -curr_min + center.y >= top_bound:
+					ranges += range(top_max, -curr_min + center.y + 1, 16)
+				if curr_min + center.y <= bottom_bound:
+					ranges += range(curr_min + center.y, bottom_max + 1, 16)
+			else:
+				ranges = range(top_max, bottom_max + 1, 16)
+			for y: int in ranges:
+				output.append(Vector2i(x, y))
 	return output
 
 
@@ -190,6 +202,10 @@ func get_control_within_height(checking_control: Control, control_array: Array[C
 func is_running_project() -> bool:
 	const Renderer = preload("res://renderer/renderer.gd")
 	return get_tree().root.get_child(-1) is Renderer
+
+
+func float_to_string(num: float) -> String:
+	return str(num).replace("inf", "∞")
 
 
 func _get_center(control: Control) -> float:

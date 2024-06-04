@@ -1,5 +1,4 @@
 # Minor
-* Implement infinite hit
 * Replace claws with shields
 * Have debug constants use enums and have them not be called "constants"
 * Fix canto jank

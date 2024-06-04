@@ -10,7 +10,7 @@ var _info_display: _INFO_DISPLAY
 func _init(
 	connected_unit: Unit,
 	min_range: int,
-	max_range: int,
+	max_range: float,
 	condition: Callable,
 	icon: CursorController.Icons = CursorController.Icons.ATTACK,
 	selection_sound_effect: AudioStream = AudioPlayer.MENU_SELECT

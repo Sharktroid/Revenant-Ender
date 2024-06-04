@@ -7,7 +7,7 @@ var unit: Unit
 
 var _condition: Callable
 var _minimum_range: int
-var _maximum_range: int
+var _maximum_range: float
 var _icon: CursorController.Icons
 var _selecting_position: Vector2i
 var _select_sound_effect: AudioStream
@@ -17,7 +17,7 @@ var _showing_icon: bool
 func _init(
 	connected_unit: Unit,
 	min_range: int,
-	max_range: int,
+	max_range: float,
 	condition: Callable,
 	icon: CursorController.Icons = CursorController.Icons.NONE,
 	selection_sound_effect: AudioStream = AudioPlayer.MENU_SELECT

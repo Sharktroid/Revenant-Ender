@@ -197,8 +197,8 @@ func _update_tab() -> void:
 		control.focus_neighbor_left = control.get_path_to(matching_control)
 
 
-func _set_label_text_to_number(label: Label, num: int) -> void:
-	label.text = str(num)
+func _set_label_text_to_number(label: Label, num: float) -> void:
+	label.text = Utilities.float_to_string(num)
 
 
 func _move(dir: int) -> void:

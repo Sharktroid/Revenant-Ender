@@ -18,15 +18,11 @@ enum Types {
 enum Ranks { S = 181, A = 121, B = 71, C = 31, D = 1, DISABLED = 0 }
 enum DamageTypes { PHYSICAL, RANGED, INTELLIGENCE }
 
-# Too high (>2 ** 58) causes errors;
-# Set to a value larger than a map would be expected to be in either axis
-const INFINITE_RANGE: int = 2 ** 32
-
 var _rank: int
-var _might: int
-var _weight: int
-var _hit: int
-var _crit: int
+var _might: float
+var _weight: float
+var _hit: float
+var _crit: float
 var _min_range: int
 var _max_range: float
 var _weapon_exp: int
@@ -64,10 +60,10 @@ func get_stat_table() -> Array[String]:
 	return Utilities.dict_to_table({
 		str(Types.find_key(_type)).capitalize(): str(Ranks.find_key(_rank)).capitalize(),
 		"Range": get_range_text(),
-		"Weight": _weight,
-		"Might": _might,
-		"Hit": _hit,
-		"Critical": _crit
+		"Weight": Utilities.float_to_string(_weight),
+		"Might": Utilities.float_to_string(_might),
+		"Hit": Utilities.float_to_string(_hit),
+		"Critical": Utilities.float_to_string(_crit)
 	})
 
 
@@ -100,28 +96,28 @@ func get_rank() -> int:
 	return _rank
 
 
-func get_might() -> int:
-	return _might
+func get_might() -> float:
+	return roundf(_might)
 
 
-func get_weight() -> int:
-	return _weight
+func get_weight() -> float:
+	return roundf(_weight)
 
 
-func get_hit() -> int:
+func get_hit() -> float:
 	return _hit
 
 
-func get_crit() -> int:
-	return _crit
+func get_crit() -> float:
+	return roundf(_crit)
 
 
 func get_min_range() -> int:
 	return _min_range
 
 
-func get_max_range() -> int:
-	return INFINITE_RANGE if _max_range == INF else roundi(_max_range)
+func get_max_range() -> float:
+	return _max_range
 
 
 func get_weapon_exp() -> int:
@@ -146,13 +142,8 @@ func get_disadvantage_types() -> Array[Types]:
 
 func get_range_text() -> String:
 	var min_range_text: String = str(get_min_range())
-	var max_range_text: String = (
-		"∞" if get_max_range() == INFINITE_RANGE
-		else str(get_max_range())
-	)
+	var max_range_text: String = Utilities.float_to_string(get_max_range())
 	return (
-		"--" if get_min_range() == INFINITE_RANGE
-		else max_range_text if get_min_range() == 1 and get_max_range() == INFINITE_RANGE
-		else max_range_text if _min_range == get_max_range()
+		max_range_text if _min_range == get_max_range()
 		else "{min}-{max}".format({"min": min_range_text, "max": max_range_text})
 	)

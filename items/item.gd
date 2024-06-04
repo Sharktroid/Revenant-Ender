@@ -3,9 +3,9 @@ extends Resource
 
 enum EquipType { DISABLED, ENABLED, WEAPON, ARMOR, OTHER }
 
-var current_uses: int
+var current_uses: float
 var _icon: Texture2D = PlaceholderTexture2D.new()
-var _max_uses: int
+var _max_uses: float
 var _price: int
 var _description: String
 var _droppable: bool = true
@@ -17,7 +17,7 @@ func _init() -> void:
 	_icon = load(path.substr(0, path.rfind("/") + 1) + "icon.png") as Texture2D
 	if _icon is PlaceholderTexture2D:
 		(_icon as PlaceholderTexture2D).size = Vector2i(16, 16)
-	current_uses = _max_uses
+	current_uses = get_max_uses()
 
 
 func _to_string() -> String:
@@ -32,11 +32,11 @@ func get_icon() -> Texture2D:
 	return _icon
 
 
-func get_max_uses() -> int:
-	return _max_uses
+func get_max_uses() -> float:
+	return roundf(_max_uses)
 
 
-func get_price() -> int:
+func get_price() -> float:
 	return _price
 
 

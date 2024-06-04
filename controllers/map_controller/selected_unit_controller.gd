@@ -15,10 +15,12 @@ func _init(connected_unit: Unit) -> void:
 	_unit.update_displayed_tiles()
 	_unit.tree_exited.connect(_on_unit_death)
 	_ghost_unit = GhostUnit.new(_unit)
+	_ghost_unit.position = CursorController.map_position
 	MapController.map.get_child(0).add_child(_ghost_unit)
 	CursorController.moved.connect(_on_cursor_moved)
 	GameController.add_to_input_stack(self)
 	_unit.arrived.connect(_update_ghost_unit_visibility)
+	_update_ghost_unit_visibility()
 
 
 func receive_input(event: InputEvent) -> void:

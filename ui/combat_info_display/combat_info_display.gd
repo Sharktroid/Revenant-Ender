@@ -133,20 +133,20 @@ func _update() -> void:
 
 		var in_range: bool = weapon and weapon.in_range(distance)
 		(get_node(node_path % "Damage") as Label).text = (
-			str(current_unit.get_damage(other_unit)) if in_range else "--"
+			Utilities.float_to_string(current_unit.get_damage(other_unit)) if in_range else "--"
 		)
 		(get_node(node_path % "Hit") as Label).text = (
 			str(current_unit.get_hit_rate(other_unit)) if in_range else "--"
 		)
 		(get_node(node_path % "CritDamage") as Label).text = (
-			str(current_unit.get_crit_damage(other_unit)) if in_range else "--"
+			Utilities.float_to_string(current_unit.get_crit_damage(other_unit)) if in_range else "--"
 		)
 		(get_node(node_path % "Crit") as Label).text = (
 			str(current_unit.get_crit_rate(other_unit)) if in_range else "--"
 		)
 
 		var double_sprite := get_node(node_path % "Double") as Sprite2D
-		double_sprite.visible = current_unit.can_follow_up(other_unit)
+		double_sprite.visible = current_unit.can_follow_up(other_unit) and in_range
 
 		if current_unit.faction.color == Faction.Colors.RED:
 			var shader_material: ShaderMaterial = (
