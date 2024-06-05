@@ -1,5 +1,4 @@
 # Minor
-* Replace claws with shields
 * Have debug constants use enums and have them not be called "constants"
 * Fix canto jank
 	* Add sfx

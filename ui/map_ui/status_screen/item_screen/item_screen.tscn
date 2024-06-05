@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://cgosroxi1bkqc" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/bow_icon.png" id="9_eltdm"]
 [ext_resource type="Texture2D" uid="uid://dgqo0p34nwah" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/cobalt_staff_icon.png" id="12_lufwk"]
 [ext_resource type="Texture2D" uid="uid://dmad12hwb12ng" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/axe_icon.png" id="13_2vcxs"]
-[ext_resource type="Texture2D" uid="uid://3nqo4jpp5ksr" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/claw_icon.png" id="14_8nbi0"]
+[ext_resource type="Texture2D" uid="uid://b6t4t5vqwwq03" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/shield_icon.png" id="13_rs43q"]
 [ext_resource type="Texture2D" uid="uid://dvhj25tofwef" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/dark_icon.png" id="15_p5osc"]
 [ext_resource type="Texture2D" uid="uid://cbim7d0v5s20i" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/siege_icon.png" id="17_2eyif"]
 
@@ -112,7 +112,7 @@ icon = ExtResource("7_eia1s")
 layout_mode = 2
 focus_neighbor_top = NodePath("../KnifeRank")
 focus_neighbor_right = NodePath("../CobaltStaffRank")
-focus_neighbor_bottom = NodePath("../ClawRank")
+focus_neighbor_bottom = NodePath("../ShieldRank")
 icon = ExtResource("9_eltdm")
 
 [node name="CobaltStaffRank" parent="WeaponRanks/GridContainer" instance=ExtResource("2_wxaj3")]
@@ -122,14 +122,14 @@ focus_neighbor_top = NodePath("../CrimsonStaffRank")
 focus_neighbor_bottom = NodePath("../SiegeRank")
 icon = ExtResource("12_lufwk")
 
-[node name="ClawRank" parent="WeaponRanks/GridContainer" instance=ExtResource("2_wxaj3")]
+[node name="ShieldRank" parent="WeaponRanks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
 focus_neighbor_top = NodePath("../BowRank")
 focus_neighbor_right = NodePath("../SiegeRank")
-icon = ExtResource("14_8nbi0")
+icon = ExtResource("13_rs43q")
 
 [node name="SiegeRank" parent="WeaponRanks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
-focus_neighbor_left = NodePath("../ClawRank")
+focus_neighbor_left = NodePath("../ShieldRank")
 focus_neighbor_top = NodePath("../CobaltStaffRank")
 icon = ExtResource("17_2eyif")

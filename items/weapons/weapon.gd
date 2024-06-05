@@ -13,7 +13,7 @@ enum Types {
 	CRIMSON_STAFF,
 	COBALT_STAFF,
 	SIEGE,
-	CLAW,
+	SHIELD,
 }
 enum Ranks { S = 181, A = 121, B = 71, C = 31, D = 1, DISABLED = 0 }
 enum DamageTypes { PHYSICAL, RANGED, INTELLIGENCE }
