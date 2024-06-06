@@ -139,7 +139,8 @@ func _update() -> void:
 			str(current_unit.get_hit_rate(other_unit)) if in_range else "--"
 		)
 		(get_node(node_path % "CritDamage") as Label).text = (
-			Utilities.float_to_string(current_unit.get_crit_damage(other_unit)) if in_range else "--"
+			Utilities.float_to_string(current_unit.get_crit_damage(other_unit)) if in_range
+			else "--"
 		)
 		(get_node(node_path % "Crit") as Label).text = (
 			str(current_unit.get_crit_rate(other_unit)) if in_range else "--"

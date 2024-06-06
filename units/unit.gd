@@ -513,7 +513,7 @@ func get_max_range() -> float:
 		if weapon is Weapon:
 			var curr_max_range: float = (weapon as Weapon).get_max_range()
 			if curr_max_range == INF:
-				return INF # Nothing bigger than infinity
+				return INF  # Nothing bigger than infinity
 			max_range = maxf(curr_max_range, max_range)
 	return max_range
 
@@ -569,7 +569,7 @@ func can_rescue(unit: Unit) -> bool:
 ## Causes unit to wait.
 func wait() -> void:
 	current_movement = get_movement()
-	if Utilities.get_debug_constant("unit_wait"):
+	if Utilities.get_debug_value(Utilities.DebugConfigKeys.UNIT_WAIT):
 		selectable = false
 		waiting = true
 	get_map().unit_wait(self)

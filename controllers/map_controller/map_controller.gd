@@ -15,8 +15,8 @@ var _phase_display: _PHASE_DISPLAY
 
 func _ready() -> void:
 	if Utilities.is_running_project():
-		(get_ui().get_node("FPS Display") as HBoxContainer).visible = Utilities.get_debug_constant(
-			"show_fps"
+		(get_ui().get_node("FPS Display") as HBoxContainer).visible = Utilities.get_debug_value(
+			Utilities.DebugConfigKeys.SHOW_FPS
 		)
 	else:
 		queue_free()

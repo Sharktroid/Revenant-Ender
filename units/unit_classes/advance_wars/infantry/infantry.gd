@@ -13,7 +13,7 @@ extends "res://units/unit_classes/advance_wars/aw_unit.gd"
 
 
 func wait() -> void:
-	if Utilities.get_debug_constant("unit_wait"):
+	if Utilities.get_debug_value(Utilities.DebugConfigKeys.UNIT_WAIT):
 		_base_frame += 3
 #	_update_sprite()
 	super.wait()

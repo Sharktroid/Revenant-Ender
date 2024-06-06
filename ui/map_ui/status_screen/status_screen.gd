@@ -72,9 +72,7 @@ func _update() -> void:
 	_set_label_text_to_number(%MaxLevel as Label, observing_unit.MAX_LEVEL)
 
 	_set_label_text_to_number(%Current as Label, roundi(observing_unit.current_health))
-	_set_label_text_to_number(
-		%MaxHitPoints as Label, observing_unit.get_hit_points()
-	)
+	_set_label_text_to_number(%MaxHitPoints as Label, observing_unit.get_hit_points())
 
 	var current_exp: float = observing_unit.get_current_exp()
 	var next_level_exp: float = Unit.get_exp_to_level(observing_unit.level + 1)

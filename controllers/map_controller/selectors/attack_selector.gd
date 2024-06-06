@@ -27,7 +27,6 @@ func _ready() -> void:
 	_update_bottom_unit()
 
 
-
 func close() -> void:
 	_info_display.queue_free()
 	super()

@@ -1,18 +1,27 @@
 @tool
 extends Node
 
+enum DebugConfigKeys {
+	UNIT_WAIT,
+	DISPLAY_MAP_BORDERS,
+	DISPLAY_MAP_TERRAIN,
+	DISPLAY_MAP_CURSOR,
+	PRINT_INPUT_RECIEVER,
+	SHOW_FPS,
+}
 const ADJACENT_TILES: Array[Vector2i] = [
 	Vector2i(16, 0), Vector2i(-16, 0), Vector2i(0, 16), Vector2i(0, -16)
 ]
+
 var theme: Theme = preload("res://ui/theme/menu_theme.tres")
 
-var _debug_constants: Dictionary = {  # Constants used in the debug menu.
-	unit_wait = true,  # Whether units are unable to move after movement.
-	display_map_borders = false,  # Whether map borders are displayed
-	display_map_terrain = false,
-	display_map_cursor = false,
-	print_input_reciever = false,
-	show_fps = false
+var _debug_config: Dictionary = {  # Constants used in the debug menu.
+	DebugConfigKeys.UNIT_WAIT: true,  # Whether units are unable to move after movement.
+	DebugConfigKeys.DISPLAY_MAP_BORDERS: false,  # Whether map borders are displayed
+	DebugConfigKeys.DISPLAY_MAP_TERRAIN: false,
+	DebugConfigKeys.DISPLAY_MAP_CURSOR: false,
+	DebugConfigKeys.PRINT_INPUT_RECIEVER: false,
+	DebugConfigKeys.SHOW_FPS: false
 }
 var _config_file := ConfigFile.new()  # File used for saving and loading of configuration settings.
 var _default_screen_size: Vector2i
@@ -29,6 +38,7 @@ func _init() -> void:
 		ProjectSettings.get_setting("display/window/size/viewport_width") as int,
 		ProjectSettings.get_setting("display/window/size/viewport_height") as int
 	)
+	await ready
 
 
 func _exit_tree() -> void:
@@ -36,7 +46,10 @@ func _exit_tree() -> void:
 
 
 func get_tiles(
-	center: Vector2i, true_max_range: float, min_range: int = 0, boundaries := Rect2i(0, 0, 16000, 16000)
+	center: Vector2i,
+	true_max_range: float,
+	min_range: int = 0,
+	boundaries := Rect2i(0, 0, 16000, 16000)
 ) -> Array[Vector2i]:
 	var output: Array[Vector2i] = []
 	if true_max_range == INF:
@@ -83,22 +96,26 @@ func get_screen_size() -> Vector2i:
 
 func save_config() -> void:
 	# Saves configuration.
-	for constant: String in _debug_constants.keys() as Array[String]:
-		_config_file.set_value("Debug", constant, get_debug_constant(constant))
-	_config_file.save("user://config.ini")
+	for constant: String in DebugConfigKeys.keys() as Array[String]:
+		_config_file.set_value(
+			"Debug",
+			constant,
+			get_debug_value(DebugConfigKeys[constant] as Utilities.DebugConfigKeys)
+		)
+	_config_file.save("user://config.cfg")
 
 
-func get_debug_constant(constant: String) -> Variant:
-	return _debug_constants[constant]
+func get_debug_value(key: DebugConfigKeys) -> Variant:
+	return _debug_config[key]
 
 
-func set_debug_constant(constant: String, value: Variant) -> void:
-	_debug_constants[constant] = value
+func set_debug_value(key: DebugConfigKeys, value: Variant) -> void:
+	_debug_config[key] = value
 	save_config()
 
 
-func invert_debug_constant(constant: String) -> void:
-	set_debug_constant(constant, not (get_debug_constant(constant)))
+func invert_debug_value(key: DebugConfigKeys) -> void:
+	set_debug_value(key, not get_debug_value(key))
 
 
 func slice_string(string: String, start: int, end: int) -> String:
@@ -214,8 +231,10 @@ func _get_center(control: Control) -> float:
 
 func _load_config() -> void:
 	# Loads configuration
-	_config_file.load("user://config.ini")
-	for constant: String in _debug_constants.keys() as Array[String]:
-		_debug_constants[constant] = _config_file.get_value(
-			"Debug", constant, get_debug_constant(constant)
+	_config_file.load("user://config.cfg")
+	for constant: String in DebugConfigKeys.keys() as Array[String]:
+		_debug_config[constant] = _config_file.get_value(
+			"Debug",
+			constant,
+			get_debug_value(DebugConfigKeys[constant] as Utilities.DebugConfigKeys)
 		)

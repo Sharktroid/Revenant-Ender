@@ -70,10 +70,12 @@ func get_stat_table() -> Array[String]:
 ## Returns 1 with normal advantage, 0 with neutrality, -1 with disadvantage
 func get_weapon_triangle_advantage(weapon: Weapon, _distance: int) -> int:
 	return (
-		0 if weapon == null
-		else 1 if weapon.get_type() in _advantage_types
-		else -1 if weapon.get_type() in _disadvantage_types
-		else 0
+		0
+		if weapon == null
+		else (
+			1 if weapon.get_type() in _advantage_types
+			else -1 if weapon.get_type() in _disadvantage_types else 0
+		)
 	)
 
 
@@ -87,8 +89,7 @@ func get_hit_bonus(weapon: Weapon, distance: int) -> int:
 func get_damage_bonus(weapon: Weapon, distance: int) -> int:
 	return (
 		-weapon.get_weapon_triangle_advantage(self, distance) if weapon is Bow
-		else get_weapon_triangle_advantage(weapon, distance) if _rank >= Ranks.A
-		else 0
+		else get_weapon_triangle_advantage(weapon, distance) if _rank >= Ranks.A else 0
 	)
 
 

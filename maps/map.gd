@@ -31,9 +31,15 @@ func _ready() -> void:
 	borders = Rect2i(left_border * 16, top_border * 16, 32, 32)
 	borders = borders.expand(get_size() - Vector2(right_border * 16, bottom_border * 16))
 	_create_debug_borders()  # Only shows up when collison shapes are enabled
-	_terrain_layer.visible = Utilities.get_debug_constant("display_map_terrain")
-	_border_overlay.visible = Utilities.get_debug_constant("display_map_borders")
-	($MapLayer/CursorArea as Area2D).visible = Utilities.get_debug_constant("display_map_cursor")
+	_terrain_layer.visible = Utilities.get_debug_value(
+		Utilities.DebugConfigKeys.DISPLAY_MAP_TERRAIN
+	)
+	_border_overlay.visible = Utilities.get_debug_value(
+		Utilities.DebugConfigKeys.DISPLAY_MAP_BORDERS
+	)
+	($MapLayer/CursorArea as Area2D).visible = Utilities.get_debug_value(
+		Utilities.DebugConfigKeys.DISPLAY_MAP_CURSOR
+	)
 	var cell_max: Vector2i = ($MapLayer/BaseLayer as TileMap).get_used_cells(0).max()
 	size = cell_max * 16 + Vector2i(16, 16)
 	GameController.add_to_input_stack(self)
@@ -53,7 +59,6 @@ func _ready() -> void:
 	if not MapController.get_ui().is_node_ready():
 		await MapController.get_ui().ready
 	start_turn()
-
 
 
 func receive_input(event: InputEvent) -> void:

@@ -13,9 +13,7 @@ func combat(attacker: Unit, defender: Unit) -> void:
 	CursorController.disable()
 	var attack_queue: Array[CombatStage] = [CombatStage.new(attacker, defender)]
 	var distance: int = roundi(Utilities.get_tile_distance(attacker.position, defender.position))
-	if (
-		defender.get_current_weapon() != null and defender.get_current_weapon().in_range(distance)
-	):
+	if defender.get_current_weapon() != null and defender.get_current_weapon().in_range(distance):
 		attack_queue.append(CombatStage.new(defender, attacker))
 	if attacker.can_follow_up(defender):
 		attack_queue.append(CombatStage.new(attacker, defender))
@@ -136,8 +134,7 @@ func _get_combat_exp(distributing_unit: Unit, damage: float) -> float:
 	var damage_percent: float = float(damage) / distributing_unit.get_hit_points()
 	var chip_exp: float = base_exp * damage_percent * (1 - Unit.KILL_EXP_PERCENT)
 	var kill_exp: float = (
-		base_exp * Unit.KILL_EXP_PERCENT if distributing_unit.current_health <= 0
-		else 0.0
+		base_exp * Unit.KILL_EXP_PERCENT if distributing_unit.current_health <= 0 else 0.0
 	)
 	return chip_exp + kill_exp
 
@@ -173,6 +170,8 @@ class CombatStage:
 		var did_hit: bool = attacker.get_hit_rate(defender) > randi_range(0, 99)
 		attack_type = (
 			AttackTypes.MISS if not did_hit
-			else AttackTypes.CRIT if attacker.get_crit_rate(defender) > randi_range(0, 99)
-			else AttackTypes.HIT
+			else (
+				AttackTypes.CRIT if attacker.get_crit_rate(defender) > randi_range(0, 99)
+				else AttackTypes.HIT
+			)
 		)
