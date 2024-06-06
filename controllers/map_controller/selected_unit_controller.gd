@@ -48,6 +48,7 @@ func _on_cursor_moved() -> void:
 		_unit.update_path(CursorController.map_position)
 		_unit.show_path()
 		_ghost_unit.position = _unit.get_path_last_pos()
+		_update_ghost_unit_visibility()
 		if _ghost_unit.visible == true:
 			var distance := Vector2i()
 			if _unit.get_unit_path().size() >= 2:
