@@ -1,11 +1,4 @@
 # Minor
-* Fix canto jank
-	* Add sfx
-	* Disable waiting on allied units
-	* Have the unit use the moving down animation
-	* Add ghost unit
-	* Disallow viewing unit's tiles
-	* Fix canto menu position
 * Fix crash when backing out of drop
 * Fix EXP percent not being navigable with arrows
 * Fix help menu expanding in the x-axis while closing a small popup

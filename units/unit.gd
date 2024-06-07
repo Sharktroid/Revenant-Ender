@@ -268,7 +268,9 @@ func get_current_attack() -> int:
 
 ## Attack without weapon triangle bonuses
 func get_raw_attack() -> float:
-	return (get_current_weapon().get_might() if get_current_weapon() else 0.0) + get_current_attack()
+	return (
+		(get_current_weapon().get_might() if get_current_weapon() else 0.0) + get_current_attack()
+	)
 
 
 func get_true_attack(enemy: Unit) -> float:
@@ -632,7 +634,16 @@ func get_movement_tiles() -> Array[Vector2i]:
 				var converted: Array[Vector2i] = []
 				converted.assign(v)
 				_movement_tiles.append_array(converted)
-	return _movement_tiles
+	return _movement_tiles.duplicate()
+
+
+func get_actionable_movement_tiles() -> Array[Vector2i]:
+	var movement_tiles: Array[Vector2i] = get_movement_tiles()
+	for unit: Unit in get_map().get_units_by_faction(faction):
+		if unit.position as Vector2i in movement_tiles:
+			#print_debug("%s: %s" % [unit.name, unit.position])
+			movement_tiles.erase(unit.position as Vector2i)
+	return movement_tiles
 
 
 func get_all_attack_tiles() -> Array[Vector2i]:
@@ -938,7 +949,9 @@ func _render_status() -> void:
 func _on_area2d_area_entered(area: Area2D) -> void:
 	# When cursor enters unit's area
 	if area == CursorController.get_area() and visible:
-		var selecting: bool = MapController.selecting
+		var selecting: bool = (
+			(GameController.get_current_input_node() as Node) is SelectedUnitController
+		)
 		var can_be_selected: bool = true
 		if is_instance_valid(CursorController.get_hovered_unit()):
 			can_be_selected = not CursorController.get_hovered_unit().selected or selecting

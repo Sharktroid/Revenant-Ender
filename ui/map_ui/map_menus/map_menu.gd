@@ -75,7 +75,9 @@ func set_current_item_node(item: HelpContainer) -> void:
 
 
 func get_current_item_node() -> MapMenuItem:
-	return _get_visible_children()[_current_item_index]
+	return (
+		_get_visible_children()[_current_item_index] if _get_visible_children().size() > 0 else null
+	)
 
 
 func _play_select_sound_effect(_item: MapMenuItem) -> void:

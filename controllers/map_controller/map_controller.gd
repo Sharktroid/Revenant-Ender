@@ -7,7 +7,6 @@ const _PHASE_DISPLAY = preload(_PHASE_DISPLAY_PATH + "gd")
 
 @export var map_node: PackedScene
 
-var selecting: bool = false  # Whether a unit is currently selected.
 var map := Map.new()
 
 var _phase_display: _PHASE_DISPLAY

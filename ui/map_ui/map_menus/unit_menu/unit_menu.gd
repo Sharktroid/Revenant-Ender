@@ -41,15 +41,12 @@ func close(return_to_caller: bool = false) -> void:
 	if not (return_to_caller and actionable):
 		caller.close()
 	if _canto:
-		CantoController.new(connected_unit)
+		CantoController.new.call_deferred(connected_unit)
 	CursorController.enable.call_deferred()
 
 
 func update() -> void:
 	# Gets the items for the unit menu.
-	var pos: Vector2i = connected_unit.get_path_last_pos()
-	var movement: int = connected_unit.get_movement()
-	var movement_tiles: Array[Vector2i] = connected_unit.get_movement_tiles()
 	var enabled_items: Dictionary = {
 		Attack = false,
 		Wait = false,
@@ -61,20 +58,14 @@ func update() -> void:
 		Swap = false,
 		Items = false,
 	}
-	if CursorController.map_position in movement_tiles:
-		enabled_items.Wait = (movement > 0 and pos in movement_tiles)
+	if CursorController.map_position in connected_unit.get_actionable_movement_tiles():
+		enabled_items.Wait = connected_unit.get_movement() > 0
 		enabled_items.Drop = connected_unit.traveler != null
 		enabled_items.Items = connected_unit.items.size() > 0
 		# Gets all adjacent units
 		for unit: Unit in MapController.map.get_units():
 			if unit != connected_unit and unit.visible == true:
-				var cursor_pos: Vector2i = CursorController.map_position
-				if Utilities.get_tile_distance(cursor_pos, unit.get_position()) == 0 \
-						and not unit == connected_unit:
-					# Units occupying the same tile
-					if unit != connected_unit:
-						enabled_items.Wait = false
-				elif Utilities.get_tile_distance(cursor_pos, unit.get_position()) == 1:
+				if Utilities.get_tile_distance(CursorController.map_position, unit.get_position()) == 1:
 					# Adjacent units
 					if connected_unit.is_friend(unit):
 						if connected_unit.items.size() > 0 and unit.items.size() > 0:
@@ -92,8 +83,7 @@ func update() -> void:
 				if _can_attack(unit):
 					enabled_items.Attack = true
 	else:
-		if (CursorController.get_hovered_unit()
-				and _can_attack(CursorController.get_hovered_unit())):
+		if (CursorController.get_hovered_unit() and _can_attack(CursorController.get_hovered_unit())):
 			enabled_items.Attack = true
 	for node: MapMenuItem in _get_item_nodes():
 		node.visible = enabled_items[node.name]

@@ -105,10 +105,10 @@ func get_current_faction() -> Faction:
 	return all_factions[_curr_faction]
 
 
-func get_units_by_faction(faction_id: int) -> Array[Unit]:
+func get_units_by_faction(faction: Faction) -> Array[Unit]:
 	var units: Array[Unit] = []
-	for unit: Unit in MapController.map.get_units():
-		if unit.faction_id == faction_id:
+	for unit: Unit in get_units():
+		if unit.faction == faction:
 			units.append(unit)
 	return units
 
@@ -351,7 +351,7 @@ func _parse_movement_cost() -> void:
 
 
 func _get_unit_relative(unit: Unit, rel_index: int) -> Unit:
-	var faction_units: Array[Unit] = get_units_by_faction(unit.faction_id)
+	var faction_units: Array[Unit] = get_units_by_faction(unit.faction)
 	var unit_index: int = faction_units.find(unit)
 	var next_unit_index: int = (unit_index + rel_index) % faction_units.size()
 	return faction_units[next_unit_index]
@@ -363,7 +363,6 @@ func _on_cursor_select() -> void:
 		AudioPlayer.play_sound_effect(preload("res://audio/sfx/double_select.ogg"))
 		var controller := SelectedUnitController.new(hovered_unit)
 		add_child(controller)
-		MapController.selecting = true
 	else:
 		AudioPlayer.play_sound_effect(preload("res://audio/sfx/menu_open.ogg"))
 		MapController.create_main_map_menu()

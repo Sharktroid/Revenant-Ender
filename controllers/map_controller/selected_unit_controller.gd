@@ -8,7 +8,7 @@ var _ghost_unit: GhostUnit
 
 func _init(connected_unit: Unit) -> void:
 	_unit = connected_unit
-	name = "Selected UnitController"
+	name = "SelectedUnitController"
 	_unit.set_animation(Unit.Animations.MOVING_DOWN)
 	_unit.selected = true
 	_unit.update_path(CursorController.map_position)
@@ -19,8 +19,8 @@ func _init(connected_unit: Unit) -> void:
 	MapController.map.get_child(0).add_child(_ghost_unit)
 	CursorController.moved.connect(_on_cursor_moved)
 	GameController.add_to_input_stack(self)
-	_unit.arrived.connect(_update_ghost_unit_visibility)
-	_update_ghost_unit_visibility()
+	_unit.arrived.connect(_update_ghost_unit)
+	_update_ghost_unit()
 
 
 func receive_input(event: InputEvent) -> void:
@@ -36,7 +36,6 @@ func close() -> void:
 	## Deselects the currently selected _unit.
 	queue_free()
 	_ghost_unit.queue_free()
-	MapController.selecting = false
 	var hovered_unit: Unit = CursorController.get_hovered_unit()
 	if hovered_unit and hovered_unit != _unit and not hovered_unit.dead:
 		hovered_unit.display_movement_tiles()
@@ -48,28 +47,28 @@ func _on_cursor_moved() -> void:
 		_unit.update_path(CursorController.map_position)
 		_unit.show_path()
 		_ghost_unit.position = _unit.get_path_last_pos()
-		_update_ghost_unit_visibility()
-		if _ghost_unit.visible == true:
-			var distance := Vector2i()
-			if _unit.get_unit_path().size() >= 2:
-				distance = _unit.get_unit_path()[-1] - _unit.get_unit_path()[-2]
-			var next_animation: Unit.Animations
-			match distance:
-				Vector2i(16, 0):
-					next_animation = Unit.Animations.MOVING_RIGHT
-				Vector2i(-16, 0):
-					next_animation = Unit.Animations.MOVING_LEFT
-				Vector2i(0, -16):
-					next_animation = Unit.Animations.MOVING_UP
-				_:
-					next_animation = Unit.Animations.MOVING_DOWN
-			if current_animation != next_animation:
-				_ghost_unit.set_animation(next_animation)
-				current_animation = next_animation
+		_update_ghost_unit()
 
 
-func _update_ghost_unit_visibility() -> void:
+func _update_ghost_unit() -> void:
 	_ghost_unit.visible = _ghost_unit.position != _unit.position
+	if _ghost_unit.visible == true:
+		var distance := Vector2i()
+		if _unit.get_unit_path().size() >= 2:
+			distance = _unit.get_unit_path()[-1] - _unit.get_unit_path()[-2]
+		var next_animation: Unit.Animations
+		match distance:
+			Vector2i(16, 0):
+				next_animation = Unit.Animations.MOVING_RIGHT
+			Vector2i(-16, 0):
+				next_animation = Unit.Animations.MOVING_LEFT
+			Vector2i(0, -16):
+				next_animation = Unit.Animations.MOVING_UP
+			_:
+				next_animation = Unit.Animations.MOVING_DOWN
+		if current_animation != next_animation:
+			_ghost_unit.set_animation(next_animation)
+			current_animation = next_animation
 
 
 func _position_selected() -> void:
