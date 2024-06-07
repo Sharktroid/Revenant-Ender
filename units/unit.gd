@@ -640,8 +640,7 @@ func get_movement_tiles() -> Array[Vector2i]:
 func get_actionable_movement_tiles() -> Array[Vector2i]:
 	var movement_tiles: Array[Vector2i] = get_movement_tiles()
 	for unit: Unit in get_map().get_units_by_faction(faction):
-		if unit.position as Vector2i in movement_tiles:
-			#print_debug("%s: %s" % [unit.name, unit.position])
+		if unit.position as Vector2i in movement_tiles and not unit in [self, traveler]:
 			movement_tiles.erase(unit.position as Vector2i)
 	return movement_tiles
 
