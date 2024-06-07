@@ -99,7 +99,7 @@ func save_config() -> void:
 	for constant: String in DebugConfigKeys.keys() as Array[String]:
 		_config_file.set_value(
 			"Debug",
-			constant,
+			constant.to_snake_case(),
 			get_debug_value(DebugConfigKeys[constant] as Utilities.DebugConfigKeys)
 		)
 	_config_file.save("user://config.cfg")
@@ -233,8 +233,9 @@ func _load_config() -> void:
 	# Loads configuration
 	_config_file.load("user://config.cfg")
 	for constant: String in DebugConfigKeys.keys() as Array[String]:
-		_debug_config[constant] = _config_file.get_value(
+		var debug_key: DebugConfigKeys = DebugConfigKeys[constant]
+		_debug_config[debug_key] = _config_file.get_value(
 			"Debug",
-			constant,
-			get_debug_value(DebugConfigKeys[constant] as Utilities.DebugConfigKeys)
+			constant.to_snake_case(),
+			get_debug_value(debug_key)
 		)
