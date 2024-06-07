@@ -1,7 +1,7 @@
 class_name TileSelector
 extends Selector
 
-signal selected(position: Vector2i)
+signal selected(position: Vector2)
 
 
 func _position_selected() -> void:
@@ -22,5 +22,5 @@ func _within_range() -> bool:
 
 
 func _canceled() -> void:
-	selected.emit(null)
+	selected.emit(Vector2.INF)
 	super()

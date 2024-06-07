@@ -1,5 +1,4 @@
 # Minor
-* Fix crash when backing out of drop
 * Fix EXP percent not being navigable with arrows
 * Fix help menu expanding in the x-axis while closing a small popup
 * Fix ranged units not being able to attack via attack tiles

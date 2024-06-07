@@ -257,8 +257,8 @@ func _select_map(selector: Selector, tiles_node: Node2D, selected: Callable,
 		else:
 			selected.call(selection)
 	else:
-		var selection: Vector2i = await (selector as TileSelector).selected
-		if selection == null:
+		var selection: Vector2 = await (selector as TileSelector).selected
+		if selection == Vector2.INF:
 			canceled.call()
 			visible = true
 		else:
