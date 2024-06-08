@@ -1,7 +1,7 @@
 # Minor
 * Fix EXP percent not being navigable with arrows
 * Fix help menu expanding in the x-axis while closing a small popup
-* Fix ranged units not being able to attack via attack tiles
+* Have attack tile selecting work more like in DS
 * Document exports
 
 # Major

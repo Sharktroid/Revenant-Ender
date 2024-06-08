@@ -47,7 +47,7 @@ size_flags_horizontal = 0
 theme = SubResource("Theme_ux5tw")
 theme_override_constants/separation = 0
 
-[node name="StrengthHelp" type="BoxContainer" parent="TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels"]
+[node name="StrengthHelp" type="BoxContainer" parent="TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels" groups=["left_nodes", "values"]]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_right = NodePath("../../Values/StrengthBar")
@@ -55,14 +55,14 @@ focus_neighbor_bottom = NodePath("../PierceHelp")
 script = ExtResource("2_6g5y4")
 help_description = "Increases the damage that physical weapons deal by +1."
 
-[node name="StrengthLabel" type="Label" parent="TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels/StrengthHelp" groups=["left_nodes", "values"]]
+[node name="StrengthLabel" type="Label" parent="TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels/StrengthHelp"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"YellowLabel"
 text = "Strength"
 vertical_alignment = 1
 
-[node name="PierceHelp" type="BoxContainer" parent="TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels"]
+[node name="PierceHelp" type="BoxContainer" parent="TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels" groups=["left_nodes", "values"]]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_top = NodePath("../StrengthHelp")
@@ -71,14 +71,14 @@ focus_neighbor_bottom = NodePath("../IntelligenceHelp")
 script = ExtResource("2_6g5y4")
 help_description = "Increases the damage that bows and similar weapons deal by +1."
 
-[node name="PierceLabel" type="Label" parent="TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels/PierceHelp" groups=["left_nodes", "values"]]
+[node name="PierceLabel" type="Label" parent="TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels/PierceHelp"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"YellowLabel"
 text = "Pierce"
 vertical_alignment = 1
 
-[node name="IntelligenceHelp" type="BoxContainer" parent="TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels"]
+[node name="IntelligenceHelp" type="BoxContainer" parent="TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels" groups=["left_nodes", "values"]]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_top = NodePath("../PierceHelp")
@@ -88,7 +88,7 @@ script = ExtResource("2_6g5y4")
 help_description = "Increases the damage that tomes and intelligenceal weapons deal by +1.
 It also raises the accuracy of crimson staves by +10."
 
-[node name="IntelligenceLabel" type="Label" parent="TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels/IntelligenceHelp" groups=["left_nodes", "values"]]
+[node name="IntelligenceLabel" type="Label" parent="TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels/IntelligenceHelp"]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
@@ -140,7 +140,7 @@ size_flags_horizontal = 0
 theme = SubResource("Theme_ux5tw")
 theme_override_constants/separation = 0
 
-[node name="DefenseHelp" type="BoxContainer" parent="TopPanels/DefensiveStats/HBoxContainer/DefensiveLabels"]
+[node name="DefenseHelp" type="BoxContainer" parent="TopPanels/DefensiveStats/HBoxContainer/DefensiveLabels" groups=["values"]]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_left = NodePath("../../../../OffensiveStats/HBoxContainer/Values/StrengthBar")
@@ -149,14 +149,14 @@ focus_neighbor_bottom = NodePath("../ArmorHelp")
 script = ExtResource("2_6g5y4")
 help_description = "Reduces damage from incoming physical attacks by -1."
 
-[node name="DefenseLabel" type="Label" parent="TopPanels/DefensiveStats/HBoxContainer/DefensiveLabels/DefenseHelp" groups=["values"]]
+[node name="DefenseLabel" type="Label" parent="TopPanels/DefensiveStats/HBoxContainer/DefensiveLabels/DefenseHelp"]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Defense"
 vertical_alignment = 1
 
-[node name="ArmorHelp" type="BoxContainer" parent="TopPanels/DefensiveStats/HBoxContainer/DefensiveLabels"]
+[node name="ArmorHelp" type="BoxContainer" parent="TopPanels/DefensiveStats/HBoxContainer/DefensiveLabels" groups=["values"]]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_left = NodePath("../../../../OffensiveStats/HBoxContainer/Values/PierceBar")
@@ -166,14 +166,14 @@ focus_neighbor_bottom = NodePath("../ResistanceHelp")
 script = ExtResource("2_6g5y4")
 help_description = "Reduces damage from incoming damage from bows and similar weapons by -1."
 
-[node name="ArmorLabel" type="Label" parent="TopPanels/DefensiveStats/HBoxContainer/DefensiveLabels/ArmorHelp" groups=["values"]]
+[node name="ArmorLabel" type="Label" parent="TopPanels/DefensiveStats/HBoxContainer/DefensiveLabels/ArmorHelp"]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Armor"
 vertical_alignment = 1
 
-[node name="ResistanceHelp" type="BoxContainer" parent="TopPanels/DefensiveStats/HBoxContainer/DefensiveLabels"]
+[node name="ResistanceHelp" type="BoxContainer" parent="TopPanels/DefensiveStats/HBoxContainer/DefensiveLabels" groups=["values"]]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_left = NodePath("../../../../OffensiveStats/HBoxContainer/Values/IntelligenceBar")
@@ -184,7 +184,7 @@ script = ExtResource("2_6g5y4")
 help_description = "Reduces the damage tomes and intelligenceal weapons deal.
 It also lowers the accuracy of crimson staves by -10."
 
-[node name="ResistanceLabel" type="Label" parent="TopPanels/DefensiveStats/HBoxContainer/DefensiveLabels/ResistanceHelp" groups=["values"]]
+[node name="ResistanceLabel" type="Label" parent="TopPanels/DefensiveStats/HBoxContainer/DefensiveLabels/ResistanceHelp"]
 layout_mode = 2
 theme_type_variation = &"YellowLabel"
 text = "Resistance"
@@ -240,7 +240,7 @@ layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 0
 
-[node name="SkillHelp" type="BoxContainer" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels"]
+[node name="SkillHelp" type="BoxContainer" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels" groups=["left_nodes", "values"]]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_top = NodePath("../../../../../TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels/IntelligenceHelp")
@@ -249,7 +249,7 @@ focus_neighbor_bottom = NodePath("../SpeedHelp")
 script = ExtResource("2_6g5y4")
 help_description = "Increases hit rate by +2, and critical rate by +1."
 
-[node name="SkillLabel" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/SkillHelp" groups=["left_nodes", "values"]]
+[node name="SkillLabel" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/SkillHelp"]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
@@ -257,7 +257,7 @@ text = "Skill
 "
 vertical_alignment = 1
 
-[node name="SpeedHelp" type="BoxContainer" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels"]
+[node name="SpeedHelp" type="BoxContainer" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels" groups=["left_nodes", "values"]]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_left = NodePath(".")
@@ -267,14 +267,14 @@ focus_neighbor_bottom = NodePath("../LuckHelp")
 script = ExtResource("2_6g5y4")
 help_description = "Increases avoid rate by -2. Base value; can be reduced by heavy weapons."
 
-[node name="SpeedLabel" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/SpeedHelp" groups=["left_nodes", "values"]]
+[node name="SpeedLabel" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/SpeedHelp"]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Speed"
 vertical_alignment = 1
 
-[node name="LuckHelp" type="BoxContainer" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels"]
+[node name="LuckHelp" type="BoxContainer" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels" groups=["left_nodes", "values"]]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_top = NodePath("../SpeedHelp")
@@ -283,14 +283,14 @@ focus_neighbor_bottom = NodePath("../BuildHelp")
 script = ExtResource("2_6g5y4")
 help_description = "Increases hit rate, avoid rate, and critical avoid rate by +1 each."
 
-[node name="LuckHelp" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/LuckHelp" groups=["left_nodes", "values"]]
+[node name="LuckHelp" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/LuckHelp" groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Luck"
 vertical_alignment = 1
 
-[node name="BuildHelp" type="BoxContainer" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels"]
+[node name="BuildHelp" type="BoxContainer" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels" groups=["left_nodes", "values"]]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_top = NodePath("../LuckHelp")
@@ -300,14 +300,14 @@ script = ExtResource("2_6g5y4")
 help_description = "Reduces weapon weight and increases weight.
 Increases foot units' aid, decreases mounted units' aid."
 
-[node name="BuildLabel" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/BuildHelp" groups=["left_nodes", "values"]]
+[node name="BuildLabel" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/BuildHelp"]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Build"
 vertical_alignment = 1
 
-[node name="MovementHelp" type="BoxContainer" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels"]
+[node name="MovementHelp" type="BoxContainer" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels" groups=["left_nodes", "values"]]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_top = NodePath("../BuildHelp")
@@ -315,7 +315,7 @@ focus_neighbor_right = NodePath("../../Values/MovementBar")
 script = ExtResource("2_6g5y4")
 help_description = "Increases the amount of tiles that can be traversed in a turn."
 
-[node name="MovementLabel" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/MovementHelp" groups=["left_nodes", "values"]]
+[node name="MovementLabel" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/MovementHelp"]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
@@ -380,7 +380,7 @@ layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 0
 
-[node name="AuthorityHelp" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/OtherLabels"]
+[node name="AuthorityHelp" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/OtherLabels" groups=["values"]]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_left = NodePath("../../../../MiscStats/HBoxContainer/Values/SkillBar")
@@ -389,14 +389,14 @@ focus_neighbor_bottom = NodePath("../WeightHelp")
 script = ExtResource("2_6g5y4")
 help_description = "Grants +3 hit and avoid."
 
-[node name="AuthorityLabel" type="Label" parent="BottomPanels/Other/HBoxContainer/OtherLabels/AuthorityHelp" groups=["values"]]
+[node name="AuthorityLabel" type="Label" parent="BottomPanels/Other/HBoxContainer/OtherLabels/AuthorityHelp"]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Authority"
 vertical_alignment = 1
 
-[node name="WeightHelp" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/OtherLabels"]
+[node name="WeightHelp" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/OtherLabels" groups=["values"]]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_left = NodePath("../../../../MiscStats/HBoxContainer/Values/SpeedBar")
@@ -414,7 +414,7 @@ theme_type_variation = &"YellowLabel"
 text = "Weight"
 vertical_alignment = 1
 
-[node name="AidHelp" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/OtherLabels"]
+[node name="AidHelp" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/OtherLabels" groups=["values"]]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_left = NodePath("../../../../MiscStats/HBoxContainer/Values/LuckBar")
@@ -431,7 +431,7 @@ theme_type_variation = &"YellowLabel"
 text = "Aid"
 vertical_alignment = 1
 
-[node name="TravelerHelp" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/OtherLabels"]
+[node name="TravelerHelp" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/OtherLabels" groups=["values"]]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_left = NodePath("../../../../MiscStats/HBoxContainer/Values/BuildBar")
@@ -447,7 +447,7 @@ theme_type_variation = &"YellowLabel"
 text = "Traveler"
 vertical_alignment = 1
 
-[node name="StatusHelp" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/OtherLabels"]
+[node name="StatusHelp" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/OtherLabels" groups=["values"]]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_left = NodePath("../../../../MiscStats/HBoxContainer/Values/MovementBar")
