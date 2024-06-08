@@ -167,7 +167,8 @@ layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 4
 focus_neighbor_top = NodePath("../../LevelContainer")
-focus_neighbor_bottom = NodePath("../../HitPointsContainer/HPDescription")
+focus_neighbor_right = NodePath("../EXPStatHelp")
+focus_neighbor_bottom = NodePath("../../HitPointsContainer/HitPointsDescription")
 script = ExtResource("4_g30x5")
 help_description = "Experience. Used to bring the unit's level up. The value is the percentage to the next level."
 
@@ -181,6 +182,9 @@ text = "EXP"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
+focus_neighbor_left = NodePath("../EXPDescription")
+focus_neighbor_top = NodePath("../../LevelContainer")
+focus_neighbor_bottom = NodePath("../../HitPointsContainer/HitPointsStatHelp")
 theme_override_constants/separation = 0
 script = ExtResource("4_g30x5")
 
@@ -198,7 +202,7 @@ text = "%"
 [node name="HitPointsContainer" type="HBoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer"]
 layout_mode = 2
 
-[node name="HPDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/HitPointsContainer"]
+[node name="HitPointsDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/HitPointsContainer"]
 layout_mode = 2
 size_flags_horizontal = 2
 focus_neighbor_top = NodePath("../../EXPContainer/EXPDescription")
@@ -208,7 +212,7 @@ script = ExtResource("4_g30x5")
 help_description = "When this value reaches 0, the unit dies.
 The first value is the current value, the second is the maximum."
 
-[node name="HPLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/HitPointsContainer/HPDescription"]
+[node name="HPLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/HitPointsContainer/HitPointsDescription"]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
@@ -217,8 +221,8 @@ text = "Hit Points"
 [node name="HitPointsStatHelp" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/HitPointsContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-focus_neighbor_left = NodePath("../HPDescription")
-focus_neighbor_top = NodePath("../../EXPContainer/EXPDescription")
+focus_neighbor_left = NodePath("../HitPointsDescription")
+focus_neighbor_top = NodePath("../../EXPContainer/EXPStatHelp")
 focus_neighbor_bottom = NodePath("../../AttackContainer/AttackDescription")
 script = ExtResource("4_g30x5")
 
@@ -245,7 +249,7 @@ layout_mode = 2
 [node name="AttackLabelDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/AttackContainer"]
 layout_mode = 2
 size_flags_horizontal = 2
-focus_neighbor_top = NodePath("../../HitPointsContainer/HPDescription")
+focus_neighbor_top = NodePath("../../HitPointsContainer/HitPointsDescription")
 focus_neighbor_right = NodePath("../AttackDescription")
 focus_neighbor_bottom = NodePath("../../ASContainer/ASLabelDescription")
 script = ExtResource("4_g30x5")
