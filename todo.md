@@ -1,5 +1,4 @@
 # Minor
-* Fix help menu expanding in the x-axis while closing a small popup
 * Have attack tile selecting work more like in DS
 * Document exports
 

@@ -71,7 +71,7 @@ func display_text(
 
 func shrink() -> void:
 	if is_idle():
-		await _resize(Vector2(41, 0))
+		await _resize(Vector2i(0, 0))
 		get_popup_node().visible = false
 		_active = false
 		GameController.remove_from_input_stack()
