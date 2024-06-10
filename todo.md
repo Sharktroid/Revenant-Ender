@@ -1,5 +1,4 @@
 # Minor
-* Fix combat display item menu selection not changing with up/down
 * Add SFX when backing out of combat display
 * Document exports
 * Have ghost unit have higher z ordering

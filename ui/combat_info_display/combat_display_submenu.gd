@@ -26,7 +26,9 @@ func _update() -> void:
 
 
 func set_current_item_index(index: int) -> void:
+	get_current_item_node().deselect()
 	_current_item_index = index
+	get_current_item_node().select()
 
 
 func set_current_item_node(item: HelpContainer) -> void:
