@@ -53,7 +53,7 @@ const TOTAL_EFFORT_VALUE_LIMIT: float = INDIVIDUAL_EFFORT_VALUE_LIMIT * 4
 const BASE_EXP: int = 100
 ## The multiplier for the extra amount of experience to go from one level to the next
 ## compared to the previous level
-const EXP_MULTIPLIER: float = 2 ** (1.0 / 3)
+const EXP_MULTIPLIER: float = 2 ** (1.0 / 2)
 ## The amount of experience for killing an enemy in one round of combat
 const ONE_ROUND_EXP_BASE: float = float(BASE_EXP) / 3
 ## The amount of combat experience reserved for when an enemy is killed

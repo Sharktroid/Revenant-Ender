@@ -1,5 +1,4 @@
 # Minor
-* Set experience curve to sqrt2
 * Fix combat display item menu selection not changing with up/down
 * Add SFX when backing out of combat display
 * Document exports
