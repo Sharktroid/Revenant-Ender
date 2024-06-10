@@ -103,7 +103,6 @@ func _position_selected() -> void:
 				close()
 			else:
 				_unit.display_movement_tiles()
-				AudioPlayer.play_sound_effect(AudioPlayer.DESELECT)
 			CursorController.enable()
 	else:
 		AudioPlayer.play_sound_effect(AudioPlayer.DESELECT)

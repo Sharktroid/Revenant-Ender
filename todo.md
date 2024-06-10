@@ -1,5 +1,4 @@
 # Minor
-* Add SFX when backing out of combat display
 * Document exports
 * Have ghost unit have higher z ordering
 * Remove unit ranges while in selector

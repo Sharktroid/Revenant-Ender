@@ -83,6 +83,7 @@ func receive_input(event: InputEvent) -> void:
 		top_unit.equip_weapon(_old_weapon)
 		completed.emit(false)
 		_set_focus(false)
+		AudioPlayer.play_sound_effect(AudioPlayer.DESELECT)
 	elif event.is_action_pressed("up") and not Input.is_action_pressed("down"):
 		_weapon_index -= 1
 	elif event.is_action_pressed("down"):

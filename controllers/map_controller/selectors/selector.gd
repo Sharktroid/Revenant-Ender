@@ -55,6 +55,7 @@ func _exit_tree() -> void:
 
 
 func close() -> void:
+	AudioPlayer.play_sound_effect(AudioPlayer.DESELECT)
 	queue_free()
 
 
