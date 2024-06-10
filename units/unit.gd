@@ -701,15 +701,19 @@ func get_current_attack_tiles(pos: Vector2i, all_weapons: bool = false) -> Array
 
 
 ## Shows off the tiles the unit can attack from its current position.
-func display_current_attack_tiles(pos: Vector2i) -> void:
+func display_current_attack_tiles(
+	all_weapons: bool = false, pos: Vector2i = get_unit_path().back()
+) -> void:
+	hide_current_attack_tiles()
 	_current_attack_tiles_node = get_map().display_highlighted_tiles(
-		get_current_attack_tiles(pos), self, Map.TileTypes.ATTACK
+		get_current_attack_tiles(pos, all_weapons), self, Map.TileTypes.ATTACK
 	)
 
 
 ## Hides current attack tiles.
 func hide_current_attack_tiles() -> void:
-	_current_attack_tiles_node.queue_free()
+	if is_instance_valid(_current_attack_tiles_node):
+		_current_attack_tiles_node.queue_free()
 
 
 ## Refreshes tiles
@@ -786,28 +790,22 @@ func update_path(destination: Vector2i) -> void:
 	if _path.size() == 0:
 		_path.append(Vector2i(position))
 	# Sets destination to an adjacent tile to a unit if a unit is hovered and over an attack tile.
-	var movement_tiles: Array[Vector2i] = get_movement_tiles()
-	var all_attack_tiles: Array[Vector2i] = get_all_attack_tiles()
 	if (
-		not destination in movement_tiles
-		and destination in all_attack_tiles
-		and Utilities.get_tile_distance(get_unit_path()[-1], destination) > 1
+		CursorController.get_hovered_unit()
+		and Vector2i(CursorController.get_hovered_unit().position) in get_all_attack_tiles()
 	):
-		for unit: Unit in get_map().get_units():
-			if (
-				Vector2i(unit.position) in all_attack_tiles
-				and Vector2i(unit.position) == destination
-			):
-				var adjacent_movement_tiles: Array[Vector2i] = []
-				for tile_offset: Vector2i in Utilities.ADJACENT_TILES:
-					if Vector2i(unit.position) + tile_offset in movement_tiles:
-						adjacent_movement_tiles.append(Vector2i(unit.position) + tile_offset)
-				if adjacent_movement_tiles.size() > 0:
-					adjacent_movement_tiles.shuffle()
-					destination = (adjacent_movement_tiles)[0]
-					break
-
-	if destination in movement_tiles:
+		var adjacent_movement_tiles: Array[Vector2i] = []
+		for tile: Vector2i in Utilities.get_tiles(
+			CursorController.get_hovered_unit().position,
+			get_max_range(),
+			get_min_range(),
+			get_map().borders
+		):
+			if tile in get_movement_tiles():
+				adjacent_movement_tiles.append(tile)
+		if adjacent_movement_tiles.size() > 0:
+			destination = _get_nearest_path_tile(adjacent_movement_tiles)
+	if destination in get_movement_tiles():
 		# Gets the path
 		var total_cost: float = 0
 		for tile: Vector2i in _path:
@@ -818,7 +816,7 @@ func update_path(destination: Vector2i) -> void:
 		else:
 			if (
 				total_cost <= current_movement
-				and destination - get_unit_path()[-1] in Utilities.ADJACENT_TILES
+				and destination in Utilities.get_tiles(get_unit_path()[-1], 1, 1, get_map().borders)
 			):
 				_path.append(destination)
 			else:
@@ -1036,3 +1034,24 @@ func _get_greyscale_hair_palette() -> Array[Color]:
 		return palette
 	else:
 		return default_palette
+
+
+func _get_nearest_path_tile(tiles: Array[Vector2i]) -> Vector2i:
+	while _path.size() > 0:
+		if _path.back() in tiles:
+			return _path.back()
+		_path.pop_back()
+	var weighted_tiles: Dictionary = {}
+	for tile: Vector2i in tiles:
+		var tile_cost: int = ceili(
+			get_map().get_path_cost(
+				unit_class.get_movement_type(),
+				get_map().get_movement_path(unit_class.get_movement_type(), position, tile, faction)
+			)
+		)
+		if weighted_tiles.has(tile_cost):
+			(weighted_tiles[tile_cost] as Array[Vector2i]).append(tile)
+		else:
+			weighted_tiles[tile_cost] = [tile]
+
+	return (weighted_tiles[weighted_tiles.keys().min()] as Array[Vector2i]).pick_random()

@@ -1,3 +1,4 @@
+class_name CombatInfoDisplay
 extends SubViewportContainer
 
 signal completed(proceed: bool)
@@ -41,6 +42,7 @@ var _weapon_index: int = 0:
 		_weapon_index = posmod(_weapon_index, _current_weapons.size())
 		_update()
 		_item_menu.set_current_item_index(_weapon_index)
+		top_unit.display_current_attack_tiles()
 var _old_weapon: Weapon
 @onready var _item_menu := %ItemMenu as _COMBAT_DISPLAY_SUBMENU
 
@@ -60,13 +62,16 @@ func _ready() -> void:
 	_animate_double_sprite(%BottomDouble as Sprite2D)
 
 	modulate.a = 2.0 / 3
-	visible = false
 
 	for item: Item in top_unit.items:
 		if item is Weapon:
 			_all_weapons.append(item)
 
 	_item_menu.weapon_selected.connect(_on_weapon_selected)
+
+
+func _exit_tree() -> void:
+	top_unit.hide_current_attack_tiles()
 
 
 func receive_input(event: InputEvent) -> void:
@@ -94,8 +99,10 @@ func _set_focus(is_focused: bool) -> void:
 	_update()
 	if is_focused:
 		GameController.add_to_input_stack(self)
+		top_unit.display_current_attack_tiles()
 	else:
 		GameController.remove_from_input_stack()
+		top_unit.display_current_attack_tiles(true)
 
 
 func _get_current_weapon() -> Weapon:
@@ -103,6 +110,17 @@ func _get_current_weapon() -> Weapon:
 
 
 func _update() -> void:
+	if CursorController.screen_position.x < (Utilities.get_screen_size().x as float / 2):
+		position.x = Utilities.get_screen_size().x - size.x
+	else:
+		position.x = 0
+
+	distance = roundi(
+		Utilities.get_tile_distance(
+			top_unit.get_unit_path().back() as Vector2i, bottom_unit.position
+		)
+	)
+
 	_old_weapon = top_unit.get_current_weapon()
 	_current_weapons = []
 	for item: Item in _all_weapons:
@@ -115,6 +133,8 @@ func _update() -> void:
 
 	_item_menu.weapons = _current_weapons
 	top_unit.equip_weapon(_get_current_weapon())
+	if _focused:
+		top_unit.display_current_attack_tiles()
 	for half: String in ["Top", "Bottom"] as Array[String]:
 		var is_top: bool = half == "Top"
 		var current_unit: Unit = top_unit if is_top else bottom_unit
@@ -139,7 +159,8 @@ func _update() -> void:
 			str(current_unit.get_hit_rate(other_unit)) if in_range else "--"
 		)
 		(get_node(node_path % "CritDamage") as Label).text = (
-			Utilities.float_to_string(current_unit.get_crit_damage(other_unit)) if in_range
+			Utilities.float_to_string(current_unit.get_crit_damage(other_unit))
+			if in_range
 			else "--"
 		)
 		(get_node(node_path % "Crit") as Label).text = (

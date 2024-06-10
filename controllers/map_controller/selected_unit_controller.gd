@@ -74,8 +74,37 @@ func _update_ghost_unit() -> void:
 func _position_selected() -> void:
 	# Creates menu if cursor in _unit's tiles and is same faction as _unit.
 	if _unit.faction.name == MapController.map.get_current_faction().name:
-		AudioPlayer.play_sound_effect(AudioPlayer.MENU_SELECT)
-		_create_unit_menu()
+		if CursorController.map_position in _unit._movement_tiles:
+			AudioPlayer.play_sound_effect(AudioPlayer.MENU_SELECT)
+			_create_unit_menu()
+		elif (
+			CursorController.get_hovered_unit()
+			and CursorController.map_position in _unit.get_all_attack_tiles()
+		):
+			CursorController.disable()
+			_unit.hide_movement_tiles()
+			AudioPlayer.play_sound_effect(AudioPlayer.MENU_SELECT)
+			var info_display_scene := (
+				load("res://ui/combat_info_display/combat_info_display.tscn") as PackedScene
+			)
+			var info_display := info_display_scene.instantiate() as CombatInfoDisplay
+			info_display.top_unit = _unit
+			MapController.get_ui().add_child(info_display)
+			info_display.bottom_unit = CursorController.get_hovered_unit()
+			info_display.focus()
+			_unit.display_current_attack_tiles()
+			var completed: bool = await info_display.completed
+			_unit.hide_current_attack_tiles()
+			info_display.queue_free()
+			if completed:
+				await _unit.move()
+				await AttackController.combat(_unit, CursorController.get_hovered_unit())
+				_unit.wait()
+				close()
+			else:
+				_unit.display_movement_tiles()
+				AudioPlayer.play_sound_effect(AudioPlayer.DESELECT)
+			CursorController.enable()
 	else:
 		AudioPlayer.play_sound_effect(AudioPlayer.DESELECT)
 		close()

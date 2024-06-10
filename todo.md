@@ -1,6 +1,11 @@
 # Minor
-* Have attack tile selecting work more like in DS
+* Set experience curve to sqrt2
+* Fix combat display item menu selection not changing with up/down
+* Add SFX when backing out of combat display
 * Document exports
+* Have ghost unit have higher z ordering
+* Remove unit ranges while in selector
+* Have current attack tiles be based on the current weapon in info display
 
 # Major
 * Make certain scenes into objects that load the scenes to make the code less janky

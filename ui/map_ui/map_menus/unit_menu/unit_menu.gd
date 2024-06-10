@@ -95,16 +95,12 @@ func select_item(item: MapMenuItem) -> void:
 		"Attack":
 			var selector := AttackSelector.new(connected_unit, connected_unit.get_min_range(),
 					connected_unit.get_max_range(), _can_attack, CursorController.Icons.ATTACK)
-			var tiles: Array[Vector2i] = connected_unit.get_current_attack_tiles(
-					connected_unit.get_path_last_pos(), true)
-			var tiles_node: Node2D = MapController.map.display_highlighted_tiles(tiles,
-					connected_unit, Map.TileTypes.ATTACK)
 			var attack: Callable = func(selected_unit: Unit) -> void:
 				await connected_unit.move()
 				await AttackController.combat(connected_unit, selected_unit)
 				connected_unit.wait()
 				close()
-			_select_map(selector, tiles_node, attack)
+			_select_map(selector, Node2D.new(), attack)
 
 		"Wait":
 			_wait()
