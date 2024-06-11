@@ -1,10 +1,10 @@
 # Minor
-* Document exports
 * Have ghost unit have higher z ordering
 * Remove unit ranges while in selector
 * Have current attack tiles be based on the current weapon in info display
 
 # Major
+* Document classes
 * Make certain scenes into objects that load the scenes to make the code less janky
 * Add the remaining sub menus of the main map menu
 * Make attack Animations skippable

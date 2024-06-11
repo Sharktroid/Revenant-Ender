@@ -223,7 +223,6 @@ func _process(_delta: float) -> void:
 	if _animation_player.current_animation == "idle":
 		var anim_frame: int = floori((Engine.get_physics_frames() as float) / 16) % 4
 		frame = 1 if anim_frame == 3 else anim_frame
-	z_index = Utilities.round_coords_to_tile(position).y
 	update_shader()
 
 
