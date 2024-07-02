@@ -157,7 +157,6 @@ _data = {
 }
 
 [node name="UnitBase" type="Sprite2D" groups=["unit"]]
-y_sort_enabled = true
 material = SubResource("ShaderMaterial_lgtg6")
 centered = false
 offset = Vector2(-8, -8)

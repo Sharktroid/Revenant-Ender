@@ -21,6 +21,7 @@ func _init(connected_unit: Unit) -> void:
 	GameController.add_to_input_stack(self)
 	_unit.arrived.connect(_update_ghost_unit)
 	_update_ghost_unit()
+	_unit.z_index = 1
 
 
 func receive_input(event: InputEvent) -> void:
@@ -40,6 +41,7 @@ func close() -> void:
 	if hovered_unit and hovered_unit != _unit and not hovered_unit.dead:
 		hovered_unit.display_movement_tiles()
 	_unit.deselect.call_deferred()
+	_unit.z_index = 0
 
 
 func _on_cursor_moved() -> void:

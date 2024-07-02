@@ -56,8 +56,6 @@ tile_proxies/coords_level = [[0, Vector2i(0, 0)], [11, Vector2i(0, 0)], [1, Vect
 size = Vector2(7, 7)
 
 [node name="Map" type="ReferenceRect"]
-layout_mode = 3
-anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("2")
@@ -78,6 +76,7 @@ format = 2
 script = ExtResource("3_iwlk5")
 
 [node name="Units" type="Node2D" parent="MapLayer"]
+y_sort_enabled = true
 
 [node name="CursorArea" type="Area2D" parent="MapLayer"]
 visible = false
