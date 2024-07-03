@@ -1,3 +1,4 @@
+class_name PhaseDisplay
 extends ReferenceRect
 
 @onready var _canvas_group := $CanvasGroup as CanvasGroup
@@ -6,7 +7,16 @@ extends ReferenceRect
 @onready var _darken_panel := $DarkenPanel as Panel
 
 
+static func instantiate(faction: Faction) -> PhaseDisplay:
+	var scene := (
+		preload("res://maps/phase_display/phase_display.tscn").instantiate() as PhaseDisplay
+	)
+	scene.play(faction)
+	return scene
+
+
 func play(faction: Faction) -> void:
+	await ready
 	_canvas_group.self_modulate.a = 0
 	_darken_panel.modulate.a = 0
 	AudioPlayer.play_sound_effect(preload("res://audio/sfx/phase_change.ogg"))

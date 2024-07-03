@@ -1,3 +1,4 @@
+class_name MapCombatDisplay
 extends HBoxContainer
 
 const V_MOD: int = 32
@@ -20,3 +21,13 @@ func _enter_tree() -> void:
 	)
 	if position.y + size.y > Utilities.get_screen_size().y:
 		position.y -= (size.y + V_MOD * 2)
+
+
+static func instantiate(new_attacker: Unit, new_defender: Unit) -> MapCombatDisplay:
+	const PACKED_SCENE: PackedScene = preload(
+		"res://controllers/attack controller/map_combat_display.tscn"
+	)
+	var scene := PACKED_SCENE.instantiate() as MapCombatDisplay
+	scene.attacker = new_attacker
+	scene.defender = new_defender
+	return scene

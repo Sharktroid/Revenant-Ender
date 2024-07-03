@@ -1,11 +1,21 @@
 # Minor
-* Have ghost unit have higher z ordering
-* Remove unit ranges while in selector
-* Have current attack tiles be based on the current weapon in info display
+* Remove unnecessary callables
+* Have get_all_attack_tiles call Utilites.get_tiles only once
+* Have weapon triangle use enums
+* Make all bows 1-3 range but have a penalty at 1-range
+* Have phase display code in map controller be moved to phase display
+* Fix trade jank
+* Add sfx when action cannot be performed
+* Disable drop command when there is no valid drop target
+* Have classes called only once be called via constants instead of class names
+* Rename "Swap" to "Exchange"
+* Have Movement Arrow logic be handled by the scene instead of the unit
+* Have level up play sfx even when volume is muted
 
 # Major
+* Make variables private if possible
+* Add options config for volume
 * Document classes
-* Make certain scenes into objects that load the scenes to make the code less janky
 * Add the remaining sub menus of the main map menu
 * Make attack Animations skippable
 * Implement durability

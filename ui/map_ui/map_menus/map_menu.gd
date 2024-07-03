@@ -8,7 +8,6 @@ var offset: Vector2:
 var parent_menu: MapMenu
 ## If true, the menu will move to the left if on the right side of the screen
 var _to_center: bool = true
-
 var _current_item_index: int = 0:
 	set(value):
 		_current_item_index = posmod(value, _get_visible_children().size())
@@ -90,3 +89,13 @@ func _get_visible_children() -> Array[MapMenuItem]:
 		if (child as MapMenuItem).visible == true:
 			children.append(child)
 	return children
+
+
+static func _base_instantiate(
+	packed_scene: PackedScene, new_offset: Vector2, parent: MapMenu
+) -> MapMenu:
+	print_debug(packed_scene.instantiate().get_script())
+	var scene := packed_scene.instantiate() as MapMenu
+	scene.offset = new_offset
+	scene.parent_menu = parent
+	return scene

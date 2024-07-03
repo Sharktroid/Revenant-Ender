@@ -945,13 +945,14 @@ func _render_status() -> void:
 func _on_area2d_area_entered(area: Area2D) -> void:
 	# When cursor enters unit's area
 	if area == CursorController.get_area() and visible:
-		var selecting: bool = (
-			(GameController.get_current_input_node() as Node) is SelectedUnitController
-		)
 		var can_be_selected: bool = true
 		if is_instance_valid(CursorController.get_hovered_unit()):
-			can_be_selected = not CursorController.get_hovered_unit().selected or selecting
-		if can_be_selected and not (selected or selecting or waiting or dead):
+			can_be_selected = not CursorController.get_hovered_unit().selected
+		if (
+			can_be_selected
+			and not (selected or waiting or dead)
+			and (GameController.get_current_input_node() as Node) is Map
+		):
 			display_movement_tiles()
 
 

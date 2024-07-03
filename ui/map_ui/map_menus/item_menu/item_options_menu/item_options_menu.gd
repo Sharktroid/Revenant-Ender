@@ -1,3 +1,4 @@
+class_name ItemOptionsMenu
 extends MapMenu
 var item: Item
 var unit: Unit
@@ -14,6 +15,18 @@ func _enter_tree() -> void:
 	super()
 
 
+static func instantiate(
+	new_offset: Vector2, parent: MapMenu, connected_unit: Unit = null, displayed_item: Item = null
+) -> ItemOptionsMenu:
+	const PACKED_SCENE = preload(
+		"res://ui/map_ui/map_menus/item_menu/item_options_menu/item_options_menu.tscn"
+	)
+	var scene := _base_instantiate(PACKED_SCENE, new_offset, parent) as ItemOptionsMenu
+	scene.unit = connected_unit
+	scene.item = displayed_item
+	return scene
+
+
 func select_item(menu_item: MapMenuItem) -> void:
 	match menu_item.name:
 		"Equip":
@@ -23,16 +36,12 @@ func select_item(menu_item: MapMenuItem) -> void:
 			item.use()
 			close()
 		"Drop":
-			const MENU_PATH: String = (
-				"res://ui/map_ui/map_menus/confirmation_map_menu/confirmation_map_menu."
+			const Menu = preload(
+				"res://ui/map_ui/map_menus/confirmation_map_menu/confirmation_map_menu.gd"
 			)
-			const Menu = preload(MENU_PATH + "gd")
-			var menu := (load(MENU_PATH + "tscn") as PackedScene).instantiate() as Menu
-			menu.offset = offset + Vector2(16, 16)
-			menu.parent_menu = self
+			var menu := Menu.instantiate(offset + Vector2(16, 16), self)
 			MapController.get_ui().add_child(menu)
 			if await menu.selection_made:
 				unit.drop(item)
 				close()
-			menu.queue_free()
 	super(menu_item)

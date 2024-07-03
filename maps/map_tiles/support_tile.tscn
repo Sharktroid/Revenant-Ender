@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://m1ftciv3g7t1"]
+[gd_scene load_steps=4 format=3 uid="uid://m1ftciv3g7t1"]
 
 [ext_resource type="PackedScene" uid="uid://c8vpqlssnmggo" path="res://maps/map_tiles/movement_tile.tscn" id="1_ykdpk"]
 [ext_resource type="Texture2D" uid="uid://cg8bmiuqqwk72" path="res://maps/map_tiles/green_tile.png" id="2_eeh3a"]
+[ext_resource type="Script" path="res://maps/map_tiles/support_tile.gd" id="3_wybm0"]
 
 [node name="SupportTile" instance=ExtResource("1_ykdpk")]
 texture = ExtResource("2_eeh3a")
+script = ExtResource("3_wybm0")

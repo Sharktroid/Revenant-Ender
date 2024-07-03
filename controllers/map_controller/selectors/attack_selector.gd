@@ -14,14 +14,11 @@ func _init(
 ) -> void:
 	CursorController.moved.connect(_cursor_moved)
 	super(connected_unit, min_range, max_range, condition, icon, selection_sound_effect)
+	name = "AttackSelector"
 
 
 func _ready() -> void:
-	const INFO_DISPLAY_SCENE: PackedScene = preload(
-		"res://ui/combat_info_display/combat_info_display.tscn"
-	)
-	_info_display = INFO_DISPLAY_SCENE.instantiate() as CombatInfoDisplay
-	_info_display.top_unit = unit
+	_info_display = CombatInfoDisplay.instantiate(unit) as CombatInfoDisplay
 	MapController.get_ui().add_child(_info_display)
 	_update_bottom_unit()
 	unit.display_current_attack_tiles(true)

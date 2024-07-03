@@ -1,3 +1,4 @@
+class_name EXPBar
 extends ReferenceRect
 
 const _TRANSITION_DURATION: float = 8.0 / 60
@@ -12,7 +13,15 @@ func _ready() -> void:
 	_update()
 
 
+static func instantiate(observed_unit: Unit, experience: float) -> EXPBar:
+	var scene := preload("res://ui/exp_bar/exp_bar.tscn").instantiate() as EXPBar
+	scene.observing_unit = observed_unit
+	scene.play(experience)
+	return scene
+
+
 func play(experience: float) -> void:
+	await ready
 	await display()
 	await get_tree().create_timer(0.25).timeout
 
@@ -36,11 +45,7 @@ func play(experience: float) -> void:
 	if observing_unit.level > old_level:
 		await AudioPlayer.pause_track()
 		await get_tree().create_timer(0.5).timeout
-		const LVL_UP_PATH = "res://ui/level_up_screen/level_up_screen."
-		const LevelUp = preload(LVL_UP_PATH + "gd")
-		var level_up_screen := preload(LVL_UP_PATH + "tscn").instantiate() as LevelUp
-		level_up_screen.unit = observing_unit
-		level_up_screen.old_level = old_level
+		var level_up_screen := LevelUp.instantiate(observing_unit, old_level)
 		MapController.get_ui().add_child(level_up_screen)
 		await level_up_screen.tree_exited
 		GameController.remove_from_input_stack()

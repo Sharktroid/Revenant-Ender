@@ -1,18 +1,13 @@
 class_name TradeMenu
 extends Control
 
-const _ITEM_LABEL_PATH: String = (
-		"res://ui/map_ui/map_menus/trade_menu/trade_menu_item/trade_menu_item."
-)
-const _ITEM_LABEL = preload(_ITEM_LABEL_PATH + "gd")
-const _ITEM_LABEL_SCENE: PackedScene = preload(_ITEM_LABEL_PATH + "tscn")
-const _ITEM_GROUP: StringName = &"item_group"
+const ITEM_GROUP: StringName = &"trade_menu_item_group"
 
 var left_unit: Unit
 var right_unit: Unit
-var current_label: _ITEM_LABEL
-var selected_label: _ITEM_LABEL
-var empty_bar: _ITEM_LABEL
+var current_label: TradeMenuItem
+var selected_label: TradeMenuItem
+var empty_bar: TradeMenuItem
 
 
 func _ready() -> void:
@@ -31,6 +26,15 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	($SelectionHand as Sprite2D).position = current_label.global_position.round()
+
+
+static func instantiate(left: Unit, right: Unit) -> TradeMenu:
+	var scene := (
+		preload("res://ui/map_ui/map_menus/trade_menu/trade_menu.tscn").instantiate() as TradeMenu
+	)
+	scene.left_unit = left
+	scene.right_unit = right
+	return scene
 
 
 func receive_input(event: InputEvent) -> void:
@@ -68,8 +72,7 @@ func receive_input(event: InputEvent) -> void:
 			var selected_hand := $SelectedHand as Sprite2D
 			selected_hand.visible = true
 			selected_hand.position = selected_label.global_position.round()
-			empty_bar = _ITEM_LABEL_SCENE.instantiate() as _ITEM_LABEL
-			empty_bar.parent_menu = self
+			empty_bar = TradeMenuItem.instantiate(null, null, self)
 			var new_parent: VBoxContainer = _get_other_parent(current_label)
 			new_parent.add_child(empty_bar)
 			_change_current_label(new_parent, new_parent.get_children().size() - 1)
@@ -100,7 +103,7 @@ func _get_unit(label: ItemLabel) -> Unit:
 
 
 func _update() -> void:
-	get_tree().call_group(_ITEM_GROUP, "queue_free")
+	get_tree().call_group(ITEM_GROUP, "queue_free")
 	current_label = null
 	_add_items(left_unit, %LeftItems as VBoxContainer)
 	_add_items(right_unit, %RightItems as VBoxContainer)
@@ -114,16 +117,12 @@ func _reset() -> void:
 
 
 func _change_current_label(parent: Node, index: int) -> void:
-	current_label = parent.get_child(posmod(index, parent.get_children().size())) as _ITEM_LABEL
+	current_label = parent.get_child(posmod(index, parent.get_children().size())) as TradeMenuItem
 
 
 func _add_items(unit: Unit, container: VBoxContainer) -> void:
 	for item: Item in unit.items:
-		var item_label := _ITEM_LABEL_SCENE.instantiate() as _ITEM_LABEL
-		item_label.item = item
-		item_label.set_equip_status(unit)
-		item_label.parent_menu = self
+		var item_label := TradeMenuItem.instantiate(item, unit, self)
 		if not current_label:
 			current_label = item_label
 		container.add_child(item_label)
-		item_label.add_to_group(_ITEM_GROUP)

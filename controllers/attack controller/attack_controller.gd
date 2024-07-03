@@ -29,11 +29,7 @@ func receive_input(_event: InputEvent) -> void:
 
 
 func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[CombatStage]) -> void:
-	const HP_BAR_PATH: String = "res://controllers/attack controller/map_battle_info_display."
-	const MapBattleHpBar = preload(HP_BAR_PATH + "gd")
-	var hp_bar := preload(HP_BAR_PATH + "tscn").instantiate() as MapBattleHpBar
-	hp_bar.attacker = attacker
-	hp_bar.defender = defender
+	var hp_bar := MapCombatDisplay.instantiate(attacker, defender)
 	MapController.get_ui().add_child(hp_bar)
 	var attacker_animation: MapAttack = await MapAttack.new(attacker, defender.position)
 	attacker.get_parent().add_child(attacker_animation)
@@ -142,15 +138,11 @@ func _get_combat_exp(distributing_unit: Unit, damage: float) -> float:
 func _give_exp(recieving_unit: Unit, distributing_unit: Unit, old_hp: float) -> void:
 	if not recieving_unit.dead:
 		if recieving_unit.faction.player_type == Faction.PlayerTypes.HUMAN:
-			const EXP_BAR_PATH: String = "res://ui/exp_bar/exp_bar."
-			const EXP_BAR_SCENE: PackedScene = preload(EXP_BAR_PATH + "tscn")
-			const ExpBar = preload(EXP_BAR_PATH + "gd")
-			var exp_bar := EXP_BAR_SCENE.instantiate() as ExpBar
-			exp_bar.observing_unit = recieving_unit
-			MapController.get_ui().add_child(exp_bar)
-			exp_bar.play(
+			var exp_bar := EXPBar.instantiate(
+				recieving_unit,
 				_get_combat_exp(distributing_unit, old_hp - distributing_unit.current_health)
 			)
+			MapController.get_ui().add_child(exp_bar)
 			await exp_bar.tree_exited
 		else:
 			recieving_unit.total_exp += _get_combat_exp(
@@ -167,11 +159,13 @@ class CombatStage:
 	func _init(attacking_unit: Unit, defending_unit: Unit) -> void:
 		attacker = attacking_unit
 		defender = defending_unit
-		var did_hit: bool = attacker.get_hit_rate(defender) > randi_range(0, 99)
-		attack_type = (
-			AttackTypes.MISS if not did_hit
-			else (
-				AttackTypes.CRIT if attacker.get_crit_rate(defender) > randi_range(0, 99)
-				else AttackTypes.HIT
-			)
-		)
+		attack_type = _generate_attack_type()
+
+	func _generate_attack_type() -> AttackTypes:
+		if attacker.get_hit_rate(defender) > randi_range(0, 99):
+			if attacker.get_crit_rate(defender) > randi_range(0, 99):
+				return AttackTypes.CRIT
+			else:
+				return AttackTypes.HIT
+		else:
+			return AttackTypes.MISS

@@ -1,3 +1,4 @@
+class_name MainMapMenu
 extends MapMenu
 
 
@@ -5,13 +6,17 @@ func _init() -> void:
 	_to_center = true
 
 
+static func instantiate(new_offset: Vector2, parent: MapMenu = null) -> MapMenu:
+	return _base_instantiate(
+		preload("res://ui/map_ui/map_menus/main_map_menu/main_map_menu.tscn"), new_offset, parent
+	)
+
+
 func select_item(item: MapMenuItem) -> void:
 	match item.name:
 		"Debug":
-			const DebugMenu = preload("res://ui/map_ui/map_menus/debug_menu/debug_menu.tscn")
-			var menu: MapMenu = DebugMenu.instantiate()
-			menu.offset = offset
-			menu.parent_menu = self
+			const DebugMenu = preload("res://ui/map_ui/map_menus/debug_menu/debug_menu.gd")
+			var menu := DebugMenu.instantiate(offset, self)
 			MapController.get_ui().add_child(menu)
 			visible = false
 		"End":

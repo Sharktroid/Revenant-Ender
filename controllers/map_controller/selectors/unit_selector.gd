@@ -4,6 +4,18 @@ extends Selector
 signal selected(unit: Unit)
 
 
+func _init(
+	connected_unit: Unit,
+	min_range: int,
+	max_range: float,
+	condition: Callable,
+	icon: CursorController.Icons = CursorController.Icons.NONE,
+	selection_sound_effect: AudioStream = AudioPlayer.MENU_SELECT
+) -> void:
+	name = "UnitSelector"
+	super(connected_unit, min_range, max_range, condition, icon, selection_sound_effect)
+
+
 func _position_selected() -> void:
 	if _can_select():
 		selected.emit(CursorController.get_hovered_unit())

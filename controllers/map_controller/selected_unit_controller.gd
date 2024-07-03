@@ -86,14 +86,10 @@ func _position_selected() -> void:
 			CursorController.disable()
 			_unit.hide_movement_tiles()
 			AudioPlayer.play_sound_effect(AudioPlayer.MENU_SELECT)
-			var info_display_scene := (
-				load("res://ui/combat_info_display/combat_info_display.tscn") as PackedScene
+			var info_display := CombatInfoDisplay.instantiate(
+				_unit, CursorController.get_hovered_unit(), true
 			)
-			var info_display := info_display_scene.instantiate() as CombatInfoDisplay
-			info_display.top_unit = _unit
 			MapController.get_ui().add_child(info_display)
-			info_display.bottom_unit = CursorController.get_hovered_unit()
-			info_display.focus()
 			_unit.display_current_attack_tiles()
 			var completed: bool = await info_display.completed
 			_unit.hide_current_attack_tiles()
@@ -113,12 +109,9 @@ func _position_selected() -> void:
 
 func _create_unit_menu() -> void:
 	## Creates _unit menu.
-	const MenuScript = preload("res://ui/map_ui/map_menus/unit_menu/unit_menu.gd")
-	var menu_node := load("res://ui/map_ui/map_menus/unit_menu/unit_menu.tscn") as PackedScene
-	var menu := menu_node.instantiate() as MenuScript
-	menu.connected_unit = _unit
-	menu.offset = CursorController.screen_position + Vector2i(16, 0)
-	menu.caller = self
+	var menu := UnitMenu.instantiate(
+		CursorController.screen_position + Vector2i(16, 0), null, self, _unit
+	)
 	CursorController.disable()
 	MapController.get_ui().add_child(menu)
 

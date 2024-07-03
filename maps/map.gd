@@ -74,13 +74,8 @@ func receive_input(event: InputEvent) -> void:
 
 	elif event.is_action_pressed("status"):
 		if CursorController.get_hovered_unit():
-			const StatusScreen = preload("res://ui/map_ui/status_screen/status_screen.gd")
-			const STATUS_SCREEN_SCENE: PackedScene = preload(
-				"res://ui/map_ui/status_screen/status_screen.tscn"
-			)
 			AudioPlayer.play_sound_effect(AudioPlayer.MENU_SELECT)
-			var status_menu := STATUS_SCREEN_SCENE.instantiate() as StatusScreen
-			status_menu.observing_unit = CursorController.get_hovered_unit()
+			var status_menu := StatusScreen.instantiate(CursorController.get_hovered_unit())
 			MapController.get_ui().add_child(status_menu)
 			GameController.add_to_input_stack(status_menu)
 			CursorController.disable()
@@ -208,23 +203,23 @@ func display_tiles(
 ) -> Node2D:
 	var tiles_node := Node2D.new()
 	tiles_node.name = "%s Move Tiles" % name
-	var current_tile_base: PackedScene
-	const ATTACK_TILE_NODE: PackedScene = preload("res://maps/map_tiles/attack_tile.tscn")
-	const MOVEMENT_TILE_NODE: PackedScene = preload("res://maps/map_tiles/movement_tile.tscn")
-	const SUPPORT_TILE_NODE: PackedScene = preload("res://maps/map_tiles/support_tile.tscn")
+	var current_tile_base := MovementTile
 	match type:
 		TileTypes.ATTACK:
-			current_tile_base = ATTACK_TILE_NODE
+			current_tile_base = AttackTile
 		TileTypes.MOVEMENT:
-			current_tile_base = MOVEMENT_TILE_NODE
+			current_tile_base = MovementTile
 		TileTypes.SUPPORT:
-			current_tile_base = SUPPORT_TILE_NODE
+			current_tile_base = SupportTile
 	for i: Vector2i in tiles:
-		var tile := current_tile_base.instantiate() as Sprite2D
-		tile.name = "Tile"
-		tile.position = Vector2(i)
-		if Utilities.xor(not (i in modulate_blacklist), blacklist_as_whitelist):
-			tile.modulate.a = modulation
+		var tile := current_tile_base.instantiate(
+			Vector2(i),
+			(
+				modulation
+				if Utilities.xor(not (i in modulate_blacklist), blacklist_as_whitelist)
+				else 0.0
+			)
+		)
 		tiles_node.add_child(tile)
 	get_node("MapLayer/BaseLayer").add_child(tiles_node)
 	return tiles_node

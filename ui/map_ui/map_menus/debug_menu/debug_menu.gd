@@ -10,6 +10,12 @@ func _enter_tree() -> void:
 	super()
 
 
+static func instantiate(new_offset: Vector2, parent: MapMenu = null) -> MapMenu:
+	return _base_instantiate(
+		preload("res://ui/map_ui/map_menus/debug_menu/debug_menu.tscn"), new_offset, parent
+	)
+
+
 func select_item(item: MapMenuItem) -> void:
 	match item.name:
 		"UnitWait":
@@ -38,7 +44,7 @@ func select_item(item: MapMenuItem) -> void:
 				Utilities.DebugConfigKeys.DISPLAY_MAP_CURSOR
 			)
 
-		"Print Input Reciever":
+		"PrintInputReciever":
 			Utilities.invert_debug_value(Utilities.DebugConfigKeys.PRINT_INPUT_RECIEVER)
 
 		"PrintCursorPosition":
@@ -67,12 +73,9 @@ func select_item(item: MapMenuItem) -> void:
 func _update_items() -> void:
 	var values: Dictionary = {
 		"UnitWait": Utilities.get_debug_value(Utilities.DebugConfigKeys.UNIT_WAIT),
-		"DisplayBorders":
-		Utilities.get_debug_value(Utilities.DebugConfigKeys.DISPLAY_MAP_BORDERS),
-		"DisplayTerrain":
-		Utilities.get_debug_value(Utilities.DebugConfigKeys.DISPLAY_MAP_TERRAIN),
-		"DisplayMapCursor":
-		Utilities.get_debug_value(Utilities.DebugConfigKeys.DISPLAY_MAP_CURSOR),
+		"DisplayBorders": Utilities.get_debug_value(Utilities.DebugConfigKeys.DISPLAY_MAP_BORDERS),
+		"DisplayTerrain": Utilities.get_debug_value(Utilities.DebugConfigKeys.DISPLAY_MAP_TERRAIN),
+		"DisplayMapCursor": Utilities.get_debug_value(Utilities.DebugConfigKeys.DISPLAY_MAP_CURSOR),
 		"PrintInputReciever":
 		Utilities.get_debug_value(Utilities.DebugConfigKeys.PRINT_INPUT_RECIEVER),
 		"DisplayFrameRate": Utilities.get_debug_value(Utilities.DebugConfigKeys.SHOW_FPS),

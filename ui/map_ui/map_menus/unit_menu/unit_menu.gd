@@ -1,3 +1,4 @@
+class_name UnitMenu
 extends MapMenu
 
 var connected_unit: Unit
@@ -24,6 +25,14 @@ func _enter_tree() -> void:
 		close(true)
 	else:
 		super()
+
+
+static func instantiate(
+	new_offset: Vector2, parent: MapMenu, unit_controller: SelectedUnitController, unit: Unit
+) -> UnitMenu:
+	const PACKED_SCENE = preload("res://ui/map_ui/map_menus/unit_menu/unit_menu.tscn")
+	var scene: UnitMenu = _base_instantiate(PACKED_SCENE, new_offset, parent, unit_controller, unit)
+	return scene
 
 
 func receive_input(event: InputEvent) -> void:
@@ -65,7 +74,10 @@ func update() -> void:
 		# Gets all adjacent units
 		for unit: Unit in MapController.map.get_units():
 			if unit != connected_unit and unit.visible == true:
-				if Utilities.get_tile_distance(CursorController.map_position, unit.get_position()) == 1:
+				if (
+					Utilities.get_tile_distance(CursorController.map_position, unit.get_position())
+					== 1
+				):
 					# Adjacent units
 					if connected_unit.is_friend(unit):
 						if connected_unit.items.size() > 0 and unit.items.size() > 0:
@@ -83,7 +95,7 @@ func update() -> void:
 				if _can_attack(unit):
 					enabled_items.Attack = true
 	else:
-		if (CursorController.get_hovered_unit() and _can_attack(CursorController.get_hovered_unit())):
+		if CursorController.get_hovered_unit() and _can_attack(CursorController.get_hovered_unit()):
 			enabled_items.Attack = true
 	for node: MapMenuItem in _get_item_nodes():
 		node.visible = enabled_items[node.name]
@@ -93,133 +105,73 @@ func update() -> void:
 func select_item(item: MapMenuItem) -> void:
 	match item.name:
 		"Attack":
-			var selector := AttackSelector.new(connected_unit, connected_unit.get_min_range(),
-					connected_unit.get_max_range(), _can_attack, CursorController.Icons.ATTACK)
-			var attack: Callable = func(selected_unit: Unit) -> void:
-				await connected_unit.move()
-				await AttackController.combat(connected_unit, selected_unit)
-				connected_unit.wait()
-				close()
-			_select_map(selector, Node2D.new(), attack)
+			print_debug(_can_attack)
+			var selector := AttackSelector.new(
+				connected_unit,
+				connected_unit.get_min_range(),
+				connected_unit.get_max_range(),
+				_can_attack,
+				CursorController.Icons.ATTACK
+			)
+			_select_map(selector, Node2D.new(), _attack)
 
 		"Wait":
 			_wait()
 
 		"Trade":
 			var selector := UnitSelector.new(connected_unit, 1, 1, connected_unit.is_friend)
-			var trade: Callable = func(selected_unit: Unit) -> void:
-				const MENU_NODE: PackedScene = \
-						preload("res://ui/map_ui/map_menus/trade_menu/trade_menu.tscn")
-				var menu := MENU_NODE.instantiate() as TradeMenu
-				menu.left_unit = connected_unit
-				menu.right_unit = selected_unit
-				MapController.get_ui().add_child(menu)
-				CursorController.disable()
-				visible = false
-				await menu.tree_exited
-				await unactionable()
-				visible = true
-				reset_size()
-				_current_item_index -= 1
-			_select_map(selector, _display_adjacent_support_tiles(), trade)
+			_select_map(selector, _display_adjacent_support_tiles(), _trade)
 
 		"Items":
-			const MENU_PATH: String = "res://ui/map_ui/map_menus/item_menu/item_menu."
-			const Menu = preload(MENU_PATH + "gd")
-			const MENU_SCENE: PackedScene = preload(MENU_PATH + "tscn")
-			var menu := MENU_SCENE.instantiate() as Menu
-			menu.offset = offset
-			menu.parent_menu = self
-			menu.connected_unit = connected_unit
+			var menu := ItemMenu.instantiate(offset, self, connected_unit)
 			MapController.get_ui().add_child(menu)
 			visible = false
 
 		"Rescue":
 			var selector := UnitSelector.new(connected_unit, 1, 1, connected_unit.can_rescue)
-			var rescue: Callable = func(selected_unit: Unit) -> void:
-				AudioPlayer.play_sound_effect(AudioPlayer.BATTLE_SELECT)
-				await connected_unit.move()
-				await selected_unit.move(connected_unit.position)
-				selected_unit.visible = false
-				connected_unit.traveler = selected_unit
-				_check_canto()
-				close()
-			_select_map(selector, _display_adjacent_support_tiles(), rescue)
+			_select_map(selector, _display_adjacent_support_tiles(), _rescue)
 
 		"Drop":
-			var tiles_node: Node2D = (MapController.map as Map).display_tiles(_get_drop_tiles(),
-					Map.TileTypes.SUPPORT)
-			var drop: Callable = func(dropped_tile: Vector2i) -> void:
-				var traveler: Unit = connected_unit.traveler
-				await connected_unit.move()
-				traveler.visible = true
-				traveler.position = connected_unit.position
-				connected_unit.traveler = null
-				await traveler.move(dropped_tile)
-				_check_canto()
-				close()
-			var tile_selector := TileSelector.new(connected_unit, 1, 1, _can_drop,
-					CursorController.Icons.NONE, AudioPlayer.BATTLE_SELECT)
-			_select_map(tile_selector, tiles_node, drop)
+			var tiles_node: Node2D = (MapController.map as Map).display_tiles(
+				_get_drop_tiles(), Map.TileTypes.SUPPORT
+			)
+			var tile_selector := TileSelector.new(
+				connected_unit,
+				1,
+				1,
+				_can_drop,
+				CursorController.Icons.NONE,
+				AudioPlayer.BATTLE_SELECT
+			)
+			_select_map(tile_selector, tiles_node, _drop)
 
 		"Take":
-			var can_take: Callable = func(unit: Unit) -> bool:
-				return connected_unit.is_friend(unit) and unit.traveler
-			var take: Callable = func(unit: Unit) -> void:
-				await unactionable()
-				var traveler: Unit = unit.traveler
-				connected_unit.traveler = traveler
-				unit.traveler = null
-				traveler.visible = true
-				await traveler.move(connected_unit.position)
-				traveler.visible = false
-				traveler.wait()
-				visible = true
-				update()
-				CursorController.disable()
-			_select_map(UnitSelector.new(connected_unit, 1, 1, can_take),
-					_display_adjacent_support_tiles(), take)
+			var unit_selector := UnitSelector.new(
+				connected_unit,
+				1,
+				1,
+				func(unit: Unit) -> bool: return connected_unit.is_friend(unit) and unit.traveler
+			)
+			_select_map(unit_selector, _display_adjacent_support_tiles(), _take)
 
 		"Give":
-			var can_give: Callable = func(unit: Unit) -> bool:
-				return connected_unit.is_friend(unit) and not unit.traveler
-			var give: Callable = func(unit: Unit) -> void:
-				await unactionable()
-				var traveler: Unit = connected_unit.traveler
-				unit.traveler = traveler
-				connected_unit.traveler = null
-				traveler.visible = true
-				await traveler.move(unit.position)
-				traveler.visible = false
-				traveler.wait()
-				visible = true
-				update()
-				CursorController.disable()
-			_select_map(UnitSelector.new(connected_unit, 1, 1, can_give),
-					_display_adjacent_support_tiles(), give)
+			var can_give: Callable = func(unit: Unit) -> bool: return (
+				connected_unit.is_friend(unit) and not unit.traveler
+			)
+			_select_map(
+				UnitSelector.new(connected_unit, 1, 1, can_give),
+				_display_adjacent_support_tiles(),
+				_give
+			)
 
 		"Swap":
-			var can_swap: Callable = func(unit: Unit) -> bool:
-				return connected_unit.is_friend(unit) and unit.traveler
-			var swap: Callable = func(unit: Unit) -> void:
-				await unactionable()
-				var old_traveler: Unit = connected_unit.traveler
-				var new_traveler: Unit = unit.traveler
-				connected_unit.traveler = new_traveler
-				unit.traveler = old_traveler
-				old_traveler.visible = true
-				new_traveler.visible = true
-				old_traveler.move(unit.position)
-				await new_traveler.move(connected_unit.position)
-				old_traveler.visible = false
-				new_traveler.visible = false
-				old_traveler.wait()
-				new_traveler.wait()
-				visible = true
-				update()
-				CursorController.disable()
-			_select_map(UnitSelector.new(connected_unit, 1, 1, can_swap),
-					_display_adjacent_support_tiles(), swap)
+			var unit_selector := UnitSelector.new(
+				connected_unit,
+				1,
+				1,
+				func(unit: Unit) -> bool: return connected_unit.is_friend(unit) and unit.traveler
+			)
+			_select_map(unit_selector, _display_adjacent_support_tiles(), _swap)
 	super(item)
 
 
@@ -230,8 +182,10 @@ func unactionable() -> void:
 
 func _play_select_sound_effect(item: MapMenuItem) -> void:
 	match item.name:
-		"Wait": AudioPlayer.play_sound_effect(AudioPlayer.BATTLE_SELECT)
-		_: AudioPlayer.play_sound_effect(AudioPlayer.MENU_SELECT)
+		"Wait":
+			AudioPlayer.play_sound_effect(AudioPlayer.BATTLE_SELECT)
+		_:
+			AudioPlayer.play_sound_effect(AudioPlayer.MENU_SELECT)
 
 
 func _check_canto() -> void:
@@ -241,8 +195,12 @@ func _check_canto() -> void:
 		connected_unit.wait()
 
 
-func _select_map(selector: Selector, tiles_node: Node2D, selected: Callable,
-		canceled: Callable = func() -> void: pass) -> void:
+func _select_map(
+	selector: Selector,
+	tiles_node: Node2D,
+	selected: Callable,
+	canceled: Callable = func() -> void: pass
+) -> void:
 	caller.add_sibling(selector)
 	visible = false
 	if selector is UnitSelector:
@@ -263,15 +221,14 @@ func _select_map(selector: Selector, tiles_node: Node2D, selected: Callable,
 
 
 func _can_attack(unit: Unit) -> bool:
-	var current_tiles: Array[Vector2i] = (
-		connected_unit.get_current_attack_tiles(connected_unit.get_path_last_pos(), true)
+	var current_tiles: Array[Vector2i] = connected_unit.get_current_attack_tiles(
+		connected_unit.get_path_last_pos(), true
 	)
-	var diplo_stance: Faction.DiplomacyStances = (
-		connected_unit.faction.get_diplomacy_stance(unit.faction)
+	var diplo_stance: Faction.DiplomacyStances = connected_unit.faction.get_diplomacy_stance(
+		unit.faction
 	)
 	return (
-		diplo_stance == Faction.DiplomacyStances.ENEMY
-		and Vector2i(unit.position) in current_tiles
+		diplo_stance == Faction.DiplomacyStances.ENEMY and Vector2i(unit.position) in current_tiles
 	)
 
 
@@ -282,10 +239,9 @@ func _can_drop(pos: Vector2i) -> bool:
 func _get_drop_tiles() -> Array[Vector2i]:
 	var traveler: Unit = connected_unit.traveler
 	var tiles: Array[Vector2i] = []
-	for tile: Vector2i in \
-			Utilities.get_tiles(connected_unit.get_path_last_pos(), 1, 1):
-		var cost: float = (
-			MapController.map.get_terrain_cost(traveler.unit_class.get_movement_type(), tile)
+	for tile: Vector2i in Utilities.get_tiles(connected_unit.get_path_last_pos(), 1, 1):
+		var cost: float = MapController.map.get_terrain_cost(
+			traveler.unit_class.get_movement_type(), tile
 		)
 		var movement: int = traveler.get_movement()
 		if cost <= movement:
@@ -299,10 +255,8 @@ func _get_drop_tiles() -> Array[Vector2i]:
 
 
 func _display_adjacent_support_tiles() -> Node2D:
-	var tiles: Array[Vector2i] = Utilities.get_tiles(
-			connected_unit.get_path_last_pos(), 1, 1)
-	return MapController.map.display_highlighted_tiles(tiles, connected_unit,
-			Map.TileTypes.SUPPORT)
+	var tiles: Array[Vector2i] = Utilities.get_tiles(connected_unit.get_path_last_pos(), 1, 1)
+	return MapController.map.display_highlighted_tiles(tiles, connected_unit, Map.TileTypes.SUPPORT)
 
 
 func _on_unit_death() -> void:
@@ -320,3 +274,103 @@ func _wait() -> void:
 	await connected_unit.move()
 	connected_unit.wait()
 	close()
+
+
+func _attack(selected_unit: Unit) -> void:
+	await connected_unit.move()
+	await AttackController.combat(connected_unit, selected_unit)
+	connected_unit.wait()
+	close()
+
+
+func _trade(selected_unit: Unit) -> void:
+	var menu := TradeMenu.instantiate(connected_unit, selected_unit)
+	MapController.get_ui().add_child(menu)
+	CursorController.disable()
+	visible = false
+	await menu.tree_exited
+	await unactionable()
+	visible = true
+	reset_size()
+	_current_item_index -= 1
+
+
+func _rescue(selected_unit: Unit) -> void:
+	AudioPlayer.play_sound_effect(AudioPlayer.BATTLE_SELECT)
+	await connected_unit.move()
+	await selected_unit.move(connected_unit.position)
+	selected_unit.visible = false
+	connected_unit.traveler = selected_unit
+	_check_canto()
+	close()
+
+
+func _drop(dropped_tile: Vector2i) -> void:
+	var traveler: Unit = connected_unit.traveler
+	await connected_unit.move()
+	traveler.visible = true
+	traveler.position = connected_unit.position
+	connected_unit.traveler = null
+	await traveler.move(dropped_tile)
+	_check_canto()
+	close()
+
+
+func _take(unit: Unit) -> void:
+	await unactionable()
+	var traveler: Unit = unit.traveler
+	connected_unit.traveler = traveler
+	unit.traveler = null
+	traveler.visible = true
+	await traveler.move(connected_unit.position)
+	traveler.visible = false
+	traveler.wait()
+	visible = true
+	update()
+	CursorController.disable()
+
+
+func _give(unit: Unit) -> void:
+	await unactionable()
+	var traveler: Unit = connected_unit.traveler
+	unit.traveler = traveler
+	connected_unit.traveler = null
+	traveler.visible = true
+	await traveler.move(unit.position)
+	traveler.visible = false
+	traveler.wait()
+	visible = true
+	update()
+	CursorController.disable()
+
+
+func _swap(unit: Unit) -> void:
+	await unactionable()
+	var old_traveler: Unit = connected_unit.traveler
+	var new_traveler: Unit = unit.traveler
+	connected_unit.traveler = new_traveler
+	unit.traveler = old_traveler
+	old_traveler.visible = true
+	new_traveler.visible = true
+	old_traveler.move(unit.position)
+	await new_traveler.move(connected_unit.position)
+	old_traveler.visible = false
+	new_traveler.visible = false
+	old_traveler.wait()
+	new_traveler.wait()
+	visible = true
+	update()
+	CursorController.disable()
+
+
+static func _base_instantiate(
+	packed_scene: PackedScene,
+	new_offset: Vector2,
+	parent: MapMenu,
+	unit_controller: SelectedUnitController = null,
+	unit: Unit = null
+) -> UnitMenu:
+	var scene := super(packed_scene, new_offset, parent) as UnitMenu
+	scene.caller = unit_controller
+	scene.connected_unit = unit
+	return scene

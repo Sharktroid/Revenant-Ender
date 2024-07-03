@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://bdv7k8j5wvch0" path="res://maps/map_tiles/blue_tile.png" id="1_nv0tq"]
 [ext_resource type="Script" path="res://maps/map_tiles/movement_tile.gd" id="2_qbff8"]
 
-[node name="BaseMovementTile" type="Sprite2D"]
+[node name="MovementTile" type="Sprite2D"]
 texture = ExtResource("1_nv0tq")
 centered = false
 hframes = 16

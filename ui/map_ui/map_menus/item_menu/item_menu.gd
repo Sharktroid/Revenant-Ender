@@ -1,3 +1,4 @@
+class_name ItemMenu
 extends MapMenu
 
 const _ITEM_MENU_ITEM = preload(
@@ -23,22 +24,22 @@ func _process(_delta: float) -> void:
 	_update()
 
 
+static func instantiate(new_offset: Vector2, parent: MapMenu, unit: Unit = null) -> ItemMenu:
+	var packed_scene := load("res://ui/map_ui/map_menus/item_menu/item_menu.tscn") as PackedScene
+	var scene := _base_instantiate(packed_scene, new_offset, parent) as ItemMenu
+	scene.connected_unit = unit
+	return scene
+
+
 func select_item(item: MapMenuItem) -> void:
-	const MENU_PATH: String = (
-		"res://ui/map_ui/map_menus/item_menu/item_options_menu/item_options_menu."
+	var menu := ItemOptionsMenu.instantiate(
+		offset + Vector2(16, 20), self, connected_unit, (item as _ITEM_MENU_ITEM).item
 	)
-	const Menu = preload(MENU_PATH + "gd")
-	var menu := (load(MENU_PATH + "tscn") as PackedScene).instantiate() as Menu
-	menu.offset = offset + Vector2(16, 20)
-	menu.parent_menu = self
-	menu.unit = connected_unit
-	menu.item = (item as _ITEM_MENU_ITEM).item
 	MapController.get_ui().add_child(menu)
 	super(item)
 
 
 func close() -> void:
-	const UnitMenu = preload("res://ui/map_ui/map_menus/unit_menu/unit_menu.gd")
 	(parent_menu as UnitMenu).update()
 	super()
 

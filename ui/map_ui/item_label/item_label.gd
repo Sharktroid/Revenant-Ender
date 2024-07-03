@@ -11,6 +11,13 @@ func _init() -> void:
 	table_columns = 6
 
 
+static func instantiate(connected_item: Item, unit: Unit) -> ItemLabel:
+	var scene := preload("res://ui/map_ui/item_label/item_label.tscn").instantiate() as ItemLabel
+	scene.item = connected_item
+	scene.set_equip_status(unit)
+	return scene
+
+
 func update() -> void:
 	($Icon as TextureRect).texture = item.get_icon()
 	($Name as Label).text = item.resource_name

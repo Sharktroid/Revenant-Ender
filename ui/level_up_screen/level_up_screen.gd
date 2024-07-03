@@ -1,3 +1,4 @@
+class_name LevelUp
 extends Control
 
 var old_level: int = 1
@@ -24,9 +25,7 @@ func _ready() -> void:
 	level_value.text = str(old_level)
 
 	var stat_containers: Dictionary = {}
-	for control: Control in (
-		get_tree().get_nodes_in_group("stats")
-	):
+	for control: Control in get_tree().get_nodes_in_group("stats"):
 		stat_containers[control.name] = control
 	for stat_name: String in Unit.Stats.keys():
 		var formatted_stat: String = stat_name.to_pascal_case()
@@ -41,14 +40,11 @@ func _ready() -> void:
 	var bottom_panel := %BottomPanel as PanelContainer
 	var slide_tween: Tween = create_tween()
 	slide_tween.set_parallel()
+	slide_tween.set_speed_scale(60)
 	slide_tween.set_trans(Tween.TRANS_QUAD)
 	slide_tween.set_ease(Tween.EASE_OUT)
-	slide_tween.tween_property(top_panel, "position:x", top_panel.position.x, 8.0 / 60)
-	(
-		slide_tween
-		.tween_property(bottom_panel, "position:x", bottom_panel.position.x, 8.0 / 60)
-		.set_delay(2.0 / 60)
-	)
+	slide_tween.tween_property(top_panel, "position:x", top_panel.position.x, 8)
+	slide_tween.tween_property(bottom_panel, "position:x", bottom_panel.position.x, 8).set_delay(2)
 	top_panel.position.x = -top_panel.size.x
 	bottom_panel.position.x = -bottom_panel.size.x
 	await get_tree().create_timer(35.0 / 60).timeout
@@ -100,6 +96,13 @@ func _ready() -> void:
 
 			await get_tree().create_timer(20.0 / 60).timeout
 	await get_tree().create_timer(1.0).timeout
+
+
+static func instantiate(observing_unit: Unit, level: int) -> LevelUp:
+	var scene := preload("res://ui/level_up_screen/level_up_screen.tscn").instantiate() as LevelUp
+	scene.unit = observing_unit
+	scene.old_level = level
+	return scene
 
 
 func receive_input(event: InputEvent) -> void:

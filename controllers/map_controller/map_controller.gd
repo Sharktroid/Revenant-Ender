@@ -2,14 +2,11 @@ extends Control
 
 signal unit_selected
 
-const _PHASE_DISPLAY_PATH: String = "res://maps/phase_display/phase_display."
-const _PHASE_DISPLAY = preload(_PHASE_DISPLAY_PATH + "gd")
-
 @export var map_node: PackedScene
 
 var map := Map.new()
 
-var _phase_display: _PHASE_DISPLAY
+var _phase_display: PhaseDisplay
 
 
 func _ready() -> void:
@@ -48,9 +45,7 @@ func set_scaling(new_scaling: int) -> void:
 
 func create_main_map_menu() -> void:
 	## Creates map menu.
-	const MAP_MENU_PATH: String = "res://ui/map_ui/map_menus/main_map_menu/main_map_menu.tscn"
-	var menu := preload(MAP_MENU_PATH).instantiate() as MapMenu
-	menu.offset = (CursorController.screen_position + Vector2i(16, 0))
+	var menu := MainMapMenu.instantiate(CursorController.screen_position + Vector2i(16, 0))
 	get_ui().add_child(menu)
 	GameController.add_to_input_stack(menu)
 	CursorController.disable()
@@ -72,9 +67,7 @@ func get_dialogue() -> Dialogue:
 
 func display_turn_change(faction: Faction) -> void:
 	GameController.add_to_input_stack(self)
-	const PHASE_DISPLAY_SCENE: PackedScene = preload(_PHASE_DISPLAY_PATH + "tscn")
-	_phase_display = PHASE_DISPLAY_SCENE.instantiate() as _PHASE_DISPLAY
+	_phase_display = PhaseDisplay.instantiate(faction)
 	get_ui().add_child(_phase_display)
-	_phase_display.play(faction)
 	await _phase_display.tree_exited
 	GameController.remove_from_input_stack()
