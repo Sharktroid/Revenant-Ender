@@ -654,9 +654,11 @@ func get_all_attack_tiles() -> Array[Vector2i]:
 					basis_movement_tiles.erase(unit_pos)
 		var min_range: int = get_min_range()
 		var max_range: float = get_max_range()
+		var base_subtiles: Array[Vector2i] = Utilities.get_tiles(Vector2i(), min_range, 1)
 		for tile: Vector2i in basis_movement_tiles:
 			var subtiles: Dictionary = {}
-			for subtile: Vector2i in Utilities.get_tiles(tile, min_range, 1):
+			for base_subtile: Vector2i in base_subtiles:
+				var subtile: Vector2i = tile + base_subtile
 				subtiles[subtile] = subtile in get_movement_tiles()
 			if subtiles.values().any(func(value: bool) -> bool: return not value):
 				var current_tiles: Array[Vector2i] = _attack_tiles + get_movement_tiles()

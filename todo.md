@@ -1,5 +1,4 @@
 # Minor
-* Have get_all_attack_tiles call Utilites.get_tiles only once
 * Have weapon triangle use enums
 * Make all bows 1-3 range but have a penalty at 1-range
 * Have phase display code in map controller be moved to phase display
@@ -10,6 +9,8 @@
 * Rename "Swap" to "Exchange"
 * Have Movement Arrow logic be handled by the scene instead of the unit
 * Have level up play sfx even when volume is muted
+* Change avoid to 1.5(speed + luck)
+* Implement 5%/95% rule
 
 # Major
 * Make variables private if possible

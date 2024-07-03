@@ -11,6 +11,8 @@ enum DebugConfigKeys {
 const ADJACENT_TILES: Array[Vector2i] = [
 	Vector2i(16, 0), Vector2i(-16, 0), Vector2i(0, 16), Vector2i(0, -16)
 ]
+const _MIN_POSITION: int = -(2 ** 15) + 1
+const _SIZE: int = 2 ** 16
 
 var theme: Theme = preload("res://ui/theme/menu_theme.tres")
 
@@ -48,7 +50,7 @@ func get_tiles(
 	center: Vector2i,
 	true_max_range: float,
 	min_range: int = 0,
-	boundaries := Rect2i(0, 0, 16000, 16000)
+	boundaries := Rect2i(_MIN_POSITION, _MIN_POSITION, _SIZE, _SIZE)
 ) -> Array[Vector2i]:
 	var output: Array[Vector2i] = []
 	if true_max_range == INF:
@@ -219,7 +221,7 @@ func is_running_project() -> bool:
 
 
 func float_to_string(num: float) -> String:
-	return str(num).replace("inf", "∞")
+	return str(num).replace("inf", "Ã¢Ë†Å¾")
 
 
 func _get_center(control: Control) -> float:
