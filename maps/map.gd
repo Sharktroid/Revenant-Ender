@@ -217,7 +217,7 @@ func display_tiles(
 			(
 				modulation
 				if Utilities.xor(not (i in modulate_blacklist), blacklist_as_whitelist)
-				else 0.0
+				else 1.0
 			)
 		)
 		tiles_node.add_child(tile)
