@@ -146,32 +146,25 @@ func select_item(item: MapMenuItem) -> void:
 			_select_map(tile_selector, tiles_node, _drop)
 
 		"Take":
-			var unit_selector := UnitSelector.new(
-				connected_unit,
-				1,
-				1,
-				func(unit: Unit) -> bool: return connected_unit.is_friend(unit) and unit.traveler
+			_select_map(
+				UnitSelector.new(connected_unit, 1, 1, _can_take),
+				_display_adjacent_support_tiles(),
+				_take
 			)
-			_select_map(unit_selector, _display_adjacent_support_tiles(), _take)
 
 		"Give":
-			var can_give: Callable = func(unit: Unit) -> bool: return (
-				connected_unit.is_friend(unit) and not unit.traveler
-			)
 			_select_map(
-				UnitSelector.new(connected_unit, 1, 1, can_give),
+				UnitSelector.new(connected_unit, 1, 1, _can_give),
 				_display_adjacent_support_tiles(),
 				_give
 			)
 
 		"Swap":
-			var unit_selector := UnitSelector.new(
-				connected_unit,
-				1,
-				1,
-				func(unit: Unit) -> bool: return connected_unit.is_friend(unit) and unit.traveler
+			_select_map(
+				UnitSelector.new(connected_unit, 1, 1, _can_take),
+				_display_adjacent_support_tiles(),
+				_swap
 			)
-			_select_map(unit_selector, _display_adjacent_support_tiles(), _swap)
 	super(item)
 
 
@@ -374,3 +367,11 @@ static func _base_instantiate(
 	scene.caller = unit_controller
 	scene.connected_unit = unit
 	return scene
+
+
+func _can_take(unit: Unit) -> bool:
+	return connected_unit.is_friend(unit) and unit.traveler
+
+
+func _can_give(unit: Unit) -> bool:
+	return connected_unit.is_friend(unit) and not unit.traveler

@@ -45,7 +45,9 @@ func receive_input(event: InputEvent) -> void:
 
 func set_top_text(string: String) -> void:
 	if not _skipping:
-		await _set_text_base(string, _top_textbox, _portraits.get(_top_speaker, Portrait.new()) as Portrait)
+		await _set_text_base(
+			string, _top_textbox, _portraits.get(_top_speaker, Portrait.new()) as Portrait
+		)
 
 
 func set_bottom_text(string: String) -> void:
@@ -175,8 +177,6 @@ func _resize_textbox(
 	textbox.anchor_left = target_x / Utilities.get_screen_size().x
 	textbox.anchor_right = textbox.anchor_left
 
-
-
 	var adjust_size: Callable = func(new_size: Vector2) -> void:
 		textbox.size = new_size.snapped(Vector2i(2, 2))
 		textbox.position.x = clampf(
@@ -215,10 +215,7 @@ func _set_text_base(string: String, label: RichTextLabel, portrait: Portrait) ->
 			while label.visible_characters < next_visible_chars and label.visible_ratio < 1:
 				label.visible_characters += 1
 				# Scrolls when overflowing
-				if (
-					label.get_line_count()
-					> LINE_COUNT + (label.position.y / -_get_line_height())
-				):
+				if label.get_line_count() > LINE_COUNT + (label.position.y / -_get_line_height()):
 					label.visible_characters -= 1
 					autoscroll = false
 					await _scroll(label)

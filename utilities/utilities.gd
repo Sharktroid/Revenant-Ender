@@ -204,9 +204,7 @@ func set_neighbor_path(
 
 
 func get_control_within_height(checking_control: Control, control_array: Array[Control]) -> Control:
-	var center: float = _get_center(checking_control)
-	var get_distance: Callable = func(control: Control) -> float:
-		return absf(center - _get_center(control))
+	var get_distance: Callable = _get_distance.bind(checking_control)
 
 	var closest_control := control_array[0] as Control
 	for control: Control in control_array.slice(1) as Array[Control]:
@@ -234,7 +232,9 @@ func _load_config() -> void:
 	for constant: String in DebugConfigKeys.keys() as Array[String]:
 		var debug_key: DebugConfigKeys = DebugConfigKeys[constant]
 		_debug_config[debug_key] = _config_file.get_value(
-			"Debug",
-			constant.to_snake_case(),
-			get_debug_value(debug_key)
+			"Debug", constant.to_snake_case(), get_debug_value(debug_key)
 		)
+
+
+func _get_distance(control_a: Control, control_b: Control) -> float:
+	return absf(_get_center(control_a) - _get_center(control_b))

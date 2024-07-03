@@ -1,5 +1,4 @@
 # Minor
-* Remove unnecessary callables
 * Have get_all_attack_tiles call Utilites.get_tiles only once
 * Have weapon triangle use enums
 * Make all bows 1-3 range but have a penalty at 1-range

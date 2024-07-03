@@ -22,22 +22,17 @@ func _ready() -> void:
 
 
 func receive_input(event: InputEvent) -> void:
-	var move_popup: Callable = func(direction: String) -> void:
-		var path: NodePath = _current_container.get("focus_neighbor_%s" % direction)
-		if _current_container.has_node(path):
-			(_current_container.get_node(path) as HelpContainer).set_as_current_help_container()
-			AudioPlayer.play_sound_effect(AudioPlayer.MENU_TICK)
 	if event.is_action_pressed("ui_cancel"):
 		shrink()
 		AudioPlayer.play_sound_effect(preload("res://audio/sfx/help_close.ogg"))
 	elif event.is_action_pressed("up", true) and not Input.is_action_pressed("down"):
-		move_popup.call("top")
+		_move_popup("top")
 	elif event.is_action_pressed("down", true):
-		move_popup.call("bottom")
+		_move_popup("bottom")
 	elif event.is_action_pressed("left", true) and not Input.is_action_pressed("right"):
-		move_popup.call("left")
+		_move_popup("left")
 	elif event.is_action_pressed("right", true):
-		move_popup.call("right")
+		_move_popup("right")
 
 
 func display_text(
@@ -111,18 +106,13 @@ func _resize(
 	init_size: Vector2 = get_popup_node().size,
 	init_position: Vector2 = _default_position()
 ) -> void:
-	var set_pos: Callable = func(new_pos: Vector2) -> void:
-		new_pos -= Vector2(get_popup_node().size.x/2, 0)
-		get_popup_node().position = new_pos
-	var set_node_size: Callable = func(new_node_size: Vector2) -> void:
-		get_popup_node().size = new_node_size
 	_busy = true
-	set_node_size.call(init_size)
-	set_pos.call(init_position)
+	_set_node_size(init_size)
+	_set_popup_position(init_position)
 	var tween: Tween = get_tree().create_tween()
 	tween.set_parallel(true)
-	tween.tween_method(set_node_size, init_size, new_size, DURATION)
-	tween.tween_method(set_pos, init_position, pos, DURATION)
+	tween.tween_method(_set_node_size, init_size, new_size, DURATION)
+	tween.tween_method(_set_popup_position, init_position, pos, DURATION)
 	get_popup_node().display_contents(false)
 	await tween.finished
 	get_popup_node().display_contents(true)
@@ -132,3 +122,19 @@ func _resize(
 
 func _default_position() -> Vector2:
 	return get_popup_node().position + Vector2(get_popup_node().size.x / 2, 0)
+
+
+func _move_popup(direction: String) -> void:
+	var path: NodePath = _current_container.get("focus_neighbor_%s" % direction)
+	if _current_container.has_node(path):
+		(_current_container.get_node(path) as HelpContainer).set_as_current_help_container()
+		AudioPlayer.play_sound_effect(AudioPlayer.MENU_TICK)
+
+
+func _set_popup_position(new_pos: Vector2) -> void:
+	new_pos -= Vector2(get_popup_node().size.x / 2, 0)
+	get_popup_node().position = new_pos
+
+
+func _set_node_size(new_node_size: Vector2) -> void:
+	get_popup_node().size = new_node_size
