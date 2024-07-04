@@ -6,8 +6,6 @@ signal unit_selected
 
 var map := Map.new()
 
-var _phase_display: PhaseDisplay
-
 
 func _ready() -> void:
 	if Utilities.is_running_project():
@@ -28,12 +26,6 @@ func _process(delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	(get_ui().get_node("%Physic Frame Label") as Label).text = str(roundi(1 / delta))
-
-
-func receive_input(event: InputEvent) -> void:
-	if not event is InputEventMouseMotion:
-		AudioPlayer.clear_sound_effects()
-		_phase_display.queue_free()
 
 
 func set_scaling(new_scaling: int) -> void:
@@ -66,8 +58,6 @@ func get_dialogue() -> Dialogue:
 
 
 func display_turn_change(faction: Faction) -> void:
-	GameController.add_to_input_stack(self)
-	_phase_display = PhaseDisplay.instantiate(faction)
-	get_ui().add_child(_phase_display)
-	await _phase_display.tree_exited
-	GameController.remove_from_input_stack()
+	var phase_display := PhaseDisplay.instantiate(faction)
+	get_ui().add_child(phase_display)
+	await phase_display.tree_exited

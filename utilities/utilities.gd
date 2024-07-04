@@ -221,7 +221,9 @@ func is_running_project() -> bool:
 
 
 func float_to_string(num: float) -> String:
-	return str(num).replace("inf", "∞")
+	const INF_CHAR: String = "∞"
+	assert(INF_CHAR.length() == 1, "Error: Infinity character has been corrupted.")
+	return str(num).replace("inf", INF_CHAR)
 
 
 func _get_center(control: Control) -> float:

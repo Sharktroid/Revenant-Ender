@@ -1,5 +1,4 @@
 # Minor
-* Have phase display code in map controller be moved to phase display
 * Fix trade jank
 * Add sfx when action cannot be performed
 * Disable drop command when there is no valid drop target

@@ -105,7 +105,6 @@ func update() -> void:
 func select_item(item: MapMenuItem) -> void:
 	match item.name:
 		"Attack":
-			print_debug(_can_attack)
 			var selector := AttackSelector.new(
 				connected_unit,
 				connected_unit.get_min_range(),
