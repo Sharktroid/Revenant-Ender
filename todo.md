@@ -1,5 +1,4 @@
 # Minor
-* Have attack tiles reset when dropping an item
 * Have phase display code in map controller be moved to phase display
 * Fix trade jank
 * Add sfx when action cannot be performed

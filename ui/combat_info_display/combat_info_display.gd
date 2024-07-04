@@ -130,7 +130,7 @@ func _update() -> void:
 		var cursor_to_left: bool = (
 			CursorController.screen_position.x < (Utilities.get_screen_size().x as float / 2)
 		)
-		position.x = Utilities.get_screen_size().x - size.x if cursor_to_left else 0
+		position.x = Utilities.get_screen_size().x - size.x if cursor_to_left else 0.0
 
 		distance = roundi(
 			Utilities.get_tile_distance(

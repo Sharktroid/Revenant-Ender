@@ -221,7 +221,7 @@ func is_running_project() -> bool:
 
 
 func float_to_string(num: float) -> String:
-	return str(num).replace("inf", "Ã¢Ë†Å¾")
+	return str(num).replace("inf", "∞")
 
 
 func _get_center(control: Control) -> float:

@@ -909,8 +909,9 @@ func equip_weapon(weapon: Weapon) -> void:
 
 func drop(item: Item) -> void:
 	items.erase(item)
-	hide_movement_tiles()
-	display_movement_tiles()
+	reset_tile_cache()
+	if _attack_tile_node:
+		display_movement_tiles()
 
 
 func reset_tile_cache() -> void:
