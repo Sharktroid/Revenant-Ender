@@ -8,12 +8,12 @@ const MENU_TICK = preload("res://audio/sfx/menu_tick.ogg")
 const _MUSIC_GROUP: StringName = &"music_track"
 const _SFX_GROUP: StringName = &"sound_effect"
 
-var music_volume: float = 0.5:
+var music_volume: float = 0.0:
 	set(value):
 		music_volume = value
 		get_current_player().volume_db = _percent_to_db(music_volume)
 		get_current_player().stream_paused = not (music_volume > 0)
-var sfx_volume: float = 1.0
+var sfx_volume: float = 0.5
 
 var _tracks: Dictionary = {}
 var _track_stack: Array[AudioStream]
