@@ -17,6 +17,7 @@ enum Types {
 }
 enum Ranks { S = 181, A = 121, B = 71, C = 31, D = 1, DISABLED = 0 }
 enum DamageTypes { PHYSICAL, RANGED, INTELLIGENCE }
+enum AdvantageState { ADVANTAGE = 1, DISADVANTAGE = -1, NEUTRAL = 0 }
 
 var _rank: int
 var _might: float
@@ -57,40 +58,43 @@ func in_range(distance: int) -> bool:
 
 
 func get_stat_table() -> Array[String]:
-	return Utilities.dict_to_table({
-		str(Types.find_key(_type)).capitalize(): str(Ranks.find_key(_rank)).capitalize(),
-		"Range": get_range_text(),
-		"Weight": Utilities.float_to_string(_weight),
-		"Might": Utilities.float_to_string(_might),
-		"Hit": Utilities.float_to_string(_hit),
-		"Critical": Utilities.float_to_string(_crit)
-	})
-
-
-## Returns 1 with normal advantage, 0 with neutrality, -1 with disadvantage
-func get_weapon_triangle_advantage(weapon: Weapon, _distance: int) -> int:
-	return (
-		0
-		if weapon == null
-		else (
-			1 if weapon.get_type() in _advantage_types
-			else -1 if weapon.get_type() in _disadvantage_types else 0
-		)
+	return Utilities.dict_to_table(
+		{
+			str(Types.find_key(_type)).capitalize(): str(Ranks.find_key(_rank)).capitalize(),
+			"Range": get_range_text(),
+			"Weight": Utilities.float_to_string(_weight),
+			"Might": Utilities.float_to_string(_might),
+			"Hit": Utilities.float_to_string(_hit),
+			"Critical": Utilities.float_to_string(_crit)
+		}
 	)
+
+
+func get_weapon_triangle_advantage(weapon: Weapon, _distance: int) -> AdvantageState:
+	if weapon:
+		if weapon.get_type() in _advantage_types:
+			return AdvantageState.ADVANTAGE
+		elif weapon.get_type() in _disadvantage_types:
+			return AdvantageState.DISADVANTAGE
+		else:
+			return AdvantageState.NEUTRAL
+	else:
+		return AdvantageState.NEUTRAL
 
 
 func get_hit_bonus(weapon: Weapon, distance: int) -> int:
 	if weapon is Bow:
 		return -10 * weapon.get_weapon_triangle_advantage(self, distance)
-	var bonus: int = 5 if _rank >= Ranks.C else 0
-	return bonus * get_weapon_triangle_advantage(weapon, distance)
+	else:
+		var bonus: int = 5 if _rank >= Ranks.C else 0
+		return bonus * get_weapon_triangle_advantage(weapon, distance)
 
 
 func get_damage_bonus(weapon: Weapon, distance: int) -> int:
-	return (
-		-weapon.get_weapon_triangle_advantage(self, distance) if weapon is Bow
-		else get_weapon_triangle_advantage(weapon, distance) if _rank >= Ranks.A else 0
-	)
+	if weapon is Bow:
+		return -weapon.get_weapon_triangle_advantage(self, distance)
+	else:
+		return get_weapon_triangle_advantage(weapon, distance) if _rank >= Ranks.A else 0
 
 
 func get_rank() -> int:
@@ -145,6 +149,7 @@ func get_range_text() -> String:
 	var min_range_text: String = str(get_min_range())
 	var max_range_text: String = Utilities.float_to_string(get_max_range())
 	return (
-		max_range_text if _min_range == get_max_range()
+		max_range_text
+		if _min_range == get_max_range()
 		else "{min}-{max}".format({"min": min_range_text, "max": max_range_text})
 	)

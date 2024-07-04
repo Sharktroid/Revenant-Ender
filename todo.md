@@ -1,6 +1,5 @@
 # Minor
-* Have weapon triangle use enums
-* Make all bows 1-3 range but have a penalty at 1-range
+* Make all bows 2-3 range
 * Have phase display code in map controller be moved to phase display
 * Fix trade jank
 * Add sfx when action cannot be performed

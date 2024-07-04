@@ -10,8 +10,11 @@ func _init() -> void:
 	super()
 
 
-func get_weapon_triangle_advantage(weapon: Weapon, distance: int) -> int:
-	return 0 if weapon.get_type() == Types.BOW else -1 if distance == 1 else 1
+func get_weapon_triangle_advantage(weapon: Weapon, distance: int) -> AdvantageState:
+	if weapon.get_type() == Types.BOW:
+		return AdvantageState.NEUTRAL
+	else:
+		return AdvantageState.DISADVANTAGE if distance == 1 else AdvantageState.ADVANTAGE
 
 
 func get_hit_bonus(weapon: Weapon, distance: int) -> int:
