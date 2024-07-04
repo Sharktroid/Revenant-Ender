@@ -6,7 +6,7 @@ extends Weapon
 func _init() -> void:
 	_type = Types.BOW
 	_min_range = 2
-	_max_range = 2
+	_max_range = 3
 	super()
 
 

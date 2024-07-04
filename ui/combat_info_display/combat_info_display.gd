@@ -127,10 +127,10 @@ func _update() -> void:
 	if bottom_unit and is_node_ready():
 		modulate.a = 1.0 if _focused else 2.0 / 3
 
-		if CursorController.screen_position.x < (Utilities.get_screen_size().x as float / 2):
-			position.x = Utilities.get_screen_size().x - size.x
-		else:
-			position.x = 0
+		var cursor_to_left: bool = (
+			CursorController.screen_position.x < (Utilities.get_screen_size().x as float / 2)
+		)
+		position.x = Utilities.get_screen_size().x - size.x if cursor_to_left else 0
 
 		distance = roundi(
 			Utilities.get_tile_distance(
