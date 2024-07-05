@@ -1,5 +1,4 @@
 # Minor
-* Fix trade jank
 * Add sfx when action cannot be performed
 * Disable drop command when there is no valid drop target
 * Have classes called only once be called via constants instead of class names

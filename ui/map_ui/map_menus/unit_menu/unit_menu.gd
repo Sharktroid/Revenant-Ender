@@ -280,11 +280,12 @@ func _trade(selected_unit: Unit) -> void:
 	MapController.get_ui().add_child(menu)
 	CursorController.disable()
 	visible = false
-	await menu.tree_exited
-	await unactionable()
+	if await menu.completed:
+		await unactionable()
+	else:
+		connected_unit.display_movement_tiles()
 	visible = true
 	reset_size()
-	_current_item_index -= 1
 
 
 func _rescue(selected_unit: Unit) -> void:

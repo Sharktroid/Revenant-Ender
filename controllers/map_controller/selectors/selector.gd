@@ -55,7 +55,6 @@ func _exit_tree() -> void:
 
 
 func close() -> void:
-	AudioPlayer.play_sound_effect(AudioPlayer.DESELECT)
 	queue_free()
 
 
@@ -76,6 +75,7 @@ func _within_range() -> bool:
 
 func _canceled() -> void:
 	CursorController.disable()
+	AudioPlayer.play_sound_effect(AudioPlayer.DESELECT)
 	unit.display_movement_tiles()
 	unit.show_path()
 	close()
