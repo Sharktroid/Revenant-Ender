@@ -9,9 +9,15 @@ var parent_menu: MapMenu
 ## If true, the menu will move to the left if on the right side of the screen
 var _to_center: bool = true
 var _current_item_index: int = 0:
+	set(value):
+		var different: bool = value != _current_item_index
+		if different:
+			get_current_item_node().deselect()
+		_current_item_index = value
+		if different:
+			get_current_item_node().select()
 	get:
-		_current_item_index = posmod(_current_item_index, _get_visible_children().size())
-		return _current_item_index
+		return posmod(_current_item_index, _get_visible_children().size())
 
 
 func _enter_tree() -> void:
@@ -67,11 +73,7 @@ func select_item(_item: MapMenuItem) -> void:
 
 
 func set_current_item_node(item: HelpContainer) -> void:
-	var old_node: MapMenuItem = get_current_item_node()
 	_current_item_index = _get_visible_children().find(item)
-	if old_node != get_current_item_node():
-		old_node.deselect()
-		get_current_item_node().select()
 
 
 func get_current_item_node() -> MapMenuItem:
