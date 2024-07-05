@@ -37,7 +37,7 @@ static func instantiate(
 
 func receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
-		AudioPlayer.play_sound_effect(AudioPlayer.DESELECT)
+		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
 		close(true)
 	else:
 		super(event)
@@ -140,7 +140,7 @@ func select_item(item: MapMenuItem) -> void:
 				1,
 				_can_drop,
 				CursorController.Icons.NONE,
-				AudioPlayer.BATTLE_SELECT
+				AudioPlayer.SoundEffects.BATTLE_SELECT
 			)
 			_select_map(tile_selector, tiles_node, _drop)
 
@@ -175,9 +175,9 @@ func unactionable() -> void:
 func _play_select_sound_effect(item: MapMenuItem) -> void:
 	match item.name:
 		"Wait":
-			AudioPlayer.play_sound_effect(AudioPlayer.BATTLE_SELECT)
+			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.BATTLE_SELECT)
 		_:
-			AudioPlayer.play_sound_effect(AudioPlayer.MENU_SELECT)
+			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
 
 
 func _check_canto() -> void:
@@ -289,7 +289,7 @@ func _trade(selected_unit: Unit) -> void:
 
 
 func _rescue(selected_unit: Unit) -> void:
-	AudioPlayer.play_sound_effect(AudioPlayer.BATTLE_SELECT)
+	AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.BATTLE_SELECT)
 	await connected_unit.move()
 	await selected_unit.move(connected_unit.position)
 	selected_unit.visible = false

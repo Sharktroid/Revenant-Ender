@@ -58,7 +58,7 @@ func _physics_process(_delta: float) -> void:
 						new_pos.y += 16
 					map_position = new_pos
 					if new_pos != old_pos and map_position != old_pos:
-						AudioPlayer.play_sound_effect(AudioPlayer.CURSOR)
+						AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.CURSOR)
 					_delay = 4
 				else:
 					_repeat = false
@@ -78,7 +78,7 @@ func _input(event: InputEvent) -> void:
 			new_pos.y += 16
 		if new_pos != map_position:
 			map_position = new_pos
-			AudioPlayer.play_sound_effect(AudioPlayer.CURSOR)
+			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.CURSOR)
 			await get_tree().create_timer(0.25).timeout
 			_repeat = true
 

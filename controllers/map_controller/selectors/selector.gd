@@ -20,7 +20,7 @@ func _init(
 	max_range: float,
 	condition: Callable,
 	icon: CursorController.Icons = CursorController.Icons.NONE,
-	selection_sound_effect: AudioStream = AudioPlayer.MENU_SELECT
+	selection_sound_effect: AudioStream = AudioPlayer.SoundEffects.MENU_SELECT
 ) -> void:
 	unit = connected_unit
 	_minimum_range = min_range
@@ -75,7 +75,7 @@ func _within_range() -> bool:
 
 func _canceled() -> void:
 	CursorController.disable()
-	AudioPlayer.play_sound_effect(AudioPlayer.DESELECT)
+	AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
 	unit.display_movement_tiles()
 	unit.show_path()
 	close()

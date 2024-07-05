@@ -26,7 +26,7 @@ func remove_tiles() -> void:
 
 func _position_selected() -> void:
 	if CursorController.map_position in _unit.get_actionable_movement_tiles():
-		AudioPlayer.play_sound_effect(AudioPlayer.MENU_SELECT)
+		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
 		var menu := CantoMenu.instantiate(
 			CursorController.screen_position + Vector2i(16, -8), null, self, _unit
 		)

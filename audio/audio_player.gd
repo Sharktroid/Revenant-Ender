@@ -1,18 +1,16 @@
+## Class that handles playing sound effects and sound tracks
 extends Node
 
-const BATTLE_SELECT = preload("res://audio/sfx/battle_select.ogg")
-const MENU_SELECT = preload("res://audio/sfx/menu_select.ogg")
-const DESELECT = preload("res://audio/sfx/deselect.ogg")
-const CURSOR = preload("res://audio/sfx/cursor.ogg")
-const MENU_TICK = preload("res://audio/sfx/menu_tick.ogg")
 const _MUSIC_GROUP: StringName = &"music_track"
 const _SFX_GROUP: StringName = &"sound_effect"
 
+## The current volume of the music from 0 to 1
 var music_volume: float = 0.0:
 	set(value):
 		music_volume = value
 		get_current_player().volume_db = _percent_to_db(music_volume)
 		get_current_player().stream_paused = not (music_volume > 0)
+## The current volume of sound effects from 0 to 1
 var sfx_volume: float = 0.5
 
 var _tracks: Dictionary = {}
@@ -110,3 +108,11 @@ func _percent_to_db(volume: float) -> float:
 
 func _set_volume(new_volume: float) -> void:
 	get_current_player().volume_db = _percent_to_db(new_volume)
+
+
+class SoundEffects:
+	const BATTLE_SELECT = preload("res://audio/sfx/battle_select.ogg")
+	const MENU_SELECT = preload("res://audio/sfx/menu_select.ogg")
+	const DESELECT = preload("res://audio/sfx/deselect.ogg")
+	const CURSOR = preload("res://audio/sfx/cursor.ogg")
+	const MENU_TICK = preload("res://audio/sfx/menu_tick.ogg")

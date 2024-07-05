@@ -57,7 +57,7 @@ func close() -> void:
 	queue_free()
 	previous_tab = _menu_tabs.current_tab
 	CursorController.enable()
-	AudioPlayer.play_sound_effect(AudioPlayer.DESELECT)
+	AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
 
 
 func _update() -> void:

@@ -35,18 +35,18 @@ func receive_input(event: InputEvent) -> void:
 	if not HelpPopupController.is_active():
 		if event.is_action_pressed("up") and not Input.is_action_pressed("down"):
 			_current_item_index -= 1
-			AudioPlayer.play_sound_effect(AudioPlayer.MENU_TICK)
+			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK)
 
 		elif event.is_action_pressed("down"):
 			_current_item_index += 1
-			AudioPlayer.play_sound_effect(AudioPlayer.MENU_TICK)
+			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK)
 
 		if event.is_action_pressed("ui_accept"):
 			_play_select_sound_effect(get_current_item_node())
 			select_item(get_current_item_node())
 
 		elif event.is_action_pressed("ui_cancel"):
-			AudioPlayer.play_sound_effect(AudioPlayer.DESELECT)
+			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
 			close()
 
 
@@ -83,7 +83,7 @@ func get_current_item_node() -> MapMenuItem:
 
 
 func _play_select_sound_effect(_item: MapMenuItem) -> void:
-	AudioPlayer.play_sound_effect(AudioPlayer.MENU_SELECT)
+	AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
 
 
 func _get_visible_children() -> Array[MapMenuItem]:

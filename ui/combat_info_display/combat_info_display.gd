@@ -87,14 +87,14 @@ static func instantiate(top: Unit, bottom: Unit = null, focused: bool = false) -
 
 func receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
-		AudioPlayer.play_sound_effect(AudioPlayer.BATTLE_SELECT)
+		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.BATTLE_SELECT)
 		queue_free()
 		completed.emit(true)
 	elif event.is_action_pressed("ui_cancel"):
 		top_unit.equip_weapon(_old_weapon)
 		completed.emit(false)
 		_set_focus(false)
-		AudioPlayer.play_sound_effect(AudioPlayer.DESELECT)
+		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
 	elif event.is_action_pressed("up") and not Input.is_action_pressed("down"):
 		_weapon_index -= 1
 	elif event.is_action_pressed("down"):

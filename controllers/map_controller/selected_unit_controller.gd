@@ -29,7 +29,7 @@ func receive_input(event: InputEvent) -> void:
 		_position_selected()
 		accept_event()
 	elif event.is_action_pressed("ui_cancel"):
-		AudioPlayer.play_sound_effect(AudioPlayer.DESELECT)
+		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
 		_canceled()
 
 
@@ -77,7 +77,7 @@ func _position_selected() -> void:
 	# Creates menu if cursor in _unit's tiles and is same faction as _unit.
 	if _unit.faction.name == MapController.map.get_current_faction().name:
 		if CursorController.map_position in _unit._movement_tiles:
-			AudioPlayer.play_sound_effect(AudioPlayer.MENU_SELECT)
+			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
 			_create_unit_menu()
 		elif (
 			CursorController.get_hovered_unit()
@@ -85,7 +85,7 @@ func _position_selected() -> void:
 		):
 			CursorController.disable()
 			_unit.hide_movement_tiles()
-			AudioPlayer.play_sound_effect(AudioPlayer.MENU_SELECT)
+			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
 			var info_display := CombatInfoDisplay.instantiate(
 				_unit, CursorController.get_hovered_unit(), true
 			)
@@ -103,7 +103,7 @@ func _position_selected() -> void:
 				_unit.display_movement_tiles()
 			CursorController.enable()
 	else:
-		AudioPlayer.play_sound_effect(AudioPlayer.DESELECT)
+		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
 		close()
 
 

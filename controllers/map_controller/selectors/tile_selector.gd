@@ -10,7 +10,7 @@ func _init(
 	max_range: float,
 	condition: Callable,
 	icon: CursorController.Icons = CursorController.Icons.NONE,
-	selection_sound_effect: AudioStream = AudioPlayer.MENU_SELECT
+	selection_sound_effect: AudioStream = AudioPlayer.SoundEffects.MENU_SELECT
 ) -> void:
 	name = "TileSelector"
 	super(connected_unit, min_range, max_range, condition, icon, selection_sound_effect)

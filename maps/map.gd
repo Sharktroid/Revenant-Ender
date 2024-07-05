@@ -74,7 +74,7 @@ func receive_input(event: InputEvent) -> void:
 
 	elif event.is_action_pressed("status"):
 		if CursorController.get_hovered_unit():
-			AudioPlayer.play_sound_effect(AudioPlayer.MENU_SELECT)
+			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
 			var status_menu := StatusScreen.instantiate(CursorController.get_hovered_unit())
 			MapController.get_ui().add_child(status_menu)
 			GameController.add_to_input_stack(status_menu)
