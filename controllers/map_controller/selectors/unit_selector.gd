@@ -17,9 +17,8 @@ func _init(
 
 
 func _position_selected() -> void:
-	if _can_select():
-		selected.emit(CursorController.get_hovered_unit())
-		close()
+	selected.emit(CursorController.get_hovered_unit())
+	super()
 
 
 func _can_select() -> bool:

@@ -17,9 +17,8 @@ func _init(
 
 
 func _position_selected() -> void:
-	if _can_select():
-		selected.emit(CursorController.map_position)
-		close()
+	selected.emit(CursorController.map_position)
+	super()
 
 
 func _can_select() -> bool:

@@ -44,8 +44,11 @@ func _process(_delta: float) -> void:
 
 func receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
-		AudioPlayer.play_sound_effect(_select_sound_effect)
-		_position_selected()
+		if _can_select():
+			AudioPlayer.play_sound_effect(_select_sound_effect)
+			_position_selected()
+		else:
+			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.INVALID)
 	elif event.is_action_pressed("ui_cancel"):
 		_canceled()
 
@@ -59,7 +62,7 @@ func close() -> void:
 
 
 func _position_selected() -> void:
-	pass  # Abstract
+	close()
 
 
 func _can_select() -> bool:

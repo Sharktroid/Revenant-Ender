@@ -83,25 +83,9 @@ func _position_selected() -> void:
 			CursorController.get_hovered_unit()
 			and CursorController.map_position in _unit.get_all_attack_tiles()
 		):
-			CursorController.disable()
-			_unit.hide_movement_tiles()
-			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
-			var info_display := CombatInfoDisplay.instantiate(
-				_unit, CursorController.get_hovered_unit(), true
-			)
-			MapController.get_ui().add_child(info_display)
-			_unit.display_current_attack_tiles()
-			var completed: bool = await info_display.completed
-			_unit.hide_current_attack_tiles()
-			info_display.queue_free()
-			if completed:
-				await _unit.move()
-				await AttackController.combat(_unit, CursorController.get_hovered_unit())
-				_unit.wait()
-				close()
-			else:
-				_unit.display_movement_tiles()
-			CursorController.enable()
+			_attack_selection()
+		else:
+			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.INVALID)
 	else:
 		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
 		close()
@@ -122,3 +106,25 @@ func _canceled() -> void:
 
 func _on_unit_death() -> void:
 	close()
+
+
+func _attack_selection() -> void:
+	CursorController.disable()
+	_unit.hide_movement_tiles()
+	AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
+	var info_display := CombatInfoDisplay.instantiate(
+		_unit, CursorController.get_hovered_unit(), true
+	)
+	MapController.get_ui().add_child(info_display)
+	_unit.display_current_attack_tiles()
+	var completed: bool = await info_display.completed
+	_unit.hide_current_attack_tiles()
+	info_display.queue_free()
+	if completed:
+		await _unit.move()
+		await AttackController.combat(_unit, CursorController.get_hovered_unit())
+		_unit.wait()
+		close()
+	else:
+		_unit.display_movement_tiles()
+	CursorController.enable()

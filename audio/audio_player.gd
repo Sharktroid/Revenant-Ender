@@ -116,3 +116,4 @@ class SoundEffects:
 	const DESELECT = preload("res://audio/sfx/deselect.ogg")
 	const CURSOR = preload("res://audio/sfx/cursor.ogg")
 	const MENU_TICK = preload("res://audio/sfx/menu_tick.ogg")
+	const INVALID = preload("res://audio/sfx/invalid.ogg")
