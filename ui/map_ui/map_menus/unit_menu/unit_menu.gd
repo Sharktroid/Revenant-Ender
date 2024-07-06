@@ -69,7 +69,7 @@ func update() -> void:
 	}
 	if CursorController.map_position in connected_unit.get_actionable_movement_tiles():
 		enabled_items.Wait = connected_unit.get_movement() > 0
-		enabled_items.Drop = connected_unit.traveler != null
+		enabled_items.Drop = connected_unit.traveler != null and _get_drop_tiles().size() > 0
 		enabled_items.Items = connected_unit.items.size() > 0
 		# Gets all adjacent units
 		for unit: Unit in MapController.map.get_units():
