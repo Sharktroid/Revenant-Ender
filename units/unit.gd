@@ -91,7 +91,8 @@ var dead: bool = false
 var outline_highlight: bool = false
 ## Whether the unit is selected.
 var selected: bool = false
-var selectable: bool = true  # Whether the unit can be selected.
+## Whether the unit can be selected.
+var selectable: bool = true
 var waiting: bool = false
 var sprite_animated: bool = true:
 	set(value):
@@ -224,7 +225,6 @@ func _process(_delta: float) -> void:
 		var anim_frame: int = floori((Engine.get_physics_frames() as float) / 16) % 4
 		frame = 1 if anim_frame == 3 else anim_frame
 	update_shader()
-
 
 func update_shader() -> void:
 	(material as ShaderMaterial).set_shader_parameter("modulate", modulate)

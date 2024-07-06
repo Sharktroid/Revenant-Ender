@@ -115,7 +115,7 @@ func is_active() -> bool:
 
 func get_hovered_unit() -> Unit:
 	for unit: Unit in MapController.map.get_units():
-		if unit.position.round() as Vector2i == map_position:
+		if unit.position.round() as Vector2i == map_position and unit.visible:
 			return unit
 	return null
 
