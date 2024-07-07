@@ -5,27 +5,3 @@
 
 [node name="CantoMenu" instance=ExtResource("1_3h685")]
 script = ExtResource("2_y21hq")
-
-[node name="Attack" parent="Items" index="0"]
-visible = false
-
-[node name="Trade" parent="Items" index="2"]
-visible = false
-
-[node name="Rescue" parent="Items" index="3"]
-visible = false
-
-[node name="Take" parent="Items" index="4"]
-visible = false
-
-[node name="Drop" parent="Items" index="5"]
-visible = false
-
-[node name="Give" parent="Items" index="6"]
-visible = false
-
-[node name="Swap" parent="Items" index="7"]
-visible = false
-
-[node name="Items" parent="Items" index="8"]
-visible = false

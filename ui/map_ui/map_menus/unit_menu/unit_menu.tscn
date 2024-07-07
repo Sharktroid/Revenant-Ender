@@ -48,11 +48,11 @@ layout_mode = 2
 script = ExtResource("3_ead2k")
 help_description = "Pass a rescued ally to an adjacent ally."
 
-[node name="Swap" type="BoxContainer" parent="Items" index="7"]
+[node name="Exchange" type="BoxContainer" parent="Items" index="7"]
 visible = false
 layout_mode = 2
 script = ExtResource("3_ead2k")
-help_description = "Swap rescued allies with an adjacent ally."
+help_description = "Switch rescued allies with an adjacent ally."
 
 [node name="Items" type="BoxContainer" parent="Items" index="8"]
 visible = false

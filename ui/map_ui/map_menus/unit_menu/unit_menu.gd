@@ -64,7 +64,7 @@ func update() -> void:
 		Take = false,
 		Drop = false,
 		Give = false,
-		Swap = false,
+		Exchange = false,
 		Items = false,
 	}
 	if CursorController.map_position in connected_unit.get_actionable_movement_tiles():
@@ -84,7 +84,7 @@ func update() -> void:
 							enabled_items.Trade = true
 						if unit.traveler:
 							if connected_unit.traveler:
-								enabled_items.Swap = true
+								enabled_items.Exchange = true
 							else:
 								enabled_items.Take = true
 						else:
@@ -158,11 +158,11 @@ func select_item(item: MapMenuItem) -> void:
 				_give
 			)
 
-		"Swap":
+		"Exchange":
 			_select_map(
 				UnitSelector.new(connected_unit, 1, 1, _can_take),
 				_display_adjacent_support_tiles(),
-				_swap
+				_exchange
 			)
 	super(item)
 
@@ -337,7 +337,7 @@ func _give(unit: Unit) -> void:
 	CursorController.disable()
 
 
-func _swap(unit: Unit) -> void:
+func _exchange(unit: Unit) -> void:
 	await unactionable()
 	var old_traveler: Unit = connected_unit.traveler
 	var new_traveler: Unit = unit.traveler
