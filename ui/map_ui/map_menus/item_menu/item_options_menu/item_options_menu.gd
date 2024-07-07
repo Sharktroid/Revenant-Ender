@@ -36,10 +36,7 @@ func select_item(menu_item: MapMenuItem) -> void:
 			item.use()
 			close()
 		"Drop":
-			const Menu = preload(
-				"res://ui/map_ui/map_menus/confirmation_map_menu/confirmation_map_menu.gd"
-			)
-			var menu := Menu.instantiate(offset + Vector2(16, 16), self)
+			var menu := ConfirmationMapMenu.instantiate(offset + Vector2(16, 16), self)
 			MapController.get_ui().add_child(menu)
 			if await menu.selection_made:
 				unit.drop(item)

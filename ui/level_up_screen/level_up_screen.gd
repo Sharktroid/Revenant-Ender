@@ -1,4 +1,4 @@
-class_name LevelUp
+class_name LevelUpScreen
 extends Control
 
 var old_level: int = 1
@@ -98,8 +98,10 @@ func _ready() -> void:
 	await get_tree().create_timer(1.0).timeout
 
 
-static func instantiate(observing_unit: Unit, level: int) -> LevelUp:
-	var scene := preload("res://ui/level_up_screen/level_up_screen.tscn").instantiate() as LevelUp
+static func instantiate(observing_unit: Unit, level: int) -> LevelUpScreen:
+	var scene := (
+		preload("res://ui/level_up_screen/level_up_screen.tscn").instantiate() as LevelUpScreen
+	)
 	scene.unit = observing_unit
 	scene.old_level = level
 	return scene

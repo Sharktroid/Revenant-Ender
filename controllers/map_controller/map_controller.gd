@@ -37,6 +37,7 @@ func set_scaling(new_scaling: int) -> void:
 
 func create_main_map_menu() -> void:
 	## Creates map menu.
+	const MainMapMenu = preload("res://ui/map_ui/map_menus/main_map_menu/main_map_menu.gd")
 	var menu := MainMapMenu.instantiate(CursorController.screen_position + Vector2i(16, 0))
 	get_ui().add_child(menu)
 	GameController.add_to_input_stack(menu)

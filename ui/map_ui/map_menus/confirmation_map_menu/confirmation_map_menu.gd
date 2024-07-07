@@ -1,10 +1,7 @@
+class_name ConfirmationMapMenu
 extends MapMenu
 
 signal selection_made(confirmed: bool)
-
-const _CONFIRMATION_MAP_MENU := preload(
-	"res://ui/map_ui/map_menus/confirmation_map_menu/confirmation_map_menu.gd"
-)
 
 var default_yes: bool = false
 
@@ -15,11 +12,11 @@ func _enter_tree() -> void:
 	super()
 
 
-static func instantiate(new_offset: Vector2, parent: MapMenu) -> _CONFIRMATION_MAP_MENU:
-	const ConfirmationMapMenu = preload(
+static func instantiate(new_offset: Vector2, parent: MapMenu) -> ConfirmationMapMenu:
+	const PACKED_SCENE = preload(
 		"res://ui/map_ui/map_menus/confirmation_map_menu/confirmation_map_menu.tscn"
 	)
-	return _base_instantiate(ConfirmationMapMenu, new_offset, parent) as _CONFIRMATION_MAP_MENU
+	return _base_instantiate(PACKED_SCENE, new_offset, parent) as ConfirmationMapMenu
 
 
 func select_item(menu_item: MapMenuItem) -> void:

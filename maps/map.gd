@@ -206,11 +206,11 @@ func display_tiles(
 	var current_tile_base := MovementTile
 	match type:
 		TileTypes.ATTACK:
-			current_tile_base = AttackTile
+			current_tile_base = preload("res://maps/map_tiles/attack_tile.gd")
 		TileTypes.MOVEMENT:
 			current_tile_base = MovementTile
 		TileTypes.SUPPORT:
-			current_tile_base = SupportTile
+			current_tile_base = preload("res://maps/map_tiles/support_tile.gd")
 	for i: Vector2i in tiles:
 		var tile := current_tile_base.instantiate(
 			Vector2(i),

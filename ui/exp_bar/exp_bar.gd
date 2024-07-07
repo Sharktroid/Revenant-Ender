@@ -45,7 +45,7 @@ func play(experience: float) -> void:
 	if observing_unit.level > old_level:
 		await AudioPlayer.pause_track()
 		await get_tree().create_timer(0.5).timeout
-		var level_up_screen := LevelUp.instantiate(observing_unit, old_level)
+		var level_up_screen := LevelUpScreen.instantiate(observing_unit, old_level)
 		MapController.get_ui().add_child(level_up_screen)
 		await level_up_screen.tree_exited
 		GameController.remove_from_input_stack()

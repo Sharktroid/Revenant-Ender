@@ -1,6 +1,4 @@
 # Minor
-* Disable drop command when there is no valid drop target
-* Have classes called only once be called via constants instead of class names
 * Rename "Swap" to "Exchange"
 * Have Movement Arrow logic be handled by the scene instead of the unit
 * Have level up play sfx even when volume is muted
