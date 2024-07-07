@@ -1,5 +1,5 @@
 # Minor
-* Fix menu poping up when taking/exchanging
+* Fix bug where no menu item is selected when the previously selected item dissapears
 * Have Movement Arrow logic be handled by the scene instead of the unit
 * Have level up play sfx even when volume is muted
 * Change avoid to 1.5(speed + luck)

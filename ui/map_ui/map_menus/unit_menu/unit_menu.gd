@@ -100,6 +100,7 @@ func update() -> void:
 	for node: MapMenuItem in _get_item_nodes():
 		node.visible = enabled_items[node.name]
 	reset_size()
+	update_position()
 
 
 func select_item(item: MapMenuItem) -> void:
@@ -319,8 +320,9 @@ func _take(unit: Unit) -> void:
 	traveler.visible = false
 	traveler.wait()
 	visible = true
-	update()
 	CursorController.disable()
+	CursorController.map_position = connected_unit.position
+	update()
 
 
 func _give(unit: Unit) -> void:
@@ -352,8 +354,9 @@ func _exchange(unit: Unit) -> void:
 	old_traveler.wait()
 	new_traveler.wait()
 	visible = true
-	update()
 	CursorController.disable()
+	CursorController.map_position = connected_unit.position
+	update()
 
 
 static func _base_instantiate(
