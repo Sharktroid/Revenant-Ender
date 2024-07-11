@@ -41,7 +41,7 @@ var _weapon_index: int = 0:
 		_weapon_index = value
 		_weapon_index = posmod(_weapon_index, _current_weapons.size())
 		_update()
-		_item_menu.set_current_item_index(_weapon_index)
+		_item_menu.current_item_index = _weapon_index
 		top_unit.display_current_attack_tiles()
 var _old_weapon: Weapon
 @onready var _item_menu := %ItemMenu as _COMBAT_DISPLAY_SUBMENU

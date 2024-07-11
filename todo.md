@@ -1,5 +1,6 @@
 # Minor
-* Fix bug where no menu item is selected when the previously selected item dissapears
+* Fix wrong sound effect when selecting a unit and no sound effect plays
+* Add rescue when clicking on an ally
 * Have Movement Arrow logic be handled by the scene instead of the unit
 * Have level up play sfx even when volume is muted
 * Change avoid to 1.5(speed + luck)

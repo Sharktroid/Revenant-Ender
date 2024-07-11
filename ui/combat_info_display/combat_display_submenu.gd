@@ -25,12 +25,6 @@ func _update() -> void:
 		items.add_child(_ITEM_MENU_ITEM.new(weapon))
 
 
-func set_current_item_index(index: int) -> void:
-	get_current_item_node().deselect()
-	_current_item_index = index
-	get_current_item_node().select()
-
-
 func set_current_item_node(item: HelpContainer) -> void:
 	super(item)
 	weapon_selected.emit((item as _ITEM_MENU_ITEM).item)

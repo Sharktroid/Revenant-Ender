@@ -7,17 +7,20 @@ var offset: Vector2:
 		update_position()
 var parent_menu: MapMenu
 ## If true, the menu will move to the left if on the right side of the screen
-var _to_center: bool = true
-var _current_item_index: int = 0:
+var current_item_index: int = 0:
 	set(value):
-		var different: bool = value != _current_item_index
+		var different: bool = value != current_item_index
 		if different:
-			get_current_item_node().deselect()
-		_current_item_index = value
+			get_current_item_node().selected = false
+		current_item_index = value
 		if different:
-			get_current_item_node().select()
+			get_current_item_node().selected = true
 	get:
-		return posmod(_current_item_index, _get_visible_children().size())
+		if _get_visible_children().size() == 0:
+			return 0
+		else:
+			return posmod(current_item_index, _get_visible_children().size())
+var _to_center: bool = true
 
 
 func _enter_tree() -> void:
@@ -34,11 +37,11 @@ func _enter_tree() -> void:
 func receive_input(event: InputEvent) -> void:
 	if not HelpPopupController.is_active():
 		if event.is_action_pressed("up") and not Input.is_action_pressed("down"):
-			_current_item_index -= 1
+			current_item_index -= 1
 			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK)
 
 		elif event.is_action_pressed("down"):
-			_current_item_index += 1
+			current_item_index += 1
 			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK)
 
 		if event.is_action_pressed("ui_accept"):
@@ -73,12 +76,12 @@ func select_item(_item: MapMenuItem) -> void:
 
 
 func set_current_item_node(item: HelpContainer) -> void:
-	_current_item_index = _get_visible_children().find(item)
+	current_item_index = _get_visible_children().find(item)
 
 
 func get_current_item_node() -> MapMenuItem:
 	return (
-		_get_visible_children()[_current_item_index] if _get_visible_children().size() > 0 else null
+		_get_visible_children()[current_item_index] if _get_visible_children().size() > 0 else null
 	)
 
 

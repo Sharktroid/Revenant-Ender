@@ -5,11 +5,19 @@ var value: String:
 	set(new_value):
 		value = new_value
 		_update()
+var selected: bool = false:
+	set(value):
+		selected = value
+		if selected:
+			_select()
+		else:
+			_deselect()
 
 var _label := Label.new()
 
 
 func _init() -> void:
+	_deselect()
 	selectable = false
 	add_child(_label)
 	mouse_entered.connect(_on_mouse_entered)
@@ -17,17 +25,16 @@ func _init() -> void:
 
 func _enter_tree() -> void:
 	_update()
-	select()
-	if not self == _get_parent_menu().get_current_item_node():
-		deselect()
+	if self == _get_parent_menu().get_current_item_node():
+		selected = true
 
 
-func select() -> void:
+func _select() -> void:
 	if _label.has_theme_color_override("font_color"):
 		_label.remove_theme_color_override("font_color")
 
 
-func deselect() -> void:
+func _deselect() -> void:
 	if not _label.has_theme_color_override("font_color"):
 		_label.add_theme_color_override("font_color", Color.GRAY)
 

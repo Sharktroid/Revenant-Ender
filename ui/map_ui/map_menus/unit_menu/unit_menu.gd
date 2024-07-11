@@ -15,6 +15,7 @@ func _init() -> void:
 func _enter_tree() -> void:
 	connected_unit.tree_exited.connect(_on_unit_death)
 	update()
+	current_item_index = 0
 	var visible_items: bool = false
 	for i: MapMenuItem in _get_item_nodes():
 		if i.visible:
@@ -97,8 +98,14 @@ func update() -> void:
 	else:
 		if CursorController.get_hovered_unit() and _can_attack(CursorController.get_hovered_unit()):
 			enabled_items.Attack = true
+	var previous_node: MapMenuItem = get_current_item_node()
 	for node: MapMenuItem in _get_item_nodes():
 		node.visible = enabled_items[node.name]
+	if previous_node.visible:
+		set_current_item_node(previous_node)
+	else:
+		previous_node.selected = false
+		current_item_index = 0
 	reset_size()
 	update_position()
 
