@@ -1,13 +1,15 @@
 # Minor
-* Fix wrong sound effect when selecting a unit and no sound effect plays
-* Add rescue when clicking on an ally
 * Have Movement Arrow logic be handled by the scene instead of the unit
-* Have level up play sfx even when volume is muted
 * Change avoid to 1.5(speed + luck)
 * Implement 5%/95% rule
+* Rename "unit_name" to "display_name"
 
 # Major
 * Make variables private if possible
+* Add combat preview even if attacking is not possible
+* Add rescue when clicking on an ally
+* Have level up play sfx even when volume is muted
+* Add class relative power
 * Add options config for volume
 * Document classes
 * Add the remaining sub menus of the main map menu

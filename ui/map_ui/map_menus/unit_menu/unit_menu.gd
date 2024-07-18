@@ -55,9 +55,8 @@ func close(return_to_caller: bool = false) -> void:
 	CursorController.enable.call_deferred()
 
 
-func update() -> void:
-	# Gets the items for the unit menu.
-	var enabled_items: Dictionary = {
+static func get_displayed_items(unit: Unit) -> Dictionary:
+	var enabled_items: Dictionary={
 		Attack = false,
 		Wait = false,
 		Trade = false,
@@ -68,36 +67,42 @@ func update() -> void:
 		Exchange = false,
 		Items = false,
 	}
-	if CursorController.map_position in connected_unit.get_actionable_movement_tiles():
-		enabled_items.Wait = connected_unit.get_movement() > 0
-		enabled_items.Drop = connected_unit.traveler != null and _get_drop_tiles().size() > 0
-		enabled_items.Items = connected_unit.items.size() > 0
+	if CursorController.map_position in unit.get_actionable_movement_tiles():
+		enabled_items.Wait = unit.get_movement() > 0
+		enabled_items.Drop = unit.traveler != null and _get_drop_tiles(unit).size() > 0
+		enabled_items.Items = unit.items.size() > 0
 		# Gets all adjacent units
-		for unit: Unit in MapController.map.get_units():
-			if unit != connected_unit and unit.visible == true:
+		for adjacent_unit: Unit in MapController.map.get_units():
+			if adjacent_unit != unit and adjacent_unit.visible == true:
 				if (
-					Utilities.get_tile_distance(CursorController.map_position, unit.get_position())
+					Utilities.get_tile_distance(CursorController.map_position, adjacent_unit.get_position())
 					== 1
 				):
 					# Adjacent units
-					if connected_unit.is_friend(unit):
-						if connected_unit.items.size() > 0 and unit.items.size() > 0:
+					if unit.is_friend(adjacent_unit):
+						if unit.items.size() > 0 and adjacent_unit.items.size() > 0:
 							enabled_items.Trade = true
-						if unit.traveler:
-							if connected_unit.traveler:
+						if adjacent_unit.traveler:
+							if unit.traveler:
 								enabled_items.Exchange = true
 							else:
 								enabled_items.Take = true
 						else:
-							if connected_unit.traveler:
+							if unit.traveler:
 								enabled_items.Give = true
-							elif connected_unit.can_rescue(unit):
+							elif unit.can_rescue(adjacent_unit):
 								enabled_items.Rescue = true
-				if _can_attack(unit):
+				if _can_attack(unit, adjacent_unit):
 					enabled_items.Attack = true
 	else:
-		if CursorController.get_hovered_unit() and _can_attack(CursorController.get_hovered_unit()):
+		if CursorController.get_hovered_unit() and _can_attack(unit, CursorController.get_hovered_unit()):
 			enabled_items.Attack = true
+	return enabled_items
+
+
+func update() -> void:
+	# Gets the items for the unit menu.
+	var enabled_items: Dictionary = UnitMenu.get_displayed_items(connected_unit)
 	var previous_node: MapMenuItem = get_current_item_node()
 	for node: MapMenuItem in _get_item_nodes():
 		node.visible = enabled_items[node.name]
@@ -140,7 +145,7 @@ func select_item(item: MapMenuItem) -> void:
 
 		"Drop":
 			var tiles_node: Node2D = (MapController.map as Map).display_tiles(
-				_get_drop_tiles(), Map.TileTypes.SUPPORT
+				UnitMenu._get_drop_tiles(connected_unit), Map.TileTypes.SUPPORT
 			)
 			var tile_selector := TileSelector.new(
 				connected_unit,
@@ -220,34 +225,34 @@ func _select_map(
 	tiles_node.queue_free()
 
 
-func _can_attack(unit: Unit) -> bool:
-	var current_tiles: Array[Vector2i] = connected_unit.get_current_attack_tiles(
-		connected_unit.get_path_last_pos(), true
+static func _can_attack(unit: Unit, adjacent_unit: Unit) -> bool:
+	var current_tiles: Array[Vector2i] = unit.get_current_attack_tiles(
+		unit.get_path_last_pos(), true
 	)
-	var diplo_stance: Faction.DiplomacyStances = connected_unit.faction.get_diplomacy_stance(
-		unit.faction
+	var diplo_stance: Faction.DiplomacyStances = unit.faction.get_diplomacy_stance(
+		adjacent_unit.faction
 	)
 	return (
-		diplo_stance == Faction.DiplomacyStances.ENEMY and Vector2i(unit.position) in current_tiles
+		diplo_stance == Faction.DiplomacyStances.ENEMY and Vector2i(adjacent_unit.position) in current_tiles
 	)
 
 
 func _can_drop(pos: Vector2i) -> bool:
-	return pos in _get_drop_tiles()
+	return pos in UnitMenu._get_drop_tiles(connected_unit)
 
 
-func _get_drop_tiles() -> Array[Vector2i]:
-	var traveler: Unit = connected_unit.traveler
+static func _get_drop_tiles(unit: Unit) -> Array[Vector2i]:
+	var traveler: Unit = unit.traveler
 	var tiles: Array[Vector2i] = []
-	for tile: Vector2i in Utilities.get_tiles(connected_unit.get_path_last_pos(), 1, 1):
+	for tile: Vector2i in Utilities.get_tiles(unit.get_path_last_pos(), 1, 1):
 		var cost: float = MapController.map.get_terrain_cost(
 			traveler.unit_class.get_movement_type(), tile
 		)
 		var movement: int = traveler.get_movement()
 		if cost <= movement:
 			tiles.append(tile)
-	for unit: Unit in MapController.map.get_units():
-		var pos: Vector2i = unit.position
+	for adjacent_unit: Unit in MapController.map.get_units():
+		var pos: Vector2i = adjacent_unit.position
 		if pos in tiles:
 			tiles.erase(pos)
 
