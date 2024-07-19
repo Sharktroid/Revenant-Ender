@@ -122,7 +122,7 @@ func select_item(item: MapMenuItem) -> void:
 				connected_unit,
 				connected_unit.get_min_range(),
 				connected_unit.get_max_range(),
-				_can_attack,
+				func(unit: Unit) -> bool: return UnitMenu._can_attack(connected_unit, unit),
 				CursorController.Icons.ATTACK
 			)
 			_select_map(selector, Node2D.new(), _attack)
