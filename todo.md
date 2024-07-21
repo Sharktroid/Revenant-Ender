@@ -1,5 +1,4 @@
 # Minor
-* Have Movement Arrow logic be handled by the scene instead of the unit
 * Change avoid to 1.5(speed + luck)
 * Implement 5%/95% rule
 * Rename "unit_name" to "display_name"

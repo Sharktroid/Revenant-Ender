@@ -60,7 +60,6 @@ const ONE_ROUND_EXP_BASE: float = float(BASE_EXP) / 3
 const KILL_EXP_PERCENT: float = 0.25
 const DEFAULT_PERSONAL_VALUE: int = 5
 const MAX_LEVEL: int = 30
-const _MOVEMENT_ARROWS: PackedScene = preload("res://maps/map_tiles/movement_arrows.tscn")
 
 @export var unit_name: String = "[Empty]"
 @export_multiline var unit_description: String = "[Empty]"
@@ -225,6 +224,7 @@ func _process(_delta: float) -> void:
 		var anim_frame: int = floori((Engine.get_physics_frames() as float) / 16) % 4
 		frame = 1 if anim_frame == 3 else anim_frame
 	update_shader()
+
 
 func update_shader() -> void:
 	(material as ShaderMaterial).set_shader_parameter("modulate", modulate)
@@ -833,52 +833,9 @@ func show_path() -> void:
 		_arrows_container.queue_free()
 	_arrows_container = CanvasGroup.new()
 	if get_unit_path().size() > 1:
-		for i: Vector2i in get_unit_path():
-			var tile := _MOVEMENT_ARROWS.instantiate() as Sprite2D
-			var prev: Vector2i = i
-			prev -= (
-				Vector2i(position)
-				if get_unit_path().find(i) == 0
-				else get_unit_path()[get_unit_path().find(i) - 1]
-			)
-			var next: Vector2i
-			if i != get_unit_path()[-1]:
-				next = i - get_unit_path()[get_unit_path().find(i) + 1]
-			if get_unit_path()[0] == i:
-				match next:
-					Vector2i(-16, 0):
-						tile.frame = 0
-					Vector2i(16, 0):
-						tile.frame = 8
-					Vector2i(0, 16):
-						tile.frame = 7
-					Vector2i(0, -16):
-						tile.frame = 1
-			elif i == get_unit_path()[-1]:
-				match prev:
-					Vector2i(16, 0):
-						tile.frame = 4
-					Vector2i(-16, 0):
-						tile.frame = 12
-					Vector2i(0, 16):
-						tile.frame = 5
-					Vector2i(0, -16):
-						tile.frame = 11
-			else:
-				if Vector2i(16, 0) in [prev, next] and Vector2i(-16, 0) in [prev, next]:
-					tile.frame = 13
-				elif Vector2i(16, 0) in [prev, next] and Vector2i(0, 16) in [prev, next]:
-					tile.frame = 10
-				elif Vector2i(16, 0) in [prev, next] and Vector2i(0, -16) in [prev, next]:
-					tile.frame = 3
-				elif Vector2i(-16, 0) in [prev, next] and Vector2i(0, -16) in [prev, next]:
-					tile.frame = 2
-				elif Vector2i(-16, 0) in [prev, next] and Vector2i(0, 16) in [prev, next]:
-					tile.frame = 9
-				elif Vector2i(0, 16) in [prev, next] and Vector2i(0, -16) in [prev, next]:
-					tile.frame = 6
-			tile.position = Vector2(i)
-			_arrows_container.add_child(tile)
+		for index: int in get_unit_path().size():
+			var movement_arrow := MovementArrow.instantiate(get_unit_path(), index)
+			_arrows_container.add_child(movement_arrow)
 		get_map().get_child(0).add_child(_arrows_container)
 
 
