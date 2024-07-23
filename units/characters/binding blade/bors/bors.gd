@@ -8,7 +8,7 @@ func _init() -> void:
 	_personal_strength = 9
 	_personal_pierce = 5
 	_personal_intelligence = 5
-	_personal_skill = 6
+	_personal_dexterity = 6
 	_personal_speed = 8
 	_personal_luck = 10
 	_personal_defense = 8

@@ -1,16 +1,16 @@
 # Minor
 * Change avoid to 1.5(speed + luck)
 * Implement 5%/95% rule
-* Rename "unit_name" to "display_name"
 
 # Major
+* Store formulas in only one location
 * Make variables private if possible
+* Document classes
 * Add combat preview even if attacking is not possible
 * Add rescue when clicking on an ally
 * Have level up play sfx even when volume is muted
 * Add class relative power
 * Add options config for volume
-* Document classes
 * Add the remaining sub menus of the main map menu
 * Make attack Animations skippable
 * Implement durability

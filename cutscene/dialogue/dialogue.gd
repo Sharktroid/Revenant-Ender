@@ -259,7 +259,7 @@ func _set_speaker(name_label: RichTextLabel, new_speaker: Unit) -> void:
 			slide_out.set_speed_scale(2)
 			slide_out.tween_property(name_label, "visible_ratio", 0, SHIFT_DURATION)
 			await slide_out.finished
-		name_label.text = new_speaker.unit_name
+		name_label.text = new_speaker.display_name
 		var slide_in: Tween = create_tween()
 		slide_in.set_speed_scale(2)
 		slide_in.tween_property(name_label, "visible_ratio", 1, SHIFT_DURATION / 2)

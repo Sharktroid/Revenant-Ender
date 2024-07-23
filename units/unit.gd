@@ -14,7 +14,7 @@ enum Stats {
 	STRENGTH,
 	PIERCE,
 	INTELLIGENCE,
-	SKILL,
+	DEXTERITY,
 	SPEED,
 	LUCK,
 	DEFENSE,
@@ -61,7 +61,7 @@ const KILL_EXP_PERCENT: float = 0.25
 const DEFAULT_PERSONAL_VALUE: int = 5
 const MAX_LEVEL: int = 30
 
-@export var unit_name: String = "[Empty]"
+@export var display_name: String = "[Empty]"
 @export_multiline var unit_description: String = "[Empty]"
 @export var unit_class: UnitClass
 ## Unit's faction. Should be in the map's Faction stack.
@@ -131,7 +131,7 @@ var effort_hit_points: int
 var effort_strength: int
 var effort_pierce: int
 var effort_intelligence: int
-var effort_skill: int
+var effort_dexterity: int
 var effort_speed: int
 var effort_luck: int
 var effort_defense: int
@@ -149,7 +149,7 @@ var _personal_pierce: int = 5
 @warning_ignore("unused_private_class_variable")
 var _personal_intelligence: int = 5
 @warning_ignore("unused_private_class_variable")
-var _personal_skill: int = 5
+var _personal_dexterity: int = 5
 @warning_ignore("unused_private_class_variable")
 var _personal_speed: int = 5
 @warning_ignore("unused_private_class_variable")
@@ -206,7 +206,7 @@ func _enter_tree() -> void:
 		_animation_player.play("idle")
 	Utilities.sync_animation(_animation_player)
 	var directory: String = "res://portraits/{name}/{name}.tscn".format(
-		{"name": unit_name.to_snake_case()}
+		{"name": display_name.to_snake_case()}
 	)
 	if FileAccess.file_exists(directory):
 		_portrait = (load(directory) as PackedScene).instantiate() as Portrait
@@ -345,8 +345,8 @@ func get_intelligence(current_level: int = level) -> int:
 	return get_stat(Stats.INTELLIGENCE, current_level)
 
 
-func get_skill(current_level: int = level) -> int:
-	return get_stat(Stats.SKILL, current_level)
+func get_dexterity(current_level: int = level) -> int:
+	return get_stat(Stats.DEXTERITY, current_level)
 
 
 func get_speed(current_level: int = level) -> int:
@@ -442,11 +442,11 @@ func get_weight() -> int:
 
 
 func get_hit() -> float:
-	return get_current_weapon().get_hit() + get_skill() * 2 + get_luck()
+	return Formulas.HIT.evaluate(self)
 
 
 func get_avoid() -> float:
-	return get_attack_speed() * 2 + get_luck()
+	return Formulas.AVOID.evaluate(self)
 
 
 func get_hit_rate(enemy: Unit) -> int:
@@ -463,18 +463,19 @@ func get_hit_rate(enemy: Unit) -> int:
 			100
 		)
 	)
+	return roundi(clampf(get_hit() - enemy.get_avoid() + weapon_hit, 0, 100))
 
 
 func get_crit() -> float:
-	return get_current_weapon().get_crit() + get_skill()
+	return Formulas.CRIT.evaluate(self)
 
 
-func get_crit_avoid() -> int:
 	return get_luck()
+func get_dodge() -> float:
 
 
 func get_crit_rate(enemy: Unit) -> int:
-	return roundi(clampf(get_crit() - enemy.get_crit_avoid(), 0, 100))
+	return roundi(clampf(get_crit() - enemy.get_dodge(), 0, 100))
 
 
 func get_path_last_pos() -> Vector2i:
@@ -860,7 +861,7 @@ func equip_weapon(weapon: Weapon) -> void:
 		items.push_front(weapon)
 	else:
 		push_error(
-			'Tried equipping invalid weapon "%s" on unit "%s"' % [weapon.resource_name, unit_name]
+			'Tried equipping invalid weapon "%s" on unit "%s"' % [weapon.resource_name, display_name]
 		)
 
 
@@ -1015,3 +1016,4 @@ func _get_nearest_path_tile(tiles: Array[Vector2i]) -> Vector2i:
 			weighted_tiles[tile_cost] = [tile]
 
 	return (weighted_tiles[weighted_tiles.keys().min()] as Array[Vector2i]).pick_random()
+

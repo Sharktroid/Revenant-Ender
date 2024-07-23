@@ -9,7 +9,7 @@ func _init() -> void:
 	_personal_strength = 0
 	_personal_pierce = 0
 	_personal_intelligence = 0
-	_personal_skill = 0
+	_personal_dexterity = 0
 	_personal_speed = 0
 	_personal_luck = 0
 	_personal_defense = 0
@@ -22,7 +22,7 @@ func _init() -> void:
 	effort_strength = 50
 	effort_pierce = 0
 	effort_intelligence = 0
-	effort_skill = 250
+	effort_dexterity = 250
 	effort_speed = 150
 	effort_luck = 200
 	effort_defense = 50

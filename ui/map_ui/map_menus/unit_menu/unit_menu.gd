@@ -56,7 +56,7 @@ func close(return_to_caller: bool = false) -> void:
 
 
 static func get_displayed_items(unit: Unit) -> Dictionary:
-	var enabled_items: Dictionary={
+	var enabled_items: Dictionary = {
 		Attack = false,
 		Wait = false,
 		Trade = false,
@@ -75,7 +75,9 @@ static func get_displayed_items(unit: Unit) -> Dictionary:
 		for adjacent_unit: Unit in MapController.map.get_units():
 			if adjacent_unit != unit and adjacent_unit.visible == true:
 				if (
-					Utilities.get_tile_distance(CursorController.map_position, adjacent_unit.get_position())
+					Utilities.get_tile_distance(
+						CursorController.map_position, adjacent_unit.get_position()
+					)
 					== 1
 				):
 					# Adjacent units
@@ -95,7 +97,10 @@ static func get_displayed_items(unit: Unit) -> Dictionary:
 				if _can_attack(unit, adjacent_unit):
 					enabled_items.Attack = true
 	else:
-		if CursorController.get_hovered_unit() and _can_attack(unit, CursorController.get_hovered_unit()):
+		if (
+			CursorController.get_hovered_unit()
+			and _can_attack(unit, CursorController.get_hovered_unit())
+		):
 			enabled_items.Attack = true
 	return enabled_items
 
@@ -118,6 +123,7 @@ func update() -> void:
 func select_item(item: MapMenuItem) -> void:
 	match item.name:
 		"Attack":
+			#gdlint: disable = private-method-call
 			var selector := AttackSelector.new(
 				connected_unit,
 				connected_unit.get_min_range(),
@@ -126,6 +132,21 @@ func select_item(item: MapMenuItem) -> void:
 				CursorController.Icons.ATTACK
 			)
 			_select_map(selector, Node2D.new(), _attack)
+
+		"Drop":
+			var tiles_node: Node2D = (MapController.map as Map).display_tiles(
+				UnitMenu._get_drop_tiles(connected_unit), Map.TileTypes.SUPPORT
+			)
+			#gdlint: enable = private-method-call
+			var tile_selector := TileSelector.new(
+				connected_unit,
+				1,
+				1,
+				_can_drop,
+				CursorController.Icons.NONE,
+				AudioPlayer.SoundEffects.BATTLE_SELECT
+			)
+			_select_map(tile_selector, tiles_node, _drop)
 
 		"Wait":
 			_wait()
@@ -142,20 +163,6 @@ func select_item(item: MapMenuItem) -> void:
 		"Rescue":
 			var selector := UnitSelector.new(connected_unit, 1, 1, connected_unit.can_rescue)
 			_select_map(selector, _display_adjacent_support_tiles(), _rescue)
-
-		"Drop":
-			var tiles_node: Node2D = (MapController.map as Map).display_tiles(
-				UnitMenu._get_drop_tiles(connected_unit), Map.TileTypes.SUPPORT
-			)
-			var tile_selector := TileSelector.new(
-				connected_unit,
-				1,
-				1,
-				_can_drop,
-				CursorController.Icons.NONE,
-				AudioPlayer.SoundEffects.BATTLE_SELECT
-			)
-			_select_map(tile_selector, tiles_node, _drop)
 
 		"Take":
 			_select_map(
@@ -233,11 +240,13 @@ static func _can_attack(unit: Unit, adjacent_unit: Unit) -> bool:
 		adjacent_unit.faction
 	)
 	return (
-		diplo_stance == Faction.DiplomacyStances.ENEMY and Vector2i(adjacent_unit.position) in current_tiles
+		diplo_stance == Faction.DiplomacyStances.ENEMY
+		and Vector2i(adjacent_unit.position) in current_tiles
 	)
 
 
 func _can_drop(pos: Vector2i) -> bool:
+	#gdlint: ignore = private-method-call
 	return pos in UnitMenu._get_drop_tiles(connected_unit)
 
 

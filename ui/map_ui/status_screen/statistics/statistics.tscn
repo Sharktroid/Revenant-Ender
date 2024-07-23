@@ -83,7 +83,7 @@ layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_top = NodePath("../PierceHelp")
 focus_neighbor_right = NodePath("../../Values/IntelligenceBar")
-focus_neighbor_bottom = NodePath("../../../../../BottomPanels/MiscStats/HBoxContainer/MiscLabels/SkillHelp")
+focus_neighbor_bottom = NodePath("../../../../../BottomPanels/MiscStats/HBoxContainer/MiscLabels/DexterityHelp")
 script = ExtResource("2_6g5y4")
 help_description = "Increases the damage that tomes and intelligenceal weapons deal by +1.
 It also raises the accuracy of crimson staves by +10."
@@ -122,7 +122,7 @@ layout_mode = 2
 focus_neighbor_left = NodePath("../../OffensiveLabels/IntelligenceHelp")
 focus_neighbor_top = NodePath("../PierceBar")
 focus_neighbor_right = NodePath("../../../../DefensiveStats/HBoxContainer/DefensiveLabels/ResistanceHelp")
-focus_neighbor_bottom = NodePath("../../../../../BottomPanels/MiscStats/HBoxContainer/Values/SkillBar")
+focus_neighbor_bottom = NodePath("../../../../../BottomPanels/MiscStats/HBoxContainer/Values/DexterityBar")
 
 [node name="DefensiveStats" type="PanelContainer" parent="TopPanels"]
 layout_mode = 2
@@ -240,20 +240,20 @@ layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 0
 
-[node name="SkillHelp" type="BoxContainer" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels" groups=["left_nodes", "values"]]
+[node name="DexterityHelp" type="BoxContainer" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels" groups=["left_nodes", "values"]]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_top = NodePath("../../../../../TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels/IntelligenceHelp")
-focus_neighbor_right = NodePath("../../Values/SkillBar")
+focus_neighbor_right = NodePath("../../Values/DexterityBar")
 focus_neighbor_bottom = NodePath("../SpeedHelp")
 script = ExtResource("2_6g5y4")
 help_description = "Increases hit rate by +2, and critical rate by +1."
 
-[node name="SkillLabel" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/SkillHelp"]
+[node name="DexterityLabel" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/DexterityHelp"]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
-text = "Skill
+text = "Dexterity
 "
 vertical_alignment = 1
 
@@ -261,7 +261,7 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_left = NodePath(".")
-focus_neighbor_top = NodePath("../SkillHelp")
+focus_neighbor_top = NodePath("../DexterityHelp")
 focus_neighbor_right = NodePath("../../Values/SpeedBar")
 focus_neighbor_bottom = NodePath("../LuckHelp")
 script = ExtResource("2_6g5y4")
@@ -281,7 +281,7 @@ focus_neighbor_top = NodePath("../SpeedHelp")
 focus_neighbor_right = NodePath("../../Values/LuckBar")
 focus_neighbor_bottom = NodePath("../BuildHelp")
 script = ExtResource("2_6g5y4")
-help_description = "Increases hit rate, avoid rate, and critical avoid rate by +1 each."
+help_description = "Increases hit rate, avoid rate, and dodge by +1 each."
 
 [node name="LuckHelp" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/LuckHelp" groups=["values"]]
 layout_mode = 2
@@ -328,10 +328,10 @@ size_flags_horizontal = 3
 theme = SubResource("Theme_ux5tw")
 theme_override_constants/separation = 0
 
-[node name="SkillBar" parent="BottomPanels/MiscStats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
+[node name="DexterityBar" parent="BottomPanels/MiscStats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
 unique_name_in_owner = true
 layout_mode = 2
-focus_neighbor_left = NodePath("../../MiscLabels/SkillHelp")
+focus_neighbor_left = NodePath("../../MiscLabels/DexterityHelp")
 focus_neighbor_top = NodePath("../../../../../TopPanels/OffensiveStats/HBoxContainer/Values/IntelligenceBar")
 focus_neighbor_right = NodePath("../../../../Other/HBoxContainer/OtherLabels/AuthorityHelp")
 focus_neighbor_bottom = NodePath("../SpeedBar")
@@ -339,7 +339,7 @@ focus_neighbor_bottom = NodePath("../SpeedBar")
 [node name="SpeedBar" parent="BottomPanels/MiscStats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
 unique_name_in_owner = true
 layout_mode = 2
-focus_neighbor_top = NodePath("../SkillBar")
+focus_neighbor_top = NodePath("../DexterityBar")
 focus_neighbor_right = NodePath("../../../../Other/HBoxContainer/OtherLabels/WeightHelp")
 focus_neighbor_bottom = NodePath("../LuckBar")
 
@@ -383,7 +383,7 @@ theme_override_constants/separation = 0
 [node name="AuthorityHelp" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/OtherLabels" groups=["values"]]
 layout_mode = 2
 size_flags_vertical = 3
-focus_neighbor_left = NodePath("../../../../MiscStats/HBoxContainer/Values/SkillBar")
+focus_neighbor_left = NodePath("../../../../MiscStats/HBoxContainer/Values/DexterityBar")
 focus_neighbor_top = NodePath("../../../../../TopPanels/DefensiveStats/HBoxContainer/DefensiveLabels/ResistanceHelp")
 focus_neighbor_bottom = NodePath("../WeightHelp")
 script = ExtResource("2_6g5y4")

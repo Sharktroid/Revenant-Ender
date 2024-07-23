@@ -25,7 +25,7 @@ y_sort_enabled = false
 material = SubResource("ShaderMaterial_uput8")
 texture = ExtResource("3_1rpd5")
 script = ExtResource("4_cii6r")
-unit_name = "Roy"
+display_name = "Roy"
 unit_description = "The next heir to Pherae.
 The protagonist of this story."
 unit_class = SubResource("Resource_tt5sv")

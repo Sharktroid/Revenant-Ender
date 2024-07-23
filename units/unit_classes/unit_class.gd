@@ -32,7 +32,7 @@ var _base_pierce: int
 @warning_ignore("unused_private_class_variable")
 var _base_intelligence: int
 @warning_ignore("unused_private_class_variable")
-var _base_skill: int
+var _base_dexterity: int
 @warning_ignore("unused_private_class_variable")
 var _base_speed: int
 @warning_ignore("unused_private_class_variable")

@@ -28,7 +28,7 @@ script = ExtResource("6_bxwmy")
 material = SubResource("ShaderMaterial_rlv12")
 texture = ExtResource("3_b0khk")
 script = ExtResource("2_716f4")
-unit_name = "Marcus"
+display_name = "Marcus"
 unit_description = "A veteran paladin serving Pherae.
 Roy's instructor in combat."
 unit_class = SubResource("Resource_udhl1")

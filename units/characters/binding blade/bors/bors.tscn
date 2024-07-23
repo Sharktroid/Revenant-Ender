@@ -16,7 +16,7 @@ script = ExtResource("5_duslb")
 [node name="Bors" instance=ExtResource("1_duhq4")]
 texture = ExtResource("3_d6ayv")
 script = ExtResource("2_887df")
-unit_name = "Bors"
+display_name = "Bors"
 unit_description = "A knight serving Ostia.
 Loyal and dutiful."
 unit_class = SubResource("Resource_jd4tu")

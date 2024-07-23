@@ -23,7 +23,7 @@ func _init() -> void:
 	_base_strength = 28
 	_base_pierce = 23
 	_base_intelligence = 26
-	_base_skill = 30
+	_base_dexterity = 30
 	_base_speed = 30
 	_base_luck = 23
 	_base_defense = 22

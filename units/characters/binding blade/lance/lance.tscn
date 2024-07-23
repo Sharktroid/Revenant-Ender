@@ -28,7 +28,7 @@ script = ExtResource("6_5ps04")
 material = SubResource("ShaderMaterial_5u5qg")
 texture = ExtResource("3_t16q6")
 script = ExtResource("2_qgif2")
-unit_name = "Lance"
+display_name = "Lance"
 unit_description = "A knight serving Pherae.
 Calm and cool-headed."
 unit_class = SubResource("Resource_qo8hb")

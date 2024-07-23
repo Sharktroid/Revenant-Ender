@@ -161,7 +161,7 @@ func _update() -> void:
 			)
 			var node_path: String = "%%{half}%s".format({"half": half})
 
-			(get_node(node_path % "Name") as Label).text = current_unit.unit_name
+			(get_node(node_path % "Name") as Label).text = current_unit.display_name
 
 			(get_node(node_path % "WeaponIcon") as TextureRect).texture = (
 				weapon.get_icon() if weapon else null

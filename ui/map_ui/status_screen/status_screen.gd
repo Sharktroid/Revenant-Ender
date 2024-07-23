@@ -69,7 +69,7 @@ func _update() -> void:
 	_portrait = new_portrait
 	old_portrait.queue_free()
 
-	(%UnitName as Label).text = observing_unit.unit_name
+	(%UnitName as Label).text = observing_unit.display_name
 	(%UnitDescription as HelpContainer).help_description = observing_unit.unit_description
 
 	(%ClassName as Label).text = observing_unit.unit_class.resource_name
@@ -113,6 +113,7 @@ func _update() -> void:
 	var hit_label := %HitValue as Label
 	var crit_description := %CritDescription as HelpContainer
 	var crit_label := %CritValue as Label
+
 	if observing_unit.get_current_weapon():
 		attack_description.help_description = ("{attack} + {might} + bonuses".format(
 			{
@@ -161,8 +162,8 @@ func _update() -> void:
 	))
 	_set_label_text_to_number(%AvoidValue as Label, observing_unit.get_avoid())
 
-	(%CritAvoidDescription as HelpContainer).help_description = (str(observing_unit.get_luck()))
-	_set_label_text_to_number(%CritAvoidValue as Label, observing_unit.get_crit_avoid())
+	(%DodgeDescription as HelpContainer).help_description = str(observing_unit.get_luck())
+	_set_label_text_to_number(%DodgeValue as Label, observing_unit.get_dodge())
 
 	var current_weapon: Weapon = observing_unit.get_current_weapon()
 	var range_value := %RangeValue as RichTextLabel

@@ -304,12 +304,12 @@ horizontal_alignment = 2
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 
-[node name="SkillContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer" groups=["stats"]]
+[node name="DexterityContainer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer" groups=["stats"]]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Panel" type="Panel" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/SkillContainer"]
+[node name="Panel" type="Panel" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/DexterityContainer"]
 visible = false
 layout_mode = 0
 offset_top = 10.0
@@ -317,7 +317,7 @@ offset_right = 79.0
 offset_bottom = 13.0
 theme_override_styles/panel = SubResource("StyleBoxTexture_prpvg")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/SkillContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/DexterityContainer"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -325,12 +325,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="SkillLabel" type="Label" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/SkillContainer/HBoxContainer"]
+[node name="DexterityLabel" type="Label" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/DexterityContainer/HBoxContainer"]
 layout_mode = 2
 theme_type_variation = &"YellowLabel"
-text = "Skill"
+text = "Dexterity"
 
-[node name="SkillValue" type="Label" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/SkillContainer/HBoxContainer"]
+[node name="DexterityValue" type="Label" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/DexterityContainer/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(11, 0)
 layout_mode = 2
@@ -339,7 +339,7 @@ theme_type_variation = &"BlueLabel"
 text = "19"
 horizontal_alignment = 2
 
-[node name="Spacer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/SkillContainer/HBoxContainer"]
+[node name="Spacer" type="ReferenceRect" parent="Children/BottomPanel/HBoxContainer/Left/VBoxContainer/DexterityContainer/HBoxContainer"]
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 
@@ -676,7 +676,7 @@ offset_top = 159.0
 offset_right = 255.0
 offset_bottom = 175.0
 
-[node name="SkillChange" parent="Children/StatChanges" instance=ExtResource("8_mke8r")]
+[node name="DexterityChange" parent="Children/StatChanges" instance=ExtResource("8_mke8r")]
 visible = false
 layout_mode = 0
 offset_left = 245.0
@@ -765,7 +765,7 @@ position = Vector2(236, 150)
 [node name="IntelligenceSparkle" parent="Children/Sparkles" instance=ExtResource("10_k7t2k")]
 position = Vector2(236, 166)
 
-[node name="SkillSparkle" parent="Children/Sparkles" instance=ExtResource("10_k7t2k")]
+[node name="DexteritySparkle" parent="Children/Sparkles" instance=ExtResource("10_k7t2k")]
 position = Vector2(236, 182)
 
 [node name="SpeedSparkle" parent="Children/Sparkles" instance=ExtResource("10_k7t2k")]

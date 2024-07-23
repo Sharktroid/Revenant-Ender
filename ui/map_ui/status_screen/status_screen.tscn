@@ -95,8 +95,10 @@ mouse_filter = 1
 
 [node name="HighStatsBackground" type="PanelContainer" parent="MenuScreen/Constant/Container"]
 layout_mode = 1
-offset_right = 96.0
-offset_bottom = 173.0
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 177.0
+grow_horizontal = 2
 size_flags_vertical = 3
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_8vmos")
@@ -311,20 +313,20 @@ text = "21"
 layout_mode = 2
 
 [node name="HitLabelDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/HitContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 2
 focus_neighbor_top = NodePath("../../ASContainer/ASLabelDescription")
 focus_neighbor_right = NodePath("../HitDescription")
 focus_neighbor_bottom = NodePath("../../AvoidContainer/AvoidLabelDescription")
 script = ExtResource("4_g30x5")
-help_description = "The unit's current hit rate when attacking.
-(Weapon Hit) + (Skill) * 2 + (Luck) + (Other bonuses)"
+help_description = "The unit's current hit rate when attacking."
 
 [node name="HitLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/HitContainer/HitLabelDescription"]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
-text = "Hit Rate"
+text = "Hit"
 
 [node name="HitDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/HitContainer"]
 unique_name_in_owner = true
@@ -344,15 +346,14 @@ text = "21"
 layout_mode = 2
 
 [node name="AvoidLabelDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/AvoidContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 2
 focus_neighbor_top = NodePath("../../HitContainer/HitLabelDescription")
 focus_neighbor_right = NodePath("../AvoidDescription")
 focus_neighbor_bottom = NodePath("../../CritContainer/CritLabelDescription")
 script = ExtResource("4_g30x5")
-help_description = "The unit's current avoid rate. Decreases attacker's hit rate.
-(Attack Speed) * 2 + (Luck) + (Other Bonuses)
-"
+help_description = "The unit's current avoid rate. Decreases attacker's hit rate."
 
 [node name="AvoidLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/AvoidContainer/AvoidLabelDescription"]
 layout_mode = 2
@@ -378,27 +379,27 @@ text = "21"
 layout_mode = 2
 
 [node name="CritLabelDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/CritContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 2
 focus_neighbor_top = NodePath("../../AvoidContainer/AvoidLabelDescription")
 focus_neighbor_right = NodePath("../CritDescription")
-focus_neighbor_bottom = NodePath("../../CritAvoidContainer/CritAvoidLabelDescription")
+focus_neighbor_bottom = NodePath("../../DodgeContainer/DodgeLabelDescription")
 script = ExtResource("4_g30x5")
-help_description = "Chance to get a critical hit.
-(Skill) + (Other Bonuses)"
+help_description = "Chance to get a critical hit."
 
 [node name="CritLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/CritContainer/CritLabelDescription"]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
-text = "Critical Hit Rate"
+text = "Critical Hit"
 
 [node name="CritDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/CritContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath("../CritLabelDescription")
 focus_neighbor_top = NodePath("../../AvoidContainer/AvoidDescription")
-focus_neighbor_bottom = NodePath("../../CritAvoidContainer/CritAvoidDescription")
+focus_neighbor_bottom = NodePath("../../DodgeContainer/DodgeDescription")
 script = ExtResource("4_g30x5")
 
 [node name="CritValue" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/CritContainer/CritDescription"]
@@ -407,35 +408,35 @@ layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "21"
 
-[node name="CritAvoidContainer" type="HBoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer"]
+[node name="DodgeContainer" type="HBoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer"]
 layout_mode = 2
 
-[node name="CritAvoidLabelDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/CritAvoidContainer"]
+[node name="DodgeLabelDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/DodgeContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 2
 focus_neighbor_top = NodePath("../../CritContainer/CritLabelDescription")
-focus_neighbor_right = NodePath("../CritAvoidDescription")
+focus_neighbor_right = NodePath("../DodgeDescription")
 focus_neighbor_bottom = NodePath("../../RangeContainer")
 script = ExtResource("4_g30x5")
-help_description = "Critical AvoidRate: decreases enemy's critical hit chance.
-If the resulting rate is below 5%, a critical can not occur.
-(Luck) + (Other Bonuses)"
+help_description = "DodgeRate: decreases enemy's critical hit chance.
+If the resulting rate is below 5%, a critical can not occur."
 
-[node name="CritAvoidLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/CritAvoidContainer/CritAvoidLabelDescription"]
+[node name="DodgeLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/DodgeContainer/DodgeLabelDescription"]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
-text = "Crit. Avoid"
+text = "Dodge"
 
-[node name="CritAvoidDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/CritAvoidContainer"]
+[node name="DodgeDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/DodgeContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-focus_neighbor_left = NodePath("../CritAvoidLabelDescription")
+focus_neighbor_left = NodePath("../DodgeLabelDescription")
 focus_neighbor_top = NodePath("../../CritContainer/CritDescription")
 focus_neighbor_bottom = NodePath("../../RangeContainer")
 script = ExtResource("4_g30x5")
 
-[node name="CritAvoidValue" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/CritAvoidContainer/CritAvoidDescription"]
+[node name="DodgeValue" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/DodgeContainer/DodgeDescription"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
@@ -443,7 +444,7 @@ text = "21"
 
 [node name="RangeContainer" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer"]
 layout_mode = 2
-focus_neighbor_top = NodePath("../CritAvoidContainer/CritAvoidLabelDescription")
+focus_neighbor_top = NodePath("../DodgeContainer/DodgeLabelDescription")
 script = ExtResource("4_g30x5")
 help_description = "The current range the unit can attack from."
 

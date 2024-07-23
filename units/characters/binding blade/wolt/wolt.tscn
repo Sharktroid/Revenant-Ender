@@ -28,7 +28,7 @@ script = ExtResource("3_64m4l")
 material = SubResource("ShaderMaterial_dphgr")
 texture = ExtResource("3_h3txp")
 script = ExtResource("2_xqfau")
-unit_name = "Wolt"
+display_name = "Wolt"
 unit_description = "An archer serving Pherae.
 Was raised like a brother to Roy."
 unit_class = SubResource("Resource_7fxf3")

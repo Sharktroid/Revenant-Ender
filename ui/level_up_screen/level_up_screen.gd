@@ -20,7 +20,7 @@ func _ready() -> void:
 	left_panel.custom_minimum_size.x = max_width
 	right_panel.custom_minimum_size.x = max_width
 
-	(%ClassName as Label).text = unit.unit_name
+	(%ClassName as Label).text = unit.display_name
 	var level_value := %LevelValue as Label
 	level_value.text = str(old_level)
 
@@ -60,7 +60,7 @@ func _ready() -> void:
 		Unit.Stats.STRENGTH,
 		Unit.Stats.PIERCE,
 		Unit.Stats.INTELLIGENCE,
-		Unit.Stats.SKILL,
+		Unit.Stats.DEXTERITY,
 		Unit.Stats.SPEED,
 		Unit.Stats.MOVEMENT,
 		Unit.Stats.DEFENSE,
