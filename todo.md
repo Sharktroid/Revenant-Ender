@@ -1,5 +1,4 @@
 # Minor
-* Change avoid to 1.5(speed + luck)
 * Implement 5%/95% rule
 
 # Major

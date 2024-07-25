@@ -9,7 +9,7 @@ static var ATTACK_SPEED := Formula.new("{speed} - max({weapon_weight} - {build},
 static var HIT := Formula.new("{weapon_hit} + {dexterity} * 2 + {luck}"):
 	set(value):
 		pass
-static var AVOID := Formula.new("2 * {attack_speed} + {luck}"):
+static var AVOID := Formula.new("1.5 * ({attack_speed} + {luck})"):
 	set(value):
 		pass
 static var CRIT := Formula.new("{weapon_crit} + {dexterity}"):
