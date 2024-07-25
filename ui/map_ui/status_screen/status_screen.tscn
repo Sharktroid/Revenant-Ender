@@ -249,6 +249,7 @@ text = "21"
 layout_mode = 2
 
 [node name="AttackLabelDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/AttackContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 2
 focus_neighbor_top = NodePath("../../HitPointsContainer/HitPointsDescription")
@@ -281,6 +282,7 @@ text = "21"
 layout_mode = 2
 
 [node name="ASLabelDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/ASContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 2
 focus_neighbor_top = NodePath("../../AttackContainer/AttackLabelDescription")

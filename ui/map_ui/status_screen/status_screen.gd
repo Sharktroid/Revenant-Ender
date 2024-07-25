@@ -18,6 +18,13 @@ func _ready() -> void:
 
 	_update.call_deferred()
 
+	(%AttackLabelDescription as HelpContainer).help_description += "\n%s" % Formulas.ATTACK
+	(%ASLabelDescription as HelpContainer).help_description += "\n%s" % Formulas.ATTACK_SPEED
+	(%HitLabelDescription as HelpContainer).help_description += ("\n%s" % Formulas.HIT)
+	(%AvoidLabelDescription as HelpContainer).help_description += ("\n%s" % Formulas.AVOID)
+	(%CritLabelDescription as HelpContainer).help_description += ("\n%s" % Formulas.CRIT)
+	(%DodgeLabelDescription as HelpContainer).help_description += ("\n%s" % Formulas.DODGE)
+
 
 func _physics_process(_delta: float) -> void:
 	_delay -= 1
@@ -115,7 +122,7 @@ func _update() -> void:
 	var crit_label := %CritValue as Label
 
 	if observing_unit.get_current_weapon():
-		attack_description.help_description = ("{attack} + {might} + bonuses".format(
+		attack_description.help_description = ("{attack} + {might}".format(
 			{
 				"attack": observing_unit.get_current_attack(),
 				"might": observing_unit.get_current_weapon().get_might()
@@ -123,21 +130,10 @@ func _update() -> void:
 		))
 		_set_label_text_to_number(attack_label, observing_unit.get_raw_attack())
 
-		hit_description.help_description = ("{hit} + {skill} * 2 + {luck} + bonuses".format(
-			{
-				"hit": observing_unit.get_current_weapon().get_hit(),
-				"skill": observing_unit.get_skill(),
-				"luck": observing_unit.get_luck()
-			}
-		))
+		hit_description.help_description = Formulas.HIT.format(observing_unit)
 		_set_label_text_to_number(hit_label, observing_unit.get_hit())
 
-		crit_description.help_description = ("{weapon_crit} + {skill}".format(
-			{
-				"weapon_crit": observing_unit.get_current_weapon().get_crit(),
-				"skill": observing_unit.get_skill()
-			}
-		))
+		crit_description.help_description = Formulas.CRIT.format(observing_unit)
 		_set_label_text_to_number(crit_label, observing_unit.get_crit())
 	else:
 		attack_description.help_description = "--"
@@ -149,20 +145,15 @@ func _update() -> void:
 		crit_description.help_description = "--"
 		crit_label.text = "--"
 
-	(%ASDescription as HelpContainer).help_description = ("{speed} - {weight}".format(
-		{
-			"speed": observing_unit.get_speed(),
-			"weight": observing_unit.get_weapon_effective_weight()
-		}
-	))
+	(%ASDescription as HelpContainer).help_description = Formulas.ATTACK_SPEED.format(
+		observing_unit
+	)
 	_set_label_text_to_number(%ASValue as Label, observing_unit.get_attack_speed())
 
-	(%AvoidDescription as HelpContainer).help_description = ("{attack_speed} * 2 + {luck}".format(
-		{"attack_speed": observing_unit.get_attack_speed(), "luck": observing_unit.get_luck()}
-	))
+	(%AvoidDescription as HelpContainer).help_description = Formulas.AVOID.format(observing_unit)
 	_set_label_text_to_number(%AvoidValue as Label, observing_unit.get_avoid())
 
-	(%DodgeDescription as HelpContainer).help_description = str(observing_unit.get_luck())
+	(%DodgeDescription as HelpContainer).help_description = Formulas.DODGE.format(observing_unit)
 	_set_label_text_to_number(%DodgeValue as Label, observing_unit.get_dodge())
 
 	var current_weapon: Weapon = observing_unit.get_current_weapon()

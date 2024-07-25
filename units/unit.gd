@@ -267,9 +267,7 @@ func get_current_attack() -> int:
 
 ## Attack without weapon triangle bonuses
 func get_raw_attack() -> float:
-	return (
-		(get_current_weapon().get_might() if get_current_weapon() else 0.0) + get_current_attack()
-	)
+	return Formulas.ATTACK.evaluate(self)
 
 
 func get_true_attack(enemy: Unit) -> float:
@@ -392,12 +390,8 @@ func get_stat_cap(stat: Stats) -> int:
 	)
 
 
-func get_weapon_effective_weight() -> float:
-	return maxf(get_current_weapon().get_weight() - get_build(), 0) if get_current_weapon() else 0.0
-
-
 func get_attack_speed() -> float:
-	return get_speed() - get_weapon_effective_weight()
+	return Formulas.ATTACK_SPEED.evaluate(self)
 
 
 func get_current_defence(weapon: Weapon) -> int:
@@ -450,18 +444,8 @@ func get_avoid() -> float:
 
 
 func get_hit_rate(enemy: Unit) -> int:
-	return roundi(
-		clampf(
-			(
-				get_hit()
-				- enemy.get_avoid()
-				+ get_current_weapon().get_hit_bonus(
-					enemy.get_current_weapon(), get_distance(enemy)
-				)
-			),
-			0,
-			100
-		)
+	var weapon_hit: int = get_current_weapon().get_hit_bonus(
+		enemy.get_current_weapon(), get_distance(enemy)
 	)
 	return roundi(clampf(get_hit() - enemy.get_avoid() + weapon_hit, 0, 100))
 
@@ -470,8 +454,8 @@ func get_crit() -> float:
 	return Formulas.CRIT.evaluate(self)
 
 
-	return get_luck()
 func get_dodge() -> float:
+	return Formulas.DODGE.evaluate(self)
 
 
 func get_crit_rate(enemy: Unit) -> int:
@@ -861,7 +845,10 @@ func equip_weapon(weapon: Weapon) -> void:
 		items.push_front(weapon)
 	else:
 		push_error(
-			'Tried equipping invalid weapon "%s" on unit "%s"' % [weapon.resource_name, display_name]
+			(
+				'Tried equipping invalid weapon "%s" on unit "%s"'
+				% [weapon.resource_name, display_name]
+			)
 		)
 
 
@@ -1016,4 +1003,3 @@ func _get_nearest_path_tile(tiles: Array[Vector2i]) -> Vector2i:
 			weighted_tiles[tile_cost] = [tile]
 
 	return (weighted_tiles[weighted_tiles.keys().min()] as Array[Vector2i]).pick_random()
-

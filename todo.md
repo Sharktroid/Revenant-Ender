@@ -3,7 +3,6 @@
 * Implement 5%/95% rule
 
 # Major
-* Store formulas in only one location
 * Make variables private if possible
 * Document classes
 * Add combat preview even if attacking is not possible
