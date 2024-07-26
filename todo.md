@@ -1,5 +1,4 @@
 # Minor
-* Implement 5%/95% rule
 
 # Major
 * Make variables private if possible

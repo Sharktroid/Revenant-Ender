@@ -60,6 +60,10 @@ const ONE_ROUND_EXP_BASE: float = float(BASE_EXP) / 3
 const KILL_EXP_PERCENT: float = 0.25
 const DEFAULT_PERSONAL_VALUE: int = 5
 const MAX_LEVEL: int = 30
+## Any rate below this value is set to 0%
+const MIN_RATE: int = 5
+## Any rate above this value is set to 100%
+const MAX_RATE: int = 95
 
 @export var display_name: String = "[Empty]"
 @export_multiline var unit_description: String = "[Empty]"
@@ -376,18 +380,15 @@ func get_movement(current_level: int = level) -> int:
 
 
 func get_stat_cap(stat: Stats) -> int:
-	var is_hit_points: int = stat == Stats.HIT_POINTS
-	return roundi(
-		(
-			(unit_class.get_stat(stat, MAX_LEVEL))
-			+ (
-				PERSONAL_VALUE_MAX_HIT_POINTS_MODIFIER
-				if is_hit_points
-				else PERSONAL_VALUE_MAX_MODIFIER
-			)
-			+ (EFFORT_VALUE_MAX_HIT_POINTS_MODIFIER if is_hit_points else EFFORT_VALUE_MAX_MODIFIER)
-		)
+	var personal_modifier: float = (
+		PERSONAL_VALUE_MAX_HIT_POINTS_MODIFIER if stat == Stats.HIT_POINTS
+		else PERSONAL_VALUE_MAX_MODIFIER
 	)
+	var effort_modifier: float = (
+		EFFORT_VALUE_MAX_HIT_POINTS_MODIFIER if stat == Stats.HIT_POINTS
+		else EFFORT_VALUE_MAX_MODIFIER
+	)
+	return roundi(unit_class.get_stat(stat, MAX_LEVEL) + personal_modifier + effort_modifier)
 
 
 func get_attack_speed() -> float:
@@ -447,7 +448,7 @@ func get_hit_rate(enemy: Unit) -> int:
 	var weapon_hit: int = get_current_weapon().get_hit_bonus(
 		enemy.get_current_weapon(), get_distance(enemy)
 	)
-	return roundi(clampf(get_hit() - enemy.get_avoid() + weapon_hit, 0, 100))
+	return _adjust_rate(roundi(clampf(get_hit() - enemy.get_avoid() + weapon_hit, 0, 100)))
 
 
 func get_crit() -> float:
@@ -459,7 +460,7 @@ func get_dodge() -> float:
 
 
 func get_crit_rate(enemy: Unit) -> int:
-	return roundi(clampf(get_crit() - enemy.get_dodge(), 0, 100))
+	return _adjust_rate(roundi(clampf(get_crit() - enemy.get_dodge(), 0, 100)))
 
 
 func get_path_last_pos() -> Vector2i:
@@ -1003,3 +1004,7 @@ func _get_nearest_path_tile(tiles: Array[Vector2i]) -> Vector2i:
 			weighted_tiles[tile_cost] = [tile]
 
 	return (weighted_tiles[weighted_tiles.keys().min()] as Array[Vector2i]).pick_random()
+
+
+func _adjust_rate(rate: int) -> int:
+	return 0 if rate < MIN_RATE else 100 if rate > MAX_RATE else rate
