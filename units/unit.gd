@@ -264,7 +264,7 @@ func get_current_attack() -> int:
 				return get_strength()
 			Weapon.DamageTypes.RANGED:
 				return get_pierce()
-			Weapon.DamageTypes.INTELLIGENCE:
+			Weapon.DamageTypes.MAGICAL:
 				return get_intelligence()
 	return 0
 
@@ -401,7 +401,7 @@ func get_current_defence(weapon: Weapon) -> int:
 			return get_defense()
 		Weapon.DamageTypes.RANGED:
 			return get_armor()
-		Weapon.DamageTypes.INTELLIGENCE:
+		Weapon.DamageTypes.MAGICAL:
 			return get_resistance()
 		var damage_type:
 			push_error("Damage Type %s Invalid" % damage_type)

@@ -20,10 +20,10 @@ func _ready() -> void:
 
 	(%AttackLabelDescription as HelpContainer).help_description += "\n%s" % Formulas.ATTACK
 	(%ASLabelDescription as HelpContainer).help_description += "\n%s" % Formulas.ATTACK_SPEED
-	(%HitLabelDescription as HelpContainer).help_description += ("\n%s" % Formulas.HIT)
-	(%AvoidLabelDescription as HelpContainer).help_description += ("\n%s" % Formulas.AVOID)
-	(%CritLabelDescription as HelpContainer).help_description += ("\n%s" % Formulas.CRIT)
-	(%DodgeLabelDescription as HelpContainer).help_description += ("\n%s" % Formulas.DODGE)
+	(%HitLabelDescription as HelpContainer).help_description += "\n%s" % Formulas.HIT
+	(%AvoidLabelDescription as HelpContainer).help_description += "\n%s" % Formulas.AVOID
+	(%CritLabelDescription as HelpContainer).help_description += "\n%s" % Formulas.CRIT
+	(%DodgeLabelDescription as HelpContainer).help_description += "\n%s" % Formulas.DODGE
 
 
 func _physics_process(_delta: float) -> void:
