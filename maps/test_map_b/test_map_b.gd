@@ -33,7 +33,7 @@ func _intro() -> void:
 		var lance := $MapLayer/Units/Player/Lance as Unit
 		var wolt := $MapLayer/Units/Player/Wolt as Unit
 		var bors := $MapLayer/Units/Player/Bors as Unit
-		var dialogue: Dialogue = MapController.get_dialogue()
+		var dialogue: Dialogue = _get_dialogue()
 		await get_tree().process_frame
 		GameController.add_to_input_stack(dialogue)
 		await dialogue.show_top_textbox(Dialogue.Positions.CLOSE_RIGHT)

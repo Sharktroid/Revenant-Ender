@@ -3,7 +3,7 @@ extends SubViewportContainer
 
 signal completed(proceed: bool)
 
-const BLUE_COLORS: Array[Color] = [
+const _BLUE_COLORS: Array[Color] = [
 	Color("5294D6"),
 	Color("4284CE"),
 	Color("5294D6"),
@@ -13,7 +13,7 @@ const BLUE_COLORS: Array[Color] = [
 	Color("315A9C"),
 	Color("293984"),
 ]
-const RED_COLORS: Array[Color] = [
+const _RED_COLORS: Array[Color] = [
 	Color("D65A63"),
 	Color("CE4A4A"),
 	Color("D65A63"),
@@ -23,16 +23,15 @@ const RED_COLORS: Array[Color] = [
 	Color("9C4231"),
 	Color("843129"),
 ]
-
 const _COMBAT_DISPLAY_SUBMENU = preload("res://ui/combat_info_display/combat_display_submenu.gd")
 
-var top_unit: Unit
 var bottom_unit: Unit:
 	set(value):
 		bottom_unit = value
 		_update()
-var distance: int
 
+var _top_unit: Unit
+var _distance: int
 var _focused: bool = false
 var _all_weapons: Array[Weapon]
 var _current_weapons: Array[Weapon] = []
@@ -42,7 +41,7 @@ var _weapon_index: int = 0:
 		_weapon_index = posmod(_weapon_index, _current_weapons.size())
 		_update()
 		_item_menu.current_item_index = _weapon_index
-		top_unit.display_current_attack_tiles()
+		_top_unit.display_current_attack_tiles()
 var _old_weapon: Weapon
 @onready var _item_menu := %ItemMenu as _COMBAT_DISPLAY_SUBMENU
 
@@ -61,7 +60,7 @@ func _ready() -> void:
 	_animate_double_sprite(%TopDouble as Sprite2D)
 	_animate_double_sprite(%BottomDouble as Sprite2D)
 
-	for item: Item in top_unit.items:
+	for item: Item in _top_unit.items:
 		if item is Weapon:
 			_all_weapons.append(item)
 
@@ -70,7 +69,7 @@ func _ready() -> void:
 
 
 func _exit_tree() -> void:
-	top_unit.hide_current_attack_tiles()
+	_top_unit.hide_current_attack_tiles()
 
 
 static func instantiate(top: Unit, bottom: Unit = null, focused: bool = false) -> CombatInfoDisplay:
@@ -78,7 +77,7 @@ static func instantiate(top: Unit, bottom: Unit = null, focused: bool = false) -
 		"res://ui/combat_info_display/combat_info_display.tscn"
 	)
 	var scene := PACKED_SCENE.instantiate() as CombatInfoDisplay
-	scene.top_unit = top
+	scene._top_unit = top
 	scene.bottom_unit = bottom
 	# gdlint:ignore = private-method-call
 	scene._set_focus(focused)
@@ -91,7 +90,7 @@ func receive_input(event: InputEvent) -> void:
 		queue_free()
 		completed.emit(true)
 	elif event.is_action_pressed("ui_cancel"):
-		top_unit.equip_weapon(_old_weapon)
+		_top_unit.equip_weapon(_old_weapon)
 		completed.emit(false)
 		_set_focus(false)
 		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
@@ -112,11 +111,11 @@ func _set_focus(is_focused: bool) -> void:
 	if is_focused:
 		if not GameController.get_current_input_node() == self:
 			GameController.add_to_input_stack(self)
-		top_unit.display_current_attack_tiles()
+		_top_unit.display_current_attack_tiles()
 	else:
 		if GameController.get_current_input_node() == self:
 			GameController.remove_from_input_stack()
-		top_unit.display_current_attack_tiles(true)
+		_top_unit.display_current_attack_tiles(true)
 
 
 func _get_current_weapon() -> Weapon:
@@ -132,30 +131,30 @@ func _update() -> void:
 		)
 		position.x = Utilities.get_screen_size().x - size.x if cursor_to_left else 0.0
 
-		distance = roundi(
+		_distance = roundi(
 			Utilities.get_tile_distance(
-				top_unit.get_unit_path().back() as Vector2i, bottom_unit.position
+				_top_unit.get_unit_path().back() as Vector2i, bottom_unit.position
 			)
 		)
 
-		_old_weapon = top_unit.get_current_weapon()
+		_old_weapon = _top_unit.get_current_weapon()
 		_current_weapons = []
 		for item: Item in _all_weapons:
 			if item is Weapon:
 				var weapon := item as Weapon
-				if weapon.in_range(distance):
+				if weapon.in_range(_distance):
 					_current_weapons.append(weapon)
 		for node: Sprite2D in get_tree().get_nodes_in_group("arrows"):
 			node.visible = _current_weapons.size() != 1 and _focused
 
 		_item_menu.weapons = _current_weapons
-		top_unit.equip_weapon(_get_current_weapon())
+		_top_unit.equip_weapon(_get_current_weapon())
 		if _focused:
-			top_unit.display_current_attack_tiles()
+			_top_unit.display_current_attack_tiles()
 		for half: String in ["Top", "Bottom"] as Array[String]:
 			var is_top: bool = half == "Top"
-			var current_unit: Unit = top_unit if is_top else bottom_unit
-			var other_unit: Unit = bottom_unit if is_top else top_unit
+			var current_unit: Unit = _top_unit if is_top else bottom_unit
+			var other_unit: Unit = bottom_unit if is_top else _top_unit
 			var weapon: Weapon = (
 				_get_current_weapon() if is_top else bottom_unit.get_current_weapon()
 			)
@@ -170,7 +169,7 @@ func _update() -> void:
 
 			(get_node(node_path % "HP") as Label).text = str(current_unit.current_health)
 
-			var in_range: bool = weapon and weapon.in_range(distance)
+			var in_range: bool = weapon and weapon.in_range(_distance)
 			(get_node(node_path % "Damage") as Label).text = (
 				Utilities.float_to_string(current_unit.get_damage(other_unit)) if in_range else "--"
 			)
@@ -194,10 +193,10 @@ func _update() -> void:
 					(get_node(node_path % "UnitPanel") as PanelContainer).material
 				)
 				var old_vectors: Array[Color] = []
-				for color: Color in BLUE_COLORS:
+				for color: Color in _BLUE_COLORS:
 					old_vectors.append(color)
 				var new_vectors: Array[Color] = []
-				for color: Color in RED_COLORS:
+				for color: Color in _RED_COLORS:
 					new_vectors.append(color)
 				shader_material.set_shader_parameter("old_colors", old_vectors)
 				shader_material.set_shader_parameter("new_colors", new_vectors)

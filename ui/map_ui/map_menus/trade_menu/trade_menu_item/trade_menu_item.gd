@@ -1,7 +1,12 @@
 class_name TradeMenuItem
 extends ItemLabel
 
-var parent_menu: TradeMenu
+var item: Item:
+	set(value):
+		_item = value
+	get:
+		return _item
+var _parent_menu: TradeMenu
 
 
 func _init() -> void:
@@ -18,20 +23,20 @@ static func instantiate(
 		"res://ui/map_ui/map_menus/trade_menu/trade_menu_item/trade_menu_item.tscn"
 	)
 	var scene := PACKED_SCENE.instantiate() as TradeMenuItem
-	scene.parent_menu = parent
+	scene._parent_menu = parent
 	if new_item:
-		scene.item = new_item
-		scene.set_equip_status(unit)
+		scene._item = new_item
+	scene._unit = unit
 	scene.add_to_group(TradeMenu.ITEM_GROUP)
 	return scene
 
 
-func update() -> void:
+func _update() -> void:
 	for child: Control in get_children() as Array[Control]:
-		child.visible = (item != null)
-	if item != null:
+		child.visible = (_item != null)
+	if _item != null:
 		super()
 
 
 func _on_mouse_entered() -> void:
-	parent_menu.current_label = self
+	_parent_menu.current_label = self

@@ -1,8 +1,8 @@
 class_name LevelUpScreen
 extends Control
 
-var old_level: int = 1
-var unit: Unit
+var _old_level: int = 1
+var _unit: Unit
 
 
 func _ready() -> void:
@@ -20,9 +20,9 @@ func _ready() -> void:
 	left_panel.custom_minimum_size.x = max_width
 	right_panel.custom_minimum_size.x = max_width
 
-	(%ClassName as Label).text = unit.display_name
+	(%ClassName as Label).text = _unit.display_name
 	var level_value := %LevelValue as Label
-	level_value.text = str(old_level)
+	level_value.text = str(_old_level)
 
 	var stat_containers: Dictionary = {}
 	for control: Control in get_tree().get_nodes_in_group("stats"):
@@ -30,7 +30,7 @@ func _ready() -> void:
 	for stat_name: String in Unit.Stats.keys():
 		var formatted_stat: String = stat_name.to_pascal_case()
 		var stat: Unit.Stats = Unit.Stats[stat_name]
-		var old_stat: int = unit.get_stat(stat, old_level)
+		var old_stat: int = _unit.get_stat(stat, _old_level)
 		(get_node("%%%sValue" % formatted_stat) as Label).text = str(old_stat)
 	#endregion
 
@@ -49,7 +49,7 @@ func _ready() -> void:
 	bottom_panel.position.x = -bottom_panel.size.x
 	await get_tree().create_timer(35.0 / 60).timeout
 
-	level_value.text = str(unit.level)
+	level_value.text = str(_unit.level)
 	const Sparkle = preload("res://ui/level_up_screen/spiral_sparkle.gd")
 	(%LevelSparkle as Sparkle).play()
 	AudioPlayer.play_sound_effect(preload("res://audio/sfx/level_up_level_blip.ogg"))
@@ -70,8 +70,8 @@ func _ready() -> void:
 		Unit.Stats.BUILD
 	]
 	for stat: Unit.Stats in stat_order:
-		var old_stat: int = unit.get_stat(stat, old_level)
-		var current_stat: int = unit.get_stat(stat, unit.level)
+		var old_stat: int = _unit.get_stat(stat, _old_level)
+		var current_stat: int = _unit.get_stat(stat, _unit.level)
 		var stat_name := (Unit.Stats as Dictionary).find_key(stat) as String
 		var formatted_stat: String = stat_name.to_pascal_case()
 		var stat_container: Control = stat_containers["%sContainer" % formatted_stat]
@@ -102,8 +102,8 @@ static func instantiate(observing_unit: Unit, level: int) -> LevelUpScreen:
 	var scene := (
 		preload("res://ui/level_up_screen/level_up_screen.tscn").instantiate() as LevelUpScreen
 	)
-	scene.unit = observing_unit
-	scene.old_level = level
+	scene._unit = observing_unit
+	scene._old_level = level
 	return scene
 
 

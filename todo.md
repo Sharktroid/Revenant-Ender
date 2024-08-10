@@ -1,8 +1,10 @@
 # Minor
+* Set observing unit for statistics and item screen when it changes, instead of every time the tab is switched
 
 # Major
-* Make variables private if possible
 * Document classes
+* Investigate particles
+* Make tiles behave more like in AW:DoR
 * Add combat preview even if attacking is not possible
 * Add rescue when clicking on an ally
 * Have level up play sfx even when volume is muted

@@ -59,3 +59,5 @@ visible = false
 layout_mode = 2
 script = ExtResource("3_ead2k")
 help_description = "Use and equip items."
+
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]

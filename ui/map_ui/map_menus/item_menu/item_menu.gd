@@ -31,24 +31,19 @@ static func instantiate(new_offset: Vector2, parent: MapMenu, unit: Unit = null)
 	return scene
 
 
-func select_item(item: MapMenuItem) -> void:
+func _select_item(item: MapMenuItem) -> void:
 	var menu := ItemOptionsMenu.instantiate(
-		offset + Vector2(16, 20), self, connected_unit, (item as _ITEM_MENU_ITEM).item
+		_offset + Vector2(16, 20), self, connected_unit, (item as _ITEM_MENU_ITEM).item
 	)
 	MapController.get_ui().add_child(menu)
 	super(item)
-
-
-func close() -> void:
-	(parent_menu as UnitMenu).update()
-	super()
 
 
 func _update() -> void:
 	if _items != connected_unit.items:
 		_items = connected_unit.items.duplicate()
 		if _items.size() <= 0:
-			close()
+			_close()
 		for child: Node in $Items.get_children():
 			child.queue_free()
 			await child.tree_exited

@@ -18,13 +18,13 @@ func _init(
 
 
 func _ready() -> void:
-	_info_display = CombatInfoDisplay.instantiate(unit) as CombatInfoDisplay
+	_info_display = CombatInfoDisplay.instantiate(_unit) as CombatInfoDisplay
 	MapController.get_ui().add_child(_info_display)
 	_update_bottom_unit()
-	unit.display_current_attack_tiles(true)
+	_unit.display_current_attack_tiles(true)
 
 
-func close() -> void:
+func _close() -> void:
 	_info_display.queue_free()
 	super()
 
@@ -42,7 +42,7 @@ func _position_selected() -> void:
 		if proceed:
 			_info_display.queue_free()
 			selected.emit(CursorController.get_hovered_unit())
-			close()
+			_close()
 
 
 func _update_bottom_unit() -> void:

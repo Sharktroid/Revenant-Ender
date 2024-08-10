@@ -34,7 +34,7 @@ func _physics_process(_delta: float) -> void:
 	if is_active():
 		if GameController.controller_type == GameController.ControllerTypes.MOUSE:
 			var destination: Vector2 = MapController.get_map_camera().get_destination()
-			if destination == (MapController.get_map_camera().position):
+			if destination == MapController.get_map_camera().position:
 				map_position = Utilities.round_coords_to_tile(
 					get_viewport().get_mouse_position() + (_corner_offset() as Vector2)
 				)

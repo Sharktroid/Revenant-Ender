@@ -4,16 +4,15 @@ extends ReferenceRect
 enum TileTypes { ATTACK, MOVEMENT, SUPPORT }
 
 # Border boundaries of the map. units should not exceed these unless aethetic
-@export var left_border: int
-@export var right_border: int
-@export var top_border: int
-@export var bottom_border: int
+@export var _left_border: int
+@export var _right_border: int
+@export var _top_border: int
+@export var _bottom_border: int
 # See _ready() for these next two
 var borders: Rect2i
-var movement_cost_dict: Dictionary  # Movement costs for every movement type
 var all_factions: Array[Faction]  # All factions
-var map_position: Vector2i  # Position of the map, used for scrolling
 
+var _movement_cost_dict: Dictionary  # Movement costs for every movement type
 var _curr_faction: int = 0
 var _cost_grids: Dictionary = {}
 var _grid_current_faction: Faction
@@ -28,8 +27,8 @@ func _init() -> void:
 
 
 func _ready() -> void:
-	borders = Rect2i(left_border * 16, top_border * 16, 32, 32)
-	borders = borders.expand(get_size() - Vector2(right_border * 16, bottom_border * 16))
+	borders = Rect2i(_left_border * 16, _top_border * 16, 32, 32)
+	borders = borders.expand(get_size() - Vector2(_right_border * 16, _bottom_border * 16))
 	_create_debug_borders()  # Only shows up when collison shapes are enabled
 	_terrain_layer.visible = Utilities.get_debug_value(
 		Utilities.DebugConfigKeys.DISPLAY_MAP_TERRAIN
@@ -44,7 +43,7 @@ func _ready() -> void:
 	size = cell_max * 16 + Vector2i(16, 16)
 	GameController.add_to_input_stack(self)
 	const TYPES = UnitClass.MovementTypes
-	for movement_type: TYPES in movement_cost_dict.keys() as Array[TYPES]:
+	for movement_type: TYPES in _movement_cost_dict.keys() as Array[TYPES]:
 		var a_star_grid := AStarGrid2D.new()
 		a_star_grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
 		a_star_grid.region = Rect2i(Vector2i(0, 0), cell_max + Vector2i(1, 1))
@@ -53,12 +52,12 @@ func _ready() -> void:
 		a_star_grid.jumping_enabled = false
 		a_star_grid.update()
 		for cell: Vector2i in ($MapLayer/BaseLayer as TileMap).get_used_cells(0):
-			update_a_star_grid_id(a_star_grid, movement_type, cell)
+			_update_a_star_grid_id(a_star_grid, movement_type, cell)
 		_cost_grids[movement_type] = a_star_grid
 	await _intro()
 	if not MapController.get_ui().is_node_ready():
 		await MapController.get_ui().ready
-	start_turn()
+	_start_turn()
 
 
 func receive_input(event: InputEvent) -> void:
@@ -68,9 +67,9 @@ func receive_input(event: InputEvent) -> void:
 
 	elif event.is_action_pressed("ranges"):
 		if CursorController.get_hovered_unit():
-			toggle_outline_unit(CursorController.get_hovered_unit())
+			_toggle_outline_unit(CursorController.get_hovered_unit())
 		else:
-			toggle_full_outline()
+			_toggle_full_outline()
 
 	elif event.is_action_pressed("status"):
 		if CursorController.get_hovered_unit():
@@ -83,17 +82,9 @@ func receive_input(event: InputEvent) -> void:
 
 func unit_wait(_unit: Unit) -> void:
 	# Called whenever a unit waits.
-	update_outline()
+	_update_outline()
 	for unit: Unit in get_units():
 		unit.reset_tile_cache()
-
-
-func next_faction() -> void:
-	# Sets the faction to the next faction.
-	_curr_faction += 1
-	if _curr_faction == all_factions.size():
-		_current_turn += 1
-		_curr_faction = 0
 
 
 func get_current_faction() -> Faction:
@@ -116,42 +107,20 @@ func get_previous_unit(unit: Unit) -> Unit:
 	return _get_unit_relative(unit, -1)
 
 
-func is_touching_border(pos: Vector2i) -> bool:
-	return borders.has_point(pos)
-
-
-## Starts new turn.
-func start_turn() -> void:
-	CursorController.cursor_visible = false
-	CursorController.disable()
-	await AudioPlayer.pause_track()
-
-	await MapController.display_turn_change(get_current_faction())
-	# play banner
-	if is_inside_tree():
-		await get_tree().create_timer(0.25).timeout
-	CursorController.enable()
-	CursorController.cursor_visible = true
-	if get_current_faction():
-		AudioPlayer.play_track(get_current_faction().theme)
-	if get_current_faction().player_type != Faction.PlayerTypes.HUMAN:
-		end_turn.call_deferred()
-
-
 func end_turn() -> void:
 	## Ends current turn.
 	for unit: Unit in MapController.map.get_units():
 		unit.awaken()
-	next_faction()
-	update_outline()
-	start_turn.call_deferred()
+	_next_faction()
+	_update_outline()
+	_start_turn.call_deferred()
 
 
 ## Gets the terrain cost of the tiles at "coords".
 ## unit: unit trying to move over "coords".
 func get_terrain_cost(movement_type: UnitClass.MovementTypes, coords: Vector2) -> float:
-	if movement_type in movement_cost_dict.keys():
-		var movement_type_terrain_dict: Dictionary = movement_cost_dict[movement_type]
+	if movement_type in _movement_cost_dict.keys():
+		var movement_type_terrain_dict: Dictionary = _movement_cost_dict[movement_type]
 		var terrain_name: String = _get_terrain(coords)
 		# Combines several terrain names for compactness.
 		match terrain_name:
@@ -171,27 +140,6 @@ func get_terrain_cost(movement_type: UnitClass.MovementTypes, coords: Vector2) -
 	else:
 		push_error('Movementtype "%s" is invalid' % movement_type)
 	return INF
-
-
-func toggle_full_outline() -> void:
-	all_factions[_curr_faction].full_outline = not (get_current_faction().full_outline)
-	update_outline()
-
-
-func toggle_outline_unit(unit: Unit) -> void:
-	var outlined_units: Dictionary = get_current_faction().outlined_units
-	if not (unit.faction in outlined_units):
-		outlined_units[unit.faction] = []
-	if unit in outlined_units[unit.faction]:
-		(outlined_units[unit.faction] as Array).erase(unit)
-	else:
-		(outlined_units[unit.faction] as Array).append(unit)
-	all_factions[_curr_faction].outlined_units = outlined_units
-	update_outline()
-
-
-func update_outline() -> void:
-	($MapLayer/Outline as Node2D).queue_redraw()
 
 
 func display_tiles(
@@ -266,7 +214,7 @@ func get_path_cost(movement_type: UnitClass.MovementTypes, path: Array[Vector2i]
 	return sum
 
 
-func update_a_star_grid_id(
+func _update_a_star_grid_id(
 	a_star_grid: AStarGrid2D, movement_type: UnitClass.MovementTypes, id: Vector2i
 ) -> void:
 	var weight: float = get_terrain_cost(movement_type, id * 16)
@@ -288,11 +236,20 @@ func update_position_terrain_cost(pos: Vector2i) -> void:
 	for movement_type: UnitClass.MovementTypes in _cost_grids.keys():
 		var a_star_grid: AStarGrid2D = _cost_grids[movement_type]
 		var point_id: Vector2i = pos / 16
-		update_a_star_grid_id(a_star_grid, movement_type, point_id)
+		_update_a_star_grid_id(a_star_grid, movement_type, point_id)
 		a_star_grid.set_point_solid(point_id, false)
 	for unit: Unit in get_units():
 		if unit.position == Vector2(pos):
 			_update_grid_current_faction()
+
+
+func _create_main_map_menu() -> void:
+	## Creates map menu.
+	const MainMapMenu = preload("res://ui/map_ui/map_menus/main_map_menu/main_map_menu.gd")
+	var menu := MainMapMenu.instantiate(CursorController.screen_position + Vector2i(16, 0))
+	MapController.get_ui().add_child(menu)
+	GameController.add_to_input_stack(menu)
+	CursorController.disable()
 
 
 func _intro() -> void:
@@ -340,9 +297,9 @@ func _parse_movement_cost() -> void:
 		split.assign(full_type.strip_edges().split(","))
 		var type_name: String = (split.pop_at(0) as String).to_snake_case().to_upper()
 		var type: UnitClass.MovementTypes = UnitClass.MovementTypes[type_name]
-		movement_cost_dict[type] = {}
+		_movement_cost_dict[type] = {}
 		for cost: int in split.size():
-			movement_cost_dict[type][header[cost]] = split[cost]
+			_movement_cost_dict[type][header[cost]] = split[cost]
 
 
 func _get_unit_relative(unit: Unit, rel_index: int) -> Unit:
@@ -360,7 +317,7 @@ func _on_cursor_select() -> void:
 		add_child(controller)
 	else:
 		AudioPlayer.play_sound_effect(preload("res://audio/sfx/menu_open.ogg"))
-		MapController.create_main_map_menu()
+		_create_main_map_menu()
 
 
 func _update_grid_current_faction() -> void:
@@ -370,3 +327,60 @@ func _update_grid_current_faction() -> void:
 			a_star_grid.set_point_solid(
 				unit.position / 16, not unit.faction.is_friend(_grid_current_faction)
 			)
+
+
+func _display_turn_change(faction: Faction) -> void:
+	var phase_display := PhaseDisplay.instantiate(faction)
+	MapController.get_ui().add_child(phase_display)
+	await phase_display.tree_exited
+
+
+func _get_dialogue() -> Dialogue:
+	return MapController.get_ui().get_node("Dialogue") as Dialogue
+
+
+func _next_faction() -> void:
+	# Sets the faction to the next faction.
+	_curr_faction += 1
+	if _curr_faction == all_factions.size():
+		_current_turn += 1
+		_curr_faction = 0
+
+
+## Starts new turn.
+func _start_turn() -> void:
+	CursorController.cursor_visible = false
+	CursorController.disable()
+	await AudioPlayer.pause_track()
+
+	await _display_turn_change(get_current_faction())
+	# play banner
+	if is_inside_tree():
+		await get_tree().create_timer(0.25).timeout
+	CursorController.enable()
+	CursorController.cursor_visible = true
+	if get_current_faction():
+		AudioPlayer.play_track(get_current_faction().theme)
+	if get_current_faction().player_type != Faction.PlayerTypes.HUMAN:
+		end_turn.call_deferred()
+
+
+func _toggle_full_outline() -> void:
+	all_factions[_curr_faction].full_outline = not (get_current_faction().full_outline)
+	_update_outline()
+
+
+func _toggle_outline_unit(unit: Unit) -> void:
+	var outlined_units: Dictionary = get_current_faction().outlined_units
+	if not (unit.faction in outlined_units):
+		outlined_units[unit.faction] = []
+	if unit in outlined_units[unit.faction]:
+		(outlined_units[unit.faction] as Array).erase(unit)
+	else:
+		(outlined_units[unit.faction] as Array).append(unit)
+	all_factions[_curr_faction].outlined_units = outlined_units
+	_update_outline()
+
+
+func _update_outline() -> void:
+	($MapLayer/Outline as Node2D).queue_redraw()

@@ -1,10 +1,11 @@
 class_name ItemLabel
 extends HelpContainer
 
-var item: Item:
+var _item: Item:
 	set(value):
-		item = value
-		update.call_deferred()
+		_item = value
+		_update.call_deferred()
+var _unit: Unit
 
 
 func _init() -> void:
@@ -13,28 +14,29 @@ func _init() -> void:
 
 static func instantiate(connected_item: Item, unit: Unit) -> ItemLabel:
 	var scene := preload("res://ui/map_ui/item_label/item_label.tscn").instantiate() as ItemLabel
-	scene.item = connected_item
-	scene.set_equip_status(unit)
+	scene._item = connected_item
+	scene._unit = unit
 	return scene
 
 
-func update() -> void:
-	($Icon as TextureRect).texture = item.get_icon()
-	($Name as Label).text = item.resource_name
-	($CurrentUses as Label).text = str(item.current_uses)
-	($MaxUses as Label).text = str(item.get_max_uses())
-	help_description = item.get_description()
-	help_table = (item as Weapon).get_stat_table() if item is Weapon else []
+func _update() -> void:
+	($Icon as TextureRect).texture = _item.get_icon()
+	($Name as Label).text = _item.resource_name
+	($CurrentUses as Label).text = str(_item.current_uses)
+	($MaxUses as Label).text = str(_item.get_max_uses())
+	help_description = _item.get_description()
+	help_table = (_item as Weapon).get_stat_table() if _item is Weapon else []
+	_set_equip_status()
 
 
-func set_equip_status(unit: Unit) -> void:
+func _set_equip_status() -> void:
 	var equip_status := $EquipStatus as Label
-	if item == unit.get_current_weapon():
+	if _item == _unit.get_current_weapon():
 		equip_status.text = "W"
 		equip_status.add_theme_color_override("font_color", Color.ROYAL_BLUE)
 	else:
 		equip_status.text = ""
 
 	($Name as Label).theme_type_variation = (
-		"" if item is Weapon and unit.can_use_weapon(item as Weapon) else "GreyLabel"
+		"" if _item is Weapon and _unit.can_use_weapon(_item as Weapon) else "GreyLabel"
 	)

@@ -11,21 +11,21 @@ static func instantiate(new_offset: Vector2, parent: MapMenu = null) -> MapMenu:
 	)
 
 
-func select_item(item: MapMenuItem) -> void:
+func _select_item(item: MapMenuItem) -> void:
 	match item.name:
 		"Debug":
 			const DebugMenu = preload("res://ui/map_ui/map_menus/debug_menu/debug_menu.gd")
-			var menu := DebugMenu.instantiate(offset, self)
+			var menu := DebugMenu.instantiate(_offset, self)
 			MapController.get_ui().add_child(menu)
 			visible = false
 		"End":
-			close()
+			_close()
 			MapController.map.end_turn()
 		var node_name:
 			push_error("%s is not a valid menu item" % node_name)
 	super(item)
 
 
-func close() -> void:
+func _close() -> void:
 	super()
 	CursorController.enable()

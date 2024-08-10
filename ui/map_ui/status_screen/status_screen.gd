@@ -40,15 +40,14 @@ static func instantiate(unit: Unit) -> StatusScreen:
 
 func receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
-		close()
+		_close()
 	if _delay <= 0:
-		const TAB_SWITCH: AudioStreamOggVorbis = preload("res://audio/sfx/status_switch.ogg")
 		if event.is_action_pressed("left", true) and not Input.is_action_pressed("right"):
-			AudioPlayer.play_sound_effect(TAB_SWITCH)
+			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.TAB_SWITCH)
 			Utilities.switch_tab(_menu_tabs as TabContainer, -1)
 			_delay = 5
 		elif event.is_action_pressed("right", true):
-			AudioPlayer.play_sound_effect(TAB_SWITCH)
+			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.TAB_SWITCH)
 			Utilities.switch_tab(_menu_tabs as TabContainer, 1)
 			_delay = 5
 	if not _scroll_lock:
@@ -60,7 +59,7 @@ func receive_input(event: InputEvent) -> void:
 			_move(-1)
 
 
-func close() -> void:
+func _close() -> void:
 	queue_free()
 	previous_tab = _menu_tabs.current_tab
 	CursorController.enable()
@@ -128,7 +127,7 @@ func _update() -> void:
 				"might": observing_unit.get_current_weapon().get_might()
 			}
 		))
-		_set_label_text_to_number(attack_label, observing_unit.get_raw_attack())
+		_set_label_text_to_number(attack_label, observing_unit.get_attack())
 
 		hit_description.help_description = Formulas.HIT.format(observing_unit)
 		_set_label_text_to_number(hit_label, observing_unit.get_hit())
@@ -182,18 +181,15 @@ func _update_tab() -> void:
 			const Statistics = preload("res://ui/map_ui/status_screen/statistics/statistics.gd")
 			var statistics := $MenuScreen/MenuTabs/Statistics as Statistics
 			statistics.observing_unit = observing_unit
-			statistics.update()
 			tab_controls.assign(statistics.get_left_controls())
 		1:
 			const ItemScreen = preload("res://ui/map_ui/status_screen/item_screen/item_screen.gd")
 			var items := $MenuScreen/MenuTabs/Items as ItemScreen
 			items.observing_unit = observing_unit
-			items.update()
 			tab_controls.assign(
 				(
-					items.get_rank_labels()
-					if items.get_item_labels().is_empty()
-					else items.get_item_labels()
+					items.get_item_labels() if not items.get_item_labels().is_empty()
+					else items.get_rank_labels()
 				)
 			)
 	await get_tree().process_frame

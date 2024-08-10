@@ -13,12 +13,12 @@ enum Positions {
 }
 enum Directions { LEFT, RIGHT }
 
-const CHARS_PER_SECOND: int = 300
-const FULL_SCROLL_SPEED: float = 0.25
-const LINE_COUNT: int = 5
-const SHIFT_DURATION: float = 8.0 / 60  # In seconds
-const TEXTBOX_HEIGHT: int = 94
-const PORTRAIT_WIDTH: int = 96
+const _CHARS_PER_SECOND: int = 300
+const _FULL_SCROLL_SPEED: float = 0.25
+const _LINE_COUNT: int = 5
+const _SHIFT_DURATION: float = 8.0 / 60  # In seconds
+const _TEXTBOX_HEIGHT: int = 94
+const _PORTRAIT_WIDTH: int = 96
 
 var _portraits: Dictionary = {}
 var _top_speaker: Unit
@@ -97,7 +97,7 @@ func add_portrait(new_speaker: Unit, portrait_position: Positions, flip_h: bool 
 		_portraits[new_speaker] = portrait
 		var tween: Tween = create_tween()
 		portrait.modulate.v = 0
-		tween.tween_property(portrait, "modulate:v", 1, SHIFT_DURATION)
+		tween.tween_property(portrait, "modulate:v", 1, _SHIFT_DURATION)
 		await tween.finished
 
 
@@ -107,7 +107,7 @@ func remove_portrait(old_speaker: Unit) -> void:
 		if is_instance_valid(_portraits.get(old_speaker)):
 			portrait = _portraits.get(old_speaker, Portrait.new())
 		var tween: Tween = create_tween()
-		tween.tween_property(portrait, "modulate:v", 0, SHIFT_DURATION)
+		tween.tween_property(portrait, "modulate:v", 0, _SHIFT_DURATION)
 		await tween.finished
 		portrait.queue_free()
 
@@ -143,7 +143,7 @@ func _show_textbox(
 			align_bottom,
 			bubble_point,
 			textbox.custom_minimum_size,
-			Vector2i(Utilities.get_screen_size().x, TEXTBOX_HEIGHT)
+			Vector2i(Utilities.get_screen_size().x, _TEXTBOX_HEIGHT)
 		)
 		textbox.position.x = 0
 		if align_bottom:
@@ -159,7 +159,7 @@ func _hide_textbox(textbox: MarginContainer, align_bottom: bool, bubble_point: T
 			textbox,
 			align_bottom,
 			bubble_point,
-			Vector2i(Utilities.get_screen_size().x, TEXTBOX_HEIGHT),
+			Vector2i(Utilities.get_screen_size().x, _TEXTBOX_HEIGHT),
 			textbox.custom_minimum_size
 		)
 		textbox.visible = false
@@ -189,7 +189,7 @@ func _resize_textbox(
 			bubble_point.position.y = textbox.size.y - 2
 
 	var tween: Tween = create_tween()
-	tween.tween_method(adjust_size, starting_size, target_size, SHIFT_DURATION)
+	tween.tween_method(adjust_size, starting_size, target_size, _SHIFT_DURATION)
 	await tween.finished
 
 
@@ -210,12 +210,12 @@ func _set_text_base(string: String, label: RichTextLabel, portrait: Portrait) ->
 				autoscroll = true
 				await get_tree().physics_frame  # Prevents input from being double read
 			var next_visible_chars: int = (
-				label.visible_characters + roundi(CHARS_PER_SECOND * get_process_delta_time())
+				label.visible_characters + roundi(_CHARS_PER_SECOND * get_process_delta_time())
 			)
 			while label.visible_characters < next_visible_chars and label.visible_ratio < 1:
 				label.visible_characters += 1
 				# Scrolls when overflowing
-				if label.get_line_count() > LINE_COUNT + (label.position.y / -_get_line_height()):
+				if label.get_line_count() > _LINE_COUNT + (label.position.y / -_get_line_height()):
 					label.visible_characters -= 1
 					autoscroll = false
 					await _scroll(label)
@@ -223,7 +223,7 @@ func _set_text_base(string: String, label: RichTextLabel, portrait: Portrait) ->
 				# Delays for punctuation
 				elif label.text[label.visible_characters - 1] in [",", ".", ";", ":"]:
 					if not autoscroll:
-						await get_tree().create_timer(30.0 / CHARS_PER_SECOND).timeout
+						await get_tree().create_timer(30.0 / _CHARS_PER_SECOND).timeout
 					break
 		label.visible_ratio = 1
 		#endregion
@@ -237,12 +237,12 @@ func _scroll(label: RichTextLabel) -> void:
 	if not _skipping:
 		var new_y: int = roundi(label.position.y - _get_line_height())
 		var tween: Tween = create_tween()
-		tween.tween_property(label, "position:y", new_y, FULL_SCROLL_SPEED / LINE_COUNT)
+		tween.tween_property(label, "position:y", new_y, _FULL_SCROLL_SPEED / _LINE_COUNT)
 		await tween.finished
 
 
 func _clear(label: RichTextLabel) -> void:
-	for i: int in LINE_COUNT:
+	for i: int in _LINE_COUNT:
 		await _scroll(label)
 	label.text = ""
 	label.position.y = 0
@@ -257,12 +257,12 @@ func _set_speaker(name_label: RichTextLabel, new_speaker: Unit) -> void:
 		if name_label.text != "":
 			var slide_out: Tween = create_tween()
 			slide_out.set_speed_scale(2)
-			slide_out.tween_property(name_label, "visible_ratio", 0, SHIFT_DURATION)
+			slide_out.tween_property(name_label, "visible_ratio", 0, _SHIFT_DURATION)
 			await slide_out.finished
 		name_label.text = new_speaker.display_name
 		var slide_in: Tween = create_tween()
 		slide_in.set_speed_scale(2)
-		slide_in.tween_property(name_label, "visible_ratio", 1, SHIFT_DURATION / 2)
+		slide_in.tween_property(name_label, "visible_ratio", 1, _SHIFT_DURATION / 2)
 		await slide_in.finished
 
 
@@ -270,7 +270,7 @@ func _configure_point(bubble_point: TextureRect, point_x: int) -> void:
 	bubble_point.visible = true
 	bubble_point.flip_h = point_x < (float(Utilities.get_screen_size().y) / 2)
 	bubble_point.position.x = (
-		float(point_x + PORTRAIT_WIDTH) if bubble_point.flip_h else point_x - bubble_point.size.x
+		float(point_x + _PORTRAIT_WIDTH) if bubble_point.flip_h else point_x - bubble_point.size.x
 	)
 
 

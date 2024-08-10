@@ -1,9 +1,16 @@
 extends Control
 
-var observing_unit: Unit
+var observing_unit: Unit:
+	set(value):
+		observing_unit = value
+		_update()
 
 
-func update() -> void:
+func get_left_controls() -> Array[Node]:
+	return get_tree().get_nodes_in_group("left_nodes")
+
+
+func _update() -> void:
 	var offensive_labels := %OffensiveLabels as VBoxContainer
 	var defensive_labels := %DefensiveLabels as VBoxContainer
 	var misc_labels := %MiscLabels as VBoxContainer
@@ -15,7 +22,7 @@ func update() -> void:
 			roundi(misc_labels.size.x),
 			roundi(other_labels.size.x)
 		]
-		.max()
+		. max()
 	)
 	offensive_labels.custom_minimum_size.x = max_width
 	defensive_labels.custom_minimum_size.x = max_width
@@ -40,27 +47,27 @@ func update() -> void:
 	const StarsLabel = preload(
 		"res://ui/map_ui/status_screen/statistics/stars_label/stars_label.gd"
 	)
-	(%AuthorityStars as StarsLabel).stars = observing_unit.get_authority()
+	(%AuthorityStars as StarsLabel).stars = observing_unit._get_authority()
 	(%TravelerName as Label).text = (
 		observing_unit.traveler.name as String if observing_unit.traveler else "-"
 	)
 
-	(%WeightNumber as HelpContainer).help_description = ("{build} + {weight_modifier}".format({
-		"build": observing_unit.get_build(),
-		"weight_modifier": observing_unit.unit_class.get_weight_modifier()
-	}))
+	(%WeightNumber as HelpContainer).help_description = ("{build} + {weight_modifier}".format(
+		{
+			"build": observing_unit.get_build(),
+			"weight_modifier": observing_unit.unit_class.get_weight_modifier()
+		}
+	))
 	var aid_number := %AidNumber as HelpContainer
 	var aid_description: String = _get_unformatted_aid_description(
 		observing_unit.unit_class.get_aid_modifier()
 	)
-	aid_number.help_description = aid_description.format({
-		"build": observing_unit.get_build(),
-		"aid_modifier": absi(observing_unit.unit_class.get_aid_modifier())
-	})
-
-
-func get_left_controls() -> Array[Node]:
-	return get_tree().get_nodes_in_group("left_nodes")
+	aid_number.help_description = aid_description.format(
+		{
+			"build": observing_unit.get_build(),
+			"aid_modifier": absi(observing_unit.unit_class.get_aid_modifier())
+		}
+	)
 
 
 func _update_stat_bar(stat_bar: StatBar, stat: Unit.Stats) -> void:

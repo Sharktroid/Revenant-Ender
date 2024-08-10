@@ -33,7 +33,7 @@ unit_description = "A veteran paladin serving Pherae.
 Roy's instructor in combat."
 unit_class = SubResource("Resource_udhl1")
 items = Array[Resource("res://items/item.gd")]([SubResource("Resource_co5aq"), SubResource("Resource_67pnp")])
-base_level = 5
-custom_hair = true
-hair_color_light = Color(0.94768, 0.8544, 0.96, 1)
-hair_color_dark = Color(0.42075, 0.4029, 0.51, 1)
+_base_level = 5
+_custom_hair = true
+_hair_color_light = Color(0.94768, 0.8544, 0.96, 1)
+_hair_color_dark = Color(0.42075, 0.4029, 0.51, 1)

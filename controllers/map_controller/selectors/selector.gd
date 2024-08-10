@@ -3,8 +3,7 @@ extends Control
 
 signal canceled
 
-var unit: Unit
-
+var _unit: Unit
 var _condition: Callable
 var _minimum_range: int
 var _maximum_range: float
@@ -22,17 +21,17 @@ func _init(
 	icon: CursorController.Icons = CursorController.Icons.NONE,
 	selection_sound_effect: AudioStream = AudioPlayer.SoundEffects.MENU_SELECT
 ) -> void:
-	unit = connected_unit
+	_unit = connected_unit
 	_minimum_range = min_range
 	_maximum_range = max_range
 	_condition = condition
 	_icon = icon
 	_select_sound_effect = selection_sound_effect
 	CursorController.enable()
-	unit.hide_movement_tiles()
-	unit.remove_path()
+	_unit.hide_movement_tiles()
+	_unit.remove_path()
 	GameController.add_to_input_stack(self)
-	_selecting_position = unit.get_unit_path()[-1]
+	_selecting_position = _unit.get_unit_path()[-1]
 
 
 func _process(_delta: float) -> void:
@@ -57,12 +56,12 @@ func _exit_tree() -> void:
 	CursorController.set_icon(CursorController.Icons.NONE)
 
 
-func close() -> void:
+func _close() -> void:
 	queue_free()
 
 
 func _position_selected() -> void:
-	close()
+	_close()
 
 
 func _can_select() -> bool:
@@ -79,6 +78,6 @@ func _within_range() -> bool:
 func _canceled() -> void:
 	CursorController.disable()
 	AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
-	unit.display_movement_tiles()
-	unit.show_path()
-	close()
+	_unit.display_movement_tiles()
+	_unit.show_path()
+	_close()

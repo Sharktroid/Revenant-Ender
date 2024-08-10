@@ -17,10 +17,6 @@ func move(new_map_position: Vector2i) -> void:
 	map_position += new_map_position
 
 
-func get_low_map_position() -> Vector2i:
-	return (Vector2i(MapController.map.get_size()) - Utilities.get_screen_size()) - map_position
-
-
 func get_map_offset() -> Vector2i:
 	var map_size: Vector2i = MapController.map.get_size()
 	var screen_size: Vector2i = Utilities.get_screen_size()
@@ -35,7 +31,7 @@ func get_destination() -> Vector2i:
 	return map_position - get_map_offset()
 
 
-func can_move(new_dest: Vector2i) -> bool:
+func _can_move(new_dest: Vector2i) -> bool:
 	var old_pos: Vector2i = map_position
 	move(new_dest)
 	var answer: bool = map_position != old_pos

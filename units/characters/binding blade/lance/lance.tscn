@@ -33,6 +33,6 @@ unit_description = "A knight serving Pherae.
 Calm and cool-headed."
 unit_class = SubResource("Resource_qo8hb")
 items = Array[Resource("res://items/item.gd")]([SubResource("Resource_qra60"), SubResource("Resource_w6kla")])
-custom_hair = true
-hair_color_light = Color(0.3071, 0.83, 0.524975, 1)
-hair_color_dark = Color(0.2562, 0.42, 0.29169, 1)
+_custom_hair = true
+_hair_color_light = Color(0.3071, 0.83, 0.524975, 1)
+_hair_color_dark = Color(0.2562, 0.42, 0.29169, 1)

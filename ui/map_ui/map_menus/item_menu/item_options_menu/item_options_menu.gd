@@ -27,18 +27,18 @@ static func instantiate(
 	return scene
 
 
-func select_item(menu_item: MapMenuItem) -> void:
+func _select_item(menu_item: MapMenuItem) -> void:
 	match menu_item.name:
 		"Equip":
 			unit.equip_weapon(item as Weapon)
-			close()
+			_close()
 		"Use":
 			item.use()
-			close()
+			_close()
 		"Drop":
-			var menu := ConfirmationMapMenu.instantiate(offset + Vector2(16, 16), self)
+			var menu := ConfirmationMapMenu.instantiate(_offset + Vector2(16, 16), self)
 			MapController.get_ui().add_child(menu)
 			if await menu.selection_made:
 				unit.drop(item)
-				close()
+				_close()
 	super(menu_item)

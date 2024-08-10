@@ -53,7 +53,7 @@ func play_animation() -> void:
 
 func set_alpha(alpha: float) -> void:
 	_combat_sprite.modulate.a = alpha
-	_combat_sprite.update_shader()
+	#_combat_sprite.update_shader()
 
 
 func _move(movement: Vector2) -> void:

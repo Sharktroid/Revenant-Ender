@@ -2,10 +2,9 @@ extends Node
 
 enum AttackTypes { HIT, MISS, CRIT }
 
-const DELAY: float = 0.25
-const HEALTH_SCROLL_DURATION: float = 0.5
-
-const HIT_B_DELAY: float = 5.0 / 60
+const _DELAY: float = 0.25
+const _HEALTH_SCROLL_DURATION: float = 0.5
+const _HIT_B_DELAY: float = 5.0 / 60
 
 
 func combat(attacker: Unit, defender: Unit) -> void:
@@ -40,7 +39,7 @@ func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[CombatStage
 	var attacker_starting_hp: float = attacker.current_health
 	var defender_starting_hp: float = defender.current_health
 	for combat_round: CombatStage in attack_queue:
-		await get_tree().create_timer(DELAY).timeout
+		await get_tree().create_timer(_DELAY).timeout
 		await _map_attack(
 			combat_round.attacker,
 			combat_round.defender,
@@ -49,7 +48,7 @@ func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[CombatStage
 		)
 		if attacker.current_health <= 0 or defender.current_health <= 0:
 			break
-	await get_tree().create_timer(DELAY).timeout
+	await get_tree().create_timer(_DELAY).timeout
 
 	hp_bar.queue_free()
 	if defender.current_health <= 0:
@@ -98,13 +97,13 @@ func _map_attack(
 		)
 
 		var total_hp: int = defender.get_hit_points()
-		var duration: float = HEALTH_SCROLL_DURATION * (float(old_health - new_health) / total_hp)
+		var duration: float = _HEALTH_SCROLL_DURATION * (float(old_health - new_health) / total_hp)
 		var tween: Tween = defender.create_tween()
 		tween.set_parallel()
 		tween.tween_interval(0.1)
 		tween.tween_property(defender, "current_health", new_health, duration)
 		AudioPlayer.play_sound_effect(hit_a)
-		await get_tree().create_timer(HIT_B_DELAY).timeout
+		await get_tree().create_timer(_HIT_B_DELAY).timeout
 		await AudioPlayer.play_sound_effect(hit_b)
 		if tween.is_running():
 			await tween.finished

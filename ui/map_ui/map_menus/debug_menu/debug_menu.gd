@@ -16,7 +16,7 @@ static func instantiate(new_offset: Vector2, parent: MapMenu = null) -> MapMenu:
 	)
 
 
-func select_item(item: MapMenuItem) -> void:
+func _select_item(item: MapMenuItem) -> void:
 	match item.name:
 		"UnitWait":
 			Utilities.invert_debug_value(Utilities.DebugConfigKeys.UNIT_WAIT)
@@ -65,7 +65,6 @@ func select_item(item: MapMenuItem) -> void:
 
 		_:
 			push_error("%s is not a valid menu item" % item)
-	Utilities.save_config()
 	_update_items()
 	super(item)
 

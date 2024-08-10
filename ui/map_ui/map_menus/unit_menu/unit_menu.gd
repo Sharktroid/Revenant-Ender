@@ -14,8 +14,8 @@ func _init() -> void:
 
 func _enter_tree() -> void:
 	connected_unit.tree_exited.connect(_on_unit_death)
-	update()
-	current_item_index = 0
+	_update()
+	_current_item_index = 0
 	var visible_items: bool = false
 	for i: MapMenuItem in _get_item_nodes():
 		if i.visible:
@@ -23,7 +23,7 @@ func _enter_tree() -> void:
 			break
 	reset_size.call_deferred()
 	if not visible_items:
-		close(true)
+		_close(true)
 	else:
 		super()
 
@@ -39,20 +39,9 @@ static func instantiate(
 func receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
-		close(true)
+		_close(true)
 	else:
 		super(event)
-
-
-func close(return_to_caller: bool = false) -> void:
-	if not actionable:
-		_check_canto()
-	queue_free()
-	if not (return_to_caller and actionable):
-		caller.close()
-	if _canto:
-		CantoController.new.call_deferred(connected_unit)
-	CursorController.enable.call_deferred()
 
 
 static func get_displayed_items(unit: Unit) -> Dictionary:
@@ -105,7 +94,18 @@ static func get_displayed_items(unit: Unit) -> Dictionary:
 	return enabled_items
 
 
-func update() -> void:
+func _close(return_to_caller: bool = false) -> void:
+	if not actionable:
+		_check_canto()
+	queue_free()
+	if not (return_to_caller and actionable):
+		caller.close()
+	if _canto:
+		CantoController.new.call_deferred(connected_unit)
+	CursorController.enable.call_deferred()
+
+
+func _update() -> void:
 	# Gets the items for the unit menu.
 	var enabled_items: Dictionary = UnitMenu.get_displayed_items(connected_unit)
 	var previous_node: MapMenuItem = get_current_item_node()
@@ -115,12 +115,12 @@ func update() -> void:
 		set_current_item_node(previous_node)
 	else:
 		previous_node.selected = false
-		current_item_index = 0
+		_current_item_index = 0
 	reset_size()
-	update_position()
+	_update_position()
 
 
-func select_item(item: MapMenuItem) -> void:
+func _select_item(item: MapMenuItem) -> void:
 	match item.name:
 		"Attack":
 			#gdlint: disable = private-method-call
@@ -156,7 +156,7 @@ func select_item(item: MapMenuItem) -> void:
 			_select_map(selector, _display_adjacent_support_tiles(), _trade)
 
 		"Items":
-			var menu := ItemMenu.instantiate(offset, self, connected_unit)
+			var menu := ItemMenu.instantiate(_offset, self, connected_unit)
 			MapController.get_ui().add_child(menu)
 			visible = false
 
@@ -187,7 +187,7 @@ func select_item(item: MapMenuItem) -> void:
 	super(item)
 
 
-func unactionable() -> void:
+func _unactionable() -> void:
 	actionable = false
 	await connected_unit.move()
 
@@ -274,7 +274,7 @@ func _display_adjacent_support_tiles() -> Node2D:
 
 
 func _on_unit_death() -> void:
-	close()
+	_close()
 
 
 func _get_item_nodes() -> Array[MapMenuItem]:
@@ -287,14 +287,14 @@ func _wait() -> void:
 	visible = false
 	await connected_unit.move()
 	connected_unit.wait()
-	close()
+	_close()
 
 
 func _attack(selected_unit: Unit) -> void:
 	await connected_unit.move()
 	await AttackController.combat(connected_unit, selected_unit)
 	connected_unit.wait()
-	close()
+	_close()
 
 
 func _trade(selected_unit: Unit) -> void:
@@ -303,7 +303,7 @@ func _trade(selected_unit: Unit) -> void:
 	CursorController.disable()
 	visible = false
 	if await menu.completed:
-		await unactionable()
+		await _unactionable()
 	else:
 		connected_unit.display_movement_tiles()
 	visible = true
@@ -317,7 +317,7 @@ func _rescue(selected_unit: Unit) -> void:
 	selected_unit.visible = false
 	connected_unit.traveler = selected_unit
 	_check_canto()
-	close()
+	_close()
 
 
 func _drop(dropped_tile: Vector2i) -> void:
@@ -328,11 +328,11 @@ func _drop(dropped_tile: Vector2i) -> void:
 	connected_unit.traveler = null
 	await traveler.move(dropped_tile)
 	_check_canto()
-	close()
+	_close()
 
 
 func _take(unit: Unit) -> void:
-	await unactionable()
+	await _unactionable()
 	var traveler: Unit = unit.traveler
 	connected_unit.traveler = traveler
 	unit.traveler = null
@@ -340,14 +340,13 @@ func _take(unit: Unit) -> void:
 	await traveler.move(connected_unit.position)
 	traveler.visible = false
 	traveler.wait()
-	visible = true
 	CursorController.disable()
 	CursorController.map_position = connected_unit.position
-	update()
+	visible = true
 
 
 func _give(unit: Unit) -> void:
-	await unactionable()
+	await _unactionable()
 	var traveler: Unit = connected_unit.traveler
 	unit.traveler = traveler
 	connected_unit.traveler = null
@@ -355,13 +354,12 @@ func _give(unit: Unit) -> void:
 	await traveler.move(unit.position)
 	traveler.visible = false
 	traveler.wait()
-	visible = true
-	update()
 	CursorController.disable()
+	visible = true
 
 
 func _exchange(unit: Unit) -> void:
-	await unactionable()
+	await _unactionable()
 	var old_traveler: Unit = connected_unit.traveler
 	var new_traveler: Unit = unit.traveler
 	connected_unit.traveler = new_traveler
@@ -374,10 +372,9 @@ func _exchange(unit: Unit) -> void:
 	new_traveler.visible = false
 	old_traveler.wait()
 	new_traveler.wait()
-	visible = true
 	CursorController.disable()
 	CursorController.map_position = connected_unit.position
-	update()
+	visible = true
 
 
 static func _base_instantiate(
@@ -399,3 +396,8 @@ func _can_take(unit: Unit) -> bool:
 
 func _can_give(unit: Unit) -> bool:
 	return connected_unit.is_friend(unit) and not unit.traveler
+
+
+func _on_visibility_changed() -> void:
+	if visible:
+		_update()

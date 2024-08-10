@@ -19,7 +19,7 @@ static func instantiate(new_offset: Vector2, parent: MapMenu) -> ConfirmationMap
 	return _base_instantiate(PACKED_SCENE, new_offset, parent) as ConfirmationMapMenu
 
 
-func select_item(menu_item: MapMenuItem) -> void:
+func _select_item(menu_item: MapMenuItem) -> void:
 	selection_made.emit(menu_item.name == "Yes")
 	queue_free()
 	super(menu_item)

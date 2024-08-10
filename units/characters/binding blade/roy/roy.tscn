@@ -30,6 +30,6 @@ unit_description = "The next heir to Pherae.
 The protagonist of this story."
 unit_class = SubResource("Resource_tt5sv")
 items = Array[Resource("res://items/item.gd")]([SubResource("Resource_rfe5k")])
-custom_hair = true
-hair_color_light = Color(0.89, 0.0445, 0.185417, 1)
-hair_color_dark = Color(0.49, 0.1078, 0.19061, 1)
+_custom_hair = true
+_hair_color_light = Color(0.89, 0.0445, 0.185417, 1)
+_hair_color_dark = Color(0.49, 0.1078, 0.19061, 1)

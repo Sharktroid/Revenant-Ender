@@ -8,14 +8,11 @@ enum DebugConfigKeys {
 	PRINT_INPUT_RECIEVER,
 	SHOW_FPS,
 }
-const ADJACENT_TILES: Array[Vector2i] = [
-	Vector2i(16, 0), Vector2i(-16, 0), Vector2i(0, 16), Vector2i(0, -16)
-]
+
 const _MIN_POSITION: int = -(2 ** 15) + 1
 const _SIZE: int = 2 ** 16
 
-var theme: Theme = preload("res://ui/theme/menu_theme.tres")
-
+var _theme: Theme = preload("res://ui/theme/menu_theme.tres")
 var _debug_config: Dictionary = {  # Constants used in the debug menu.
 	DebugConfigKeys.UNIT_WAIT: true,  # Whether units are unable to move after movement.
 	DebugConfigKeys.DISPLAY_MAP_BORDERS: false,  # Whether map borders are displayed
@@ -29,8 +26,8 @@ var _default_screen_size: Vector2i
 var _profile: Array[int] = []
 var _current_checkpoint: int
 
-@onready var font_yellow: String = theme.get_color("font_color", "YellowLabel").to_html()
-@onready var font_blue: String = theme.get_color("font_color", "BlueLabel").to_html()
+@onready var font_yellow: String = _theme.get_color("font_color", "YellowLabel").to_html()
+@onready var font_blue: String = _theme.get_color("font_color", "BlueLabel").to_html()
 
 
 func _init() -> void:
@@ -43,7 +40,7 @@ func _init() -> void:
 
 
 func _exit_tree() -> void:
-	save_config()
+	_save_config()
 
 
 func get_tiles(
@@ -95,33 +92,17 @@ func get_screen_size() -> Vector2i:
 	return _default_screen_size
 
 
-func save_config() -> void:
-	# Saves configuration.
-	for constant: String in DebugConfigKeys.keys() as Array[String]:
-		_config_file.set_value(
-			"Debug",
-			constant.to_snake_case(),
-			get_debug_value(DebugConfigKeys[constant] as Utilities.DebugConfigKeys)
-		)
-	_config_file.save("user://config.cfg")
-
-
 func get_debug_value(key: DebugConfigKeys) -> Variant:
 	return _debug_config[key]
 
 
 func set_debug_value(key: DebugConfigKeys, value: Variant) -> void:
 	_debug_config[key] = value
-	save_config()
+	_save_config()
 
 
 func invert_debug_value(key: DebugConfigKeys) -> void:
 	set_debug_value(key, not get_debug_value(key))
-
-
-func slice_string(string: String, start: int, end: int) -> String:
-	# Returns a substring of "string" from index "start" to index "end"
-	return string.substr(start, string.length() - start - end)
 
 
 func get_tile_distance(pos_a: Vector2, pos_b: Vector2) -> float:
@@ -149,7 +130,7 @@ func switch_tab(tab_container: TabContainer, move_to: int) -> void:
 
 
 func xor(condition_a: bool, condition_b: bool) -> bool:
-	return !(condition_a == condition_b)
+	return not (condition_a == condition_b)
 
 
 func dict_to_table(dict: Dictionary) -> Array[String]:
@@ -221,9 +202,25 @@ func is_running_project() -> bool:
 
 
 func float_to_string(num: float) -> String:
-	const INF_CHAR: String = "∞"
+	const INF_CHAR: String = "âˆž"
 	assert(INF_CHAR.length() == 1, "Error: Infinity character has been corrupted.")
 	return str(num).replace("inf", INF_CHAR)
+
+
+func _save_config() -> void:
+	# Saves configuration.
+	for constant: String in DebugConfigKeys.keys() as Array[String]:
+		_config_file.set_value(
+			"Debug",
+			constant.to_snake_case(),
+			get_debug_value(DebugConfigKeys[constant] as Utilities.DebugConfigKeys)
+		)
+	_config_file.save("user://config.cfg")
+
+
+func _slice_string(string: String, start: int, end: int) -> String:
+	# Returns a substring of "string" from index "start" to index "end"
+	return string.substr(start, string.length() - start - end)
 
 
 func _get_center(control: Control) -> float:

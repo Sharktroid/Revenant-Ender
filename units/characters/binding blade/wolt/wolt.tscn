@@ -33,6 +33,6 @@ unit_description = "An archer serving Pherae.
 Was raised like a brother to Roy."
 unit_class = SubResource("Resource_7fxf3")
 items = Array[Resource("res://items/item.gd")]([SubResource("Resource_7ii4a"), SubResource("Resource_2dpxt")])
-custom_hair = true
-hair_color_light = Color(0.73, 0.715643, 0.2993, 1)
-hair_color_dark = Color(0.4, 0.3688, 0.296, 1)
+_custom_hair = true
+_hair_color_light = Color(0.73, 0.715643, 0.2993, 1)
+_hair_color_dark = Color(0.4, 0.3688, 0.296, 1)

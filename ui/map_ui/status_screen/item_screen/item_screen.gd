@@ -1,9 +1,12 @@
 extends Control
 
-var observing_unit: Unit
+var observing_unit: Unit:
+	set(value):
+		observing_unit = value
+		_update()
 
 
-func update() -> void:
+func _update() -> void:
 	var ranks: Array[Control] = []
 	for control: Control in $WeaponRanks/GridContainer.get_children() as Array[Control]:
 		if control.get_index() % 2 == 0:

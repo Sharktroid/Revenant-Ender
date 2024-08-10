@@ -1,30 +1,30 @@
 class_name MapMenu
 extends PanelContainer
 
-var offset: Vector2:
+var _offset: Vector2:
 	set(value):
-		offset = value
-		update_position()
-var parent_menu: MapMenu
-## If true, the menu will move to the left if on the right side of the screen
-var current_item_index: int = 0:
+		_offset = value
+		_update_position()
+var _parent_menu: MapMenu
+var _current_item_index: int = 0:
 	set(value):
-		var different: bool = value != current_item_index
+		var different: bool = value != _current_item_index
 		if different:
 			get_current_item_node().selected = false
-		current_item_index = value
+		_current_item_index = value
 		if different:
 			get_current_item_node().selected = true
 	get:
 		if _get_visible_children().size() == 0:
 			return 0
 		else:
-			return posmod(current_item_index, _get_visible_children().size())
+			return posmod(_current_item_index, _get_visible_children().size())
+## If true, the menu will move to the left if on the right side of the screen
 var _to_center: bool = true
 
 
 func _enter_tree() -> void:
-	update_position.call_deferred()
+	_update_position.call_deferred()
 	var visible_children: Array[Node] = []
 	for child: MapMenuItem in _get_visible_children():
 		visible_children.append(child)
@@ -37,52 +37,52 @@ func _enter_tree() -> void:
 func receive_input(event: InputEvent) -> void:
 	if not HelpPopupController.is_active():
 		if event.is_action_pressed("up") and not Input.is_action_pressed("down"):
-			current_item_index -= 1
+			_current_item_index -= 1
 			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK)
 
 		elif event.is_action_pressed("down"):
-			current_item_index += 1
+			_current_item_index += 1
 			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK)
 
 		if event.is_action_pressed("ui_accept"):
 			_play_select_sound_effect(get_current_item_node())
-			select_item(get_current_item_node())
+			_select_item(get_current_item_node())
 
 		elif event.is_action_pressed("ui_cancel"):
 			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
-			close()
-
-
-func close() -> void:
-	# Closes the menu
-	queue_free()
-	if parent_menu:
-		parent_menu.visible = true
-
-
-func update_position() -> void:
-	reset_size()
-	position = offset.clamp(Vector2i(), Utilities.get_screen_size() - Vector2i(size))
-	if (
-		offset.x >= float(Utilities.get_screen_size().x) / 2
-		and _to_center
-		and offset.x >= CursorController.screen_position.x
-	):
-		position.x -= ceili(16 + size.x)
-
-
-func select_item(_item: MapMenuItem) -> void:
-	HelpPopupController.shrink()
+			_close()
 
 
 func set_current_item_node(item: HelpContainer) -> void:
-	current_item_index = _get_visible_children().find(item)
+	_current_item_index = _get_visible_children().find(item)
 
 
 func get_current_item_node() -> MapMenuItem:
 	return (
-		_get_visible_children()[current_item_index] if _get_visible_children().size() > 0 else null
+		_get_visible_children()[_current_item_index] if _get_visible_children().size() > 0 else null
 	)
+
+
+func _close() -> void:
+	# Closes the menu
+	queue_free()
+	if _parent_menu:
+		_parent_menu.visible = true
+
+
+func _update_position() -> void:
+	reset_size()
+	position = _offset.clamp(Vector2i(), Utilities.get_screen_size() - Vector2i(size))
+	if (
+		_offset.x >= float(Utilities.get_screen_size().x) / 2
+		and _to_center
+		and _offset.x >= CursorController.screen_position.x
+	):
+		position.x -= ceili(16 + size.x)
+
+
+func _select_item(_item: MapMenuItem) -> void:
+	HelpPopupController.shrink()
 
 
 func _play_select_sound_effect(_item: MapMenuItem) -> void:
@@ -101,6 +101,6 @@ static func _base_instantiate(
 	packed_scene: PackedScene, new_offset: Vector2, parent: MapMenu
 ) -> MapMenu:
 	var scene := packed_scene.instantiate() as MapMenu
-	scene.offset = new_offset
-	scene.parent_menu = parent
+	scene._offset = new_offset
+	scene._parent_menu = parent
 	return scene

@@ -9,6 +9,11 @@ var weapons: Array[Weapon]:
 		if weapons != value:
 			weapons = value
 			_update()
+var current_item_index: int:
+	set(value):
+		_current_item_index = value
+	get:
+		return _current_item_index
 
 
 func _enter_tree() -> void:

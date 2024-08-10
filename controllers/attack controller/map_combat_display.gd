@@ -3,16 +3,16 @@ extends HBoxContainer
 
 const V_MOD: int = 32
 
-var attacker: Unit
-var defender: Unit
+var _attacker: Unit
+var _defender: Unit
 
 
 func _enter_tree() -> void:
-	($LeftHPBar as MapHPBar).unit = attacker
-	($RightHPBar as MapHPBar).unit = defender
+	($LeftHPBar as MapHPBar).unit = _attacker
+	($RightHPBar as MapHPBar).unit = _defender
 	position = Vector2(
-		(attacker.position.x + defender.position.x) / 2 - size.x / 2,
-		maxf(attacker.position.y, defender.position.y)
+		(_attacker.position.x + _defender.position.x) / 2 - size.x / 2,
+		maxf(_attacker.position.y, _defender.position.y)
 	)
 	position += (
 		Vector2(MapController.get_map_camera().get_map_offset())
@@ -28,6 +28,6 @@ static func instantiate(new_attacker: Unit, new_defender: Unit) -> MapCombatDisp
 		"res://controllers/attack controller/map_combat_display.tscn"
 	)
 	var scene := PACKED_SCENE.instantiate() as MapCombatDisplay
-	scene.attacker = new_attacker
-	scene.defender = new_defender
+	scene._attacker = new_attacker
+	scene._defender = new_defender
 	return scene

@@ -9,7 +9,7 @@ static func instantiate(
 	return scene
 
 
-func update() -> void:
+func _update() -> void:
 	pass
 
 
