@@ -1,5 +1,8 @@
 # Minor
 * Set observing unit for statistics and item screen when it changes, instead of every time the tab is switched
+* Change the path of maps to distinguish subdirectories of maps to subdirectories belonging to the map
+* Have units gain +0.02 movement EVs per tile traversed
+* Move palette shaders to own subdirectories
 
 # Major
 * Document classes

@@ -25,7 +25,7 @@ func _input(event: InputEvent) -> void:
 		else ControllerTypes.KEYBOARD
 	)
 
-	if Utilities.get_debug_value(Utilities.DebugConfigKeys.PRINT_INPUT_RECIEVER):
+	if Utilities.get_debug_value(Utilities.DebugConfigKeys.PRINT_INPUT_RECEIVER):
 		print(get_current_input_node())
 	get_current_input_node().receive_input(event)
 

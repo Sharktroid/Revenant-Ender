@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bd67r64uiekgk"
-path="res://.godot/imported/textbox_background.png-97fe86e7e6a2ae392015d42433c066f6.ctex"
+uid="uid://btdueh4dla8hs"
+path="res://.godot/imported/bubble_point.png-caceb88bd0f6a74bc3daddd7dfe35182.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/theme/textbox_background.png"
-dest_files=["res://.godot/imported/textbox_background.png-97fe86e7e6a2ae392015d42433c066f6.ctex"]
+source_file="res://ui/text_box/bubble_point.png"
+dest_files=["res://.godot/imported/bubble_point.png-caceb88bd0f6a74bc3daddd7dfe35182.ctex"]
 
 [params]
 

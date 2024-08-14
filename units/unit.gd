@@ -176,7 +176,7 @@ var _current_attack_tiles_node: Node2D
 # Resources to be loaded.
 var _stat_boosts: Dictionary
 var _arrows_container: CanvasGroup
-static var _movement_speed: float = 16  # Speedunit moves across the map in tiles/second.
+static var _movement_speed: float = 16  # Speed unit moves across the map in tiles/second.
 # Dictionaries that convert faction/_variant into animation modifier.
 
 
@@ -252,12 +252,12 @@ func get_attack() -> float:
 
 
 func get_damage(defender: Unit) -> float:
-	return maxf(0, _get_true_attack(defender) - defender.get_current_defence(get_current_weapon()))
+	return maxf(0, _get_true_attack(defender) - defender.get_current_defense(get_current_weapon()))
 
 
 func get_crit_damage(defender: Unit) -> float:
 	return maxf(
-		0, _get_true_attack(defender) * 2 - defender.get_current_defence(get_current_weapon())
+		0, _get_true_attack(defender) * 2 - defender.get_current_defense(get_current_weapon())
 	)
 
 
@@ -364,7 +364,7 @@ func get_attack_speed() -> float:
 	return Formulas.ATTACK_SPEED.evaluate(self)
 
 
-func get_current_defence(weapon: Weapon) -> int:
+func get_current_defense(weapon: Weapon) -> int:
 	match weapon.get_damage_type():
 		Weapon.DamageTypes.PHYSICAL:
 			return get_defense()
@@ -463,10 +463,10 @@ func get_max_range() -> float:
 	var max_range: float = get_current_weapon().get_max_range()
 	for weapon: Item in items:
 		if weapon is Weapon:
-			var curr_max_range: float = (weapon as Weapon).get_max_range()
-			if curr_max_range == INF:
+			var current_max_range: float = (weapon as Weapon).get_max_range()
+			if current_max_range == INF:
 				return INF  # Nothing bigger than infinity
-			max_range = maxf(curr_max_range, max_range)
+			max_range = maxf(current_max_range, max_range)
 	return max_range
 
 
@@ -535,12 +535,12 @@ func get_movement_tiles() -> Array[Vector2i]:
 	# Gets the movement tiles of the unit
 	if _movement_tiles.is_empty():
 		var start: Vector2i = position
-		const RANGE_MULT: float = 4.0 / 3
+		const RANGE_MULTIPLIER: float = 4.0 / 3
 		var movement_tiles_dict: Dictionary = {floori(_current_movement) as float: [start]}
 		if position == ((position / 16).floor() * 16):
 			#region Gets the initial grid
 			var h: Array[Vector2i] = Utilities.get_tiles(
-				start, ceili(_current_movement * RANGE_MULT), 0, MapController.map.borders
+				start, ceili(_current_movement * RANGE_MULTIPLIER), 0, MapController.map.borders
 			)
 			#endregion
 			#region Orders tiles by distance from center
@@ -580,13 +580,13 @@ func get_all_attack_tiles() -> Array[Vector2i]:
 					basis_movement_tiles.erase(unit_pos)
 		var min_range: int = get_min_range()
 		var max_range: float = get_max_range()
-		var base_subtiles: Array[Vector2i] = Utilities.get_tiles(Vector2i(), min_range, 1)
+		var base_sub_tiles: Array[Vector2i] = Utilities.get_tiles(Vector2i(), min_range, 1)
 		for tile: Vector2i in basis_movement_tiles:
-			var subtiles: Dictionary = {}
-			for base_subtile: Vector2i in base_subtiles:
+			var sub_tiles: Dictionary = {}
+			for base_subtile: Vector2i in base_sub_tiles:
 				var subtile: Vector2i = tile + base_subtile
-				subtiles[subtile] = subtile in get_movement_tiles()
-			if subtiles.values().any(func(value: bool) -> bool: return not value):
+				sub_tiles[subtile] = subtile in get_movement_tiles()
+			if sub_tiles.values().any(func(value: bool) -> bool: return not value):
 				var current_tiles: Array[Vector2i] = _attack_tiles + get_movement_tiles()
 				for attack_tile: Vector2i in Utilities.get_tiles(
 					tile, max_range, min_range, MapController.map.borders
@@ -810,10 +810,10 @@ func _get_true_attack(enemy: Unit) -> float:
 func _get_map() -> Map:
 	if _map == null:
 		if Engine.is_editor_hint():
-			var curr_parent: Node = get_parent()
-			while not curr_parent is Map and curr_parent:
-				curr_parent = curr_parent.get_parent()
-			return curr_parent as Map
+			var current_parent: Node = get_parent()
+			while not current_parent is Map and current_parent:
+				current_parent = current_parent.get_parent()
+			return current_parent as Map
 		else:
 			return MapController.map
 	else:
@@ -826,7 +826,7 @@ func _update_palette() -> void:
 	shader_material.set_shader_parameter(
 		"new_colors",
 		(
-			unit_class.get_wait_palette() + _get_greyscale_hair_palette()
+			unit_class.get_wait_palette() + _get_grayscale_hair_palette()
 			if _waiting
 			else (
 				unit_class.get_palette(faction.color if faction else Faction.Colors.BLUE)
@@ -836,7 +836,7 @@ func _update_palette() -> void:
 	)
 
 
-func _get_authority() -> int:
+func get_authority() -> int:
 	return personal_authority + unit_class.get_authority()
 
 
@@ -942,7 +942,7 @@ func _get_hair_palette() -> Array[Color]:
 		return default_palette
 
 
-func _get_greyscale_hair_palette() -> Array[Color]:
+func _get_grayscale_hair_palette() -> Array[Color]:
 	var default_palette: Array[Color] = unit_class.get_default_hair_palette(faction.color)
 	if _custom_hair:
 		var palette_length: int = default_palette.size()

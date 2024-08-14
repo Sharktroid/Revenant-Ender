@@ -17,7 +17,7 @@ const _CHARS_PER_SECOND: int = 300
 const _FULL_SCROLL_SPEED: float = 0.25
 const _LINE_COUNT: int = 5
 const _SHIFT_DURATION: float = 8.0 / 60  # In seconds
-const _TEXTBOX_HEIGHT: int = 94
+const _TEXT_BOX_HEIGHT: int = 94
 const _PORTRAIT_WIDTH: int = 96
 
 var _portraits: Dictionary = {}
@@ -26,8 +26,8 @@ var _bottom_speaker: Unit
 var _skipping: bool = false
 @onready var _top_bubble_point := $TopBubblePoint as TextureRect
 @onready var _bottom_bubble_point := $BottomBubblePoint as TextureRect
-@onready var _top_textbox := %TopTextbox as RichTextLabel
-@onready var _bottom_textbox := %BottomTextbox as RichTextLabel
+@onready var _top_text_box := %TopTextBox as RichTextLabel
+@onready var _bottom_text_box := %BottomTextBox as RichTextLabel
 
 
 func receive_input(event: InputEvent) -> void:
@@ -38,31 +38,31 @@ func receive_input(event: InputEvent) -> void:
 		for portrait: Unit in portraits:
 			remove_portrait(portrait)
 		await remove_portrait(last_portrait)
-		hide_top_textbox()
-		await hide_bottom_textbox()
+		hide_top_text_box()
+		await hide_bottom_text_box()
 		_skipping = true
 
 
 func set_top_text(string: String) -> void:
 	if not _skipping:
 		await _set_text_base(
-			string, _top_textbox, _portraits.get(_top_speaker, Portrait.new()) as Portrait
+			string, _top_text_box, _portraits.get(_top_speaker, Portrait.new()) as Portrait
 		)
 
 
 func set_bottom_text(string: String) -> void:
 	if not _skipping:
 		await _set_text_base(
-			string, _bottom_textbox, _portraits.get(_bottom_speaker, Portrait.new()) as Portrait
+			string, _bottom_text_box, _portraits.get(_bottom_speaker, Portrait.new()) as Portrait
 		)
 
 
 func clear_top() -> void:
-	await _clear(_top_textbox)
+	await _clear(_top_text_box)
 
 
 func clear_bottom() -> void:
-	await _clear(_bottom_textbox)
+	await _clear(_bottom_text_box)
 
 
 func set_top_speaker(new_speaker: Unit) -> void:
@@ -112,81 +112,81 @@ func remove_portrait(old_speaker: Unit) -> void:
 		portrait.queue_free()
 
 
-func show_top_textbox(box_position: Positions) -> void:
-	await _show_textbox(
+func show_top_text_box(box_position: Positions) -> void:
+	await _show_text_box(
 		box_position, $MarginContainerTop as MarginContainer, false, _top_bubble_point
 	)
 
 
-func show_bottom_textbox(box_position: Positions) -> void:
-	await _show_textbox(
+func show_bottom_text_box(box_position: Positions) -> void:
+	await _show_text_box(
 		box_position, $MarginContainerBottom as MarginContainer, true, _bottom_bubble_point
 	)
 
 
-func hide_top_textbox() -> void:
-	await _hide_textbox($MarginContainerTop as MarginContainer, false, _top_bubble_point)
+func hide_top_text_box() -> void:
+	await _hide_text_box($MarginContainerTop as MarginContainer, false, _top_bubble_point)
 
 
-func hide_bottom_textbox() -> void:
-	await _hide_textbox($MarginContainerBottom as MarginContainer, true, _bottom_bubble_point)
+func hide_bottom_text_box() -> void:
+	await _hide_text_box($MarginContainerBottom as MarginContainer, true, _bottom_bubble_point)
 
 
-func _show_textbox(
-	box_position: Positions, textbox: MarginContainer, align_bottom: bool, bubble_point: TextureRect
+func _show_text_box(
+	box_position: Positions, text_box: MarginContainer, align_bottom: bool, bubble_point: TextureRect
 ) -> void:
 	if not _skipping:
-		textbox.visible = true
+		text_box.visible = true
 		_configure_point(bubble_point, box_position)
-		await _resize_textbox(
-			textbox,
+		await _resize_text_box(
+			text_box,
 			align_bottom,
 			bubble_point,
-			textbox.custom_minimum_size,
-			Vector2i(Utilities.get_screen_size().x, _TEXTBOX_HEIGHT)
+			text_box.custom_minimum_size,
+			Vector2i(Utilities.get_screen_size().x, _TEXT_BOX_HEIGHT)
 		)
-		textbox.position.x = 0
+		text_box.position.x = 0
 		if align_bottom:
-			textbox.position.y = (Utilities.get_screen_size().y - textbox.size.y)
-			bubble_point.position.y = textbox.position.y - bubble_point.size.y + 2
+			text_box.position.y = (Utilities.get_screen_size().y - text_box.size.y)
+			bubble_point.position.y = text_box.position.y - bubble_point.size.y + 2
 		else:
-			bubble_point.position.y = textbox.size.y - 2
+			bubble_point.position.y = text_box.size.y - 2
 
 
-func _hide_textbox(textbox: MarginContainer, align_bottom: bool, bubble_point: TextureRect) -> void:
+func _hide_text_box(text_box: MarginContainer, align_bottom: bool, bubble_point: TextureRect) -> void:
 	if not _skipping:
-		await _resize_textbox(
-			textbox,
+		await _resize_text_box(
+			text_box,
 			align_bottom,
 			bubble_point,
-			Vector2i(Utilities.get_screen_size().x, _TEXTBOX_HEIGHT),
-			textbox.custom_minimum_size
+			Vector2i(Utilities.get_screen_size().x, _TEXT_BOX_HEIGHT),
+			text_box.custom_minimum_size
 		)
-		textbox.visible = false
+		text_box.visible = false
 		bubble_point.visible = false
 
 
-func _resize_textbox(
-	textbox: MarginContainer,
+func _resize_text_box(
+	text_box: MarginContainer,
 	align_bottom: bool,
 	bubble_point: TextureRect,
 	starting_size: Vector2,
 	target_size: Vector2
 ) -> void:
 	var target_x: float = bubble_point.position.x + bubble_point.size.x / 2
-	textbox.anchor_left = target_x / Utilities.get_screen_size().x
-	textbox.anchor_right = textbox.anchor_left
+	text_box.anchor_left = target_x / Utilities.get_screen_size().x
+	text_box.anchor_right = text_box.anchor_left
 
 	var adjust_size: Callable = func(new_size: Vector2) -> void:
-		textbox.size = new_size.snapped(Vector2i(2, 2))
-		textbox.position.x = clampf(
-			target_x - textbox.size.x / 2, 0, Utilities.get_screen_size().x - textbox.size.x
+		text_box.size = new_size.snapped(Vector2i(2, 2))
+		text_box.position.x = clampf(
+			target_x - text_box.size.x / 2, 0, Utilities.get_screen_size().x - text_box.size.x
 		)
 		if align_bottom:
-			textbox.position.y = (Utilities.get_screen_size().y - textbox.size.y)
-			bubble_point.position.y = textbox.position.y - bubble_point.size.y + 2
+			text_box.position.y = (Utilities.get_screen_size().y - text_box.size.y)
+			bubble_point.position.y = text_box.position.y - bubble_point.size.y + 2
 		else:
-			bubble_point.position.y = textbox.size.y - 2
+			bubble_point.position.y = text_box.size.y - 2
 
 	var tween: Tween = create_tween()
 	tween.tween_method(adjust_size, starting_size, target_size, _SHIFT_DURATION)
@@ -201,13 +201,13 @@ func _set_text_base(string: String, label: RichTextLabel, portrait: Portrait) ->
 		if string.length() == 0:
 			label.visible_ratio = 1
 		label.visible_characters = label.text.length() - string.length()
-		var autoscroll: bool = false
+		var auto_scroll: bool = false
 		#region Gradually displays text
 		while label.visible_ratio < 1 and not _skipping:
-			if not autoscroll:
+			if not auto_scroll:
 				await get_tree().physics_frame
 			if Input.is_action_just_pressed("ui_accept"):
-				autoscroll = true
+				auto_scroll = true
 				await get_tree().physics_frame  # Prevents input from being double read
 			var next_visible_chars: int = (
 				label.visible_characters + roundi(_CHARS_PER_SECOND * get_process_delta_time())
@@ -217,12 +217,12 @@ func _set_text_base(string: String, label: RichTextLabel, portrait: Portrait) ->
 				# Scrolls when overflowing
 				if label.get_line_count() > _LINE_COUNT + (label.position.y / -_get_line_height()):
 					label.visible_characters -= 1
-					autoscroll = false
+					auto_scroll = false
 					await _scroll(label)
 					break
 				# Delays for punctuation
 				elif label.text[label.visible_characters - 1] in [",", ".", ";", ":"]:
-					if not autoscroll:
+					if not auto_scroll:
 						await get_tree().create_timer(30.0 / _CHARS_PER_SECOND).timeout
 					break
 		label.visible_ratio = 1
@@ -249,7 +249,7 @@ func _clear(label: RichTextLabel) -> void:
 
 
 func _get_line_height() -> int:
-	return 16 + _top_textbox.get_theme_constant("line_separation")
+	return 16 + _top_text_box.get_theme_constant("line_separation")
 
 
 func _set_speaker(name_label: RichTextLabel, new_speaker: Unit) -> void:

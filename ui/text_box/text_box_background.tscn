@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://dvyyy1vag5her"]
 
-[ext_resource type="Texture2D" uid="uid://bd67r64uiekgk" path="res://ui/theme/textbox_background.png" id="1_us3xk"]
+[ext_resource type="Texture2D" uid="uid://bd67r64uiekgk" path="res://ui/theme/text_box_background.png" id="1_us3xk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nws0a"]
 bg_color = Color(0.6, 0.6, 0.6, 0)

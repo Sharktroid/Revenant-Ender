@@ -1,4 +1,4 @@
-# Used to create a map sprite from the standard FEGBA format
+# Used to create a map sprite from the standard FE GBA format
 # Each image is exported as a .exr, conversion to .png is recommended for space reasons
 # In-engine conversion to .png is flawed
 @tool

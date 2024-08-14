@@ -5,12 +5,13 @@ enum DebugConfigKeys {
 	DISPLAY_MAP_BORDERS,
 	DISPLAY_MAP_TERRAIN,
 	DISPLAY_MAP_CURSOR,
-	PRINT_INPUT_RECIEVER,
+	PRINT_INPUT_RECEIVER,
 	SHOW_FPS,
 }
 
 const _MIN_POSITION: int = -(2 ** 15) + 1
 const _SIZE: int = 2 ** 16
+const _INF_CHAR: String = "∞"
 
 var _theme: Theme = preload("res://ui/theme/menu_theme.tres")
 var _debug_config: Dictionary = {  # Constants used in the debug menu.
@@ -18,7 +19,7 @@ var _debug_config: Dictionary = {  # Constants used in the debug menu.
 	DebugConfigKeys.DISPLAY_MAP_BORDERS: false,  # Whether map borders are displayed
 	DebugConfigKeys.DISPLAY_MAP_TERRAIN: false,
 	DebugConfigKeys.DISPLAY_MAP_CURSOR: false,
-	DebugConfigKeys.PRINT_INPUT_RECIEVER: false,
+	DebugConfigKeys.PRINT_INPUT_RECEIVER: false,
 	DebugConfigKeys.SHOW_FPS: false
 }
 var _config_file := ConfigFile.new()  # File used for saving and loading of configuration settings.
@@ -31,6 +32,7 @@ var _current_checkpoint: int
 
 
 func _init() -> void:
+	assert(_INF_CHAR.length() == 1, "Error: Infinity character has been corrupted.")
 	_load_config()
 	_default_screen_size = Vector2i(
 		ProjectSettings.get_setting("display/window/size/viewport_width") as int,
@@ -71,16 +73,16 @@ func get_tiles(
 		var bottom_bound: int = max_range * 16 + center.y
 		for x: int in range(left_bound, right_bound + 1, 16):
 			var x_offset: int = -abs(x - center.x)
-			var curr_min: int = x_offset + min_range * 16
+			var current_min: int = x_offset + min_range * 16
 			var top_max: int = maxi(-x_offset + top_bound, boundaries.position.y)
 			var bottom_max: int = mini(x_offset + bottom_bound, boundaries.end.y - 16)
 
 			var ranges: Array = []
-			if curr_min > 0:
-				if -curr_min + center.y >= top_bound:
-					ranges += range(top_max, -curr_min + center.y + 1, 16)
-				if curr_min + center.y <= bottom_bound:
-					ranges += range(curr_min + center.y, bottom_max + 1, 16)
+			if current_min > 0:
+				if -current_min + center.y >= top_bound:
+					ranges += range(top_max, -current_min + center.y + 1, 16)
+				if current_min + center.y <= bottom_bound:
+					ranges += range(current_min + center.y, bottom_max + 1, 16)
 			else:
 				ranges = range(top_max, bottom_max + 1, 16)
 			for y: int in ranges:
@@ -202,9 +204,7 @@ func is_running_project() -> bool:
 
 
 func float_to_string(num: float) -> String:
-	const INF_CHAR: String = "âˆž"
-	assert(INF_CHAR.length() == 1, "Error: Infinity character has been corrupted.")
-	return str(num).replace("inf", INF_CHAR)
+	return str(num).replace("inf", _INF_CHAR)
 
 
 func _save_config() -> void:

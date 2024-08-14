@@ -1,9 +1,9 @@
 [gd_scene load_steps=10 format=3 uid="uid://hkir2r0iq8u7"]
 
 [ext_resource type="Script" path="res://cutscene/dialogue/dialogue.gd" id="1_m6kta"]
-[ext_resource type="PackedScene" uid="uid://dvyyy1vag5her" path="res://ui/textbox/textbox_background.tscn" id="2_ya10l"]
+[ext_resource type="PackedScene" uid="uid://dvyyy1vag5her" path="res://ui/text_box/text_box_background.tscn" id="2_b8pm7"]
 [ext_resource type="Shader" path="res://cutscene/dialogue/dialogue.gdshader" id="3_ypld5"]
-[ext_resource type="Texture2D" uid="uid://btdueh4dla8hs" path="res://ui/textbox/bubble_point.png" id="4_fn0qd"]
+[ext_resource type="Texture2D" uid="uid://btdueh4dla8hs" path="res://ui/text_box/bubble_point.png" id="4_fn0qd"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jki18"]
 
@@ -22,7 +22,6 @@ texture = SubResource("GradientTexture1D_wjq6m")
 axis_stretch_horizontal = 1
 
 [node name="Dialogue" type="ReferenceRect"]
-layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -45,7 +44,7 @@ size_flags_vertical = 3
 theme_override_constants/margin_left = 1
 theme_override_constants/margin_right = 1
 
-[node name="PanelContainer" parent="MarginContainerTop" instance=ExtResource("2_ya10l")]
+[node name="PanelContainer" parent="MarginContainerTop" instance=ExtResource("2_b8pm7")]
 layout_mode = 2
 mouse_filter = 1
 
@@ -67,7 +66,7 @@ size_flags_vertical = 3
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_jki18")
 
-[node name="TopTextbox" type="RichTextLabel" parent="MarginContainerTop/PanelContainer/MarginContainer/VBoxContainer/ClippingPanel"]
+[node name="TopTextBox" type="RichTextLabel" parent="MarginContainerTop/PanelContainer/MarginContainer/VBoxContainer/ClippingPanel"]
 unique_name_in_owner = true
 layout_mode = 2
 offset_right = 504.0
@@ -117,7 +116,7 @@ size_flags_vertical = 3
 theme_override_constants/margin_left = 1
 theme_override_constants/margin_right = 1
 
-[node name="PanelContainer" parent="MarginContainerBottom" instance=ExtResource("2_ya10l")]
+[node name="PanelContainer" parent="MarginContainerBottom" instance=ExtResource("2_b8pm7")]
 layout_mode = 2
 mouse_filter = 1
 
@@ -146,7 +145,7 @@ size_flags_vertical = 3
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_jki18")
 
-[node name="BottomTextbox" type="RichTextLabel" parent="MarginContainerBottom/PanelContainer/MarginContainer/VBoxContainer/ClippingPanel"]
+[node name="BottomTextBox" type="RichTextLabel" parent="MarginContainerBottom/PanelContainer/MarginContainer/VBoxContainer/ClippingPanel"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -180,7 +179,6 @@ metadata/_edit_use_anchors_ = true
 [node name="Portraits" type="ReferenceRect" parent="."]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
-anchors_preset = 0
 offset_top = 94.0
 offset_right = 512.0
 offset_bottom = 194.0

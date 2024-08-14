@@ -32,7 +32,7 @@ layout_mode = 2
 script = ExtResource("3_cx8w0")
 help_description = "Prints the cursor's position."
 
-[node name="PrintInputReciever" type="BoxContainer" parent="Items" index="5"]
+[node name="PrintInputRECEIVER" type="BoxContainer" parent="Items" index="5"]
 layout_mode = 2
 script = ExtResource("3_cx8w0")
 help_description = "Whether to display the map cursor's area."

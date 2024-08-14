@@ -36,14 +36,14 @@ func _intro() -> void:
 		var dialogue: Dialogue = _get_dialogue()
 		await get_tree().process_frame
 		GameController.add_to_input_stack(dialogue)
-		await dialogue.show_top_textbox(Dialogue.Positions.CLOSE_RIGHT)
+		await dialogue.show_top_text_box(Dialogue.Positions.CLOSE_RIGHT)
 		dialogue.add_portrait(roy, Dialogue.Positions.CLOSE_RIGHT)
 		dialogue.add_portrait(lance, Dialogue.Positions.MID_LEFT, true)
 		await dialogue.set_top_speaker(roy)
 		await dialogue.set_top_text(
 			"Oh, it's Lance! What's the matter?\nWhy are you in such a hurry?"
 		)
-		await dialogue.show_bottom_textbox(Dialogue.Positions.MID_LEFT)
+		await dialogue.show_bottom_text_box(Dialogue.Positions.MID_LEFT)
 		await dialogue.set_bottom_speaker(lance)
 		await dialogue.set_bottom_text(
 			"Lord Roy! Bandits have appeared and are attacking the castle as we speak!"
@@ -81,12 +81,12 @@ func _intro() -> void:
 		await dialogue.clear_top()
 		dialogue.remove_portrait(wolt)
 		await dialogue.remove_portrait(marcus)
-		await dialogue.hide_bottom_textbox()
+		await dialogue.hide_bottom_text_box()
 		await dialogue.set_top_text(
 			"Yes, you're right. This is no time to despair. Very well.\n"
 			+ "To arms then! Our target is the castle! We must rescue everyone!"
 		)
 		await dialogue.remove_portrait(roy)
-		await dialogue.hide_top_textbox()
+		await dialogue.hide_top_text_box()
 		GameController.remove_from_input_stack()
 		CursorController.enable()

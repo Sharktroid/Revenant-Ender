@@ -57,8 +57,8 @@ func _update_rank_bar(progress_bar: ProgressBar, rank_label: Label) -> void:
 	for index: int in ranks.size() - 1:
 		var next_rank: int = ranks[index + 1]
 		if weapon_rank < next_rank:
-			var curr_rank: int = ranks[index]
-			rank_label.text = Weapon.Ranks.find_key(curr_rank)
-			progress_bar.min_value = curr_rank
+			var current_rank: int = ranks[index]
+			rank_label.text = Weapon.Ranks.find_key(current_rank)
+			progress_bar.min_value = current_rank
 			progress_bar.max_value = next_rank
 			return

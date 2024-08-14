@@ -44,8 +44,8 @@ func _select_item(item: MapMenuItem) -> void:
 				Utilities.DebugConfigKeys.DISPLAY_MAP_CURSOR
 			)
 
-		"PrintInputReciever":
-			Utilities.invert_debug_value(Utilities.DebugConfigKeys.PRINT_INPUT_RECIEVER)
+		"PrintInputRECEIVER":
+			Utilities.invert_debug_value(Utilities.DebugConfigKeys.PRINT_INPUT_RECEIVER)
 
 		"PrintCursorPosition":
 			print(
@@ -75,8 +75,8 @@ func _update_items() -> void:
 		"DisplayBorders": Utilities.get_debug_value(Utilities.DebugConfigKeys.DISPLAY_MAP_BORDERS),
 		"DisplayTerrain": Utilities.get_debug_value(Utilities.DebugConfigKeys.DISPLAY_MAP_TERRAIN),
 		"DisplayMapCursor": Utilities.get_debug_value(Utilities.DebugConfigKeys.DISPLAY_MAP_CURSOR),
-		"PrintInputReciever":
-		Utilities.get_debug_value(Utilities.DebugConfigKeys.PRINT_INPUT_RECIEVER),
+		"PrintInputRECEIVER":
+		Utilities.get_debug_value(Utilities.DebugConfigKeys.PRINT_INPUT_RECEIVER),
 		"DisplayFrameRate": Utilities.get_debug_value(Utilities.DebugConfigKeys.SHOW_FPS),
 	}
 	for key: String in values.keys() as Array[String]:

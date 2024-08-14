@@ -29,8 +29,8 @@ func _run() -> void:
 	print()
 
 
-func _get_greater_string(maximum: String, curr: String) -> String:
-	return curr if curr.length() > maximum.length() else maximum
+func _get_greater_string(maximum: String, current: String) -> String:
+	return current if current.length() > maximum.length() else maximum
 
 
 func _gets_stats(level: int) -> Array[int]:

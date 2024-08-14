@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dno116i3j6du0"]
 
-[ext_resource type="PackedScene" uid="uid://dvyyy1vag5her" path="res://ui/textbox/textbox_background.tscn" id="1_qynup"]
+[ext_resource type="PackedScene" uid="uid://dvyyy1vag5her" path="res://ui/text_box/text_box_background.tscn" id="1_qynup"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rdle6"]
 content_margin_left = 4.0
@@ -8,7 +8,7 @@ content_margin_top = 1.0
 content_margin_right = 4.0
 content_margin_bottom = 4.0
 
-[node name="Textbox" type="RichTextLabel"]
+[node name="TextBox" type="RichTextLabel"]
 custom_minimum_size = Vector2(42, 0)
 anchors_preset = 5
 anchor_left = 0.5

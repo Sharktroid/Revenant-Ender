@@ -94,24 +94,20 @@ func _update() -> void:
 	_set_label_text_to_number(%EXPPercent as Label, observing_unit.get_exp_percent())
 
 	var exp_description: String = (
-		"[center][color={blue}]{curr_exp}[color={yellow}]/"
+		"[center][color={blue}]{current_exp}[color={yellow}]/"
 		+ "[/color]{next_level_exp}[/color][/center]\n"
 		+ "[color={blue}]{remaining_exp}[/color] to next level\n"
 		+ "Total exp: [color={blue}]{total_exp}[/color]"
 	)
-	(%EXPStatHelp as HelpContainer).help_description = (
-		exp_description
-		. format(
-			{
-				"blue": Utilities.font_blue,
-				"yellow": Utilities.font_yellow,
-				"curr_exp": roundi(current_exp),
-				"next_level_exp": roundi(next_level_exp),
-				"remaining_exp": roundi(next_level_exp - current_exp),
-				"total_exp": roundi(observing_unit.total_exp),
-			}
-		)
-	)
+	var replacements: Dictionary = {
+		"blue": Utilities.font_blue,
+		"yellow": Utilities.font_yellow,
+		"current_exp": roundi(current_exp),
+		"next_level_exp": roundi(next_level_exp),
+		"remaining_exp": roundi(next_level_exp - current_exp),
+		"total_exp": roundi(observing_unit.total_exp),
+	}
+	(%EXPStatHelp as HelpContainer).help_description = (exp_description.format(replacements))
 
 	var attack_description := %AttackDescription as HelpContainer
 	var attack_label := %AttackValue as Label
@@ -188,7 +184,8 @@ func _update_tab() -> void:
 			items.observing_unit = observing_unit
 			tab_controls.assign(
 				(
-					items.get_item_labels() if not items.get_item_labels().is_empty()
+					items.get_item_labels()
+					if not items.get_item_labels().is_empty()
 					else items.get_rank_labels()
 				)
 			)
