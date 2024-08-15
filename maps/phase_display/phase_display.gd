@@ -16,7 +16,7 @@ static func instantiate(faction: Faction) -> PhaseDisplay:
 
 
 func receive_input(event: InputEvent) -> void:
-	if not event is InputEventMouseMotion:
+	if event is not InputEventMouseMotion:
 		AudioPlayer.clear_sound_effects()
 		queue_free()
 

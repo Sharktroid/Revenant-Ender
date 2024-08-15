@@ -1,7 +1,5 @@
 extends Control
 
-signal unit_selected
-
 var map := Map.new()
 
 

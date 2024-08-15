@@ -16,4 +16,3 @@ func _init() -> void:
 	_personal_resistance = 5
 	_personal_movement = 5
 	_personal_build = 5
-

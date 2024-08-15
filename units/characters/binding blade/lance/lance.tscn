@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://blysgn0u4e6ar"]
+[gd_scene load_steps=13 format=3 uid="uid://blysgn0u4e6ar"]
 
 [ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit.tscn" id="1_iwuln"]
 [ext_resource type="Shader" path="res://palette.gdshader" id="2_b5mit"]
@@ -7,11 +7,12 @@
 [ext_resource type="Script" path="res://items/weapons/swords/iron_sword/iron_sword.gd" id="5_e6nko"]
 [ext_resource type="Script" path="res://units/unit_classes/social_knight/social_knight.gd" id="5_w0fo1"]
 [ext_resource type="Script" path="res://items/weapons/spears/javelin/javelin.gd" id="6_5ps04"]
+[ext_resource type="Script" path="res://items/item.gd" id="6_twhkb"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_5u5qg"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uepw2"]
 shader = ExtResource("2_b5mit")
 shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
-shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.188, 0.94, 0.6016, 1), Color(0.2268, 0.42, 0.26866, 1)])
+shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.3071, 0.83, 0.524975, 1), Color(0.2562, 0.42, 0.29169, 1)])
 shader_parameter/modulate = Vector4(1, 1, 1, 1)
 
 [sub_resource type="Resource" id="Resource_qo8hb"]
@@ -25,14 +26,14 @@ script = ExtResource("5_e6nko")
 script = ExtResource("6_5ps04")
 
 [node name="Lance" instance=ExtResource("1_iwuln")]
-material = SubResource("ShaderMaterial_5u5qg")
+material = SubResource("ShaderMaterial_uepw2")
 texture = ExtResource("3_t16q6")
 script = ExtResource("2_qgif2")
 display_name = "Lance"
 unit_description = "A knight serving Pherae.
 Calm and cool-headed."
 unit_class = SubResource("Resource_qo8hb")
-items = Array[Resource("res://items/item.gd")]([SubResource("Resource_qra60"), SubResource("Resource_w6kla")])
+items = Array[ExtResource("6_twhkb")]([SubResource("Resource_qra60"), SubResource("Resource_w6kla")])
 _custom_hair = true
 _hair_color_light = Color(0.3071, 0.83, 0.524975, 1)
 _hair_color_dark = Color(0.2562, 0.42, 0.29169, 1)

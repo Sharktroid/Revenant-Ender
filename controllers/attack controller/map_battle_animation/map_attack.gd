@@ -13,7 +13,7 @@ func _init(connected_unit: Unit = null, targeted_tile := Vector2i(0, 16)) -> voi
 	_combat_sprite = connected_unit.duplicate() as Unit
 	target_tile = targeted_tile
 	for child: Node in _combat_sprite.get_children():
-		if not child is AnimationPlayer:
+		if child is not AnimationPlayer:
 			child.queue_free()
 	position = _combat_sprite.position
 	_combat_sprite.position = Vector2i()

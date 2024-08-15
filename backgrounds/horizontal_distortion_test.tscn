@@ -16,7 +16,7 @@ shader_parameter/wrap_around = true
 [node name="Features" parent="." index="1"]
 material = SubResource("ShaderMaterial_uogkq")
 
-[node name="Line2D" type="Line2D" parent="Features" index="1"]
+[node name="Line2D" type="Line2D" parent="Features" index="0"]
 points = PackedVector2Array(256, 0, 256, 288)
 
 [node name="Line2D" type="Line2D" parent="." index="2"]

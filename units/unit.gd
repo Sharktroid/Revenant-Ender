@@ -136,6 +136,7 @@ var effort_resistance: int
 var effort_movement: int
 var effort_build: int
 
+# Ignore warnings as these are called via "get" command (see get_stat)
 @warning_ignore("unused_private_class_variable")
 var _personal_hit_points: int = DEFAULT_PERSONAL_VALUE
 @warning_ignore("unused_private_class_variable")
@@ -811,7 +812,7 @@ func _get_map() -> Map:
 	if _map == null:
 		if Engine.is_editor_hint():
 			var current_parent: Node = get_parent()
-			while not current_parent is Map and current_parent:
+			while current_parent is not Map and current_parent:
 				current_parent = current_parent.get_parent()
 			return current_parent as Map
 		else:

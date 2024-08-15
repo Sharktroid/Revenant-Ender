@@ -3,6 +3,10 @@
 * Change the path of maps to distinguish subdirectories of maps to subdirectories belonging to the map
 * Have units gain +0.02 movement EVs per tile traversed
 * Move palette shaders to own subdirectories
+* Remove waiting in map_attack (for future overhaul and de-jank)
+* Fix bug where a unit doesn't display their tiles if selected before the tiles are displayed
+* Fix bug where clicking on an enemy while a unit is moving to attack brings up a new combat display
+* Have map hp bar show units fron left-to-right
 
 # Major
 * Document classes
@@ -22,6 +26,7 @@
 	* Duration = (staff might) + (mag - target res)/4
 * Implement split screen like in demo
 * Replace test map with Thracia chapter 1
+* Replace map attack animations with Thracia counterparts
 
 # Long-term
 * Implement FE5 Chapter 1

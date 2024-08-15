@@ -59,18 +59,20 @@ size = Vector2(7, 7)
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("2")
+_left_border = null
+_right_border = null
+_top_border = null
+_bottom_border = null
 
 [node name="MapLayer" type="CanvasLayer" parent="."]
 layer = 0
 follow_viewport_enabled = true
 
-[node name="BaseLayer" type="TileMap" parent="MapLayer"]
-format = 2
+[node name="BaseLayer" type="TileMapLayer" parent="MapLayer"]
 
-[node name="TerrainLayer" type="TileMap" parent="MapLayer"]
+[node name="TerrainLayer" type="TileMapLayer" parent="MapLayer"]
 modulate = Color(1, 1, 1, 0.498039)
 tile_set = SubResource("10")
-format = 2
 
 [node name="Outline" type="Node2D" parent="MapLayer"]
 script = ExtResource("3_iwlk5")

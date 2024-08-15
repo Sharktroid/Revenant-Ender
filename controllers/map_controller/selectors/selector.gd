@@ -1,8 +1,6 @@
 class_name Selector
 extends Control
 
-signal canceled
-
 var _unit: Unit
 var _condition: Callable
 var _minimum_range: int

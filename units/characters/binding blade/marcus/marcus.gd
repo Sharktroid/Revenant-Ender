@@ -31,4 +31,3 @@ func _init() -> void:
 	effort_movement = 0
 	effort_build = 0
 	personal_authority = 1
-

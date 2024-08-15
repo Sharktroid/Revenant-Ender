@@ -467,12 +467,15 @@ autowrap_mode = 0
 [node name="MenuTabs" type="TabContainer" parent="MenuScreen"]
 layout_mode = 2
 size_flags_horizontal = 3
+current_tab = 0
 
 [node name="Statistics" parent="MenuScreen/MenuTabs" instance=ExtResource("3_a0hin")]
 layout_mode = 2
+metadata/_tab_index = 0
 
 [node name="Items" parent="MenuScreen/MenuTabs" instance=ExtResource("5_ogdan")]
 visible = false
 layout_mode = 2
+metadata/_tab_index = 1
 
 [connection signal="tab_changed" from="MenuScreen/MenuTabs" to="." method="_on_menu_tabs_tab_changed"]

@@ -18,7 +18,8 @@ var _cost_grids: Dictionary = {}
 var _grid_current_faction: Faction
 var _current_turn: int
 
-@onready var _terrain_layer := $MapLayer/TerrainLayer as TileMap
+@onready var _terrain_layer := $MapLayer/TerrainLayer as TileMapLayer
+@onready var _base_layer := $MapLayer/BaseLayer as TileMapLayer
 @onready var _border_overlay := $MapLayer/DebugBorderOverlayContainer as CanvasGroup
 
 
@@ -39,7 +40,7 @@ func _ready() -> void:
 	($MapLayer/CursorArea as Area2D).visible = Utilities.get_debug_value(
 		Utilities.DebugConfigKeys.DISPLAY_MAP_CURSOR
 	)
-	var cell_max: Vector2i = ($MapLayer/BaseLayer as TileMap).get_used_cells(0).max()
+	var cell_max: Vector2i = _base_layer.get_used_cells().max()
 	size = cell_max * 16 + Vector2i(16, 16)
 	GameController.add_to_input_stack(self)
 	const TYPES = UnitClass.MovementTypes
@@ -51,7 +52,7 @@ func _ready() -> void:
 		a_star_grid.default_estimate_heuristic = AStarGrid2D.HEURISTIC_MANHATTAN
 		a_star_grid.jumping_enabled = false
 		a_star_grid.update()
-		for cell: Vector2i in ($MapLayer/BaseLayer as TileMap).get_used_cells(0):
+		for cell: Vector2i in _base_layer.get_used_cells():
 			_update_a_star_grid_id(a_star_grid, movement_type, cell)
 		_cost_grids[movement_type] = a_star_grid
 	await _intro()
@@ -169,7 +170,7 @@ func display_tiles(
 			)
 		)
 		tiles_node.add_child(tile)
-	get_node("MapLayer/BaseLayer").add_child(tiles_node)
+	_base_layer.add_child(tiles_node)
 	return tiles_node
 
 
@@ -261,7 +262,7 @@ func _get_terrain(coords: Vector2i) -> String:
 	return (
 		"Blocked"
 		if not borders.has_point(coords)
-		else _terrain_layer.get_cell_tile_data(0, coords / 16).get_custom_data("TerrainName")
+		else _terrain_layer.get_cell_tile_data(coords / 16).get_custom_data("TerrainName")
 	)
 
 
