@@ -1,9 +1,11 @@
+## Autoload that manages global functions and variables.
 extends Node
 
+## The possible types of controller that can be used.
 enum ControllerTypes { MOUSE, KEYBOARD }
 
 const _RECEIVER = preload("res://controllers/game_controller/receive_input_node.gd")
-## Type of controller being used (keyboard, mouse, or controller)
+## Type of controller currently being used.
 var controller_type: ControllerTypes
 
 var _input_stack: Array[Node] = []
@@ -27,7 +29,9 @@ func _input(event: InputEvent) -> void:
 
 	if Utilities.get_debug_value(Utilities.DebugConfigKeys.PRINT_INPUT_RECEIVER):
 		print(get_current_input_node())
-	get_current_input_node().receive_input(event)
+	# Ignore pseudo-virtual method
+	# gdlint:ignore = private-method-call
+	get_current_input_node()._receive_input(event)
 
 	if event.is_action_pressed("fullscreen"):
 		match get_window().mode:
@@ -37,14 +41,18 @@ func _input(event: InputEvent) -> void:
 				get_window().mode = Window.MODE_EXCLUSIVE_FULLSCREEN
 
 
+## Adds a [Node] to the input stack, and makes that node the input receiver.
 func add_to_input_stack(node: Node) -> void:
 	_input_stack.append(node)
 
 
+## Removes the current input receiving [Node] from the input stack
+## and sets the last input receiving [Node] as the current one.
 func remove_from_input_stack() -> void:
 	_input_stack.remove_at(_input_stack.size() - 1)
 
 
+## Gets the current input receiving [Node].
 func get_current_input_node() -> _RECEIVER:
 	if _input_stack.size() == 0:
 		return _RECEIVER.new()
@@ -55,6 +63,7 @@ func get_current_input_node() -> _RECEIVER:
 	return _input_stack[-1]
 
 
+## Gets the [SubViewport] that all nodes originate in.
 func get_root() -> Viewport:
 	const PATH: String = "SubViewportContainer/SubViewport"
 	var has_viewport: bool = get_viewport() and get_viewport().has_node(PATH)

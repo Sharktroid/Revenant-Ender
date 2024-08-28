@@ -1,3 +1,5 @@
+## @experimental
+## A node that displays a transparent copy of a [Unit].
 class_name GhostUnit
 extends Node2D
 
@@ -20,5 +22,6 @@ func _exit_tree() -> void:
 	await _unit.tree_exited
 
 
+## Sets the animation of the GhostUnit.
 func set_animation(new_animation: Unit.Animations) -> void:
 	_unit.set_animation(new_animation)

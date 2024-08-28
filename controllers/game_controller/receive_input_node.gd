@@ -1,5 +1,5 @@
 extends Node
 
 
-func receive_input(_event: InputEvent) -> void:
+func _receive_input(_event: InputEvent) -> void:
 	pass

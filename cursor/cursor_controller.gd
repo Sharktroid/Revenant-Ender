@@ -1,3 +1,4 @@
+## An Autoload that handles the position of the cursor and displaying it.
 extends Node
 
 signal moved
@@ -5,9 +6,12 @@ signal moved
 ## Icons that can be displayed.
 enum Icons { ATTACK, NONE }
 
+## Whether the cursor is being displayed.
 var cursor_visible: bool = true
+## The position of the cursor relative to the map's origin.
 var map_position := Vector2i():
 	set = _set_map_position
+## The position of the cursor relative to the top-left corner of the screen.
 var screen_position: Vector2i:
 	set(value):
 		map_position = value + _corner_offset()
@@ -83,10 +87,12 @@ func _input(event: InputEvent) -> void:
 			_repeat = true
 
 
+## Enables movement of the cursor.
 func enable() -> void:
 	_set_active(true)
 
 
+## Disables movement of the cursor.
 func disable() -> void:
 	_set_active(false)
 
@@ -103,16 +109,19 @@ func set_icon(icon: Icons) -> void:
 				icon_sprite.position = Vector2i(0, -16)
 
 
+## Gets the [Area2D] hitbox for the cursor.
 func get_area() -> Area2D:
 	## Returns the cursor area.
 	var path := NodePath("%s/MapLayer/CursorArea" % MapController.map.get_path())
 	return get_node(path) if has_node(path) else Area2D.new()
 
 
+## Returns true if cursor movement is active.
 func is_active() -> bool:
 	return _active
 
 
+## Returns the unit currently underneath the cursor.
 func get_hovered_unit() -> Unit:
 	for unit: Unit in MapController.map.get_units():
 		if unit.position.round() as Vector2i == map_position and unit.visible:

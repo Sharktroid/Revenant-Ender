@@ -18,7 +18,7 @@ func _ready() -> void:
 		queue_free()
 
 
-func receive_input(event: InputEvent) -> void:
+func _receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		shrink()
 		AudioPlayer.play_sound_effect(preload("res://audio/sfx/help_close.ogg"))

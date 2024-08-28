@@ -1,3 +1,4 @@
+## [UnitSelector] that utilizes a [CombatInfoDisplay].
 class_name AttackSelector
 extends UnitSelector
 

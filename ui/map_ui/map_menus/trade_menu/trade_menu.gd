@@ -44,7 +44,7 @@ static func instantiate(left: Unit, right: Unit) -> TradeMenu:
 	return scene
 
 
-func receive_input(event: InputEvent) -> void:
+func _receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_select"):
 		if _selected_label != current_label:
 			_action_performed = true

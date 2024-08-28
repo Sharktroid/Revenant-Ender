@@ -36,7 +36,7 @@ static func instantiate(
 	return scene
 
 
-func receive_input(event: InputEvent) -> void:
+func _receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
 		_close(true)

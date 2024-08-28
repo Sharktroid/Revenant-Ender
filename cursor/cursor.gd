@@ -1,3 +1,4 @@
+## A [Node] that displays the cursor's position.
 extends PanelContainer
 
 

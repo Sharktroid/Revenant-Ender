@@ -15,7 +15,7 @@ static func instantiate(faction: Faction) -> PhaseDisplay:
 	return scene
 
 
-func receive_input(event: InputEvent) -> void:
+func _receive_input(event: InputEvent) -> void:
 	if event is not InputEventMouseMotion:
 		AudioPlayer.clear_sound_effects()
 		queue_free()

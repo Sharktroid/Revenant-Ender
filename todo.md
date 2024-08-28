@@ -1,23 +1,38 @@
 # Minor
-* Set observing unit for statistics and item screen when it changes, instead of every time the tab is switched
+* Clean-up MapCamera code
+	* Have _true_position in MapCamera be a get function rather than a variable
+and have the position move to the true position every frame.
+	* _set_map_position and _can_move are messy
+* Move AttackTypes enum moved to CombatStage
+* Set observing unit for statistics and item screen when it changes,
+instead of every time the tab is switched
 * Change the path of maps to distinguish subdirectories of maps to subdirectories belonging to the map
 * Have units gain +0.02 movement EVs per tile traversed
 * Move palette shaders to own subdirectories
 * Remove waiting in map_attack (for future overhaul and de-jank)
 * Fix bug where a unit doesn't display their tiles if selected before the tiles are displayed
 * Fix bug where clicking on an enemy while a unit is moving to attack brings up a new combat display
-* Have map hp bar show units fron left-to-right
+* Have map hp bar show units from left-to-right
+* Adjust shield icon
+* Experiment with _gui_input to possibly replace _receive_input
+* Replace close() functions with _exit_tree() calls.
+* Move FPS code to GameController and make part of standard UI
+	* Also move get_map_camera to Map.
+* Have 100% rates and effecitive damage in green, and 0% rates and 0 damage in gray
 
 # Major
-* Document classes
+* Document classes (roll this out gradually so I don't burn out)
 * Investigate particles
 * Make tiles behave more like in AW:DoR
 * Add combat preview even if attacking is not possible
 * Add rescue when clicking on an ally
+* Replace movement/attack tile calls with units having different ActionTileStates
+	* display_current_attack_tiles should allow displaying support tiles
 * Have level up play sfx even when volume is muted
 * Add class relative power
 * Add options config for volume
 * Add the remaining sub menus of the main map menu
+* Make GhostUnit a child of Unit and remove jankiness
 * Make attack Animations skippable
 * Implement durability
 * Implement authority

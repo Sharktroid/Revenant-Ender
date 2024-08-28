@@ -1,17 +1,22 @@
+## Class that displays attack animations on the [Map].
 class_name MapAttack
 extends Node2D
 
+## Emitted when the animation completes.
 signal completed
+## Emitted when the animation has arrived to the destination.
 signal arrived
+## @deprecated
+## Call to have the animation continue after it pauses.
 signal damage_dealt
 
-var target_tile: Vector2i
+var _target_tile: Vector2i
 var _combat_sprite: Unit
 
 
 func _init(connected_unit: Unit = null, targeted_tile := Vector2i(0, 16)) -> void:
 	_combat_sprite = connected_unit.duplicate() as Unit
-	target_tile = targeted_tile
+	_target_tile = targeted_tile
 	for child: Node in _combat_sprite.get_children():
 		if child is not AnimationPlayer:
 			child.queue_free()
@@ -22,7 +27,7 @@ func _init(connected_unit: Unit = null, targeted_tile := Vector2i(0, 16)) -> voi
 	await _combat_sprite.tree_entered
 	_combat_sprite.sprite_animated = false
 	_combat_sprite.flip_h = false
-	var angle: float = ((Vector2(target_tile) - position).angle() * 4) / PI
+	var angle: float = ((Vector2(_target_tile) - position).angle() * 4) / PI
 	_combat_sprite.set_animation.call_deferred(
 		(
 			Unit.Animations.MOVING_RIGHT
@@ -39,9 +44,10 @@ func _init(connected_unit: Unit = null, targeted_tile := Vector2i(0, 16)) -> voi
 		)
 	)
 
-
+## @experimental
+## Plays the map animation.
 func play_animation() -> void:
-	var movement: Vector2 = (Vector2(target_tile) - position).normalized() * 4
+	var movement: Vector2 = (Vector2(_target_tile) - position).normalized() * 4
 	_combat_sprite.sprite_animated = true
 	await _move(movement)
 	arrived.emit()
@@ -51,6 +57,7 @@ func play_animation() -> void:
 	_combat_sprite.sprite_animated = false
 
 
+## Sets the animation's alpha value.
 func set_alpha(alpha: float) -> void:
 	_combat_sprite.modulate.a = alpha
 	_combat_sprite.update_shader()

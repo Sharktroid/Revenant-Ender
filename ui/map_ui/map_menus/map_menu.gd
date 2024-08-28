@@ -34,7 +34,7 @@ func _enter_tree() -> void:
 	GameController.add_to_input_stack(self)
 
 
-func receive_input(event: InputEvent) -> void:
+func _receive_input(event: InputEvent) -> void:
 	if not HelpPopupController.is_active():
 		if event.is_action_pressed("up") and not Input.is_action_pressed("down"):
 			_current_item_index -= 1

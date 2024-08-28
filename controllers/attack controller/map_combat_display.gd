@@ -1,3 +1,4 @@
+## Scene that displays the health of two [Unit]s during a round of combat on the map.
 class_name MapCombatDisplay
 extends HBoxContainer
 
@@ -24,11 +25,12 @@ func _enter_tree() -> void:
 		position.y -= (size.y + _V_MOD * 2)
 
 
-static func instantiate(new_attacker: Unit, new_defender: Unit) -> MapCombatDisplay:
+## Instantiates the [PackedScene].
+static func instantiate(attacker: Unit, defender: Unit) -> MapCombatDisplay:
 	const PACKED_SCENE: PackedScene = preload(
 		"res://controllers/attack controller/map_combat_display.tscn"
 	)
 	var scene := PACKED_SCENE.instantiate() as MapCombatDisplay
-	scene._attacker = new_attacker
-	scene._defender = new_defender
+	scene._attacker = attacker
+	scene._defender = defender
 	return scene

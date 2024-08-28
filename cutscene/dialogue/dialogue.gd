@@ -1,6 +1,8 @@
+## A node that displays dialogue for cutscenes.
 class_name Dialogue
 extends ReferenceRect
 
+## Possible positions for a portrait.
 enum Positions {
 	OUTSIDE_LEFT = -80,
 	FAR_LEFT = 0,
@@ -11,7 +13,6 @@ enum Positions {
 	FAR_RIGHT = 416,
 	OUTSIDE_RIGHT = 512
 }
-enum Directions { LEFT, RIGHT }
 
 const _CHARS_PER_SECOND: int = 300
 const _FULL_SCROLL_SPEED: float = 0.25
@@ -30,7 +31,7 @@ var _skipping: bool = false
 @onready var _bottom_text_box := %BottomTextBox as RichTextLabel
 
 
-func receive_input(event: InputEvent) -> void:
+func _receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		var portraits: Array[Unit] = []
 		portraits.assign(_portraits.keys())
@@ -42,29 +43,29 @@ func receive_input(event: InputEvent) -> void:
 		await hide_bottom_text_box()
 		_skipping = true
 
-
+## Sets the text to be displayed in the top text box.
 func set_top_text(string: String) -> void:
 	if not _skipping:
 		await _set_text_base(
 			string, _top_text_box, _portraits.get(_top_speaker, Portrait.new()) as Portrait
 		)
 
-
+## Sets the text to be displayed in the bottom text box.
 func set_bottom_text(string: String) -> void:
 	if not _skipping:
 		await _set_text_base(
 			string, _bottom_text_box, _portraits.get(_bottom_speaker, Portrait.new()) as Portrait
 		)
 
-
+## Removes the text in the top text box.
 func clear_top() -> void:
 	await _clear(_top_text_box)
 
-
+## Removes the text in the bottom text box.
 func clear_bottom() -> void:
 	await _clear(_bottom_text_box)
 
-
+## Sets the speaker for the top text box.
 func set_top_speaker(new_speaker: Unit) -> void:
 	if not _skipping:
 		_top_speaker = new_speaker
@@ -75,7 +76,7 @@ func set_top_speaker(new_speaker: Unit) -> void:
 		await clear_top()
 		await _set_speaker(%TopName as RichTextLabel, new_speaker as Unit)
 
-
+## Sets the speaker for the bottom text box.
 func set_bottom_speaker(new_speaker: Unit) -> void:
 	if not _skipping:
 		_bottom_speaker = new_speaker
@@ -86,7 +87,7 @@ func set_bottom_speaker(new_speaker: Unit) -> void:
 		await clear_bottom()
 		await _set_speaker(%BottomName as RichTextLabel, new_speaker as Unit)
 
-
+## Adds a portrait to the current scene.
 func add_portrait(new_speaker: Unit, portrait_position: Positions, flip_h: bool = false) -> void:
 	if not _skipping:
 		var portrait: Portrait = new_speaker.get_portrait()
@@ -100,7 +101,7 @@ func add_portrait(new_speaker: Unit, portrait_position: Positions, flip_h: bool 
 		tween.tween_property(portrait, "modulate:v", 1, _SHIFT_DURATION)
 		await tween.finished
 
-
+## Removes a portrait from the scene.
 func remove_portrait(old_speaker: Unit) -> void:
 	if not _skipping:
 		var portrait := Portrait.new()
@@ -111,23 +112,23 @@ func remove_portrait(old_speaker: Unit) -> void:
 		await tween.finished
 		portrait.queue_free()
 
-
+## Displays the top text box.
 func show_top_text_box(box_position: Positions) -> void:
 	await _show_text_box(
 		box_position, $MarginContainerTop as MarginContainer, false, _top_bubble_point
 	)
 
-
+## Displays the bottom text box.
 func show_bottom_text_box(box_position: Positions) -> void:
 	await _show_text_box(
 		box_position, $MarginContainerBottom as MarginContainer, true, _bottom_bubble_point
 	)
 
-
+## Removes the top text box.
 func hide_top_text_box() -> void:
 	await _hide_text_box($MarginContainerTop as MarginContainer, false, _top_bubble_point)
 
-
+## Removes the bottom text box.
 func hide_bottom_text_box() -> void:
 	await _hide_text_box($MarginContainerBottom as MarginContainer, true, _bottom_bubble_point)
 

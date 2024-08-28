@@ -61,7 +61,7 @@ func _ready() -> void:
 	_start_turn()
 
 
-func receive_input(event: InputEvent) -> void:
+func _receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_select"):
 		if CursorController.is_active():
 			_on_cursor_select()

@@ -1,8 +1,12 @@
+## Scene that displays many squares that each cycle through colors based on a gradient.
 @tool
 extends ReferenceRect
 
+## Minimum hue for gradient
 @export_range(0, 1) var hue_min: float = 0
+## Maximum hue for gradient
 @export_range(0, 1) var hue_max: float = 1
+## The length in time, in seconds, it takes to get from min to max hue
 @export var duration: float = 2
 
 

@@ -1,3 +1,4 @@
+## [Node] that handles unit control during Canto.
 class_name CantoController
 extends SelectedUnitController
 
@@ -13,12 +14,15 @@ func _init(unit: Unit) -> void:
 	super(unit)
 
 
+## @deprecated
+## Deselects the currently selected [Unit].
 func close() -> void:
 	remove_tiles()
 	_unit.selected = false
 	super()
 
 
+## Removes the displayed unit tiles.
 func remove_tiles() -> void:
 	if is_instance_valid(_movement_tiles):
 		_movement_tiles.queue_free()

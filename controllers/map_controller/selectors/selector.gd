@@ -1,3 +1,4 @@
+## Abstract class for handling selecting with the cursor.
 class_name Selector
 extends Control
 
@@ -39,7 +40,7 @@ func _process(_delta: float) -> void:
 		_showing_icon = should_show_icon
 
 
-func receive_input(event: InputEvent) -> void:
+func _receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
 		if _can_select():
 			AudioPlayer.play_sound_effect(_select_sound_effect)

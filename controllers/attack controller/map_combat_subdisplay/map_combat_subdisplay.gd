@@ -1,6 +1,8 @@
+## Class that displays a [Unit]'s HP for a map animation.
 class_name MapHPBar
 extends ReferenceRect
 
+## The [Unit] whose health is being displayed.
 var unit: Unit
 var _bg_gradient: Panel
 @onready var _hp_bar := %HPBar as ProgressBar

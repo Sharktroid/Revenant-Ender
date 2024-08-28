@@ -1,6 +1,8 @@
+## A [Selector] that allows selection of a [Unit].
 class_name UnitSelector
 extends Selector
 
+## Emitted when a unit is selected. Provides said unit as an argument.
 signal selected(unit: Unit)
 
 

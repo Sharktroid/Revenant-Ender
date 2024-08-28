@@ -38,7 +38,7 @@ static func instantiate(unit: Unit) -> StatusScreen:
 	return scene
 
 
-func receive_input(event: InputEvent) -> void:
+func _receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		_close()
 	if _delay <= 0:

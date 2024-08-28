@@ -1,5 +1,7 @@
+## Autoload that handles combat and battle animations.
 extends Node
 
+## The possible results of a combat stage
 enum AttackTypes { HIT, MISS, CRIT }
 
 const _DELAY: float = 0.25
@@ -7,6 +9,7 @@ const _HEALTH_SCROLL_DURATION: float = 0.5
 const _HIT_B_DELAY: float = 5.0 / 60
 
 
+## Initiates combat between an attacker and a defender.
 func combat(attacker: Unit, defender: Unit) -> void:
 	GameController.add_to_input_stack(self)
 	CursorController.disable()
@@ -23,7 +26,7 @@ func combat(attacker: Unit, defender: Unit) -> void:
 	GameController.remove_from_input_stack()
 
 
-func receive_input(_event: InputEvent) -> void:
+func _receive_input(_event: InputEvent) -> void:
 	pass
 
 
@@ -134,33 +137,37 @@ func _get_combat_exp(distributing_unit: Unit, damage: float) -> float:
 	return chip_exp + kill_exp
 
 
-func _give_exp(recieving_unit: Unit, distributing_unit: Unit, old_hp: float) -> void:
-	if not recieving_unit.dead:
-		if recieving_unit.faction.player_type == Faction.PlayerTypes.HUMAN:
+func _give_exp(receiving_unit: Unit, distributing_unit: Unit, old_hp: float) -> void:
+	if not receiving_unit.dead:
+		if receiving_unit.faction.player_type == Faction.PlayerTypes.HUMAN:
 			var exp_bar := EXPBar.instantiate(
-				recieving_unit,
+				receiving_unit,
 				_get_combat_exp(distributing_unit, old_hp - distributing_unit.current_health)
 			)
 			MapController.get_ui().add_child(exp_bar)
 			await exp_bar.tree_exited
 		else:
-			recieving_unit.total_exp += _get_combat_exp(
+			receiving_unit.total_exp += _get_combat_exp(
 				distributing_unit, old_hp - distributing_unit.current_health
 			)
 
 
+## Object that represents one attack in a round of combat.
 class CombatStage:
 	extends RefCounted
+	## The unit who is attacking.
 	var attacker: Unit
+	## The unit who is being attacked.
 	var defender: Unit
-	var attack_type: AttackTypes
+	## The type of attack for this round of combat.
+	var attack_type: AttackController.AttackTypes
 
 	func _init(attacking_unit: Unit, defending_unit: Unit) -> void:
 		attacker = attacking_unit
 		defender = defending_unit
 		attack_type = _generate_attack_type()
 
-	func _generate_attack_type() -> AttackTypes:
+	func _generate_attack_type() -> AttackController.AttackTypes:
 		if attacker.get_hit_rate(defender) > randi_range(0, 99):
 			if attacker.get_crit_rate(defender) > randi_range(0, 99):
 				return AttackTypes.CRIT

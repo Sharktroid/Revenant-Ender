@@ -1,7 +1,8 @@
+## [Node] that handles selecting a tile for a [Unit] to act on.
 class_name SelectedUnitController
 extends Control
 
-var current_animation: Unit.Animations = Unit.Animations.IDLE
+var _current_animation: Unit.Animations = Unit.Animations.IDLE
 var _unit: Unit
 var _ghost_unit: GhostUnit
 
@@ -24,7 +25,7 @@ func _init(connected_unit: Unit) -> void:
 	_unit.z_index = 1
 
 
-func receive_input(event: InputEvent) -> void:
+func _receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
 		_position_selected()
 		accept_event()
@@ -33,8 +34,9 @@ func receive_input(event: InputEvent) -> void:
 		_canceled()
 
 
+## @deprecated
+## Deselects the currently selected [Unit].
 func close() -> void:
-	## Deselects the currently selected _unit.
 	queue_free()
 	_ghost_unit.queue_free()
 	var hovered_unit: Unit = CursorController.get_hovered_unit()
@@ -68,9 +70,9 @@ func _update_ghost_unit() -> void:
 				next_animation = Unit.Animations.MOVING_UP
 			_:
 				next_animation = Unit.Animations.MOVING_DOWN
-		if current_animation != next_animation:
+		if _current_animation != next_animation:
 			_ghost_unit.set_animation(next_animation)
-			current_animation = next_animation
+			_current_animation = next_animation
 
 
 func _position_selected() -> void:
@@ -95,7 +97,6 @@ func _position_selected() -> void:
 
 
 func _create_unit_menu() -> void:
-	## Creates _unit menu.
 	var menu := UnitMenu.instantiate(
 		CursorController.screen_position + Vector2i(16, 0), null, self, _unit
 	)

@@ -1,6 +1,8 @@
+## Selector for selecting [Map] tiles.
 class_name TileSelector
 extends Selector
 
+## Emitted when a tile is selected. Provides coordinates of said tile as an argument.
 signal selected(position: Vector2)
 
 
