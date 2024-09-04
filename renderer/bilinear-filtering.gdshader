@@ -31,5 +31,5 @@ void fragment()
 	#define Y_1_COLOR mix(X_1_Y_1_COLOR, X_2_Y_1_COLOR, X-float(x_1))
 	#define Y_2_COLOR mix(X_1_Y_2_COLOR, X_2_Y_2_COLOR, X-float(x_1))
 
-	COLOR.rgb = mix(Y_1_COLOR, Y_2_COLOR, Y-float(y_1));
+	COLOR.rgb = mix(Y_1_COLOR, Y_2_COLOR, Y - float(y_1));
 }

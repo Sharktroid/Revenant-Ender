@@ -16,9 +16,9 @@ func _enter_tree() -> void:
 		maxf(_attacker.position.y, _defender.position.y)
 	)
 	var offset: Vector2i = (
-		MapController.get_map_camera().get_map_offset()
-		- MapController.get_map_camera().map_position
-		+ Vector2i(8, _V_MOD)
+		Vector2i(8, _V_MOD)
+		- MapController.get_map_camera().get_map_offset()
+		- MapController.get_map_camera().get_map_position()
 	)
 	position = unit_midpoint + Vector2(offset)
 	if position.y + size.y > Utilities.get_screen_size().y:

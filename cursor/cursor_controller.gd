@@ -162,6 +162,6 @@ func _set_active(active: bool) -> void:
 
 func _corner_offset() -> Vector2i:
 	return (
-		Vector2i(MapController.get_map_camera().map_position)
-		- MapController.get_map_camera().get_map_offset()
+		Vector2i(MapController.get_map_camera().get_map_position())
+		+ MapController.get_map_camera().get_map_offset()
 	)

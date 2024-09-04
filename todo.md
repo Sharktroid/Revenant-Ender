@@ -19,6 +19,7 @@ instead of every time the tab is switched
 * Move FPS code to GameController and make part of standard UI
 	* Also move get_map_camera to Map.
 * Have 100% rates and effecitive damage in green, and 0% rates and 0 damage in gray
+* Display Effective damage on status screen
 
 # Major
 * Document classes (roll this out gradually so I don't burn out)
@@ -34,6 +35,7 @@ instead of every time the tab is switched
 * Add the remaining sub menus of the main map menu
 * Make GhostUnit a child of Unit and remove jankiness
 * Make attack Animations skippable
+* Dual Wielding
 * Implement durability
 * Implement authority
 * Implement AI
@@ -42,7 +44,9 @@ instead of every time the tab is switched
 * Implement split screen like in demo
 * Replace test map with Thracia chapter 1
 * Replace map attack animations with Thracia counterparts
+* Implement a project system
 
 # Long-term
+* FERemix/Age of Emblem?
 * Implement FE5 Chapter 1
 * Make game based on design document
