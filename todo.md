@@ -1,5 +1,4 @@
 # Minor
-* Improve weapon hit to FE7/8 levels
 * Have units flash white and shake when hit
 * Set observing unit for statistics and item screen when it changes,
 instead of every time the tab is switched

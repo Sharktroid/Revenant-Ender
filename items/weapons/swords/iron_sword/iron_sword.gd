@@ -8,7 +8,7 @@ func _init() -> void:
 	_rank = Ranks.D
 	_might = 6
 	_weight = 6
-	_hit = 70
+	_hit = 100
 	_crit = 0
 	_max_uses = 40
 	_price = 2200
@@ -16,4 +16,3 @@ func _init() -> void:
 	_description = "A cheap, easy to wield sword."
 #	effective_classes =
 	super()
-

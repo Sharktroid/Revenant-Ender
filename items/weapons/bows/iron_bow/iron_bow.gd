@@ -8,7 +8,7 @@ func _init() -> void:
 	_rank = Ranks.D
 	_might = 7
 	_weight = 6
-	_hit = 65
+	_hit = 105
 	_crit = 0
 	_max_uses = 40
 	_price = 2200
