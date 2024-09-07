@@ -1,9 +1,6 @@
 # Minor
-* Clean-up MapCamera code
-	* Have _true_position in MapCamera be a get function rather than a variable
-and have the position move to the true position every frame.
-	* _set_map_position and _can_move are messy
-* Move AttackTypes enum moved to CombatStage
+* Improve weapon hit to FE7/8 levels
+* Have units flash white and shake when hit
 * Set observing unit for statistics and item screen when it changes,
 instead of every time the tab is switched
 * Change the path of maps to distinguish subdirectories of maps to subdirectories belonging to the map
@@ -20,6 +17,7 @@ instead of every time the tab is switched
 	* Also move get_map_camera to Map.
 * Have 100% rates and effecitive damage in green, and 0% rates and 0 damage in gray
 * Display Effective damage on status screen
+* Add EarhBound SMASH!!! SFX for mortal crits
 
 # Major
 * Document classes (roll this out gradually so I don't burn out)

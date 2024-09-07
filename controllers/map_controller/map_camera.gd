@@ -40,9 +40,11 @@ func get_map_offset() -> Vector2i:
 func get_destination() -> Vector2i:
 	return _map_position + get_map_offset()
 
+
 ## The position of the top-left corner of the screen relative to the map offset.
 func get_map_position() -> Vector2i:
 	return _map_position
+
 
 ## Checks if the camera can perform a move
 func _can_move(new_dest: Vector2i) -> bool:

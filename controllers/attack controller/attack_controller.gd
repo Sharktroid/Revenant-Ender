@@ -1,18 +1,12 @@
 ## Autoload that handles combat and battle animations.
 extends Node
 
-## The possible results of a combat stage
-enum AttackTypes { HIT, MISS, CRIT }
-
-const _DELAY: float = 0.25
-const _HEALTH_SCROLL_DURATION: float = 0.5
-const _HIT_B_DELAY: float = 5.0 / 60
-
 
 ## Initiates combat between an attacker and a defender.
 func combat(attacker: Unit, defender: Unit) -> void:
 	GameController.add_to_input_stack(self)
 	CursorController.disable()
+	## The list of attacks that will be done in this round of combat.
 	var attack_queue: Array[CombatStage] = [CombatStage.new(attacker, defender)]
 	var distance: int = roundi(Utilities.get_tile_distance(attacker.position, defender.position))
 	if defender.get_current_weapon() != null and defender.get_current_weapon().in_range(distance):
@@ -41,8 +35,10 @@ func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[CombatStage
 	defender.visible = false
 	var attacker_starting_hp: float = attacker.current_health
 	var defender_starting_hp: float = defender.current_health
+	## Delay between attacks
+	const DELAY: float = 0.25
 	for combat_round: CombatStage in attack_queue:
-		await get_tree().create_timer(_DELAY).timeout
+		await get_tree().create_timer(DELAY).timeout
 		await _map_attack(
 			combat_round.attacker,
 			combat_round.defender,
@@ -51,7 +47,7 @@ func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[CombatStage
 		)
 		if attacker.current_health <= 0 or defender.current_health <= 0:
 			break
-	await get_tree().create_timer(_DELAY).timeout
+	await get_tree().create_timer(DELAY).timeout
 
 	hp_bar.queue_free()
 	if defender.current_health <= 0:
@@ -73,20 +69,22 @@ func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[CombatStage
 
 
 func _map_attack(
-	attacker: Unit, defender: Unit, attacker_animation: MapAttack, attack_type: AttackTypes
+	attacker: Unit, defender: Unit, attacker_animation: MapAttack, attack_type: CombatStage.AttackTypes
 ) -> void:
 	attacker_animation.play_animation()
 	await attacker_animation.arrived
-	if attack_type == AttackTypes.MISS:
+	if attack_type == CombatStage.AttackTypes.MISS:
 		await AudioPlayer.play_sound_effect(preload("res://audio/sfx/miss.ogg"))
 	else:
 		#region Hit
+		## Hit SFX is broken into two parts
+		## Hit A changes if the attack is a crit, Hit B changes if the attack is a mortal blow
 		const HIT_A_HEAVY: AudioStream = preload("res://audio/sfx/hit_a_heavy.ogg")
 		const HIT_A_CRIT: AudioStream = preload("res://audio/sfx/hit_a_crit.ogg")
 		const HIT_B_HEAVY: AudioStream = preload("res://audio/sfx/hit_b_heavy.ogg")
 		const HIT_B_FATAL: AudioStream = preload("res://audio/sfx/hit_b_fatal.ogg")
 
-		var is_crit: bool = attack_type == AttackTypes.CRIT
+		var is_crit: bool = attack_type == CombatStage.AttackTypes.CRIT
 		var hit_a: AudioStream = HIT_A_CRIT if is_crit else HIT_A_HEAVY
 		var damage: float = (
 			attacker.get_crit_damage(defender) if is_crit else attacker.get_damage(defender)
@@ -100,13 +98,15 @@ func _map_attack(
 		)
 
 		var total_hp: int = defender.get_hit_points()
-		var duration: float = _HEALTH_SCROLL_DURATION * (float(old_health - new_health) / total_hp)
+		## The time that the health bar takes to scroll down from full health to none
+		const HEALTH_SCROLL_DURATION: float = 0.5
+		var duration: float = HEALTH_SCROLL_DURATION * (float(old_health - new_health) / total_hp)
 		var tween: Tween = defender.create_tween()
 		tween.set_parallel()
 		tween.tween_interval(0.1)
 		tween.tween_property(defender, "current_health", new_health, duration)
 		AudioPlayer.play_sound_effect(hit_a)
-		await get_tree().create_timer(_HIT_B_DELAY).timeout
+		await get_tree().create_timer(5.0 / 60).timeout
 		await AudioPlayer.play_sound_effect(hit_b)
 		if tween.is_running():
 			await tween.finished
@@ -155,19 +155,23 @@ func _give_exp(receiving_unit: Unit, distributing_unit: Unit, old_hp: float) -> 
 ## Object that represents one attack in a round of combat.
 class CombatStage:
 	extends RefCounted
+
+	## The possible results of a combat stage
+	enum AttackTypes { HIT, MISS, CRIT }
+
 	## The unit who is attacking.
 	var attacker: Unit
 	## The unit who is being attacked.
 	var defender: Unit
 	## The type of attack for this round of combat.
-	var attack_type: AttackController.AttackTypes
+	var attack_type: AttackTypes
 
 	func _init(attacking_unit: Unit, defending_unit: Unit) -> void:
 		attacker = attacking_unit
 		defender = defending_unit
 		attack_type = _generate_attack_type()
 
-	func _generate_attack_type() -> AttackController.AttackTypes:
+	func _generate_attack_type() -> AttackTypes:
 		if attacker.get_hit_rate(defender) > randi_range(0, 99):
 			if attacker.get_crit_rate(defender) > randi_range(0, 99):
 				return AttackTypes.CRIT
