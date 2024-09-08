@@ -2,6 +2,9 @@ shader_type canvas_item;
 
 #include "res://palette.gdshaderinc"
 
+uniform float white_percentage = 0.0;
+
 void fragment() {
 	COLOR.rgba = convert(COLOR.rgba);
+	COLOR.rgb = mix(COLOR.rgb, vec3(1.0), white_percentage);
 }

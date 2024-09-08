@@ -43,6 +43,7 @@ func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[CombatStage
 			combat_round.attacker,
 			combat_round.defender,
 			attacker_animation if combat_round.attacker == attacker else defender_animation,
+			defender_animation if combat_round.defender == defender else attacker_animation,
 			combat_round.attack_type
 		)
 		if attacker.current_health <= 0 or defender.current_health <= 0:
@@ -69,7 +70,11 @@ func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[CombatStage
 
 
 func _map_attack(
-	attacker: Unit, defender: Unit, attacker_animation: MapAttack, attack_type: CombatStage.AttackTypes
+	attacker: Unit,
+	defender: Unit,
+	attacker_animation: MapAttack,
+	defender_animation: MapAttack,
+	attack_type: CombatStage.AttackTypes
 ) -> void:
 	attacker_animation.play_animation()
 	await attacker_animation.arrived
@@ -105,11 +110,18 @@ func _map_attack(
 		tween.set_parallel()
 		tween.tween_interval(0.1)
 		tween.tween_property(defender, "current_health", new_health, duration)
-		AudioPlayer.play_sound_effect(hit_a)
-		await get_tree().create_timer(5.0 / 60).timeout
-		await AudioPlayer.play_sound_effect(hit_b)
+		var sfx_tween: Tween = create_tween()
+		sfx_tween.set_speed_scale(60)
+		sfx_tween.tween_callback(AudioPlayer.play_sound_effect.bind(hit_a))
+		sfx_tween.tween_callback(AudioPlayer.play_sound_effect.bind(hit_b)).set_delay(5)
+		if is_crit:
+			await defender_animation.crit_damage_animation()
+		else:
+			await defender_animation.damage_animation()
 		if tween.is_running():
 			await tween.finished
+		if sfx_tween.is_running():
+			await sfx_tween.finished
 		#endregion
 	attacker_animation.damage_dealt.emit()
 	await attacker_animation.completed

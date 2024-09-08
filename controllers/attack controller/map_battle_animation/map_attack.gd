@@ -10,7 +10,9 @@ signal arrived
 ## Call to have the animation continue after it pauses.
 signal damage_dealt
 
+## The tile where the enemy unit is located.
 var _target_tile: Vector2i
+## The unit that is being dispayed by the animation.
 var _combat_sprite: Unit
 
 
@@ -63,6 +65,34 @@ func set_alpha(alpha: float) -> void:
 	_combat_sprite.update_shader()
 
 
+## Plays the animation for when a unit it hit by a non-critical hit
+func damage_animation() -> void:
+	var white_tween: Tween = create_tween()
+	white_tween.set_speed_scale(60)
+	white_tween.tween_method(_set_white_percentage, 1.0, 0.0, 29)
+	var starting_x: int = roundi(position.x)
+	var oscillate_tween: Tween = create_tween()
+	oscillate_tween.set_speed_scale(60)
+	oscillate_tween.set_loops(8)
+	oscillate_tween.tween_callback(func() -> void: position.x = starting_x + 1).set_delay(1)
+	oscillate_tween.tween_callback(func() -> void: position.x = starting_x - 1).set_delay(1)
+	await oscillate_tween.finished
+	position.x = starting_x
+	await white_tween.finished
+
+
+## Plays the animation for when a unit it hit by a critical hit
+func crit_damage_animation() -> void:
+	var oscillate_tween: Tween = create_tween()
+	oscillate_tween.set_speed_scale(60)
+	oscillate_tween.tween_callback(_set_white_percentage.bind(1))
+	oscillate_tween.tween_callback(_set_white_percentage.bind(0)).set_delay(2)
+	oscillate_tween.tween_interval(2)
+	await oscillate_tween.finished
+	await damage_animation()
+
+
+## Moves the sprite to show they're attacking.
 func _move(movement: Vector2) -> void:
 	var tween: Tween = create_tween()
 	tween.set_speed_scale(60)
@@ -70,3 +100,8 @@ func _move(movement: Vector2) -> void:
 		func(new_pos: Vector2) -> void: position = new_pos.round(), position, position + movement, 8
 	)
 	await tween.finished
+
+
+## Sets the sprite's shader white percentage
+func _set_white_percentage(percentage: float) -> void:
+	(_combat_sprite.material as ShaderMaterial).set_shader_parameter("white_percentage", percentage)
