@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://ui/combat_info_display/combat_info_display.gd" id="1_1wwld"]
 [ext_resource type="Texture2D" uid="uid://ch8tv43kw8yv4" path="res://ui/theme/menu.png" id="1_olcin"]
-[ext_resource type="Shader" path="res://gba_color.gdshader" id="1_xv5ia"]
-[ext_resource type="Shader" path="res://gba_palette.gdshader" id="2_m6y0q"]
+[ext_resource type="Shader" path="res://shaders/gba_color.gdshader" id="1_xv5ia"]
+[ext_resource type="Shader" path="res://shaders/gba_palette.gdshader" id="2_m6y0q"]
 [ext_resource type="Texture2D" uid="uid://c8787mfg6cymr" path="res://ui/combat_info_display/number_panel.png" id="3_tjou1"]
 [ext_resource type="Texture2D" uid="uid://dy85eew67wq2x" path="res://ui/combat_info_display/descriptor_panel.png" id="5_ookqn"]
 [ext_resource type="Texture2D" uid="uid://dcyho1cc1b5do" path="res://items/weapons/axes/iron_axe/icon.png" id="6_eeidu"]

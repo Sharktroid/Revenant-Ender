@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://bqw6iwqv47g7l"]
 
-[ext_resource type="Shader" path="res://palette.gdshader" id="1_3uo04"]
+[ext_resource type="Shader" path="res://shaders/palette.gdshader" id="1_3uo04"]
 [ext_resource type="Script" path="res://maps/phase_display/phase_display.gd" id="1_facvv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q7mto"]

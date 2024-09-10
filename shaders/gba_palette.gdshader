@@ -1,7 +1,7 @@
 shader_type canvas_item;
 
-#include "res://gba_color.gdshaderinc"
-#include "res://palette.gdshaderinc"
+#include "res://shaders/gba_color.gdshaderinc"
+#include "res://shaders/palette.gdshaderinc"
 
 
 void fragment() {

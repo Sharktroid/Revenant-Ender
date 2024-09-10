@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://8f0f7er5vqbo"]
 
 [ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit.tscn" id="1_7spn5"]
-[ext_resource type="Shader" path="res://palette.gdshader" id="2_4nmmf"]
+[ext_resource type="Shader" path="res://shaders/palette.gdshader" id="2_4nmmf"]
 [ext_resource type="Script" path="res://units/characters/binding blade/wolt/wolt.gd" id="2_xqfau"]
 [ext_resource type="Script" path="res://items/weapons/bows/iron_bow/iron_bow.gd" id="3_64m4l"]
 [ext_resource type="Texture2D" uid="uid://dhm1yqcs0uc71" path="res://units/unit_classes/archer/map_sprite.png" id="3_h3txp"]

@@ -385,7 +385,7 @@ func get_portrait() -> Portrait:
 	portrait.texture = unit_class.get_default_portrait()
 	portrait.centered = false
 	portrait.material = ShaderMaterial.new()
-	(portrait.material as ShaderMaterial).shader = preload("res://gba_color.gdshader")
+	(portrait.material as ShaderMaterial).shader = preload("res://shaders/gba_color.gdshader")
 	return portrait
 
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=17 format=3 uid="uid://klwwp0vjyw6"]
 
 [ext_resource type="Script" path="res://units/unit.gd" id="1"]
-[ext_resource type="Shader" path="res://palette.gdshader" id="1_w0fnt"]
+[ext_resource type="Shader" path="res://shaders/palette.gdshader" id="1_w0fnt"]
 [ext_resource type="PackedScene" uid="uid://c3u8sd6ld0tlh" path="res://units/health_bar/health_bar.tscn" id="2"]
 [ext_resource type="Texture2D" uid="uid://c8e54ae40dql" path="res://units/traveler_icon.png" id="5_k1iet"]
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dfpn7lyvmi8tk"]
 
-[ext_resource type="Shader" path="res://gba_color.gdshader" id="1_67uxh"]
+[ext_resource type="Shader" path="res://shaders/gba_color.gdshader" id="1_67uxh"]
 [ext_resource type="Script" path="res://portraits/portrait.gd" id="2_u1gcd"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_f6tf5"]

@@ -1,6 +1,6 @@
 shader_type canvas_item;
 
-#include "res://palette.gdshaderinc"
+#include "res://shaders/palette.gdshaderinc"
 
 uniform float white_percentage = 0.0;
 

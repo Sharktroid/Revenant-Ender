@@ -1,7 +1,4 @@
 # Minor
-* Change the path of maps to distinguish subdirectories of maps to subdirectories belonging to the map
-* Have units gain +0.02 movement EVs per tile traversed
-* Move palette shaders to own subdirectories
 * Remove waiting in map_attack (for future overhaul and de-jank)
 * Fix bug where a unit doesn't display their tiles if selected before the tiles are displayed
 * Fix bug where clicking on an enemy while a unit is moving to attack brings up a new combat display
@@ -14,6 +11,7 @@
 * Have 100% rates and effecitive damage in green, and 0% rates and 0 damage in gray
 * Display Effective damage on status screen
 * Add EarhBound SMASH!!! SFX for mortal crits
+* Have units gain +0.02 movement EVs per tile traversed
 
 # Major
 * Document classes (roll this out gradually so I don't burn out)
