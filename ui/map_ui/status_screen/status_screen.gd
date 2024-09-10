@@ -1,13 +1,31 @@
+## The menu that is displayed
 class_name StatusScreen
 extends Control
+#gdlint: ignore = enum-name
+enum _Directions { UP, DOWN }
 
+## Class for the statistics tab
+const _STATISTICS = preload("res://ui/map_ui/status_screen/statistics/statistics.gd")
+## Class for the item screen tab
+const _ITEM_SCREEN = preload("res://ui/map_ui/status_screen/item_screen/item_screen.gd")
+
+## The unit whose stats are currently on display.
 var observing_unit := Unit.new()
 
+## When true, scrolling is disabled.
 var _scroll_lock: bool = false
+## When >0, tab switching is disabled. Decreases by one each tick.
 var _delay: int = 0
+## The [Portrait] currently on display.
 @onready var _portrait := %Portrait as Portrait
+## The [TabContainer] that contains the submenus.
 @onready var _menu_tabs := $MenuScreen/MenuTabs as TabContainer
+## The menu that displays the [member observing_unit]'s stats.
+@onready var _statistics := $MenuScreen/MenuTabs/Statistics as _STATISTICS
+## The menu that displays the [member observing_unit]'s items.
+@onready var _items := $MenuScreen/MenuTabs/Items as _ITEM_SCREEN
 
+## The index of the tab that was last displayed.
 static var previous_tab: int = 0
 
 
@@ -30,6 +48,7 @@ func _physics_process(_delta: float) -> void:
 	_delay -= 1
 
 
+## Instantiates a [StatusScreen] from a [PackedScene].
 static func instantiate(unit: Unit) -> StatusScreen:
 	var scene: StatusScreen = (
 		preload("res://ui/map_ui/status_screen/status_screen.tscn").instantiate()
@@ -53,12 +72,14 @@ func _receive_input(event: InputEvent) -> void:
 	if not _scroll_lock:
 		if Input.is_action_pressed("up") and not Input.is_action_pressed("down"):
 			observing_unit = MapController.map.get_previous_unit(observing_unit)
-			_move(1)
+			_move(_Directions.UP)
 		elif Input.is_action_pressed("down"):
 			observing_unit = MapController.map.get_next_unit(observing_unit)
-			_move(-1)
+			_move(_Directions.DOWN)
 
 
+## @deprecated
+## Releases the node.
 func _close() -> void:
 	queue_free()
 	previous_tab = _menu_tabs.current_tab
@@ -66,7 +87,11 @@ func _close() -> void:
 	AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
 
 
+## Updates internal variables
 func _update() -> void:
+	_statistics.observing_unit = observing_unit
+	_items.observing_unit = observing_unit
+
 	var old_portrait: Portrait = _portrait
 	var new_portrait: Portrait = observing_unit.get_portrait()
 	new_portrait.position = observing_unit.get_portrait_offset()
@@ -167,6 +192,7 @@ func _update() -> void:
 	hp_help.table_columns = 4
 
 
+## Updates the current tab.
 func _update_tab() -> void:
 	var constant_labels: Array[Control] = [%UnitDescription]
 	for child: Node in %HighStatsContainer.get_children():
@@ -174,19 +200,13 @@ func _update_tab() -> void:
 	var tab_controls: Array[Control] = []
 	match _menu_tabs.current_tab:
 		0:
-			const Statistics = preload("res://ui/map_ui/status_screen/statistics/statistics.gd")
-			var statistics := $MenuScreen/MenuTabs/Statistics as Statistics
-			statistics.observing_unit = observing_unit
-			tab_controls.assign(statistics.get_left_controls())
+			tab_controls.assign(_statistics.get_left_controls())
 		1:
-			const ItemScreen = preload("res://ui/map_ui/status_screen/item_screen/item_screen.gd")
-			var items := $MenuScreen/MenuTabs/Items as ItemScreen
-			items.observing_unit = observing_unit
 			tab_controls.assign(
 				(
-					items.get_item_labels()
-					if not items.get_item_labels().is_empty()
-					else items.get_rank_labels()
+					_items.get_item_labels()
+					if not _items.get_item_labels().is_empty()
+					else _items.get_rank_labels()
 				)
 			)
 	await get_tree().process_frame
@@ -200,26 +220,31 @@ func _update_tab() -> void:
 		control.focus_neighbor_left = control.get_path_to(matching_control)
 
 
+## Sets a label's text to a float.
 func _set_label_text_to_number(label: Label, num: float) -> void:
 	label.text = Utilities.float_to_string(num)
 
 
-func _move(dir: int) -> void:
+## Moves the status screen to indicate switching units.
+func _move(dir: _Directions) -> void:
 	_scroll_lock = true
 	const DURATION: float = 0.32
 	var menu := $MenuScreen as HBoxContainer
 	var dest: float = menu.size.y
 	const SWAP_THRESHOLD: float = 1.0 / 3
 	AudioPlayer.play_sound_effect(preload("res://audio/sfx/status_swap.ogg"))
+	var dir_multiplier: int = -1 if dir == _Directions.DOWN else 1
 
 	var fade_out: Tween = create_tween()
 	fade_out.set_speed_scale(2)
 	fade_out.set_parallel(true)
-	fade_out.tween_property(menu, "position:y", dest * SWAP_THRESHOLD * dir, DURATION / 2)
+	fade_out.tween_property(
+		menu, "position:y", dest * SWAP_THRESHOLD * dir_multiplier, DURATION / 2
+	)
 	fade_out.tween_property(menu, "modulate:a", 0, DURATION / 2)
 	await fade_out.finished
 
-	menu.position.y = -dest * dir * SWAP_THRESHOLD
+	menu.position.y = -dest * SWAP_THRESHOLD * dir_multiplier
 	_update()
 
 	var fade_in: Tween = create_tween()
@@ -233,6 +258,7 @@ func _move(dir: int) -> void:
 	_scroll_lock = false
 
 
+## Called when menu tab is changed.
 func _on_menu_tabs_tab_changed(_tab: int) -> void:
 	_update_tab()
 	HelpPopupController.shrink()
