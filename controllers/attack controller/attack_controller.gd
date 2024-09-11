@@ -24,6 +24,7 @@ func _receive_input(_event: InputEvent) -> void:
 	pass
 
 
+## Initiates combat between two units using map animations.
 func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[CombatStage]) -> void:
 	var hp_bar := MapCombatDisplay.instantiate(attacker, defender)
 	MapController.get_ui().add_child(hp_bar)
@@ -69,6 +70,7 @@ func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[CombatStage
 			unit.visible = true
 
 
+## One round of map combat.
 func _map_attack(
 	attacker: Unit,
 	defender: Unit,
@@ -123,10 +125,11 @@ func _map_attack(
 		if sfx_tween.is_running():
 			await sfx_tween.finished
 		#endregion
-	attacker_animation.damage_dealt.emit()
-	await attacker_animation.completed
+	if attacker_animation.is_running():
+		await attacker_animation.completed
 
 
+## Kills a unit.
 func _kill(unit: Unit, unit_animation: MapAttack) -> void:
 	AudioPlayer.play_sound_effect(preload("res://audio/sfx/death_fade.ogg"))
 	var sync_fade: Tween = unit.create_tween()
@@ -137,6 +140,7 @@ func _kill(unit: Unit, unit_animation: MapAttack) -> void:
 	await get_tree().process_frame  # Prevents visual bug
 
 
+## Gets the experience for damaging a unit.
 func _get_combat_exp(distributing_unit: Unit, damage: float) -> float:
 	var base_exp: float = (
 		Unit.ONE_ROUND_EXP_BASE * Unit.EXP_MULTIPLIER ** (distributing_unit.level - 1)
@@ -149,6 +153,7 @@ func _get_combat_exp(distributing_unit: Unit, damage: float) -> float:
 	return chip_exp + kill_exp
 
 
+## Gives the receiving unit experience from damaging an opponent.
 func _give_exp(receiving_unit: Unit, distributing_unit: Unit, old_hp: float) -> void:
 	if not receiving_unit.dead:
 		if receiving_unit.faction.player_type == Faction.PlayerTypes.HUMAN:

@@ -6,14 +6,12 @@ extends Node2D
 signal completed
 ## Emitted when the animation has arrived to the destination.
 signal arrived
-## @deprecated
-## Call to have the animation continue after it pauses.
-signal damage_dealt
 
 ## The tile where the enemy unit is located.
 var _target_tile: Vector2i
-## The unit that is being dispayed by the animation.
+## The unit that is being displayed by the animation.
 var _combat_sprite: Unit
+var _running: bool = false
 
 
 func _init(connected_unit: Unit = null, targeted_tile := Vector2i(0, 16)) -> void:
@@ -49,14 +47,15 @@ func _init(connected_unit: Unit = null, targeted_tile := Vector2i(0, 16)) -> voi
 ## @experimental
 ## Plays the map animation.
 func play_animation() -> void:
+	_running = true
 	var movement: Vector2 = (Vector2(_target_tile) - position).normalized() * 4
 	_combat_sprite.sprite_animated = true
 	await _move(movement)
 	arrived.emit()
-	await damage_dealt
 	await _move(-movement)
 	completed.emit()
 	_combat_sprite.sprite_animated = false
+	_running = false
 
 
 ## Sets the animation's alpha value.
@@ -90,6 +89,11 @@ func crit_damage_animation() -> void:
 	oscillate_tween.tween_interval(2)
 	await oscillate_tween.finished
 	await damage_animation()
+
+
+## Returns true if the animation is playing.
+func is_running() -> bool:
+	return _running
 
 
 ## Moves the sprite to show they're attacking.
