@@ -1,5 +1,4 @@
 # Minor
-* Fix bug where clicking on an enemy while a unit is moving to attack brings up a new combat display
 * Have map hp bar show units from left-to-right
 * Adjust shield icon
 * Experiment with _gui_input to possibly replace _receive_input
@@ -35,6 +34,7 @@
 * Replace test map with Thracia chapter 1
 * Replace map attack animations with Thracia counterparts
 * Implement a project system
+* Do something about the way input works
 
 # Long-term
 * FERemix/Age of Emblem?

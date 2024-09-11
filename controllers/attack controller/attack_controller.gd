@@ -4,7 +4,6 @@ extends Node
 
 ## Initiates combat between an attacker and a defender.
 func combat(attacker: Unit, defender: Unit) -> void:
-	GameController.add_to_input_stack(self)
 	CursorController.disable()
 	## The list of attacks that will be done in this round of combat.
 	var attack_queue: Array[CombatStage] = [CombatStage.new(attacker, defender)]

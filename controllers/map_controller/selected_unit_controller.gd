@@ -29,7 +29,6 @@ func _init(connected_unit: Unit) -> void:
 func _receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
 		_position_selected()
-		accept_event()
 	elif event.is_action_pressed("ui_cancel"):
 		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
 		_canceled()
@@ -126,6 +125,7 @@ func _attack_selection() -> void:
 	_unit.hide_current_attack_tiles()
 	info_display.queue_free()
 	if completed:
+		GameController.add_to_input_stack(AttackController)
 		await _unit.move()
 		await AttackController.combat(_unit, CursorController.get_hovered_unit())
 		_unit.wait()
