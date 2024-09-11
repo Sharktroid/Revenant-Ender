@@ -1,13 +1,11 @@
 # Minor
-* Have map hp bar show units from left-to-right
 * Adjust shield icon
-* Experiment with _gui_input to possibly replace _receive_input
 * Replace close() functions with _exit_tree() calls.
 * Move FPS code to GameController and make part of standard UI
 	* Also move get_map_camera to Map.
-* Have 100% rates and effecitive damage in green, and 0% rates and 0 damage in gray
+* Have 100% rates and effective damage in green, and 0% rates and 0 damage in gray
 * Display Effective damage on status screen
-* Add EarhBound SMASH!!! SFX for mortal crits
+* Add EarthBound SMASH!!! SFX for mortal crits
 * Have units gain +0.02 movement EVs per tile traversed
 
 # Major

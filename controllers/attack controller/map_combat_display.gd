@@ -9,8 +9,9 @@ var _defender: Unit
 
 
 func _enter_tree() -> void:
-	($LeftHPBar as MapHPBar).unit = _attacker
-	($RightHPBar as MapHPBar).unit = _defender
+	var left_attacker: bool = _attacker.position < _defender.position
+	($LeftHPBar as MapHPBar).unit = _attacker if left_attacker else _defender
+	($RightHPBar as MapHPBar).unit = _defender if left_attacker else _attacker
 	var unit_midpoint := Vector2(
 		(_attacker.position.x + _defender.position.x) / 2 - size.x / 2,
 		maxf(_attacker.position.y, _defender.position.y)
