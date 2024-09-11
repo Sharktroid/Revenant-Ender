@@ -15,6 +15,7 @@ func _init(connected_unit: Unit) -> void:
 	_unit.update_path(CursorController.map_position)
 	_unit.update_displayed_tiles()
 	_unit.tree_exited.connect(_on_unit_death)
+	_unit.display_movement_tiles()
 	_ghost_unit = GhostUnit.new(_unit)
 	_ghost_unit.position = CursorController.map_position
 	MapController.map.get_child(0).add_child(_ghost_unit)

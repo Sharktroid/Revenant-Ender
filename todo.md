@@ -1,5 +1,4 @@
 # Minor
-* Fix bug where a unit doesn't display their tiles if selected before the tiles are displayed
 * Fix bug where clicking on an enemy while a unit is moving to attack brings up a new combat display
 * Have map hp bar show units from left-to-right
 * Adjust shield icon
