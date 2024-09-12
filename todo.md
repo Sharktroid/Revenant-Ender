@@ -1,5 +1,4 @@
 # Minor
-* Adjust shield icon
 * Replace close() functions with _exit_tree() calls.
 * Move FPS code to GameController and make part of standard UI
 	* Also move get_map_camera to Map.
@@ -7,6 +6,7 @@
 * Display Effective damage on status screen
 * Add EarthBound SMASH!!! SFX for mortal crits
 * Have units gain +0.02 movement EVs per tile traversed
+* Fix CantoController unit animation bug
 
 # Major
 * Document classes (roll this out gradually so I don't burn out)
