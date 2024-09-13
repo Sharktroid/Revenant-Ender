@@ -1,14 +1,15 @@
 # Minor
-* Have 100% rates and effective damage in green, and 0% rates and 0 damage in gray
-* Display Effective damage on status screen
 * Add EarthBound SMASH!!! SFX for mortal crits
 * Have units gain +0.02 movement EVs per tile traversed
 * Fix CantoController unit animation bug
 * Fix something not closing when a unit is killed
+* Fix attack ranges not going away
 
 # Major
 * Document classes (roll this out gradually so I don't burn out)
 * Add options menu and make one for faster map animations
+* Implement effective damgae
+	* Display effective damage on status screen
 * Investigate particles
 * Make tiles behave more like in AW:DoR
 * Add combat preview even if attacking is not possible

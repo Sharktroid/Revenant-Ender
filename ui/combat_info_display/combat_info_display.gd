@@ -170,19 +170,29 @@ func _update() -> void:
 			(get_node(node_path % "HP") as Label).text = str(current_unit.current_health)
 
 			var in_range: bool = weapon and weapon.in_range(_distance)
-			(get_node(node_path % "Damage") as Label).text = (
-				Utilities.float_to_string(current_unit.get_damage(other_unit)) if in_range else "--"
+
+			_update_damage_label(
+				get_node(node_path % "Damage") as Label,
+				current_unit.get_damage(other_unit),
+				in_range
 			)
-			(get_node(node_path % "Hit") as Label).text = (
-				str(current_unit.get_hit_rate(other_unit)) if in_range else "--"
+
+			_update_rate_label(
+				get_node(node_path % "Hit") as Label,
+				current_unit.get_hit_rate(other_unit),
+				in_range
 			)
-			(get_node(node_path % "CritDamage") as Label).text = (
-				Utilities.float_to_string(current_unit.get_crit_damage(other_unit))
-				if in_range
-				else "--"
+
+			_update_damage_label(
+				get_node(node_path % "CritDamage") as Label,
+				current_unit.get_crit_damage(other_unit),
+				in_range
 			)
-			(get_node(node_path % "Crit") as Label).text = (
-				str(current_unit.get_crit_rate(other_unit)) if in_range else "--"
+
+			_update_rate_label(
+				get_node(node_path % "Crit") as Label,
+				current_unit.get_crit_rate(other_unit),
+				in_range
 			)
 
 			var double_sprite := get_node(node_path % "Double") as Sprite2D
@@ -216,3 +226,18 @@ func _animate_double_sprite(sprite: Sprite2D) -> void:
 
 func _on_weapon_selected(weapon: Weapon) -> void:
 	_weapon_index = _current_weapons.find(weapon)
+
+
+func _update_damage_label(label: Label, damage: float, in_range: bool) -> void:
+	label.text = (Utilities.float_to_string(damage) if in_range else "--")
+	# Put code for effective damage color here.
+	label.theme_type_variation = &"BlueLabel" if damage > 0 else &"GreyLabel"
+	print_debug(label.theme_type_variation)
+
+
+func _update_rate_label(label: Label, rate: int, in_range: bool) -> void:
+	label.text = (Utilities.float_to_string(rate) if in_range else "--")
+	# Put code for effective damage color here.
+	label.theme_type_variation = (
+		&"GreenLabel" if rate >= 100 else &"GreyLabel" if rate <= 0 else &"BlueLabel"
+	)
