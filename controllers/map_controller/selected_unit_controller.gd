@@ -39,8 +39,9 @@ func _exit_tree() -> void:
 	var hovered_unit: Unit = CursorController.get_hovered_unit()
 	if hovered_unit and hovered_unit != _unit and not hovered_unit.dead:
 		hovered_unit.display_movement_tiles()
-	_unit.deselect.call_deferred()
-	_unit.z_index = 0
+	if is_instance_valid(_unit):
+		_unit.deselect.call_deferred()
+		_unit.z_index = 0
 
 
 func _on_cursor_moved() -> void:
