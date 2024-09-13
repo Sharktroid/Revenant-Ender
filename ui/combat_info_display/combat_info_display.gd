@@ -231,13 +231,13 @@ func _on_weapon_selected(weapon: Weapon) -> void:
 func _update_damage_label(label: Label, damage: float, in_range: bool) -> void:
 	label.text = (Utilities.float_to_string(damage) if in_range else "--")
 	# Put code for effective damage color here.
-	label.theme_type_variation = &"BlueLabel" if damage > 0 else &"GreyLabel"
-	print_debug(label.theme_type_variation)
+	label.theme_type_variation = &"BlueLabel" if damage > 0 and in_range else &"GreyLabel"
 
 
 func _update_rate_label(label: Label, rate: int, in_range: bool) -> void:
 	label.text = (Utilities.float_to_string(rate) if in_range else "--")
 	# Put code for effective damage color here.
 	label.theme_type_variation = (
-		&"GreenLabel" if rate >= 100 else &"GreyLabel" if rate <= 0 else &"BlueLabel"
+		&"GreyLabel" if rate <= 0 or not in_range else &"GreenLabel" if rate >= 100 else &"BlueLabel"
 	)
+	print_debug(rate)
