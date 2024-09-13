@@ -8,6 +8,22 @@ func _enter_tree() -> void:
 	get_viewport().size_changed.connect(_on_size_changed)
 
 
+func _ready() -> void:
+	if Utilities.is_running_project():
+		(%FPSDisplay as HBoxContainer).visible = Utilities.get_debug_value(
+			Utilities.DebugConfigKeys.SHOW_FPS
+		)
+
+
+func _process(delta: float) -> void:
+	(%AverageProcessFrameLabel as Label).text = str(Engine.get_frames_per_second())
+	(%ImmediateProcessFrameLabel as Label).text = str(roundi(1 / delta))
+
+
+func _physics_process(delta: float) -> void:
+	(%PhysicFrameLabel as Label).text = str(roundi(1 / delta))
+
+
 func _notification(what: int) -> void:
 	match what:
 		NOTIFICATION_APPLICATION_FOCUS_OUT:

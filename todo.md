@@ -1,6 +1,5 @@
 # Minor
-* Move FPS code to GameController and make part of standard UI
-	* Also move get_map_camera to Map.
+* Move get_map_camera to Map.
 * Have 100% rates and effective damage in green, and 0% rates and 0 damage in gray
 * Display Effective damage on status screen
 * Add EarthBound SMASH!!! SFX for mortal crits

@@ -44,3 +44,47 @@ tile_set = SubResource("TileSet_5kgth")
 [node name="TestMapB" parent="SubViewport" instance=ExtResource("4_nu4j5")]
 
 [node name="MapUILayer" parent="SubViewport" instance=ExtResource("5_0qpof")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="SubViewport"]
+layer = 2
+
+[node name="FPSDisplay" type="HBoxContainer" parent="SubViewport/CanvasLayer"]
+unique_name_in_owner = true
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -70.0
+offset_top = 2.0
+offset_right = -6.0
+offset_bottom = 18.0
+grow_horizontal = 0
+theme_override_constants/separation = 0
+
+[node name="AverageProcessFrameLabel" type="Label" parent="SubViewport/CanvasLayer/FPSDisplay"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+text = "75"
+horizontal_alignment = 2
+
+[node name="LeftSeparator" type="Label" parent="SubViewport/CanvasLayer/FPSDisplay"]
+layout_mode = 2
+text = " ("
+
+[node name="ImmediateProcessFrameLabel" type="Label" parent="SubViewport/CanvasLayer/FPSDisplay"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(18, 0)
+layout_mode = 2
+text = "75"
+horizontal_alignment = 1
+
+[node name="RightSeparator" type="Label" parent="SubViewport/CanvasLayer/FPSDisplay"]
+layout_mode = 2
+text = ") | "
+
+[node name="PhysicFrameLabel" type="Label" parent="SubViewport/CanvasLayer/FPSDisplay"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+text = "60"
+horizontal_alignment = 2
