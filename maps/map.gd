@@ -234,6 +234,12 @@ func update_position_terrain_cost(pos: Vector2i) -> void:
 			_update_grid_current_faction()
 
 
+## Returns the [Map]'s [MapCamera].
+func get_map_camera() -> MapCamera:
+	var path: String = NodePath("%s/MapCamera" % get_path())
+	return (get_node(path) as MapCamera) if has_node(path) else MapCamera.new()
+
+
 func _update_a_star_grid_id(
 	a_star_grid: AStarGrid2D, movement_type: UnitClass.MovementTypes, id: Vector2i
 ) -> void:

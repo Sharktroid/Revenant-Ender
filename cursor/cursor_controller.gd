@@ -37,8 +37,8 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	if is_active():
 		if GameController.controller_type == GameController.ControllerTypes.MOUSE:
-			var destination: Vector2 = MapController.get_map_camera().get_destination()
-			if destination == MapController.get_map_camera().position:
+			var destination: Vector2 = MapController.map.get_map_camera().get_destination()
+			if destination == MapController.map.get_map_camera().position:
 				map_position = Utilities.round_coords_to_tile(
 					get_viewport().get_mouse_position() + (_corner_offset() as Vector2)
 				)
@@ -148,7 +148,7 @@ func _set_map_position(new_pos: Vector2i) -> void:
 		elif screen_position[i] >= Utilities.get_screen_size()[i] - 16:
 			map_move[i] += 16
 	if map_move != Vector2i():
-		MapController.get_map_camera().move(map_move)
+		MapController.map.get_map_camera().move(map_move)
 	if map_position != old_pos:
 		var emit_moved: Callable = func() -> void: moved.emit()
 		emit_moved.call_deferred()
@@ -162,6 +162,6 @@ func _set_active(active: bool) -> void:
 
 func _corner_offset() -> Vector2i:
 	return (
-		Vector2i(MapController.get_map_camera().get_map_position())
-		+ MapController.get_map_camera().get_map_offset()
+		Vector2i(MapController.map.get_map_camera().get_map_position())
+		+ MapController.map.get_map_camera().get_map_offset()
 	)
