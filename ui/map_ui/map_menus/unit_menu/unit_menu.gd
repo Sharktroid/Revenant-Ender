@@ -23,7 +23,7 @@ func _enter_tree() -> void:
 			break
 	reset_size.call_deferred()
 	if not visible_items:
-		_close(true)
+		_close()
 	else:
 		super()
 
@@ -39,7 +39,7 @@ static func instantiate(
 func _receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
-		_close(true)
+		_close()
 	else:
 		super(event)
 
@@ -94,12 +94,15 @@ static func get_displayed_items(unit: Unit) -> Dictionary:
 	return enabled_items
 
 
-func _close(return_to_caller: bool = false) -> void:
+func _close() -> void:
+	queue_free()
+	if not (actionable):
+		caller.queue_free()
+
+
+func _exit_tree() -> void:
 	if not actionable:
 		_check_canto()
-	queue_free()
-	if not (return_to_caller and actionable):
-		caller.close()
 	if _canto:
 		CantoController.new.call_deferred(connected_unit)
 	CursorController.enable.call_deferred()
@@ -274,7 +277,7 @@ func _display_adjacent_support_tiles() -> Node2D:
 
 
 func _on_unit_death() -> void:
-	_close()
+	queue_free()
 
 
 func _get_item_nodes() -> Array[MapMenuItem]:
@@ -287,14 +290,14 @@ func _wait() -> void:
 	visible = false
 	await connected_unit.move()
 	connected_unit.wait()
-	_close()
+	queue_free()
 
 
 func _attack(selected_unit: Unit) -> void:
 	await connected_unit.move()
 	await AttackController.combat(connected_unit, selected_unit)
 	connected_unit.wait()
-	_close()
+	queue_free()
 
 
 func _trade(selected_unit: Unit) -> void:
@@ -317,7 +320,7 @@ func _rescue(selected_unit: Unit) -> void:
 	selected_unit.visible = false
 	connected_unit.traveler = selected_unit
 	_check_canto()
-	_close()
+	queue_free()
 
 
 func _drop(dropped_tile: Vector2i) -> void:
@@ -328,7 +331,7 @@ func _drop(dropped_tile: Vector2i) -> void:
 	connected_unit.traveler = null
 	await traveler.move(dropped_tile)
 	_check_canto()
-	_close()
+	queue_free()
 
 
 func _take(unit: Unit) -> void:

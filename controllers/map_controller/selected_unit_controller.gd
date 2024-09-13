@@ -34,10 +34,7 @@ func _receive_input(event: InputEvent) -> void:
 		_canceled()
 
 
-## @deprecated
-## Deselects the currently selected [Unit].
-func close() -> void:
-	queue_free()
+func _exit_tree() -> void:
 	_ghost_unit.queue_free()
 	var hovered_unit: Unit = CursorController.get_hovered_unit()
 	if hovered_unit and hovered_unit != _unit and not hovered_unit.dead:
@@ -93,7 +90,7 @@ func _position_selected() -> void:
 			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.INVALID)
 	else:
 		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
-		close()
+		queue_free()
 
 
 func _create_unit_menu() -> void:
@@ -105,11 +102,11 @@ func _create_unit_menu() -> void:
 
 
 func _canceled() -> void:
-	close()
+	queue_free()
 
 
 func _on_unit_death() -> void:
-	close()
+	queue_free()
 
 
 func _attack_selection() -> void:
@@ -129,7 +126,7 @@ func _attack_selection() -> void:
 		await _unit.move()
 		await AttackController.combat(_unit, CursorController.get_hovered_unit())
 		_unit.wait()
-		close()
+		queue_free()
 	else:
 		_unit.display_movement_tiles()
 	CursorController.enable()

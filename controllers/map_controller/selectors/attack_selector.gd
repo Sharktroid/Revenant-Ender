@@ -25,11 +25,6 @@ func _ready() -> void:
 	_unit.display_current_attack_tiles(true)
 
 
-func _close() -> void:
-	_info_display.queue_free()
-	super()
-
-
 func _cursor_moved() -> void:
 	_update_bottom_unit()
 
@@ -43,7 +38,7 @@ func _position_selected() -> void:
 		if proceed:
 			_info_display.queue_free()
 			selected.emit(CursorController.get_hovered_unit())
-			_close()
+			queue_free()
 
 
 func _update_bottom_unit() -> void:

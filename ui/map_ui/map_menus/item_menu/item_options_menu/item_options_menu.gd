@@ -31,14 +31,14 @@ func _select_item(menu_item: MapMenuItem) -> void:
 	match menu_item.name:
 		"Equip":
 			unit.equip_weapon(item as Weapon)
-			_close()
+			queue_free()
 		"Use":
 			item.use()
-			_close()
+			queue_free()
 		"Drop":
 			var menu := ConfirmationMapMenu.instantiate(_offset + Vector2(16, 16), self)
 			MapController.get_ui().add_child(menu)
 			if await menu.selection_made:
 				unit.drop(item)
-				_close()
+				queue_free()
 	super(menu_item)

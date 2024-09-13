@@ -1,5 +1,4 @@
 # Minor
-* Replace close() functions with _exit_tree() calls.
 * Move FPS code to GameController and make part of standard UI
 	* Also move get_map_camera to Map.
 * Have 100% rates and effective damage in green, and 0% rates and 0 damage in gray
@@ -7,9 +6,11 @@
 * Add EarthBound SMASH!!! SFX for mortal crits
 * Have units gain +0.02 movement EVs per tile traversed
 * Fix CantoController unit animation bug
+* Fix something not closing when a unit is killed
 
 # Major
 * Document classes (roll this out gradually so I don't burn out)
+* Add options menu and make one for faster map animations
 * Investigate particles
 * Make tiles behave more like in AW:DoR
 * Add combat preview even if attacking is not possible

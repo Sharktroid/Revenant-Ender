@@ -215,16 +215,6 @@ func get_path_cost(movement_type: UnitClass.MovementTypes, path: Array[Vector2i]
 	return sum
 
 
-func _update_a_star_grid_id(
-	a_star_grid: AStarGrid2D, movement_type: UnitClass.MovementTypes, id: Vector2i
-) -> void:
-	var weight: float = get_terrain_cost(movement_type, id * 16)
-	if weight == INF:
-		a_star_grid.set_point_solid(id)
-	else:
-		a_star_grid.set_point_weight_scale(id, weight)
-
-
 func get_units() -> Array[Unit]:
 	var units: Array[Unit] = []
 	if is_inside_tree():
@@ -242,6 +232,16 @@ func update_position_terrain_cost(pos: Vector2i) -> void:
 	for unit: Unit in get_units():
 		if unit.position == Vector2(pos):
 			_update_grid_current_faction()
+
+
+func _update_a_star_grid_id(
+	a_star_grid: AStarGrid2D, movement_type: UnitClass.MovementTypes, id: Vector2i
+) -> void:
+	var weight: float = get_terrain_cost(movement_type, id * 16)
+	if weight == INF:
+		a_star_grid.set_point_solid(id)
+	else:
+		a_star_grid.set_point_weight_scale(id, weight)
 
 
 func _create_main_map_menu() -> void:

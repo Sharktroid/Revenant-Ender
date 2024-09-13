@@ -59,7 +59,7 @@ func _select_item(item: MapMenuItem) -> void:
 
 		"DisplayFrameRate":
 			Utilities.invert_debug_value(Utilities.DebugConfigKeys.SHOW_FPS)
-			(MapController.get_ui().get_node("FPS Display") as HBoxContainer).visible = (
+			(GameController.get_root().get_node("%FPSDisplay") as HBoxContainer).visible = (
 				Utilities.get_debug_value(Utilities.DebugConfigKeys.SHOW_FPS)
 			)
 

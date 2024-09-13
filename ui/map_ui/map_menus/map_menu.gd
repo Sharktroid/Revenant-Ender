@@ -34,6 +34,11 @@ func _enter_tree() -> void:
 	GameController.add_to_input_stack(self)
 
 
+func _exit_tree() -> void:
+	if _parent_menu:
+		_parent_menu.visible = true
+
+
 func _receive_input(event: InputEvent) -> void:
 	if not HelpPopupController.is_active():
 		if event.is_action_pressed("up") and not Input.is_action_pressed("down"):
@@ -50,7 +55,7 @@ func _receive_input(event: InputEvent) -> void:
 
 		elif event.is_action_pressed("ui_cancel"):
 			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
-			_close()
+			queue_free()
 
 
 func set_current_item_node(item: HelpContainer) -> void:
@@ -61,13 +66,6 @@ func get_current_item_node() -> MapMenuItem:
 	return (
 		_get_visible_children()[_current_item_index] if _get_visible_children().size() > 0 else null
 	)
-
-
-func _close() -> void:
-	# Closes the menu
-	queue_free()
-	if _parent_menu:
-		_parent_menu.visible = true
 
 
 func _update_position() -> void:

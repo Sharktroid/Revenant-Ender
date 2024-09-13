@@ -55,12 +55,8 @@ func _exit_tree() -> void:
 	CursorController.set_icon(CursorController.Icons.NONE)
 
 
-func _close() -> void:
-	queue_free()
-
-
 func _position_selected() -> void:
-	_close()
+	queue_free()
 
 
 func _can_select() -> bool:
@@ -79,4 +75,4 @@ func _canceled() -> void:
 	AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
 	_unit.display_movement_tiles()
 	_unit.show_path()
-	_close()
+	queue_free()

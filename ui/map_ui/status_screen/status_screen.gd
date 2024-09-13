@@ -48,6 +48,12 @@ func _physics_process(_delta: float) -> void:
 	_delay -= 1
 
 
+func _exit_tree() -> void:
+	previous_tab = _menu_tabs.current_tab
+	CursorController.enable()
+	AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
+
+
 ## Instantiates a [StatusScreen] from a [PackedScene].
 static func instantiate(unit: Unit) -> StatusScreen:
 	var scene: StatusScreen = (
@@ -59,7 +65,7 @@ static func instantiate(unit: Unit) -> StatusScreen:
 
 func _receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
-		_close()
+		queue_free()
 	if _delay <= 0:
 		if event.is_action_pressed("left", true) and not Input.is_action_pressed("right"):
 			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.TAB_SWITCH)
@@ -76,15 +82,6 @@ func _receive_input(event: InputEvent) -> void:
 		elif Input.is_action_pressed("down"):
 			observing_unit = MapController.map.get_next_unit(observing_unit)
 			_move(_Directions.DOWN)
-
-
-## @deprecated
-## Releases the node.
-func _close() -> void:
-	queue_free()
-	previous_tab = _menu_tabs.current_tab
-	CursorController.enable()
-	AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
 
 
 ## Updates internal variables
