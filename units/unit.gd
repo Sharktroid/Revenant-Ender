@@ -711,7 +711,7 @@ func update_path(destination: Vector2i) -> void:
 			get_min_range(),
 			_get_map().borders
 		):
-			if tile in get_movement_tiles():
+			if tile in get_actionable_movement_tiles():
 				adjacent_movement_tiles.append(tile)
 		if adjacent_movement_tiles.size() > 0:
 			destination = _get_nearest_path_tile(adjacent_movement_tiles)

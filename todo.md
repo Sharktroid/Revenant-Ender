@@ -1,5 +1,5 @@
 # Minor
-* Fix unit being able to attack from an attack tile occuipied by an ally, causing a crash.
+* Investigate glitch that causes tile to be impassable
 
 # Major
 * Document classes (roll this out gradually so I don't burn out)
