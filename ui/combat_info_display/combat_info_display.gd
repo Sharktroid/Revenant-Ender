@@ -87,7 +87,6 @@ static func instantiate(top: Unit, bottom: Unit = null, focused: bool = false) -
 func _receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
 		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.BATTLE_SELECT)
-		queue_free()
 		completed.emit(true)
 	elif event.is_action_pressed("ui_cancel"):
 		_top_unit.equip_weapon(_old_weapon)
@@ -238,6 +237,8 @@ func _update_rate_label(label: Label, rate: int, in_range: bool) -> void:
 	label.text = (Utilities.float_to_string(rate) if in_range else "--")
 	# Put code for effective damage color here.
 	label.theme_type_variation = (
-		&"GreyLabel" if rate <= 0 or not in_range else &"GreenLabel" if rate >= 100 else &"BlueLabel"
+		&"GreyLabel" if rate <= 0 or not in_range
+		else &"GreenLabel" if rate >= 100
+		else &"BlueLabel"
 	)
 	print_debug(rate)
