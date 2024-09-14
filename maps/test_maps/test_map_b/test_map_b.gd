@@ -16,7 +16,7 @@ func _init() -> void:
 		Faction.new(
 			"Bandits",
 			Faction.Colors.RED,
-			Faction.PlayerTypes.HUMAN,
+			Faction.PlayerTypes.COMPUTER,
 			preload("res://audio/music/deer_of_the_plains.ogg"),
 			true
 		),

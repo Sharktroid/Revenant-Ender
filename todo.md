@@ -1,9 +1,8 @@
 # Minor
-* Add EarthBound SMASH!!! SFX for mortal crits
-* Have units gain +0.02 movement EVs per tile traversed
 * Fix CantoController unit animation bug
 * Fix something not closing when a unit is killed
 * Fix attack ranges not going away
+* Fix unit not being deselected after attacking
 
 # Major
 * Document classes (roll this out gradually so I don't burn out)
@@ -33,6 +32,8 @@
 * Replace map attack animations with Thracia counterparts
 * Implement a project system
 * Do something about the way input works
+* Implement gaining EVs
+	* Have units gain +0.02 movement EVs per tile traversed
 
 # Long-term
 * FERemix/Age of Emblem?

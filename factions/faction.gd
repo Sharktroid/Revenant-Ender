@@ -33,6 +33,10 @@ func _init(
 	flipped = flip
 
 
+func _to_string() -> String:
+	return 'Faction:"{name}"<#{id}>'.format({"name": name, "id": get_instance_id()})
+
+
 func get_diplomacy_stance(faction: Faction) -> DiplomacyStances:
 	return (
 		DiplomacyStances.SELF if faction == self

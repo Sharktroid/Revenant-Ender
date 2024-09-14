@@ -240,6 +240,13 @@ func get_map_camera() -> MapCamera:
 	return (get_node(path) as MapCamera) if has_node(path) else MapCamera.new()
 
 
+func is_faction_friendly_to_player(faction: Faction) -> bool:
+	for human_faction: Faction in all_factions:
+		if human_faction.player_type == Faction.PlayerTypes.HUMAN and faction.is_friend(human_faction):
+			return true
+	return false
+
+
 func _update_a_star_grid_id(
 	a_star_grid: AStarGrid2D, movement_type: UnitClass.MovementTypes, id: Vector2i
 ) -> void:

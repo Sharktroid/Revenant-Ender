@@ -83,25 +83,12 @@ func _map_attack(
 		await AudioPlayer.play_sound_effect(preload("res://audio/sfx/miss.ogg"))
 	else:
 		#region Hit
-		## Hit SFX is broken into two parts
-		## Hit A changes if the attack is a crit, Hit B changes if the attack is a mortal blow
-		const HIT_A_HEAVY: AudioStream = preload("res://audio/sfx/hit_a_heavy.ogg")
-		const HIT_A_CRIT: AudioStream = preload("res://audio/sfx/hit_a_crit.ogg")
-		const HIT_B_HEAVY: AudioStream = preload("res://audio/sfx/hit_b_heavy.ogg")
-		const HIT_B_FATAL: AudioStream = preload("res://audio/sfx/hit_b_fatal.ogg")
-
 		var is_crit: bool = attack_type == CombatStage.AttackTypes.CRIT
-		var hit_a: AudioStream = HIT_A_CRIT if is_crit else HIT_A_HEAVY
 		var damage: float = (
 			attacker.get_crit_damage(defender) if is_crit else attacker.get_damage(defender)
 		)
 		var old_health: int = ceili(defender.current_health)
 		var new_health: int = roundi(maxf(floorf(old_health - damage), 0))
-		var hit_b: AudioStream = (
-			HIT_B_FATAL
-			if new_health <= 0
-			else preload("res://audio/sfx/no_damage.ogg") if damage == 0 else HIT_B_HEAVY
-		)
 
 		var total_hp: int = defender.get_hit_points()
 		## The time that the health bar takes to scroll down from full health to none
@@ -111,18 +98,17 @@ func _map_attack(
 		tween.set_parallel()
 		tween.tween_interval(0.1)
 		tween.tween_property(defender, "current_health", new_health, duration)
-		var sfx_tween: Tween = create_tween()
-		sfx_tween.set_speed_scale(60)
-		sfx_tween.tween_callback(AudioPlayer.play_sound_effect.bind(hit_a))
-		sfx_tween.tween_callback(AudioPlayer.play_sound_effect.bind(hit_b)).set_delay(5)
+		var sfx_timer: SceneTreeTimer = _play_hit_sound_effect(
+			old_health, new_health, is_crit, attacker
+		)
 		if is_crit:
 			await defender_animation.crit_damage_animation()
 		else:
 			await defender_animation.damage_animation()
 		if tween.is_running():
 			await tween.finished
-		if sfx_tween.is_running():
-			await sfx_tween.finished
+		if sfx_timer.time_left > 0:
+			await sfx_timer.timeout
 		#endregion
 	if attacker_animation.is_running():
 		await attacker_animation.completed
@@ -166,6 +152,40 @@ func _give_exp(receiving_unit: Unit, distributing_unit: Unit, old_hp: float) -> 
 			receiving_unit.total_exp += _get_combat_exp(
 				distributing_unit, old_hp - distributing_unit.current_health
 			)
+
+
+## Plays sound effect for hit,
+## and returns a timer that times out when the sound effect has finished playing
+func _play_hit_sound_effect(
+	old_health: int, new_health: int, is_crit: bool, attacker: Unit
+) -> SceneTreeTimer:
+	if is_crit and new_health <= 0:
+		var crit_sfx: AudioStreamOggVorbis = (
+			preload("res://audio/sfx/earthbound_smash.ogg")
+			if MapController.map.is_faction_friendly_to_player(attacker.faction)
+			else preload("res://audio/sfx/earthbound_mortal.ogg")
+		)
+		AudioPlayer.play_sound_effect(crit_sfx)
+		return get_tree().create_timer(crit_sfx.get_length())
+	else:
+		## Hit SFX is broken into two parts
+		## Hit A changes if the attack is a crit, Hit B changes if the attack is a mortal blow
+		const HIT_A_HEAVY: AudioStream = preload("res://audio/sfx/hit_a_heavy.ogg")
+		const HIT_A_CRIT: AudioStream = preload("res://audio/sfx/hit_a_crit.ogg")
+		const HIT_B_HEAVY: AudioStream = preload("res://audio/sfx/hit_b_heavy.ogg")
+		const HIT_B_FATAL: AudioStream = preload("res://audio/sfx/hit_b_fatal.ogg")
+		const DELAY: int = 5
+		var hit_a: AudioStream = HIT_A_CRIT if is_crit else HIT_A_HEAVY
+		var hit_b: AudioStream = (
+			HIT_B_FATAL if new_health <= 0
+			else preload("res://audio/sfx/no_damage.ogg") if old_health - new_health == 0
+			else HIT_B_HEAVY
+		)
+		var sfx_tween: Tween = create_tween()
+		sfx_tween.set_speed_scale(60)
+		sfx_tween.tween_callback(AudioPlayer.play_sound_effect.bind(hit_a))
+		sfx_tween.tween_callback(AudioPlayer.play_sound_effect.bind(hit_b)).set_delay(DELAY)
+		return get_tree().create_timer(maxf(hit_a.get_length(), float(DELAY)/60 + hit_b.get_length()))
 
 
 ## Object that represents one attack in a round of combat.
