@@ -1,10 +1,15 @@
+## [MapMenu] that displays unit actions.
 class_name UnitMenu
 extends MapMenu
 
+## The unit who is currently active.
 var connected_unit: Unit
+## The [SelectedUnitController] that called this menu.
 var caller: SelectedUnitController
+## If false, closing the menu will call [method _check_canto].
 var actionable: bool = true
 
+## If true, closing the menu will create a CantoController.
 var _canto: bool
 
 
@@ -13,7 +18,7 @@ func _init() -> void:
 
 
 func _enter_tree() -> void:
-	connected_unit.tree_exited.connect(_on_unit_death)
+	connected_unit.tree_exited.connect(_close)
 	_update()
 	_current_item_index = 0
 	var visible_items: bool = false
@@ -23,9 +28,18 @@ func _enter_tree() -> void:
 			break
 	reset_size.call_deferred()
 	if not visible_items:
-		_close()
+		queue_free()
 	else:
 		super()
+
+
+func _exit_tree() -> void:
+	if not actionable:
+		_check_canto()
+		caller.queue_free()
+	if _canto:
+		CantoController.new.call_deferred(connected_unit)
+	CursorController.enable.call_deferred()
 
 
 static func instantiate(
@@ -39,11 +53,11 @@ static func instantiate(
 func _receive_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
-		_close()
+		queue_free()
 	else:
 		super(event)
 
-
+## Gets the items that will be displayed.
 static func get_displayed_items(unit: Unit) -> Dictionary:
 	var enabled_items: Dictionary = {
 		Attack = false,
@@ -94,22 +108,15 @@ static func get_displayed_items(unit: Unit) -> Dictionary:
 	return enabled_items
 
 
+## Closes menu, taking the caller down as well.
+## Use for turn-ending actions (such as attacking or rescuing).
 func _close() -> void:
 	queue_free()
-	if not (actionable):
-		caller.queue_free()
+	caller.queue_free()
 
 
-func _exit_tree() -> void:
-	if not actionable:
-		_check_canto()
-	if _canto:
-		CantoController.new.call_deferred(connected_unit)
-	CursorController.enable.call_deferred()
-
-
+## Gets the items for the unit menu.
 func _update() -> void:
-	# Gets the items for the unit menu.
 	var enabled_items: Dictionary = UnitMenu.get_displayed_items(connected_unit)
 	var previous_node: MapMenuItem = get_current_item_node()
 	for node: MapMenuItem in _get_item_nodes():
@@ -190,6 +197,7 @@ func _select_item(item: MapMenuItem) -> void:
 	super(item)
 
 
+## Moves the unit and makes them not actionable. Call when making actions like trading.
 func _unactionable() -> void:
 	actionable = false
 	await connected_unit.move()
@@ -203,6 +211,7 @@ func _play_select_sound_effect(item: MapMenuItem) -> void:
 			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
 
 
+## Checks if the unit can canto. Causes them to wait if not.
 func _check_canto() -> void:
 	if connected_unit.get_skills().any(func(skill: Skill) -> bool: return skill is Canto):
 		_canto = true
@@ -210,6 +219,7 @@ func _check_canto() -> void:
 		connected_unit.wait()
 
 
+## Selects a map tile and calls a function for when one is selected or the action is canceled.
 func _select_map(
 	selector: Selector,
 	tiles_node: Node2D,
@@ -235,6 +245,7 @@ func _select_map(
 	tiles_node.queue_free()
 
 
+## Returns true if the unit is capable of attacking an adjacent unit
 static func _can_attack(unit: Unit, adjacent_unit: Unit) -> bool:
 	var current_tiles: Array[Vector2i] = unit.get_current_attack_tiles(
 		unit.get_path_last_pos(), true
@@ -248,11 +259,13 @@ static func _can_attack(unit: Unit, adjacent_unit: Unit) -> bool:
 	)
 
 
+## Whether the tile is a valid drop tile.
 func _can_drop(pos: Vector2i) -> bool:
 	#gdlint: ignore = private-method-call
 	return pos in UnitMenu._get_drop_tiles(connected_unit)
 
 
+## Gets the tiles that the unit can drop their traveler to.
 static func _get_drop_tiles(unit: Unit) -> Array[Vector2i]:
 	var traveler: Unit = unit.traveler
 	var tiles: Array[Vector2i] = []
@@ -271,15 +284,13 @@ static func _get_drop_tiles(unit: Unit) -> Array[Vector2i]:
 	return tiles
 
 
+## Displays support tiles around the unit.
 func _display_adjacent_support_tiles() -> Node2D:
 	var tiles: Array[Vector2i] = Utilities.get_tiles(connected_unit.get_path_last_pos(), 1, 1)
 	return MapController.map.display_highlighted_tiles(tiles, connected_unit, Map.TileTypes.SUPPORT)
 
 
-func _on_unit_death() -> void:
-	queue_free()
-
-
+## Gets the all the [MapMenuItem]s being displayed.
 func _get_item_nodes() -> Array[MapMenuItem]:
 	var output: Array[MapMenuItem] = []
 	output.assign($Items.get_children())
@@ -290,14 +301,14 @@ func _wait() -> void:
 	visible = false
 	await connected_unit.move()
 	connected_unit.wait()
-	queue_free()
+	_close()
 
 
 func _attack(selected_unit: Unit) -> void:
 	await connected_unit.move()
 	await AttackController.combat(connected_unit, selected_unit)
 	connected_unit.wait()
-	queue_free()
+	_close()
 
 
 func _trade(selected_unit: Unit) -> void:
@@ -320,7 +331,7 @@ func _rescue(selected_unit: Unit) -> void:
 	selected_unit.visible = false
 	connected_unit.traveler = selected_unit
 	_check_canto()
-	queue_free()
+	_close()
 
 
 func _drop(dropped_tile: Vector2i) -> void:
@@ -331,7 +342,7 @@ func _drop(dropped_tile: Vector2i) -> void:
 	connected_unit.traveler = null
 	await traveler.move(dropped_tile)
 	_check_canto()
-	queue_free()
+	_close()
 
 
 func _take(unit: Unit) -> void:

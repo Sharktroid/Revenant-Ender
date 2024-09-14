@@ -79,6 +79,7 @@ func _update_position() -> void:
 		position.x -= ceili(16 + size.x)
 
 
+## Called when a [MapMenuItem] is selected.
 func _select_item(_item: MapMenuItem) -> void:
 	HelpPopupController.shrink()
 

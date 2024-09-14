@@ -1,8 +1,6 @@
 # Minor
 * Fix CantoController unit animation bug
-* Fix something not closing when a unit is killed
 * Fix attack ranges not going away
-* Fix unit not being deselected after attacking
 
 # Major
 * Document classes (roll this out gradually so I don't burn out)

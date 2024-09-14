@@ -257,8 +257,8 @@ func _update_a_star_grid_id(
 		a_star_grid.set_point_weight_scale(id, weight)
 
 
+## Creates map menu.
 func _create_main_map_menu() -> void:
-	## Creates map menu.
 	const MainMapMenu = preload("res://ui/map_ui/map_menus/main_map_menu/main_map_menu.gd")
 	var menu := MainMapMenu.instantiate(CursorController.screen_position + Vector2i(16, 0))
 	MapController.get_ui().add_child(menu)
