@@ -241,4 +241,3 @@ func _update_rate_label(label: Label, rate: int, in_range: bool) -> void:
 		else &"GreenLabel" if rate >= 100
 		else &"BlueLabel"
 	)
-	print_debug(rate)

@@ -32,7 +32,7 @@ func _select_item(item: MapMenuItem) -> void:
 
 		"DisplayTerrain":
 			Utilities.invert_debug_value(Utilities.DebugConfigKeys.DISPLAY_MAP_TERRAIN)
-			var terrain_layer := MapController.map.get_node("MapLayer/TerrainLayer") as TileMap
+			var terrain_layer := MapController.map.get_node("MapLayer/TerrainLayer") as TileMapLayer
 			terrain_layer.visible = Utilities.get_debug_value(
 				Utilities.DebugConfigKeys.DISPLAY_MAP_TERRAIN
 			)
