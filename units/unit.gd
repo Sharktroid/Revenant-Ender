@@ -792,6 +792,10 @@ func can_follow_up(opponent: Unit) -> bool:
 	)
 
 
+func get_authority() -> int:
+	return personal_authority + unit_class.get_authority()
+
+
 func _get_area() -> Area2D:
 	return $Area2D as Area2D
 
@@ -835,10 +839,6 @@ func _update_palette() -> void:
 			)
 		)
 	)
-
-
-func get_authority() -> int:
-	return personal_authority + unit_class.get_authority()
 
 
 func _get_distance(unit: Unit) -> int:

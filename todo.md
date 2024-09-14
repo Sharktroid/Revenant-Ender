@@ -1,5 +1,4 @@
 # Minor
-* Fix CantoController unit animation bug
 * Fix attack ranges not going away
 
 # Major

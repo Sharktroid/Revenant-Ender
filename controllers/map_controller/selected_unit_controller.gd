@@ -10,7 +10,7 @@ var _ghost_unit: GhostUnit
 func _init(connected_unit: Unit) -> void:
 	_unit = connected_unit
 	name = "SelectedUnitController"
-	_unit.set_animation(Unit.Animations.MOVING_DOWN)
+	_unit.set_animation(Unit.Animations.MOVING_LEFT)
 	_unit.selected = true
 	_unit.update_path(CursorController.map_position)
 	_unit.update_displayed_tiles()
@@ -40,7 +40,7 @@ func _exit_tree() -> void:
 	if hovered_unit and hovered_unit != _unit and not hovered_unit.dead:
 		hovered_unit.display_movement_tiles()
 	if is_instance_valid(_unit):
-		_unit.deselect.call_deferred()
+		_unit.deselect()
 		_unit.z_index = 0
 
 

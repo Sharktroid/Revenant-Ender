@@ -10,8 +10,8 @@ func _init(unit: Unit) -> void:
 		unit.get_movement_tiles(), Map.TileTypes.MOVEMENT, 1.0
 	)
 	unit.selected = true
-	unit.set_animation(Unit.Animations.MOVING_DOWN)
 	super(unit)
+	unit.hide_movement_tiles()
 
 
 ## Removes the displayed unit tiles.
