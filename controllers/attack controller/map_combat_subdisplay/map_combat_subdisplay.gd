@@ -4,16 +4,17 @@ extends ReferenceRect
 
 ## The [Unit] whose health is being displayed.
 var unit: Unit
-var _bg_gradient: Panel
 @onready var _hp_bar := %HPBar as ProgressBar
 
 
 func _ready() -> void:
-	_bg_gradient = %BGGradient as Panel
+	var bg_gradient := %BGGradient as Panel
+	var gradient_stylebox := bg_gradient.get_theme_stylebox("panel") as StyleBoxTexture
+	var gradient := (gradient_stylebox.texture as GradientTexture2D).gradient
 	_hp_bar.max_value = unit.get_hit_points()
 	(%Name as Label).text = unit.display_name
-	_bg_gradient.add_theme_stylebox_override(
-		"panel", _get_gradient_stylebox().duplicate(true) as StyleBoxTexture
+	bg_gradient.add_theme_stylebox_override(
+		"panel", gradient_stylebox.duplicate(true) as StyleBoxTexture
 	)
 
 	#region set_color
@@ -36,21 +37,15 @@ func _ready() -> void:
 			top_color.s = 0.75
 			top_color = Color.PURPLE
 			top_color.v = 0.5
-	_get_gradient().set_color(0, top_color)
-	_get_gradient().set_color(1, bottom_color)
+	gradient.set_color(0, top_color)
+	gradient.set_color(1, bottom_color)
 	#endregion
 
 	unit.health_changed.connect(_on_unit_health_changed)
+	_on_unit_health_changed()
 
 
+## Updates the value displayed.
 func _on_unit_health_changed() -> void:
 	_hp_bar.value = unit.current_health
 	(%HPLabel as Label).text = str(roundi(unit.current_health))
-
-
-func _get_gradient() -> Gradient:
-	return (_get_gradient_stylebox().texture as GradientTexture2D).gradient
-
-
-func _get_gradient_stylebox() -> StyleBoxTexture:
-	return _bg_gradient.get_theme_stylebox("panel") as StyleBoxTexture
