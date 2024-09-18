@@ -3,7 +3,7 @@
 [ext_resource type="Shader" path="res://renderer/bilinear-filtering.gdshader" id="1_k6lfl"]
 [ext_resource type="Script" path="res://renderer/renderer.gd" id="2_uf1gv"]
 [ext_resource type="Texture2D" uid="uid://ditlrwvu2jhoc" path="res://controllers/map_controller/placeholder.png" id="3_yr5lc"]
-[ext_resource type="PackedScene" uid="uid://cedsiyh04d75o" path="res://maps/test_maps/test_map_b/test_map_b.tscn" id="4_nu4j5"]
+[ext_resource type="PackedScene" uid="uid://c7imjt60y75n3" path="res://maps/test_maps/test_map_b/test_map_b.tscn" id="4_nu4j5"]
 [ext_resource type="PackedScene" uid="uid://cwisegbmuxssj" path="res://ui/map_ui/map_ui_layer.tscn" id="5_0qpof"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8qg76"]

@@ -1,4 +1,3 @@
-
 /*
    Shader Modified: Pokefan531
    Converted to Godot by Sharktroid
@@ -13,17 +12,17 @@ uniform float darken_screen = 0.5;
 #define TARGET_GAMMA 2.2
 #define DISPLAY_GAMMA 2.2
 #define SAT 1.0
-#define LUMINOSITY 1.0
+#define LUMINOSITY 0.93
 #define CONTRAST 1.0
-#define R 0.845
-#define G 0.68
-#define B 0.755
-#define RG 0.09
-#define RB 0.16
-#define GR 0.17
-#define GB 0.085
-#define BR -0.015
-#define BG 0.23
+#define R 0.80
+#define G 0.64
+#define B 0.65
+#define RG 0.135
+#define RB 0.195
+#define GR 0.275
+#define GB 0.155
+#define BR -0.075
+#define BG 0.225
 
 #define saturate(input) clamp(input, 0.0, 1.0)
 
