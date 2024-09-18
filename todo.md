@@ -1,9 +1,11 @@
 # Minor
-* Investigate glitch that causes tile to be impassable
+* Fix Map HP Bars not starting at the unit's current HP.
 
 # Major
 * Document classes (roll this out gradually so I don't burn out)
-* Add options menu and make one for faster map animations
+* Add options menu
+	* Make one for faster map animations
+	* Another to disable locking the player in a unit's current action.
 * Implement effective damgae
 	* Display effective damage on status screen
 * Investigate particles
