@@ -1,0 +1,139 @@
+[gd_scene load_steps=6 format=3 uid="uid://b4o82uca6ghni"]
+
+[ext_resource type="Script" path="res://ui/map_ui/options_menu/options_menu.gd" id="1_tm77p"]
+[ext_resource type="PackedScene" uid="uid://b7h3kn7yes57v" path="res://backgrounds/scrolling_image/scrolling_image.tscn" id="1_wjtl7"]
+[ext_resource type="Texture2D" uid="uid://ddqy3s2ya11s8" path="res://ui/map_ui/options_menu/banner.png" id="2_do551"]
+[ext_resource type="Texture2D" uid="uid://c5wpipk2fwgpk" path="res://ui/selection_hand.png" id="3_krp1n"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sjuts"]
+bg_color = Color(0, 0, 0, 0.74902)
+
+[node name="OptionsMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_tm77p")
+
+[node name="ScrollingImage" parent="." instance=ExtResource("1_wjtl7")]
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(0, 240)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -104.0
+offset_bottom = 104.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_sjuts")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 23
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ReferenceRect" type="ReferenceRect" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+border_width = 2.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer/ReferenceRect"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+vertical_scroll_mode = 3
+
+[node name="OptionsList" type="VBoxContainer" parent="PanelContainer/MarginContainer/ReferenceRect/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/ReferenceRect/ScrollContainer/OptionsList"]
+layout_mode = 2
+text = "A"
+
+[node name="Label2" type="Label" parent="PanelContainer/MarginContainer/ReferenceRect/ScrollContainer/OptionsList"]
+layout_mode = 2
+text = "B"
+
+[node name="Label3" type="Label" parent="PanelContainer/MarginContainer/ReferenceRect/ScrollContainer/OptionsList"]
+layout_mode = 2
+text = "C"
+
+[node name="Label4" type="Label" parent="PanelContainer/MarginContainer/ReferenceRect/ScrollContainer/OptionsList"]
+layout_mode = 2
+text = "D"
+
+[node name="Label5" type="Label" parent="PanelContainer/MarginContainer/ReferenceRect/ScrollContainer/OptionsList"]
+layout_mode = 2
+text = "E"
+
+[node name="Label6" type="Label" parent="PanelContainer/MarginContainer/ReferenceRect/ScrollContainer/OptionsList"]
+layout_mode = 2
+text = "F"
+
+[node name="Label7" type="Label" parent="PanelContainer/MarginContainer/ReferenceRect/ScrollContainer/OptionsList"]
+layout_mode = 2
+text = "G"
+
+[node name="Label8" type="Label" parent="PanelContainer/MarginContainer/ReferenceRect/ScrollContainer/OptionsList"]
+layout_mode = 2
+text = "H"
+
+[node name="Label9" type="Label" parent="PanelContainer/MarginContainer/ReferenceRect/ScrollContainer/OptionsList"]
+layout_mode = 2
+text = "I"
+
+[node name="Label10" type="Label" parent="PanelContainer/MarginContainer/ReferenceRect/ScrollContainer/OptionsList"]
+layout_mode = 2
+text = "J"
+
+[node name="Label11" type="Label" parent="PanelContainer/MarginContainer/ReferenceRect/ScrollContainer/OptionsList"]
+layout_mode = 2
+text = "K"
+
+[node name="Label12" type="Label" parent="PanelContainer/MarginContainer/ReferenceRect/ScrollContainer/OptionsList"]
+layout_mode = 2
+text = "L"
+
+[node name="Label13" type="Label" parent="PanelContainer/MarginContainer/ReferenceRect/ScrollContainer/OptionsList"]
+layout_mode = 2
+text = "M"
+
+[node name="Label14" type="Label" parent="PanelContainer/MarginContainer/ReferenceRect/ScrollContainer/OptionsList"]
+layout_mode = 2
+text = "N"
+
+[node name="Label15" type="Label" parent="PanelContainer/MarginContainer/ReferenceRect/ScrollContainer/OptionsList"]
+layout_mode = 2
+text = "O"
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 4.0
+offset_right = 125.0
+offset_bottom = 31.0
+texture = ExtResource("2_do551")
+stretch_mode = 2
+
+[node name="Hand" type="Sprite2D" parent="."]
+position = Vector2(5, 35)
+texture = ExtResource("3_krp1n")
+centered = false
