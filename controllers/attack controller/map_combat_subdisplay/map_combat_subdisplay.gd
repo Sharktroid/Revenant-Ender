@@ -9,13 +9,13 @@ var unit: Unit
 
 func _ready() -> void:
 	var bg_gradient := %BGGradient as Panel
-	var gradient_stylebox := bg_gradient.get_theme_stylebox("panel") as StyleBoxTexture
+	var gradient_stylebox := (
+		bg_gradient.get_theme_stylebox("panel").duplicate(true) as StyleBoxTexture
+	)
 	var gradient := (gradient_stylebox.texture as GradientTexture2D).gradient
 	_hp_bar.max_value = unit.get_hit_points()
 	(%Name as Label).text = unit.display_name
-	bg_gradient.add_theme_stylebox_override(
-		"panel", gradient_stylebox.duplicate(true) as StyleBoxTexture
-	)
+	bg_gradient.add_theme_stylebox_override("panel", gradient_stylebox as StyleBoxTexture)
 
 	#region set_color
 	var top_color: Color
