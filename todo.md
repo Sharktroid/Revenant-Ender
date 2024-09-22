@@ -1,3 +1,9 @@
+Before you commit
+* Format
+* Spell check
+* Document everything you touched
+* Make sure it all works
+
 # Minor
 * Use scroll containers for dialogue
 * Implement damage fall-off

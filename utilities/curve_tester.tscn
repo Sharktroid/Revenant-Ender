@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://dey1eud04uhpl"]
+
+[ext_resource type="Script" path="res://utilities/curve_tester.gd" id="1_2ldcp"]
+
+[node name="Curve" type="Line2D"]
+antialiased = true
+script = ExtResource("1_2ldcp")
