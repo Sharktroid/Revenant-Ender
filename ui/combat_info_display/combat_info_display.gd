@@ -136,7 +136,7 @@ func _update() -> void:
 			)
 		)
 
-		_old_weapon = _top_unit.get_current_weapon()
+		_old_weapon = _top_unit.get_weapon()
 		_current_weapons = []
 		for item: Item in _all_weapons:
 			if item is Weapon:
@@ -155,7 +155,7 @@ func _update() -> void:
 			var current_unit: Unit = _top_unit if is_top else bottom_unit
 			var other_unit: Unit = bottom_unit if is_top else _top_unit
 			var weapon: Weapon = (
-				_get_current_weapon() if is_top else bottom_unit.get_current_weapon()
+				_get_current_weapon() if is_top else bottom_unit.get_weapon()
 			)
 			var node_path: String = "%%{half}%s".format({"half": half})
 
@@ -230,14 +230,14 @@ func _on_weapon_selected(weapon: Weapon) -> void:
 func _update_damage_label(label: Label, damage: float, in_range: bool) -> void:
 	label.text = (Utilities.float_to_string(damage) if in_range else "--")
 	# Put code for effective damage color here.
-	label.theme_type_variation = &"BlueLabel" if damage > 0 and in_range else &"GreyLabel"
+	label.theme_type_variation = &"BlueLabel" if damage > 0 and in_range else &"GrayLabel"
 
 
 func _update_rate_label(label: Label, rate: int, in_range: bool) -> void:
 	label.text = (Utilities.float_to_string(rate) if in_range else "--")
 	# Put code for effective damage color here.
 	label.theme_type_variation = (
-		&"GreyLabel" if rate <= 0 or not in_range
+		&"GrayLabel" if rate <= 0 or not in_range
 		else &"GreenLabel" if rate >= 100
 		else &"BlueLabel"
 	)

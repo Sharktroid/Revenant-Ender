@@ -138,11 +138,11 @@ func _update() -> void:
 	var crit_description := %CritDescription as HelpContainer
 	var crit_label := %CritValue as Label
 
-	if observing_unit.get_current_weapon():
+	if observing_unit.get_weapon():
 		attack_description.help_description = ("{attack} + {might}".format(
 			{
 				"attack": observing_unit.get_current_attack(),
-				"might": observing_unit.get_current_weapon().get_might()
+				"might": observing_unit.get_weapon().get_might()
 			}
 		))
 		_set_label_text_to_number(attack_label, observing_unit.get_attack())
@@ -173,7 +173,7 @@ func _update() -> void:
 	(%DodgeDescription as HelpContainer).help_description = Formulas.DODGE.format(observing_unit)
 	_set_label_text_to_number(%DodgeValue as Label, observing_unit.get_dodge())
 
-	var current_weapon: Weapon = observing_unit.get_current_weapon()
+	var current_weapon: Weapon = observing_unit.get_weapon()
 	var range_value := %RangeValue as RichTextLabel
 	var range_text: String = current_weapon.get_range_text().replace(
 		"-", " [color={yellow}]-[/color] ".format({"yellow": Utilities.font_yellow})

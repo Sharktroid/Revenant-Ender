@@ -8,7 +8,7 @@ func combat(attacker: Unit, defender: Unit) -> void:
 	## The list of attacks that will be done in this round of combat.
 	var attack_queue: Array[CombatStage] = [CombatStage.new(attacker, defender)]
 	var distance: int = roundi(Utilities.get_tile_distance(attacker.position, defender.position))
-	if defender.get_current_weapon() != null and defender.get_current_weapon().in_range(distance):
+	if defender.get_weapon() != null and defender.get_weapon().in_range(distance):
 		attack_queue.append(CombatStage.new(defender, attacker))
 	if attacker.can_follow_up(defender):
 		attack_queue.append(CombatStage.new(attacker, defender))

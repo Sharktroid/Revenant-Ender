@@ -31,12 +31,12 @@ func _update() -> void:
 
 func _set_equip_status() -> void:
 	var equip_status := $EquipStatus as Label
-	if _item == _unit.get_current_weapon():
+	if _item == _unit.get_weapon():
 		equip_status.text = "W"
 		equip_status.add_theme_color_override("font_color", Color.ROYAL_BLUE)
 	else:
 		equip_status.text = ""
 
 	($Name as Label).theme_type_variation = (
-		"" if _item is Weapon and _unit.can_use_weapon(_item as Weapon) else "GreyLabel"
+		"" if _item is Weapon and _unit.can_use_weapon(_item as Weapon) else "GrayLabel"
 	)

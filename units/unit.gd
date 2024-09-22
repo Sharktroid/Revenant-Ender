@@ -228,7 +228,7 @@ func update_shader() -> void:
 	(material as ShaderMaterial).set_shader_parameter("modulate", modulate)
 
 
-func get_current_weapon() -> Weapon:
+func get_weapon() -> Weapon:
 	for item: Item in items:
 		if item is Weapon and can_use_weapon(item as Weapon):
 			return item as Weapon
@@ -236,8 +236,8 @@ func get_current_weapon() -> Weapon:
 
 
 func get_current_attack() -> int:
-	if get_current_weapon():
-		match get_current_weapon().get_damage_type():
+	if get_weapon():
+		match get_weapon().get_damage_type():
 			Weapon.DamageTypes.PHYSICAL:
 				return get_strength()
 			Weapon.DamageTypes.RANGED:
@@ -253,12 +253,12 @@ func get_attack() -> float:
 
 
 func get_damage(defender: Unit) -> float:
-	return maxf(0, _get_true_attack(defender) - defender.get_current_defense(get_current_weapon()))
+	return maxf(0, _get_true_attack(defender) - defender.get_current_defense(get_weapon()))
 
 
 func get_crit_damage(defender: Unit) -> float:
 	return maxf(
-		0, _get_true_attack(defender) * 2 - defender.get_current_defense(get_current_weapon())
+		0, _get_true_attack(defender) * 2 - defender.get_current_defense(get_weapon())
 	)
 
 
@@ -411,9 +411,7 @@ func get_avoid() -> float:
 
 
 func get_hit_rate(enemy: Unit) -> int:
-	var weapon_hit: int = get_current_weapon().get_hit_bonus(
-		enemy.get_current_weapon(), _get_distance(enemy)
-	)
+	var weapon_hit: int = get_weapon().get_hit_bonus(enemy.get_weapon(), _get_distance(enemy))
 	return _adjust_rate(roundi(clampf(get_hit() - enemy.get_avoid() + weapon_hit, 0, 100)))
 
 
@@ -453,7 +451,7 @@ func get_stat_table(stat: Stats) -> Array[String]:
 
 
 func get_min_range() -> int:
-	var min_range: int = get_current_weapon().get_min_range()
+	var min_range: int = get_weapon().get_min_range()
 	for weapon: Item in items:
 		if weapon is Weapon:
 			min_range = mini((weapon as Weapon).get_min_range(), min_range)
@@ -461,7 +459,7 @@ func get_min_range() -> int:
 
 
 func get_max_range() -> float:
-	var max_range: float = get_current_weapon().get_max_range()
+	var max_range: float = get_weapon().get_max_range()
 	for weapon: Item in items:
 		if weapon is Weapon:
 			var current_max_range: float = (weapon as Weapon).get_max_range()
@@ -572,7 +570,7 @@ func get_actionable_movement_tiles() -> Array[Vector2i]:
 
 
 func get_all_attack_tiles() -> Array[Vector2i]:
-	if _attack_tiles.is_empty() and get_current_weapon():
+	if _attack_tiles.is_empty() and get_weapon():
 		var basis_movement_tiles := get_movement_tiles().duplicate() as Array[Vector2i]
 		for unit: Unit in _get_map().get_units():
 			if unit != self:
@@ -616,13 +614,9 @@ func hide_movement_tiles() -> void:
 
 
 func get_current_attack_tiles(pos: Vector2i, all_weapons: bool = false) -> Array[Vector2i]:
-	if is_instance_valid(get_current_weapon()):
-		var min_range: int = (
-			get_min_range() if all_weapons else get_current_weapon().get_min_range()
-		)
-		var max_range: float = (
-			get_max_range() if all_weapons else get_current_weapon().get_max_range()
-		)
+	if is_instance_valid(get_weapon()):
+		var min_range: int = get_min_range() if all_weapons else get_weapon().get_min_range()
+		var max_range: float = get_max_range() if all_weapons else get_weapon().get_max_range()
 		return Utilities.get_tiles(pos, max_range, min_range, MapController.map.borders)
 	else:
 		return []
@@ -801,12 +795,9 @@ func _get_area() -> Area2D:
 
 
 func _get_true_attack(enemy: Unit) -> float:
-	if get_current_weapon():
+	if get_weapon():
 		return (
-			get_attack()
-			+ get_current_weapon().get_damage_bonus(
-				enemy.get_current_weapon(), _get_distance(enemy)
-			)
+			get_attack() + get_weapon().get_damage_bonus(enemy.get_weapon(), _get_distance(enemy))
 		)
 	else:
 		return 0

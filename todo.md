@@ -8,6 +8,7 @@ Before you commit
 * Use scroll containers for dialogue
 * Implement damage fall-off
 	* Y_MIN * (-(x/X_MAX - 1)^2 + 1) + Y_MIN if x < X_MIN else 1
+* Show attack speed lost on the speed stat bar.
 
 # Major
 * Document classes (roll this out gradually so I don't burn out)

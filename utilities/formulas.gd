@@ -24,10 +24,10 @@ static var DODGE := Formula.new("{luck}"):
 class Formula:
 	var _base_string: String
 	var _functions: Dictionary = {
-		"weapon_hit": "get_current_weapon().get_hit()",
-		"weapon_crit": "get_current_weapon().get_crit()",
-		"weapon_might": "get_current_weapon().get_might()",
-		"weapon_weight": "get_current_weapon().get_weight()",
+		"weapon_hit": "get_weapon().get_hit()",
+		"weapon_crit": "get_weapon().get_crit()",
+		"weapon_might": "get_weapon().get_might()",
+		"weapon_weight": "get_weapon().get_weight()",
 		"dexterity": "get_dexterity()",
 		"speed": "get_speed()",
 		"luck": "get_luck()",
