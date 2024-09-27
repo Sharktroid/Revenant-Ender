@@ -24,7 +24,6 @@ var _displayed_item_count: int
 func _ready() -> void:
 	await get_tree().process_frame
 	_displayed_item_count = floori(_scroll_container.size.y / 16)
-	print_debug(_displayed_item_count)
 
 
 func _input(event: InputEvent) -> void:

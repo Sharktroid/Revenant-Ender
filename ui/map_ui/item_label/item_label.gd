@@ -22,8 +22,8 @@ static func instantiate(connected_item: Item, unit: Unit) -> ItemLabel:
 func _update() -> void:
 	($Icon as TextureRect).texture = _item.get_icon()
 	($Name as Label).text = _item.resource_name
-	($CurrentUses as Label).text = str(_item.current_uses)
-	($MaxUses as Label).text = str(_item.get_max_uses())
+	($CurrentUses as Label).text = Utilities.float_to_string(_item.current_uses)
+	($MaxUses as Label).text = Utilities.float_to_string(_item.get_max_uses())
 	help_description = _item.get_description()
 	help_table = (_item as Weapon).get_stat_table() if _item is Weapon else []
 	_set_equip_status()

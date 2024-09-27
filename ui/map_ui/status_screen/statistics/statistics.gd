@@ -73,7 +73,6 @@ func _update() -> void:
 func _update_stat_bar(stat_bar: StatBar, stat: Unit.Stats) -> void:
 	stat_bar.unit = observing_unit
 	stat_bar.stat = stat
-	stat_bar.update.call_deferred()
 
 
 func _get_unformatted_aid_description(aid_modifier: int) -> String:

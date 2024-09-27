@@ -5,10 +5,6 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Use scroll containers for dialogue
-* Implement damage fall-off
-	* Y_MIN * (-(x/X_MAX - 1)^2 + 1) + Y_MIN if x < X_MIN else 1
-* Show attack speed lost on the speed stat bar.
 
 # Major
 * Document classes (roll this out gradually so I don't burn out)
@@ -16,9 +12,10 @@ Before you commit
 	* Make one for faster map animations
 	* Another to disable locking the player in a unit's current action.
 * Implement effective damage
-	* Display effective damage on status screen
-* Investigate particles
-* Make tiles behave more like in AW:DoR
+	* Display effective damage on status screen.
+* Investigate particles.
+* Implement terrain stars and a terrain status menu.
+* Make movement and related tiles behave more like in AW:DoR
 * Add combat preview even if attacking is not possible
 * Add rescue when clicking on an ally
 * Replace movement/attack tile calls with units having different ActionTileStates

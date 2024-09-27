@@ -7,24 +7,34 @@ const ABSOLUTE_MAX_VALUE: int = ceili(
 	30 + (Unit.PERSONAL_VALUE_MAX_MODIFIER) + (Unit.EFFORT_VALUE_MAX_MODIFIER)
 )
 
-var margins: Vector2i
-
+## The unit whose stat is displayed
 var unit: Unit
-var stat: Unit.Stats
+## The stat being displayed
+var stat: Unit.Stats:
+	set(value):
+		stat = value
+		_update.call_deferred()
 
 
-func update() -> void:
+func _update() -> void:
 	var current_value: float = unit.get_stat(stat)
 	var max_value: float = maxi(unit.get_stat_cap(stat), 10)
+	var is_speed: bool = stat == Unit.Stats.SPEED
+	var value_label := %ValueLabel as Label
 
-	(%ValueLabel as Label).text = str(roundi(current_value))
-	var progress_bar := %ProgressBar as ProgressBar
-	if max_value <= 0:
-		progress_bar.visible = false
+	if is_speed:
+		value_label.text = Utilities.float_to_string(unit.get_attack_speed())
+		value_label.theme_type_variation = (
+			&"RedLabel" if unit.get_attack_speed() < unit.get_speed() else &"BlueLabel"
+		)
 	else:
-		progress_bar.visible = true
-		progress_bar.max_value = max_value
-		progress_bar.value = current_value
+		value_label.text = str(roundi(current_value))
+	var progress_bar_red := %ProgressBarRed as ProgressBar
+	var progress_bar_yellow := %ProgressBarYellow as ProgressBar
+	progress_bar_red.max_value = max_value
+	progress_bar_yellow.max_value = max_value
+	progress_bar_red.value = current_value
+	progress_bar_yellow.value = maxf(unit.get_attack_speed(), 0) if is_speed else current_value
 	var resize_handler := $ResizeHandler as ReferenceRect
 	resize_handler.set_size.call_deferred(
 		Vector2(size.x * (float(max_value) / ABSOLUTE_MAX_VALUE), resize_handler.size.y)

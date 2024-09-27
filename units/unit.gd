@@ -257,9 +257,7 @@ func get_damage(defender: Unit) -> float:
 
 
 func get_crit_damage(defender: Unit) -> float:
-	return maxf(
-		0, _get_true_attack(defender) * 2 - defender.get_current_defense(get_weapon())
-	)
+	return maxf(0, _get_true_attack(defender) * 2 - defender.get_current_defense(get_weapon()))
 
 
 func set_animation(animation: Animations) -> void:
@@ -971,6 +969,16 @@ func _get_nearest_path_tile(tiles: Array[Vector2i]) -> Vector2i:
 			weighted_tiles[tile_cost] = [tile]
 
 	return (weighted_tiles[weighted_tiles.keys().min()] as Array[Vector2i]).pick_random()
+
+
+# Currently scrapped out of fear of making things too complicated.
+# ## Returns a value to represent the reduction in damage from losing health
+# func _get_damage_falloff() -> float:
+# 	## The percentage where the falloff begins.
+# 	const FALLOFF_CUTOFF: float = 0.8
+# 	const MAX_FALLOFF_PERCENT: float = 2.0 / 3
+# 	var weight: float = inverse_lerp(1, get_hit_points(), current_health * FALLOFF_CUTOFF)
+# 	return lerp(MAX_FALLOFF_PERCENT, 1.0, weight) if weight < FALLOFF_CUTOFF else 1.0
 
 
 func _adjust_rate(rate: int) -> int:
