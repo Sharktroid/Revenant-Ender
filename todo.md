@@ -9,8 +9,9 @@ Before you commit
 # Major
 * Document classes (roll this out gradually so I don't burn out)
 * Add options menu
-	* Make one for faster map animations
-	* Another to disable locking the player in a unit's current action.
+	* Make one for faster map animations.
+	* Config file
+	* Acessable from main map menu
 * Implement effective damage
 	* Display effective damage on status screen.
 * Investigate particles.
@@ -41,6 +42,7 @@ Before you commit
 	* Have units gain +0.02 movement EVs per tile traversed
 
 # Long-term
+* Dungeon crawler thing.
 * FERemix/Age of Emblem?
 * Implement FE5 Chapter 1
 * Make game based on design document

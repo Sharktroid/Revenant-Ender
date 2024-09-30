@@ -43,12 +43,14 @@ func _receive_input(event: InputEvent) -> void:
 		await hide_bottom_text_box()
 		_skipping = true
 
+
 ## Sets the text to be displayed in the top text box.
 func set_top_text(string: String) -> void:
 	if not _skipping:
 		await _set_text_base(
 			string, _top_text_box, _portraits.get(_top_speaker, Portrait.new()) as Portrait
 		)
+
 
 ## Sets the text to be displayed in the bottom text box.
 func set_bottom_text(string: String) -> void:
@@ -57,13 +59,16 @@ func set_bottom_text(string: String) -> void:
 			string, _bottom_text_box, _portraits.get(_bottom_speaker, Portrait.new()) as Portrait
 		)
 
+
 ## Removes the text in the top text box.
 func clear_top() -> void:
 	await _clear(_top_text_box)
 
+
 ## Removes the text in the bottom text box.
 func clear_bottom() -> void:
 	await _clear(_bottom_text_box)
+
 
 ## Sets the speaker for the top text box.
 func set_top_speaker(new_speaker: Unit) -> void:
@@ -76,6 +81,7 @@ func set_top_speaker(new_speaker: Unit) -> void:
 		await clear_top()
 		await _set_speaker(%TopName as RichTextLabel, new_speaker as Unit)
 
+
 ## Sets the speaker for the bottom text box.
 func set_bottom_speaker(new_speaker: Unit) -> void:
 	if not _skipping:
@@ -86,6 +92,7 @@ func set_bottom_speaker(new_speaker: Unit) -> void:
 			)
 		await clear_bottom()
 		await _set_speaker(%BottomName as RichTextLabel, new_speaker as Unit)
+
 
 ## Adds a portrait to the current scene.
 func add_portrait(new_speaker: Unit, portrait_position: Positions, flip_h: bool = false) -> void:
@@ -101,6 +108,7 @@ func add_portrait(new_speaker: Unit, portrait_position: Positions, flip_h: bool 
 		tween.tween_property(portrait, "modulate:v", 1, _SHIFT_DURATION)
 		await tween.finished
 
+
 ## Removes a portrait from the scene.
 func remove_portrait(old_speaker: Unit) -> void:
 	if not _skipping:
@@ -112,11 +120,13 @@ func remove_portrait(old_speaker: Unit) -> void:
 		await tween.finished
 		portrait.queue_free()
 
+
 ## Displays the top text box.
 func show_top_text_box(box_position: Positions) -> void:
 	await _show_text_box(
 		box_position, $MarginContainerTop as MarginContainer, false, _top_bubble_point
 	)
+
 
 ## Displays the bottom text box.
 func show_bottom_text_box(box_position: Positions) -> void:
@@ -124,9 +134,11 @@ func show_bottom_text_box(box_position: Positions) -> void:
 		box_position, $MarginContainerBottom as MarginContainer, true, _bottom_bubble_point
 	)
 
+
 ## Removes the top text box.
 func hide_top_text_box() -> void:
 	await _hide_text_box($MarginContainerTop as MarginContainer, false, _top_bubble_point)
+
 
 ## Removes the bottom text box.
 func hide_bottom_text_box() -> void:
@@ -134,7 +146,10 @@ func hide_bottom_text_box() -> void:
 
 
 func _show_text_box(
-	box_position: Positions, text_box: MarginContainer, align_bottom: bool, bubble_point: TextureRect
+	box_position: Positions,
+	text_box: MarginContainer,
+	align_bottom: bool,
+	bubble_point: TextureRect
 ) -> void:
 	if not _skipping:
 		text_box.visible = true
@@ -154,7 +169,9 @@ func _show_text_box(
 			bubble_point.position.y = text_box.size.y - 2
 
 
-func _hide_text_box(text_box: MarginContainer, align_bottom: bool, bubble_point: TextureRect) -> void:
+func _hide_text_box(
+	text_box: MarginContainer, align_bottom: bool, bubble_point: TextureRect
+) -> void:
 	if not _skipping:
 		await _resize_text_box(
 			text_box,
