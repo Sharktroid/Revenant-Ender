@@ -85,7 +85,12 @@ offset_bottom = 31.0
 texture = ExtResource("2_do551")
 stretch_mode = 2
 
-[node name="Hand" type="Sprite2D" parent="."]
+[node name="RowHand" type="Sprite2D" parent="."]
+position = Vector2(5, 35)
+texture = ExtResource("3_krp1n")
+centered = false
+
+[node name="ColumnHand" type="Sprite2D" parent="."]
 position = Vector2(5, 35)
 texture = ExtResource("3_krp1n")
 centered = false
