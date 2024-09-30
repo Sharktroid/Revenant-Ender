@@ -17,15 +17,6 @@ func _ready() -> void:
 	GameController.add_to_input_stack(self)
 	_update()
 
-	var hand := $SelectionHand as Sprite2D
-	var tween: Tween = hand.create_tween()
-	tween.set_loops()
-	tween.set_speed_scale(60)
-	tween.tween_interval(7)
-	tween.tween_property(hand, "offset:x", -11, 9)
-	tween.tween_interval(7)
-	tween.tween_property(hand, "offset:x", -15, 9)
-
 
 func _process(_delta: float) -> void:
 	($SelectionHand as Sprite2D).position = current_label.global_position.round()

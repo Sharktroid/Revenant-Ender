@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c5wpipk2fwgpk"
-path="res://.godot/imported/selection_hand.png-ba536a95e393f92f69729e36821f64c6.ctex"
+uid="uid://cga03n8risg2s"
+path="res://.godot/imported/combat_panel.png-b5c6e13f4792e2c7d1bace5edc2ce1b7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/selection_hand.png"
-dest_files=["res://.godot/imported/selection_hand.png-ba536a95e393f92f69729e36821f64c6.ctex"]
+source_file="res://ui/map_ui/options_menu/icons/combat_panel.png"
+dest_files=["res://.godot/imported/combat_panel.png-b5c6e13f4792e2c7d1bace5edc2ce1b7.ctex"]
 
 [params]
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c5ml6ssvuea3l"]
 
 [ext_resource type="Script" path="res://ui/map_ui/map_menus/trade_menu/trade_menu.gd" id="1_xggw2"]
-[ext_resource type="Texture2D" uid="uid://c5wpipk2fwgpk" path="res://ui/selection_hand.png" id="2_t4g01"]
+[ext_resource type="PackedScene" uid="uid://c66fkxgtp6bw6" path="res://ui/selection_hand/selection_hand.tscn" id="2_m2ko1"]
 
 [node name="TradeMenu" type="ReferenceRect"]
 anchors_preset = 15
@@ -47,15 +47,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="SelectionHand" type="Sprite2D" parent="."]
-position = Vector2(21, 121)
-texture = ExtResource("2_t4g01")
-centered = false
-offset = Vector2(-11, 3)
+[node name="SelectionHand" parent="." instance=ExtResource("2_m2ko1")]
 
-[node name="SelectedHand" type="Sprite2D" parent="."]
+[node name="SelectedHand" parent="." instance=ExtResource("2_m2ko1")]
 visible = false
-position = Vector2(21, 121)
-texture = ExtResource("2_t4g01")
-centered = false
-offset = Vector2(-11, 3)

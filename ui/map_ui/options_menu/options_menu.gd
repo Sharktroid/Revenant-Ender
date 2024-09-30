@@ -3,7 +3,11 @@ extends Control
 const _OPTION := preload("res://ui/map_ui/options_menu/option.gd")
 var _options: Array[_OPTION] = [
 	_OPTION.new("Animations", ["Map", "Off"]),
+	_OPTION.new("Game Speed", ["Normal", "Max"]),
 	_OPTION.new("Text Speed", ["Slow", "Medium", "Fast", "Max"], 1),
+	_OPTION.new("Terrain", ["On", "Off"]),
+	_OPTION.new("Unit Panel", ["Panel", "Bubble", "Off"]),
+	_OPTION.new("Combat Panel", ["Strategic", "Detailed", "Off"]),
 ]
 
 var _settings_indices: Array[int]
@@ -26,11 +30,12 @@ var _current_index: int = 0:
 			_top_index += 1
 		elif _get_relative_index() == 0:
 			_top_index -= 1
-		_row_hand_sprite.position.y = _hand_starting_y + _get_relative_index() * 16
-		_column_hand_sprite.position.y = _hand_starting_y + _get_relative_index() * 16
 		_update_column_hand_x()
+		_update_hand_y()
 var _top_index: int = 0
 var _displayed_item_count: int = _options.size()
+var _horizontal_tween: Tween = create_tween()
+var _vertical_tween: Tween = create_tween()
 
 @onready var _scroll_container := %ScrollContainer as ScrollContainer
 @onready var _option_count: int = _options.size()
@@ -61,22 +66,27 @@ func _ready() -> void:
 			var setting_label := Label.new()
 			setting_label.text = option.get_settings()[setting_index]
 			setting_label.theme_type_variation = (
-				&"BlueLabel" if setting_index == current_setting_index else &"GrayLabel"
+				_get_label_color(setting_label) if setting_index == current_setting_index else &"GrayLabel"
 			)
 			settings_h_box.add_child(setting_label)
 		%SettingsList.add_child(settings_h_box)
-	_update_column_hand_x.call_deferred()
+	_horizontal_tween.tween_interval(0.001)
+	_vertical_tween.tween_interval(0.001)
+	await _horizontal_tween.finished
+	_column_hand_sprite.position.x = _get_column_hand_x()
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("up", true):
-		_current_index -= 1
-	if event.is_action_pressed("down", true):
-		_current_index += 1
-	if event.is_action_pressed("left", true):
-		_current_setting_index -= 1
-	if event.is_action_pressed("right", true):
-		_current_setting_index += 1
+	if not _vertical_tween.is_running():
+		if event.is_action_pressed("up", true):
+			_current_index -= 1
+		elif event.is_action_pressed("down", true):
+			_current_index += 1
+	if not _horizontal_tween.is_running():
+		if event.is_action_pressed("left", true):
+			_current_setting_index -= 1
+		elif event.is_action_pressed("right", true):
+			_current_setting_index += 1
 
 
 func _process(_delta: float) -> void:
@@ -92,6 +102,25 @@ func _get_current_setting_label() -> Label:
 
 
 func _update_column_hand_x() -> void:
-	_column_hand_sprite.position.x = (
-		_get_current_setting_label().global_position.x - _column_hand_sprite.texture.get_size().x
-	)
+	if not _horizontal_tween.is_running():
+		_horizontal_tween = _column_hand_sprite.create_tween()
+		_horizontal_tween.set_speed_scale(60)
+		_horizontal_tween.set_trans(Tween.TRANS_QUAD)
+		_horizontal_tween.tween_property(_column_hand_sprite, "position:x", _get_column_hand_x(), 5)
+
+
+func _get_column_hand_x() -> float:
+	return _get_current_setting_label().global_position.x
+
+
+func _update_hand_y() -> void:
+	if not _vertical_tween.is_running():
+		var new_hand_y: float = (
+			_hand_starting_y + _get_relative_index() * 16
+		)
+		_vertical_tween = _column_hand_sprite.create_tween()
+		_vertical_tween.set_speed_scale(60)
+		_vertical_tween.set_trans(Tween.TRANS_QUAD)
+		_vertical_tween.set_parallel()
+		_vertical_tween.tween_property(_column_hand_sprite, "position:y", new_hand_y, 5)
+		_vertical_tween.tween_property(_row_hand_sprite, "position:y", new_hand_y, 5)

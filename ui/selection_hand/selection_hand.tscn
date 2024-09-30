@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://c66fkxgtp6bw6"]
+
+[ext_resource type="Texture2D" uid="uid://c5wpipk2fwgpk" path="res://ui/selection_hand/selection_hand.png" id="1_88ulc"]
+[ext_resource type="Script" path="res://ui/selection_hand/selection_hand.gd" id="2_wbhnx"]
+
+[node name="SelectionHand" type="Sprite2D"]
+texture = ExtResource("1_88ulc")
+centered = false
+offset = Vector2(-15, 0)
+script = ExtResource("2_wbhnx")

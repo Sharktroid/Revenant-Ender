@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://ui/map_ui/options_menu/options_menu.gd" id="1_tm77p"]
 [ext_resource type="PackedScene" uid="uid://b7h3kn7yes57v" path="res://backgrounds/scrolling_image/scrolling_image.tscn" id="1_wjtl7"]
 [ext_resource type="Texture2D" uid="uid://ddqy3s2ya11s8" path="res://ui/map_ui/options_menu/banner.png" id="2_do551"]
-[ext_resource type="Texture2D" uid="uid://c5wpipk2fwgpk" path="res://ui/selection_hand.png" id="3_krp1n"]
+[ext_resource type="PackedScene" uid="uid://c66fkxgtp6bw6" path="res://ui/selection_hand/selection_hand.tscn" id="4_e6mfi"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sjuts"]
 bg_color = Color(0, 0, 0, 0.74902)
@@ -48,6 +48,7 @@ theme_override_constants/margin_bottom = 8
 [node name="ReferenceRect" type="ReferenceRect" parent="PanelContainer/MarginContainer"]
 layout_mode = 2
 border_width = 2.0
+editor_only = false
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer"]
 unique_name_in_owner = true
@@ -85,12 +86,8 @@ offset_bottom = 31.0
 texture = ExtResource("2_do551")
 stretch_mode = 2
 
-[node name="RowHand" type="Sprite2D" parent="."]
-position = Vector2(5, 35)
-texture = ExtResource("3_krp1n")
-centered = false
+[node name="RowHand" parent="." instance=ExtResource("4_e6mfi")]
+position = Vector2(24, 35)
 
-[node name="ColumnHand" type="Sprite2D" parent="."]
-position = Vector2(5, 35)
-texture = ExtResource("3_krp1n")
-centered = false
+[node name="ColumnHand" parent="." instance=ExtResource("4_e6mfi")]
+position = Vector2(120, 35)
