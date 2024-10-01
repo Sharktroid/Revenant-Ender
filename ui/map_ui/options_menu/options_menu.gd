@@ -17,7 +17,7 @@ var _current_setting_index: int:
 	set(value):
 		_get_current_setting_label().theme_type_variation = &"GrayLabel"
 		_settings_indices[_current_index] = value % _options[_current_index].get_settings().size()
-		_get_current_setting_label().theme_type_variation = &"BlueLabel"
+		_get_current_setting_label().theme_type_variation = _get_label_color(_get_current_setting_label())
 		_update_column_hand_x()
 var _current_index: int = 0:
 	set(value):
@@ -124,3 +124,12 @@ func _update_hand_y() -> void:
 		_vertical_tween.set_parallel()
 		_vertical_tween.tween_property(_column_hand_sprite, "position:y", new_hand_y, 5)
 		_vertical_tween.tween_property(_row_hand_sprite, "position:y", new_hand_y, 5)
+
+func _get_label_color(label: Label) -> StringName:
+	match label.text:
+		"Off":
+			return &"RedLabel"
+		"On", "Max":
+			return &"GreenLabel"
+		_:
+			return &"BlueLabel"
