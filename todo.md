@@ -16,7 +16,8 @@ Before you commit
 * Add options menu
 	* Make one for faster map animations.
 	* Config file
-	* Acessable from main map menu
+	* Accessible from main map menu
+	* SFX
 * Implement effective damage
 	* Display effective damage on status screen.
 * Investigate particles.
