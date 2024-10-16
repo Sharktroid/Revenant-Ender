@@ -14,10 +14,10 @@ Before you commit
 # Major
 * Document classes (roll this out gradually so I don't burn out)
 * Add options menu
-	* Make one for faster map animations.
+	* Smooth Scrolling
 	* Config file
-	* Accessible from main map menu
 	* SFX
+	* Make one for faster map animations.
 * Implement effective damage
 	* Display effective damage on status screen.
 * Investigate particles.

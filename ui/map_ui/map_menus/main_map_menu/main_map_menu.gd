@@ -22,10 +22,16 @@ func _select_item(item: MapMenuItem) -> void:
 			const DebugMenu = preload("res://ui/map_ui/map_menus/debug_menu/debug_menu.gd")
 			var menu := DebugMenu.instantiate(_offset, self)
 			MapController.get_ui().add_child(menu)
-			visible = false
+
+		"Options":
+			const OPTIONS_MENU := (
+				preload("res://ui/map_ui/options_menu/options_menu.tscn") as PackedScene
+			)
+			MapController.get_ui().add_child(OPTIONS_MENU.instantiate())
+
 		"End":
-			queue_free()
 			MapController.map.end_turn()
 		var node_name:
 			push_error("%s is not a valid menu item" % node_name)
+	queue_free()
 	super(item)

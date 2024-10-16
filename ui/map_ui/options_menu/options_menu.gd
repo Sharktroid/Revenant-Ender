@@ -69,6 +69,7 @@ var _vertical_tween: Tween = create_tween()
 
 
 func _ready() -> void:
+	GameController.add_to_input_stack(self)
 	for option: _OPTION in _options:
 		var icon_rect := TextureRect.new()
 		icon_rect.texture = option.get_icon()
@@ -102,7 +103,7 @@ func _ready() -> void:
 	_column_hand_sprite.position.x = _get_column_hand_x()
 
 
-func _input(event: InputEvent) -> void:
+func _receive_input(event: InputEvent) -> void:
 	if not _vertical_tween.is_running():
 		if event.is_action_pressed("up", true):
 			_current_index -= 1
@@ -115,8 +116,10 @@ func _input(event: InputEvent) -> void:
 			_current_setting_index += 1
 	if event.is_action_pressed("ui_accept"):
 		_current_setting_index = _hovered_setting_index
+	elif event.is_action_pressed("ui_cancel"):
+		queue_free()
 	if event is InputEventMouseMotion:
-		#var raw_index: float =
+		#region Mouse handling
 		_current_index = clampi(
 			floori(_scroll_container.get_local_mouse_position().y / 16), 0, _options.size() - 1
 		)
@@ -135,6 +138,7 @@ func _input(event: InputEvent) -> void:
 				var mouse_x: float = setting.get_local_mouse_position().x
 				if mouse_x >= 0 and mouse_x < setting.size.x:
 					_hovered_setting_index = index
+		#endregion
 
 
 func _process(_delta: float) -> void:
