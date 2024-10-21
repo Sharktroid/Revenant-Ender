@@ -1,3 +1,4 @@
+## A menu that displays a list of options
 extends Control
 
 # Object that handles options.
@@ -51,7 +52,6 @@ var _current_index: int = 0:
 			_hovered_setting_index = _current_setting_index
 # The index of the top-displayed item.
 var _top_index: int = 0
-# The number of displayed items.
 var _displayed_item_count: int = _options.size()
 # A Tween that controls cursor movement between settings.
 var _horizontal_tween: Tween = create_tween()
@@ -66,6 +66,7 @@ var _vertical_tween: Tween = create_tween()
 @onready var _column_hand_sprite := $ColumnHand as Sprite2D
 # The starting y for the had sprites
 @onready var _hand_starting_y: int = roundi(_row_hand_sprite.position.y)
+# The number of displayed items.
 
 
 func _ready() -> void:
@@ -105,18 +106,26 @@ func _ready() -> void:
 
 func _receive_input(event: InputEvent) -> void:
 	if not _vertical_tween.is_running():
-		if event.is_action_pressed("up", true):
+		if event.is_action_pressed("up", true) and not Input.is_action_pressed("down"):
 			_current_index -= 1
+			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_V)
 		elif event.is_action_pressed("down", true):
 			_current_index += 1
+			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_V)
+
 	if not _horizontal_tween.is_running():
-		if event.is_action_pressed("left", true):
+		if event.is_action_pressed("left", true) and not Input.is_action_pressed("right"):
 			_current_setting_index -= 1
+			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_H)
 		elif event.is_action_pressed("right", true):
 			_current_setting_index += 1
-	if event.is_action_pressed("ui_accept"):
+			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_H)
+
+	if event.is_action_pressed("ui_accept") and _current_setting_index != _hovered_setting_index:
 		_current_setting_index = _hovered_setting_index
+		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
 	elif event.is_action_pressed("ui_cancel"):
+		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
 		queue_free()
 	if event is InputEventMouseMotion:
 		#region Mouse handling

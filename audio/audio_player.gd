@@ -130,7 +130,9 @@ class SoundEffects:
 	## Plays when moving the cursor (except with mouse).
 	const CURSOR: AudioStreamOggVorbis = preload("res://audio/sfx/cursor.ogg")
 	## Plays when changing selection in menu.
-	const MENU_TICK: AudioStreamOggVorbis = preload("res://audio/sfx/menu_tick.ogg")
+	const MENU_TICK_V: AudioStreamOggVorbis = preload("res://audio/sfx/menu_tick_vertical.ogg")
+	## Plays when changing selection in menu.
+	const MENU_TICK_H: AudioStreamOggVorbis = preload("res://audio/sfx/menu_tick_horizontal.ogg")
 	## Plays when trying to execute an invalid command.
 	const INVALID: AudioStreamOggVorbis = preload("res://audio/sfx/invalid.ogg")
 	## Plays when switching units in the status screen.

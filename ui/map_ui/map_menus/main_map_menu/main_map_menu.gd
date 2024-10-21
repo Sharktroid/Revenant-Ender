@@ -24,6 +24,7 @@ func _select_item(item: MapMenuItem) -> void:
 			MapController.get_ui().add_child(menu)
 
 		"Options":
+			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
 			const OPTIONS_MENU := (
 				preload("res://ui/map_ui/options_menu/options_menu.tscn") as PackedScene
 			)

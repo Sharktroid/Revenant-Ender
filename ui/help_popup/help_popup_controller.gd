@@ -125,7 +125,7 @@ func _move_popup(direction: String) -> void:
 	var path: NodePath = _current_container.get("focus_neighbor_%s" % direction)
 	if _current_container.has_node(path):
 		(_current_container.get_node(path) as HelpContainer).set_as_current_help_container()
-		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK)
+		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_V)
 
 
 func _set_popup_position(new_pos: Vector2) -> void:
