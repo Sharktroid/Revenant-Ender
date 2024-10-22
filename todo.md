@@ -13,6 +13,7 @@ Before you commit
 * Renovate debug menu
 	* Split into debug options and the others.
 	* Add debug constant to control whether the setting is displayed in the main map menu
+* Hide map cursor when scrolling
 
 # Major
 * Document classes (roll this out gradually so I don't burn out)

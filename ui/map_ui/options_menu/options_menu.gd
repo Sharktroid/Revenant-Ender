@@ -43,7 +43,7 @@ var _current_index: int = 0:
 			if _current_index == 0:
 				_top_index = 0
 			elif _current_index == _options.size() - 1:
-				_top_index = _options.size() - _displayed_item_count()
+				_top_index = maxi(_options.size() - _displayed_item_count(), 0)
 			elif _get_relative_index() == _displayed_item_count() - 1:
 				_top_index += 1
 			elif _get_relative_index() == 0:
@@ -103,30 +103,9 @@ func _ready() -> void:
 
 
 func _receive_input(event: InputEvent) -> void:
-	if not _vertical_tween.is_running():
-		if event.is_action_pressed("up", true) and not Input.is_action_pressed("down"):
-			_current_index -= 1
-			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_V)
-		elif event.is_action_pressed("down", true):
-			_current_index += 1
-			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_V)
-
-	if not _horizontal_tween.is_running():
-		if event.is_action_pressed("left", true) and not Input.is_action_pressed("right"):
-			_current_setting_index -= 1
-			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_H)
-		elif event.is_action_pressed("right", true):
-			_current_setting_index += 1
-			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_H)
-
-	if event.is_action_pressed("ui_accept") and _current_setting_index != _hovered_setting_index:
-		_current_setting_index = _hovered_setting_index
-		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
-	elif event.is_action_pressed("ui_cancel"):
-		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
-		queue_free()
 	if event is InputEventMouseMotion:
 		#region Mouse handling
+		_toggle_hands(false)
 		_current_index = clampi(
 			floori(_scroll_container.get_local_mouse_position().y / 16), 0, _options.size() - 1
 		)
@@ -146,6 +125,34 @@ func _receive_input(event: InputEvent) -> void:
 				if mouse_x >= 0 and mouse_x < setting.size.x:
 					_hovered_setting_index = index
 		#endregion
+	elif event is InputEventKey:
+		if _column_hand_sprite.visible:
+			if not _vertical_tween.is_running():
+				if event.is_action_pressed("up", true) and not Input.is_action_pressed("down"):
+					_current_index -= 1
+					AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_V)
+				elif event.is_action_pressed("down", true):
+					_current_index += 1
+					AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_V)
+
+			if not _horizontal_tween.is_running():
+				if event.is_action_pressed("left", true) and not Input.is_action_pressed("right"):
+					_current_setting_index -= 1
+					AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_H)
+				elif event.is_action_pressed("right", true):
+					_current_setting_index += 1
+					AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_H)
+		else:
+			_hovered_setting_index = _current_setting_index
+			_toggle_hands(true)
+			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_H)
+
+	if event.is_action_pressed("ui_accept") and _current_setting_index != _hovered_setting_index:
+		_current_setting_index = _hovered_setting_index
+		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
+	elif event.is_action_pressed("ui_cancel"):
+		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
+		queue_free()
 
 
 func _process(_delta: float) -> void:
@@ -170,10 +177,13 @@ func _get_hovered_setting_label() -> Label:
 # Updates the x of the column hand
 func _update_column_hand_x() -> void:
 	_horizontal_tween.stop()
-	_horizontal_tween = _column_hand_sprite.create_tween()
-	_horizontal_tween.set_speed_scale(60)
-	_horizontal_tween.set_trans(Tween.TRANS_QUAD)
-	_horizontal_tween.tween_property(_column_hand_sprite, "position:x", _get_column_hand_x(), 5)
+	if _column_hand_sprite.visible:
+		_horizontal_tween = _column_hand_sprite.create_tween()
+		_horizontal_tween.set_speed_scale(60)
+		_horizontal_tween.set_trans(Tween.TRANS_QUAD)
+		_horizontal_tween.tween_property(_column_hand_sprite, "position:x", _get_column_hand_x(), 5)
+	else:
+		_column_hand_sprite.position.x = _get_column_hand_x()
 
 
 # Gets the column hand's x
@@ -185,13 +195,17 @@ func _get_column_hand_x() -> float:
 func _update_hand_y() -> void:
 	_vertical_tween.stop()
 	var new_hand_y: float = _hand_starting_y + _get_relative_index() * 16
-	_vertical_tween = _column_hand_sprite.create_tween()
-	_vertical_tween.set_speed_scale(60)
-	_vertical_tween.set_trans(Tween.TRANS_QUAD)
-	_vertical_tween.set_parallel()
-	var speed: float = 5 * minf(1, absf(new_hand_y - _column_hand_sprite.position.y) / 16)
-	_vertical_tween.tween_property(_column_hand_sprite, "position:y", new_hand_y, speed)
-	_vertical_tween.tween_property(_row_hand_sprite, "position:y", new_hand_y, speed)
+	if _column_hand_sprite.visible:
+		_vertical_tween = _column_hand_sprite.create_tween()
+		_vertical_tween.set_speed_scale(60)
+		_vertical_tween.set_trans(Tween.TRANS_QUAD)
+		_vertical_tween.set_parallel()
+		var speed: float = 5 * minf(1, absf(new_hand_y - _column_hand_sprite.position.y) / 16)
+		_vertical_tween.tween_property(_column_hand_sprite, "position:y", new_hand_y, speed)
+		_vertical_tween.tween_property(_row_hand_sprite, "position:y", new_hand_y, speed)
+	else:
+		_column_hand_sprite.position.y = new_hand_y
+		_row_hand_sprite.position.y = new_hand_y
 
 
 # Gets the selected color for the label.
@@ -207,3 +221,10 @@ func _get_label_color(label: Label) -> StringName:
 
 # The number of displayed items.
 func _displayed_item_count() -> int:
+	return ceili(_scroll_container.size.y / 16)
+
+
+# Hides hand cursors.
+func _toggle_hands(visiblity: bool) -> void:
+	_row_hand_sprite.visible = visiblity
+	_column_hand_sprite.visible = visiblity
