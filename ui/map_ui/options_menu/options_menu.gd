@@ -43,8 +43,8 @@ var _current_index: int = 0:
 			if _current_index == 0:
 				_top_index = 0
 			elif _current_index == _options.size() - 1:
-				_top_index = _options.size() - _displayed_item_count
-			elif _get_relative_index() == _displayed_item_count:
+				_top_index = _options.size() - _displayed_item_count()
+			elif _get_relative_index() == _displayed_item_count() - 1:
 				_top_index += 1
 			elif _get_relative_index() == 0:
 				_top_index -= 1
@@ -52,7 +52,6 @@ var _current_index: int = 0:
 			_hovered_setting_index = _current_setting_index
 # The index of the top-displayed item.
 var _top_index: int = 0
-var _displayed_item_count: int = _options.size()
 # A Tween that controls cursor movement between settings.
 var _horizontal_tween: Tween = create_tween()
 # A Tween that controls cursor movement between options.
@@ -66,7 +65,6 @@ var _vertical_tween: Tween = create_tween()
 @onready var _column_hand_sprite := $ColumnHand as Sprite2D
 # The starting y for the had sprites
 @onready var _hand_starting_y: int = roundi(_row_hand_sprite.position.y)
-# The number of displayed items.
 
 
 func _ready() -> void:
@@ -205,3 +203,7 @@ func _get_label_color(label: Label) -> StringName:
 			return &"GreenLabel"
 		_:
 			return &"BlueLabel"
+
+
+# The number of displayed items.
+func _displayed_item_count() -> int:
