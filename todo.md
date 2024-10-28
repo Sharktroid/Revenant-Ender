@@ -14,11 +14,11 @@ Before you commit
 	* Split into debug options and the others.
 	* Add debug constant to control whether the setting is displayed in the main map menu
 * Hide map cursor when scrolling
+* Have weapon rank increases on level up be linked to skill
 
 # Major
 * Document classes (roll this out gradually so I don't burn out)
 * Add options menu
-	* Smooth Scrolling
 	* Config file
 	* Make one for faster map animations.
 	* One for volume
@@ -54,6 +54,8 @@ Before you commit
 	* Have units gain +0.02 movement EVs per tile traversed
 
 # Long-term
+* Scrub Emblem
+	* Feautres scrub FE3 units
 * Dungeon crawler thing.
 * FERemix/Age of Emblem?
 * Implement FE5 Chapter 1

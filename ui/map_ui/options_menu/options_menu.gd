@@ -43,7 +43,7 @@ var _current_index: int = 0:
 			if _current_index == 0:
 				_top_index = 0
 			elif _current_index == _options.size() - 1:
-				_top_index = maxi(_options.size() - _displayed_item_count(), 0)
+				_top_index = _get_top_index_max()
 			elif _get_relative_index() == _displayed_item_count() - 1:
 				_top_index += 1
 			elif _get_relative_index() == 0:
@@ -51,11 +51,19 @@ var _current_index: int = 0:
 			_update_hand_y()
 			_hovered_setting_index = _current_setting_index
 # The index of the top-displayed item.
-var _top_index: int = 0
+var _top_index: int = 0:
+	set(value):
+		_top_index = clampi(value, 0, _get_top_index_max())
+		_scroll_tween = create_tween()
+		_scroll_tween.set_speed_scale(60)
+		_scroll_tween.tween_property(_scroll_container, "scroll_vertical", _top_index * 16, 4)
+
 # A Tween that controls cursor movement between settings.
 var _horizontal_tween: Tween = create_tween()
 # A Tween that controls cursor movement between options.
 var _vertical_tween: Tween = create_tween()
+# A Tween that controls the scrolling of the menu.
+var _scroll_tween: Tween = create_tween()
 
 # The scroll container that scrolls to fit the content
 @onready var _scroll_container := %ScrollContainer as ScrollContainer
@@ -96,19 +104,21 @@ func _ready() -> void:
 			)
 			settings_h_box.add_child(setting_label)
 		%SettingsList.add_child(settings_h_box)
-	_horizontal_tween.tween_interval(0.001)
-	_vertical_tween.tween_interval(0.001)
-	await _horizontal_tween.finished
+	_horizontal_tween.stop()
+	_vertical_tween.stop()
+	_scroll_tween.stop()
 	_column_hand_sprite.position.x = _get_column_hand_x()
 
 
 func _receive_input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion:
+	if event is InputEventMouseMotion and not _scroll_tween.is_running():
 		#region Mouse handling
 		_toggle_hands(false)
-		_current_index = clampi(
-			floori(_scroll_container.get_local_mouse_position().y / 16), 0, _options.size() - 1
-		)
+		_current_index = (clampi(
+			floori(_scroll_container.get_local_mouse_position().y / 16) + _top_index,
+			0,
+			_options.size() - 1
+		))
 		var setting_box := %SettingsList.get_child(_current_index) as HBoxContainer
 		var last_label := setting_box.get_children().back() as Label
 		if setting_box.get_local_mouse_position().x < 0:
@@ -155,8 +165,12 @@ func _receive_input(event: InputEvent) -> void:
 		queue_free()
 
 
-func _process(_delta: float) -> void:
-	_scroll_container.scroll_vertical = _top_index * 16
+func _physics_process(_delta: float) -> void:
+	if not _scroll_tween.is_running() and not _column_hand_sprite.visible:
+		if _scroll_container.get_local_mouse_position().y <= 16:
+			_top_index -= 1
+		elif _scroll_container.get_local_mouse_position().y >= _scroll_container.size.y - 16:
+			_top_index += 1
 
 
 # Gets the relative index compared to the top index
@@ -176,7 +190,6 @@ func _get_hovered_setting_label() -> Label:
 
 # Updates the x of the column hand
 func _update_column_hand_x() -> void:
-	_horizontal_tween.stop()
 	if _column_hand_sprite.visible:
 		_horizontal_tween = _column_hand_sprite.create_tween()
 		_horizontal_tween.set_speed_scale(60)
@@ -193,16 +206,15 @@ func _get_column_hand_x() -> float:
 
 # Updates the hand's y
 func _update_hand_y() -> void:
-	_vertical_tween.stop()
 	var new_hand_y: float = _hand_starting_y + _get_relative_index() * 16
 	if _column_hand_sprite.visible:
 		_vertical_tween = _column_hand_sprite.create_tween()
 		_vertical_tween.set_speed_scale(60)
 		_vertical_tween.set_trans(Tween.TRANS_QUAD)
 		_vertical_tween.set_parallel()
-		var speed: float = 5 * minf(1, absf(new_hand_y - _column_hand_sprite.position.y) / 16)
-		_vertical_tween.tween_property(_column_hand_sprite, "position:y", new_hand_y, speed)
-		_vertical_tween.tween_property(_row_hand_sprite, "position:y", new_hand_y, speed)
+		#var speed: float = 5 * minf(1, absf(new_hand_y - _column_hand_sprite.position.y) / 16)
+		_vertical_tween.tween_property(_column_hand_sprite, "position:y", new_hand_y, 5)
+		_vertical_tween.tween_property(_row_hand_sprite, "position:y", new_hand_y, 5)
 	else:
 		_column_hand_sprite.position.y = new_hand_y
 		_row_hand_sprite.position.y = new_hand_y
@@ -228,3 +240,8 @@ func _displayed_item_count() -> int:
 func _toggle_hands(visiblity: bool) -> void:
 	_row_hand_sprite.visible = visiblity
 	_column_hand_sprite.visible = visiblity
+
+
+# Gets the maximum value for the top index
+func _get_top_index_max() -> int:
+	return maxi(_options.size() - _displayed_item_count(), 0)

@@ -476,7 +476,7 @@ func get_current_exp() -> float:
 
 
 static func get_exp_from_level(current_level: float) -> float:
-	return BASE_EXP * ((EXP_MULTIPLIER ** (current_level - 1)) - 1) / (EXP_MULTIPLIER - 1)
+	return BASE_EXP * (EXP_MULTIPLIER ** (current_level - 1) - 1) / (EXP_MULTIPLIER - 1)
 
 
 static func get_level_from_exp(xp: float) -> float:
