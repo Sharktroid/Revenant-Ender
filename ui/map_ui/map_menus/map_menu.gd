@@ -35,7 +35,7 @@ func _enter_tree() -> void:
 
 
 func _exit_tree() -> void:
-	if _parent_menu:
+	if is_instance_valid(_parent_menu):
 		_parent_menu.visible = true
 
 

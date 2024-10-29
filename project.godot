@@ -23,6 +23,7 @@ GameController="*res://controllers/game_controller/game_controller.gd"
 AudioPlayer="*res://audio/audio_player.gd"
 CursorController="*res://cursor/cursor_controller.gd"
 AttackController="*res://controllers/attack controller/attack_controller.gd"
+DebugConfig="*res://controllers/game_controller/config/debug_config.gd"
 
 [debug]
 

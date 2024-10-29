@@ -3,7 +3,7 @@ extends ReferenceRect
 
 enum TileTypes { ATTACK, MOVEMENT, SUPPORT }
 
-# Border boundaries of the map. units should not exceed these unless aethetic
+# Border boundaries of the map. units should not exceed these unless aesthetic
 @export var _left_border: int
 @export var _right_border: int
 @export var _top_border: int
@@ -13,7 +13,7 @@ var borders: Rect2i
 var all_factions: Array[Faction]  # All factions
 
 var _movement_cost_dict: Dictionary  # Movement costs for every movement type
-var _curr_faction: int = 0
+var _current_faction: int = 0
 var _cost_grids: Dictionary = {}
 var _grid_current_faction: Faction
 var _current_turn: int
@@ -30,16 +30,10 @@ func _init() -> void:
 func _ready() -> void:
 	borders = Rect2i(_left_border * 16, _top_border * 16, 32, 32)
 	borders = borders.expand(get_size() - Vector2(_right_border * 16, _bottom_border * 16))
-	_create_debug_borders()  # Only shows up when collison shapes are enabled
-	_terrain_layer.visible = Utilities.get_debug_value(
-		Utilities.DebugConfigKeys.DISPLAY_MAP_TERRAIN
-	)
-	_border_overlay.visible = Utilities.get_debug_value(
-		Utilities.DebugConfigKeys.DISPLAY_MAP_BORDERS
-	)
-	($MapLayer/CursorArea as Area2D).visible = Utilities.get_debug_value(
-		Utilities.DebugConfigKeys.DISPLAY_MAP_CURSOR
-	)
+	_create_debug_borders()  # Only shows up when collision shapes are enabled
+	_terrain_layer.visible = DebugConfig.get_value(DebugConfig.DISPLAY_MAP_TERRAIN)
+	_border_overlay.visible = DebugConfig.get_value(DebugConfig.DISPLAY_MAP_BORDERS)
+	($MapLayer/CursorArea as Area2D).visible = DebugConfig.get_value(DebugConfig.DISPLAY_MAP_CURSOR)
 	var cell_max: Vector2i = _base_layer.get_used_cells().max()
 	size = cell_max * 16 + Vector2i(16, 16)
 	GameController.add_to_input_stack(self)
@@ -89,7 +83,7 @@ func unit_wait(_unit: Unit) -> void:
 
 
 func get_current_faction() -> Faction:
-	return all_factions[_curr_faction]
+	return all_factions[_current_faction]
 
 
 func get_units_by_faction(faction: Faction) -> Array[Unit]:
@@ -139,7 +133,7 @@ func get_terrain_cost(movement_type: UnitClass.MovementTypes, coords: Vector2) -
 		else:
 			push_error('Terrain "%s" is invalid' % terrain_name)
 	else:
-		push_error('Movementtype "%s" is invalid' % movement_type)
+		push_error('Movement type "%s" is invalid' % movement_type)
 	return INF
 
 
@@ -242,7 +236,10 @@ func get_map_camera() -> MapCamera:
 
 func is_faction_friendly_to_player(faction: Faction) -> bool:
 	for human_faction: Faction in all_factions:
-		if human_faction.player_type == Faction.PlayerTypes.HUMAN and faction.is_friend(human_faction):
+		if (
+			human_faction.player_type == Faction.PlayerTypes.HUMAN
+			and faction.is_friend(human_faction)
+		):
 			return true
 	return false
 
@@ -355,10 +352,10 @@ func _get_dialogue() -> Dialogue:
 
 func _next_faction() -> void:
 	# Sets the faction to the next faction.
-	_curr_faction += 1
-	if _curr_faction == all_factions.size():
+	_current_faction += 1
+	if _current_faction == all_factions.size():
 		_current_turn += 1
-		_curr_faction = 0
+		_current_faction = 0
 
 
 ## Starts new turn.
@@ -380,7 +377,7 @@ func _start_turn() -> void:
 
 
 func _toggle_full_outline() -> void:
-	all_factions[_curr_faction].full_outline = not (get_current_faction().full_outline)
+	all_factions[_current_faction].full_outline = not (get_current_faction().full_outline)
 	_update_outline()
 
 
@@ -392,7 +389,7 @@ func _toggle_outline_unit(unit: Unit) -> void:
 		(outlined_units[unit.faction] as Array).erase(unit)
 	else:
 		(outlined_units[unit.faction] as Array).append(unit)
-	all_factions[_curr_faction].outlined_units = outlined_units
+	all_factions[_current_faction].outlined_units = outlined_units
 	_update_outline()
 
 

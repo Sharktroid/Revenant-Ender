@@ -502,7 +502,7 @@ func can_rescue(unit: Unit) -> bool:
 ## Causes unit to wait.
 func wait() -> void:
 	_current_movement = get_movement()
-	if Utilities.get_debug_value(Utilities.DebugConfigKeys.UNIT_WAIT):
+	if DebugConfig.get_value(DebugConfig.UNIT_WAIT):
 		selectable = false
 		_waiting = true
 	_get_map().unit_wait(self)

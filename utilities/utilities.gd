@@ -1,28 +1,10 @@
 extends Node
 
-enum DebugConfigKeys {
-	UNIT_WAIT,
-	DISPLAY_MAP_BORDERS,
-	DISPLAY_MAP_TERRAIN,
-	DISPLAY_MAP_CURSOR,
-	PRINT_INPUT_RECEIVER,
-	SHOW_FPS,
-}
-
 const _MIN_POSITION: int = -(2 ** 15) + 1
 const _SIZE: int = 2 ** 16
-const _INF_CHAR: String = "∞"
+const _INF_CHAR: String = "âˆž"
 
 var _theme: Theme = preload("res://ui/theme/menu_theme.tres")
-var _debug_config: Dictionary = {  # Constants used in the debug menu.
-	DebugConfigKeys.UNIT_WAIT: true,  # Whether units are unable to move after movement.
-	DebugConfigKeys.DISPLAY_MAP_BORDERS: false,  # Whether map borders are displayed
-	DebugConfigKeys.DISPLAY_MAP_TERRAIN: false,
-	DebugConfigKeys.DISPLAY_MAP_CURSOR: false,
-	DebugConfigKeys.PRINT_INPUT_RECEIVER: false,
-	DebugConfigKeys.SHOW_FPS: false
-}
-var _config_file := ConfigFile.new()  # File used for saving and loading of configuration settings.
 var _default_screen_size: Vector2i
 var _profile: Array[int] = []
 var _current_checkpoint: int
@@ -33,16 +15,11 @@ var _current_checkpoint: int
 
 func _init() -> void:
 	assert(_INF_CHAR.length() == 1, "Error: Infinity character has been corrupted.")
-	_load_config()
 	_default_screen_size = Vector2i(
 		ProjectSettings.get_setting("display/window/size/viewport_width") as int,
 		ProjectSettings.get_setting("display/window/size/viewport_height") as int
 	)
 	await ready
-
-
-func _exit_tree() -> void:
-	_save_config()
 
 
 func get_tiles(
@@ -92,19 +69,6 @@ func get_tiles(
 
 func get_screen_size() -> Vector2i:
 	return _default_screen_size
-
-
-func get_debug_value(key: DebugConfigKeys) -> Variant:
-	return _debug_config[key]
-
-
-func set_debug_value(key: DebugConfigKeys, value: Variant) -> void:
-	_debug_config[key] = value
-	_save_config()
-
-
-func invert_debug_value(key: DebugConfigKeys) -> void:
-	set_debug_value(key, not get_debug_value(key))
 
 
 func get_tile_distance(pos_a: Vector2, pos_b: Vector2) -> float:
@@ -207,17 +171,6 @@ func float_to_string(num: float) -> String:
 	return str(num).replace("inf", _INF_CHAR)
 
 
-func _save_config() -> void:
-	# Saves configuration.
-	for constant: String in DebugConfigKeys.keys() as Array[String]:
-		_config_file.set_value(
-			"Debug",
-			constant.to_snake_case(),
-			get_debug_value(DebugConfigKeys[constant] as Utilities.DebugConfigKeys)
-		)
-	_config_file.save("user://config.cfg")
-
-
 func _slice_string(string: String, start: int, end: int) -> String:
 	# Returns a substring of "string" from index "start" to index "end"
 	return string.substr(start, string.length() - start - end)
@@ -225,16 +178,6 @@ func _slice_string(string: String, start: int, end: int) -> String:
 
 func _get_center(control: Control) -> float:
 	return control.get_screen_position().y + control.size.y / 2
-
-
-func _load_config() -> void:
-	# Loads configuration
-	_config_file.load("user://config.cfg")
-	for constant: String in DebugConfigKeys.keys() as Array[String]:
-		var debug_key: DebugConfigKeys = DebugConfigKeys[constant]
-		_debug_config[debug_key] = _config_file.get_value(
-			"Debug", constant.to_snake_case(), get_debug_value(debug_key)
-		)
 
 
 func _get_distance(control_a: Control, control_b: Control) -> float:

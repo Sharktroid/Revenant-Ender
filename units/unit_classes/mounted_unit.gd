@@ -8,4 +8,3 @@ func _init() -> void:
 	_aid_modifier = 25
 	_skills.append(Canto.new())
 	super()
-

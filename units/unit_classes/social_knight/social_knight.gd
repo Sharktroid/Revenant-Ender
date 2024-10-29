@@ -5,7 +5,7 @@ extends MountedUnit
 
 # Unit-specific variables.
 func _init() -> void:
-	resource_name = "Social Knight"
+	resource_name = "Knight"
 	_max_level = 20
 	_movement_type = MovementTypes.HEAVY_CAVALRY
 	_weight_modifier = 25

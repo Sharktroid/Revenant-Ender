@@ -15,6 +15,6 @@ func _init() -> void:
 	_personal_defense = 5
 	_personal_armor = 5
 	_personal_resistance = 5
-	_personal_movement = 5
+	_personal_movement = 0
 	_personal_build = 5
 	personal_authority = 1

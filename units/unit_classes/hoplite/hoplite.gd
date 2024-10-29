@@ -24,7 +24,6 @@ func _init() -> void:
 	_base_defense = 25
 	_base_armor = 24
 	_base_resistance = 17
-	_base_movement = 6
+	_base_movement = 5
 	_base_build = 13
 	super()
-

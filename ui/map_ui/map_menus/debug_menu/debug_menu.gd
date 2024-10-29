@@ -19,33 +19,27 @@ static func instantiate(new_offset: Vector2, parent: MapMenu = null) -> MapMenu:
 func _select_item(item: MapMenuItem) -> void:
 	match item.name:
 		"UnitWait":
-			Utilities.invert_debug_value(Utilities.DebugConfigKeys.UNIT_WAIT)
+			DebugConfig.invert_value(DebugConfig.UNIT_WAIT)
 
 		"DisplayBorders":
-			Utilities.invert_debug_value(Utilities.DebugConfigKeys.DISPLAY_MAP_BORDERS)
+			DebugConfig.invert_value(DebugConfig.DISPLAY_MAP_BORDERS)
 			var map_borders := (
 				MapController.map.get_node("MapLayer/DebugBorderOverlayContainer") as Node2D
 			)
-			map_borders.visible = Utilities.get_debug_value(
-				Utilities.DebugConfigKeys.DISPLAY_MAP_BORDERS
-			)
+			map_borders.visible = DebugConfig.get_value(DebugConfig.DISPLAY_MAP_BORDERS)
 
 		"DisplayTerrain":
-			Utilities.invert_debug_value(Utilities.DebugConfigKeys.DISPLAY_MAP_TERRAIN)
+			DebugConfig.invert_value(DebugConfig.DISPLAY_MAP_TERRAIN)
 			var terrain_layer := MapController.map.get_node("MapLayer/TerrainLayer") as TileMapLayer
-			terrain_layer.visible = Utilities.get_debug_value(
-				Utilities.DebugConfigKeys.DISPLAY_MAP_TERRAIN
-			)
+			terrain_layer.visible = DebugConfig.get_value(DebugConfig.DISPLAY_MAP_TERRAIN)
 
 		"DisplayMapCursor":
-			Utilities.invert_debug_value(Utilities.DebugConfigKeys.DISPLAY_MAP_CURSOR)
+			DebugConfig.invert_value(DebugConfig.DISPLAY_MAP_CURSOR)
 			var cursor_area: Area2D = CursorController.get_area()
-			cursor_area.visible = Utilities.get_debug_value(
-				Utilities.DebugConfigKeys.DISPLAY_MAP_CURSOR
-			)
+			cursor_area.visible = DebugConfig.get_value(DebugConfig.DISPLAY_MAP_CURSOR)
 
 		"PrintInputRECEIVER":
-			Utilities.invert_debug_value(Utilities.DebugConfigKeys.PRINT_INPUT_RECEIVER)
+			DebugConfig.invert_value(DebugConfig.PRINT_INPUT_RECEIVER)
 
 		"PrintCursorPosition":
 			print(
@@ -58,9 +52,9 @@ func _select_item(item: MapMenuItem) -> void:
 			)
 
 		"DisplayFrameRate":
-			Utilities.invert_debug_value(Utilities.DebugConfigKeys.SHOW_FPS)
+			DebugConfig.invert_value(DebugConfig.SHOW_FPS)
 			(GameController.get_root().get_node("%FPSDisplay") as HBoxContainer).visible = (
-				Utilities.get_debug_value(Utilities.DebugConfigKeys.SHOW_FPS)
+				DebugConfig.get_value(DebugConfig.SHOW_FPS)
 			)
 
 		_:
@@ -71,13 +65,12 @@ func _select_item(item: MapMenuItem) -> void:
 
 func _update_items() -> void:
 	var values: Dictionary = {
-		"UnitWait": Utilities.get_debug_value(Utilities.DebugConfigKeys.UNIT_WAIT),
-		"DisplayBorders": Utilities.get_debug_value(Utilities.DebugConfigKeys.DISPLAY_MAP_BORDERS),
-		"DisplayTerrain": Utilities.get_debug_value(Utilities.DebugConfigKeys.DISPLAY_MAP_TERRAIN),
-		"DisplayMapCursor": Utilities.get_debug_value(Utilities.DebugConfigKeys.DISPLAY_MAP_CURSOR),
-		"PrintInputRECEIVER":
-		Utilities.get_debug_value(Utilities.DebugConfigKeys.PRINT_INPUT_RECEIVER),
-		"DisplayFrameRate": Utilities.get_debug_value(Utilities.DebugConfigKeys.SHOW_FPS),
+		"UnitWait": DebugConfig.get_value(DebugConfig.UNIT_WAIT),
+		"DisplayBorders": DebugConfig.get_value(DebugConfig.DISPLAY_MAP_BORDERS),
+		"DisplayTerrain": DebugConfig.get_value(DebugConfig.DISPLAY_MAP_TERRAIN),
+		"DisplayMapCursor": DebugConfig.get_value(DebugConfig.DISPLAY_MAP_CURSOR),
+		"PrintInputRECEIVER": DebugConfig.get_value(DebugConfig.PRINT_INPUT_RECEIVER),
+		"DisplayFrameRate": DebugConfig.get_value(DebugConfig.SHOW_FPS),
 	}
 	for key: String in values.keys() as Array[String]:
 		var value: String = str(values[key])

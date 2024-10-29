@@ -10,6 +10,7 @@
         "Autoload",
         "autowrap",
         "bbcode",
+        "boundsv",
         "ceilf",
         "ceili",
         "clampf",
