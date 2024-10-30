@@ -2,7 +2,7 @@ extends Node
 
 const _MIN_POSITION: int = -(2 ** 15) + 1
 const _SIZE: int = 2 ** 16
-const _INF_CHAR: String = "âˆž"
+const _INF_CHAR: String = "∞"
 
 var _theme: Theme = preload("res://ui/theme/menu_theme.tres")
 var _default_screen_size: Vector2i

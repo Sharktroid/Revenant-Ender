@@ -5,13 +5,11 @@ extends RefCounted
 var _name: String
 # The option's possible settings
 var _settings: Array[String]
-# The option's default setting index
-var _default: int
 
-func _init(name: String, settings: Array[String], default: int = 0) -> void:
+
+func _init(name: String, settings: Array[String]) -> void:
 	_name = name
 	_settings = settings
-	_default = default
 
 
 ## Gets the option's icon.
@@ -27,8 +25,3 @@ func get_name() -> String:
 ## Gets the option's possible settings.
 func get_settings() -> Array[String]:
 	return _settings
-
-
-## Gets the option's default setting index.
-func get_default_setting() -> int:
-	return _default

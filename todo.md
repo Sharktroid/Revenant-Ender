@@ -19,7 +19,6 @@ Before you commit
 # Major
 * Document classes (roll this out gradually so I don't burn out)
 * Add options menu
-	* Config file
 	* Make one for faster map animations.
 	* One for volume
 * Implement effective damage

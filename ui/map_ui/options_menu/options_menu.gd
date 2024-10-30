@@ -5,12 +5,12 @@ extends Control
 const _OPTION := preload("res://ui/map_ui/options_menu/option.gd")
 # List of options.
 var _options: Array[_OPTION] = [
-	_OPTION.new("Animations", ["Map", "Off"]),
-	_OPTION.new("Game Speed", ["Normal", "Max"]),
-	_OPTION.new("Text Speed", ["Slow", "Medium", "Fast", "Max"], 1),
-	_OPTION.new("Terrain", ["On", "Off"]),
-	_OPTION.new("Unit Panel", ["Panel", "Bubble", "Off"]),
-	_OPTION.new("Combat Panel", ["Strategic", "Detailed", "Off"]),
+	_OPTION.new(Options.ANIMATIONS, ["Map", "Off"]),
+	_OPTION.new(Options.GAME_SPEED, ["Normal", "Max"]),
+	_OPTION.new(Options.TEXT_SPEED, ["Slow", "Medium", "Fast", "Max"]),
+	_OPTION.new(Options.TERRAIN, ["On", "Off"]),
+	_OPTION.new(Options.UNIT_PANEL, ["Panel", "Bubble", "Off"]),
+	_OPTION.new(Options.COMBAT_PANEL, ["Strategic", "Detailed", "Off"]),
 ]
 
 # The indices of the selected options' settings.
@@ -29,6 +29,9 @@ var _current_setting_index: int:
 			_get_current_setting_label()
 		)
 		_hovered_setting_index = _current_setting_index
+		Options.set_value(
+			_options[_current_index].get_name(), _get_current_setting_label().text.to_snake_case()
+		)
 # The index of the option setting that the mouse is hovering over.
 var _hovered_setting_index: int:
 	set(value):
@@ -86,11 +89,15 @@ func _ready() -> void:
 		%IconsList.add_child(icon_center)
 
 		var name_label := Label.new()
-		name_label.text = option.get_name()
+		name_label.text = option.get_name().capitalize()
 		%NamesList.add_child(name_label)
 
-		# TODO: get from a config file.
-		var current_setting_index: int = option.get_default_setting()
+		var current_option: Variant = Options.get_value(option.get_name())
+		if current_option is bool:
+			current_option = "On" if current_option else "Off"
+		var current_setting_index: int = option.get_settings().find(
+			(current_option as String).capitalize()
+		)
 		_settings_indices.append(current_setting_index)
 
 		var settings_h_box := HBoxContainer.new()
@@ -107,6 +114,7 @@ func _ready() -> void:
 	_horizontal_tween.stop()
 	_vertical_tween.stop()
 	_scroll_tween.stop()
+	await get_tree().process_frame
 	_column_hand_sprite.position.x = _get_column_hand_x()
 
 
