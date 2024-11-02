@@ -1,18 +1,6 @@
 ## A menu that displays a list of options
 extends Control
 
-# Object that handles options.
-const _OPTION := preload("res://ui/map_ui/options_menu/option.gd")
-# List of options.
-var _options: Array[_OPTION] = [
-	_OPTION.new(Options.ANIMATIONS, ["Map", "Off"]),
-	_OPTION.new(Options.GAME_SPEED, ["Normal", "Max"]),
-	_OPTION.new(Options.TEXT_SPEED, ["Slow", "Medium", "Fast", "Max"]),
-	_OPTION.new(Options.TERRAIN, ["On", "Off"]),
-	_OPTION.new(Options.UNIT_PANEL, ["Panel", "Bubble", "Off"]),
-	_OPTION.new(Options.COMBAT_PANEL, ["Strategic", "Detailed", "Off"]),
-]
-
 # The indices of the selected options' settings.
 var _settings_indices: Array[int]
 # The index of the current option's setting.
@@ -20,32 +8,35 @@ var _current_setting_index: int:
 	get:
 		return _settings_indices[_current_index]
 	set(value):
-		_current_setting_index = posmod(value, _options[_current_index].get_settings().size())
+		_current_setting_index = posmod(value, _get_settings_count())
 		_get_current_setting_label().theme_type_variation = &"GrayLabel"
-		_settings_indices[_current_index] = posmod(
-			value, _options[_current_index].get_settings().size()
-		)
+		_settings_indices[_current_index] = posmod(value, _get_settings_count())
 		_get_current_setting_label().theme_type_variation = _get_label_color(
 			_get_current_setting_label()
 		)
 		_hovered_setting_index = _current_setting_index
-		Options.set_value(
-			_options[_current_index].get_name(), _get_current_setting_label().text.to_snake_case()
-		)
+		if _get_current_option() is BooleanOption:
+			(_get_current_option() as BooleanOption).value = (
+				_get_current_setting_label().text == "On"
+			)
+		else:
+			(_get_current_option() as StringNameOption).value = (
+				_get_current_setting_label().text.to_snake_case()
+			)
 # The index of the option setting that the mouse is hovering over.
 var _hovered_setting_index: int:
 	set(value):
 		if value != _hovered_setting_index:
-			_hovered_setting_index = posmod(value, _options[_current_index].get_settings().size())
+			_hovered_setting_index = posmod(value, _get_settings_count())
 			_update_column_hand_x()
 # The index of the current option.
 var _current_index: int = 0:
 	set(value):
 		if value != _current_index:
-			_current_index = posmod(value, _options.size())
+			_current_index = posmod(value, Options.get_options().size())
 			if _current_index == 0:
 				_top_index = 0
-			elif _current_index == _options.size() - 1:
+			elif _current_index == Options.get_options().size() - 1:
 				_top_index = _get_top_index_max()
 			elif _get_relative_index() == _displayed_item_count() - 1:
 				_top_index += 1
@@ -79,10 +70,11 @@ var _scroll_tween: Tween = create_tween()
 
 
 func _ready() -> void:
+	Options.AUTOEND_TURNS = BooleanOption.new(&"terrain", &"options", true)
 	GameController.add_to_input_stack(self)
-	for option: _OPTION in _options:
+	for option: ConfigOption in Options.get_options():
 		var icon_rect := TextureRect.new()
-		icon_rect.texture = option.get_icon()
+		icon_rect.texture = load("res://ui/map_ui/options_menu/icons/%s.png" % option.get_name())
 		var icon_center := CenterContainer.new()
 		icon_center.custom_minimum_size = Vector2i(16, 16)
 		icon_center.add_child(icon_rect)
@@ -92,24 +84,25 @@ func _ready() -> void:
 		name_label.text = option.get_name().capitalize()
 		%NamesList.add_child(name_label)
 
-		var current_option: Variant = Options.get_value(option.get_name())
-		if current_option is bool:
-			current_option = "On" if current_option else "Off"
-		var current_setting_index: int = option.get_settings().find(
-			(current_option as String).capitalize()
-		)
-		_settings_indices.append(current_setting_index)
-
 		var settings_h_box := HBoxContainer.new()
-		for setting_index: int in option.get_settings().size():
-			var setting_label := Label.new()
-			setting_label.text = option.get_settings()[setting_index]
-			setting_label.theme_type_variation = (
-				_get_label_color(setting_label)
-				if setting_index == current_setting_index
-				else &"GrayLabel"
+		if option is BooleanOption:
+			var value: bool = (option as BooleanOption).value
+			_settings_indices.append(0 if value else 1)
+			settings_h_box.add_child(_create_label(value, "On"))
+			settings_h_box.add_child(_create_label(not value, "Off"))
+		else:
+			var string_name_option := option as StringNameOption
+			var current_setting_index: int = string_name_option.get_settings().find(
+				string_name_option.value
 			)
-			settings_h_box.add_child(setting_label)
+			_settings_indices.append(current_setting_index)
+			for setting_index: int in string_name_option.get_settings().size():
+				settings_h_box.add_child(
+					_create_label(
+						setting_index == current_setting_index,
+						string_name_option.get_settings()[setting_index].capitalize()
+					)
+				)
 		%SettingsList.add_child(settings_h_box)
 	_horizontal_tween.stop()
 	_vertical_tween.stop()
@@ -125,7 +118,7 @@ func _receive_input(event: InputEvent) -> void:
 		_current_index = (clampi(
 			floori(_scroll_container.get_local_mouse_position().y / 16) + _top_index,
 			0,
-			_options.size() - 1
+			Options.get_options().size() - 1
 		))
 		var setting_box := %SettingsList.get_child(_current_index) as HBoxContainer
 		var last_label := setting_box.get_children().back() as Label
@@ -220,7 +213,6 @@ func _update_hand_y() -> void:
 		_vertical_tween.set_speed_scale(60)
 		_vertical_tween.set_trans(Tween.TRANS_QUAD)
 		_vertical_tween.set_parallel()
-		#var speed: float = 5 * minf(1, absf(new_hand_y - _column_hand_sprite.position.y) / 16)
 		_vertical_tween.tween_property(_column_hand_sprite, "position:y", new_hand_y, 5)
 		_vertical_tween.tween_property(_row_hand_sprite, "position:y", new_hand_y, 5)
 	else:
@@ -233,7 +225,7 @@ func _get_label_color(label: Label) -> StringName:
 	match label.text:
 		"Off":
 			return &"RedLabel"
-		"On", "Max":
+		"On", "Max", "All":
 			return &"GreenLabel"
 		_:
 			return &"BlueLabel"
@@ -245,11 +237,31 @@ func _displayed_item_count() -> int:
 
 
 # Hides hand cursors.
-func _toggle_hands(visiblity: bool) -> void:
-	_row_hand_sprite.visible = visiblity
-	_column_hand_sprite.visible = visiblity
+func _toggle_hands(visibility: bool) -> void:
+	_row_hand_sprite.visible = visibility
+	_column_hand_sprite.visible = visibility
 
 
 # Gets the maximum value for the top index
 func _get_top_index_max() -> int:
-	return maxi(_options.size() - _displayed_item_count(), 0)
+	return maxi(Options.get_options().size() - _displayed_item_count(), 0)
+
+
+func _get_current_option() -> ConfigOption:
+	return Options.get_options()[_current_index]
+
+
+func _get_settings_count() -> int:
+	return (
+		(_get_current_option() as StringNameOption).get_settings().size() if _get_current_option() is StringNameOption
+		else 2
+	)
+
+
+func _create_label(is_current: bool, setting: StringName) -> Label:
+	var setting_label := Label.new()
+	setting_label.text = setting
+	setting_label.theme_type_variation = (
+		_get_label_color(setting_label) if is_current else &"GrayLabel"
+	)
+	return setting_label

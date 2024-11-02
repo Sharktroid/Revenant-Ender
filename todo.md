@@ -15,11 +15,13 @@ Before you commit
 	* Add debug constant to control whether the setting is displayed in the main map menu
 * Hide map cursor when scrolling
 * Have weapon rank increases on level up be linked to skill
+* Pallette the status screen for each unit
+* Rename Combat Display to Combat Panel
 
 # Major
 * Document classes (roll this out gradually so I don't burn out)
 * Add options menu
-	* Make one for faster map animations.
+	* Description
 	* One for volume
 * Implement effective damage
 	* Display effective damage on status screen.
@@ -32,8 +34,6 @@ Before you commit
 * Replace movement/attack tile calls with units having different ActionTileStates
 	* display_current_attack_tiles should allow displaying support tiles
 * Have level up play sfx even when volume is muted
-* Add class relative power
-* Add options config for volume
 * Add the remaining sub menus of the main map menu
 * Make GhostUnit a child of Unit and remove jankiness
 * Make attack Animations skippable
@@ -44,6 +44,7 @@ Before you commit
 * Implement staves
 	* Duration = (staff might) + (mag - target res)/4
 	* Automatically hover over a unit if they are the only one that needs healing
+	* Add an option to disable support map animations
 * Implement split screen like in demo
 * Replace test map with Thracia chapter 1
 * Replace map attack animations with Thracia counterparts

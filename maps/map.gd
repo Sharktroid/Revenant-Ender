@@ -31,9 +31,9 @@ func _ready() -> void:
 	borders = Rect2i(_left_border * 16, _top_border * 16, 32, 32)
 	borders = borders.expand(get_size() - Vector2(_right_border * 16, _bottom_border * 16))
 	_create_debug_borders()  # Only shows up when collision shapes are enabled
-	_terrain_layer.visible = DebugConfig.get_value(DebugConfig.DISPLAY_MAP_TERRAIN)
-	_border_overlay.visible = DebugConfig.get_value(DebugConfig.DISPLAY_MAP_BORDERS)
-	($MapLayer/CursorArea as Area2D).visible = DebugConfig.get_value(DebugConfig.DISPLAY_MAP_CURSOR)
+	_terrain_layer.visible = DebugConfig.DISPLAY_MAP_TERRAIN.value
+	_border_overlay.visible = DebugConfig.DISPLAY_MAP_BORDERS.value
+	($MapLayer/CursorArea as Area2D).visible = DebugConfig.DISPLAY_MAP_CURSOR.value
 	var cell_max: Vector2i = _base_layer.get_used_cells().max()
 	size = cell_max * 16 + Vector2i(16, 16)
 	GameController.add_to_input_stack(self)

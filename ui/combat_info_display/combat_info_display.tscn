@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://bss6lqt2xeb3"]
+[gd_scene load_steps=27 format=3 uid="uid://bss6lqt2xeb3"]
 
 [ext_resource type="Script" path="res://ui/combat_info_display/combat_info_display.gd" id="1_1wwld"]
 [ext_resource type="Texture2D" uid="uid://ch8tv43kw8yv4" path="res://ui/theme/menu.png" id="1_olcin"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://g1vrpin100mt" path="res://ui/combat_info_display/label_background.png" id="7_qq6e3"]
 [ext_resource type="Texture2D" uid="uid://bgmuk7i8ltxac" path="res://ui/combat_info_display/double.png" id="8_oeh72"]
 [ext_resource type="PackedScene" uid="uid://6oui64usld1f" path="res://ui/map_ui/map_menus/item_menu/item_menu.tscn" id="11_yg355"]
+[ext_resource type="PackedScene" uid="uid://b4o82uca6ghni" path="res://ui/map_ui/options_menu/options_menu.tscn" id="12_ld7ev"]
 [ext_resource type="Script" path="res://ui/combat_info_display/combat_display_submenu.gd" id="12_yt3fy"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nwvkw"]
@@ -573,3 +574,6 @@ unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 1
 script = ExtResource("12_yt3fy")
+
+[node name="OptionsMenu" parent="." instance=ExtResource("12_ld7ev")]
+layout_mode = 2

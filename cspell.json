@@ -7,6 +7,8 @@
         "absf",
         "absi",
         "Alen",
+        "autocursor",
+        "autoend",
         "Autoload",
         "autowrap",
         "bbcode",

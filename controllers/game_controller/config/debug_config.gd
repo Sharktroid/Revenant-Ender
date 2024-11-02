@@ -1,28 +1,17 @@
-## A [Config] that stores debugging settings
-extends Config
+## A [Node] that stores debugging settings
+extends Node
 
+#gdlint: disable = class-variable-name
 ## Whether units are unable to move after movement.
-const UNIT_WAIT: StringName = &"unit_wait"
+var UNIT_WAIT := BooleanOption.new(&"unit_wait", &"debug", true)
 ## Whether map borders are displayed
-const DISPLAY_MAP_BORDERS: StringName = &"display_map_borders"
+var DISPLAY_MAP_BORDERS := BooleanOption.new(&"display_map_borders", &"debug", false)
 ## Whether a terrain overlay is rendered
-const DISPLAY_MAP_TERRAIN: StringName = &"display_map_terrain"
+var DISPLAY_MAP_TERRAIN := BooleanOption.new(&"display_map_terrain", &"debug", false)
 ## Whether a box representing the cursor's position is rendered
-const DISPLAY_MAP_CURSOR: StringName = &"display_map_cursor"
+var DISPLAY_MAP_CURSOR := BooleanOption.new(&"display_map_cursor", &"debug", false)
 ## Whether the input receiver is printed in the standard output
-const PRINT_INPUT_RECEIVER: StringName = &"print_input_receiver"
+var PRINT_INPUT_RECEIVER := BooleanOption.new(&"print_input_receiver", &"debug", false)
 ## Whether the frame rate is displayed
-const SHOW_FPS: StringName = &"show_fps"
-
-
-func _init() -> void:
-	_config = {
-		UNIT_WAIT: true,
-		DISPLAY_MAP_BORDERS: false,
-		DISPLAY_MAP_TERRAIN: false,
-		DISPLAY_MAP_CURSOR: false,
-		PRINT_INPUT_RECEIVER: false,
-		SHOW_FPS: false
-	}
-	_category = "Debug"
-	super()
+var SHOW_FPS := BooleanOption.new(&"show_fps", &"debug", false)
+#gdlint: enable = class-variable-name

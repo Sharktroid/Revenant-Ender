@@ -27,8 +27,8 @@ func _input(event: InputEvent) -> void:
 		else ControllerTypes.KEYBOARD
 	)
 
-	if DebugConfig.get_value(DebugConfig.PRINT_INPUT_RECEIVER):
-		print(get_current_input_node())
+	if DebugConfig.PRINT_INPUT_RECEIVER.value:
+		print("Input node: %s" % get_current_input_node())
 	# Ignore pseudo-virtual method
 	# gdlint:ignore = private-method-call
 	get_current_input_node()._receive_input(event)
