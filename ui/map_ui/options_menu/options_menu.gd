@@ -14,7 +14,6 @@ var _current_setting_index: int:
 		_get_current_setting_label().theme_type_variation = _get_label_color(
 			_get_current_setting_label()
 		)
-		_hovered_setting_index = _current_setting_index
 		if _get_current_option() is BooleanOption:
 			(_get_current_option() as BooleanOption).value = (
 				_get_current_setting_label().text == "On"
@@ -23,12 +22,14 @@ var _current_setting_index: int:
 			(_get_current_option() as StringNameOption).value = (
 				_get_current_setting_label().text.to_snake_case()
 			)
+		_hovered_setting_index = _current_setting_index
 # The index of the option setting that the mouse is hovering over.
 var _hovered_setting_index: int:
 	set(value):
 		if value != _hovered_setting_index:
 			_hovered_setting_index = posmod(value, _get_settings_count())
 			_update_column_hand_x()
+			_update_description()
 # The index of the current option.
 var _current_index: int = 0:
 	set(value):
@@ -44,6 +45,7 @@ var _current_index: int = 0:
 				_top_index -= 1
 			_update_hand_y()
 			_hovered_setting_index = _current_setting_index
+			_update_description()
 # The index of the top-displayed item.
 var _top_index: int = 0:
 	set(value):
@@ -70,7 +72,6 @@ var _scroll_tween: Tween = create_tween()
 
 
 func _ready() -> void:
-	Options.AUTOEND_TURNS = BooleanOption.new(&"terrain", &"options", true)
 	GameController.add_to_input_stack(self)
 	for option: ConfigOption in Options.get_options():
 		var icon_rect := TextureRect.new()
@@ -107,6 +108,7 @@ func _ready() -> void:
 	_horizontal_tween.stop()
 	_vertical_tween.stop()
 	_scroll_tween.stop()
+	_update_description()
 	await get_tree().process_frame
 	_column_hand_sprite.position.x = _get_column_hand_x()
 
@@ -114,7 +116,6 @@ func _ready() -> void:
 func _receive_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and not _scroll_tween.is_running():
 		#region Mouse handling
-		_toggle_hands(false)
 		_current_index = (clampi(
 			floori(_scroll_container.get_local_mouse_position().y / 16) + _top_index,
 			0,
@@ -137,26 +138,21 @@ func _receive_input(event: InputEvent) -> void:
 					_hovered_setting_index = index
 		#endregion
 	elif event is InputEventKey:
-		if _column_hand_sprite.visible:
-			if not _vertical_tween.is_running():
-				if event.is_action_pressed("up", true) and not Input.is_action_pressed("down"):
-					_current_index -= 1
-					AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_V)
-				elif event.is_action_pressed("down", true):
-					_current_index += 1
-					AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_V)
+		if not _vertical_tween.is_running():
+			if event.is_action_pressed("up", true) and not Input.is_action_pressed("down"):
+				_current_index -= 1
+				AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_V)
+			elif event.is_action_pressed("down", true):
+				_current_index += 1
+				AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_V)
 
-			if not _horizontal_tween.is_running():
-				if event.is_action_pressed("left", true) and not Input.is_action_pressed("right"):
-					_current_setting_index -= 1
-					AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_H)
-				elif event.is_action_pressed("right", true):
-					_current_setting_index += 1
-					AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_H)
-		else:
-			_hovered_setting_index = _current_setting_index
-			_toggle_hands(true)
-			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_H)
+		if not _horizontal_tween.is_running():
+			if event.is_action_pressed("left", true) and not Input.is_action_pressed("right"):
+				_current_setting_index -= 1
+				AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_H)
+			elif event.is_action_pressed("right", true):
+				_current_setting_index += 1
+				AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_H)
 
 	if event.is_action_pressed("ui_accept") and _current_setting_index != _hovered_setting_index:
 		_current_setting_index = _hovered_setting_index
@@ -236,12 +232,6 @@ func _displayed_item_count() -> int:
 	return ceili(_scroll_container.size.y / 16)
 
 
-# Hides hand cursors.
-func _toggle_hands(visibility: bool) -> void:
-	_row_hand_sprite.visible = visibility
-	_column_hand_sprite.visible = visibility
-
-
 # Gets the maximum value for the top index
 func _get_top_index_max() -> int:
 	return maxi(Options.get_options().size() - _displayed_item_count(), 0)
@@ -253,7 +243,8 @@ func _get_current_option() -> ConfigOption:
 
 func _get_settings_count() -> int:
 	return (
-		(_get_current_option() as StringNameOption).get_settings().size() if _get_current_option() is StringNameOption
+		(_get_current_option() as StringNameOption).get_settings().size()
+		if _get_current_option() is StringNameOption
 		else 2
 	)
 
@@ -265,3 +256,9 @@ func _create_label(is_current: bool, setting: StringName) -> Label:
 		_get_label_color(setting_label) if is_current else &"GrayLabel"
 	)
 	return setting_label
+
+
+func _update_description() -> void:
+	(%DescriptionLabel as Label).text = _get_current_option().get_description(
+		_get_hovered_setting_label().text.to_snake_case()
+	)

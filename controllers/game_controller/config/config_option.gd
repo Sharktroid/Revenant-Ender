@@ -10,6 +10,7 @@ var _value: StringName:
 		_file.set_value(_category, _name, _value)
 		_file.save("user://config.cfg")
 var _default: StringName
+var _description: String
 static var _file: ConfigFile
 
 
@@ -23,3 +24,7 @@ func _init() -> void:
 ## Gets the name. This is used in the config file as the key.
 func get_name() -> StringName:
 	return _name
+
+
+func get_description(_option: StringName) -> String:
+	return _description

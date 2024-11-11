@@ -15,3 +15,7 @@ var _settings: Array[StringName]
 ## Returns the possible valid values.
 func get_settings() -> Array[StringName]:
 	return _settings
+
+
+func get_error_message() -> String:
+	return "ERROR: value %s is invalid" % value

@@ -13,21 +13,27 @@ var GAME_SPEED := GameSpeedOption.new()
 var TEXT_SPEED := TextSpeedOption.new()
 # Controls how fast the units move
 ## @experimental Currently does nothing.
-var TERRAIN := BooleanOption.new(&"terrain", &"options", true)
+var TERRAIN := BooleanOption.new(&"terrain", &"options", true, "Set Terrain window display.")
 ## @experimental Currently does nothing.
 var UNIT_PANEL := UnitPanelOption.new()
 ## @experimental Currently does nothing.
 var COMBAT_PANEL := CombatPanelOption.new()
 ## @experimental Currently does nothing.
-var AUTOCURSOR := BooleanOption.new(&"autocursor", &"options", true)
+var AUTOCURSOR := BooleanOption.new(
+	&"autocursor", &"options", true, "Set cursor to start on main hero."
+)
 ## @experimental Currently does nothing.
-var AUTOEND_TURNS := BooleanOption.new(&"autoend_turns", &"options", true)
+var AUTOEND_TURNS := BooleanOption.new(
+	&"autoend_turns", &"options", true, "Set turn to end automatically."
+)
 ## @experimental Currently does nothing.
-var MUSIC := BooleanOption.new(&"music", &"options", true)
+var MUSIC := BooleanOption.new(&"music", &"options", true, "Turn music on or off.")
 ## @experimental Currently does nothing.
 var SOUND_EFFECTS := SoundEffectsOption.new()
 ## @experimental Currently does nothing.
-var UNIT_PALETTE := BooleanOption.new(&"unit_palette", &"options", true)
+var UNIT_PALETTE := BooleanOption.new(
+	&"unit_palette", &"options", true, "Sets allies personal colors."
+)
 #gdlint: enable = class-variable-name
 
 
@@ -76,6 +82,19 @@ class AnimationsOption:
 		_settings = [ALL, MOST, SOME, FEW]
 		super()
 
+	func get_description(option: StringName) -> String:
+		match option:
+			ALL:
+				return "Shows all animations."
+			MOST:
+				return "Shows all animations except against trivial enemies."
+			SOME:
+				return "Shows only boss animations."
+			FEW:
+				return "Shows only important boss animations."
+		push_warning(get_error_message())
+		return get_error_message()
+
 
 ## @experimental
 ## A [StringNameOption] for game speed.
@@ -94,6 +113,7 @@ class GameSpeedOption:
 		_default = NORMAL
 		_settings = [NORMAL, MAX]
 		_category = &"options"
+		_description = "Set unit movement speed."
 		super()
 
 
@@ -120,6 +140,7 @@ class TextSpeedOption:
 		_default = MEDIUM
 		_settings = [SLOW, MEDIUM, FAST, MAX]
 		_category = &"options"
+		_description = "Set message speed."
 		super()
 
 
@@ -145,6 +166,17 @@ class UnitPanelOption:
 		_category = &"options"
 		super()
 
+	func get_description(option: StringName) -> String:
+		match option:
+			PANEL:
+				return "Shows normal unit window."
+			BUBBLE:
+				return "Show unit window with tail."
+			OFF:
+				return "Turn unit window off."
+		push_warning(get_error_message())
+		return get_error_message()
+
 
 ## @experimental
 ## A [StringNameOption] for the combat panel.
@@ -167,6 +199,17 @@ class CombatPanelOption:
 		_settings = [STRATEGIC, DETAILED, OFF]
 		_category = &"options"
 		super()
+
+	func get_description(option: StringName) -> String:
+		match option:
+			STRATEGIC:
+				return "Shows standard Combat Info window."
+			DETAILED:
+				return "Shows detailed Combat Info window."
+			OFF:
+				return "Turn Combat Info window off."
+		push_warning(get_error_message())
+		return get_error_message()
 
 
 ## @experimental
@@ -191,4 +234,5 @@ class SoundEffectsOption:
 		_default = HIGH
 		_settings = [HIGH, MEDIUM, LOW, OFF]
 		_category = &"options"
+		_description = "Set sound effect volume."
 		super()

@@ -17,12 +17,14 @@ Before you commit
 * Have weapon rank increases on level up be linked to skill
 * Pallette the status screen for each unit
 * Rename Combat Display to Combat Panel
+* Add TRS markers
 
 # Major
 * Document classes (roll this out gradually so I don't burn out)
 * Add options menu
 	* Description
 	* One for volume
+* Add DS Font
 * Implement effective damage
 	* Display effective damage on status screen.
 * Implement weapon rank bonuses

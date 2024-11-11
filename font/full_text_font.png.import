@@ -13,10 +13,13 @@ dest_files=["res://.godot/imported/full_text_font.png-58c0595103a720aa9b9ead7f48
 [params]
 
 character_ranges=PackedStringArray("\' \'-\'~\'", "\'Γ\'-\'Δ\'", "\'Θ\'", "\'Λ\'", "\'Ξ\'", "\'Π\'", "\'Σ\'", "\'Φ\'", "\'Ψ\'-\'Ω\'", "\'α\'-\'μ\'", "\'ν\'-\'ξ\'", "\'π\'-\'ω\'", "\'ϛ\'", "\'ϟ\'", "\'ϡ\'", "\'∞\'")
+kerning_pairs=PackedStringArray()
 columns=16
 rows=9
 image_margin=Rect2i(0, 0, 0, 0)
 character_margin=Rect2i(0, 0, 0, 0)
+ascent=0
+descent=0
 fallbacks=[]
 compress=true
 scaling_mode=2
