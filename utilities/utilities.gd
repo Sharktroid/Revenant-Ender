@@ -1,8 +1,10 @@
 extends Node
 
+## The infinite character.
+const INF_CHAR: String = "∞"
+
 const _MIN_POSITION: int = -(2 ** 15) + 1
 const _SIZE: int = 2 ** 16
-const _INF_CHAR: String = "∞"
 
 var _theme: Theme = preload("res://ui/theme/menu_theme.tres")
 var _default_screen_size: Vector2i
@@ -14,7 +16,7 @@ var _current_checkpoint: int
 
 
 func _init() -> void:
-	assert(_INF_CHAR.length() == 1, "Error: Infinity character has been corrupted.")
+	assert(INF_CHAR.length() == 1, "Error: Infinity character has been corrupted.")
 	_default_screen_size = Vector2i(
 		ProjectSettings.get_setting("display/window/size/viewport_width") as int,
 		ProjectSettings.get_setting("display/window/size/viewport_height") as int
@@ -81,6 +83,10 @@ func round_coords_to_tile(coords: Vector2, offset := Vector2()) -> Vector2i:
 	coords -= offset
 	coords = Vector2(floori(coords.x / 16) * 16, floori(coords.y / 16) * 16)
 	return coords + offset
+
+
+func round_to_places(num: float, places: int) -> float:
+	return roundf(num * (10**places)) / (10**places)
 
 
 func sync_animation(animation_player: AnimationPlayer) -> void:
@@ -168,7 +174,7 @@ func is_running_project() -> bool:
 
 
 func float_to_string(num: float) -> String:
-	return str(num).replace("inf", _INF_CHAR)
+	return str(num).replace("inf", INF_CHAR)
 
 
 func _slice_string(string: String, start: int, end: int) -> String:
