@@ -43,6 +43,7 @@
         "rfind",
         "roundf",
         "roundi",
+        "snappedf",
         "snappedi",
         "stylebox",
         "substr",

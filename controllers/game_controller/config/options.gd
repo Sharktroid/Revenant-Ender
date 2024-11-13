@@ -27,9 +27,11 @@ var AUTOEND_TURNS := BooleanOption.new(
 	&"autoend_turns", &"options", true, "Set turn to end automatically."
 )
 ## @experimental Currently does nothing.
-var MUSIC := BooleanOption.new(&"music", &"options", true, "Turn music on or off.")
+var MUSIC := FloatOption.new(&"music", &"options", 1.0, 0.0, 1.0, "Set music volume.")
 ## @experimental Currently does nothing.
-var SOUND_EFFECTS := SoundEffectsOption.new()
+var SOUND_EFFECTS := FloatOption.new(
+	&"sound_effects", &"options", 1.0, 0.0, 1.0, "Set sound effect volume."
+)
 ## @experimental Currently does nothing.
 var UNIT_PALETTE := BooleanOption.new(
 	&"unit_palette", &"options", true, "Sets allies personal colors."
@@ -210,29 +212,3 @@ class CombatPanelOption:
 				return "Turn Combat Info window off."
 		push_warning(get_error_message())
 		return get_error_message()
-
-
-## @experimental
-## A [StringNameOption] for Sound Effect volume.
-class SoundEffectsOption:
-	extends StringNameOption
-
-	## @experimental
-	## Currently does nothing
-	const HIGH: StringName = &"high"
-	## @experimental
-	const MEDIUM: StringName = &"medium"
-	## @experimental
-	## Currently does nothing
-	const LOW: StringName = &"low"
-	## @experimental
-	## Currently does nothing
-	const OFF: StringName = &"off"
-
-	func _init() -> void:
-		_name = &"sound_effects"
-		_default = HIGH
-		_settings = [HIGH, MEDIUM, LOW, OFF]
-		_category = &"options"
-		_description = "Set sound effect volume."
-		super()

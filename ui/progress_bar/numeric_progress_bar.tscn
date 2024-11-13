@@ -44,7 +44,7 @@ texture = SubResource("GradientTexture2D_7enxp")
 custom_minimum_size = Vector2(0, 16)
 offset_right = 48.0
 offset_bottom = 16.0
-size_flags_horizontal = 3
+size_flags_horizontal = 0
 mouse_filter = 1
 script = ExtResource("1_aics6")
 
@@ -86,7 +86,6 @@ mouse_filter = 1
 theme_override_styles/background = SubResource("StyleBoxEmpty_rbcwh")
 theme_override_styles/fill = SubResource("StyleBoxTexture_b7mme")
 max_value = 3.0
-step = 1.0
 show_percentage = false
 
 [node name="ValueLabel" type="Label" parent="."]

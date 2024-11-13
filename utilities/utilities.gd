@@ -85,10 +85,6 @@ func round_coords_to_tile(coords: Vector2, offset := Vector2()) -> Vector2i:
 	return coords + offset
 
 
-func round_to_places(num: float, places: int) -> float:
-	return roundf(num * (10**places)) / (10**places)
-
-
 func sync_animation(animation_player: AnimationPlayer) -> void:
 	animation_player.seek(
 		fmod(float(Time.get_ticks_msec()) / 1000, animation_player.current_animation_length)
