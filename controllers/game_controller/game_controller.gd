@@ -16,6 +16,11 @@ func _init() -> void:
 	controller_type = ControllerTypes.MOUSE
 
 
+func _ready() -> void:
+	_update_fps_display()
+	DebugConfig.SHOW_FPS.value_updated.connect(_update_fps_display)
+
+
 func _physics_process(_delta: float) -> void:
 	randi()  # Burns a random number every frame
 
@@ -68,3 +73,10 @@ func get_root() -> Viewport:
 	const PATH: String = "SubViewportContainer/SubViewport"
 	var has_viewport: bool = get_viewport() and get_viewport().has_node(PATH)
 	return get_viewport().get_node(PATH) as Viewport if has_viewport else Window.new()
+
+
+# Toggles the FPS display depending on the config
+func _update_fps_display() -> void:
+	(GameController.get_root().get_node("%FPSDisplay") as HBoxContainer).visible = (
+		DebugConfig.SHOW_FPS.value
+	)

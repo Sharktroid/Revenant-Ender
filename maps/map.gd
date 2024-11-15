@@ -1,25 +1,35 @@
+## A Node that represents a map.
 class_name Map
 extends ReferenceRect
 
 enum TileTypes { ATTACK, MOVEMENT, SUPPORT }
 
-# Border boundaries of the map. units should not exceed these unless aesthetic
+# Border boundaries of the map.
 @export var _left_border: int
 @export var _right_border: int
 @export var _top_border: int
 @export var _bottom_border: int
-# See _ready() for these next two
+## The boundaries around the map. Units should not exceed these unless aesthetic
 var borders: Rect2i
-var all_factions: Array[Faction]  # All factions
+## An array that contains all of the factions currently being used.
+var all_factions: Array[Faction]
 
-var _movement_cost_dict: Dictionary  # Movement costs for every movement type
+# Movement costs for every movement type
+var _movement_cost_dict: Dictionary
+# The index of the current faction
 var _current_faction: int = 0
+# The [AStarGrids] that are used to generate movement paths
 var _cost_grids: Dictionary = {}
+# The faction that last used a grid.
 var _grid_current_faction: Faction
+# The current turn.
 var _current_turn: int
 
+# The terrain map layer
 @onready var _terrain_layer := $MapLayer/TerrainLayer as TileMapLayer
+# The visual map layer
 @onready var _base_layer := $MapLayer/BaseLayer as TileMapLayer
+# The border layer
 @onready var _border_overlay := $MapLayer/DebugBorderOverlayContainer as CanvasGroup
 
 
@@ -31,9 +41,13 @@ func _ready() -> void:
 	borders = Rect2i(_left_border * 16, _top_border * 16, 32, 32)
 	borders = borders.expand(get_size() - Vector2(_right_border * 16, _bottom_border * 16))
 	_create_debug_borders()  # Only shows up when collision shapes are enabled
-	_terrain_layer.visible = DebugConfig.DISPLAY_MAP_TERRAIN.value
-	_border_overlay.visible = DebugConfig.DISPLAY_MAP_BORDERS.value
-	($MapLayer/CursorArea as Area2D).visible = DebugConfig.DISPLAY_MAP_CURSOR.value
+	_update_terrain_display()
+	DebugConfig.DISPLAY_MAP_TERRAIN.value_updated.connect(_update_terrain_display)
+	_update_map_borders()
+	DebugConfig.DISPLAY_MAP_BORDERS.value_updated.connect(_update_map_borders)
+	_update_map_borders()
+	DebugConfig.DISPLAY_MAP_CURSOR.value_updated.connect(_update_map_borders)
+
 	var cell_max: Vector2i = _base_layer.get_used_cells().max()
 	size = cell_max * 16 + Vector2i(16, 16)
 	GameController.add_to_input_stack(self)
@@ -75,17 +89,19 @@ func _receive_input(event: InputEvent) -> void:
 			CursorController.disable()
 
 
+## A function that is called whenever a unit ends their turn.
 func unit_wait(_unit: Unit) -> void:
-	# Called whenever a unit waits.
 	_update_outline()
 	for unit: Unit in get_units():
 		unit.reset_tile_cache()
 
 
+## Gets the faction that is currently making their turn.
 func get_current_faction() -> Faction:
 	return all_factions[_current_faction]
 
 
+## Gets the units that belong to the provided faction.
 func get_units_by_faction(faction: Faction) -> Array[Unit]:
 	var units: Array[Unit] = []
 	for unit: Unit in get_units():
@@ -94,16 +110,18 @@ func get_units_by_faction(faction: Faction) -> Array[Unit]:
 	return units
 
 
+## Gets the next unit in the unit list relative to the given unit.
 func get_next_unit(unit: Unit) -> Unit:
 	return _get_unit_relative(unit, 1)
 
 
+## Gets the previous unit in the unit list relative to the given unit.
 func get_previous_unit(unit: Unit) -> Unit:
 	return _get_unit_relative(unit, -1)
 
 
+## Ends current turn.
 func end_turn() -> void:
-	## Ends current turn.
 	for unit: Unit in MapController.map.get_units():
 		unit.awaken()
 	_next_faction()
@@ -137,6 +155,7 @@ func get_terrain_cost(movement_type: UnitClass.MovementTypes, coords: Vector2) -
 	return INF
 
 
+## Displays an array of tile coordinates on the map.
 func display_tiles(
 	tiles: Array[Vector2i],
 	type: TileTypes,
@@ -168,6 +187,7 @@ func display_tiles(
 	return tiles_node
 
 
+## Displays tiles while highlighting tiles where a unit currently is.
 func display_highlighted_tiles(tiles: Array[Vector2i], unit: Unit, type: TileTypes) -> Node2D:
 	var unit_coords: Array[Vector2i] = []
 	for e_unit: Unit in MapController.map.get_units():
@@ -176,6 +196,7 @@ func display_highlighted_tiles(tiles: Array[Vector2i], unit: Unit, type: TileTyp
 	return display_tiles(tiles, type, 0.5, unit_coords)
 
 
+## Gets the movement path to navigate from the starting point to the destination.
 func get_movement_path(
 	movement_type: UnitClass.MovementTypes,
 	starting_point: Vector2i,
@@ -199,6 +220,7 @@ func get_movement_path(
 	return output
 
 
+## Gets the cost of traversing a movement path.
 func get_path_cost(movement_type: UnitClass.MovementTypes, path: Array[Vector2i]) -> float:
 	if path.size() == 0:
 		return INF
@@ -209,6 +231,7 @@ func get_path_cost(movement_type: UnitClass.MovementTypes, path: Array[Vector2i]
 	return sum
 
 
+## Gets all units.
 func get_units() -> Array[Unit]:
 	var units: Array[Unit] = []
 	if is_inside_tree():
@@ -217,6 +240,7 @@ func get_units() -> Array[Unit]:
 	return units
 
 
+## Updates the terrain cost at a position.
 func update_position_terrain_cost(pos: Vector2i) -> void:
 	for movement_type: UnitClass.MovementTypes in _cost_grids.keys():
 		var a_star_grid: AStarGrid2D = _cost_grids[movement_type]
@@ -234,7 +258,8 @@ func get_map_camera() -> MapCamera:
 	return (get_node(path) as MapCamera) if has_node(path) else MapCamera.new()
 
 
-func is_faction_friendly_to_player(faction: Faction) -> bool:
+## Returns true if the faction is friendly to a human.
+func is_faction_friendly_to_human(faction: Faction) -> bool:
 	for human_faction: Faction in all_factions:
 		if (
 			human_faction.player_type == Faction.PlayerTypes.HUMAN
@@ -244,6 +269,7 @@ func is_faction_friendly_to_player(faction: Faction) -> bool:
 	return false
 
 
+# Updates AStarGrid2D
 func _update_a_star_grid_id(
 	a_star_grid: AStarGrid2D, movement_type: UnitClass.MovementTypes, id: Vector2i
 ) -> void:
@@ -254,7 +280,7 @@ func _update_a_star_grid_id(
 		a_star_grid.set_point_weight_scale(id, weight)
 
 
-## Creates map menu.
+# Creates map menu.
 func _create_main_map_menu() -> void:
 	const MainMapMenu = preload("res://ui/map_ui/map_menus/main_map_menu/main_map_menu.gd")
 	var menu := MainMapMenu.instantiate(CursorController.screen_position + Vector2i(16, 0))
@@ -395,3 +421,18 @@ func _toggle_outline_unit(unit: Unit) -> void:
 
 func _update_outline() -> void:
 	($MapLayer/Outline as Node2D).queue_redraw()
+
+
+# Updates whether the terrain display is on
+func _update_terrain_display() -> void:
+	_terrain_layer.visible = DebugConfig.DISPLAY_MAP_TERRAIN.value
+
+
+# Updates whether map borders are displayed
+func _update_map_borders() -> void:
+	_border_overlay.visible = DebugConfig.DISPLAY_MAP_BORDERS.value
+
+
+# Updates whether map cursor area is rendered
+func _update_map_cursor() -> void:
+	($MapLayer/CursorArea as Area2D).visible = DebugConfig.DISPLAY_MAP_CURSOR.value

@@ -160,10 +160,10 @@ func _play_hit_sound_effect(
 	old_health: int, new_health: int, is_crit: bool, attacker: Unit
 ) -> SceneTreeTimer:
 	if is_crit and new_health <= 0:
+		const SMASH: AudioStreamOggVorbis = preload("res://audio/sfx/earthbound_smash.ogg")
+		const MORTAL: AudioStreamOggVorbis = preload("res://audio/sfx/earthbound_mortal.ogg")
 		var crit_sfx: AudioStreamOggVorbis = (
-			preload("res://audio/sfx/earthbound_smash.ogg")
-			if MapController.map.is_faction_friendly_to_player(attacker.faction)
-			else preload("res://audio/sfx/earthbound_mortal.ogg")
+			SMASH if MapController.map.is_faction_friendly_to_human(attacker.faction) else MORTAL
 		)
 		AudioPlayer.play_sound_effect(crit_sfx)
 		return get_tree().create_timer(crit_sfx.get_length())
@@ -185,7 +185,9 @@ func _play_hit_sound_effect(
 		sfx_tween.set_speed_scale(60)
 		sfx_tween.tween_callback(AudioPlayer.play_sound_effect.bind(hit_a))
 		sfx_tween.tween_callback(AudioPlayer.play_sound_effect.bind(hit_b)).set_delay(DELAY)
-		return get_tree().create_timer(maxf(hit_a.get_length(), float(DELAY)/60 + hit_b.get_length()))
+		return get_tree().create_timer(
+			maxf(hit_a.get_length(), float(DELAY) / 60 + hit_b.get_length())
+		)
 
 
 ## Object that represents one attack in a round of combat.

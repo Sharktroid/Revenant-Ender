@@ -23,39 +23,27 @@ func _select_item(item: MapMenuItem) -> void:
 
 		"DisplayBorders":
 			DebugConfig.DISPLAY_MAP_BORDERS.invert()
-			var map_borders := (
-				MapController.map.get_node("MapLayer/DebugBorderOverlayContainer") as Node2D
-			)
-			map_borders.visible = DebugConfig.DISPLAY_MAP_BORDERS.value
 
 		"DisplayTerrain":
 			DebugConfig.DISPLAY_MAP_TERRAIN.invert()
-			var terrain_layer := MapController.map.get_node("MapLayer/TerrainLayer") as TileMapLayer
-			terrain_layer.visible = DebugConfig.DISPLAY_MAP_TERRAIN.value
 
 		"DisplayMapCursor":
 			DebugConfig.DISPLAY_MAP_CURSOR.invert()
-			var cursor_area: Area2D = CursorController.get_area()
-			cursor_area.visible = DebugConfig.DISPLAY_MAP_CURSOR.value
 
-		"PrintInputRECEIVER":
+		"PrintInputReciever":
 			DebugConfig.PRINT_INPUT_RECEIVER.invert()
 
 		"PrintCursorPosition":
-			print(
-				"Position relative to UI: {screen_pos}\nPosition relative to map: {map_pos}".format(
-					{
-						"screen_pos": CursorController.screen_position,
-						"map_pos": CursorController.map_position
-					}
-				)
+			var ui_pos_string: String = (
+				"Position relative to UI: %s" % CursorController.screen_position
 			)
+			var map_pos_string: String = (
+				"Position relative to map: %s" % CursorController.map_position
+			)
+			print("{ui}\n{map}".format({"ui": ui_pos_string, "map": map_pos_string}))
 
 		"DisplayFrameRate":
 			DebugConfig.SHOW_FPS.invert()
-			(GameController.get_root().get_node("%FPSDisplay") as HBoxContainer).visible = (
-				DebugConfig.SHOW_FPS.value
-			)
 
 		_:
 			push_error("%s is not a valid menu item" % item)

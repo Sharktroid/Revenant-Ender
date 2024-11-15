@@ -2,6 +2,8 @@
 class_name ConfigOption
 extends RefCounted
 
+signal value_updated
+
 var _name: StringName
 var _category: StringName
 var _value: StringName:
@@ -9,6 +11,7 @@ var _value: StringName:
 		_value = value
 		_file.set_value(_category, _name, _value)
 		_file.save("user://config.cfg")
+		value_updated.emit()
 var _default: StringName
 var _description: String
 static var _file: ConfigFile
@@ -26,5 +29,6 @@ func get_name() -> StringName:
 	return _name
 
 
+## Gets the description of the ConfigOption. Takes the option as a parameter.
 func get_description(_option: StringName) -> String:
 	return _description

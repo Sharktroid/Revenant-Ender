@@ -18,6 +18,7 @@ Before you commit
 * Pallette the status screen for each unit
 * Rename Combat Display to Combat Panel
 * Add TRS markers
+* Clean up debug map borders
 
 # Major
 * Document classes (roll this out gradually so I don't burn out)
