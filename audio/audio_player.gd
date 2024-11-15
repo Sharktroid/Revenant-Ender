@@ -4,17 +4,12 @@ extends Node
 const _MUSIC_GROUP: StringName = &"music_track"
 const _SFX_GROUP: StringName = &"sound_effect"
 
-## The current volume of the music from 0 to 1
-var music_volume: float = 0.0:
-	set(value):
-		music_volume = value
-		_get_current_player().volume_db = _percent_to_db(music_volume)
-		_get_current_player().stream_paused = not (music_volume > 0)
-## The current volume of sound effects from 0 to 1
-var sfx_volume: float = 0.5
-
 var _tracks: Dictionary = {}
 var _track_stack: Array[AudioStream]
+
+
+func _ready() -> void:
+	Options.MUSIC.value_updated.connect(_update_volume)
 
 
 ## Plays an audio track and pauses any current audio track.
@@ -25,20 +20,20 @@ func play_track(stream: AudioStream) -> void:
 	if stream in _track_stack:
 		_track_stack.erase(stream)
 		_track_stack.append(stream)
-		if music_volume > 0:
+		if Options.MUSIC.value > 0:
 			_get_current_player().stream_paused = false
 			_fade_in_track()
 	else:
 		_track_stack.append(stream)
 		var new_player := AudioStreamPlayer.new()
 		new_player.stream = stream
-		if music_volume == 0:
+		if Options.MUSIC.value == 0:
 			new_player.stream_paused = true
 		_tracks[stream] = new_player
 		add_child(new_player)
 		new_player.add_to_group(_MUSIC_GROUP)
 		new_player.play()
-	_get_current_player().volume_db = _percent_to_db(music_volume)
+	_get_current_player().volume_db = _percent_to_db(Options.MUSIC.value)
 
 
 ## Stops all tracks. Frees memory.
@@ -58,7 +53,7 @@ func stop_track() -> void:
 
 ## Resumes the last track.
 func resume_track() -> void:
-	if is_instance_valid(_get_current_player()) and music_volume > 0:
+	if is_instance_valid(_get_current_player()) and Options.MUSIC.value > 0:
 		_get_current_player().stream_paused = false
 		_fade_in_track()
 
@@ -78,11 +73,11 @@ func stop_and_resume_previous_track() -> void:
 
 ## Plays a sound effect.
 func play_sound_effect(stream: AudioStream) -> void:
-	if sfx_volume > 0:
+	if Options.SOUND_EFFECTS.value > 0:
 		var player := AudioStreamPlayer.new()
 		player.stream = stream
 		add_child(player)
-		player.volume_db = _percent_to_db(sfx_volume)
+		player.volume_db = _percent_to_db(Options.SOUND_EFFECTS.value)
 		player.play()
 		player.add_to_group(_SFX_GROUP)
 		await player.finished
@@ -97,13 +92,13 @@ func clear_sound_effects() -> void:
 func _fade_in_track(duration: float = 1.0 / 3) -> void:
 	if is_instance_valid(_get_current_player()) and is_inside_tree():
 		var tween: Tween = create_tween()
-		tween.tween_method(_set_volume, 0.0, music_volume, duration)
+		tween.tween_method(_set_volume, 0.0, Options.MUSIC.value, duration)
 
 
 func _fade_out_track(duration: float = 1.0 / 3) -> void:
 	if is_instance_valid(_get_current_player()):
 		var tween: Tween = create_tween()
-		tween.tween_method(_set_volume, music_volume, 0.0, duration)
+		tween.tween_method(_set_volume, Options.MUSIC.value, 0.0, duration)
 		await tween.finished
 
 
@@ -113,6 +108,11 @@ func _get_current_player() -> AudioStreamPlayer:
 
 func _percent_to_db(volume: float) -> float:
 	return 6 * (log(volume) / log(2)) if volume > 0 else -100.0
+
+
+func _update_volume() -> void:
+	_get_current_player().volume_db = _percent_to_db(Options.MUSIC.value)
+	_get_current_player().stream_paused = not (Options.MUSIC.value > 0)
 
 
 func _set_volume(new_volume: float) -> void:
