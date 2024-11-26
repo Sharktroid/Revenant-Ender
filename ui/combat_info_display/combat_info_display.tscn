@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://bss6lqt2xeb3"]
+[gd_scene load_steps=26 format=3 uid="uid://c6sx28dkpeclq"]
 
 [ext_resource type="Script" path="res://ui/combat_info_display/combat_info_display.gd" id="1_1wwld"]
 [ext_resource type="Texture2D" uid="uid://ch8tv43kw8yv4" path="res://ui/theme/menu.png" id="1_olcin"]
@@ -34,7 +34,6 @@ shader = ExtResource("2_m6y0q")
 shader_parameter/darken_screen = 0.5
 shader_parameter/old_colors = null
 shader_parameter/new_colors = null
-shader_parameter/modulate = Vector4(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_86dgu"]
 content_margin_left = 1.0
@@ -58,7 +57,6 @@ shader = ExtResource("2_m6y0q")
 shader_parameter/darken_screen = 0.5
 shader_parameter/old_colors = Array[Vector3]([])
 shader_parameter/new_colors = Array[Vector3]([])
-shader_parameter/modulate = Vector4(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_llbmy"]
 bg_color = Color(0.321569, 0.580392, 0.839216, 1)
@@ -128,7 +126,7 @@ grow_horizontal = 2
 [node name="MainPanel" type="PanelContainer" parent="SubViewport/VBoxContainer"]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_nwvkw")
-custom_minimum_size = Vector2(97, 161)
+custom_minimum_size = Vector2(97, 209)
 layout_mode = 2
 size_flags_vertical = 3
 focus_mode = 2
@@ -290,9 +288,22 @@ theme_override_constants/separation = 0
 [node name="BottomHP" type="Label" parent="SubViewport/VBoxContainer/MainPanel/VBoxContainer/ReferenceRect/Control2/BottomUnit/BottomUnit/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_type_variation = &"BlueLabel"
 text = "50"
 
 [node name="BottomDamage" type="Label" parent="SubViewport/VBoxContainer/MainPanel/VBoxContainer/ReferenceRect/Control2/BottomUnit/BottomUnit/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"BlueLabel"
+text = "13"
+
+[node name="BottomAttack" type="Label" parent="SubViewport/VBoxContainer/MainPanel/VBoxContainer/ReferenceRect/Control2/BottomUnit/BottomUnit/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"BlueLabel"
+text = "13"
+
+[node name="BottomDefense" type="Label" parent="SubViewport/VBoxContainer/MainPanel/VBoxContainer/ReferenceRect/Control2/BottomUnit/BottomUnit/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
@@ -311,6 +322,12 @@ theme_type_variation = &"BlueLabel"
 text = "26"
 
 [node name="BottomCrit" type="Label" parent="SubViewport/VBoxContainer/MainPanel/VBoxContainer/ReferenceRect/Control2/BottomUnit/BottomUnit/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"BlueLabel"
+text = "3"
+
+[node name="BottomAttackSpeed" type="Label" parent="SubViewport/VBoxContainer/MainPanel/VBoxContainer/ReferenceRect/Control2/BottomUnit/BottomUnit/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
@@ -335,34 +352,60 @@ custom_minimum_size = Vector2(22, 0)
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Label" type="Label" parent="SubViewport/VBoxContainer/MainPanel/VBoxContainer/ReferenceRect/Control2/VBoxContainer/VBoxContainer"]
+[node name="HPLabel" type="Label" parent="SubViewport/VBoxContainer/MainPanel/VBoxContainer/ReferenceRect/Control2/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"YellowLabel"
 text = "HP"
 horizontal_alignment = 1
 
-[node name="Label2" type="Label" parent="SubViewport/VBoxContainer/MainPanel/VBoxContainer/ReferenceRect/Control2/VBoxContainer/VBoxContainer"]
+[node name="DamageLabel" type="Label" parent="SubViewport/VBoxContainer/MainPanel/VBoxContainer/ReferenceRect/Control2/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"YellowLabel"
-text = "Dmg"
+text = "Dmg."
 horizontal_alignment = 1
 
-[node name="Label3" type="Label" parent="SubViewport/VBoxContainer/MainPanel/VBoxContainer/ReferenceRect/Control2/VBoxContainer/VBoxContainer"]
+[node name="AttackLabel" type="Label" parent="SubViewport/VBoxContainer/MainPanel/VBoxContainer/ReferenceRect/Control2/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"YellowLabel"
+text = "Atk."
+horizontal_alignment = 1
+
+[node name="DefenseLabel" type="Label" parent="SubViewport/VBoxContainer/MainPanel/VBoxContainer/ReferenceRect/Control2/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"YellowLabel"
+text = "Def."
+horizontal_alignment = 1
+
+[node name="HitLabel" type="Label" parent="SubViewport/VBoxContainer/MainPanel/VBoxContainer/ReferenceRect/Control2/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"YellowLabel"
 text = "Hit%"
 horizontal_alignment = 1
 
-[node name="Label4" type="Label" parent="SubViewport/VBoxContainer/MainPanel/VBoxContainer/ReferenceRect/Control2/VBoxContainer/VBoxContainer"]
+[node name="CritDamageLabel" type="Label" parent="SubViewport/VBoxContainer/MainPanel/VBoxContainer/ReferenceRect/Control2/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"YellowLabel"
-text = "C. Dmg"
+text = "Cr. D."
 horizontal_alignment = 1
 
-[node name="Label5" type="Label" parent="SubViewport/VBoxContainer/MainPanel/VBoxContainer/ReferenceRect/Control2/VBoxContainer/VBoxContainer"]
+[node name="CritLabel" type="Label" parent="SubViewport/VBoxContainer/MainPanel/VBoxContainer/ReferenceRect/Control2/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"YellowLabel"
-text = "Crit%"
+text = "Crit.%"
+horizontal_alignment = 1
+
+[node name="AttackSpeedLabel" type="Label" parent="SubViewport/VBoxContainer/MainPanel/VBoxContainer/ReferenceRect/Control2/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"YellowLabel"
+text = "A.S."
 horizontal_alignment = 1
 
 [node name="Polygon2D" type="Polygon2D" parent="SubViewport/VBoxContainer/MainPanel/VBoxContainer/ReferenceRect/Control2/VBoxContainer"]
@@ -428,6 +471,20 @@ theme_type_variation = &"BlueLabel"
 text = "13"
 horizontal_alignment = 2
 
+[node name="TopAttack" type="Label" parent="SubViewport/VBoxContainer/MainPanel/VBoxContainer/ReferenceRect/Control2/TopUnit/TopUnit/MarginContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"BlueLabel"
+text = "13"
+horizontal_alignment = 2
+
+[node name="TopDefense" type="Label" parent="SubViewport/VBoxContainer/MainPanel/VBoxContainer/ReferenceRect/Control2/TopUnit/TopUnit/MarginContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"BlueLabel"
+text = "13"
+horizontal_alignment = 2
+
 [node name="TopHit" type="Label" parent="SubViewport/VBoxContainer/MainPanel/VBoxContainer/ReferenceRect/Control2/TopUnit/TopUnit/MarginContainer/VBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -443,6 +500,13 @@ text = "26"
 horizontal_alignment = 2
 
 [node name="TopCrit" type="Label" parent="SubViewport/VBoxContainer/MainPanel/VBoxContainer/ReferenceRect/Control2/TopUnit/TopUnit/MarginContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"BlueLabel"
+text = "3"
+horizontal_alignment = 2
+
+[node name="TopAttackSpeed" type="Label" parent="SubViewport/VBoxContainer/MainPanel/VBoxContainer/ReferenceRect/Control2/TopUnit/TopUnit/MarginContainer/VBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
@@ -563,7 +627,7 @@ layout_mode = 2
 
 [node name="Line2D" type="Line2D" parent="SubViewport/VBoxContainer/MainPanel/VBoxContainer/BottomUnitPanel"]
 z_index = 1
-use_parent_material = true
+material = SubResource("ShaderMaterial_paaml")
 position = Vector2(-90.5, -83)
 points = PackedVector2Array(91, 1, 91, 118)
 width = 1.0

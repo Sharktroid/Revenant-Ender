@@ -44,6 +44,7 @@ func _init(connected_unit: Unit = null, targeted_tile := Vector2i(0, 16)) -> voi
 		)
 	)
 
+
 ## @experimental
 ## Plays the map animation.
 func play_animation() -> void:
@@ -61,7 +62,6 @@ func play_animation() -> void:
 ## Sets the animation's alpha value.
 func set_alpha(alpha: float) -> void:
 	_combat_sprite.modulate.a = alpha
-	_combat_sprite.update_shader()
 
 
 ## Plays the animation for when a unit it hit by a non-critical hit

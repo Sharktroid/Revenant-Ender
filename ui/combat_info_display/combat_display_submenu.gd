@@ -1,14 +1,18 @@
+## A menu that displays possible weapons for the combat panel
 extends MapMenu
 
+## Emits the selected weapon when the selected weapon is changed.
 signal weapon_selected(weapon: Weapon)
 
 const _ITEM_MENU_ITEM = preload("res://ui/combat_info_display/combat_display_menu_item.gd")
 
+## The weapons that are being displayed.
 var weapons: Array[Weapon]:
 	set(value):
 		if weapons != value:
 			weapons = value
 			_update()
+## The index of the currently selected item
 var current_item_index: int:
 	set(value):
 		_current_item_index = value

@@ -1,6 +1,9 @@
+## A scene that display combat information to the player.
+## The information can be changed via an option.
 class_name CombatInfoDisplay
 extends SubViewportContainer
 
+## Emits true when the player presses select, and false when the player cancels out.
 signal completed(proceed: bool)
 
 const _BLUE_COLORS: Array[Color] = [
@@ -25,6 +28,7 @@ const _RED_COLORS: Array[Color] = [
 ]
 const _COMBAT_DISPLAY_SUBMENU = preload("res://ui/combat_info_display/combat_display_submenu.gd")
 
+## The unit being displayed on the bottom.
 var bottom_unit: Unit:
 	set(value):
 		bottom_unit = value
@@ -43,6 +47,7 @@ var _weapon_index: int = 0:
 		_item_menu.current_item_index = _weapon_index
 		_top_unit.display_current_attack_tiles()
 var _old_weapon: Weapon
+@onready var _main_panel: PanelContainer = %MainPanel as PanelContainer
 @onready var _item_menu := %ItemMenu as _COMBAT_DISPLAY_SUBMENU
 
 
@@ -66,12 +71,23 @@ func _ready() -> void:
 
 	_item_menu.weapon_selected.connect(_on_weapon_selected)
 	_update()
+	if Options.COMBAT_PANEL.value == Options.COMBAT_PANEL.OFF:
+		(%MainPanel as Control).visible = false
+
+	match Options.COMBAT_PANEL.value:
+		Options.COMBAT_PANEL.STRATEGIC:
+			_hide_elements(["Attack", "Defense", "AttackSpeed"])
+		Options.COMBAT_PANEL.DETAILED:
+			_hide_elements(["Damage", "CritDamage"])
+		Options.COMBAT_PANEL.OFF:
+			_main_panel.visible = false
 
 
 func _exit_tree() -> void:
 	_top_unit.hide_current_attack_tiles()
 
 
+## Creates a new instance.
 static func instantiate(top: Unit, bottom: Unit = null, focused: bool = false) -> CombatInfoDisplay:
 	const PACKED_SCENE: PackedScene = preload(
 		"res://ui/combat_info_display/combat_info_display.tscn"
@@ -99,10 +115,12 @@ func _receive_input(event: InputEvent) -> void:
 		_weapon_index += 1
 
 
+## Causes the node to be focused, allowing it to recieve input and become opaque.
 func focus() -> void:
 	_set_focus(true)
 
 
+# Sets the focus.
 func _set_focus(is_focused: bool) -> void:
 	_focused = is_focused
 	if is_node_ready():
@@ -154,9 +172,7 @@ func _update() -> void:
 			var is_top: bool = half == "Top"
 			var current_unit: Unit = _top_unit if is_top else bottom_unit
 			var other_unit: Unit = bottom_unit if is_top else _top_unit
-			var weapon: Weapon = (
-				_get_current_weapon() if is_top else bottom_unit.get_weapon()
-			)
+			var weapon: Weapon = _get_current_weapon() if is_top else bottom_unit.get_weapon()
 			var node_path: String = "%%{half}%s".format({"half": half})
 
 			(get_node(node_path % "Name") as Label).text = current_unit.display_name
@@ -174,6 +190,16 @@ func _update() -> void:
 				get_node(node_path % "Damage") as Label,
 				current_unit.get_damage(other_unit),
 				in_range
+			)
+
+			_update_damage_label(
+				get_node(node_path % "Attack") as Label,
+				current_unit.get_true_attack(other_unit),
+				in_range
+			)
+
+			(get_node(node_path % "Defense") as Label).text = str(
+				current_unit.get_current_defense(other_unit.get_weapon())
 			)
 
 			_update_rate_label(
@@ -194,8 +220,18 @@ func _update() -> void:
 				in_range
 			)
 
+			var attack_speed_label := get_node(node_path % "AttackSpeed") as Label
+			attack_speed_label.text = Utilities.float_to_string(current_unit.get_attack_speed())
+			attack_speed_label.theme_type_variation = _get_attack_speed_label_theme(
+				in_range, current_unit, other_unit
+			)
+
 			var double_sprite := get_node(node_path % "Double") as Sprite2D
-			double_sprite.visible = current_unit.can_follow_up(other_unit) and in_range
+			double_sprite.visible = (
+				current_unit.can_follow_up(other_unit)
+				and in_range
+				and Options.COMBAT_PANEL.value == Options.COMBAT_PANEL.STRATEGIC
+			)
 
 			if current_unit.faction.color == Faction.Colors.RED:
 				var shader_material: ShaderMaterial = (
@@ -234,10 +270,30 @@ func _update_damage_label(label: Label, damage: float, in_range: bool) -> void:
 
 
 func _update_rate_label(label: Label, rate: int, in_range: bool) -> void:
-	label.text = (Utilities.float_to_string(rate) if in_range else "--")
+	label.text = Utilities.float_to_string(rate) if in_range else "--"
 	# Put code for effective damage color here.
 	label.theme_type_variation = (
-		&"GrayLabel" if rate <= 0 or not in_range
-		else &"GreenLabel" if rate >= 100
-		else &"BlueLabel"
+		&"GrayLabel"
+		if rate <= 0 or not in_range
+		else &"GreenLabel" if rate >= 100 else &"BlueLabel"
 	)
+
+# Hides the specified elements (top, bottom, and label) from the center.
+func _hide_elements(elements: Array[StringName]) -> void:
+	for element: String in elements:
+		(get_node("%%Top%s" % element) as Label).visible = false
+		(get_node("%%%sLabel" % element) as Label).visible = false
+		(get_node("%%Bottom%s" % element) as Label).visible = false
+		_main_panel.custom_minimum_size.y -= 16
+
+
+# Gets the theme type variation for the attack speed label.
+func _get_attack_speed_label_theme(
+	in_range: bool, current_unit: Unit, other_unit: Unit
+) -> StringName:
+	if in_range and (other_unit.get_weapon() and other_unit.get_weapon().in_range(_distance)):
+		if current_unit.can_follow_up(other_unit):
+			return &"GreenLabel"
+		elif other_unit.can_follow_up(current_unit):
+			return &"GrayLabel"
+	return &"BlueLabel"

@@ -16,15 +16,17 @@ Before you commit
 * Hide map cursor when scrolling
 * Have weapon rank increases on level up be linked to skill
 * Pallette the status screen for each unit
-* Rename Combat Display to Combat Panel
+* Rename Combat Display to Combat Panel and revamp the scene tree to be less hacky
+	* Expand the center labels
 * Add TRS markers
 * Clean up debug map borders
+* Convert long terniaries into functions with return values
+* Have combat panel display green damage if unit can one-round
+* Show hp preview on combat panel
 
 # Major
 * Document classes (roll this out gradually so I don't burn out)
 * Add options menu
-	* Description
-	* One for volume
 * Add DS Font
 * Implement effective damage
 	* Display effective damage on status screen.

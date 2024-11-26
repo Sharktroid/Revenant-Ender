@@ -221,11 +221,6 @@ func _process(_delta: float) -> void:
 	if _animation_player.current_animation == "idle":
 		var anim_frame: int = floori((Engine.get_physics_frames() as float) / 16) % 4
 		frame = 1 if anim_frame == 3 else anim_frame
-	update_shader()
-
-
-func update_shader() -> void:
-	(material as ShaderMaterial).set_shader_parameter("modulate", modulate)
 
 
 func get_weapon() -> Weapon:
@@ -253,11 +248,11 @@ func get_attack() -> float:
 
 
 func get_damage(defender: Unit) -> float:
-	return maxf(0, _get_true_attack(defender) - defender.get_current_defense(get_weapon()))
+	return maxf(0, get_true_attack(defender) - defender.get_current_defense(get_weapon()))
 
 
 func get_crit_damage(defender: Unit) -> float:
-	return maxf(0, _get_true_attack(defender) * 2 - defender.get_current_defense(get_weapon()))
+	return maxf(0, get_true_attack(defender) * 2 - defender.get_current_defense(get_weapon()))
 
 
 func set_animation(animation: Animations) -> void:
@@ -792,7 +787,7 @@ func _get_area() -> Area2D:
 	return $Area2D as Area2D
 
 
-func _get_true_attack(enemy: Unit) -> float:
+func get_true_attack(enemy: Unit) -> float:
 	if get_weapon():
 		return (
 			get_attack() + get_weapon().get_damage_bonus(enemy.get_weapon(), _get_distance(enemy))

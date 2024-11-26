@@ -16,7 +16,7 @@ var TEXT_SPEED := TextSpeedOption.new()
 var TERRAIN := BooleanOption.new(&"terrain", &"options", true, "Set Terrain window display.")
 ## @experimental Currently does nothing.
 var UNIT_PANEL := UnitPanelOption.new()
-## @experimental Currently does nothing.
+## @experimental Changes the information displayed on the Combat Panel.
 var COMBAT_PANEL := CombatPanelOption.new()
 ## @experimental Currently does nothing.
 var AUTOCURSOR := BooleanOption.new(
@@ -185,14 +185,13 @@ class UnitPanelOption:
 class CombatPanelOption:
 	extends StringNameOption
 
-	## @experimental
-	## Currently does nothing
+	## Displays the strategic/simplified combat panel.
 	const STRATEGIC: StringName = &"strategic"
-	## @experimental
-	## Currently does nothing
+
+	## Displays the detailed combat panel
 	const DETAILED: StringName = &"detailed"
-	## @experimental
-	## Currently does nothing
+
+	## Hides the combat panel. Does not hide the weapon selection panel.
 	const OFF: StringName = &"off"
 
 	func _init() -> void:

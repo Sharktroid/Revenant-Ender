@@ -5,6 +5,6 @@ shader_type canvas_item;
 uniform float white_percentage = 0.0;
 
 void fragment() {
-	COLOR.rgba = convert(COLOR.rgba);
+	COLOR.rgba = convert(COLOR, texture(TEXTURE, UV)).rgba;
 	COLOR.rgb = mix(COLOR.rgb, vec3(1.0), white_percentage);
 }
