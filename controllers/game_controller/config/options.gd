@@ -104,16 +104,22 @@ class GameSpeedOption:
 	extends StringNameOption
 
 	## @experimental
-	## Currently does nothing
+	## Sets unit speed to 8 tiles/second.
+	const SLOW: StringName = &"slow"
+	## @experimental
+	## Sets unit speed to 16 tiles/second.
 	const NORMAL: StringName = &"normal"
 	## @experimental
-	## Currently does nothing
+	## Sets unit speed to 80 tiles/second.
+	const FAST: StringName = &"fast"
+	## @experimental
+	## Sets unit speed to instantaneous.
 	const MAX: StringName = &"max"
 
 	func _init() -> void:
 		_name = &"game_speed"
 		_default = NORMAL
-		_settings = [NORMAL, MAX]
+		_settings = [SLOW, NORMAL, FAST, MAX]
 		_category = &"options"
 		_description = "Set unit movement speed."
 		super()

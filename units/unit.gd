@@ -177,8 +177,6 @@ var _current_attack_tiles_node: Node2D
 # Resources to be loaded.
 var _stat_boosts: Dictionary
 var _arrows_container: CanvasGroup
-static var _movement_speed: float = 16  # Speed unit moves across the map in tiles/second.
-# Dictionaries that convert faction/_variant into animation modifier.
 
 
 func _enter_tree() -> void:
@@ -667,17 +665,24 @@ func move(move_target: Vector2i = get_unit_path()[-1]) -> void:
 					set_animation(Animations.IDLE)
 
 			while position != target:
-				var tween: Tween = create_tween()
-				tween.set_speed_scale(_movement_speed)
-				tween.tween_method(
-					func(new_pos: Vector2) -> void: position = new_pos.round(), position, target, 1
-				)
-				await tween.finished
+				var speed: float = 1.0 / _get_movement_speed()
+				if speed == 0:
+					position = target
+				else:
+					var tween: Tween = create_tween()
+					tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
+					tween.tween_method(
+						func(new_pos: Vector2) -> void: position = new_pos.round(),
+						position,
+						target,
+						1.0 / _get_movement_speed()
+					)
+					await tween.finished
 		_get_area().monitoring = true
 		set_animation(Animations.IDLE)
 		arrived.emit()
 
-
+## Gets the unit's path.
 func get_unit_path() -> Array[Vector2i]:
 	return [position] as Array[Vector2i] if _path.size() == 0 else _path
 
@@ -966,15 +971,22 @@ func _get_nearest_path_tile(tiles: Array[Vector2i]) -> Vector2i:
 	return (weighted_tiles[weighted_tiles.keys().min()] as Array[Vector2i]).pick_random()
 
 
-# Currently scrapped out of fear of making things too complicated.
-# ## Returns a value to represent the reduction in damage from losing health
-# func _get_damage_falloff() -> float:
-# 	## The percentage where the falloff begins.
-# 	const FALLOFF_CUTOFF: float = 0.8
-# 	const MAX_FALLOFF_PERCENT: float = 2.0 / 3
-# 	var weight: float = inverse_lerp(1, get_hit_points(), current_health * FALLOFF_CUTOFF)
-# 	return lerp(MAX_FALLOFF_PERCENT, 1.0, weight) if weight < FALLOFF_CUTOFF else 1.0
-
-
 func _adjust_rate(rate: int) -> int:
 	return 0 if rate < MIN_RATE else 100 if rate > MAX_RATE else rate
+
+
+# Returns the unit movement speed in tiles/second.
+func _get_movement_speed() -> float:
+	const DEFAULT_SPEED: float = 16
+	match Options.GAME_SPEED.value:
+		Options.GAME_SPEED.SLOW:
+			return 8
+		Options.GAME_SPEED.NORMAL:
+			return DEFAULT_SPEED
+		Options.GAME_SPEED.FAST:
+			return 80
+		Options.GAME_SPEED.MAX:
+			return INF
+		_:
+			push_error(Options.GAME_SPEED.get_error_message())
+			return DEFAULT_SPEED
