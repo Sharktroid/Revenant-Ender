@@ -14,7 +14,6 @@ enum Positions {
 	OUTSIDE_RIGHT = 512
 }
 
-const _CHARS_PER_SECOND: int = 300
 const _FULL_SCROLL_SPEED: float = 0.25
 const _LINE_COUNT: int = 5
 const _SHIFT_DURATION: float = 8.0 / 60  # In seconds
@@ -228,7 +227,7 @@ func _set_text_base(string: String, label: RichTextLabel, portrait: Portrait) ->
 				auto_scroll = true
 				await get_tree().physics_frame  # Prevents input from being double read
 			var next_visible_chars: int = (
-				label.visible_characters + roundi(_CHARS_PER_SECOND * get_process_delta_time())
+				label.visible_characters + roundi(_get_text_speed() * get_process_delta_time())
 			)
 			while label.visible_characters < next_visible_chars and label.visible_ratio < 1:
 				label.visible_characters += 1
@@ -241,7 +240,7 @@ func _set_text_base(string: String, label: RichTextLabel, portrait: Portrait) ->
 				# Delays for punctuation
 				elif label.text[label.visible_characters - 1] in [",", ".", ";", ":"]:
 					if not auto_scroll:
-						await get_tree().create_timer(30.0 / _CHARS_PER_SECOND).timeout
+						await get_tree().create_timer(15.0 / _get_text_speed()).timeout
 					break
 		label.visible_ratio = 1
 		#endregion
@@ -294,3 +293,19 @@ func _configure_point(bubble_point: TextureRect, point_x: int) -> void:
 
 func _get_portrait(unit: Unit) -> Portrait:
 	return _portraits[unit]
+
+
+func _get_text_speed() -> int:
+	const BASE_SPEED: int = 150
+	match Options.TEXT_SPEED.value:
+		Options.TEXT_SPEED.SLOW:
+			return roundi(BASE_SPEED * 0.5)
+		Options.TEXT_SPEED.MEDIUM:
+			return BASE_SPEED
+		Options.TEXT_SPEED.FAST:
+			return BASE_SPEED * 2
+		Options.TEXT_SPEED.MAX:
+			return 4294967296 # Can't be infinite or causes issues;
+		_:
+			push_warning(Options.TEXT_SPEED.get_error_message())
+			return BASE_SPEED

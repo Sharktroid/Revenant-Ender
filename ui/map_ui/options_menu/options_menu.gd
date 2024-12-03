@@ -121,7 +121,8 @@ func _ready() -> void:
 	_scroll_tween.stop()
 	_update_description()
 	await get_tree().process_frame
-	_hovered_setting_index = _current_setting_index
+	if _get_current_option() is not FloatOption:
+		_hovered_setting_index = _current_setting_index
 	_column_hand_sprite.position.x = _get_column_hand_x()
 
 

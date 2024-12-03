@@ -5,11 +5,9 @@ extends Node
 # Controls what animations play
 ## @experimental Currently does nothing
 var ANIMATIONS := AnimationsOption.new()
-# Controls how fast the units move
-## @experimental Currently does nothing.
+## Controls how fast the units move.
 var GAME_SPEED := GameSpeedOption.new()
-# Controls how fast the text scrolls
-## @experimental Currently does nothing.
+## Controls how fast the text scrolls.
 var TEXT_SPEED := TextSpeedOption.new()
 # Controls how fast the units move
 ## @experimental Currently does nothing.
@@ -26,9 +24,9 @@ var AUTOCURSOR := BooleanOption.new(
 var AUTOEND_TURNS := BooleanOption.new(
 	&"autoend_turns", &"options", true, "Set turn to end automatically."
 )
-## @experimental Changes the volume of the music
+## Changes the volume of the music
 var MUSIC := FloatOption.new(&"music_volume", &"options", 1.0, 0.0, 1.0, "Set music volume.")
-## @experimental Changes the volume of sound effects.
+## Changes the volume of sound effects.
 var SOUND_EFFECTS := FloatOption.new(
 	&"sound_effect_volume", &"options", 1.0, 0.0, 1.0, "Set sound effect volume."
 )
@@ -131,16 +129,16 @@ class TextSpeedOption:
 	extends StringNameOption
 
 	## @experimental
-	## Currently does nothing
+	## Sets the text speed to 75 characters/second.
 	const SLOW: StringName = &"slow"
 	## @experimental
-	## Currently does nothing
+	## Sets the text speed to 150 characters/second.
 	const MEDIUM: StringName = &"medium"
 	## @experimental
-	## Currently does nothing
+	## Sets the text speed to 300 characters/second.
 	const FAST: StringName = &"fast"
 	## @experimental
-	## Currently does nothing
+	## Sets the text speed to print as many characters as possible per second.
 	const MAX: StringName = &"max"
 
 	func _init() -> void:

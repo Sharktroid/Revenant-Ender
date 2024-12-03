@@ -23,8 +23,10 @@ Before you commit
 * Convert long terniaries into functions with return values
 * Have combat panel display green damage if unit can one-round
 * Show hp preview on combat panel
+* Have movement ranges display even for waited units
 
 # Major
+* Add unit hover display
 * Document classes (roll this out gradually so I don't burn out)
 * Add options menu
 * Add DS Font
