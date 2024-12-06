@@ -9,16 +9,15 @@ var ANIMATIONS := AnimationsOption.new()
 var GAME_SPEED := GameSpeedOption.new()
 ## Controls how fast the text scrolls.
 var TEXT_SPEED := TextSpeedOption.new()
-# Controls how fast the units move
 ## @experimental Currently does nothing.
 var TERRAIN := BooleanOption.new(&"terrain", &"options", true, "Set Terrain window display.")
 ## @experimental Currently does nothing.
 var UNIT_PANEL := UnitPanelOption.new()
 ## @experimental Changes the information displayed on the Combat Panel.
 var COMBAT_PANEL := CombatPanelOption.new()
-## @experimental Currently does nothing.
-var AUTOCURSOR := BooleanOption.new(
-	&"autocursor", &"options", true, "Set cursor to start on main hero."
+## @experimental Causes the cursor to go back to the main hero upon.
+var SMART_CURSOR := BooleanOption.new(
+	&"smart_cursor", &"options", false, "Set cursor to start on main hero."
 )
 ## @experimental Currently does nothing.
 var AUTOEND_TURNS := BooleanOption.new(
@@ -46,7 +45,7 @@ func get_options() -> Array[ConfigOption]:
 		TERRAIN,
 		UNIT_PANEL,
 		COMBAT_PANEL,
-		AUTOCURSOR,
+		SMART_CURSOR,
 		AUTOEND_TURNS,
 		MUSIC,
 		SOUND_EFFECTS,

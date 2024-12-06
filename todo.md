@@ -24,11 +24,14 @@ Before you commit
 * Have combat panel display green damage if unit can one-round
 * Show hp preview on combat panel
 * Have movement ranges display even for waited units
+* Change authority to +5 * (allied authority - enemy authority) hit and +1 * authority stars damage dealt and -1 * authority stars damage taken if within authority giver
+* Rewrite "_on_area2d_area_entered" in Unit
 
 # Major
 * Add unit hover display
 * Document classes (roll this out gradually so I don't burn out)
 * Add options menu
+	* Add Autoend turns
 * Add DS Font
 * Implement effective damage
 	* Display effective damage on status screen.

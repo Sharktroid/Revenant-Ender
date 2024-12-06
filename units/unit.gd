@@ -682,6 +682,7 @@ func move(move_target: Vector2i = get_unit_path()[-1]) -> void:
 		set_animation(Animations.IDLE)
 		arrived.emit()
 
+
 ## Gets the unit's path.
 func get_unit_path() -> Array[Vector2i]:
 	return [position] as Array[Vector2i] if _path.size() == 0 else _path
@@ -865,6 +866,7 @@ func _on_area2d_area_entered(area: Area2D) -> void:
 			can_be_selected
 			and not (selected or _waiting or dead)
 			and (GameController.get_current_input_node() as Node) is Map
+			and CursorController.is_active()
 		):
 			display_movement_tiles()
 

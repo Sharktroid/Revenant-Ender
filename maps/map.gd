@@ -122,10 +122,15 @@ func get_previous_unit(unit: Unit) -> Unit:
 
 ## Ends current turn.
 func end_turn() -> void:
+	# Have to wait a frame to avoid a race condition with MainMapMenu._exit_tree()
+	await get_tree().physics_frame
 	for unit: Unit in MapController.map.get_units():
 		unit.awaken()
 	_next_faction()
 	_update_outline()
+	CursorController.cursor_visible = false
+	CursorController.disable()
+	await AudioPlayer.pause_track()
 	_start_turn.call_deferred()
 
 
@@ -386,16 +391,18 @@ func _next_faction() -> void:
 
 ## Starts new turn.
 func _start_turn() -> void:
-	CursorController.cursor_visible = false
-	CursorController.disable()
-	await AudioPlayer.pause_track()
-
 	await _display_turn_change(get_current_faction())
+	if (
+		not Options.SMART_CURSOR.value
+		and GameController.controller_type == GameController.ControllerTypes.KEYBOARD
+	):
+		CursorController.map_position = get_units_by_faction(get_current_faction())[0].position
 	# play banner
 	if is_inside_tree():
 		await get_tree().create_timer(0.25).timeout
-	CursorController.enable()
-	CursorController.cursor_visible = true
+	if get_current_faction().player_type == Faction.PlayerTypes.HUMAN:
+		CursorController.enable()
+		CursorController.cursor_visible = true
 	if get_current_faction():
 		AudioPlayer.play_track(get_current_faction().theme)
 	if get_current_faction().player_type != Faction.PlayerTypes.HUMAN:

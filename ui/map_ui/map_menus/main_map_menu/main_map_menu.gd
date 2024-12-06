@@ -31,7 +31,8 @@ func _select_item(item: MapMenuItem) -> void:
 			MapController.get_ui().add_child(OPTIONS_MENU.instantiate())
 
 		"End":
-			MapController.map.end_turn()
+			MapController.map.end_turn.call_deferred()
+
 		var node_name:
 			push_error("%s is not a valid menu item" % node_name)
 	queue_free()
