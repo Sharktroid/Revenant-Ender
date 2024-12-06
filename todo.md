@@ -5,6 +5,8 @@ Before you commit
 * Make sure it all works
 
 # Minor
+* Convert long terniaries into functions with return values
+* Use more Array functions (e.g. map, reduce)
 * Make it possible to open status menu when selecting a destination
 * Rename Dark to Eldrich and Light to Holy
 * Merge EVs for Strength, Pierce, and Int
@@ -20,7 +22,6 @@ Before you commit
 	* Expand the center labels
 * Add TRS markers
 * Clean up debug map borders
-* Convert long terniaries into functions with return values
 * Have combat panel display green damage if unit can one-round
 * Show hp preview on combat panel
 * Have movement ranges display even for waited units
@@ -30,8 +31,6 @@ Before you commit
 # Major
 * Add unit hover display
 * Document classes (roll this out gradually so I don't burn out)
-* Add options menu
-	* Add Autoend turns
 * Add DS Font
 * Implement effective damage
 	* Display effective damage on status screen.

@@ -122,6 +122,7 @@ var faction: Faction:
 	set(new_faction):
 		_faction_id = _get_map().all_factions.find(new_faction)
 		flip_h = faction.flipped if faction else false
+var waiting: bool = false
 
 var effort_hit_points: int
 var effort_strength: int
@@ -162,7 +163,6 @@ var _personal_movement: int
 @warning_ignore("unused_private_class_variable")
 var _personal_build: int = DEFAULT_PERSONAL_VALUE
 
-var _waiting: bool = false
 var _current_movement: float
 var _attack_tiles: Array[Vector2i]
 var _movement_tiles: Array[Vector2i]
@@ -497,7 +497,7 @@ func wait() -> void:
 	_current_movement = get_movement()
 	if DebugConfig.UNIT_WAIT.value:
 		selectable = false
-		_waiting = true
+		waiting = true
 	_get_map().unit_wait(self)
 	_update_palette()
 
@@ -517,7 +517,7 @@ func deselect() -> void:
 func awaken() -> void:
 	_current_movement = get_movement()
 	selectable = true
-	_waiting = false
+	waiting = false
 	_update_palette()
 
 
@@ -554,7 +554,7 @@ func get_movement_tiles() -> Array[Vector2i]:
 
 func get_actionable_movement_tiles() -> Array[Vector2i]:
 	var movement_tiles: Array[Vector2i] = get_movement_tiles()
-	for unit: Unit in _get_map().get_units_by_faction(faction):
+	for unit: Unit in _get_map().get_faction_units(faction):
 		if unit.position as Vector2i in movement_tiles and unit != self and unit.visible:
 			movement_tiles.erase(unit.position as Vector2i)
 	return movement_tiles
@@ -822,7 +822,7 @@ func _update_palette() -> void:
 		"new_colors",
 		(
 			unit_class.get_wait_palette() + _get_grayscale_hair_palette()
-			if _waiting
+			if waiting
 			else (
 				unit_class.get_palette(faction.color if faction else Faction.Colors.BLUE)
 				+ _get_hair_palette()
@@ -864,7 +864,7 @@ func _on_area2d_area_entered(area: Area2D) -> void:
 			can_be_selected = not CursorController.get_hovered_unit().selected
 		if (
 			can_be_selected
-			and not (selected or _waiting or dead)
+			and not (selected or waiting or dead)
 			and (GameController.get_current_input_node() as Node) is Map
 			and CursorController.is_active()
 		):

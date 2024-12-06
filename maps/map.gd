@@ -17,7 +17,7 @@ var all_factions: Array[Faction]
 # Movement costs for every movement type
 var _movement_cost_dict: Dictionary
 # The index of the current faction
-var _current_faction: int = 0
+var _current_faction_index: int = 0
 # The [AStarGrids] that are used to generate movement paths
 var _cost_grids: Dictionary = {}
 # The faction that last used a grid.
@@ -94,15 +94,18 @@ func unit_wait(_unit: Unit) -> void:
 	_update_outline()
 	for unit: Unit in get_units():
 		unit.reset_tile_cache()
+	var is_waiting: Callable = func(unit: Unit) -> bool: return unit.waiting
+	if Options.AUTOEND_TURNS.value and _get_current_units().all(is_waiting):
+		end_turn.call_deferred()
 
 
 ## Gets the faction that is currently making their turn.
 func get_current_faction() -> Faction:
-	return all_factions[_current_faction]
+	return all_factions[_current_faction_index]
 
 
 ## Gets the units that belong to the provided faction.
-func get_units_by_faction(faction: Faction) -> Array[Unit]:
+func get_faction_units(faction: Faction) -> Array[Unit]:
 	var units: Array[Unit] = []
 	for unit: Unit in get_units():
 		if unit.faction == faction:
@@ -345,7 +348,7 @@ func _parse_movement_cost() -> void:
 
 
 func _get_unit_relative(unit: Unit, rel_index: int) -> Unit:
-	var faction_units: Array[Unit] = get_units_by_faction(unit.faction)
+	var faction_units: Array[Unit] = get_faction_units(unit.faction)
 	var unit_index: int = faction_units.find(unit)
 	var next_unit_index: int = (unit_index + rel_index) % faction_units.size()
 	return faction_units[next_unit_index]
@@ -383,10 +386,10 @@ func _get_dialogue() -> Dialogue:
 
 func _next_faction() -> void:
 	# Sets the faction to the next faction.
-	_current_faction += 1
-	if _current_faction == all_factions.size():
+	_current_faction_index += 1
+	if _current_faction_index == all_factions.size():
 		_current_turn += 1
-		_current_faction = 0
+		_current_faction_index = 0
 
 
 ## Starts new turn.
@@ -396,7 +399,7 @@ func _start_turn() -> void:
 		not Options.SMART_CURSOR.value
 		and GameController.controller_type == GameController.ControllerTypes.KEYBOARD
 	):
-		CursorController.map_position = get_units_by_faction(get_current_faction())[0].position
+		CursorController.map_position = _get_current_units()[0].position
 	# play banner
 	if is_inside_tree():
 		await get_tree().create_timer(0.25).timeout
@@ -410,7 +413,7 @@ func _start_turn() -> void:
 
 
 func _toggle_full_outline() -> void:
-	all_factions[_current_faction].full_outline = not (get_current_faction().full_outline)
+	all_factions[_current_faction_index].full_outline = not (get_current_faction().full_outline)
 	_update_outline()
 
 
@@ -422,7 +425,7 @@ func _toggle_outline_unit(unit: Unit) -> void:
 		(outlined_units[unit.faction] as Array).erase(unit)
 	else:
 		(outlined_units[unit.faction] as Array).append(unit)
-	all_factions[_current_faction].outlined_units = outlined_units
+	all_factions[_current_faction_index].outlined_units = outlined_units
 	_update_outline()
 
 
@@ -443,3 +446,8 @@ func _update_map_borders() -> void:
 # Updates whether map cursor area is rendered
 func _update_map_cursor() -> void:
 	($MapLayer/CursorArea as Area2D).visible = DebugConfig.DISPLAY_MAP_CURSOR.value
+
+
+# Gets the units of the current faction
+func _get_current_units() -> Array[Unit]:
+	return get_faction_units(get_current_faction())
