@@ -847,7 +847,7 @@ func _die() -> void:
 	dead = true
 	AudioPlayer.play_sound_effect(preload("res://audio/sfx/death_fade.ogg"))
 	var tween: Tween = create_tween()
-	tween.tween_property(self, "modulate:a", 0, FADE_AWAY_DURATION)
+	tween.tween_property(self, ^"modulate:a", 0, FADE_AWAY_DURATION)
 	await tween.finished
 	queue_free()
 

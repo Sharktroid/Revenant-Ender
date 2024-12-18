@@ -5,8 +5,9 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Convert long terniaries into functions with return values
+* Convert long ternaries into functions with return values
 * Use more Array functions (e.g. map, reduce)
+	* many functions in map.gd
 * Make it possible to open status menu when selecting a destination
 * Rename Dark to Eldrich and Light to Holy
 * Merge EVs for Strength, Pierce, and Int
@@ -27,8 +28,13 @@ Before you commit
 * Have movement ranges display even for waited units
 * Change authority to +5 * (allied authority - enemy authority) hit and +1 * authority stars damage dealt and -1 * authority stars damage taken if within authority giver
 * Rewrite "_on_area2d_area_entered" in Unit
+* Make 1 skill and luck +4 hit and 1 speed and luck +4 avoid.
+* Add option for having the equiped weapon change if you use the attack preview with it.
+* Fix cursor not scrolling when mouse is still
+* Make static var tween to control unit map idle animation
 
 # Major
+* Add stats for performing kills on certain terrain and when units of categories
 * Add unit hover display
 * Document classes (roll this out gradually so I don't burn out)
 * Add DS Font

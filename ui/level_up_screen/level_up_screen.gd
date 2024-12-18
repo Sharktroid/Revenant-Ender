@@ -43,8 +43,8 @@ func _ready() -> void:
 	slide_tween.set_speed_scale(60)
 	slide_tween.set_trans(Tween.TRANS_QUAD)
 	slide_tween.set_ease(Tween.EASE_OUT)
-	slide_tween.tween_property(top_panel, "position:x", top_panel.position.x, 8)
-	slide_tween.tween_property(bottom_panel, "position:x", bottom_panel.position.x, 8).set_delay(2)
+	slide_tween.tween_property(top_panel, ^"position:x", top_panel.position.x, 8)
+	slide_tween.tween_property(bottom_panel, ^"position:x", bottom_panel.position.x, 8).set_delay(2)
 	top_panel.position.x = -top_panel.size.x
 	bottom_panel.position.x = -bottom_panel.size.x
 	await get_tree().create_timer(35.0 / 60).timeout
@@ -87,8 +87,8 @@ func _ready() -> void:
 			panel.visible = true
 			var panel_tween: Tween = create_tween()
 			panel_tween.set_parallel()
-			panel_tween.tween_property(panel, "size:x", panel.size.x, 4.0 / 60)
-			panel_tween.tween_property(panel, "position:x", panel.position.x, 4.0 / 60)
+			panel_tween.tween_property(panel, ^"size:x", panel.size.x, 4.0 / 60)
+			panel_tween.tween_property(panel, ^"position:x", panel.position.x, 4.0 / 60)
 			panel.position.x += panel.size.x / 2
 			panel.size.x = 0
 

@@ -253,10 +253,10 @@ func _animate_double_sprite(sprite: Sprite2D) -> void:
 	var tween: Tween = sprite.create_tween()
 	tween.set_loops()
 	tween.set_speed_scale(60)
-	tween.tween_property(sprite, "position:y", sprite.position.y - 3, 9)
-	tween.tween_property(sprite, "position:x", sprite.position.x - 7, 21)
-	tween.tween_property(sprite, "position:y", sprite.position.y, 9)
-	tween.tween_property(sprite, "position:x", sprite.position.x, 21)
+	tween.tween_property(sprite, ^"position:y", sprite.position.y - 3, 9)
+	tween.tween_property(sprite, ^"position:x", sprite.position.x - 7, 21)
+	tween.tween_property(sprite, ^"position:y", sprite.position.y, 9)
+	tween.tween_property(sprite, ^"position:x", sprite.position.x, 21)
 
 
 func _on_weapon_selected(weapon: Weapon) -> void:

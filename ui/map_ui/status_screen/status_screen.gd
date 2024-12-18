@@ -236,9 +236,9 @@ func _move(dir: _Directions) -> void:
 	fade_out.set_speed_scale(2)
 	fade_out.set_parallel(true)
 	fade_out.tween_property(
-		menu, "position:y", dest * SWAP_THRESHOLD * dir_multiplier, DURATION / 2
+		menu, ^"position:y", dest * SWAP_THRESHOLD * dir_multiplier, DURATION / 2
 	)
-	fade_out.tween_property(menu, "modulate:a", 0, DURATION / 2)
+	fade_out.tween_property(menu, ^"modulate:a", 0, DURATION / 2)
 	await fade_out.finished
 
 	menu.position.y = -dest * SWAP_THRESHOLD * dir_multiplier
@@ -247,8 +247,8 @@ func _move(dir: _Directions) -> void:
 	var fade_in: Tween = create_tween()
 	fade_in.set_speed_scale(2)
 	fade_in.set_parallel(true)
-	fade_in.tween_property(menu, "position:y", 0, DURATION / 2)
-	fade_in.tween_property(menu, "modulate:a", 1, DURATION / 2)
+	fade_in.tween_property(menu, ^"position:y", 0, DURATION / 2)
+	fade_in.tween_property(menu, ^"modulate:a", 1, DURATION / 2)
 	await fade_in.finished
 
 	menu.position.y = 0

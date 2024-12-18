@@ -7,7 +7,7 @@ func _ready() -> void:
 	line.position.x = -particle.size.x
 	var line_tween: Tween = create_tween()
 	line_tween.tween_property(
-		line, "size:x", Utilities.get_screen_size().x + particle.size.x * 2, 15.0 / 60
+		line, ^"size:x", Utilities.get_screen_size().x + particle.size.x * 2, 15.0 / 60
 	)
 	await line_tween.finished
 

@@ -53,7 +53,7 @@ var _top_index: int = 0:
 		_top_index = clampi(value, 0, _get_top_index_max())
 		_scroll_tween = create_tween()
 		_scroll_tween.set_speed_scale(60)
-		_scroll_tween.tween_property(_scroll_container, "scroll_vertical", _top_index * 16, 4)
+		_scroll_tween.tween_property(_scroll_container, ^"scroll_vertical", _top_index * 16, 4)
 
 # A Tween that controls cursor movement between settings.
 var _horizontal_tween: Tween = create_tween()
@@ -228,7 +228,7 @@ func _update_column_hand_x() -> void:
 	_horizontal_tween = _column_hand_sprite.create_tween()
 	_horizontal_tween.set_speed_scale(60)
 	_horizontal_tween.set_trans(Tween.TRANS_QUAD)
-	_horizontal_tween.tween_property(_column_hand_sprite, "position:x", new_x, 5)
+	_horizontal_tween.tween_property(_column_hand_sprite, ^"position:x", new_x, 5)
 
 
 # Gets the column hand's x
@@ -244,8 +244,8 @@ func _update_hand_y() -> void:
 		_vertical_tween.set_speed_scale(60)
 		_vertical_tween.set_trans(Tween.TRANS_QUAD)
 		_vertical_tween.set_parallel()
-		_vertical_tween.tween_property(_column_hand_sprite, "position:y", new_hand_y, 5)
-		_vertical_tween.tween_property(_row_hand_sprite, "position:y", new_hand_y, 5)
+		_vertical_tween.tween_property(_column_hand_sprite, ^"position:y", new_hand_y, 5)
+		_vertical_tween.tween_property(_row_hand_sprite, ^"position:y", new_hand_y, 5)
 	else:
 		_column_hand_sprite.position.y = new_hand_y
 		_row_hand_sprite.position.y = new_hand_y
