@@ -32,6 +32,7 @@ Before you commit
 * Add option for having the equiped weapon change if you use the attack preview with it.
 * Fix cursor not scrolling when mouse is still
 * Make static var tween to control unit map idle animation
+* Fix hover tiles not showing up after canto.
 
 # Major
 * Add stats for performing kills on certain terrain and when units of categories

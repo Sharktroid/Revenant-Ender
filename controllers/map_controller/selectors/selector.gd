@@ -10,6 +10,7 @@ var _icon: CursorController.Icons
 var _selecting_position: Vector2i
 var _select_sound_effect: AudioStream
 var _showing_icon: bool
+var _old_map_pos: Vector2i
 
 
 func _init(
@@ -20,6 +21,7 @@ func _init(
 	icon: CursorController.Icons = CursorController.Icons.NONE,
 	selection_sound_effect: AudioStream = AudioPlayer.SoundEffects.MENU_SELECT
 ) -> void:
+	_old_map_pos = CursorController.map_position
 	_unit = connected_unit
 	_minimum_range = min_range
 	_maximum_range = max_range
@@ -53,6 +55,7 @@ func _receive_input(event: InputEvent) -> void:
 
 func _exit_tree() -> void:
 	CursorController.set_icon(CursorController.Icons.NONE)
+	CursorController.map_position = _old_map_pos
 
 
 func _position_selected() -> void:
