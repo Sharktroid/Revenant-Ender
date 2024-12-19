@@ -26,11 +26,10 @@ func _physics_process(_delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
-	controller_type = (
-		ControllerTypes.MOUSE
-		if (event is InputEventMouseButton or event is InputEventMouseMotion)
-		else ControllerTypes.KEYBOARD
-	)
+	if event is InputEventMouseButton or event is InputEventMouseMotion:
+		controller_type = ControllerTypes.MOUSE
+	else:
+		controller_type = (ControllerTypes.KEYBOARD)
 
 	if DebugConfig.PRINT_INPUT_RECEIVER.value:
 		print("Input node: %s" % get_current_input_node())
@@ -71,8 +70,9 @@ func get_current_input_node() -> _RECEIVER:
 ## Gets the [SubViewport] that all nodes originate in.
 func get_root() -> Viewport:
 	const PATH: String = "SubViewportContainer/SubViewport"
-	var has_viewport: bool = get_viewport() and get_viewport().has_node(PATH)
-	return get_viewport().get_node(PATH) as Viewport if has_viewport else Window.new()
+	if get_viewport() and get_viewport().has_node(PATH):
+		return get_viewport().get_node(PATH) as Viewport
+	return Window.new()
 
 
 # Toggles the FPS display depending on the config

@@ -10,8 +10,7 @@ func _ready() -> void:
 	children.visible = false
 	const TRACK: AudioStreamOggVorbis = preload("res://audio/music/level_up!.ogg")
 	AudioPlayer.play_track(TRACK)
-	var track_timer: SceneTreeTimer = get_tree().create_timer(TRACK.loop_offset - 10.0 / 60)
-	await track_timer.timeout
+	await get_tree().create_timer(TRACK.loop_offset - 10.0 / 60).timeout
 
 	#region initialization
 	var left_panel := %Left as PanelContainer
@@ -28,10 +27,9 @@ func _ready() -> void:
 	for control: Control in get_tree().get_nodes_in_group("stats"):
 		stat_containers[control.name] = control
 	for stat_name: String in Unit.Stats.keys():
-		var formatted_stat: String = stat_name.to_pascal_case()
-		var stat: Unit.Stats = Unit.Stats[stat_name]
-		var old_stat: int = _unit.get_stat(stat, _old_level)
-		(get_node("%%%sValue" % formatted_stat) as Label).text = str(old_stat)
+		(get_node("%%%sValue" % stat_name.to_pascal_case()) as Label).text = str(
+			_unit.get_stat(Unit.Stats[stat_name] as Unit.Stats, _old_level)
+		)
 	#endregion
 
 	children.visible = true
@@ -55,7 +53,7 @@ func _ready() -> void:
 	AudioPlayer.play_sound_effect(preload("res://audio/sfx/level_up_level_blip.ogg"))
 	await get_tree().create_timer(20.0 / 60).timeout
 
-	var stat_order: Array[Unit.Stats] = [
+	const STAT_ORDER: Array[Unit.Stats] = [
 		Unit.Stats.HIT_POINTS,
 		Unit.Stats.STRENGTH,
 		Unit.Stats.PIERCE,
@@ -69,20 +67,20 @@ func _ready() -> void:
 		Unit.Stats.LUCK,
 		Unit.Stats.BUILD
 	]
-	for stat: Unit.Stats in stat_order:
-		var old_stat: int = _unit.get_stat(stat, _old_level)
+	for stat: Unit.Stats in STAT_ORDER:
 		var current_stat: int = _unit.get_stat(stat, _unit.level)
-		var stat_name := (Unit.Stats as Dictionary).find_key(stat) as String
-		var formatted_stat: String = stat_name.to_pascal_case()
-		var stat_container: Control = stat_containers["%sContainer" % formatted_stat]
+		var formatted_stat: String = (
+			((Unit.Stats as Dictionary).find_key(stat) as String).to_pascal_case()
+		)
 		(get_node("%%%sValue" % formatted_stat) as Label).text = str(current_stat)
 
-		var difference: int = current_stat - old_stat
+		var difference: int = current_stat - _unit.get_stat(stat, _old_level)
 		if difference != 0:
 			AudioPlayer.play_sound_effect(preload("res://audio/sfx/level_up_blip.ogg"))
 			const StatChange = preload("res://ui/level_up_screen/stat_change.gd")
 			(%StatChanges.get_node("%sChange" % formatted_stat) as StatChange).value = difference
 
+			var stat_container: Control = stat_containers["%sContainer" % formatted_stat]
 			var panel := stat_container.get_node("Panel") as Panel
 			panel.visible = true
 			var panel_tween: Tween = create_tween()

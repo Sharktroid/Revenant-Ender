@@ -104,7 +104,7 @@ func add_portrait(new_speaker: Unit, portrait_position: Positions, flip_h: bool 
 		_portraits[new_speaker] = portrait
 		var tween: Tween = create_tween()
 		portrait.modulate.v = 0
-		tween.tween_property(portrait, "modulate:v", 1, _SHIFT_DURATION)
+		tween.tween_property(portrait, ^"modulate:v", 1, _SHIFT_DURATION)
 		await tween.finished
 
 
@@ -115,7 +115,7 @@ func remove_portrait(old_speaker: Unit) -> void:
 		if is_instance_valid(_portraits.get(old_speaker)):
 			portrait = _portraits.get(old_speaker, Portrait.new())
 		var tween: Tween = create_tween()
-		tween.tween_property(portrait, "modulate:v", 0, _SHIFT_DURATION)
+		tween.tween_property(portrait, ^"modulate:v", 0, _SHIFT_DURATION)
 		await tween.finished
 		portrait.queue_free()
 
@@ -252,9 +252,13 @@ func _set_text_base(string: String, label: RichTextLabel, portrait: Portrait) ->
 
 func _scroll(label: RichTextLabel) -> void:
 	if not _skipping:
-		var new_y: int = roundi(label.position.y - _get_line_height())
 		var tween: Tween = create_tween()
-		tween.tween_property(label, "position:y", new_y, _FULL_SCROLL_SPEED / _LINE_COUNT)
+		tween.tween_property(
+			label,
+			^"position:y",
+			roundi(label.position.y - _get_line_height()),
+			_FULL_SCROLL_SPEED / _LINE_COUNT
+		)
 		await tween.finished
 
 
@@ -274,12 +278,12 @@ func _set_speaker(name_label: RichTextLabel, new_speaker: Unit) -> void:
 		if name_label.text != "":
 			var slide_out: Tween = create_tween()
 			slide_out.set_speed_scale(2)
-			slide_out.tween_property(name_label, "visible_ratio", 0, _SHIFT_DURATION)
+			slide_out.tween_property(name_label, ^"visible_ratio", 0, _SHIFT_DURATION)
 			await slide_out.finished
 		name_label.text = new_speaker.display_name
 		var slide_in: Tween = create_tween()
 		slide_in.set_speed_scale(2)
-		slide_in.tween_property(name_label, "visible_ratio", 1, _SHIFT_DURATION / 2)
+		slide_in.tween_property(name_label, ^"visible_ratio", 1, _SHIFT_DURATION / 2)
 		await slide_in.finished
 
 
@@ -305,7 +309,7 @@ func _get_text_speed() -> int:
 		Options.TEXT_SPEED.FAST:
 			return BASE_SPEED * 2
 		Options.TEXT_SPEED.MAX:
-			return 4294967296 # Can't be infinite or causes issues;
+			return 4294967296  # Can't be infinite or causes issues;
 		_:
 			push_warning(Options.TEXT_SPEED.get_error_message())
 			return BASE_SPEED

@@ -58,16 +58,15 @@ func in_range(distance: int) -> bool:
 
 
 func get_stat_table() -> Array[String]:
-	return Utilities.dict_to_table(
-		{
-			str(Types.find_key(_type)).capitalize(): str(Ranks.find_key(_rank)).capitalize(),
-			"Range": get_range_text(),
-			"Weight": Utilities.float_to_string(_weight),
-			"Might": Utilities.float_to_string(_might),
-			"Hit": Utilities.float_to_string(_hit),
-			"Critical": Utilities.float_to_string(_crit)
-		}
-	)
+	var table: Dictionary = {
+		str(Types.find_key(_type)).capitalize(): str(Ranks.find_key(_rank)).capitalize(),
+		"Range": get_range_text(),
+		"Weight": Utilities.float_to_string(_weight),
+		"Might": Utilities.float_to_string(_might),
+		"Hit": Utilities.float_to_string(_hit),
+		"Critical": Utilities.float_to_string(_crit)
+	}
+	return Utilities.dict_to_table(table)
 
 
 func get_weapon_triangle_advantage(weapon: Weapon, _distance: int) -> AdvantageState:
@@ -146,10 +145,8 @@ func get_disadvantage_types() -> Array[Types]:
 
 
 func get_range_text() -> String:
-	var min_range_text: String = str(get_min_range())
 	var max_range_text: String = Utilities.float_to_string(get_max_range())
-	return (
-		max_range_text
-		if _min_range == get_max_range()
-		else "{min}-{max}".format({"min": min_range_text, "max": max_range_text})
-	)
+	if _min_range == get_max_range():
+		return max_range_text
+	else:
+		return "{min}-{max}".format({"min": str(get_min_range()), "max": max_range_text})

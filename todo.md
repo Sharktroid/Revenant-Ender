@@ -5,9 +5,11 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Convert long ternaries into functions with return values
 * Use more Array functions (e.g. map, reduce)
 	* many functions in map.gd
+	* map_menu _get_visible_children
+	* item_screen _update
+	* many functions in unit.gd
 * Make it possible to open status menu when selecting a destination
 * Rename Dark to Eldrich and Light to Holy
 * Merge EVs for Strength, Pierce, and Int
@@ -33,6 +35,7 @@ Before you commit
 * Fix cursor not scrolling when mouse is still
 * Make static var tween to control unit map idle animation
 * Fix hover tiles not showing up after canto.
+* Add option to make cursor return to unit upon deselecting.
 
 # Major
 * Add stats for performing kills on certain terrain and when units of categories

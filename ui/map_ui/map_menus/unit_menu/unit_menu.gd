@@ -57,6 +57,7 @@ func _receive_input(event: InputEvent) -> void:
 	else:
 		super(event)
 
+
 ## Gets the items that will be displayed.
 static func get_displayed_items(unit: Unit) -> Dictionary:
 	var enabled_items: Dictionary = {
@@ -270,12 +271,12 @@ static func _get_drop_tiles(unit: Unit) -> Array[Vector2i]:
 	var traveler: Unit = unit.traveler
 	var tiles: Array[Vector2i] = []
 	for tile: Vector2i in Utilities.get_tiles(unit.get_path_last_pos(), 1, 1):
-		var cost: float = MapController.map.get_terrain_cost(
-			traveler.unit_class.get_movement_type(), tile
-		)
-		var movement: int = traveler.get_movement()
-		if cost <= movement:
+		if (
+			MapController.map.get_terrain_cost(traveler.unit_class.get_movement_type(), tile)
+			<= traveler.get_movement()
+		):
 			tiles.append(tile)
+
 	for adjacent_unit: Unit in MapController.map.get_units():
 		var pos: Vector2i = adjacent_unit.position
 		if pos in tiles:

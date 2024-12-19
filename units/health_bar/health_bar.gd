@@ -18,13 +18,14 @@ func update() -> void:
 		(get_theme_stylebox("fill") as StyleBoxFlat).bg_color = _get_color()
 
 
+# Gets the color for the bar
 func _get_color() -> Color:
 	# Colors used
-	const FULL_COLOR := Color(0, 0.75, 0) # color at full health
-	const HALF_COLOR := Color(0.9, 0.9, 0) # color at half health
-	const ZERO_COLOR := Color(0.75, 0, 0) # color at no health
-	# Deriving color from linear regresson
-	return (
-			HALF_COLOR.lerp(FULL_COLOR, inverse_lerp(0.5, 1, ratio)) if ratio > 0.5
-			else ZERO_COLOR.lerp(HALF_COLOR, inverse_lerp(0, 0.5, ratio))
-	)
+	const FULL_COLOR := Color(0, 0.75, 0)  # color at full health
+	const HALF_COLOR := Color(0.9, 0.9, 0)  # color at half health
+	const ZERO_COLOR := Color(0.75, 0, 0)  # color at no health
+	# Deriving color from linear regression
+	if ratio > 0.5:
+		return HALF_COLOR.lerp(FULL_COLOR, inverse_lerp(0.5, 1, ratio))
+	else:
+		return ZERO_COLOR.lerp(HALF_COLOR, inverse_lerp(0, 0.5, ratio))

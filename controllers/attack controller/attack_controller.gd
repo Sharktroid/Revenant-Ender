@@ -7,8 +7,7 @@ func combat(attacker: Unit, defender: Unit) -> void:
 	CursorController.disable()
 	## The list of attacks that will be done in this round of combat.
 	var attack_queue: Array[CombatStage] = [CombatStage.new(attacker, defender)]
-	var distance: int = roundi(Utilities.get_tile_distance(attacker.position, defender.position))
-	if defender.get_weapon() != null and defender.get_weapon().in_range(distance):
+	if _can_counter(attacker, defender):
 		attack_queue.append(CombatStage.new(defender, attacker))
 	if attacker.can_follow_up(defender):
 		attack_queue.append(CombatStage.new(attacker, defender))
@@ -21,6 +20,14 @@ func combat(attacker: Unit, defender: Unit) -> void:
 
 func _receive_input(_event: InputEvent) -> void:
 	pass
+
+
+func _can_counter(attacker: Unit, defender: Unit) -> bool:
+	if defender.get_weapon() != null:
+		return defender.get_weapon().in_range(
+			roundi(Utilities.get_tile_distance(attacker.position, defender.position))
+		)
+	return false
 
 
 ## Initiates combat between two units using map animations.
@@ -84,20 +91,17 @@ func _map_attack(
 	else:
 		#region Hit
 		var is_crit: bool = attack_type == CombatStage.AttackTypes.CRIT
-		var damage: float = (
-			attacker.get_crit_damage(defender) if is_crit else attacker.get_damage(defender)
-		)
 		var old_health: int = ceili(defender.current_health)
-		var new_health: int = roundi(maxf(floorf(old_health - damage), 0))
+		var damage: int = roundi(_get_damage(attacker, defender, is_crit))
+		var new_health: int = old_health - damage
 
-		var total_hp: int = defender.get_hit_points()
-		## The time that the health bar takes to scroll down from full health to none
+		# The time that the health bar takes to scroll down from full health to none
 		const HEALTH_SCROLL_DURATION: float = 0.5
-		var duration: float = HEALTH_SCROLL_DURATION * (float(old_health - new_health) / total_hp)
+		var duration: float = HEALTH_SCROLL_DURATION * damage / defender.get_hit_points()
 		var tween: Tween = defender.create_tween()
 		tween.set_parallel()
 		tween.tween_interval(0.1)
-		tween.tween_property(defender, "current_health", new_health, duration)
+		tween.tween_property(defender, ^"current_health", new_health, duration)
 		var sfx_timer: SceneTreeTimer = _play_hit_sound_effect(
 			old_health, new_health, is_crit, attacker
 		)
@@ -112,6 +116,13 @@ func _map_attack(
 		#endregion
 	if attacker_animation.is_running():
 		await attacker_animation.completed
+
+
+func _get_damage(attacker: Unit, defender: Unit, is_crit: bool) -> float:
+	return minf(
+		defender.current_health,
+		attacker.get_crit_damage(defender) if is_crit else attacker.get_damage(defender)
+	)
 
 
 ## Kills a unit.
@@ -130,12 +141,13 @@ func _get_combat_exp(distributing_unit: Unit, damage: float) -> float:
 	var base_exp: float = (
 		Unit.ONE_ROUND_EXP_BASE * Unit.EXP_MULTIPLIER ** (distributing_unit.level - 1)
 	)
-	var damage_percent: float = float(damage) / distributing_unit.get_hit_points()
-	var chip_exp: float = base_exp * damage_percent * (1 - Unit.KILL_EXP_PERCENT)
-	var kill_exp: float = (
-		base_exp * Unit.KILL_EXP_PERCENT if distributing_unit.current_health <= 0 else 0.0
+	var chip_exp: float = (
+		base_exp * damage / distributing_unit.get_hit_points() * (1 - Unit.KILL_EXP_PERCENT)
 	)
-	return chip_exp + kill_exp
+	if distributing_unit.current_health <= 0:
+		return chip_exp + base_exp * Unit.KILL_EXP_PERCENT  # Chip EXP + Kill EXP
+	else:
+		return chip_exp
 
 
 ## Gives the receiving unit experience from damaging an opponent.
@@ -172,15 +184,9 @@ func _play_hit_sound_effect(
 		## Hit A changes if the attack is a crit, Hit B changes if the attack is a mortal blow
 		const HIT_A_HEAVY: AudioStream = preload("res://audio/sfx/hit_a_heavy.ogg")
 		const HIT_A_CRIT: AudioStream = preload("res://audio/sfx/hit_a_crit.ogg")
-		const HIT_B_HEAVY: AudioStream = preload("res://audio/sfx/hit_b_heavy.ogg")
-		const HIT_B_FATAL: AudioStream = preload("res://audio/sfx/hit_b_fatal.ogg")
 		const DELAY: int = 5
 		var hit_a: AudioStream = HIT_A_CRIT if is_crit else HIT_A_HEAVY
-		var hit_b: AudioStream = (
-			HIT_B_FATAL if new_health <= 0
-			else preload("res://audio/sfx/no_damage.ogg") if old_health - new_health == 0
-			else HIT_B_HEAVY
-		)
+		var hit_b: AudioStream = _get_hit_b_sound_effect(old_health, new_health)
 		var sfx_tween: Tween = create_tween()
 		sfx_tween.set_speed_scale(60)
 		sfx_tween.tween_callback(AudioPlayer.play_sound_effect.bind(hit_a))
@@ -188,6 +194,18 @@ func _play_hit_sound_effect(
 		return get_tree().create_timer(
 			maxf(hit_a.get_length(), float(DELAY) / 60 + hit_b.get_length())
 		)
+
+
+func _get_hit_b_sound_effect(old_health: int, new_health: int) -> AudioStream:
+	if new_health <= 0:
+		# Fatal SFX
+		return preload("res://audio/sfx/hit_b_fatal.ogg")
+	elif old_health - new_health == 0:
+		# No damage SFX
+		return preload("res://audio/sfx/no_damage.ogg")
+	else:
+		# Normal SFX
+		return preload("res://audio/sfx/hit_b_heavy.ogg")
 
 
 ## Object that represents one attack in a round of combat.

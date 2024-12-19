@@ -8,12 +8,14 @@ var starting_level: int
 var promo_level: int
 var percentile: float
 
+
 func _ready() -> void:
 	_update()
 
 
 func _update() -> void:
 	($VBoxContainer/Result as Label).text = "Result: %d" % _get_lowest_match()
+
 
 func _factorial(num: int) -> float:
 	var product: float = 1
@@ -23,9 +25,12 @@ func _factorial(num: int) -> float:
 
 
 func _binomial_formula(value: int, probability: float, total: int) -> float:
-	var permutations: float = float(_factorial(total)) / (_factorial(total - value))
-	var combinations: float = permutations / _factorial(value)
-	return combinations * (probability ** value) * ((1 - probability) ** (total - value))
+	return (
+		(float(_factorial(total)) / (_factorial(total - value)) / _factorial(value))
+		* (probability ** value)
+		* ((1 - probability) ** (total - value))
+	)
+
 
 func _get_lowest_match() -> int:
 	var curr_percentile: float = 1.0
@@ -34,6 +39,7 @@ func _get_lowest_match() -> int:
 		if curr_percentile < percentile:
 			return _get_stat_sum() + leveled_stat
 	return _get_stat_sum() + _get_levels()
+
 
 func _get_stat_sum() -> int:
 	return base_stat + (promo_gain if promo_level > 0 else 0)

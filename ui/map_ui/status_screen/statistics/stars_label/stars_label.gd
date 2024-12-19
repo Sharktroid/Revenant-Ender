@@ -8,8 +8,9 @@ var stars: float = 1:
 
 
 func _update_stars() -> void:
-	var stars_stylebox := (%StarsDisplay as Panel).get_theme_stylebox("panel") as StyleBoxTexture
-	var star_size: Vector2i = stars_stylebox.texture.get_size()
+	var star_size: Vector2i = (
+		((%StarsDisplay as Panel).get_theme_stylebox("panel") as StyleBoxTexture).texture.get_size()
+	)
 	var number_label := $NumberLabel as Label
 	var stars_width := %StarsWidth as Control
 	if star_size.x * stars > size.x:

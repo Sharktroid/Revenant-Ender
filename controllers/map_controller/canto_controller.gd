@@ -30,11 +30,9 @@ func _position_selected() -> void:
 	if CursorController.map_position in _unit.get_actionable_movement_tiles():
 		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
 		const CantoMenu = preload("res://ui/map_ui/map_menus/canto_menu/canto_menu.gd")
-		var menu := CantoMenu.instantiate(
-			CursorController.screen_position + Vector2i(16, -8), null, self, _unit
-		)
 		CursorController.disable()
-		MapController.get_ui().add_child(menu)
+		var menu_position: Vector2i = CursorController.screen_position + Vector2i(16, -8)
+		MapController.get_ui().add_child(CantoMenu.instantiate(menu_position, null, self, _unit))
 
 
 func _canceled() -> void:

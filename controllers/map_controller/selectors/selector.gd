@@ -36,10 +36,9 @@ func _init(
 
 
 func _process(_delta: float) -> void:
-	var should_show_icon: bool = _can_select()
-	if should_show_icon != _showing_icon:
-		CursorController.set_icon(_icon if should_show_icon else CursorController.Icons.NONE)
-		_showing_icon = should_show_icon
+	if _can_select() != _showing_icon:
+		CursorController.set_icon(_icon if _can_select() else CursorController.Icons.NONE)
+		_showing_icon = _can_select()
 
 
 func _receive_input(event: InputEvent) -> void:

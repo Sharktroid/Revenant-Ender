@@ -29,6 +29,6 @@ func get_name() -> StringName:
 	return _name
 
 
-## Gets the description of the ConfigOption. Takes the option as a parameter.
+## Gets the description of the ConfigOption. Takes the value as a parameter.
 func get_description(_option: StringName) -> String:
 	return _description

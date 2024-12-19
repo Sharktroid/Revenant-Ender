@@ -16,7 +16,7 @@ func _enter_tree() -> void:
 
 func _process(delta: float) -> void:
 	visible = CursorController.cursor_visible
-	var distance: float = position.distance_to(CursorController.screen_position) / 16
 	position = position.move_toward(
-		CursorController.screen_position, (maxf(1, distance) * 4) * 60 * delta
+		CursorController.screen_position,
+		(maxf(1, position.distance_to(CursorController.screen_position) / 16) * 4) * 60 * delta
 	)

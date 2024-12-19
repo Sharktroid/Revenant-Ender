@@ -33,10 +33,7 @@ var value: float:
 					_value_label.text = Utilities.float_to_string(roundi(new_value))
 			Modes.PERCENT:
 				_value_label.text = (
-					Utilities.float_to_string(
-						snappedf(new_value / max_value * 100, 0.001)
-					)
-					+ "%"
+					Utilities.float_to_string(snappedf(new_value / max_value * 100, 0.001)) + "%"
 				)
 ## The value without any modifiers. Can be used to display debuffs.
 var original_value: float:
@@ -71,10 +68,8 @@ var max_value: float:
 static func instantiate(
 	new_value: float, minimum: float, maximum: float, new_mode := Modes.INTEGER, og_value: int = 0
 ) -> NumericProgressBar:
-	var scene := (
-		preload("res://ui/progress_bar/numeric_progress_bar.tscn").instantiate()
-		as NumericProgressBar
-	)
+	var PACKED_SCENE: PackedScene = preload("res://ui/progress_bar/numeric_progress_bar.tscn")
+	var scene := PACKED_SCENE.instantiate() as NumericProgressBar
 	#gdlint: ignore = private-method-call
 	scene._instantiate_coroutine(new_value, minimum, maximum, new_mode, og_value)
 	return scene

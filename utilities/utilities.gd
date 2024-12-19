@@ -46,11 +46,13 @@ func get_tiles(
 		if min_range > max_range:
 			return output
 
-		var left_bound: int = maxi(-max_range * 16 + center.x, boundaries.position.x)
-		var right_bound: int = mini(max_range * 16 + center.x, boundaries.end.x - 16)
 		var top_bound: int = -max_range * 16 + center.y
 		var bottom_bound: int = max_range * 16 + center.y
-		for x: int in range(left_bound, right_bound + 1, 16):
+		for x: int in range(
+			maxi(-max_range * 16 + center.x, boundaries.position.x),
+			mini(max_range * 16 + center.x, boundaries.end.x - 16) + 1,
+			16
+		):
 			var x_offset: int = -abs(x - center.x)
 			var current_min: int = x_offset + min_range * 16
 			var top_max: int = maxi(-x_offset + top_bound, boundaries.position.y)
@@ -81,8 +83,7 @@ func get_tile_distance(pos_a: Vector2, pos_b: Vector2) -> float:
 func round_coords_to_tile(coords: Vector2, offset := Vector2()) -> Vector2i:
 	# Rounds "coords" to the nearest tile (16x16).
 	coords -= offset
-	coords = Vector2(floori(coords.x / 16) * 16, floori(coords.y / 16) * 16)
-	return coords + offset
+	return Vector2(floori(coords.x / 16) * 16, floori(coords.y / 16) * 16) + offset
 
 
 func sync_animation(animation_player: AnimationPlayer) -> void:
@@ -104,16 +105,10 @@ func xor(condition_a: bool, condition_b: bool) -> bool:
 func dict_to_table(dict: Dictionary) -> Array[String]:
 	var table: Array[String] = []
 	for key: String in dict.keys() as Array[String]:
-		table.append_array(
-			[
-				"[color={yellow}]{key}[/color]".format(
-					{"yellow": Utilities.font_yellow, "key": str(key)}
-				),
-				"[color={blue}]{value}[/color]".format(
-					{"blue": Utilities.font_blue, "value": str(dict[key])}
-				)
-			]
-		)
+		const KEY = "[color={yellow}]{key}[/color]"
+		table.append(KEY.format({"yellow": Utilities.font_yellow, "key": str(key)}))
+		const VALUE: String = "[color={blue}]{value}[/color]"
+		table.append(VALUE.format({"blue": Utilities.font_blue, "value": str(dict[key])}))
 	return table
 
 

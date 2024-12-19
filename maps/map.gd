@@ -83,9 +83,9 @@ func _receive_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("status"):
 		if CursorController.get_hovered_unit():
 			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
-			var status_menu := StatusScreen.instantiate(CursorController.get_hovered_unit())
-			MapController.get_ui().add_child(status_menu)
-			GameController.add_to_input_stack(status_menu)
+			MapController.get_ui().add_child(
+				StatusScreen.instantiate(CursorController.get_hovered_unit())
+			)
 			CursorController.disable()
 
 
@@ -94,8 +94,10 @@ func unit_wait(_unit: Unit) -> void:
 	_update_outline()
 	for unit: Unit in get_units():
 		unit.reset_tile_cache()
-	var is_waiting: Callable = func(unit: Unit) -> bool: return unit.waiting
-	if Options.AUTOEND_TURNS.value and _get_current_units().all(is_waiting):
+	if (
+		Options.AUTOEND_TURNS.value
+		and _get_current_units().all(func(unit: Unit) -> bool: return unit.waiting)
+	):
 		end_turn.call_deferred()
 
 
@@ -182,15 +184,10 @@ func display_tiles(
 		TileTypes.SUPPORT:
 			current_tile_base = preload("res://maps/map_tiles/support_tile.gd")
 	for i: Vector2i in tiles:
-		var tile := current_tile_base.instantiate(
-			Vector2(i),
-			(
-				modulation
-				if Utilities.xor(not (i in modulate_blacklist), blacklist_as_whitelist)
-				else 1.0
-			)
+		var get_alpha: Callable = func() -> float: return (
+			modulation if not ((i in modulate_blacklist) != blacklist_as_whitelist) else 1.0
 		)
-		tiles_node.add_child(tile)
+		tiles_node.add_child(current_tile_base.instantiate(Vector2(i), get_alpha.call() as float))
 	_base_layer.add_child(tiles_node)
 	return tiles_node
 
@@ -302,12 +299,11 @@ func _intro() -> void:
 
 
 func _get_terrain(coords: Vector2i) -> String:
-	## Gets the name of the terrain at the tile at position "coords"'
-	return (
-		"Blocked"
-		if not borders.has_point(coords)
-		else _terrain_layer.get_cell_tile_data(coords / 16).get_custom_data("TerrainName")
-	)
+	## Gets the name of the terrain at the tile at position "coords"
+	if not borders.has_point(coords):
+		return "Blocked"
+	else:
+		return _terrain_layer.get_cell_tile_data(coords / 16).get_custom_data("TerrainName")
 
 
 func _create_debug_borders() -> void:
@@ -340,8 +336,9 @@ func _parse_movement_cost() -> void:
 	for full_type: String in raw_movement_cost:
 		var split: Array[String] = []
 		split.assign(full_type.strip_edges().split(","))
-		var type_name: String = (split.pop_at(0) as String).to_snake_case().to_upper()
-		var type: UnitClass.MovementTypes = UnitClass.MovementTypes[type_name]
+		var type: UnitClass.MovementTypes = UnitClass.MovementTypes[
+			(split.pop_at(0) as String).to_snake_case().to_upper()
+		]
 		_movement_cost_dict[type] = {}
 		for cost: int in split.size():
 			_movement_cost_dict[type][header[cost]] = split[cost]
@@ -349,17 +346,14 @@ func _parse_movement_cost() -> void:
 
 func _get_unit_relative(unit: Unit, rel_index: int) -> Unit:
 	var faction_units: Array[Unit] = get_faction_units(unit.faction)
-	var unit_index: int = faction_units.find(unit)
-	var next_unit_index: int = (unit_index + rel_index) % faction_units.size()
-	return faction_units[next_unit_index]
+	return faction_units[(faction_units.find(unit) + rel_index) % faction_units.size()]
 
 
 func _on_cursor_select() -> void:
 	var hovered_unit: Unit = CursorController.get_hovered_unit()
 	if hovered_unit and hovered_unit.selectable == true:
 		AudioPlayer.play_sound_effect(preload("res://audio/sfx/double_select.ogg"))
-		var controller := SelectedUnitController.new(hovered_unit)
-		add_child(controller)
+		add_child(SelectedUnitController.new(hovered_unit))
 	else:
 		AudioPlayer.play_sound_effect(preload("res://audio/sfx/menu_open.ogg"))
 		_create_main_map_menu()
@@ -367,9 +361,8 @@ func _on_cursor_select() -> void:
 
 func _update_grid_current_faction() -> void:
 	for movement_type: UnitClass.MovementTypes in _cost_grids.keys():
-		var a_star_grid: AStarGrid2D = _cost_grids[movement_type]
 		for unit: Unit in MapController.map.get_units():
-			a_star_grid.set_point_solid(
+			(_cost_grids[movement_type] as AStarGrid2D).set_point_solid(
 				unit.position / 16, not unit.faction.is_friend(_grid_current_faction)
 			)
 

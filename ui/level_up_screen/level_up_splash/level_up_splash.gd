@@ -1,6 +1,7 @@
 extends ReferenceRect
 @onready var _text_sprite := %TextSprite as Sprite2D
 
+
 func _ready() -> void:
 	var line := $Line as HBoxContainer
 	var particle := %Particle as TextureRect
@@ -15,13 +16,9 @@ func _ready() -> void:
 
 	line.position.x = 0
 	line.size.x = Utilities.get_screen_size().x + particle.size.x
-	var percent_height: float = line.anchor_top
-	var max_distance_to_edge: int = ceili(
-		maxf(percent_height, 1 - percent_height) * Utilities.get_screen_size().y
-	)
 	var expand_tween: Tween = create_tween()
 	var expand_tweener: MethodTweener = expand_tween.tween_method(
-		_set_min_size, 0, max_distance_to_edge * 2, 6.0 / 60
+		_set_min_size, 0, _get_edge(line.anchor_top) * 2, 6.0 / 60
 	)
 	expand_tweener.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
 	var text_tween: Tween = create_tween()
@@ -44,6 +41,10 @@ func _ready() -> void:
 	fade_anim_player.play("play")
 	await fade_anim_player.animation_finished
 	queue_free()
+
+
+func _get_edge(percent_height: float) -> int:
+	return ceili(maxf(percent_height, 1 - percent_height) * Utilities.get_screen_size().y)
 
 
 func _set_min_size(value: int) -> void:

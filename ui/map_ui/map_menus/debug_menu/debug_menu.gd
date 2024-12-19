@@ -34,13 +34,11 @@ func _select_item(item: MapMenuItem) -> void:
 			DebugConfig.PRINT_INPUT_RECEIVER.invert()
 
 		"PrintCursorPosition":
-			var ui_pos_string: String = (
-				"Position relative to UI: %s" % CursorController.screen_position
-			)
-			var map_pos_string: String = (
-				"Position relative to map: %s" % CursorController.map_position
-			)
-			print("{ui}\n{map}".format({"ui": ui_pos_string, "map": map_pos_string}))
+			var format_dictionary: Dictionary = {
+				"ui": "Position relative to UI: %s" % CursorController.screen_position,
+				"map": "Position relative to map: %s" % CursorController.map_position
+			}
+			print("{ui}\n{map}".format(format_dictionary))
 
 		"DisplayFrameRate":
 			DebugConfig.SHOW_FPS.invert()

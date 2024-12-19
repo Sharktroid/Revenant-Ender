@@ -13,15 +13,16 @@ func _enter_tree() -> void:
 	($LeftHPBar as MapHPBar).unit = _attacker if left_attacker else _defender
 	($RightHPBar as MapHPBar).unit = _defender if left_attacker else _attacker
 	var unit_midpoint := Vector2(
-		(_attacker.position.x + _defender.position.x) / 2 - size.x / 2,
-		maxf(_attacker.position.y, _defender.position.y)
+		(_attacker.position.x + _defender.position.x) / 2 - size.x / 2 + 8,
+		maxf(_attacker.position.y, _defender.position.y) + _V_MOD
 	)
-	var offset: Vector2i = (
-		Vector2i(8, _V_MOD)
-		- MapController.map.get_map_camera().get_map_offset()
-		- MapController.map.get_map_camera().get_map_position()
+	var camera: MapCamera = MapController.map.get_map_camera()
+	position = (
+		unit_midpoint
+		- (camera.get_map_offset() as Vector2)
+		- (camera.get_map_position() as Vector2)
 	)
-	position = unit_midpoint + Vector2(offset)
+
 	if position.y + size.y > Utilities.get_screen_size().y:
 		position.y -= (size.y + _V_MOD * 2)
 

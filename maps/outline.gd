@@ -9,8 +9,6 @@ func _draw() -> void:
 		var current_outlined_units: Array[Unit] = []
 		if outline_faction in outlined_units:
 			current_outlined_units.assign(outlined_units[outline_faction] as Array)
-		var all_current_coords: Array[Vector2i] = []
-		var all_general_coords: Array[Vector2i] = []
 		var unit_highlight: Color
 		match outline_faction.color:
 			Faction.Colors.BLUE:
@@ -21,6 +19,7 @@ func _draw() -> void:
 				unit_highlight = Color.GREEN
 			Faction.Colors.PURPLE:
 				unit_highlight = Color.PURPLE
+		var all_current_coords: Array[Vector2i] = []
 		for unit: Unit in current_outlined_units:
 			var attack_tiles: Array[Vector2i] = unit.get_all_attack_tiles()
 			if is_instance_valid(unit) and attack_tiles.size() > 0:
@@ -29,6 +28,7 @@ func _draw() -> void:
 				for coord: Vector2i in attack_tiles + unit.get_movement_tiles():
 					if not (coord in all_current_coords):
 						all_current_coords.append(coord)
+		var all_general_coords: Array[Vector2i] = []
 		var current_faction: Faction = MapController.map.get_current_faction()
 		if current_faction.full_outline and outline_faction != current_faction:
 			for unit: Unit in MapController.map.get_units():

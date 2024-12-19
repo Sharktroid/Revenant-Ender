@@ -76,10 +76,7 @@ func _update_ghost_unit() -> void:
 ## Creates menu if cursor in _unit's tiles and is same faction as _unit.
 func _position_selected() -> void:
 	if _unit.faction.name == MapController.map.get_current_faction().name:
-		if (
-			CursorController.map_position in _unit._movement_tiles
-			and UnitMenu.get_displayed_items(_unit).values().any(_is_true)
-		):
+		if _can_act():
 			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
 			_create_unit_menu()
 
@@ -135,5 +132,10 @@ func _attack_selection() -> void:
 	CursorController.enable()
 
 
-func _is_true(value: bool) -> bool:
-	return value
+func _can_act() -> bool:
+	if CursorController.map_position in _unit._movement_tiles:
+		return UnitMenu.get_displayed_items(_unit).values().any(
+			func(value: bool) -> bool: return value
+		)
+	else:
+		return false

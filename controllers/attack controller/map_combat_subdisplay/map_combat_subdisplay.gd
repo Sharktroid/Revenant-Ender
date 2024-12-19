@@ -12,7 +12,6 @@ func _ready() -> void:
 	var gradient_stylebox := (
 		bg_gradient.get_theme_stylebox("panel").duplicate(true) as StyleBoxTexture
 	)
-	var gradient := (gradient_stylebox.texture as GradientTexture2D).gradient
 	_hp_bar.max_value = unit.get_hit_points()
 	(%Name as Label).text = unit.display_name
 	bg_gradient.add_theme_stylebox_override("panel", gradient_stylebox as StyleBoxTexture)
@@ -37,6 +36,8 @@ func _ready() -> void:
 			top_color.s = 0.75
 			top_color = Color.PURPLE
 			top_color.v = 0.5
+
+	var gradient := (gradient_stylebox.texture as GradientTexture2D).gradient
 	gradient.set_color(0, top_color)
 	gradient.set_color(1, bottom_color)
 	#endregion

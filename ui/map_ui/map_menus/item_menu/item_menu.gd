@@ -48,6 +48,5 @@ func _update() -> void:
 			child.queue_free()
 			await child.tree_exited
 		for item: Item in connected_unit.items:
-			var item_node := _ITEM_MENU_ITEM.new(item)
-			$Items.add_child(item_node)
+			$Items.add_child(_ITEM_MENU_ITEM.new(item))
 		reset_size()

@@ -14,8 +14,9 @@ func _enter_tree() -> void:
 
 
 func _process(delta: float) -> void:
-	var speed: float = maxf(4, (position.distance_to(get_destination())) / 16) * 60 * delta
-	_true_position = _true_position.move_toward(get_destination(), speed)
+	_true_position = _true_position.move_toward(
+		get_destination(), maxf(4, (position.distance_to(get_destination())) / 16) * 60 * delta
+	)
 	position = _true_position.round()
 
 
@@ -27,12 +28,12 @@ func move(new_map_position: Vector2i) -> void:
 ## Gets the offset of the top-left of the map.
 ## Keeps the map centered if it is smaller than the screen.
 func get_map_offset() -> Vector2i:
-	var map_size: Vector2i = MapController.map.get_size()
-	var screen_size: Vector2i = Utilities.get_screen_size()
 	var map_offset := Vector2i()
 	for i: int in 2:
-		if map_size[i] < screen_size[i]:
-			map_offset[i] = -roundi(float(screen_size[i] - map_size[i]) / 2)
+		if MapController.map.get_size()[i] < Utilities.get_screen_size()[i]:
+			map_offset[i] = -roundi(
+				float(Utilities.get_screen_size()[i] - MapController.map.get_size()[i]) / 2
+			)
 	return map_offset
 
 

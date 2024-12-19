@@ -60,6 +60,7 @@ static func instantiate(unit: Unit) -> StatusScreen:
 		preload("res://ui/map_ui/status_screen/status_screen.tscn").instantiate()
 	)
 	scene.observing_unit = unit
+	GameController.add_to_input_stack(scene)
 	return scene
 
 
@@ -115,7 +116,7 @@ func _update() -> void:
 	var next_level_exp: float = Unit.get_exp_to_level(observing_unit.level + 1)
 	_set_label_text_to_number(%EXPPercent as Label, observing_unit.get_exp_percent())
 
-	var exp_description: String = (
+	const EXP_DESCRIPTION: String = (
 		"[center][color={blue}]{current_exp}[color={yellow}]/"
 		+ "[/color]{next_level_exp}[/color][/center]\n"
 		+ "[color={blue}]{remaining_exp}[/color] to next level\n"
@@ -129,7 +130,7 @@ func _update() -> void:
 		"remaining_exp": roundi(next_level_exp - current_exp),
 		"total_exp": roundi(observing_unit.total_exp),
 	}
-	(%EXPStatHelp as HelpContainer).help_description = (exp_description.format(replacements))
+	(%EXPStatHelp as HelpContainer).help_description = EXP_DESCRIPTION.format(replacements)
 
 	var attack_description := %AttackDescription as HelpContainer
 	var attack_label := %AttackValue as Label
@@ -139,12 +140,11 @@ func _update() -> void:
 	var crit_label := %CritValue as Label
 
 	if observing_unit.get_weapon():
-		attack_description.help_description = ("{attack} + {might}".format(
-			{
-				"attack": observing_unit.get_current_attack(),
-				"might": observing_unit.get_weapon().get_might()
-			}
-		))
+		var format_dictionary: Dictionary = {
+			"attack": observing_unit.get_current_attack(),
+			"might": observing_unit.get_weapon().get_might()
+		}
+		attack_description.help_description = "{attack} + {might}".format(format_dictionary)
 		_set_label_text_to_number(attack_label, observing_unit.get_attack())
 
 		hit_description.help_description = Formulas.HIT.format(observing_unit)
@@ -173,14 +173,12 @@ func _update() -> void:
 	(%DodgeDescription as HelpContainer).help_description = Formulas.DODGE.format(observing_unit)
 	_set_label_text_to_number(%DodgeValue as Label, observing_unit.get_dodge())
 
-	var current_weapon: Weapon = observing_unit.get_weapon()
-	var range_value := %RangeValue as RichTextLabel
-	var range_text: String = current_weapon.get_range_text().replace(
+	var range_text: String = observing_unit.get_weapon().get_range_text().replace(
 		"-", " [color={yellow}]-[/color] ".format({"yellow": Utilities.font_yellow})
 	)
-	range_value.text = ("[color={blue}]{text}[/color]".format(
+	(%RangeValue as RichTextLabel).text = "[color={blue}]{text}[/color]".format(
 		{"blue": Utilities.font_blue, "text": range_text}
-	))
+	)
 
 	_update_tab()
 
@@ -199,22 +197,22 @@ func _update_tab() -> void:
 		0:
 			tab_controls.assign(_statistics.get_left_controls())
 		1:
-			tab_controls.assign(
-				(
-					_items.get_item_labels()
-					if not _items.get_item_labels().is_empty()
-					else _items.get_rank_labels()
-				)
-			)
+			tab_controls.assign(_get_leftmost_item_tab_controls())
 	await get_tree().process_frame
 	for control: Control in constant_labels:
-		var matching_control: Control = Utilities.get_control_within_height(control, tab_controls)
-		control.focus_neighbor_right = control.get_path_to(matching_control)
-	for control: Control in tab_controls:
-		var matching_control: Control = Utilities.get_control_within_height(
-			control, constant_labels
+		control.focus_neighbor_right = control.get_path_to(
+			Utilities.get_control_within_height(control, tab_controls)
 		)
-		control.focus_neighbor_left = control.get_path_to(matching_control)
+	for control: Control in tab_controls:
+		control.focus_neighbor_left = control.get_path_to(
+			Utilities.get_control_within_height(control, constant_labels)
+		)
+
+
+func _get_leftmost_item_tab_controls() -> Array[Node]:
+	if not _items.get_item_labels().is_empty():
+		return _items.get_item_labels()
+	return _items.get_rank_labels()
 
 
 ## Sets a label's text to a float.

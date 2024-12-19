@@ -115,7 +115,7 @@ func _receive_input(event: InputEvent) -> void:
 		_weapon_index += 1
 
 
-## Causes the node to be focused, allowing it to recieve input and become opaque.
+## Causes the node to be focused, allowing it to receive input and become opaque.
 func focus() -> void:
 	_set_focus(true)
 
@@ -139,20 +139,23 @@ func _get_current_weapon() -> Weapon:
 	return _current_weapons[_weapon_index]
 
 
+func _is_cursor_to_left() -> bool:
+	return CursorController.screen_position.x < (Utilities.get_screen_size().x as float / 2)
+
+
+func _get_distance() -> float:
+	return Utilities.get_tile_distance(
+		_top_unit.get_unit_path().back() as Vector2i, bottom_unit.position
+	)
+
+
 func _update() -> void:
 	if bottom_unit and is_node_ready():
 		modulate.a = 1.0 if _focused else 2.0 / 3
 
-		var cursor_to_left: bool = (
-			CursorController.screen_position.x < (Utilities.get_screen_size().x as float / 2)
-		)
-		position.x = Utilities.get_screen_size().x - size.x if cursor_to_left else 0.0
+		position.x = Utilities.get_screen_size().x - size.x if _is_cursor_to_left() else 0.0
 
-		_distance = roundi(
-			Utilities.get_tile_distance(
-				_top_unit.get_unit_path().back() as Vector2i, bottom_unit.position
-			)
-		)
+		_distance = roundi(_get_distance())
 
 		_old_weapon = _top_unit.get_weapon()
 		_current_weapons = []
@@ -226,8 +229,7 @@ func _update() -> void:
 				in_range, current_unit, other_unit
 			)
 
-			var double_sprite := get_node(node_path % "Double") as Sprite2D
-			double_sprite.visible = (
+			(get_node(node_path % "Double") as Sprite2D).visible = (
 				current_unit.can_follow_up(other_unit)
 				and in_range
 				and Options.COMBAT_PANEL.value == Options.COMBAT_PANEL.STRATEGIC
@@ -272,11 +274,17 @@ func _update_damage_label(label: Label, damage: float, in_range: bool) -> void:
 func _update_rate_label(label: Label, rate: int, in_range: bool) -> void:
 	label.text = Utilities.float_to_string(rate) if in_range else "--"
 	# Put code for effective damage color here.
-	label.theme_type_variation = (
-		&"GrayLabel"
-		if rate <= 0 or not in_range
-		else &"GreenLabel" if rate >= 100 else &"BlueLabel"
-	)
+	label.theme_type_variation = _get_type_variation(rate, in_range)
+
+
+func _get_type_variation(rate: int, in_range: bool) -> StringName:
+	if rate <= 0 or not in_range:
+		return &"GrayLabel"
+	elif rate >= 100:
+		return &"GreenLabel"
+	else:
+		return &"BlueLabel"
+
 
 # Hides the specified elements (top, bottom, and label) from the center.
 func _hide_elements(elements: Array[StringName]) -> void:

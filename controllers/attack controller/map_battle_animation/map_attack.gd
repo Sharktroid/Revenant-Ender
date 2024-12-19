@@ -27,21 +27,8 @@ func _init(connected_unit: Unit = null, targeted_tile := Vector2i(0, 16)) -> voi
 	await _combat_sprite.tree_entered
 	_combat_sprite.sprite_animated = false
 	_combat_sprite.flip_h = false
-	var angle: float = ((Vector2(_target_tile) - position).angle() * 4) / PI
 	_combat_sprite.set_animation.call_deferred(
-		(
-			Unit.Animations.MOVING_RIGHT
-			if angle <= 1 and angle >= -1
-			else (
-				Unit.Animations.MOVING_UP
-				if angle > -3 and angle < -1
-				else (
-					Unit.Animations.MOVING_DOWN
-					if angle > 1 and angle < 3
-					else Unit.Animations.MOVING_LEFT
-				)
-			)
-		)
+		_get_animation((Vector2(_target_tile) - position).angle() * 4 / PI)
 	)
 
 
@@ -109,3 +96,14 @@ func _move(movement: Vector2) -> void:
 ## Sets the sprite's shader white percentage
 func _set_white_percentage(percentage: float) -> void:
 	(_combat_sprite.material as ShaderMaterial).set_shader_parameter("white_percentage", percentage)
+
+
+func _get_animation(angle: float) -> Unit.Animations:
+	if angle <= 1 and angle >= -1:
+		return Unit.Animations.MOVING_RIGHT
+	elif angle > -3 and angle < -1:
+		return Unit.Animations.MOVING_UP
+	elif angle > 1 and angle < 3:
+		return Unit.Animations.MOVING_DOWN
+	else:
+		return Unit.Animations.MOVING_LEFT

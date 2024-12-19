@@ -24,8 +24,8 @@ enum Stats {
 const LEVEL_CAP: int = 30
 ## Duration of fade-away upon death
 const FADE_AWAY_DURATION: float = 20.0 / 60
-## The maximum amount of PVs a unit can have
-const TOTAL_EFFORT_VALUE_LIMIT: float = _INDIVIDUAL_EFFORT_VALUE_LIMIT * 4
+## The maximum amount of effort values a unit can have
+const TOTAL_EFFORT_VALUE_LIMIT: float = _INDIVIDUAL_EV_LIMIT * 4
 ## The experience required to go from level 1 to level 2
 const BASE_EXP: int = 100
 ## The multiplier for the extra amount of experience to go from one level to the next
@@ -41,27 +41,27 @@ const MAX_LEVEL: int = 30
 const MIN_RATE: int = 5
 ## Any rate above this value is set to 100%
 const MAX_RATE: int = 95
-## The added amount when the stat is the unit class max and PVs are maxed
-const PERSONAL_VALUE_MAX_MODIFIER: float = 5
-## The added amount when hit points are the unit class max and EVs are maxed
-const EFFORT_VALUE_MAX_MODIFIER: float = 5
+## The added amount when the stat is the unit class max and personal values are maxed
+const PV_MAX_MODIFIER: float = 5
+## The added amount when hit points are the unit class max and effort values are maxed
+const EV_MAX_MODIFIER: float = 5
 
-## The added amount when the stat is 0 and PVs are maxed
+## The added amount when the stat is 0 and personal values are maxed
 const _PERSONAL_VALUE_MIN_MODIFIER: float = 2.5
-## The added amount when hit points are 0 and PVs are maxed
-const _PERSONAL_VALUE_MIN_HIT_POINTS_MODIFIER: float = 5
-## The added amount when hit points are the unit class max and PVs are maxed
-const _PERSONAL_VALUE_MAX_HIT_POINTS_MODIFIER: float = 10
-## The added amount when the stat is 0 and EVs are maxed
-const _EFFORT_VALUE_MIN_MODIFIER: float = 2.5
-## The added amount when the stat is 0 and EVs are maxed
-const _EFFORT_VALUE_MIN_HIT_POINTS_MODIFIER: float = 5
-## The added amount when hit points are the unit class max and EVs are maxed
-const _EFFORT_VALUE_MAX_HIT_POINTS_MODIFIER: float = 10
-## The maximum value that a PV can be
-const _PERSONAL_VALUE_LIMIT: int = 15
+## The added amount when hit points are 0 and personal values are maxed
+const _PV_MIN_HP_MODIFIER: float = 5
+## The added amount when hit points are the unit class max and personal values are maxed
+const _PV_MAX_HP_MODIFIER: float = 10
+## The added amount when the stat is 0 and effort values are maxed
+const _EV_MIN_MODIFIER: float = 2.5
+## The added amount when the stat is 0 and effort values are maxed
+const _EV_MIN_HP_MODIFIER: float = 5
+## The added amount when hit points are the unit class max and effort values are maxed
+const _EV_MAX_HP_MODIFIER: float = 10
+## The maximum value that a personal value can be
+const _PV_LIMIT: int = 15
 ## The maximum value that an EV can be
-const _INDIVIDUAL_EFFORT_VALUE_LIMIT: int = 250
+const _INDIVIDUAL_EV_LIMIT: int = 250
 
 @export var display_name: String = "[Empty]"
 @export_multiline var unit_description: String = "[Empty]"
@@ -105,20 +105,18 @@ var traveler: Unit:
 		else:
 			_traveler_animation_player.play("RESET")
 var personal_authority: int
-var current_health: float:
+var current_health: int:
 	set(health):
-		current_health = clampf(health, 0, get_hit_points())
+		current_health = clampi(health, 0, get_hit_points())
 		if not Engine.is_editor_hint():
 			const HealthBar = preload("res://units/health_bar/health_bar.gd")
 			($HealthBar as HealthBar).update()
 		health_changed.emit()
 var faction: Faction:
 	get:
-		return (
-			_get_map().all_factions[_faction_id]
-			if _get_map() and _get_map().all_factions.size() > 0
-			else Faction.new("INVALID", Faction.Colors.BLUE, Faction.PlayerTypes.HUMAN, null)
-		)
+		if _get_map() and _get_map().all_factions.size() > 0:
+			return _get_map().all_factions[_faction_id]
+		return Faction.new("INVALID", Faction.Colors.BLUE, Faction.PlayerTypes.HUMAN, null)
 	set(new_faction):
 		_faction_id = _get_map().all_factions.find(new_faction)
 		flip_h = faction.flipped if faction else false
@@ -279,15 +277,19 @@ func get_stat_boost(stat: Stats) -> int:
 
 
 func get_stat(stat: Stats, current_level: int = level) -> int:
-	var leveled_stat: float = unit_class.get_stat(stat, current_level)
-	var unclamped_stat: int = roundi(
-		(
-			leveled_stat
-			+ _get_personal_modifier(stat, current_level)
-			+ _get_effort_modifier(stat, current_level)
-		)
+	return (
+		clampi(roundi(_get_raw_stat(stat, current_level)), 0, get_stat_cap(stat))
+		+ get_stat_boost(stat)
 	)
-	return clampi(unclamped_stat, 0, get_stat_cap(stat)) + get_stat_boost(stat)
+
+
+func _get_raw_stat(stat: Stats, current_level: int) -> float:
+	var leveled_stat: float = unit_class.get_stat(stat, current_level)
+	return (
+		leveled_stat
+		+ _get_personal_modifier(stat, current_level)
+		+ _get_effort_modifier(stat, current_level)
+	)
 
 
 func get_hit_points(current_level: int = level) -> int:
@@ -339,17 +341,11 @@ func get_movement(current_level: int = level) -> int:
 
 
 func get_stat_cap(stat: Stats) -> int:
-	var personal_modifier: float = (
-		_PERSONAL_VALUE_MAX_HIT_POINTS_MODIFIER
-		if stat == Stats.HIT_POINTS
-		else PERSONAL_VALUE_MAX_MODIFIER
-	)
-	var effort_modifier: float = (
-		_EFFORT_VALUE_MAX_HIT_POINTS_MODIFIER
-		if stat == Stats.HIT_POINTS
-		else EFFORT_VALUE_MAX_MODIFIER
-	)
-	return roundi(unit_class.get_stat(stat, MAX_LEVEL) + personal_modifier + effort_modifier)
+	var max_stat: float = unit_class.get_stat(stat, MAX_LEVEL)
+	if stat == Stats.HIT_POINTS:
+		return roundi(max_stat + _PV_MAX_HP_MODIFIER + _EV_MAX_HP_MODIFIER)
+	else:
+		return roundi(max_stat + PV_MAX_MODIFIER + EV_MAX_MODIFIER)
 
 
 func get_attack_speed() -> float:
@@ -372,12 +368,13 @@ func get_current_defense(weapon: Weapon) -> int:
 func get_portrait() -> Portrait:
 	if _portrait:
 		return _portrait.duplicate() as Portrait
-	var portrait := Portrait.new()
-	portrait.texture = unit_class.get_default_portrait()
-	portrait.centered = false
-	portrait.material = ShaderMaterial.new()
-	(portrait.material as ShaderMaterial).shader = preload("res://shaders/gba_color.gdshader")
-	return portrait
+	else:
+		var portrait := Portrait.new()
+		portrait.texture = unit_class.get_default_portrait()
+		portrait.centered = false
+		portrait.material = ShaderMaterial.new()
+		(portrait.material as ShaderMaterial).shader = preload("res://shaders/gba_color.gdshader")
+		return portrait
 
 
 func get_portrait_offset() -> Vector2i:
@@ -386,7 +383,10 @@ func get_portrait_offset() -> Vector2i:
 
 func get_aid() -> int:
 	var aid_mod: int = unit_class.get_aid_modifier()
-	return get_build() + aid_mod if aid_mod <= 0 else aid_mod - get_build()
+	if aid_mod <= 0:
+		return get_build() + aid_mod
+	else:
+		return aid_mod - get_build()
 
 
 func get_weight() -> int:
@@ -402,8 +402,8 @@ func get_avoid() -> float:
 
 
 func get_hit_rate(enemy: Unit) -> int:
-	var weapon_hit: int = get_weapon().get_hit_bonus(enemy.get_weapon(), _get_distance(enemy))
-	return _adjust_rate(roundi(clampf(get_hit() - enemy.get_avoid() + weapon_hit, 0, 100)))
+	var hit_bonus: int = get_weapon().get_hit_bonus(enemy.get_weapon(), _get_distance(enemy))
+	return _adjust_rate(roundi(clampf(get_hit() - enemy.get_avoid() + hit_bonus, 0, 100)))
 
 
 func get_crit() -> float:
@@ -589,8 +589,7 @@ func get_all_attack_tiles() -> Array[Vector2i]:
 ## Displays the unit's movement tiles.
 func display_movement_tiles() -> void:
 	hide_movement_tiles()
-	var movement_tiles: Array[Vector2i] = get_movement_tiles()
-	_movement_tiles_node = _get_map().display_tiles(movement_tiles, Map.TileTypes.MOVEMENT, 1)
+	_movement_tiles_node = _get_map().display_tiles(get_movement_tiles(), Map.TileTypes.MOVEMENT, 1)
 	_attack_tile_node = _get_map().display_tiles(get_all_attack_tiles(), Map.TileTypes.ATTACK, 1)
 	if not selected:
 		_movement_tiles_node.modulate.a = 0.5
@@ -609,8 +608,7 @@ func get_current_attack_tiles(pos: Vector2i, all_weapons: bool = false) -> Array
 		var min_range: int = get_min_range() if all_weapons else get_weapon().get_min_range()
 		var max_range: float = get_max_range() if all_weapons else get_weapon().get_max_range()
 		return Utilities.get_tiles(pos, max_range, min_range, MapController.map.borders)
-	else:
-		return []
+	return []
 
 
 ## Shows off the tiles the unit can attack from its current position.
@@ -717,19 +715,12 @@ func update_path(destination: Vector2i) -> void:
 		if destination in _path:
 			_path = _path.slice(0, _path.find(destination) + 1) as Array[Vector2i]
 		else:
-			if (
-				total_cost <= _current_movement
-				and (
-					destination
-					in Utilities.get_tiles(get_unit_path()[-1], 1, 1, _get_map().borders)
-				)
-			):
+			if total_cost <= _current_movement and destination in _get_path_end_adjacent_tiles():
 				_path.append(destination)
 			else:
-				var new_path: Array[Vector2i] = _get_map().get_movement_path(
+				_path = _get_map().get_movement_path(
 					unit_class.get_movement_type(), position, destination, faction
 				)
-				_path = new_path
 
 
 ## Displays the unit's path
@@ -739,8 +730,7 @@ func show_path() -> void:
 	_arrows_container = CanvasGroup.new()
 	if get_unit_path().size() > 1:
 		for index: int in get_unit_path().size():
-			var movement_arrow := MovementArrow.instantiate(get_unit_path(), index)
-			_arrows_container.add_child(movement_arrow)
+			_arrows_container.add_child(MovementArrow.instantiate(get_unit_path(), index))
 		_get_map().get_child(0).add_child(_arrows_container)
 
 
@@ -759,12 +749,8 @@ func equip_weapon(weapon: Weapon) -> void:
 		items.erase(weapon)
 		items.push_front(weapon)
 	else:
-		push_error(
-			(
-				'Tried equipping invalid weapon "%s" on unit "%s"'
-				% [weapon.resource_name, display_name]
-			)
-		)
+		const UNFORMATTED_ERROR: String = 'Tried equipping invalid weapon "%s" on unit "%s"'
+		push_error(UNFORMATTED_ERROR % [weapon.resource_name, display_name])
 
 
 func drop(item: Item) -> void:
@@ -798,8 +784,7 @@ func get_true_attack(enemy: Unit) -> float:
 		return (
 			get_attack() + get_weapon().get_damage_bonus(enemy.get_weapon(), _get_distance(enemy))
 		)
-	else:
-		return 0
+	return 0
 
 
 func _get_map() -> Map:
@@ -811,24 +796,23 @@ func _get_map() -> Map:
 			return current_parent as Map
 		else:
 			return MapController.map
-	else:
-		return _map
+	return _map
 
 
 func _update_palette() -> void:
 	var shader_material := material as ShaderMaterial
 	shader_material.set_shader_parameter("old_colors", unit_class.get_palette_basis())
-	shader_material.set_shader_parameter(
-		"new_colors",
-		(
-			unit_class.get_wait_palette() + _get_grayscale_hair_palette()
-			if waiting
-			else (
-				unit_class.get_palette(faction.color if faction else Faction.Colors.BLUE)
-				+ _get_hair_palette()
-			)
+	shader_material.set_shader_parameter("new_colors", _get_palette())
+
+
+func _get_palette() -> Array[Color]:
+	if waiting:
+		return unit_class.get_wait_palette() + _get_grayscale_hair_palette()
+	else:
+		return (
+			unit_class.get_palette(faction.color if faction else Faction.Colors.BLUE)
+			+ _get_hair_palette()
 		)
-	)
 
 
 func _get_distance(unit: Unit) -> int:
@@ -872,44 +856,36 @@ func _on_area2d_area_entered(area: Area2D) -> void:
 
 
 func _get_personal_modifier(stat: Stats, current_level: int) -> float:
-	var personal_value: float = clampf(_get_personal_value(stat) as int, 0, _PERSONAL_VALUE_LIMIT)
-	var is_hit_points: bool = stat == Stats.HIT_POINTS
 	return _get_value_modifier(
 		stat,
 		current_level,
-		_PERSONAL_VALUE_MIN_HIT_POINTS_MODIFIER if is_hit_points else _PERSONAL_VALUE_MIN_MODIFIER,
-		_PERSONAL_VALUE_MAX_HIT_POINTS_MODIFIER if is_hit_points else PERSONAL_VALUE_MAX_MODIFIER,
-		personal_value / _PERSONAL_VALUE_LIMIT
+		_PV_MIN_HP_MODIFIER if stat == Stats.HIT_POINTS else _PERSONAL_VALUE_MIN_MODIFIER,
+		_PV_MAX_HP_MODIFIER if stat == Stats.HIT_POINTS else PV_MAX_MODIFIER,
+		clampf(_get_personal_value(stat) as int, 0, _PV_LIMIT) / _PV_LIMIT
 	)
 
 
 func _get_effort_modifier(stat: Stats, current_level: int) -> float:
-	var effort_value: float = clampf(
-		_get_effort_value(stat) as int, 0, _INDIVIDUAL_EFFORT_VALUE_LIMIT
-	)
-	var is_hit_points: bool = stat == Stats.HIT_POINTS
 	return _get_value_modifier(
 		stat,
 		current_level,
-		_EFFORT_VALUE_MIN_HIT_POINTS_MODIFIER if is_hit_points else _EFFORT_VALUE_MIN_MODIFIER,
-		_EFFORT_VALUE_MAX_HIT_POINTS_MODIFIER if is_hit_points else EFFORT_VALUE_MAX_MODIFIER,
-		effort_value / _INDIVIDUAL_EFFORT_VALUE_LIMIT
+		_EV_MIN_HP_MODIFIER if stat == Stats.HIT_POINTS else _EV_MIN_MODIFIER,
+		_EV_MAX_HP_MODIFIER if stat == Stats.HIT_POINTS else EV_MAX_MODIFIER,
+		clampf(_get_effort_value(stat) as int, 0, _INDIVIDUAL_EV_LIMIT) / _INDIVIDUAL_EV_LIMIT
 	)
 
 
 func _get_value_modifier(
 	stat: Stats, current_level: int, min_value: float, max_value: float, value_weight: float
 ) -> float:
-	return (
-		remap(
-			unit_class.get_stat(stat, current_level),
-			UnitClass.MIN_HIT_POINTS if stat == Stats.HIT_POINTS else 0,
-			UnitClass.MAX_HIT_POINTS if stat == Stats.HIT_POINTS else UnitClass.MAX_END_STAT,
-			min_value,
-			max_value
-		)
-		* value_weight
+	var stat_modifier: float = remap(
+		unit_class.get_stat(stat, current_level),
+		UnitClass.MIN_HIT_POINTS if stat == Stats.HIT_POINTS else 0,
+		UnitClass.MAX_HIT_POINTS if stat == Stats.HIT_POINTS else UnitClass.MAX_END_STAT,
+		min_value,
+		max_value
 	)
+	return stat_modifier * value_weight
 
 
 func _on_area2d_area_exited(area: Area2D) -> void:
@@ -939,11 +915,9 @@ func _get_grayscale_hair_palette() -> Array[Color]:
 	if _custom_hair:
 		var palette_length: int = default_palette.size()
 		var palette: Array[Color] = []
-		var light_value: float = _hair_color_light.v
-		var dark_value: float = _hair_color_dark.v
 		for index in palette_length:
 			var new_color := Color()
-			new_color.v = remap(index, 0, palette_length, light_value, dark_value)
+			new_color.v = remap(index, 0, palette_length, _hair_color_light.v, _hair_color_dark.v)
 			palette.append(new_color)
 		return palette
 	else:
@@ -957,14 +931,10 @@ func _get_nearest_path_tile(tiles: Array[Vector2i]) -> Vector2i:
 		_path.pop_back()
 	var weighted_tiles: Dictionary = {}
 	for tile: Vector2i in tiles:
-		var tile_cost: int = ceili(
-			_get_map().get_path_cost(
-				unit_class.get_movement_type(),
-				_get_map().get_movement_path(
-					unit_class.get_movement_type(), position, tile, faction
-				)
-			)
+		var path: Array[Vector2i] = _get_map().get_movement_path(
+			unit_class.get_movement_type(), position, tile, faction
 		)
+		var tile_cost: int = ceili(_get_map().get_path_cost(unit_class.get_movement_type(), path))
 		if weighted_tiles.has(tile_cost):
 			(weighted_tiles[tile_cost] as Array[Vector2i]).append(tile)
 		else:
@@ -973,8 +943,14 @@ func _get_nearest_path_tile(tiles: Array[Vector2i]) -> Vector2i:
 	return (weighted_tiles[weighted_tiles.keys().min()] as Array[Vector2i]).pick_random()
 
 
+# Gets the rate, with the min and max rates
 func _adjust_rate(rate: int) -> int:
-	return 0 if rate < MIN_RATE else 100 if rate > MAX_RATE else rate
+	if rate < MIN_RATE:
+		return 0
+	elif rate > MAX_RATE:
+		return 100
+	else:
+		return rate
 
 
 # Returns the unit movement speed in tiles/second.
@@ -992,3 +968,7 @@ func _get_movement_speed() -> float:
 		_:
 			push_error(Options.GAME_SPEED.get_error_message())
 			return DEFAULT_SPEED
+
+
+func _get_path_end_adjacent_tiles() -> Array[Vector2i]:
+	return Utilities.get_tiles(get_unit_path()[-1], 1, 1, _get_map().borders)

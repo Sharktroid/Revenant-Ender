@@ -15,14 +15,11 @@ func _update() -> void:
 	var defensive_labels := %DefensiveLabels as VBoxContainer
 	var misc_labels := %MiscLabels as VBoxContainer
 	var other_labels := %OtherLabels as VBoxContainer
-	var max_width: int = (
-		[
-			roundi(offensive_labels.size.x),
-			roundi(defensive_labels.size.x),
-			roundi(misc_labels.size.x),
-			roundi(other_labels.size.x)
-		]
-		. max()
+	var max_width: int = max(
+		roundi(offensive_labels.size.x),
+		roundi(defensive_labels.size.x),
+		roundi(misc_labels.size.x),
+		roundi(other_labels.size.x)
 	)
 	offensive_labels.custom_minimum_size.x = max_width
 	defensive_labels.custom_minimum_size.x = max_width
@@ -42,8 +39,9 @@ func _update() -> void:
 	_update_stat_bar(%MovementBar as StatBar, Unit.Stats.MOVEMENT)
 
 	(%WeightValue as Label).text = str(observing_unit.get_weight())
-	var aid_value := %AidValue as Label
-	aid_value.text = "-" if observing_unit.get_aid() < 0 else str(observing_unit.get_aid())
+	(%AidValue as Label).text = (
+		"-" if observing_unit.get_aid() < 0 else str(observing_unit.get_aid())
+	)
 	const StarsLabel = preload(
 		"res://ui/map_ui/status_screen/statistics/stars_label/stars_label.gd"
 	)
@@ -52,22 +50,21 @@ func _update() -> void:
 		observing_unit.traveler.name as String if observing_unit.traveler else "-"
 	)
 
-	(%WeightNumber as HelpContainer).help_description = ("{build} + {weight_modifier}".format(
-		{
-			"build": observing_unit.get_build(),
-			"weight_modifier": observing_unit.unit_class.get_weight_modifier()
-		}
-	))
-	var aid_number := %AidNumber as HelpContainer
+	var format_dictionary: Dictionary = {
+		"build": observing_unit.get_build(),
+		"weight_modifier": observing_unit.unit_class.get_weight_modifier()
+	}
+	(%WeightNumber as HelpContainer).help_description = "{build} + {weight_modifier}".format(
+		format_dictionary
+	)
 	var aid_description: String = _get_unformatted_aid_description(
 		observing_unit.unit_class.get_aid_modifier()
 	)
-	aid_number.help_description = aid_description.format(
-		{
-			"build": observing_unit.get_build(),
-			"aid_modifier": absi(observing_unit.unit_class.get_aid_modifier())
-		}
-	)
+	format_dictionary = {
+		"build": observing_unit.get_build(),
+		"aid_modifier": absi(observing_unit.unit_class.get_aid_modifier())
+	}
+	(%AidNumber as HelpContainer).help_description = aid_description.format(format_dictionary)
 
 
 func _update_stat_bar(stat_bar: StatBar, stat: Unit.Stats) -> void:

@@ -20,8 +20,7 @@ func _select_item(item: MapMenuItem) -> void:
 	match item.name:
 		"Debug":
 			const DebugMenu = preload("res://ui/map_ui/map_menus/debug_menu/debug_menu.gd")
-			var menu := DebugMenu.instantiate(_offset, self)
-			MapController.get_ui().add_child(menu)
+			MapController.get_ui().add_child(DebugMenu.instantiate(_offset, self))
 
 		"Options":
 			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)

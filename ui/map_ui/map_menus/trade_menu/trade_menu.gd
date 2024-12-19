@@ -42,8 +42,6 @@ func _receive_input(event: InputEvent) -> void:
 			if _selected_label:
 				var old_item_node: TradeMenuItem = _selected_label
 				var new_item_node: TradeMenuItem = current_label
-				var old_item_index: int = old_item_node.get_index()
-				var new_item_index: int = new_item_node.get_index()
 				var old_item: Item = old_item_node.item
 				var new_item: Item = new_item_node.item
 				var old_item_unit: Unit = _get_unit(old_item_node)
@@ -53,8 +51,8 @@ func _receive_input(event: InputEvent) -> void:
 					old_item_unit.items.erase(old_item)
 					new_item_unit.items.append(old_item)
 				else:
-					old_item_unit.items[old_item_index] = new_item
-					new_item_unit.items[new_item_index] = old_item
+					old_item_unit.items[old_item_node.get_index()] = new_item
+					new_item_unit.items[new_item_node.get_index()] = old_item
 				old_item_node.item = new_item
 				new_item_node.item = old_item
 				if new_item_node == _empty_bar:

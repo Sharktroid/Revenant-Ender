@@ -38,10 +38,10 @@ func _to_string() -> String:
 
 
 func get_diplomacy_stance(faction: Faction) -> DiplomacyStances:
-	return (
-		DiplomacyStances.SELF if faction == self
-		else _diplomacy.get(faction, DiplomacyStances.ENEMY)
-	)
+	if faction == self:
+		return DiplomacyStances.SELF
+	else:
+		return _diplomacy.get(faction, DiplomacyStances.ENEMY)
 
 
 func set_diplomacy_stance(faction: Faction, new_stance: DiplomacyStances) -> void:

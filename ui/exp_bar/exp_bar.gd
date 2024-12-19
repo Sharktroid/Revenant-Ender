@@ -73,5 +73,6 @@ func _close() -> void:
 
 
 func _set_visible_ratio(ratio: float) -> void:
-	var shader_material := (%VisibilityPanel as Panel).material as ShaderMaterial
-	shader_material.set_shader_parameter("visible_ratio", ratio)
+	((%VisibilityPanel as Panel).material as ShaderMaterial).set_shader_parameter(
+		"visible_ratio", ratio
+	)

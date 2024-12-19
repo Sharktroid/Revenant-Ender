@@ -99,16 +99,14 @@ func _ready() -> void:
 		else:
 			var settings_h_box := HBoxContainer.new()
 			if option is BooleanOption:
-				var value: bool = (option as BooleanOption).value
-				_settings_indices[option] = 0 if value else 1
+				_settings_indices[option] = 0 if (option as BooleanOption).value else 1
 				settings_h_box.add_child(_create_label("On"))
 				settings_h_box.add_child(_create_label("Off"))
 			elif option is StringNameOption:
 				var string_name_option := option as StringNameOption
-				var current_setting_index: int = string_name_option.get_settings().find(
+				_settings_indices[option] = string_name_option.get_settings().find(
 					string_name_option.value
 				)
-				_settings_indices[option] = current_setting_index
 				for setting_index: int in string_name_option.get_settings().size():
 					settings_h_box.add_child(
 						_create_label(string_name_option.get_settings()[setting_index].capitalize())
@@ -291,11 +289,16 @@ func _create_label(setting: StringName) -> Label:
 
 
 func _update_description() -> void:
-	var description: String = (
-		var_to_str(_get_progress_bar().value) if _get_current_option() is FloatOption
-		else _get_hovered_setting_label().text.to_snake_case()
+	(%DescriptionLabel as Label).text = _get_current_option().get_description(
+		_get_current_option_value()
 	)
-	(%DescriptionLabel as Label).text = _get_current_option().get_description(description)
+
+
+func _get_current_option_value() -> String:
+	if _get_current_option() is FloatOption:
+		return var_to_str(_get_progress_bar().value)
+	else:
+		return _get_hovered_setting_label().text.to_snake_case()
 
 
 func _get_progress_bar() -> NumericProgressBar:
