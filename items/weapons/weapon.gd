@@ -8,8 +8,8 @@ enum Types {
 	BOW,
 	KNIFE,
 	ANIMA,
-	LIGHT,
-	DARK,
+	HOLY,
+	ELDRITCH,
 	CRIMSON_STAFF,
 	COBALT_STAFF,
 	SIEGE,
@@ -42,7 +42,7 @@ func _init() -> void:
 				_damage_type = DamageTypes.PHYSICAL
 			Types.BOW:
 				_damage_type = DamageTypes.RANGED
-			Types.COBALT_STAFF, Types.CRIMSON_STAFF, Types.LIGHT, Types.DARK, Types.ANIMA:
+			Types.COBALT_STAFF, Types.CRIMSON_STAFF, Types.HOLY, Types.ELDRITCH, Types.ANIMA:
 				_damage_type = DamageTypes.MAGICAL
 	if not _damage_type_ranged:
 		_damage_type_ranged = _damage_type

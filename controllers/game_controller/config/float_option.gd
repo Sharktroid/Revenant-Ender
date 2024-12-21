@@ -33,6 +33,7 @@ func _init(
 func get_min() -> float:
 	return _min
 
+
 ## Gets the maximum value of the value.
 func get_max() -> float:
 	return _max

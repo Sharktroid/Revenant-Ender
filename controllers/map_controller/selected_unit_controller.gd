@@ -37,7 +37,6 @@ func _receive_input(event: InputEvent) -> void:
 			MapController.map.create_status_screen()
 
 
-
 func _exit_tree() -> void:
 	_ghost_unit.queue_free()
 	var hovered_unit: Unit = CursorController.get_hovered_unit()

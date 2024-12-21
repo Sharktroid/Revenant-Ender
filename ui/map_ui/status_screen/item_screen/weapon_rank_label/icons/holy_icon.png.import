@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://323apbta8gi8"
-path="res://.godot/imported/light_icon.png-ae70c5819b31bcc36bd150617783f025.ctex"
+path="res://.godot/imported/holy_icon.png-c9e19278b94eb64be65964423555c95f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/light_icon.png"
-dest_files=["res://.godot/imported/light_icon.png-ae70c5819b31bcc36bd150617783f025.ctex"]
+source_file="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/holy_icon.png"
+dest_files=["res://.godot/imported/holy_icon.png-c9e19278b94eb64be65964423555c95f.ctex"]
 
 [params]
 

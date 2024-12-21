@@ -68,7 +68,7 @@ var max_value: float:
 static func instantiate(
 	new_value: float, minimum: float, maximum: float, new_mode := Modes.INTEGER, og_value: int = 0
 ) -> NumericProgressBar:
-	var PACKED_SCENE: PackedScene = preload("res://ui/progress_bar/numeric_progress_bar.tscn")
+	const PACKED_SCENE: PackedScene = preload("res://ui/progress_bar/numeric_progress_bar.tscn")
 	var scene := PACKED_SCENE.instantiate() as NumericProgressBar
 	#gdlint: ignore = private-method-call
 	scene._instantiate_coroutine(new_value, minimum, maximum, new_mode, og_value)

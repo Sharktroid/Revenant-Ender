@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dvhj25tofwef"
-path="res://.godot/imported/dark_icon.png-02d122e457499b4a2837c769037d1c30.ctex"
+path="res://.godot/imported/eldritch_icon.png-a35b2b978e92b122ecf5532ce5af926d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/dark_icon.png"
-dest_files=["res://.godot/imported/dark_icon.png-02d122e457499b4a2837c769037d1c30.ctex"]
+source_file="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/eldritch_icon.png"
+dest_files=["res://.godot/imported/eldritch_icon.png-a35b2b978e92b122ecf5532ce5af926d.ctex"]
 
 [params]
 
