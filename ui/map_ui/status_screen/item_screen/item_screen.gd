@@ -11,10 +11,11 @@ var observing_unit: Unit:
 
 
 func _update() -> void:
+	var get_left_control: Callable = func(control: Control) -> bool: return (
+		control.get_index() % 2 == 0
+	)
 	var ranks: Array[Control] = []
-	for control: Control in $WeaponRanks/GridContainer.get_children() as Array[Control]:
-		if control.get_index() % 2 == 0:
-			ranks.append(control)
+	ranks.assign($WeaponRanks/GridContainer.get_children().filter(get_left_control))
 	for child: Node in $ItemPanel/ItemLabelContainer.get_children():
 		for grandchild: Node in child.get_children():
 			grandchild.queue_free()

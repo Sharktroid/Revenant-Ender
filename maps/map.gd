@@ -108,11 +108,7 @@ func get_current_faction() -> Faction:
 
 ## Gets the units that belong to the provided faction.
 func get_faction_units(faction: Faction) -> Array[Unit]:
-	var units: Array[Unit] = []
-	for unit: Unit in get_units():
-		if unit.faction == faction:
-			units.append(unit)
-	return units
+	return get_units().filter(func(unit: Unit) -> bool: return unit.faction == faction)
 
 
 ## Gets the next unit in the unit list relative to the given unit.
@@ -195,9 +191,12 @@ func display_tiles(
 ## Displays tiles while highlighting tiles where a unit currently is.
 func display_highlighted_tiles(tiles: Array[Vector2i], unit: Unit, type: TileTypes) -> Node2D:
 	var unit_coords: Array[Vector2i] = []
-	for e_unit: Unit in MapController.map.get_units():
-		if not (unit.is_friend(e_unit)) and e_unit.visible:
-			unit_coords.append(Vector2i(e_unit.position))
+	var enemy_units: Array[Unit] = MapController.map.get_units().filter(
+		func(e_unit: Unit) -> bool: return not (unit.is_friend(e_unit)) and e_unit.visible
+	)
+	unit_coords.assign(
+		enemy_units.map(func(e_unit: Unit) -> Vector2i: return Vector2i(e_unit.position))
+	)
 	return display_tiles(tiles, type, 0.5, unit_coords)
 
 
@@ -212,37 +211,36 @@ func get_movement_path(
 		_grid_current_faction = faction
 		_update_grid_current_faction()
 	var movement_grid: AStarGrid2D = _cost_grids[movement_type]
-	var output: Array[Vector2i] = []
 	if (
 		movement_grid.is_in_boundsv(starting_point / 16)
 		and movement_grid.is_in_boundsv(destination / 16)
 	):
-		var raw_path: PackedVector2Array = movement_grid.get_point_path(
-			starting_point / 16, destination / 16
-		)
-		for vector: Vector2i in raw_path:
-			output.append(vector * 16)
-	return output
+		var raw_path: Array = movement_grid.get_point_path(starting_point / 16, destination / 16)
+		var output: Array[Vector2i] = []
+		output.assign(raw_path.map(func(vector: Vector2) -> Vector2i: return vector * 16))
+		return output
+	else:
+		return []
 
 
 ## Gets the cost of traversing a movement path.
 func get_path_cost(movement_type: UnitClass.MovementTypes, path: Array[Vector2i]) -> float:
 	if path.size() == 0:
 		return INF
-	var sum: float = 0
 	path.remove_at(0)
-	for cell: Vector2i in path:
-		sum += get_terrain_cost(movement_type, cell)
-	return sum
+	var sum: Callable = func(accum: float, cell: Vector2i) -> float: return (
+		accum + get_terrain_cost(movement_type, cell)
+	)
+	return path.reduce(sum, 0)
 
 
 ## Gets all units.
 func get_units() -> Array[Unit]:
-	var units: Array[Unit] = []
 	if is_inside_tree():
-		for node: Node in get_tree().get_nodes_in_group("unit"):
-			units.append(node)
-	return units
+		var units: Array[Unit] = []
+		units.assign(get_tree().get_nodes_in_group("unit"))
+		return units
+	return []
 
 
 ## Updates the terrain cost at a position.
@@ -252,9 +250,8 @@ func update_position_terrain_cost(pos: Vector2i) -> void:
 		var point_id: Vector2i = pos / 16
 		_update_a_star_grid_id(a_star_grid, movement_type, point_id)
 		a_star_grid.set_point_solid(point_id, false)
-	for unit: Unit in get_units():
-		if unit.position == Vector2(pos):
-			_update_grid_current_faction()
+	if get_units().any(func(unit: Unit) -> bool: return unit.position == Vector2(pos)):
+		_update_grid_current_faction()
 
 
 ## Returns the [Map]'s [MapCamera].
@@ -265,13 +262,10 @@ func get_map_camera() -> MapCamera:
 
 ## Returns true if the faction is friendly to a human.
 func is_faction_friendly_to_human(faction: Faction) -> bool:
-	for human_faction: Faction in all_factions:
-		if (
-			human_faction.player_type == Faction.PlayerTypes.HUMAN
-			and faction.is_friend(human_faction)
-		):
-			return true
-	return false
+	var is_human_friend: Callable = func(human_faction: Faction) -> bool: return (
+		human_faction.player_type == Faction.PlayerTypes.HUMAN and faction.is_friend(human_faction)
+	)
+	return all_factions.any(is_human_friend)
 
 
 # Updates AStarGrid2D

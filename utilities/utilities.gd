@@ -37,10 +37,12 @@ func get_tiles(
 			for tile in get_tiles(center, min_range - 1, 0, boundaries):
 				tile_blacklist[tile] = true
 		for x: int in range(boundaries.position.x, boundaries.end.x, 16):
-			for y: int in range(boundaries.position.y, boundaries.end.y, 16):
-				var tile := Vector2i(x, y)
-				if not tile_blacklist.get(tile):
-					output.append(tile)
+			var valid_ys: Array[int] = []
+			var is_y_valid: Callable = func(y: int) -> bool: return not tile_blacklist.get(
+				Vector2i(x, y)
+			)
+			valid_ys.assign(range(boundaries.position.y, boundaries.end.y, 16).filter(is_y_valid))
+			output.append_array(valid_ys.map(func(y: int) -> Vector2i: return Vector2i(x, y)))
 	else:
 		var max_range: int = roundi(true_max_range)
 		if min_range > max_range:
@@ -66,8 +68,7 @@ func get_tiles(
 					ranges += range(current_min + center.y, bottom_max + 1, 16)
 			else:
 				ranges = range(top_max, bottom_max + 1, 16)
-			for y: int in ranges:
-				output.append(Vector2i(x, y))
+			output.append_array(ranges.map(func(y: int) -> Vector2i: return Vector2i(x, y)))
 	return output
 
 
@@ -132,13 +133,6 @@ func finish_profiling() -> void:
 	print("Total length: %s ms" % (sum / 1000))
 
 
-func get_properties_of_array(objects: Array[Object], property_path: StringName) -> Array:
-	var output_array: Array = []
-	for object: Object in objects:
-		output_array.append(object.get(property_path))
-	return output_array
-
-
 func set_neighbor_path(
 	neighbor_name: String, index: int, modifier: int, parent: Array[Node]
 ) -> void:
@@ -151,7 +145,6 @@ func set_neighbor_path(
 
 func get_control_within_height(checking_control: Control, control_array: Array[Control]) -> Control:
 	var get_distance: Callable = _get_distance.bind(checking_control)
-
 	var closest_control := control_array[0] as Control
 	for control: Control in control_array.slice(1) as Array[Control]:
 		if get_distance.call(control) < get_distance.call(closest_control):

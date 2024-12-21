@@ -65,9 +65,7 @@ func _ready() -> void:
 	_animate_double_sprite(%TopDouble as Sprite2D)
 	_animate_double_sprite(%BottomDouble as Sprite2D)
 
-	for item: Item in _top_unit.items:
-		if item is Weapon:
-			_all_weapons.append(item)
+	_all_weapons = _top_unit.get_weapons()
 
 	_item_menu.weapon_selected.connect(_on_weapon_selected)
 	_update()
@@ -159,11 +157,10 @@ func _update() -> void:
 
 		_old_weapon = _top_unit.get_weapon()
 		_current_weapons = []
-		for item: Item in _all_weapons:
-			if item is Weapon:
-				var weapon := item as Weapon
-				if weapon.in_range(_distance):
-					_current_weapons.append(weapon)
+		_current_weapons.assign(
+			_all_weapons.filter(func(weapon: Weapon) -> bool: return weapon.in_range(_distance))
+		)
+
 		for node: Sprite2D in get_tree().get_nodes_in_group("arrows"):
 			node.visible = _current_weapons.size() != 1 and _focused
 
@@ -239,12 +236,8 @@ func _update() -> void:
 				var shader_material: ShaderMaterial = (
 					(get_node(node_path % "UnitPanel") as PanelContainer).material
 				)
-				var old_vectors: Array[Color] = []
-				for color: Color in _BLUE_COLORS:
-					old_vectors.append(color)
-				var new_vectors: Array[Color] = []
-				for color: Color in _RED_COLORS:
-					new_vectors.append(color)
+				var old_vectors: Array[Color] = _BLUE_COLORS
+				var new_vectors: Array[Color] = _RED_COLORS
 				shader_material.set_shader_parameter("old_colors", old_vectors)
 				shader_material.set_shader_parameter("new_colors", new_vectors)
 

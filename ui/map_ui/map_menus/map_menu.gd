@@ -26,8 +26,7 @@ var _to_center: bool = true
 func _enter_tree() -> void:
 	_update_position.call_deferred()
 	var visible_children: Array[Node] = []
-	for child: MapMenuItem in _get_visible_children():
-		visible_children.append(child)
+	visible_children.assign(_get_visible_children())
 	for index: int in visible_children.size():
 		Utilities.set_neighbor_path("top", index, -1, visible_children)
 		Utilities.set_neighbor_path("bottom", index, 1, visible_children)
@@ -90,9 +89,9 @@ func _play_select_sound_effect(_item: MapMenuItem) -> void:
 
 func _get_visible_children() -> Array[MapMenuItem]:
 	var children: Array[MapMenuItem] = []
-	for child: Node in %Items.get_children():
-		if (child as MapMenuItem).visible == true:
-			children.append(child)
+	children.assign(
+		%Items.get_children().filter(func(child: MapMenuItem) -> bool: return child.visible)
+	)
 	return children
 
 

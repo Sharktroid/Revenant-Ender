@@ -5,11 +5,7 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Use more Array functions (e.g. map, reduce)
-	* many functions in map.gd
-	* map_menu _get_visible_children
-	* item_screen _update
-	* many functions in unit.gd
+* Replace size >/== 0 with empty
 * Make it possible to open status menu when selecting a destination
 * Rename Dark to Eldrich and Light to Holy
 * Merge EVs for Strength, Pierce, and Int

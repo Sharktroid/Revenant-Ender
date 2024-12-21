@@ -20,28 +20,23 @@ func _draw() -> void:
 			Faction.Colors.PURPLE:
 				unit_highlight = Color.PURPLE
 		var all_current_coords: Array[Vector2i] = []
-		for unit: Unit in current_outlined_units:
-			var attack_tiles: Array[Vector2i] = unit.get_all_attack_tiles()
-			if is_instance_valid(unit) and attack_tiles.size() > 0:
-				unit.modulate = unit_highlight
-				unit.modulate.s *= 0.5
-				for coord: Vector2i in attack_tiles + unit.get_movement_tiles():
-					if not (coord in all_current_coords):
-						all_current_coords.append(coord)
+		var is_coord_within_coords: Callable = func(
+			coord: Vector2i, coords: Array[Vector2i]
+		) -> bool: return not (coord in coords)
+		for unit: Unit in current_outlined_units.filter(_can_unit_attack):
+			unit.modulate = unit_highlight
+			unit.modulate.s *= 0.5
+			all_current_coords.append_array(
+				_get_all_tiles(unit).filter(is_coord_within_coords.bind(all_current_coords))
+			)
 		var all_general_coords: Array[Vector2i] = []
 		var current_faction: Faction = MapController.map.get_current_faction()
 		if current_faction.full_outline and outline_faction != current_faction:
-			for unit: Unit in MapController.map.get_units():
-				var current_stance: Faction.DiplomacyStances = current_faction.get_diplomacy_stance(
-					unit.faction
-				)
-				if (
-					current_stance == Faction.DiplomacyStances.ENEMY
-					and unit.get_all_attack_tiles().size() > 0
+			for unit: Unit in MapController.map.get_units().filter(_can_enemy_attack):
+				for coord: Vector2i in _get_all_tiles(unit).filter(
+					is_coord_within_coords.bind(all_general_coords)
 				):
-					for coord: Vector2i in unit.get_all_attack_tiles() + unit.get_movement_tiles():
-						if not (coord in all_general_coords):
-							all_general_coords.append(coord)
+					all_general_coords.append(coord)
 		var tile_current: Color = unit_highlight
 		var line_current: Color = tile_current
 		line_current.v = .5
@@ -51,9 +46,26 @@ func _draw() -> void:
 		tile_general.v = .5
 		var line_general: Color = tile_general
 		line_general.v *= .5
-		for coords: Vector2i in all_general_coords:
-			if not (coords in all_current_coords):
-				_create_outline_tile(tile_general, line_general, coords, all_general_coords)
+		for coords: Vector2i in all_general_coords.filter(
+			is_coord_within_coords.bind(all_current_coords)
+		):
+			_create_outline_tile(tile_general, line_general, coords, all_general_coords)
+
+
+func _can_unit_attack(unit: Unit) -> bool:
+	return is_instance_valid(unit) and unit.get_all_attack_tiles().size() > 0
+
+
+func _can_enemy_attack(unit: Unit) -> bool:
+	const ENEMY: Faction.DiplomacyStances = Faction.DiplomacyStances.ENEMY
+	return (
+		MapController.map.get_current_faction().get_diplomacy_stance(unit.faction) == ENEMY
+		and unit.get_all_attack_tiles().size() > 0
+	)
+
+
+func _get_all_tiles(unit: Unit) -> Array[Vector2i]:
+	return unit.get_all_attack_tiles() + unit.get_movement_tiles()
 
 
 func _create_outline_tile(
@@ -63,15 +75,16 @@ func _create_outline_tile(
 	line_color.a = 0.5
 	draw_rect(Rect2(coords, Vector2i(16, 16)), tile_color, true)
 
-	for tile_offset: Vector2i in Utilities.get_tiles(Vector2i.ZERO, 1):
-		if not (coords + tile_offset in all_coords):
-			var offset: Vector2 = coords
-			match tile_offset:
-				Vector2i(-16, 0):
-					draw_line(Vector2(0.5, 0) + offset, Vector2(0.5, 16) + offset, line_color, 1)
-				Vector2i(0, -16):
-					draw_line(Vector2(0, 0.5) + offset, Vector2(16, 0.5) + offset, line_color, 1)
-				Vector2i(16, 0):
-					draw_line(Vector2(15.5, 0) + offset, Vector2(15.5, 16) + offset, line_color, 1)
-				Vector2i(0, 16):
-					draw_line(Vector2(0, 15.5) + offset, Vector2(16, 15.5) + offset, line_color, 1)
+	for tile_offset: Vector2i in Utilities.get_tiles(Vector2i.ZERO, 1).filter(
+		func(tile_offset: Vector2i) -> bool: return not (coords + tile_offset in all_coords)
+	):
+		var offset: Vector2 = coords
+		match tile_offset:
+			Vector2i(-16, 0):
+				draw_line(Vector2(0.5, 0) + offset, Vector2(0.5, 16) + offset, line_color, 1)
+			Vector2i(0, -16):
+				draw_line(Vector2(0, 0.5) + offset, Vector2(16, 0.5) + offset, line_color, 1)
+			Vector2i(16, 0):
+				draw_line(Vector2(15.5, 0) + offset, Vector2(15.5, 16) + offset, line_color, 1)
+			Vector2i(0, 16):
+				draw_line(Vector2(0, 15.5) + offset, Vector2(16, 15.5) + offset, line_color, 1)

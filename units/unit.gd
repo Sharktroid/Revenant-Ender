@@ -283,15 +283,6 @@ func get_stat(stat: Stats, current_level: int = level) -> int:
 	)
 
 
-func _get_raw_stat(stat: Stats, current_level: int) -> float:
-	var leveled_stat: float = unit_class.get_stat(stat, current_level)
-	return (
-		leveled_stat
-		+ _get_personal_modifier(stat, current_level)
-		+ _get_effort_modifier(stat, current_level)
-	)
-
-
 func get_hit_points(current_level: int = level) -> int:
 	return get_stat(Stats.HIT_POINTS, current_level)
 
@@ -419,16 +410,15 @@ func get_crit_rate(enemy: Unit) -> int:
 
 
 func get_path_last_pos() -> Vector2i:
-	var path: Array[Vector2i] = get_unit_path()
+	var path: Array[Vector2i] = get_unit_path().duplicate()
 	var unit_positions: Array[Vector2i] = []
-	for unit: Unit in _get_map().get_units():
-		unit_positions.append(Vector2i(unit.position))
-	while path.size() > 0:
-		if path[-1] in unit_positions:
-			path.erase(path[-1])
-		else:
-			return path[-1]
-	return position
+	unit_positions.assign(
+		_get_map().get_units().map(func(unit: Unit) -> Vector2i: return unit.position)
+	)
+	var valid_path: Array[Vector2i] = path.filter(
+		func(tile: Vector2i) -> bool: return tile not in unit_positions
+	)
+	return valid_path.back() if not valid_path.is_empty() else position
 
 
 func get_stat_table(stat: Stats) -> Array[String]:
@@ -441,23 +431,24 @@ func get_stat_table(stat: Stats) -> Array[String]:
 	return Utilities.dict_to_table(table_items)
 
 
+func get_weapons() -> Array[Weapon]:
+	var weapons: Array[Weapon] = []
+	weapons.assign(items.filter(func(item: Item) -> bool: return item is Weapon))
+	return weapons
+
+
 func get_min_range() -> int:
-	var min_range: int = get_weapon().get_min_range()
-	for weapon: Item in items:
-		if weapon is Weapon:
-			min_range = mini((weapon as Weapon).get_min_range(), min_range)
-	return min_range
+	return get_weapons().reduce(
+		func(min_range: int, weapon: Weapon) -> int: return mini(min_range, weapon.get_min_range()),
+		get_weapon().get_min_range()
+	)
 
 
 func get_max_range() -> float:
-	var max_range: float = get_weapon().get_max_range()
-	for weapon: Item in items:
-		if weapon is Weapon:
-			var current_max_range: float = (weapon as Weapon).get_max_range()
-			if current_max_range == INF:
-				return INF  # Nothing bigger than infinity
-			max_range = maxf(current_max_range, max_range)
-	return max_range
+	var max_range_reduce: Callable = func(max_range: float, weapon: Weapon) -> float: return maxf(
+		max_range, weapon.get_max_range()
+	)
+	return get_weapons().reduce(max_range_reduce, get_weapon().get_max_range())
 
 
 func get_skills() -> Array[Skill]:
@@ -555,34 +546,28 @@ func get_movement_tiles() -> Array[Vector2i]:
 func get_actionable_movement_tiles() -> Array[Vector2i]:
 	var movement_tiles: Array[Vector2i] = get_movement_tiles()
 	for unit: Unit in _get_map().get_faction_units(faction):
-		if unit.position as Vector2i in movement_tiles and unit != self and unit.visible:
+		if unit != self and unit.visible:
 			movement_tiles.erase(unit.position as Vector2i)
 	return movement_tiles
 
 
 func get_all_attack_tiles() -> Array[Vector2i]:
 	if _attack_tiles.is_empty() and get_weapon():
-		var basis_movement_tiles := get_movement_tiles().duplicate() as Array[Vector2i]
-		for unit: Unit in _get_map().get_units():
-			if unit != self:
-				var unit_pos: Vector2i = unit.position
-				if unit_pos in basis_movement_tiles:
-					basis_movement_tiles.erase(unit_pos)
+		var basis_movement_tiles: Array[Vector2i] = get_actionable_movement_tiles()
 		var min_range: int = get_min_range()
 		var max_range: float = get_max_range()
 		var base_sub_tiles: Array[Vector2i] = Utilities.get_tiles(Vector2i(), min_range, 1)
-		for tile: Vector2i in basis_movement_tiles:
-			var sub_tiles: Dictionary = {}
-			for base_subtile: Vector2i in base_sub_tiles:
-				var subtile: Vector2i = tile + base_subtile
-				sub_tiles[subtile] = subtile in get_movement_tiles()
-			if sub_tiles.values().any(func(value: bool) -> bool: return not value):
-				var current_tiles: Array[Vector2i] = _attack_tiles + get_movement_tiles()
-				for attack_tile: Vector2i in Utilities.get_tiles(
-					tile, max_range, min_range, MapController.map.borders
-				):
-					if not attack_tile in current_tiles:
-						_attack_tiles.append(attack_tile)
+		var has_sub_tiles: Callable = func(tile: Vector2i) -> bool: return base_sub_tiles.any(
+			func(subtile: Vector2i) -> bool: return not tile + subtile in get_movement_tiles()
+		)
+		for tile: Vector2i in basis_movement_tiles.filter(has_sub_tiles):
+			var attack_tiles: Array[Vector2i] = Utilities.get_tiles(
+				tile, max_range, min_range, MapController.map.borders
+			)
+			var not_current_tile: Callable = func(attack_tile: Vector2i) -> bool: return not (
+				attack_tile in _attack_tiles + get_movement_tiles()
+			)
+			_attack_tiles.append_array(attack_tiles.filter(not_current_tile))
 	return _attack_tiles
 
 
@@ -708,10 +693,13 @@ func update_path(destination: Vector2i) -> void:
 			destination = _get_nearest_path_tile(adjacent_movement_tiles)
 	if destination in get_movement_tiles():
 		# Gets the path
-		var total_cost: float = 0
-		for tile: Vector2i in _path:
-			if tile != Vector2i(position):
-				total_cost += _get_map().get_terrain_cost(unit_class.get_movement_type(), tile)
+		var valid_path: Array[Vector2i] = _path.filter(
+			func(tile: Vector2i) -> bool: return tile != Vector2i(position)
+		)
+		var sum_cost: Callable = func(sum: float, tile: Vector2i) -> float: return (
+			sum + _get_map().get_terrain_cost(unit_class.get_movement_type(), tile)
+		)
+		var total_cost: float = valid_path.reduce(sum_cost, 0)
 		if destination in _path:
 			_path = _path.slice(0, _path.find(destination) + 1) as Array[Vector2i]
 		else:
@@ -775,16 +763,16 @@ func get_authority() -> int:
 	return personal_authority + unit_class.get_authority()
 
 
-func _get_area() -> Area2D:
-	return $Area2D as Area2D
-
-
 func get_true_attack(enemy: Unit) -> float:
 	if get_weapon():
 		return (
 			get_attack() + get_weapon().get_damage_bonus(enemy.get_weapon(), _get_distance(enemy))
 		)
 	return 0
+
+
+func _get_area() -> Area2D:
+	return $Area2D as Area2D
 
 
 func _get_map() -> Map:
@@ -797,6 +785,15 @@ func _get_map() -> Map:
 		else:
 			return MapController.map
 	return _map
+
+
+func _get_raw_stat(stat: Stats, current_level: int) -> float:
+	var leveled_stat: float = unit_class.get_stat(stat, current_level)
+	return (
+		leveled_stat
+		+ _get_personal_modifier(stat, current_level)
+		+ _get_effort_modifier(stat, current_level)
+	)
 
 
 func _update_palette() -> void:
@@ -901,10 +898,10 @@ func _get_hair_palette() -> Array[Color]:
 	if _custom_hair:
 		var palette_length: int = default_palette.size()
 		var palette: Array[Color] = []
-		for index in palette_length:
-			palette.append(
-				_hair_color_light.lerp(_hair_color_dark, inverse_lerp(0, palette_length - 1, index))
-			)
+		var get_hair_color: Callable = func(index: int) -> Color: return _hair_color_light.lerp(
+			_hair_color_dark, inverse_lerp(0, palette_length - 1, index)
+		)
+		palette.assign(range(palette_length).map(get_hair_color))
 		return palette
 	else:
 		return default_palette
@@ -915,13 +912,16 @@ func _get_grayscale_hair_palette() -> Array[Color]:
 	if _custom_hair:
 		var palette_length: int = default_palette.size()
 		var palette: Array[Color] = []
-		for index in palette_length:
-			var new_color := Color()
-			new_color.v = remap(index, 0, palette_length, _hair_color_light.v, _hair_color_dark.v)
-			palette.append(new_color)
+		palette.assign(range(palette_length).map(_get_grayscale_color.bind(palette_length)))
 		return palette
 	else:
 		return default_palette
+
+
+func _get_grayscale_color(index: int, palette_length: int) -> Color:
+	var new_color := Color()
+	new_color.v = remap(index, 0, palette_length, _hair_color_light.v, _hair_color_dark.v)
+	return new_color
 
 
 func _get_nearest_path_tile(tiles: Array[Vector2i]) -> Vector2i:

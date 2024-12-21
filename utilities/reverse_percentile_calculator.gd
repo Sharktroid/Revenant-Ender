@@ -18,10 +18,7 @@ func _update() -> void:
 
 
 func _factorial(num: int) -> float:
-	var product: float = 1
-	for mult: int in num:
-		product *= mult + 1
-	return product
+	return range(num).reduce(func(accum: float, mult: int) -> float: return accum * (mult + 1), 1)
 
 
 func _binomial_formula(value: int, probability: float, total: int) -> float:
