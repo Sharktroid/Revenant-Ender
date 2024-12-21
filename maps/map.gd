@@ -225,11 +225,11 @@ func get_movement_path(
 
 ## Gets the cost of traversing a movement path.
 func get_path_cost(movement_type: UnitClass.MovementTypes, path: Array[Vector2i]) -> float:
-	if path.size() == 0:
+	if path.is_empty():
 		return INF
 	path.remove_at(0)
-	var sum: Callable = func(accum: float, cell: Vector2i) -> float: return (
-		accum + get_terrain_cost(movement_type, cell)
+	var sum: Callable = func(accumulator: float, cell: Vector2i) -> float: return (
+		accumulator + get_terrain_cost(movement_type, cell)
 	)
 	return path.reduce(sum, 0)
 

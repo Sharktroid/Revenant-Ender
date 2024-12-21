@@ -68,8 +68,8 @@ static func get_displayed_items(unit: Unit) -> Dictionary:
 	}
 	if CursorController.map_position in unit.get_actionable_movement_tiles():
 		enabled_items.Wait = unit.get_movement() > 0
-		enabled_items.Drop = unit.traveler != null and _get_drop_tiles(unit).size() > 0
-		enabled_items.Items = unit.items.size() > 0
+		enabled_items.Drop = unit.traveler != null and not _get_drop_tiles(unit).is_empty()
+		enabled_items.Items = not unit.items.is_empty()
 		# Gets all adjacent units
 		var is_unit_valid: Callable = func(adjacent_unit: Unit) -> bool: return (
 			adjacent_unit != unit and adjacent_unit.visible == true
@@ -81,7 +81,7 @@ static func get_displayed_items(unit: Unit) -> Dictionary:
 			if tile_distance == 1:
 				# Adjacent units
 				if unit.is_friend(adjacent_unit):
-					if unit.items.size() > 0 and adjacent_unit.items.size() > 0:
+					if not (unit.items.is_empty() or adjacent_unit.items.is_empty()):
 						enabled_items.Trade = true
 					if adjacent_unit.traveler:
 						if unit.traveler:

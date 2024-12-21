@@ -5,7 +5,6 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Replace size >/== 0 with empty
 * Make it possible to open status menu when selecting a destination
 * Rename Dark to Eldrich and Light to Holy
 * Merge EVs for Strength, Pierce, and Int

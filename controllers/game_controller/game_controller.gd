@@ -58,11 +58,11 @@ func remove_from_input_stack() -> void:
 
 ## Gets the current input receiving [Node].
 func get_current_input_node() -> _RECEIVER:
-	if _input_stack.size() == 0:
+	if _input_stack.is_empty():
 		return _RECEIVER.new()
 	while not is_instance_valid(_input_stack[-1]):
 		remove_from_input_stack()
-		if _input_stack.size() == 0:
+		if _input_stack.is_empty():
 			return _RECEIVER.new()
 	return _input_stack[-1]
 

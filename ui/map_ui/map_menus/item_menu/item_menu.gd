@@ -42,7 +42,7 @@ func _select_item(item: MapMenuItem) -> void:
 func _update() -> void:
 	if _items != connected_unit.items:
 		_items = connected_unit.items.duplicate()
-		if _items.size() <= 0:
+		if _items.is_empty():
 			queue_free()
 		for child: Node in $Items.get_children():
 			child.queue_free()

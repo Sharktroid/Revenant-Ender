@@ -114,7 +114,7 @@ var current_health: int:
 		health_changed.emit()
 var faction: Faction:
 	get:
-		if _get_map() and _get_map().all_factions.size() > 0:
+		if _get_map() and not _get_map().all_factions.is_empty():
 			return _get_map().all_factions[_faction_id]
 		return Faction.new("INVALID", Faction.Colors.BLUE, Faction.PlayerTypes.HUMAN, null)
 	set(new_faction):
@@ -633,7 +633,7 @@ func move(move_target: Vector2i = get_unit_path()[-1]) -> void:
 		remove_path()
 		_get_area().monitoring = false
 		_current_movement -= _get_map().get_path_cost(unit_class.get_movement_type(), path)
-		while path.size() > 0:
+		while not path.is_empty():
 			var target: Vector2 = path.pop_at(0)
 			match target - position:
 				Vector2(16, 0):
@@ -668,12 +668,12 @@ func move(move_target: Vector2i = get_unit_path()[-1]) -> void:
 
 ## Gets the unit's path.
 func get_unit_path() -> Array[Vector2i]:
-	return [position] as Array[Vector2i] if _path.size() == 0 else _path
+	return [position] as Array[Vector2i] if _path.is_empty() else _path
 
 
 ## Gets the path of the unit.
 func update_path(destination: Vector2i) -> void:
-	if _path.size() == 0:
+	if _path.is_empty():
 		_path.append(Vector2i(position))
 	# Sets destination to an adjacent tile to a unit if a unit is hovered and over an attack tile.
 	if (
@@ -689,7 +689,7 @@ func update_path(destination: Vector2i) -> void:
 		):
 			if tile in get_actionable_movement_tiles():
 				adjacent_movement_tiles.append(tile)
-		if adjacent_movement_tiles.size() > 0:
+		if not adjacent_movement_tiles.is_empty():
 			destination = _get_nearest_path_tile(adjacent_movement_tiles)
 	if destination in get_movement_tiles():
 		# Gets the path
@@ -925,7 +925,7 @@ func _get_grayscale_color(index: int, palette_length: int) -> Color:
 
 
 func _get_nearest_path_tile(tiles: Array[Vector2i]) -> Vector2i:
-	while _path.size() > 0:
+	while not _path.is_empty():
 		if _path.back() in tiles:
 			return _path.back()
 		_path.pop_back()

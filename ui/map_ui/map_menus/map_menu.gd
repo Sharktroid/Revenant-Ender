@@ -15,7 +15,7 @@ var _current_item_index: int = 0:
 		if different:
 			get_current_item_node().selected = true
 	get:
-		if _get_visible_children().size() == 0:
+		if _get_visible_children().is_empty():
 			return 0
 		else:
 			return posmod(_current_item_index, _get_visible_children().size())
@@ -62,9 +62,10 @@ func set_current_item_node(item: HelpContainer) -> void:
 
 
 func get_current_item_node() -> MapMenuItem:
-	return (
-		_get_visible_children()[_current_item_index] if _get_visible_children().size() > 0 else null
-	)
+	if not _get_visible_children().is_empty():
+		return _get_visible_children()[_current_item_index]
+	else:
+		return null
 
 
 func _update_position() -> void:

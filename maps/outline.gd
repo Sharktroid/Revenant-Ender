@@ -53,14 +53,14 @@ func _draw() -> void:
 
 
 func _can_unit_attack(unit: Unit) -> bool:
-	return is_instance_valid(unit) and unit.get_all_attack_tiles().size() > 0
+	return is_instance_valid(unit) and not unit.get_all_attack_tiles().is_empty()
 
 
 func _can_enemy_attack(unit: Unit) -> bool:
 	const ENEMY: Faction.DiplomacyStances = Faction.DiplomacyStances.ENEMY
 	return (
 		MapController.map.get_current_faction().get_diplomacy_stance(unit.faction) == ENEMY
-		and unit.get_all_attack_tiles().size() > 0
+		and not unit.get_all_attack_tiles().is_empty()
 	)
 
 

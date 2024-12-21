@@ -7,7 +7,7 @@ func display_contents(display: bool) -> void:
 
 func set_table(table_items: Array[String], columns: int) -> void:
 	var table: GridContainer = %Table as GridContainer
-	if table_items.size() == 0:
+	if table_items.is_empty():
 		table.visible = false
 	else:
 		table.visible = true
