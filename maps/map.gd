@@ -82,11 +82,13 @@ func _receive_input(event: InputEvent) -> void:
 
 	elif event.is_action_pressed("status"):
 		if CursorController.get_hovered_unit():
-			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
-			MapController.get_ui().add_child(
-				StatusScreen.instantiate(CursorController.get_hovered_unit())
-			)
-			CursorController.disable()
+			create_status_screen()
+
+
+func create_status_screen() -> void:
+	AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
+	MapController.get_ui().add_child(StatusScreen.instantiate(CursorController.get_hovered_unit()))
+	CursorController.disable()
 
 
 ## A function that is called whenever a unit ends their turn.

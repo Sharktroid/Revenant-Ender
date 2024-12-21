@@ -32,6 +32,10 @@ func _receive_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("ui_cancel"):
 		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
 		_canceled()
+	elif event.is_action_pressed("status"):
+		if CursorController.get_hovered_unit():
+			MapController.map.create_status_screen()
+
 
 
 func _exit_tree() -> void:
