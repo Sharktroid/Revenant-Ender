@@ -73,22 +73,23 @@ func _init() -> void:
 
 
 func get_stat(stat: Unit.Stats, level: int) -> float:
-	var weight: float = inverse_lerp(1, Unit.LEVEL_CAP, level)
-	match stat:
-		Unit.Stats.HIT_POINTS:
-			return clampf(
-				_get_base_stat(stat) * lerpf(0.5, 1, weight), MIN_HIT_POINTS, MAX_HIT_POINTS
-			)
+	# Can't use match as this technically isn't constant.
+	if Unit.get_fixed_stats():
+		return _get_base_stat(stat) as float
+	else:
+		var weight: float = inverse_lerp(1, Unit.LEVEL_CAP, level)
+		match stat:
+			Unit.Stats.HIT_POINTS:
+				return clampf(
+					_get_base_stat(stat) * lerpf(0.5, 1, weight), MIN_HIT_POINTS, MAX_HIT_POINTS
+				)
 
-		Unit.Stats.MOVEMENT, Unit.Stats.BUILD:
-			return _get_base_stat(stat) as float
-
-		_:
-			return clampf(
-				_get_base_stat(stat) - lerpf(MAX_END_STAT - MAX_START_STAT, 0, weight),
-				0,
-				MAX_END_STAT
-			)
+			_:
+				return clampf(
+					_get_base_stat(stat) - lerpf(MAX_END_STAT - MAX_START_STAT, 0, weight),
+					0,
+					MAX_END_STAT
+				)
 
 
 func get_base_weapon_levels() -> Dictionary:

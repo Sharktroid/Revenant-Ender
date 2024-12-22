@@ -53,8 +53,10 @@ func _intro() -> void:
 		await dialogue.set_top_text("No! Is the marquess unharmed?")
 		await dialogue.clear_bottom()
 		await dialogue.set_bottom_text(
-			"He's inside, defending against the bandits' attack.\n"
-			+ "But I don't know how long he can last with his illness...!"
+			(
+				"He's inside, defending against the bandits' attack.\n"
+				+ "But I don't know how long he can last with his illness...!"
+			)
 		)
 		await dialogue.remove_portrait(alen)
 		dialogue.add_portrait(bors, Dialogue.Positions.FAR_RIGHT)
@@ -62,9 +64,10 @@ func _intro() -> void:
 		await dialogue.set_top_text("Excuse me. Lance, is it? Is Lady Lilina safe?")
 		await dialogue.clear_bottom()
 		await dialogue.set_bottom_text(
-			"You must be a knight of Ostia. Lady Lilina is in the castle. "
-			+ "She should be all right.\n"
-			+ "She's with Lord Eliwood after all, but he can't last forever."
+			(
+				"You must be a knight of Ostia. Lady Lilina is in the castle. She should be all right.\n"
+				+ "She's with Lord Eliwood after all, but he can't last forever."
+			)
 		)
 		dialogue.remove_portrait(bors)
 		await dialogue.set_top_speaker(roy)
@@ -83,8 +86,10 @@ func _intro() -> void:
 		await dialogue.remove_portrait(marcus)
 		await dialogue.hide_bottom_text_box()
 		await dialogue.set_top_text(
-			"Yes, you're right. This is no time to despair. Very well.\n"
-			+ "To arms then! Our target is the castle! We must rescue everyone!"
+			(
+				"Yes, you're right. This is no time to despair. Very well.\n"
+				+ "To arms then! Our target is the castle! We must rescue everyone!"
+			)
 		)
 		await dialogue.remove_portrait(roy)
 		await dialogue.hide_top_text_box()

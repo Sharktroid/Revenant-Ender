@@ -182,9 +182,8 @@ func display_tiles(
 		TileTypes.SUPPORT:
 			current_tile_base = preload("res://maps/map_tiles/support_tile.gd")
 	for i: Vector2i in tiles:
-		var get_alpha: Callable = func() -> float: return (
-			modulation if not ((i in modulate_blacklist) != blacklist_as_whitelist) else 1.0
-		)
+		var get_alpha: Callable = func() -> float:
+			return modulation if not ((i in modulate_blacklist) != blacklist_as_whitelist) else 1.0
 		tiles_node.add_child(current_tile_base.instantiate(Vector2(i), get_alpha.call() as float))
 	_base_layer.add_child(tiles_node)
 	return tiles_node
@@ -230,9 +229,8 @@ func get_path_cost(movement_type: UnitClass.MovementTypes, path: Array[Vector2i]
 	if path.is_empty():
 		return INF
 	path.remove_at(0)
-	var sum: Callable = func(accumulator: float, cell: Vector2i) -> float: return (
-		accumulator + get_terrain_cost(movement_type, cell)
-	)
+	var sum: Callable = func(accumulatorulator: float, cell: Vector2i) -> float:
+		return accumulatorulator + get_terrain_cost(movement_type, cell)
 	return path.reduce(sum, 0)
 
 
@@ -264,9 +262,11 @@ func get_map_camera() -> MapCamera:
 
 ## Returns true if the faction is friendly to a human.
 func is_faction_friendly_to_human(faction: Faction) -> bool:
-	var is_human_friend: Callable = func(human_faction: Faction) -> bool: return (
-		human_faction.player_type == Faction.PlayerTypes.HUMAN and faction.is_friend(human_faction)
-	)
+	var is_human_friend: Callable = func(human_faction: Faction) -> bool:
+		return (
+			human_faction.player_type == Faction.PlayerTypes.HUMAN
+			and faction.is_friend(human_faction)
+		)
 	return all_factions.any(is_human_friend)
 
 

@@ -190,9 +190,8 @@ func _update() -> void:
 ## Updates the current tab.
 func _update_tab() -> void:
 	var constant_labels: Array[Control] = [%UnitDescription]
-	var get_left_node: Callable = func(child: Node) -> Control: return (
-		child if child is HelpContainer else child.get_child(1)
-	)
+	var get_left_node: Callable = func(child: Node) -> Control:
+		return child if child is HelpContainer else child.get_child(1)
 	constant_labels.append_array(%HighStatsContainer.get_children().map(get_left_node))
 	var tab_controls: Array[Control] = []
 	match _menu_tabs.current_tab:

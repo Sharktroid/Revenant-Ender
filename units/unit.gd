@@ -47,7 +47,7 @@ const PV_MAX_MODIFIER: float = 5
 const EV_MAX_MODIFIER: float = 5
 
 ## The added amount when the stat is 0 and personal values are maxed
-const _PERSONAL_VALUE_MIN_MODIFIER: float = 2.5
+const _PV_MIN_MODIFIER: float = 2.5
 ## The added amount when hit points are 0 and personal values are maxed
 const _PV_MIN_HP_MODIFIER: float = 5
 ## The added amount when hit points are the unit class max and personal values are maxed
@@ -122,17 +122,25 @@ var faction: Faction:
 		flip_h = faction.flipped if faction else false
 var waiting: bool = false
 
+## Effort value for hit points
 var effort_hit_points: int
-var effort_strength: int
-var effort_pierce: int
-var effort_intelligence: int
+## Effort value for strength, pierce, and intelligence
+var effort_power: int
+## Effort value for dexterity
 var effort_dexterity: int
+## Effort value for speed
 var effort_speed: int
+## Effort value for luck
 var effort_luck: int
+## Effort value for defense
 var effort_defense: int
+## Effort value for armor
 var effort_armor: int
+## Effort value for resistance
 var effort_resistance: int
+## Effort value for movement
 var effort_movement: int
+## Effort value for build
 var effort_build: int
 
 # Ignore warnings as these are called via "get" command (see get_stat)
@@ -335,6 +343,8 @@ func get_stat_cap(stat: Stats) -> int:
 	var max_stat: float = unit_class.get_stat(stat, MAX_LEVEL)
 	if stat == Stats.HIT_POINTS:
 		return roundi(max_stat + _PV_MAX_HP_MODIFIER + _EV_MAX_HP_MODIFIER)
+	elif stat == Stats.MOVEMENT:
+		return roundi(max_stat + _PV_MIN_MODIFIER + _EV_MIN_MODIFIER)
 	else:
 		return roundi(max_stat + PV_MAX_MODIFIER + EV_MAX_MODIFIER)
 
@@ -431,12 +441,14 @@ func get_stat_table(stat: Stats) -> Array[String]:
 	return Utilities.dict_to_table(table_items)
 
 
+## Gets the unit's weapons
 func get_weapons() -> Array[Weapon]:
 	var weapons: Array[Weapon] = []
 	weapons.assign(items.filter(func(item: Item) -> bool: return item is Weapon))
 	return weapons
 
 
+## Gets the unit's minimum range.
 func get_min_range() -> int:
 	return get_weapons().reduce(
 		func(min_range: int, weapon: Weapon) -> int: return mini(min_range, weapon.get_min_range()),
@@ -444,13 +456,14 @@ func get_min_range() -> int:
 	)
 
 
+## Gets the unit's maximum range.
 func get_max_range() -> float:
-	var max_range_reduce: Callable = func(max_range: float, weapon: Weapon) -> float: return maxf(
-		max_range, weapon.get_max_range()
-	)
+	var max_range_reduce: Callable = func(max_range: float, weapon: Weapon) -> float:
+		return maxf(max_range, weapon.get_max_range())
 	return get_weapons().reduce(max_range_reduce, get_weapon().get_max_range())
 
 
+## Gets the unit's skills
 func get_skills() -> Array[Skill]:
 	return _personal_skills + unit_class.get_skills()
 
@@ -557,16 +570,16 @@ func get_all_attack_tiles() -> Array[Vector2i]:
 		var min_range: int = get_min_range()
 		var max_range: float = get_max_range()
 		var base_sub_tiles: Array[Vector2i] = Utilities.get_tiles(Vector2i(), min_range, 1)
-		var has_sub_tiles: Callable = func(tile: Vector2i) -> bool: return base_sub_tiles.any(
-			func(subtile: Vector2i) -> bool: return not tile + subtile in get_movement_tiles()
-		)
+		var has_sub_tiles: Callable = func(tile: Vector2i) -> bool:
+			var has_sub_tile: Callable = func(subtile: Vector2i) -> bool:
+				return not tile + subtile in get_movement_tiles()
+			return base_sub_tiles.any(has_sub_tile)
 		for tile: Vector2i in basis_movement_tiles.filter(has_sub_tiles):
 			var attack_tiles: Array[Vector2i] = Utilities.get_tiles(
 				tile, max_range, min_range, MapController.map.borders
 			)
-			var not_current_tile: Callable = func(attack_tile: Vector2i) -> bool: return not (
-				attack_tile in _attack_tiles + get_movement_tiles()
-			)
+			var not_current_tile: Callable = func(attack_tile: Vector2i) -> bool:
+				return not (attack_tile in _attack_tiles + get_movement_tiles())
 			_attack_tiles.append_array(attack_tiles.filter(not_current_tile))
 	return _attack_tiles
 
@@ -671,6 +684,11 @@ func get_unit_path() -> Array[Vector2i]:
 	return [position] as Array[Vector2i] if _path.is_empty() else _path
 
 
+## Gets array of stats where the modifier of PVs and EVs are static
+static func get_fixed_stats() -> Array[Stats]:
+	return [Stats.BUILD, Stats.MOVEMENT]
+
+
 ## Gets the path of the unit.
 func update_path(destination: Vector2i) -> void:
 	if _path.is_empty():
@@ -696,9 +714,8 @@ func update_path(destination: Vector2i) -> void:
 		var valid_path: Array[Vector2i] = _path.filter(
 			func(tile: Vector2i) -> bool: return tile != Vector2i(position)
 		)
-		var sum_cost: Callable = func(sum: float, tile: Vector2i) -> float: return (
-			sum + _get_map().get_terrain_cost(unit_class.get_movement_type(), tile)
-		)
+		var sum_cost: Callable = func(sum: float, tile: Vector2i) -> float:
+			return sum + _get_map().get_terrain_cost(unit_class.get_movement_type(), tile)
 		var total_cost: float = valid_path.reduce(sum_cost, 0)
 		if destination in _path:
 			_path = _path.slice(0, _path.find(destination) + 1) as Array[Vector2i]
@@ -753,10 +770,12 @@ func reset_tile_cache() -> void:
 	_attack_tiles = []
 
 
+## Returns true if the unit can follow up aginst the opponent.
 func can_follow_up(opponent: Unit) -> bool:
-	return get_skills().filter(func(skill: Skill) -> bool: return skill is FollowUp).any(
-		func(skill: FollowUp) -> bool: return skill.can_follow_up(self, opponent)
-	)
+	var is_follow_up: Callable = func(skill: Skill) -> bool: return skill is FollowUp
+	var follow_up_check: Callable = func(skill: FollowUp) -> bool:
+		return skill.can_follow_up(self, opponent)
+	return get_skills().filter(is_follow_up).any(follow_up_check)
 
 
 func get_authority() -> int:
@@ -821,7 +840,10 @@ func _get_personal_value(stat: Stats) -> int:
 
 
 func _get_effort_value(stat: Stats) -> int:
-	return get("effort_%s" % (Unit.Stats.find_key(stat) as String).to_snake_case())
+	if stat in [Stats.STRENGTH, Stats.PIERCE, Stats.INTELLIGENCE]:
+		return effort_power
+	else:
+		return get("effort_%s" % (Unit.Stats.find_key(stat) as String).to_snake_case())
 
 
 func _die() -> void:
@@ -856,7 +878,7 @@ func _get_personal_modifier(stat: Stats, current_level: int) -> float:
 	return _get_value_modifier(
 		stat,
 		current_level,
-		_PV_MIN_HP_MODIFIER if stat == Stats.HIT_POINTS else _PERSONAL_VALUE_MIN_MODIFIER,
+		_PV_MIN_HP_MODIFIER if stat == Stats.HIT_POINTS else _PV_MIN_MODIFIER,
 		_PV_MAX_HP_MODIFIER if stat == Stats.HIT_POINTS else PV_MAX_MODIFIER,
 		clampf(_get_personal_value(stat) as int, 0, _PV_LIMIT) / _PV_LIMIT
 	)
@@ -875,14 +897,17 @@ func _get_effort_modifier(stat: Stats, current_level: int) -> float:
 func _get_value_modifier(
 	stat: Stats, current_level: int, min_value: float, max_value: float, value_weight: float
 ) -> float:
-	var stat_modifier: float = remap(
-		unit_class.get_stat(stat, current_level),
-		UnitClass.MIN_HIT_POINTS if stat == Stats.HIT_POINTS else 0,
-		UnitClass.MAX_HIT_POINTS if stat == Stats.HIT_POINTS else UnitClass.MAX_END_STAT,
-		min_value,
-		max_value
-	)
-	return stat_modifier * value_weight
+	if stat in get_fixed_stats():
+		return (min_value if stat == Stats.MOVEMENT else max_value) * value_weight
+	else:
+		var stat_modifier: float = remap(
+			unit_class.get_stat(stat, current_level),
+			UnitClass.MIN_HIT_POINTS if stat == Stats.HIT_POINTS else 0,
+			UnitClass.MAX_HIT_POINTS if stat == Stats.HIT_POINTS else UnitClass.MAX_END_STAT,
+			min_value,
+			max_value
+		)
+		return stat_modifier * value_weight
 
 
 func _on_area2d_area_exited(area: Area2D) -> void:
@@ -898,9 +923,10 @@ func _get_hair_palette() -> Array[Color]:
 	if _custom_hair:
 		var palette_length: int = default_palette.size()
 		var palette: Array[Color] = []
-		var get_hair_color: Callable = func(index: int) -> Color: return _hair_color_light.lerp(
-			_hair_color_dark, inverse_lerp(0, palette_length - 1, index)
-		)
+		var get_hair_color: Callable = func(index: int) -> Color:
+			return _hair_color_light.lerp(
+				_hair_color_dark, inverse_lerp(0, palette_length - 1, index)
+			)
 		palette.assign(range(palette_length).map(get_hair_color))
 		return palette
 	else:

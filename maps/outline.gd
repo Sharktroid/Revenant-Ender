@@ -20,21 +20,20 @@ func _draw() -> void:
 			Faction.Colors.PURPLE:
 				unit_highlight = Color.PURPLE
 		var all_current_coords: Array[Vector2i] = []
-		var is_coord_within_coords: Callable = func(
-			coord: Vector2i, coords: Array[Vector2i]
-		) -> bool: return not (coord in coords)
+		var is_within_coords: Callable = func(coord: Vector2i, coords: Array[Vector2i]) -> bool:
+			return not (coord in coords)
 		for unit: Unit in current_outlined_units.filter(_can_unit_attack):
 			unit.modulate = unit_highlight
 			unit.modulate.s *= 0.5
 			all_current_coords.append_array(
-				_get_all_tiles(unit).filter(is_coord_within_coords.bind(all_current_coords))
+				_get_all_tiles(unit).filter(is_within_coords.bind(all_current_coords))
 			)
 		var all_general_coords: Array[Vector2i] = []
 		var current_faction: Faction = MapController.map.get_current_faction()
 		if current_faction.full_outline and outline_faction != current_faction:
 			for unit: Unit in MapController.map.get_units().filter(_can_enemy_attack):
 				for coord: Vector2i in _get_all_tiles(unit).filter(
-					is_coord_within_coords.bind(all_general_coords)
+					is_within_coords.bind(all_general_coords)
 				):
 					all_general_coords.append(coord)
 		var tile_current: Color = unit_highlight
@@ -47,7 +46,7 @@ func _draw() -> void:
 		var line_general: Color = tile_general
 		line_general.v *= .5
 		for coords: Vector2i in all_general_coords.filter(
-			is_coord_within_coords.bind(all_current_coords)
+			is_within_coords.bind(all_current_coords)
 		):
 			_create_outline_tile(tile_general, line_general, coords, all_general_coords)
 

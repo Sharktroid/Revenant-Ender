@@ -3,7 +3,7 @@ extends PanelContainer
 var base_stat: int
 var promo_gain: int
 var growth: float
-var unpromo_level: int
+var unpromoted_level: int
 var starting_level: int
 var promo_level: int
 var percentile: float
@@ -18,7 +18,9 @@ func _update() -> void:
 
 
 func _factorial(num: int) -> float:
-	return range(num).reduce(func(accum: float, mult: int) -> float: return accum * (mult + 1), 1)
+	return range(num).reduce(
+		func(accumulator: float, multiplier: int) -> float: return accumulator * (multiplier + 1), 1
+	)
 
 
 func _binomial_formula(value: int, probability: float, total: int) -> float:
@@ -43,7 +45,7 @@ func _get_stat_sum() -> int:
 
 
 func _get_levels() -> int:
-	return unpromo_level - starting_level + (promo_level - 1 if promo_level > 0 else 0)
+	return unpromoted_level - starting_level + (promo_level - 1 if promo_level > 0 else 0)
 
 
 func _on_base_edit_text_changed(new_text: String) -> void:
@@ -62,7 +64,7 @@ func _on_starting_level_edit_text_changed(new_text: String) -> void:
 
 
 func _on_unpromoted_level_edit_text_changed(new_text: String) -> void:
-	unpromo_level = int(new_text)
+	unpromoted_level = int(new_text)
 	_update()
 
 

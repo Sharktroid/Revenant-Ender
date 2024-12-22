@@ -5,7 +5,6 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Merge EVs for Strength, Pierce, and Int
 * Implement multi-line lambdas
 * Have option to display stat details all at once
 * Bring weapon stats up to par with data sheet

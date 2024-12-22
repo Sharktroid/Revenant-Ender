@@ -30,7 +30,7 @@ func _select_item(item: MapMenuItem) -> void:
 		"DisplayMapCursor":
 			DebugConfig.DISPLAY_MAP_CURSOR.invert()
 
-		"PrintInputReciever":
+		"PrintInputReceiver":
 			DebugConfig.PRINT_INPUT_RECEIVER.invert()
 
 		"PrintCursorPosition":

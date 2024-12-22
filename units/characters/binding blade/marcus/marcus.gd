@@ -19,9 +19,7 @@ func _init() -> void:
 	_personal_build = 0
 
 	effort_hit_points = 100
-	effort_strength = 50
-	effort_pierce = 0
-	effort_intelligence = 0
+	effort_power = 50
 	effort_dexterity = 250
 	effort_speed = 150
 	effort_luck = 200

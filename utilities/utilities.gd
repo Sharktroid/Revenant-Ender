@@ -38,9 +38,8 @@ func get_tiles(
 				tile_blacklist[tile] = true
 		for x: int in range(boundaries.position.x, boundaries.end.x, 16):
 			var valid_ys: Array[int] = []
-			var is_y_valid: Callable = func(y: int) -> bool: return not tile_blacklist.get(
-				Vector2i(x, y)
-			)
+			var is_y_valid: Callable = func(y: int) -> bool:
+				return not tile_blacklist.get(Vector2i(x, y))
 			valid_ys.assign(range(boundaries.position.y, boundaries.end.y, 16).filter(is_y_valid))
 			output.append_array(valid_ys.map(func(y: int) -> Vector2i: return Vector2i(x, y)))
 	else:

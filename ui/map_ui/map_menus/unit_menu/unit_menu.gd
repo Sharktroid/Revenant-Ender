@@ -71,9 +71,8 @@ static func get_displayed_items(unit: Unit) -> Dictionary:
 		enabled_items.Drop = unit.traveler != null and not _get_drop_tiles(unit).is_empty()
 		enabled_items.Items = not unit.items.is_empty()
 		# Gets all adjacent units
-		var is_unit_valid: Callable = func(adjacent_unit: Unit) -> bool: return (
-			adjacent_unit != unit and adjacent_unit.visible == true
-		)
+		var is_unit_valid: Callable = func(adjacent_unit: Unit) -> bool:
+			return adjacent_unit != unit and adjacent_unit.visible == true
 		for adjacent_unit: Unit in MapController.map.get_units().filter(is_unit_valid):
 			var tile_distance: float = Utilities.get_tile_distance(
 				CursorController.map_position, adjacent_unit.get_position()
