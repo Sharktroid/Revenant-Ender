@@ -55,6 +55,8 @@ func play(faction: Faction) -> void:
 
 	const COLOR_STAGE: float = 7.0 / 30
 	var running_tween: Tween = create_tween()
+	var _set_new_color: Callable = func(new_color: Color) -> void:
+		_shader_material.set_shader_parameter("new_colors", [new_color])
 	running_tween.tween_method(_set_new_color, Color(base_color, 0), Color(base_color), COLOR_STAGE)
 	await running_tween.finished
 
@@ -70,7 +72,3 @@ func play(faction: Faction) -> void:
 	fade_out.parallel().tween_property(_darken_panel, ^"modulate:a", 0, FADE_OUT)
 	await fade_out.finished
 	queue_free()
-
-
-func _set_new_color(new_color: Color) -> void:
-	_shader_material.set_shader_parameter("new_colors", [new_color])

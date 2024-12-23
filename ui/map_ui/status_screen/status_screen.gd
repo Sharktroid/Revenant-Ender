@@ -252,9 +252,3 @@ func _move(dir: _Directions) -> void:
 
 	menu.position.y = 0
 	_scroll_lock = false
-
-
-## Called when menu tab is changed.
-func _on_menu_tabs_tab_changed(_tab: int) -> void:
-	_update_tab()
-	HelpPopupController.shrink()

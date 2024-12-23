@@ -397,8 +397,3 @@ func _can_take(unit: Unit) -> bool:
 
 func _can_give(unit: Unit) -> bool:
 	return connected_unit.is_friend(unit) and not unit.traveler
-
-
-func _on_visibility_changed() -> void:
-	if visible:
-		_update()

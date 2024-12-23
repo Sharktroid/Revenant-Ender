@@ -281,15 +281,6 @@ func _update_a_star_grid_id(
 		a_star_grid.set_point_weight_scale(id, weight)
 
 
-# Creates map menu.
-func _create_main_map_menu() -> void:
-	const MainMapMenu = preload("res://ui/map_ui/map_menus/main_map_menu/main_map_menu.gd")
-	var menu := MainMapMenu.instantiate(CursorController.screen_position + Vector2i(16, 0))
-	MapController.get_ui().add_child(menu)
-	GameController.add_to_input_stack(menu)
-	CursorController.disable()
-
-
 func _intro() -> void:
 	await get_tree().process_frame
 
@@ -352,7 +343,11 @@ func _on_cursor_select() -> void:
 		add_child(SelectedUnitController.new(hovered_unit))
 	else:
 		AudioPlayer.play_sound_effect(preload("res://audio/sfx/menu_open.ogg"))
-		_create_main_map_menu()
+		const MainMapMenu = preload("res://ui/map_ui/map_menus/main_map_menu/main_map_menu.gd")
+		var menu := MainMapMenu.instantiate(CursorController.screen_position + Vector2i(16, 0))
+		MapController.get_ui().add_child(menu)
+		GameController.add_to_input_stack(menu)
+		CursorController.disable()
 
 
 func _update_grid_current_faction() -> void:
@@ -430,11 +425,6 @@ func _update_terrain_display() -> void:
 # Updates whether map borders are displayed
 func _update_map_borders() -> void:
 	_border_overlay.visible = DebugConfig.DISPLAY_MAP_BORDERS.value
-
-
-# Updates whether map cursor area is rendered
-func _update_map_cursor() -> void:
-	($MapLayer/CursorArea as Area2D).visible = DebugConfig.DISPLAY_MAP_CURSOR.value
 
 
 # Gets the units of the current faction

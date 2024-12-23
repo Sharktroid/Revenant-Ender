@@ -19,7 +19,13 @@ func _init(connected_unit: Unit) -> void:
 	_ghost_unit = GhostUnit.new(_unit)
 	_ghost_unit.position = CursorController.map_position
 	MapController.map.get_child(0).add_child(_ghost_unit)
-	CursorController.moved.connect(_on_cursor_moved)
+	var on_cursor_moved: Callable = func() -> void:
+		if self == GameController.get_current_input_node():
+			_unit.update_path(CursorController.map_position)
+			_unit.show_path()
+			_ghost_unit.position = _unit.get_path_last_pos()
+			_update_ghost_unit()
+	CursorController.moved.connect(on_cursor_moved)
 	GameController.add_to_input_stack(self)
 	_unit.arrived.connect(_update_ghost_unit)
 	_update_ghost_unit()
@@ -47,14 +53,6 @@ func _exit_tree() -> void:
 		_unit.z_index = 0
 
 
-func _on_cursor_moved() -> void:
-	if self == GameController.get_current_input_node():
-		_unit.update_path(CursorController.map_position)
-		_unit.show_path()
-		_ghost_unit.position = _unit.get_path_last_pos()
-		_update_ghost_unit()
-
-
 func _update_ghost_unit() -> void:
 	_ghost_unit.visible = _ghost_unit.position != _unit.position
 	if _ghost_unit.visible == true:
@@ -79,9 +77,18 @@ func _update_ghost_unit() -> void:
 ## Creates menu if cursor in _unit's tiles and is same faction as _unit.
 func _position_selected() -> void:
 	if _unit.faction.name == MapController.map.get_current_faction().name:
-		if _can_act():
+		var items: Array[bool] = []
+		items.assign(UnitMenu.get_displayed_items(_unit).values())
+		if (
+			CursorController.map_position in _unit._movement_tiles
+			and items.any(func(value: bool) -> bool: return value)
+		):
 			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
-			_create_unit_menu()
+			var menu := UnitMenu.instantiate(
+				CursorController.screen_position + Vector2i(16, 0), null, self, _unit
+			)
+			CursorController.disable()
+			MapController.get_ui().add_child(menu)
 
 		elif (
 			CursorController.get_hovered_unit()
@@ -94,14 +101,6 @@ func _position_selected() -> void:
 	else:
 		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
 		queue_free()
-
-
-func _create_unit_menu() -> void:
-	var menu := UnitMenu.instantiate(
-		CursorController.screen_position + Vector2i(16, 0), null, self, _unit
-	)
-	CursorController.disable()
-	MapController.get_ui().add_child(menu)
 
 
 func _canceled() -> void:
@@ -133,12 +132,3 @@ func _attack_selection() -> void:
 	else:
 		_unit.display_movement_tiles()
 	CursorController.enable()
-
-
-func _can_act() -> bool:
-	if CursorController.map_position in _unit._movement_tiles:
-		return UnitMenu.get_displayed_items(_unit).values().any(
-			func(value: bool) -> bool: return value
-		)
-	else:
-		return false

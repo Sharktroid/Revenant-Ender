@@ -36,7 +36,3 @@ func _update() -> void:
 		child.visible = (_item != null)
 	if _item != null:
 		super()
-
-
-func _on_mouse_entered() -> void:
-	_parent_menu.current_label = self

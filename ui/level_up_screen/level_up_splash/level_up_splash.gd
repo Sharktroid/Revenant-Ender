@@ -17,13 +17,19 @@ func _ready() -> void:
 	line.position.x = 0
 	line.size.x = Utilities.get_screen_size().x + particle.size.x
 	var expand_tween: Tween = create_tween()
+	var set_min_size: Callable = func(value: int) -> void:
+		(%Bar as PanelContainer).custom_minimum_size.y = snappedi(value, 2)
+	var get_edge: Callable = func(percent_height: float) -> int:
+		return ceili(maxf(percent_height, 1 - percent_height) * Utilities.get_screen_size().y)
 	var expand_tweener: MethodTweener = expand_tween.tween_method(
-		_set_min_size, 0, _get_edge(line.anchor_top) * 2, 6.0 / 60
+		set_min_size, 0, get_edge.call(line.anchor_top) * 2, 6.0 / 60
 	)
 	expand_tweener.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUAD)
 	var text_tween: Tween = create_tween()
 	text_tween.set_loops()
-	text_tween.tween_callback(_advance_frame).set_delay(2.0 / 60)
+	var advance_frame: Callable = func() -> void:
+		_text_sprite.frame = 0 if _text_sprite.frame == 12 else _text_sprite.frame + 1
+	text_tween.tween_callback(advance_frame).set_delay(2.0 / 60)
 	await get_tree().create_timer(28.0 / 60).timeout
 	text_tween.stop()
 
@@ -41,15 +47,3 @@ func _ready() -> void:
 	fade_anim_player.play("play")
 	await fade_anim_player.animation_finished
 	queue_free()
-
-
-func _get_edge(percent_height: float) -> int:
-	return ceili(maxf(percent_height, 1 - percent_height) * Utilities.get_screen_size().y)
-
-
-func _set_min_size(value: int) -> void:
-	(%Bar as PanelContainer).custom_minimum_size.y = snappedi(value, 2)
-
-
-func _advance_frame() -> void:
-	_text_sprite.frame = 0 if _text_sprite.frame == 12 else _text_sprite.frame + 1

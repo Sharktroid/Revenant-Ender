@@ -22,7 +22,9 @@ func _draw() -> void:
 		var all_current_coords: Array[Vector2i] = []
 		var is_within_coords: Callable = func(coord: Vector2i, coords: Array[Vector2i]) -> bool:
 			return not (coord in coords)
-		for unit: Unit in current_outlined_units.filter(_can_unit_attack):
+		var can_unit_attack: Callable = func(unit: Unit) -> bool:
+			return is_instance_valid(unit) and not unit.get_all_attack_tiles().is_empty()
+		for unit: Unit in current_outlined_units.filter(can_unit_attack):
 			unit.modulate = unit_highlight
 			unit.modulate.s *= 0.5
 			all_current_coords.append_array(
@@ -30,12 +32,18 @@ func _draw() -> void:
 			)
 		var all_general_coords: Array[Vector2i] = []
 		var current_faction: Faction = MapController.map.get_current_faction()
+
+		var can_enemy_attack: Callable = func(unit: Unit) -> bool:
+			const ENEMY: Faction.DiplomacyStances = Faction.DiplomacyStances.ENEMY
+			return (
+				MapController.map.get_current_faction().get_diplomacy_stance(unit.faction) == ENEMY
+				and not unit.get_all_attack_tiles().is_empty()
+			)
 		if current_faction.full_outline and outline_faction != current_faction:
-			for unit: Unit in MapController.map.get_units().filter(_can_enemy_attack):
-				for coord: Vector2i in _get_all_tiles(unit).filter(
+			for unit: Unit in MapController.map.get_units().filter(can_enemy_attack):
+				all_general_coords = _get_all_tiles(unit).filter(
 					is_within_coords.bind(all_general_coords)
-				):
-					all_general_coords.append(coord)
+				)
 		var tile_current: Color = unit_highlight
 		var line_current: Color = tile_current
 		line_current.v = .5
@@ -49,18 +57,6 @@ func _draw() -> void:
 			is_within_coords.bind(all_current_coords)
 		):
 			_create_outline_tile(tile_general, line_general, coords, all_general_coords)
-
-
-func _can_unit_attack(unit: Unit) -> bool:
-	return is_instance_valid(unit) and not unit.get_all_attack_tiles().is_empty()
-
-
-func _can_enemy_attack(unit: Unit) -> bool:
-	const ENEMY: Faction.DiplomacyStances = Faction.DiplomacyStances.ENEMY
-	return (
-		MapController.map.get_current_faction().get_diplomacy_stance(unit.faction) == ENEMY
-		and not unit.get_all_attack_tiles().is_empty()
-	)
 
 
 func _get_all_tiles(unit: Unit) -> Array[Vector2i]:

@@ -289,16 +289,14 @@ func _create_label(setting: StringName) -> Label:
 
 
 func _update_description() -> void:
+	var get_current_option_value: Callable = func() -> String:
+		if _get_current_option() is FloatOption:
+			return var_to_str(_get_progress_bar().value)
+		else:
+			return _get_hovered_setting_label().text.to_snake_case()
 	(%DescriptionLabel as Label).text = _get_current_option().get_description(
-		_get_current_option_value()
+		get_current_option_value.call() as StringName
 	)
-
-
-func _get_current_option_value() -> String:
-	if _get_current_option() is FloatOption:
-		return var_to_str(_get_progress_bar().value)
-	else:
-		return _get_hovered_setting_label().text.to_snake_case()
 
 
 func _get_progress_bar() -> NumericProgressBar:

@@ -57,26 +57,20 @@ func _update() -> void:
 	(%WeightNumber as HelpContainer).help_description = "{build} + {weight_modifier}".format(
 		format_dictionary
 	)
-	var aid_description: String = _get_unformatted_aid_description(
-		observing_unit.unit_class.get_aid_modifier()
-	)
-	format_dictionary = {
-		"build": observing_unit.get_build(),
-		"aid_modifier": absi(observing_unit.unit_class.get_aid_modifier())
-	}
+	var aid_modifier: int = observing_unit.unit_class.get_aid_modifier()
+	var get_unformatted_aid_description: Callable = func() -> String:
+		match sign(aid_modifier):
+			1:
+				return "{aid_modifier} - {build}"
+			-1:
+				return "{build} - {aid_modifier}"
+			_:
+				return "{build} + 0"
+	var aid_description: String = get_unformatted_aid_description.call()
+	format_dictionary = {"build": observing_unit.get_build(), "aid_modifier": absi(aid_modifier)}
 	(%AidNumber as HelpContainer).help_description = aid_description.format(format_dictionary)
 
 
 func _update_stat_bar(stat_bar: StatBar, stat: Unit.Stats) -> void:
 	stat_bar.unit = observing_unit
 	stat_bar.stat = stat
-
-
-func _get_unformatted_aid_description(aid_modifier: int) -> String:
-	match sign(aid_modifier):
-		1:
-			return "{aid_modifier} - {build}"
-		-1:
-			return "{build} - {aid_modifier}"
-		_:
-			return "{build} + 0"

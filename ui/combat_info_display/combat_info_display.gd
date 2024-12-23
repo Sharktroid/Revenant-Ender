@@ -67,7 +67,10 @@ func _ready() -> void:
 
 	_all_weapons = _top_unit.get_weapons()
 
-	_item_menu.weapon_selected.connect(_on_weapon_selected)
+	var on_weapon_selected: Callable = func(weapon: Weapon) -> void:
+		_weapon_index = _current_weapons.find(weapon)
+
+	_item_menu.weapon_selected.connect(on_weapon_selected)
 	_update()
 	if Options.COMBAT_PANEL.value == Options.COMBAT_PANEL.OFF:
 		(%MainPanel as Control).visible = false
@@ -137,23 +140,15 @@ func _get_current_weapon() -> Weapon:
 	return _current_weapons[_weapon_index]
 
 
-func _is_cursor_to_left() -> bool:
-	return CursorController.screen_position.x < (Utilities.get_screen_size().x as float / 2)
-
-
-func _get_distance() -> float:
-	return Utilities.get_tile_distance(
-		_top_unit.get_unit_path().back() as Vector2i, bottom_unit.position
-	)
-
-
 func _update() -> void:
 	if bottom_unit and is_node_ready():
 		modulate.a = 1.0 if _focused else 2.0 / 3
-
-		position.x = Utilities.get_screen_size().x - size.x if _is_cursor_to_left() else 0.0
-
-		_distance = roundi(_get_distance())
+		var left_cursor: bool = (
+			CursorController.screen_position.x < (Utilities.get_screen_size().x as float / 2)
+		)
+		position.x = Utilities.get_screen_size().x - size.x if left_cursor else 0.0
+		var path_end: Vector2i = _top_unit.get_unit_path().back()
+		_distance = roundi(Utilities.get_tile_distance(path_end, bottom_unit.position))
 
 		_old_weapon = _top_unit.get_weapon()
 		_current_weapons = []
@@ -254,10 +249,6 @@ func _animate_double_sprite(sprite: Sprite2D) -> void:
 	tween.tween_property(sprite, ^"position:x", sprite.position.x, 21)
 
 
-func _on_weapon_selected(weapon: Weapon) -> void:
-	_weapon_index = _current_weapons.find(weapon)
-
-
 func _update_damage_label(label: Label, damage: float, in_range: bool) -> void:
 	label.text = (Utilities.float_to_string(damage) if in_range else "--")
 	# Put code for effective damage color here.
@@ -267,16 +258,14 @@ func _update_damage_label(label: Label, damage: float, in_range: bool) -> void:
 func _update_rate_label(label: Label, rate: int, in_range: bool) -> void:
 	label.text = Utilities.float_to_string(rate) if in_range else "--"
 	# Put code for effective damage color here.
-	label.theme_type_variation = _get_type_variation(rate, in_range)
-
-
-func _get_type_variation(rate: int, in_range: bool) -> StringName:
-	if rate <= 0 or not in_range:
-		return &"GrayLabel"
-	elif rate >= 100:
-		return &"GreenLabel"
-	else:
-		return &"BlueLabel"
+	var get_type_variation: Callable = func() -> StringName:
+		if rate <= 0 or not in_range:
+			return &"GrayLabel"
+		elif rate >= 100:
+			return &"GreenLabel"
+		else:
+			return &"BlueLabel"
+	label.theme_type_variation = get_type_variation.call()
 
 
 # Hides the specified elements (top, bottom, and label) from the center.

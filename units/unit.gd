@@ -285,10 +285,12 @@ func get_stat_boost(stat: Stats) -> int:
 
 
 func get_stat(stat: Stats, current_level: int = level) -> int:
-	return (
-		clampi(roundi(_get_raw_stat(stat, current_level)), 0, get_stat_cap(stat))
-		+ get_stat_boost(stat)
+	var raw_stat: float = (
+		unit_class.get_stat(stat, current_level)
+		+ _get_personal_modifier(stat, current_level)
+		+ _get_effort_modifier(stat, current_level)
 	)
+	return clampi(roundi(raw_stat), 0, get_stat_cap(stat)) + get_stat_boost(stat)
 
 
 func get_hit_points(current_level: int = level) -> int:
@@ -720,7 +722,10 @@ func update_path(destination: Vector2i) -> void:
 		if destination in _path:
 			_path = _path.slice(0, _path.find(destination) + 1) as Array[Vector2i]
 		else:
-			if total_cost <= _current_movement and destination in _get_path_end_adjacent_tiles():
+			var path_end_adjacent_tiles: Array[Vector2i] = Utilities.get_tiles(
+				get_unit_path()[-1], 1, 1, _get_map().borders
+			)
+			if total_cost <= _current_movement and destination in path_end_adjacent_tiles:
 				_path.append(destination)
 			else:
 				_path = _get_map().get_movement_path(
@@ -806,29 +811,18 @@ func _get_map() -> Map:
 	return _map
 
 
-func _get_raw_stat(stat: Stats, current_level: int) -> float:
-	var leveled_stat: float = unit_class.get_stat(stat, current_level)
-	return (
-		leveled_stat
-		+ _get_personal_modifier(stat, current_level)
-		+ _get_effort_modifier(stat, current_level)
-	)
-
-
 func _update_palette() -> void:
 	var shader_material := material as ShaderMaterial
 	shader_material.set_shader_parameter("old_colors", unit_class.get_palette_basis())
-	shader_material.set_shader_parameter("new_colors", _get_palette())
-
-
-func _get_palette() -> Array[Color]:
-	if waiting:
-		return unit_class.get_wait_palette() + _get_grayscale_hair_palette()
-	else:
-		return (
-			unit_class.get_palette(faction.color if faction else Faction.Colors.BLUE)
-			+ _get_hair_palette()
-		)
+	var get_palette: Callable = func() -> Array[Color]:
+		if waiting:
+			return unit_class.get_wait_palette() + _get_grayscale_hair_palette()
+		else:
+			return (
+				unit_class.get_palette(faction.color if faction else Faction.Colors.BLUE)
+				+ _get_hair_palette()
+			)
+	shader_material.set_shader_parameter("new_colors", get_palette.call())
 
 
 func _get_distance(unit: Unit) -> int:
@@ -938,16 +932,14 @@ func _get_grayscale_hair_palette() -> Array[Color]:
 	if _custom_hair:
 		var palette_length: int = default_palette.size()
 		var palette: Array[Color] = []
-		palette.assign(range(palette_length).map(_get_grayscale_color.bind(palette_length)))
+		var get_grayscale_color: Callable = func(index: int) -> Color:
+			var new_color := Color()
+			new_color.v = remap(index, 0, palette_length, _hair_color_light.v, _hair_color_dark.v)
+			return new_color
+		palette.assign(range(palette_length).map(get_grayscale_color))
 		return palette
 	else:
 		return default_palette
-
-
-func _get_grayscale_color(index: int, palette_length: int) -> Color:
-	var new_color := Color()
-	new_color.v = remap(index, 0, palette_length, _hair_color_light.v, _hair_color_dark.v)
-	return new_color
 
 
 func _get_nearest_path_tile(tiles: Array[Vector2i]) -> Vector2i:
@@ -994,7 +986,3 @@ func _get_movement_speed() -> float:
 		_:
 			push_error(Options.GAME_SPEED.get_error_message())
 			return DEFAULT_SPEED
-
-
-func _get_path_end_adjacent_tiles() -> Array[Vector2i]:
-	return Utilities.get_tiles(get_unit_path()[-1], 1, 1, _get_map().borders)

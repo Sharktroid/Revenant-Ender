@@ -25,6 +25,11 @@ func _enter_tree() -> void:
 	GameController.remove_from_input_stack()
 
 
+func set_current_item_node(item: HelpContainer) -> void:
+	super(item)
+	weapon_selected.emit((item as _ITEM_MENU_ITEM).item)
+
+
 func _update() -> void:
 	var items := %Items as VBoxContainer
 	for child: Node in items.get_children():
@@ -32,8 +37,3 @@ func _update() -> void:
 		await child.tree_exited
 	for weapon: Weapon in weapons:
 		items.add_child(_ITEM_MENU_ITEM.new(weapon))
-
-
-func set_current_item_node(item: HelpContainer) -> void:
-	super(item)
-	weapon_selected.emit((item as _ITEM_MENU_ITEM).item)

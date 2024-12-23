@@ -13,7 +13,7 @@ func _init(
 	icon: CursorController.Icons = CursorController.Icons.ATTACK,
 	selection_sound_effect: AudioStream = AudioPlayer.SoundEffects.MENU_SELECT
 ) -> void:
-	CursorController.moved.connect(_cursor_moved)
+	CursorController.moved.connect(func() -> void: _update_bottom_unit())
 	super(connected_unit, min_range, max_range, condition, icon, selection_sound_effect)
 	name = "AttackSelector"
 
@@ -28,10 +28,6 @@ func _ready() -> void:
 func _exit_tree() -> void:
 	_info_display.queue_free()
 	super()
-
-
-func _cursor_moved() -> void:
-	_update_bottom_unit()
 
 
 func _position_selected() -> void:

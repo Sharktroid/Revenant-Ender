@@ -5,7 +5,7 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Implement multi-line lambdas
+* Fix stat bug
 * Have option to display stat details all at once
 * Bring weapon stats up to par with data sheet
 * Renovate debug menu
@@ -21,7 +21,8 @@ Before you commit
 * Have combat panel display green damage if unit can one-round
 * Show hp preview on combat panel
 * Have movement ranges display even for waited units
-* Change authority to +5 * (allied authority - enemy authority) hit and +1 * authority stars damage dealt and -1 * authority stars damage taken if within authority giver
+* Change authority to +5 * (allied authority - enemy authority) hit and
++1 * authority stars damage dealt and -1 * authority stars damage taken if within authority giver
 * Rewrite "_on_area2d_area_entered" in Unit
 * Make 1 skill and luck +4 hit and 1 speed and luck +4 avoid.
 * Add option for having the equipped weapon change if you use the attack preview with it.
@@ -29,8 +30,12 @@ Before you commit
 * Make static var tween to control unit map idle animation
 * Fix hover tiles not showing up after canto.
 * Add option to make cursor return to unit upon deselecting.
+* Add universal actionable swap
+* Add shove
 
 # Major
+* Replace recieving input with pausing/unpausing via process_mode = ProcessMode.PROCESS_MODE_DISABLED
+* Add undoing a non-combat command
 * Add stats for performing kills on certain terrain and when units of categories
 * Add unit hover display
 * Document classes (roll this out gradually so I don't burn out)

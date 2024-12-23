@@ -55,7 +55,7 @@ func _update_items() -> void:
 		"DisplayBorders": DebugConfig.DISPLAY_MAP_BORDERS.value,
 		"DisplayTerrain": DebugConfig.DISPLAY_MAP_TERRAIN.value,
 		"DisplayMapCursor": DebugConfig.DISPLAY_MAP_CURSOR.value,
-		"PrintInputRECEIVER": DebugConfig.PRINT_INPUT_RECEIVER.value,
+		"PrintInputReceiver": DebugConfig.PRINT_INPUT_RECEIVER.value,
 		"DisplayFrameRate": DebugConfig.SHOW_FPS.value,
 	}
 	for key: String in values.keys() as Array[String]:

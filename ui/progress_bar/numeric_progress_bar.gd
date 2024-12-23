@@ -71,17 +71,13 @@ static func instantiate(
 	const PACKED_SCENE: PackedScene = preload("res://ui/progress_bar/numeric_progress_bar.tscn")
 	var scene := PACKED_SCENE.instantiate() as NumericProgressBar
 	#gdlint: ignore = private-method-call
-	scene._instantiate_coroutine(new_value, minimum, maximum, new_mode, og_value)
+	var coroutine: Callable = func() -> void:
+		if not scene.is_node_ready():
+			await scene.ready
+		scene.max_value = maximum
+		scene.min_value = minimum
+		scene.mode = new_mode
+		scene.value = new_value
+		scene.original_value = og_value
+	coroutine.call()
 	return scene
-
-
-func _instantiate_coroutine(
-	new_value: float, minimum: float, maximum: float, new_mode: Modes, og_value: int
-) -> void:
-	if not is_node_ready():
-		await ready
-	max_value = maximum
-	min_value = minimum
-	mode = new_mode
-	value = new_value
-	original_value = og_value

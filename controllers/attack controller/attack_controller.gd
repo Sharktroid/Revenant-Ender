@@ -92,7 +92,13 @@ func _map_attack(
 		#region Hit
 		var is_crit: bool = attack_type == CombatStage.AttackTypes.CRIT
 		var old_health: int = ceili(defender.current_health)
-		var damage: int = roundi(_get_damage(attacker, defender, is_crit))
+
+		var get_damage: Callable = func() -> float:
+			return minf(
+				defender.current_health,
+				attacker.get_crit_damage(defender) if is_crit else attacker.get_damage(defender)
+			)
+		var damage: int = roundi(get_damage.call() as float)
 		var new_health: int = old_health - damage
 
 		# The time that the health bar takes to scroll down from full health to none
@@ -116,13 +122,6 @@ func _map_attack(
 		#endregion
 	if attacker_animation.is_running():
 		await attacker_animation.completed
-
-
-func _get_damage(attacker: Unit, defender: Unit, is_crit: bool) -> float:
-	return minf(
-		defender.current_health,
-		attacker.get_crit_damage(defender) if is_crit else attacker.get_damage(defender)
-	)
 
 
 ## Kills a unit.
@@ -186,7 +185,14 @@ func _play_hit_sound_effect(
 		const HIT_A_CRIT: AudioStream = preload("res://audio/sfx/hit_a_crit.ogg")
 		const DELAY: int = 5
 		var hit_a: AudioStream = HIT_A_CRIT if is_crit else HIT_A_HEAVY
-		var hit_b: AudioStream = _get_hit_b_sound_effect(old_health, new_health)
+		var get_hit_b_sound_effect: Callable = func() -> AudioStream:
+			if new_health <= 0:
+				return preload("res://audio/sfx/hit_b_fatal.ogg")  # Fatal SFX
+			elif old_health - new_health == 0:
+				return preload("res://audio/sfx/no_damage.ogg")  # No damage SFX
+			else:
+				return preload("res://audio/sfx/hit_b_heavy.ogg")  # Normal SFX
+		var hit_b: AudioStream = get_hit_b_sound_effect.call()
 		var sfx_tween: Tween = create_tween()
 		sfx_tween.set_speed_scale(60)
 		sfx_tween.tween_callback(AudioPlayer.play_sound_effect.bind(hit_a))
@@ -194,18 +200,6 @@ func _play_hit_sound_effect(
 		return get_tree().create_timer(
 			maxf(hit_a.get_length(), float(DELAY) / 60 + hit_b.get_length())
 		)
-
-
-func _get_hit_b_sound_effect(old_health: int, new_health: int) -> AudioStream:
-	if new_health <= 0:
-		# Fatal SFX
-		return preload("res://audio/sfx/hit_b_fatal.ogg")
-	elif old_health - new_health == 0:
-		# No damage SFX
-		return preload("res://audio/sfx/no_damage.ogg")
-	else:
-		# Normal SFX
-		return preload("res://audio/sfx/hit_b_heavy.ogg")
 
 
 ## Object that represents one attack in a round of combat.

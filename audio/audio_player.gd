@@ -9,6 +9,9 @@ var _track_stack: Array[AudioStream]
 
 
 func _ready() -> void:
+	var _update_volume: Callable = func() -> void:
+		_get_current_player().volume_db = _percent_to_db(Options.MUSIC.value)
+		_get_current_player().stream_paused = not (Options.MUSIC.value > 0)
 	Options.MUSIC.value_updated.connect(_update_volume)
 
 
@@ -108,11 +111,6 @@ func _get_current_player() -> AudioStreamPlayer:
 
 func _percent_to_db(volume: float) -> float:
 	return 6 * (log(volume) / log(2)) if volume > 0 else -100.0
-
-
-func _update_volume() -> void:
-	_get_current_player().volume_db = _percent_to_db(Options.MUSIC.value)
-	_get_current_player().stream_paused = not (Options.MUSIC.value > 0)
 
 
 func _set_volume(new_volume: float) -> void:

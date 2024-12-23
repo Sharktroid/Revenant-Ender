@@ -135,7 +135,10 @@ func _set_map_position(new_pos: Vector2i) -> void:
 	map_position = new_pos.clamp(
 		MapController.map.borders.position, MapController.map.borders.end - Vector2i(16, 16)
 	)
-	map_position = _clamp_within_screen(map_position)
+	var screen_pos: Vector2i = (map_position - _corner_offset()).clamp(
+		Vector2i(), Utilities.get_screen_size() - Vector2i(16, 16)
+	)
+	map_position = screen_pos + _corner_offset()
 	var map_move := Vector2i()
 	for i: int in 2:
 		if screen_position[i] < 16:
@@ -147,13 +150,6 @@ func _set_map_position(new_pos: Vector2i) -> void:
 	if map_position != old_pos:
 		var emit_moved: Callable = func() -> void: moved.emit()
 		emit_moved.call_deferred()
-
-
-func _clamp_within_screen(map_pos: Vector2i) -> Vector2i:
-	var screen_pos: Vector2i = (map_pos - _corner_offset()).clamp(
-		Vector2i(), Utilities.get_screen_size() - Vector2i(16, 16)
-	)
-	return screen_pos + _corner_offset()
 
 
 func _set_active(active: bool) -> void:
