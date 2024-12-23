@@ -5,7 +5,6 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Bring weapon stats up to par with data sheet
 * Renovate debug menu
 	* Split into debug options and the others.
 	* Add debug constant to control whether the setting is displayed in the main map menu
@@ -30,10 +29,12 @@ Before you commit
 * Add option to make cursor return to unit upon deselecting.
 * Add universal actionable swap
 * Add shove
+* Add Accost
 
 # Major
-* Have option to display stat details all at once
 * Replace recieving input with pausing/unpausing via process_mode = ProcessMode.PROCESS_MODE_DISABLED
+* Implement dual weapons
+* Have option to display stat details all at once
 * Add undoing a non-combat command
 * Add stats for performing kills on certain terrain and when units of categories
 * Add unit hover display

@@ -6,11 +6,11 @@ extends Spear
 func _init() -> void:
 	resource_name = "Iron Spear"
 	_rank = Ranks.D
-	_might = 7
-	_weight = 9
-	_hit = 90
+	_hit = 95
+	_might = 8
 	_crit = 0
-	_max_uses = 40
+	_weight = 7
+	_max_uses = 20
 	_price = 2200
 	_weapon_exp = 1
 	_description = "A cheap, easy to wield spear."

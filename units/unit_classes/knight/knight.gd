@@ -1,5 +1,5 @@
 @tool
-class_name SocialKnight
+class_name Knight
 extends MountedUnit
 
 
@@ -20,16 +20,16 @@ func _init() -> void:
 		Weapon.Types.SPEAR: Weapon.Ranks.A,
 	}
 
-	_base_hit_points = 40
-	_base_strength = 25
-	_base_pierce = 20
-	_base_intelligence = 21
+	_base_hit_points = 44
+	_base_strength = 24
+	_base_pierce = 23
+	_base_intelligence = 22
 	_base_dexterity = 22
 	_base_speed = 25
-	_base_luck = 20
-	_base_defense = 25
-	_base_armor = 20
-	_base_resistance = 25
+	_base_luck = 22
+	_base_defense = 23
+	_base_armor = 22
+	_base_resistance = 23
 	_base_movement = 8
-	_base_build = 9
+	_base_build = 8
 	super()

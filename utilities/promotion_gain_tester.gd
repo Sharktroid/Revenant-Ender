@@ -1,7 +1,7 @@
 @tool
 extends EditorScript
 
-var old_class: UnitClass = SocialKnight.new()
+var old_class: UnitClass = Knight.new()
 var new_class: UnitClass = Cavalier.new()
 var old_unit: Unit
 var new_unit: Unit

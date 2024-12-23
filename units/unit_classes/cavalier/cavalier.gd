@@ -22,16 +22,16 @@ func _init() -> void:
 		Weapon.Types.AXE: Weapon.Ranks.A,
 	}
 
-	_base_hit_points = 46
-	_base_strength = 25
-	_base_pierce = 22
-	_base_intelligence = 23
+	_base_hit_points = 50
+	_base_strength = 27
+	_base_pierce = 25
+	_base_intelligence = 25
 	_base_dexterity = 28
-	_base_speed = 25
-	_base_luck = 22
-	_base_defense = 25
-	_base_armor = 20
-	_base_resistance = 25
+	_base_speed = 27
+	_base_luck = 25
+	_base_defense = 27
+	_base_armor = 23
+	_base_resistance = 26
 	_base_movement = 9
 	_base_build = 11
 	super()

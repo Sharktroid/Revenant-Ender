@@ -6,11 +6,11 @@ extends Axe
 func _init() -> void:
 	resource_name = "Iron Axe"
 	_rank = Ranks.D
-	_might = 9
-	_weight = 10
-	_hit = 80
+	_hit = 90
+	_might = 10
 	_crit = 0
-	_max_uses = 30
+	_weight = 8
+	_max_uses = 20
 	_price = 1100
 	_weapon_exp = 1
 	_description = "A cheap, easy to wield axe."

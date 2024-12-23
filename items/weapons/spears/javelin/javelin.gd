@@ -6,10 +6,10 @@ extends Spear
 func _init() -> void:
 	resource_name = "Javelin"
 	_rank = Ranks.C
+	_hit = 80
 	_might = 5
-	_weight = 12
-	_hit = 70
 	_crit = 0
+	_weight = 12
 	_max_uses = 20
 	_price = 1200
 	_weapon_exp = 1
