@@ -5,8 +5,6 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Fix stat bug
-* Have option to display stat details all at once
 * Bring weapon stats up to par with data sheet
 * Renovate debug menu
 	* Split into debug options and the others.
@@ -34,6 +32,7 @@ Before you commit
 * Add shove
 
 # Major
+* Have option to display stat details all at once
 * Replace recieving input with pausing/unpausing via process_mode = ProcessMode.PROCESS_MODE_DISABLED
 * Add undoing a non-combat command
 * Add stats for performing kills on certain terrain and when units of categories

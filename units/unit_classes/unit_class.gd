@@ -74,7 +74,7 @@ func _init() -> void:
 
 func get_stat(stat: Unit.Stats, level: int) -> float:
 	# Can't use match as this technically isn't constant.
-	if Unit.get_fixed_stats():
+	if stat in Unit.get_fixed_stats():
 		return _get_base_stat(stat) as float
 	else:
 		var weight: float = inverse_lerp(1, Unit.LEVEL_CAP, level)
