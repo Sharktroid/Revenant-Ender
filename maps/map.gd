@@ -3,7 +3,7 @@ class_name Map
 extends ReferenceRect
 
 enum TileTypes { ATTACK, MOVEMENT, SUPPORT }
-enum States { SELECTING, MOVING, CANTOING }
+enum States { SELECTING, MOVING, CANTERING }
 
 # Border boundaries of the map.
 @export var _left_border: int
@@ -16,12 +16,12 @@ var borders: Rect2i
 var all_factions: Array[Faction]
 var state: States = States.SELECTING:
 	set(new_state):
-		if state == States.CANTOING:
-			if is_instance_valid(_canto_tiles):
-				_canto_tiles.queue_free()
+		if state == States.CANTERING:
+			if is_instance_valid(_canter_tiles):
+				_canter_tiles.queue_free()
 		state = new_state
-		if state == States.CANTOING:
-			_canto_tiles = MapController.map.display_tiles(
+		if state == States.CANTERING:
+			_canter_tiles = MapController.map.display_tiles(
 				_selected_unit.get_movement_tiles(), Map.TileTypes.MOVEMENT, 1.0
 			)
 			_selected_unit.selected = true
@@ -40,7 +40,7 @@ var _current_turn: int
 var _selected_unit: Unit
 var _ghost_unit: GhostUnit
 var _ghost_unit_animation: Unit.Animations = Unit.Animations.IDLE
-var _canto_tiles: Node2D
+var _canter_tiles: Node2D
 
 # The terrain map layer
 @onready var _terrain_layer := $MapLayer/TerrainLayer as TileMapLayer
@@ -94,8 +94,8 @@ func _input(event: InputEvent) -> void:
 					_select_state_select()
 				States.MOVING:
 					_moving_state_select()
-				States.CANTOING:
-					_canto_state_select()
+				States.CANTERING:
+					_canter_state_select()
 
 	elif event.is_action_pressed("ui_cancel"):
 		if state == States.MOVING:
@@ -426,13 +426,13 @@ func _attack_selection() -> void:
 	set_process_input(true)
 
 
-func _canto_state_select() -> void:
+func _canter_state_select() -> void:
 	if CursorController.map_position in _selected_unit.get_actionable_movement_tiles():
 		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
-		const CantoMenu = preload("res://ui/map_ui/map_menus/canto_menu/canto_menu.gd")
+		const CanterMenu = preload("res://ui/map_ui/map_menus/canter_menu/canter_menu.gd")
 		CursorController.disable()
 		var menu_position: Vector2i = CursorController.screen_position + Vector2i(16, -8)
-		MapController.get_ui().add_child(CantoMenu.instantiate(menu_position, null, _selected_unit))
+		MapController.get_ui().add_child(CanterMenu.instantiate(menu_position, null, _selected_unit))
 		_ghost_unit.visible = true
 
 

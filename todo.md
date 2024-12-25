@@ -5,15 +5,14 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Rename "canto" to "canter"
-* Fix canto tiles.
+* Add TRS markers
+* Fix canter tiles.
 * Hide map cursor when scrolling
 * Have weapon rank increases on level up be linked to skill
 * Pallette the status screen for each unit
 * Rename Combat Display to Combat Panel and revamp the scene tree to be less hacky
 	* Expand the center labels
 * Fix bug with combat display menu
-* Add TRS markers
 * Clean up debug map borders
 * Have combat panel display green damage if unit can one-round
 * Show hp preview on combat panel
@@ -25,7 +24,7 @@ Before you commit
 * Add option for having the equipped weapon change if you use the attack preview with it.
 * Fix cursor not scrolling when mouse is still
 * Make static var tween to control unit map idle animation
-* Fix hover tiles not showing up after canto.
+* Fix hover tiles not showing up after canter.
 * Add option to make cursor return to unit upon deselecting.
 * Add universal actionable swap
 * Add shove

@@ -4,11 +4,11 @@ extends MapMenu
 
 ## The unit who is currently active.
 var connected_unit: Unit
-## If false, closing the menu will call [method _check_canto].
+## If false, closing the menu will call [method _check_canter].
 var actionable: bool = true
 
-## If true, closing the menu will create a CantoController.
-var _canto: bool
+## If true, closing the menu will create a CanterController.
+var _canter: bool
 
 
 func _init() -> void:
@@ -28,9 +28,9 @@ func _enter_tree() -> void:
 
 func _exit_tree() -> void:
 	if not actionable:
-		_check_canto()
-	if _canto:
-		MapController.map.state = Map.States.CANTOING
+		_check_canter()
+	if _canter:
+		MapController.map.state = Map.States.CANTERING
 	CursorController.enable.call_deferred()
 
 
@@ -202,10 +202,10 @@ func _play_select_sound_effect(item: MapMenuItem) -> void:
 			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
 
 
-## Checks if the unit can canto. Causes them to wait if not.
-func _check_canto() -> void:
-	if connected_unit.get_skills().any(func(skill: Skill) -> bool: return skill is Canto):
-		_canto = true
+## Checks if the unit can canter. Causes them to wait if not.
+func _check_canter() -> void:
+	if connected_unit.get_skills().any(func(skill: Skill) -> bool: return skill is Canter):
+		_canter = true
 	else:
 		connected_unit.wait()
 
@@ -314,7 +314,7 @@ func _rescue(selected_unit: Unit) -> void:
 	await selected_unit.move(connected_unit.position)
 	selected_unit.visible = false
 	connected_unit.traveler = selected_unit
-	_check_canto()
+	_check_canter()
 	_close()
 
 
@@ -325,7 +325,7 @@ func _drop(dropped_tile: Vector2i) -> void:
 	traveler.position = connected_unit.position
 	connected_unit.traveler = null
 	await traveler.move(dropped_tile)
-	_check_canto()
+	_check_canter()
 	_close()
 
 
