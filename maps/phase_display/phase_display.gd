@@ -15,14 +15,13 @@ static func instantiate(faction: Faction) -> PhaseDisplay:
 	return scene
 
 
-func _receive_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if event is not InputEventMouseMotion:
 		AudioPlayer.clear_sound_effects()
 		queue_free()
 
 
 func play(faction: Faction) -> void:
-	GameController.add_to_input_stack(self)
 	await ready
 	_canvas_group.self_modulate.a = 0
 	_darken_panel.modulate.a = 0

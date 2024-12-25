@@ -4,8 +4,6 @@ extends MapMenu
 
 ## The unit who is currently active.
 var connected_unit: Unit
-## The [SelectedUnitController] that called this menu.
-var caller: SelectedUnitController
 ## If false, closing the menu will call [method _check_canto].
 var actionable: bool = true
 
@@ -31,21 +29,20 @@ func _enter_tree() -> void:
 func _exit_tree() -> void:
 	if not actionable:
 		_check_canto()
-		caller.queue_free()
 	if _canto:
-		CantoController.new.call_deferred(connected_unit)
+		MapController.map.state = Map.States.CANTOING
 	CursorController.enable.call_deferred()
 
 
 static func instantiate(
-	new_offset: Vector2, parent: MapMenu, unit_controller: SelectedUnitController, unit: Unit
+	new_offset: Vector2, parent: MapMenu, unit: Unit
 ) -> MapMenu:
 	const PACKED_SCENE = preload("res://ui/map_ui/map_menus/unit_menu/unit_menu.tscn")
-	var scene: MapMenu = _base_instantiate(PACKED_SCENE, new_offset, parent, unit_controller, unit)
+	var scene: MapMenu = _base_instantiate(PACKED_SCENE, new_offset, parent, unit)
 	return scene
 
 
-func _receive_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
 		queue_free()
@@ -107,7 +104,6 @@ static func get_displayed_items(unit: Unit) -> Dictionary:
 ## Use for turn-ending actions (such as attacking or rescuing).
 func _close() -> void:
 	queue_free()
-	caller.queue_free()
 
 
 ## Gets the items for the unit menu.
@@ -221,7 +217,7 @@ func _select_map(
 	selected: Callable,
 	canceled: Callable = func() -> void: pass
 ) -> void:
-	caller.add_sibling(selector)
+	MapController.get_ui().add_child(selector)
 	visible = false
 	if selector is UnitSelector:
 		var selection: Unit = await (selector as UnitSelector).selected
@@ -289,6 +285,7 @@ func _wait() -> void:
 	await connected_unit.move()
 	connected_unit.wait()
 	_close()
+	MapController.map.state = Map.States.SELECTING
 
 
 func _attack(selected_unit: Unit) -> void:
@@ -382,11 +379,9 @@ static func _base_instantiate(
 	packed_scene: PackedScene,
 	new_offset: Vector2,
 	parent: MapMenu,
-	unit_controller: SelectedUnitController = null,
 	unit: Unit = null
 ) -> UnitMenu:
 	var scene := super(packed_scene, new_offset, parent) as UnitMenu
-	scene.caller = unit_controller
 	scene.connected_unit = unit
 	return scene
 

@@ -31,7 +31,6 @@ func _init(
 	CursorController.enable()
 	_unit.hide_movement_tiles()
 	_unit.remove_path()
-	GameController.add_to_input_stack(self)
 	_selecting_position = _unit.get_unit_path()[-1]
 
 
@@ -41,7 +40,7 @@ func _process(_delta: float) -> void:
 		_showing_icon = _can_select()
 
 
-func _receive_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
 		if _can_select():
 			AudioPlayer.play_sound_effect(_select_sound_effect)
@@ -50,6 +49,7 @@ func _receive_input(event: InputEvent) -> void:
 			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.INVALID)
 	elif event.is_action_pressed("ui_cancel"):
 		_canceled()
+	get_tree().root.set_input_as_handled()
 
 
 func _exit_tree() -> void:

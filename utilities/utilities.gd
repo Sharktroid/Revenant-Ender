@@ -156,6 +156,7 @@ func is_running_project() -> bool:
 	return get_tree().root.get_child(-1) is Renderer
 
 
+## Converts a float to a string, using the infinite character.
 func float_to_string(num: float) -> String:
 	return str(num).replace("inf", INF_CHAR)
 

@@ -862,7 +862,7 @@ func _on_area2d_area_entered(area: Area2D) -> void:
 		if (
 			can_be_selected
 			and not (selected or waiting or dead)
-			and (GameController.get_current_input_node() as Node) is Map
+			and _get_map().state == Map.States.SELECTING
 			and CursorController.is_active()
 		):
 			display_movement_tiles()

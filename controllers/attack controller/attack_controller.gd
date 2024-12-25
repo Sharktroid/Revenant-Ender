@@ -15,10 +15,9 @@ func combat(attacker: Unit, defender: Unit) -> void:
 		attack_queue.append(CombatStage.new(defender, attacker))
 	await _map_combat(attacker, defender, attack_queue)
 	CursorController.enable()
-	GameController.remove_from_input_stack()
 
 
-func _receive_input(_event: InputEvent) -> void:
+func _input(_event: InputEvent) -> void:
 	pass
 
 

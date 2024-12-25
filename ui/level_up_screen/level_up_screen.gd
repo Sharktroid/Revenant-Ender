@@ -33,7 +33,6 @@ func _ready() -> void:
 	#endregion
 
 	children.visible = true
-	GameController.add_to_input_stack(self)
 	var top_panel := %TopPanel as PanelContainer
 	var bottom_panel := %BottomPanel as PanelContainer
 	var slide_tween: Tween = create_tween()
@@ -105,7 +104,7 @@ static func instantiate(observing_unit: Unit, level: int) -> LevelUpScreen:
 	return scene
 
 
-func _receive_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
 		AudioPlayer.stop_and_resume_previous_track()
 		queue_free()

@@ -44,9 +44,8 @@ func _get_parent_menu() -> MapMenu:
 
 
 func _on_mouse_entered() -> void:
+	_get_parent_menu().set_current_item_node(self)
 	super()
-	if GameController.get_current_input_node() == _get_parent_menu():
-		_get_parent_menu().set_current_item_node(self)
 
 
 func _update() -> void:

@@ -19,7 +19,6 @@ func _gui_input(event: InputEvent) -> void:
 	):
 		set_as_current_help_container()
 		AudioPlayer.play_sound_effect(preload("res://audio/sfx/help_open.ogg"))
-		GameController.add_to_input_stack(HelpPopupController)
 
 
 func set_as_current_help_container() -> void:

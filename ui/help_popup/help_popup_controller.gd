@@ -18,18 +18,20 @@ func _ready() -> void:
 		queue_free()
 
 
-func _receive_input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel"):
-		shrink()
-		AudioPlayer.play_sound_effect(preload("res://audio/sfx/help_close.ogg"))
-	elif event.is_action_pressed("up", true) and not Input.is_action_pressed("down"):
-		_move_popup("top")
-	elif event.is_action_pressed("down", true):
-		_move_popup("bottom")
-	elif event.is_action_pressed("left", true) and not Input.is_action_pressed("right"):
-		_move_popup("left")
-	elif event.is_action_pressed("right", true):
-		_move_popup("right")
+func _input(event: InputEvent) -> void:
+	if _get_popup_node().visible:
+		if event.is_action_pressed("ui_cancel"):
+			shrink()
+			AudioPlayer.play_sound_effect(preload("res://audio/sfx/help_close.ogg"))
+		elif event.is_action_pressed("up", true) and not Input.is_action_pressed("down"):
+			_move_popup("top")
+		elif event.is_action_pressed("down", true):
+			_move_popup("bottom")
+		elif event.is_action_pressed("left", true) and not Input.is_action_pressed("right"):
+			_move_popup("left")
+		elif event.is_action_pressed("right", true):
+			_move_popup("right")
+		get_tree().root.set_input_as_handled()
 
 
 func display_text(
@@ -66,7 +68,6 @@ func shrink() -> void:
 		await _resize(Vector2i(0, 0))
 		_get_popup_node().visible = false
 		_active = false
-		GameController.remove_from_input_stack()
 
 
 func is_active() -> bool:

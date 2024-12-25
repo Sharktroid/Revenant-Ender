@@ -35,7 +35,6 @@ func _intro() -> void:
 		var bors := $MapLayer/Units/Bors as Unit
 		var dialogue: Dialogue = _get_dialogue()
 		await get_tree().process_frame
-		GameController.add_to_input_stack(dialogue)
 		await dialogue.show_top_text_box(Dialogue.Positions.CLOSE_RIGHT)
 		dialogue.add_portrait(roy, Dialogue.Positions.CLOSE_RIGHT)
 		dialogue.add_portrait(lance, Dialogue.Positions.MID_LEFT, true)
@@ -93,5 +92,4 @@ func _intro() -> void:
 		)
 		await dialogue.remove_portrait(roy)
 		await dialogue.hide_top_text_box()
-		GameController.remove_from_input_stack()
 		CursorController.enable()

@@ -3,6 +3,7 @@ class_name Map
 extends ReferenceRect
 
 enum TileTypes { ATTACK, MOVEMENT, SUPPORT }
+enum States { SELECTING, MOVING, CANTOING }
 
 # Border boundaries of the map.
 @export var _left_border: int
@@ -13,6 +14,18 @@ enum TileTypes { ATTACK, MOVEMENT, SUPPORT }
 var borders: Rect2i
 ## An array that contains all of the factions currently being used.
 var all_factions: Array[Faction]
+var state: States = States.SELECTING:
+	set(new_state):
+		if state == States.CANTOING:
+			if is_instance_valid(_canto_tiles):
+				_canto_tiles.queue_free()
+		state = new_state
+		if state == States.CANTOING:
+			_canto_tiles = MapController.map.display_tiles(
+				_selected_unit.get_movement_tiles(), Map.TileTypes.MOVEMENT, 1.0
+			)
+			_selected_unit.selected = true
+			_selected_unit.hide_movement_tiles()
 
 # Movement costs for every movement type
 var _movement_cost_dict: Dictionary
@@ -24,6 +37,10 @@ var _cost_grids: Dictionary = {}
 var _grid_current_faction: Faction
 # The current turn.
 var _current_turn: int
+var _selected_unit: Unit
+var _ghost_unit: GhostUnit
+var _ghost_unit_animation: Unit.Animations = Unit.Animations.IDLE
+var _canto_tiles: Node2D
 
 # The terrain map layer
 @onready var _terrain_layer := $MapLayer/TerrainLayer as TileMapLayer
@@ -50,7 +67,6 @@ func _ready() -> void:
 
 	var cell_max: Vector2i = _base_layer.get_used_cells().max()
 	size = cell_max * 16 + Vector2i(16, 16)
-	GameController.add_to_input_stack(self)
 	const TYPES = UnitClass.MovementTypes
 	for movement_type: TYPES in _movement_cost_dict.keys() as Array[TYPES]:
 		var a_star_grid := AStarGrid2D.new()
@@ -66,13 +82,25 @@ func _ready() -> void:
 	await _intro()
 	if not MapController.get_ui().is_node_ready():
 		await MapController.get_ui().ready
+	CursorController.disable()
 	_start_turn()
 
 
-func _receive_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_select"):
 		if CursorController.is_active():
-			_on_cursor_select()
+			match state:
+				States.SELECTING:
+					_select_state_select()
+				States.MOVING:
+					_moving_state_select()
+				States.CANTOING:
+					_canto_state_select()
+
+	elif event.is_action_pressed("ui_cancel"):
+		if state == States.MOVING:
+			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
+			_deselect()
 
 	elif event.is_action_pressed("ranges"):
 		if CursorController.get_hovered_unit():
@@ -87,8 +115,12 @@ func _receive_input(event: InputEvent) -> void:
 
 func create_status_screen() -> void:
 	AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
-	MapController.get_ui().add_child(StatusScreen.instantiate(CursorController.get_hovered_unit()))
+	var status_screen: StatusScreen = StatusScreen.instantiate(CursorController.get_hovered_unit())
+	MapController.get_ui().add_child(status_screen)
 	CursorController.disable()
+	process_mode = ProcessMode.PROCESS_MODE_DISABLED
+	await status_screen.tree_exited
+	process_mode = ProcessMode.PROCESS_MODE_INHERIT
 
 
 ## A function that is called whenever a unit ends their turn.
@@ -127,7 +159,7 @@ func get_previous_unit(unit: Unit) -> Unit:
 func end_turn() -> void:
 	# Have to wait a frame to avoid a race condition with MainMapMenu._exit_tree()
 	await get_tree().physics_frame
-	for unit: Unit in MapController.map.get_units():
+	for unit: Unit in get_units():
 		unit.awaken()
 	_next_faction()
 	_update_outline()
@@ -192,7 +224,7 @@ func display_tiles(
 ## Displays tiles while highlighting tiles where a unit currently is.
 func display_highlighted_tiles(tiles: Array[Vector2i], unit: Unit, type: TileTypes) -> Node2D:
 	var unit_coords: Array[Vector2i] = []
-	var enemy_units: Array[Unit] = MapController.map.get_units().filter(
+	var enemy_units: Array[Unit] = get_units().filter(
 		func(e_unit: Unit) -> bool: return not (unit.is_friend(e_unit)) and e_unit.visible
 	)
 	unit_coords.assign(
@@ -336,23 +368,130 @@ func _get_unit_relative(unit: Unit, rel_index: int) -> Unit:
 	return faction_units[(faction_units.find(unit) + rel_index) % faction_units.size()]
 
 
-func _on_cursor_select() -> void:
+func _moving_state_select() -> void:
+	if _selected_unit.faction.name == get_current_faction().name:
+		var items: Array[bool] = []
+		items.assign(UnitMenu.get_displayed_items(_selected_unit).values())
+		if (
+			CursorController.map_position in _selected_unit.get_movement_tiles()
+			and items.any(func(value: bool) -> bool: return value)
+		):
+			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
+			var menu := UnitMenu.instantiate(
+				CursorController.screen_position + Vector2i(16, 0), null, _selected_unit
+			)
+			CursorController.disable()
+			process_mode = ProcessMode.PROCESS_MODE_DISABLED
+			MapController.get_ui().add_child(menu)
+			await menu.tree_exited
+			process_mode = ProcessMode.PROCESS_MODE_INHERIT
+
+		elif (
+			CursorController.get_hovered_unit()
+			and CursorController.map_position in _selected_unit.get_all_attack_tiles()
+		):
+			_attack_selection()
+
+		else:
+			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.INVALID)
+	else:
+		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
+
+
+func _attack_selection() -> void:
+	CursorController.disable()
+	CursorController.cursor_visible = false
+	_selected_unit.hide_movement_tiles()
+	AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
+	var info_display := CombatInfoDisplay.instantiate(
+		_selected_unit, CursorController.get_hovered_unit(), true
+	)
+	MapController.get_ui().add_child(info_display)
+	_selected_unit.display_current_attack_tiles()
+	set_process_input(false)
+	var completed: bool = await info_display.completed
+	_selected_unit.hide_current_attack_tiles()
+	info_display.queue_free()
+	if completed:
+		await _selected_unit.move()
+		await AttackController.combat(_selected_unit, CursorController.get_hovered_unit())
+		_selected_unit.wait()
+		_deselect()
+	else:
+		_selected_unit.display_movement_tiles()
+		get_tree().root.set_input_as_handled()
+		state = States.MOVING
+	CursorController.enable()
+	CursorController.cursor_visible = true
+	set_process_input(true)
+
+
+func _canto_state_select() -> void:
+	if CursorController.map_position in _selected_unit.get_actionable_movement_tiles():
+		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
+		const CantoMenu = preload("res://ui/map_ui/map_menus/canto_menu/canto_menu.gd")
+		CursorController.disable()
+		var menu_position: Vector2i = CursorController.screen_position + Vector2i(16, -8)
+		MapController.get_ui().add_child(CantoMenu.instantiate(menu_position, null, _selected_unit))
+		_ghost_unit.visible = true
+
+
+func _select_state_select() -> void:
+	AudioPlayer.play_sound_effect(preload("res://audio/sfx/double_select.ogg"))
 	var hovered_unit: Unit = CursorController.get_hovered_unit()
 	if hovered_unit and hovered_unit.selectable == true:
-		AudioPlayer.play_sound_effect(preload("res://audio/sfx/double_select.ogg"))
-		add_child(SelectedUnitController.new(hovered_unit))
+		_selected_unit = hovered_unit
+		state = States.MOVING
+		_selected_unit.set_animation(Unit.Animations.MOVING_LEFT)
+		_selected_unit.selected = true
+		_selected_unit.update_path(CursorController.map_position)
+		_selected_unit.update_displayed_tiles()
+		_selected_unit.display_movement_tiles()
+		_ghost_unit = GhostUnit.new(_selected_unit)
+		_ghost_unit.position = CursorController.map_position
+		MapController.map.get_child(0).add_child(_ghost_unit)
+		var on_cursor_moved: Callable = func() -> void:
+			if process_mode != ProcessMode.PROCESS_MODE_DISABLED and state != States.SELECTING:
+				_selected_unit.update_path(CursorController.map_position)
+				_selected_unit.show_path()
+				_ghost_unit.position = _selected_unit.get_path_last_pos()
+				_update_ghost_unit()
+		CursorController.moved.connect(on_cursor_moved)
+		_selected_unit.arrived.connect(_update_ghost_unit)
+		_update_ghost_unit()
+		_selected_unit.z_index = 1
 	else:
 		AudioPlayer.play_sound_effect(preload("res://audio/sfx/menu_open.ogg"))
 		const MainMapMenu = preload("res://ui/map_ui/map_menus/main_map_menu/main_map_menu.gd")
 		var menu := MainMapMenu.instantiate(CursorController.screen_position + Vector2i(16, 0))
 		MapController.get_ui().add_child(menu)
-		GameController.add_to_input_stack(menu)
 		CursorController.disable()
+
+
+func _update_ghost_unit() -> void:
+	_ghost_unit.visible = _ghost_unit.position != _selected_unit.position
+	if _ghost_unit.visible == true:
+		var distance := Vector2i()
+		if _selected_unit.get_unit_path().size() >= 2:
+			distance = _selected_unit.get_unit_path()[-1] - _selected_unit.get_unit_path()[-2]
+		var next_animation: Unit.Animations
+		match distance:
+			Vector2i(16, 0):
+				next_animation = Unit.Animations.MOVING_RIGHT
+			Vector2i(-16, 0):
+				next_animation = Unit.Animations.MOVING_LEFT
+			Vector2i(0, -16):
+				next_animation = Unit.Animations.MOVING_UP
+			_:
+				next_animation = Unit.Animations.MOVING_DOWN
+		if _ghost_unit_animation != next_animation:
+			_ghost_unit.set_animation(next_animation)
+			_ghost_unit_animation = next_animation
 
 
 func _update_grid_current_faction() -> void:
 	for movement_type: UnitClass.MovementTypes in _cost_grids.keys():
-		for unit: Unit in MapController.map.get_units():
+		for unit: Unit in get_units():
 			(_cost_grids[movement_type] as AStarGrid2D).set_point_solid(
 				unit.position / 16, not unit.faction.is_friend(_grid_current_faction)
 			)
@@ -430,3 +569,15 @@ func _update_map_borders() -> void:
 # Gets the units of the current faction
 func _get_current_units() -> Array[Unit]:
 	return get_faction_units(get_current_faction())
+
+
+func _deselect() -> void:
+	state = States.SELECTING
+	_ghost_unit.queue_free()
+	var hovered_unit: Unit = CursorController.get_hovered_unit()
+	if hovered_unit and hovered_unit != _selected_unit and not hovered_unit.dead:
+		hovered_unit.display_movement_tiles()
+	if is_instance_valid(_selected_unit):
+		_selected_unit.deselect()
+		_selected_unit.z_index = 0
+	_selected_unit.arrived.disconnect(_update_ghost_unit)

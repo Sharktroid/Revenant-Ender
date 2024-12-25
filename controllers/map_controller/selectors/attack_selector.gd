@@ -38,7 +38,6 @@ func _position_selected() -> void:
 		CursorController.enable()
 		if proceed:
 			selected.emit(CursorController.get_hovered_unit())
-			GameController.add_to_input_stack(AttackController)
 			CursorController.disable()
 			queue_free()
 

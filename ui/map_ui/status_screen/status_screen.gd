@@ -32,7 +32,6 @@ static var previous_tab: int = 0
 func _ready() -> void:
 	_menu_tabs.current_tab = previous_tab
 	(_menu_tabs.get_child(0, true) as TabBar).mouse_filter = Control.MOUSE_FILTER_PASS
-	GameController.add_to_input_stack(self)
 
 	_update.call_deferred()
 
@@ -60,11 +59,10 @@ static func instantiate(unit: Unit) -> StatusScreen:
 		preload("res://ui/map_ui/status_screen/status_screen.tscn").instantiate()
 	)
 	scene.observing_unit = unit
-	GameController.add_to_input_stack(scene)
 	return scene
 
 
-func _receive_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		queue_free()
 	if _delay <= 0:

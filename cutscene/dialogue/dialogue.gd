@@ -30,7 +30,7 @@ var _skipping: bool = false
 @onready var _bottom_text_box := %BottomTextBox as RichTextLabel
 
 
-func _receive_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		var portraits: Array[Unit] = []
 		portraits.assign(_portraits.keys())

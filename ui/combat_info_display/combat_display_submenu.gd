@@ -22,7 +22,6 @@ var current_item_index: int:
 
 func _enter_tree() -> void:
 	super()
-	GameController.remove_from_input_stack()
 
 
 func set_current_item_node(item: HelpContainer) -> void:

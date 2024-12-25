@@ -55,7 +55,6 @@ func _play(experience: float) -> void:
 		var level_up_screen := LevelUpScreen.instantiate(_unit, old_level)
 		MapController.get_ui().add_child(level_up_screen)
 		await level_up_screen.tree_exited
-		GameController.remove_from_input_stack()
 	queue_free()
 
 

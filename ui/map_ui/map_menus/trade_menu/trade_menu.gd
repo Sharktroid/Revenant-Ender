@@ -14,7 +14,6 @@ var _action_performed: bool = false
 
 
 func _ready() -> void:
-	GameController.add_to_input_stack(self)
 	_update()
 
 
@@ -35,7 +34,7 @@ static func instantiate(left: Unit, right: Unit) -> TradeMenu:
 	return scene
 
 
-func _receive_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_select"):
 		if _selected_label != current_label:
 			_action_performed = true

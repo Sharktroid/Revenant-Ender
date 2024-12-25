@@ -73,7 +73,7 @@ var _scroll_tween: Tween = create_tween()
 
 
 func _ready() -> void:
-	GameController.add_to_input_stack(self)
+	MapController.map.process_mode = Node.PROCESS_MODE_DISABLED
 	for option: ConfigOption in Options.get_options():
 		var icon_rect := TextureRect.new()
 		icon_rect.texture = load("res://ui/map_ui/options_menu/icons/%s.png" % option.get_name())
@@ -124,7 +124,7 @@ func _ready() -> void:
 	_column_hand_sprite.position.x = _get_column_hand_x()
 
 
-func _receive_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and not _scroll_tween.is_running():
 		#region Mouse handling
 		_current_index = clampi(
@@ -199,6 +199,11 @@ func _physics_process(_delta: float) -> void:
 		elif _current_setting_index != _hovered_setting_index:
 			_current_setting_index = _hovered_setting_index
 			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
+
+
+func _exit_tree() -> void:
+	MapController.map.process_mode = Node.PROCESS_MODE_INHERIT
+	CursorController.enable()
 
 
 # Gets the relative index compared to the top index

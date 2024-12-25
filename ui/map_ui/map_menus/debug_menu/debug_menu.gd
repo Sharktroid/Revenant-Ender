@@ -10,6 +10,10 @@ func _enter_tree() -> void:
 	super()
 
 
+func _exit_tree() -> void:
+	CursorController.enable()
+
+
 static func instantiate(new_offset: Vector2, parent: MapMenu = null) -> MapMenu:
 	return _base_instantiate(
 		preload("res://ui/map_ui/map_menus/debug_menu/debug_menu.tscn"), new_offset, parent

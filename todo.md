@@ -5,14 +5,14 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Renovate debug menu
-	* Split into debug options and the others.
-	* Add debug constant to control whether the setting is displayed in the main map menu
+* Rename "canto" to "canter"
+* Fix canto tiles.
 * Hide map cursor when scrolling
 * Have weapon rank increases on level up be linked to skill
 * Pallette the status screen for each unit
 * Rename Combat Display to Combat Panel and revamp the scene tree to be less hacky
 	* Expand the center labels
+* Fix bug with combat display menu
 * Add TRS markers
 * Clean up debug map borders
 * Have combat panel display green damage if unit can one-round
@@ -32,6 +32,9 @@ Before you commit
 * Add Accost
 
 # Major
+* Renovate debug menu
+	* Split into debug options and the others.
+	* Add debug constant to control whether the setting is displayed in the main map menu
 * Replace recieving input with pausing/unpausing via process_mode = ProcessMode.PROCESS_MODE_DISABLED
 * Implement dual weapons
 * Have option to display stat details all at once

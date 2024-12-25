@@ -30,7 +30,6 @@ func _enter_tree() -> void:
 	for index: int in visible_children.size():
 		Utilities.set_neighbor_path("top", index, -1, visible_children)
 		Utilities.set_neighbor_path("bottom", index, 1, visible_children)
-	GameController.add_to_input_stack(self)
 
 
 func _exit_tree() -> void:
@@ -38,7 +37,7 @@ func _exit_tree() -> void:
 		_parent_menu.visible = true
 
 
-func _receive_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if not HelpPopupController.is_active():
 		if event.is_action_pressed("up") and not Input.is_action_pressed("down"):
 			_current_item_index -= 1
@@ -55,6 +54,7 @@ func _receive_input(event: InputEvent) -> void:
 		elif event.is_action_pressed("ui_cancel"):
 			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
 			queue_free()
+		get_tree().root.set_input_as_handled()
 
 
 func set_current_item_node(item: HelpContainer) -> void:

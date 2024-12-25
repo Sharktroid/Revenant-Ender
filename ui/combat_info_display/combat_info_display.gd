@@ -101,12 +101,13 @@ static func instantiate(top: Unit, bottom: Unit = null, focused: bool = false) -
 	return scene
 
 
-func _receive_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
 		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.BATTLE_SELECT)
 		completed.emit(true)
 	elif event.is_action_pressed("ui_cancel"):
-		_top_unit.equip_weapon(_old_weapon)
+		if _old_weapon:
+			_top_unit.equip_weapon(_old_weapon)
 		completed.emit(false)
 		_set_focus(false)
 		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
@@ -127,12 +128,8 @@ func _set_focus(is_focused: bool) -> void:
 	if is_node_ready():
 		_update()
 	if is_focused:
-		if not GameController.get_current_input_node() == self:
-			GameController.add_to_input_stack(self)
 		_top_unit.display_current_attack_tiles()
 	else:
-		if GameController.get_current_input_node() == self:
-			GameController.remove_from_input_stack()
 		_top_unit.display_current_attack_tiles(true)
 
 
