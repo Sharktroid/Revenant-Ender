@@ -5,7 +5,6 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Fix enemy ghost units displayed backwards
 * Have PVs influence caps
 * Have rescuing incur a move penalty proprtional to traverlers's weight (0 at 1/2 unit's con to 50% at = unit's con)
 * Fix canter tiles.

@@ -119,7 +119,6 @@ var faction: Faction:
 		return Faction.new("INVALID", Faction.Colors.BLUE, Faction.PlayerTypes.HUMAN, null)
 	set(new_faction):
 		_faction_id = _get_map().all_factions.find(new_faction)
-		flip_h = faction.flipped if faction else false
 var waiting: bool = false
 
 ## Effort value for hit points
@@ -262,6 +261,7 @@ func get_crit_damage(defender: Unit) -> float:
 func set_animation(animation: Animations) -> void:
 	_animation_player.play("RESET")
 	_animation_player.advance(0)
+	flip_h = faction.flipped and animation == Animations.IDLE if faction else false
 	match animation:
 		Animations.IDLE:
 			_animation_player.play("idle")
