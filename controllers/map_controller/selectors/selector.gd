@@ -41,13 +41,13 @@ func _process(_delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_accept"):
+	if event.is_action_pressed("select"):
 		if _can_select():
 			AudioPlayer.play_sound_effect(_select_sound_effect)
 			_position_selected()
 		else:
 			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.INVALID)
-	elif event.is_action_pressed("ui_cancel"):
+	elif event.is_action_pressed("back"):
 		_canceled()
 	get_tree().root.set_input_as_handled()
 

@@ -47,11 +47,11 @@ func _input(event: InputEvent) -> void:
 			_current_item_index += 1
 			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_V)
 
-		if event.is_action_pressed("ui_accept"):
+		if event.is_action_pressed("select"):
 			_play_select_sound_effect(get_current_item_node())
 			_select_item(get_current_item_node())
 
-		elif event.is_action_pressed("ui_cancel"):
+		elif event.is_action_pressed("back"):
 			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
 			queue_free()
 		get_tree().root.set_input_as_handled()

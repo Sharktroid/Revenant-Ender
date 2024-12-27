@@ -41,6 +41,7 @@ var _selected_unit: Unit
 var _ghost_unit: GhostUnit
 var _ghost_unit_animation: Unit.Animations = Unit.Animations.IDLE
 var _canter_tiles: Node2D
+var _flags: Dictionary
 
 # The terrain map layer
 @onready var _terrain_layer := $MapLayer/TerrainLayer as TileMapLayer
@@ -88,7 +89,7 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_select"):
+	if event.is_action_pressed("select"):
 		if CursorController.is_active():
 			match state:
 				States.SELECTING:
@@ -97,21 +98,26 @@ func _input(event: InputEvent) -> void:
 					_moving_state_select()
 				States.CANTERING:
 					_canter_state_select()
-
-	elif event.is_action_pressed("ui_cancel"):
+	elif event.is_action_pressed("back"):
 		if state == States.MOVING:
 			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
 			_deselect()
-
 	elif event.is_action_pressed("ranges"):
 		if CursorController.get_hovered_unit():
 			_toggle_outline_unit(CursorController.get_hovered_unit())
 		else:
 			_toggle_full_outline()
-
 	elif event.is_action_pressed("status"):
 		if CursorController.get_hovered_unit():
 			create_status_screen()
+	elif event.is_action_pressed("flag"):
+		#print_debug(_flags.get(CursorController.map_position))
+		if is_instance_valid(_flags.get(CursorController.map_position)):
+			(_flags.get(CursorController.map_position) as Flag).queue_free()
+		else:
+			var flag: Flag = Flag.instantiate(CursorController.map_position)
+			$MapLayer.add_child(flag)
+			_flags[CursorController.map_position] = flag
 
 
 func create_status_screen() -> void:
@@ -262,8 +268,8 @@ func get_path_cost(movement_type: UnitClass.MovementTypes, path: Array[Vector2i]
 	if path.is_empty():
 		return INF
 	path.remove_at(0)
-	var sum: Callable = func(accumulatorulator: float, cell: Vector2i) -> float:
-		return accumulatorulator + get_terrain_cost(movement_type, cell)
+	var sum: Callable = func(accumulator: float, cell: Vector2i) -> float:
+		return accumulator + get_terrain_cost(movement_type, cell)
 	return path.reduce(sum, 0)
 
 
@@ -433,7 +439,9 @@ func _canter_state_select() -> void:
 		const CanterMenu = preload("res://ui/map_ui/map_menus/canter_menu/canter_menu.gd")
 		CursorController.disable()
 		var menu_position: Vector2i = CursorController.screen_position + Vector2i(16, -8)
-		MapController.get_ui().add_child(CanterMenu.instantiate(menu_position, null, _selected_unit))
+		MapController.get_ui().add_child(
+			CanterMenu.instantiate(menu_position, null, _selected_unit)
+		)
 		_ghost_unit.visible = true
 
 

@@ -63,7 +63,7 @@ static func instantiate(unit: Unit) -> StatusScreen:
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel"):
+	if event.is_action_pressed("back"):
 		queue_free()
 	if _delay <= 0:
 		if event.is_action_pressed("left", true) and not Input.is_action_pressed("right"):

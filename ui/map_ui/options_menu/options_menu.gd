@@ -180,7 +180,7 @@ func _input(event: InputEvent) -> void:
 					_current_setting_index += 1
 				AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_H)
 
-	if event.is_action_pressed("ui_cancel"):
+	if event.is_action_pressed("back"):
 		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
 		queue_free()
 
@@ -191,7 +191,7 @@ func _physics_process(_delta: float) -> void:
 			_top_index -= 1
 		elif _scroll_container.get_local_mouse_position().y >= _scroll_container.size.y - 16:
 			_top_index += 1
-	if Input.is_action_pressed("ui_accept"):
+	if Input.is_action_pressed("select"):
 		if _get_current_option() is FloatOption:
 			_set_progress_bar_value(
 				_get_progress_bar().get_local_mouse_position().x / _get_progress_bar().size.x

@@ -102,10 +102,10 @@ static func instantiate(top: Unit, bottom: Unit = null, focused: bool = false) -
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_accept"):
+	if event.is_action_pressed("select"):
 		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.BATTLE_SELECT)
 		completed.emit(true)
-	elif event.is_action_pressed("ui_cancel"):
+	elif event.is_action_pressed("back"):
 		if _old_weapon:
 			_top_unit.equip_weapon(_old_weapon)
 		completed.emit(false)

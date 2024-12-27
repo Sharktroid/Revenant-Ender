@@ -31,7 +31,7 @@ var _skipping: bool = false
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel"):
+	if event.is_action_pressed("back"):
 		var portraits: Array[Unit] = []
 		portraits.assign(_portraits.keys())
 		var last_portrait: Unit = portraits.pop_back()
@@ -223,7 +223,7 @@ func _set_text_base(string: String, label: RichTextLabel, portrait: Portrait) ->
 		while label.visible_ratio < 1 and not _skipping:
 			if not auto_scroll:
 				await get_tree().physics_frame
-			if Input.is_action_just_pressed("ui_accept"):
+			if Input.is_action_just_pressed("select"):
 				auto_scroll = true
 				await get_tree().physics_frame  # Prevents input from being double read
 			var next_visible_chars: int = (
@@ -246,7 +246,7 @@ func _set_text_base(string: String, label: RichTextLabel, portrait: Portrait) ->
 		#endregion
 		if portrait:
 			portrait.set_talking(false)
-		while not (Input.is_action_just_pressed("ui_accept") or _skipping):
+		while not (Input.is_action_just_pressed("select") or _skipping):
 			await get_tree().physics_frame
 
 

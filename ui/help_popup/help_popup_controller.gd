@@ -20,7 +20,7 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if _get_popup_node().visible:
-		if event.is_action_pressed("ui_cancel"):
+		if event.is_action_pressed("back"):
 			shrink()
 			AudioPlayer.play_sound_effect(preload("res://audio/sfx/help_close.ogg"))
 		elif event.is_action_pressed("up", true) and not Input.is_action_pressed("down"):

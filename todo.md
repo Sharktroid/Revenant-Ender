@@ -5,8 +5,9 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Add TRS markers
 * Fix enemy ghost units displayed backwards
+* Have PVs influence caps
+* Have rescuing incur a move penalty proprtional to traverlers's weight (0 at 1/2 unit's con to 50% at = unit's con)
 * Fix canter tiles.
 * Hide map cursor when scrolling
 * Have weapon rank increases on level up be linked to skill
@@ -32,6 +33,7 @@ Before you commit
 * Add Accost
 
 # Major
+* Implement Engage-style combat preview
 * Renovate debug menu
 	* Split into debug options and the others.
 	* Add debug constant to control whether the setting is displayed in the main map menu

@@ -14,7 +14,7 @@ func _enter_tree() -> void:
 
 func _gui_input(event: InputEvent) -> void:
 	if (
-		((event.is_action_pressed("ui_select") and selectable) or event.is_action_pressed("status"))
+		((event.is_action_pressed("select") and selectable) or event.is_action_pressed("status"))
 		and not HelpPopupController.is_active()
 	):
 		set_as_current_help_container()

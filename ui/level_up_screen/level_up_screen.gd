@@ -105,6 +105,6 @@ static func instantiate(observing_unit: Unit, level: int) -> LevelUpScreen:
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_accept"):
+	if event.is_action_pressed("select"):
 		AudioPlayer.stop_and_resume_previous_track()
 		queue_free()

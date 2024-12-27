@@ -35,7 +35,7 @@ static func instantiate(left: Unit, right: Unit) -> TradeMenu:
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_select"):
+	if event.is_action_pressed("select"):
 		if _selected_label != current_label:
 			_action_performed = true
 			if _selected_label:
@@ -67,7 +67,7 @@ func _input(event: InputEvent) -> void:
 				var new_parent: VBoxContainer = _get_other_parent(current_label)
 				new_parent.add_child(_empty_bar)
 				_change_current_label(new_parent, new_parent.get_children().size() - 1)
-	elif event.is_action_pressed("ui_cancel"):
+	elif event.is_action_pressed("back"):
 		if _selected_label:
 			_change_current_label(_selected_label.get_parent(), _selected_label.get_index())
 			_reset()

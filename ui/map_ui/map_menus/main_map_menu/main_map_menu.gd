@@ -10,7 +10,7 @@ func _exit_tree() -> void:
 
 func _input(event: InputEvent) -> void:
 	if not HelpPopupController.is_active():
-		if event.is_action_pressed("ui_cancel"):
+		if event.is_action_pressed("back"):
 			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
 			queue_free()
 			CursorController.enable()
