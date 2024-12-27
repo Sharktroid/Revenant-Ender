@@ -6,6 +6,7 @@ Before you commit
 
 # Minor
 * Add TRS markers
+* Fix enemy ghost units displayed backwards
 * Fix canter tiles.
 * Hide map cursor when scrolling
 * Have weapon rank increases on level up be linked to skill

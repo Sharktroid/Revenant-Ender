@@ -55,6 +55,7 @@ func _init() -> void:
 
 
 func _ready() -> void:
+	CursorController.cursor_visible = false
 	borders = Rect2i(_left_border * 16, _top_border * 16, 32, 32)
 	borders = borders.expand(get_size() - Vector2(_right_border * 16, _bottom_border * 16))
 	_create_debug_borders()  # Only shows up when collision shapes are enabled

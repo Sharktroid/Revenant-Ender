@@ -14,8 +14,9 @@ func _init() -> void:
 
 
 func _ready() -> void:
-	_update_fps_display()
-	DebugConfig.SHOW_FPS.value_updated.connect(_update_fps_display)
+	if get_root():
+		_update_fps_display()
+		DebugConfig.SHOW_FPS.value_updated.connect(_update_fps_display)
 
 
 func _physics_process(_delta: float) -> void:
@@ -41,11 +42,11 @@ func get_root() -> Viewport:
 	const PATH: String = "SubViewportContainer/SubViewport"
 	if get_viewport() and get_viewport().has_node(PATH):
 		return get_viewport().get_node(PATH) as Viewport
-	return Window.new()
+	return null
 
 
 # Toggles the FPS display depending on the config
 func _update_fps_display() -> void:
-	(GameController.get_root().get_node("%FPSDisplay") as HBoxContainer).visible = (
+	(get_root().get_node("%FPSDisplay") as HBoxContainer).visible = (
 		DebugConfig.SHOW_FPS.value
 	)
