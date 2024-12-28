@@ -5,8 +5,7 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Have PVs influence caps
-* Have rescuing incur a move penalty proprtional to traverlers's weight (0 at 1/2 unit's con to 50% at = unit's con)
+* Have rescuing incur a move penalty proportional to traveler's weight (0 at 1/2 unit's con to 50% at = unit's con)
 * Fix canter tiles.
 * Hide map cursor when scrolling
 * Have weapon rank increases on level up be linked to skill

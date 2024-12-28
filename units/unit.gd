@@ -342,13 +342,15 @@ func get_movement(current_level: int = level) -> int:
 
 
 func get_stat_cap(stat: Stats) -> int:
-	var max_stat: float = unit_class.get_stat(stat, MAX_LEVEL)
+	var max_stat: float = (
+		unit_class.get_stat(stat, MAX_LEVEL) + _get_personal_modifier(stat, MAX_LEVEL)
+	)
 	if stat == Stats.HIT_POINTS:
-		return roundi(max_stat + _PV_MAX_HP_MODIFIER + _EV_MAX_HP_MODIFIER)
+		return roundi(max_stat + _EV_MAX_HP_MODIFIER)
 	elif stat == Stats.MOVEMENT:
-		return roundi(max_stat + _PV_MIN_MODIFIER + _EV_MIN_MODIFIER)
+		return roundi(max_stat + _EV_MIN_MODIFIER)
 	else:
-		return roundi(max_stat + PV_MAX_MODIFIER + EV_MAX_MODIFIER)
+		return roundi(max_stat + EV_MAX_MODIFIER)
 
 
 func get_attack_speed() -> float:
@@ -775,7 +777,7 @@ func reset_tile_cache() -> void:
 	_attack_tiles = []
 
 
-## Returns true if the unit can follow up aginst the opponent.
+## Returns true if the unit can follow up against the opponent.
 func can_follow_up(opponent: Unit) -> bool:
 	var is_follow_up: Callable = func(skill: Skill) -> bool: return skill is FollowUp
 	var follow_up_check: Callable = func(skill: FollowUp) -> bool:
