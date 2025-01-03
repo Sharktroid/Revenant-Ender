@@ -698,6 +698,7 @@ func move(move_target: Vector2i = get_unit_path()[-1]) -> void:
 		_get_area().monitoring = true
 		set_animation(Animations.IDLE)
 		arrived.emit()
+	reset_tile_cache()
 
 
 ## Gets the unit's path.
@@ -1013,7 +1014,6 @@ func _get_movement_speed() -> float:
 
 func _reset_movement() -> void:
 	_current_movement = get_movement()
-
 
 
 func _get_modifier(stat: Stats) -> String:

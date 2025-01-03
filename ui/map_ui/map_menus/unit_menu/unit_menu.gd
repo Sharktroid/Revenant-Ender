@@ -29,7 +29,7 @@ func _enter_tree() -> void:
 func _exit_tree() -> void:
 	if not actionable:
 		_check_canter()
-	if _canter:
+	if _canter and connected_unit._current_movement > 0:
 		MapController.map.state = Map.States.CANTERING
 	CursorController.enable.call_deferred()
 

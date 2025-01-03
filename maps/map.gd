@@ -20,12 +20,20 @@ var state: States = States.SELECTING:
 			if is_instance_valid(_canter_tiles):
 				_canter_tiles.queue_free()
 		state = new_state
-		if state == States.CANTERING:
-			_canter_tiles = MapController.map.display_tiles(
-				_selected_unit.get_movement_tiles(), Map.TileTypes.MOVEMENT, 1.0
-			)
-			_selected_unit.selected = true
-			_selected_unit.hide_movement_tiles()
+		match state:
+			States.SELECTING:
+				_selected_unit.arrived.disconnect(_update_ghost_unit)
+			States.CANTERING:
+				var tiles: Array[Vector2i] = _selected_unit.get_movement_tiles()
+				if tiles.size() > 1:
+					_canter_tiles = MapController.map.display_tiles(
+						tiles, Map.TileTypes.MOVEMENT, 1.0
+					)
+					_selected_unit.selected = true
+					_selected_unit.hide_movement_tiles()
+				else:
+					state = States.SELECTING
+					_selected_unit.wait()
 
 # Movement costs for every movement type
 var _movement_cost_dict: Dictionary
@@ -392,7 +400,6 @@ func _moving_state_select() -> void:
 			MapController.get_ui().add_child(menu)
 			await menu.tree_exited
 			process_mode = ProcessMode.PROCESS_MODE_INHERIT
-
 		elif (
 			CursorController.get_hovered_unit()
 			and CursorController.map_position in _selected_unit.get_all_attack_tiles()
@@ -589,4 +596,3 @@ func _deselect() -> void:
 	if is_instance_valid(_selected_unit):
 		_selected_unit.deselect()
 		_selected_unit.z_index = 0
-	_selected_unit.arrived.disconnect(_update_ghost_unit)

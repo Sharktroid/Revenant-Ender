@@ -5,7 +5,6 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Fix canter tiles.
 * Fix stat bar size bug when switching from item screen.
 * Hide map cursor when scrolling
 * Have weapon rank increases on level up be linked to skill
@@ -58,6 +57,8 @@ Before you commit
 * Make GhostUnit a child of Unit and remove jankiness
 * Make attack Animations skippable
 * Dual Wielding
+* Shields
+	* Can parry via combat art if shield weight > opponent's weapon weight
 * Implement durability
 * Implement authority
 * Implement AI
