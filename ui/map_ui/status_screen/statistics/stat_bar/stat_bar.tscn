@@ -9,9 +9,6 @@ offset_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_1r07s")
-help_description = ""
-help_table = Array[String]([])
-table_columns = 1
 
 [node name="NumericProgressBar" parent="." instance=ExtResource("2_6fljw")]
 layout_mode = 2

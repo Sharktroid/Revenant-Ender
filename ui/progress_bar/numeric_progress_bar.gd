@@ -9,59 +9,48 @@ enum Modes { INTEGER, FLOAT, PERCENT }
 @export var mode: Modes:
 	set(new_value):
 		mode = new_value
-		if mode == Modes.INTEGER:
-			_progress_bar_red.step = 1
-			_progress_bar_yellow.step = 1
-		else:
-			_progress_bar_red.step = 0.01
-			_progress_bar_yellow.step = 0.01
+		for bar: ProgressBar in _progress_bars:
+			bar.min_value = value
+			if mode == Modes.INTEGER:
+				bar.step = 1
+			else:
+				bar.step = 0.01
 ## The value of the bar.
 var value: float:
 	get:
-		return _progress_bar_yellow.value
+		return value
 	set(new_value):
-		_progress_bar_yellow.value = new_value
-		match mode:
-			Modes.FLOAT:
-				_value_label.text = Utilities.float_to_string(snappedf(new_value, 0.001))
-			Modes.INTEGER:
-				if abs(new_value) == INF:
-					_value_label.text = (
-						Utilities.INF_CHAR if new_value == INF else "-%s" % Utilities.INF_CHAR
-					)
-				else:
-					_value_label.text = Utilities.float_to_string(roundi(new_value))
-			Modes.PERCENT:
-				_value_label.text = (
-					Utilities.float_to_string(snappedf(new_value / max_value * 100, 0.001)) + "%"
-				)
+		value = new_value
+		_update()
 ## The value without any modifiers. Can be used to display debuffs.
 var original_value: float:
 	get:
-		return _progress_bar_red.value
+		return original_value
 	set(new_value):
-		_progress_bar_red.value = new_value
-		_value_label.theme_type_variation = (
-			&"RedLabel" if value < original_value else &"BlueLabel"
-		)
+		original_value = new_value
+		_update()
 ## The minimum value that the bar can be.
 var min_value: float:
 	get:
 		return _progress_bar_yellow.min_value
 	set(value):
-		_progress_bar_red.min_value = value
-		_progress_bar_yellow.min_value = value
+		for bar: ProgressBar in _progress_bars:
+			bar.min_value = value
 ## The maximum value that the bar can be.
 var max_value: float:
 	get:
 		return _progress_bar_yellow.max_value
 	set(value):
-		_progress_bar_red.max_value = value
-		_progress_bar_yellow.max_value = value
+		for bar: ProgressBar in _progress_bars:
+			bar.max_value = value
 
 @onready var _progress_bar_red := %ProgressBarRed as ProgressBar
+@onready var _progress_bar_green := %ProgressBarGreen as ProgressBar
 @onready var _progress_bar_yellow := %ProgressBarYellow as ProgressBar
 @onready var _value_label := %ValueLabel as Label
+@onready var _progress_bars: Array[ProgressBar] = [
+	_progress_bar_red, _progress_bar_green, _progress_bar_yellow
+]
 
 
 ## Creates a new instance.
@@ -81,3 +70,42 @@ static func instantiate(
 		scene.original_value = og_value
 	coroutine.call()
 	return scene
+
+
+func _update() -> void:
+	var greater_value: bool = value > original_value
+	_progress_bar_green.visible = greater_value
+	_progress_bar_red.visible = not greater_value
+	if greater_value:
+		_progress_bar_green.visible = true
+		_progress_bar_red.visible = false
+		_progress_bar_green.value = value
+		_progress_bar_yellow.value = original_value
+	else:
+		_progress_bar_green.visible = false
+		_progress_bar_red.visible = true
+		_progress_bar_yellow.value = value
+		_progress_bar_red.value = original_value
+
+	match mode:
+		Modes.INTEGER:
+			if abs(value) == INF:
+				_value_label.text = (
+					Utilities.INF_CHAR if value == INF else "-%s" % Utilities.INF_CHAR
+				)
+			else:
+				_value_label.text = Utilities.float_to_string(roundi(value))
+		Modes.PERCENT:
+			_value_label.text = (
+				Utilities.float_to_string(snappedf(value / max_value * 100, 0.001)) + "%"
+			)
+		_:
+			_value_label.text = Utilities.float_to_string(snappedf(value, 0.001))
+
+	match sign(value - original_value) as int:
+		1:
+			_value_label.theme_type_variation = &"GreenLabel"
+		-1:
+			_value_label.theme_type_variation = &"RedLabel"
+		_:
+			_value_label.theme_type_variation = &"BlueLabel"

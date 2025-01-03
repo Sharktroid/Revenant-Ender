@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://j17i2dfs4bgi"]
+[gd_scene load_steps=14 format=3 uid="uid://j17i2dfs4bgi"]
 
 [ext_resource type="Texture2D" uid="uid://crfr0u4x5xmdw" path="res://ui/theme/stat_bar_background.png" id="1_8j7hy"]
 [ext_resource type="Script" path="res://ui/progress_bar/numeric_progress_bar.gd" id="1_aics6"]
@@ -14,8 +14,20 @@ expand_margin_top = 1.0
 expand_margin_right = 1.0
 expand_margin_bottom = 2.0
 
+[sub_resource type="Gradient" id="Gradient_njal4"]
+colors = PackedColorArray(0.968627, 0.87451, 0.87451, 1, 0.878431, 0.466667, 0.494118, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_l4c00"]
+gradient = SubResource("Gradient_njal4")
+width = 1
+height = 2
+fill_to = Vector2(0, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8pd6p"]
+texture = SubResource("GradientTexture2D_l4c00")
+
 [sub_resource type="Gradient" id="Gradient_u2ee8"]
-colors = PackedColorArray(0.97, 0.873, 0.873, 1, 0.878431, 0.466667, 0.494118, 1)
+colors = PackedColorArray(0.6, 0.819608, 0.572549, 1, 0.352941, 0.533333, 0.266667, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_epoxt"]
 gradient = SubResource("Gradient_u2ee8")
@@ -68,6 +80,20 @@ theme_override_constants/margin_bottom = 1
 
 [node name="ProgressBarRed" type="ProgressBar" parent="MarginContainer"]
 unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+size_flags_vertical = 1
+mouse_filter = 1
+theme_override_styles/background = SubResource("StyleBoxTexture_84oif")
+theme_override_styles/fill = SubResource("StyleBoxTexture_8pd6p")
+max_value = 3.0
+value = 3.0
+show_percentage = false
+
+[node name="ProgressBarGreen" type="ProgressBar" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(0, 2)
 layout_mode = 2
 size_flags_vertical = 1
@@ -75,6 +101,7 @@ mouse_filter = 1
 theme_override_styles/background = SubResource("StyleBoxTexture_84oif")
 theme_override_styles/fill = SubResource("StyleBoxTexture_lt2yn")
 max_value = 3.0
+value = 3.0
 show_percentage = false
 
 [node name="ProgressBarYellow" type="ProgressBar" parent="MarginContainer"]
@@ -86,6 +113,7 @@ mouse_filter = 1
 theme_override_styles/background = SubResource("StyleBoxEmpty_rbcwh")
 theme_override_styles/fill = SubResource("StyleBoxTexture_b7mme")
 max_value = 3.0
+value = 2.0
 show_percentage = false
 
 [node name="ValueLabel" type="Label" parent="."]

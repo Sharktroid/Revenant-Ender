@@ -5,8 +5,8 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Have rescuing incur a move penalty proportional to traveler's weight (0 at 1/2 unit's con to 50% at = unit's con)
 * Fix canter tiles.
+* Fix stat bar size bug when switching from item screen.
 * Hide map cursor when scrolling
 * Have weapon rank increases on level up be linked to skill
 * Pallette the status screen for each unit
@@ -28,7 +28,7 @@ Before you commit
 * Add option to make cursor return to unit upon deselecting.
 * Add universal actionable swap
 * Add shove
-* Add Accost
+* Remove countering from ranges >= 3
 
 # Major
 * Implement Engage-style combat preview
@@ -61,6 +61,8 @@ Before you commit
 * Implement durability
 * Implement authority
 * Implement AI
+* Implement activated skills
+	* Add Accost
 * Implement staves
 	* Duration = (staff might) + (mag - target res)/4
 	* Automatically hover over a unit if they are the only one that needs healing

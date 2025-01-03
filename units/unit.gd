@@ -180,7 +180,6 @@ var _movement_tiles_node: Node2D
 var _attack_tile_node: Node2D
 var _current_attack_tiles_node: Node2D
 # Resources to be loaded.
-var _stat_boosts: Dictionary
 var _arrows_container: CanvasGroup
 
 
@@ -199,7 +198,7 @@ func _enter_tree() -> void:
 			)
 	texture = unit_class.get_map_sprite()
 	material = material.duplicate() as Material
-	_current_movement = get_movement()
+	_reset_movement()
 	current_health = get_hit_points()
 	add_to_group("units")
 	_update_palette()
@@ -280,17 +279,33 @@ func set_animation(animation: Animations) -> void:
 		_animation_player.pause()
 
 
-func get_stat_boost(stat: Stats) -> int:
-	return _stat_boosts.get(stat, 0)
-
-
 func get_stat(stat: Stats, current_level: int = level) -> int:
+	return get_raw_stat(stat, current_level) + get_stat_boost(stat)
+
+
+func get_raw_stat(stat: Stats, current_level: int = level) -> int:
 	var raw_stat: float = (
 		unit_class.get_stat(stat, current_level)
 		+ _get_personal_modifier(stat, current_level)
 		+ _get_effort_modifier(stat, current_level)
 	)
-	return clampi(roundi(raw_stat), 0, get_stat_cap(stat)) + get_stat_boost(stat)
+	return clampi(roundi(raw_stat), 0, get_stat_cap(stat))
+
+
+func get_stat_boost(stat: Stats) -> int:
+	var total_boost: int = 0
+	match stat:
+		Stats.MOVEMENT:
+			if traveler and traveler.get_weight() > float(get_aid()) / 2:
+				var move_penalty: float = remap(
+					traveler.get_weight(),
+					float(get_aid()) / 2,
+					get_aid(),
+					0,
+					float(get_raw_stat(Stats.MOVEMENT)) / 2
+				)
+				total_boost -= roundi(move_penalty)
+	return total_boost
 
 
 func get_hit_points(current_level: int = level) -> int:
@@ -438,9 +453,11 @@ func get_path_last_pos() -> Vector2i:
 func get_stat_table(stat: Stats) -> Array[String]:
 	var table_items: Dictionary = {
 		"Class Initial": str(roundi(unit_class.get_stat(stat, 1))),
-		"Class Final": str(unit_class.get_stat(stat, MAX_LEVEL)),
 		"Personal Value": str(_get_personal_value(stat)),
+		"Unboosted Value": str(get_raw_stat(stat)),
+		"Class Final": str(unit_class.get_stat(stat, MAX_LEVEL)),
 		"Effort Value": str(_get_effort_value(stat)),
+		"Modifier": _get_modifier(stat),
 	}
 	return Utilities.dict_to_table(table_items)
 
@@ -502,7 +519,7 @@ func can_rescue(unit: Unit) -> bool:
 
 ## Causes unit to wait.
 func wait() -> void:
-	_current_movement = get_movement()
+	_reset_movement()
 	if DebugConfig.UNIT_WAIT.value:
 		selectable = false
 		waiting = true
@@ -523,7 +540,7 @@ func deselect() -> void:
 
 ## Un-waits unit.
 func awaken() -> void:
-	_current_movement = get_movement()
+	_reset_movement()
 	selectable = true
 	waiting = false
 	_update_palette()
@@ -756,6 +773,7 @@ func is_friend(other_unit: Unit) -> bool:
 	return faction.is_friend(other_unit.faction)
 
 
+## Equips a weapon
 func equip_weapon(weapon: Weapon) -> void:
 	if weapon in items:
 		items.erase(weapon)
@@ -765,6 +783,7 @@ func equip_weapon(weapon: Weapon) -> void:
 		push_error(UNFORMATTED_ERROR % [weapon.resource_name, display_name])
 
 
+## Drops an item
 func drop(item: Item) -> void:
 	items.erase(item)
 	reset_tile_cache()
@@ -785,10 +804,12 @@ func can_follow_up(opponent: Unit) -> bool:
 	return get_skills().filter(is_follow_up).any(follow_up_check)
 
 
+## Gets the unit's authority
 func get_authority() -> int:
 	return personal_authority + unit_class.get_authority()
 
 
+## Gets the true attack when attacking an enemy
 func get_true_attack(enemy: Unit) -> float:
 	if get_weapon():
 		return (
@@ -988,3 +1009,25 @@ func _get_movement_speed() -> float:
 		_:
 			push_error(Options.GAME_SPEED.get_error_message())
 			return DEFAULT_SPEED
+
+
+func _reset_movement() -> void:
+	_current_movement = get_movement()
+
+
+
+func _get_modifier(stat: Stats) -> String:
+	if stat == Stats.SPEED and get_speed() != get_attack_speed():
+		match sign(get_stat_boost(stat)) as int:
+			-1:
+				return "-({bonus} + {weight})".format(
+					{"bonus": -get_stat_boost(stat), "weight": get_speed() - get_attack_speed()}
+				)
+			0:
+				return str(get_attack_speed() - get_speed())
+			_:
+				return "{bonus} - {weight}".format(
+					{"bonus": get_stat_boost(stat), "weight": get_speed() - get_attack_speed()}
+				)
+	else:
+		return str(get_stat_boost(stat))
