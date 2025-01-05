@@ -5,13 +5,7 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Pallette the status screen for each unit
-* Rename Combat Display to Combat Panel and revamp the scene tree to be less hacky
-	* Expand the center labels
-* Fix bug with combat display menu
 * Clean up debug map borders
-* Have combat panel display green damage if unit can one-round
-* Show hp preview on combat panel
 * Have movement ranges display even for waited units
 * Change authority to +5 * (allied authority - enemy authority) hit and
 +1 * authority stars damage dealt and -1 * authority stars damage taken if within authority giver
@@ -25,8 +19,15 @@ Before you commit
 * Add universal actionable swap
 * Add shove
 * Remove countering from ranges >= 3
+* Pallette the status screen for each unit
 
 # Major
+* Renovate Combat Panel:
+	* Fix bug with item menu
+	* Revamp the scene tree to be less hacky
+	* Make Engage-style
+	* Expand the center labels
+	* Show hp preview on combat panel
 * Implement Engage-style combat preview
 * Renovate debug menu
 	* Split into debug options and the others.

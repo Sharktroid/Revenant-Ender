@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dy85eew67wq2x"
-path="res://.godot/imported/descriptor_panel.png-11893ea8b155577dd0d65fd00c4a0d21.ctex"
+uid="uid://bgmuk7i8ltxac"
+path="res://.godot/imported/double.png-a1d01bafb06890716804f3307e1a051e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/combat_info_display/descriptor_panel.png"
-dest_files=["res://.godot/imported/descriptor_panel.png-11893ea8b155577dd0d65fd00c4a0d21.ctex"]
+source_file="res://ui/combat_panel/double.png"
+dest_files=["res://.godot/imported/double.png-a1d01bafb06890716804f3307e1a051e.ctex"]
 
 [params]
 

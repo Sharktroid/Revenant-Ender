@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c8787mfg6cymr"
-path="res://.godot/imported/number_panel.png-26407cc227a89a9c523489a55996434e.ctex"
+path="res://.godot/imported/number_panel.png-9f1f3db0bbae93654964509d806cca1c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/combat_info_display/number_panel.png"
-dest_files=["res://.godot/imported/number_panel.png-26407cc227a89a9c523489a55996434e.ctex"]
+source_file="res://ui/combat_panel/number_panel.png"
+dest_files=["res://.godot/imported/number_panel.png-9f1f3db0bbae93654964509d806cca1c.ctex"]
 
 [params]
 

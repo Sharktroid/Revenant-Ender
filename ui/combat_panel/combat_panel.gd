@@ -26,7 +26,7 @@ const _RED_COLORS: Array[Color] = [
 	Color("9C4231"),
 	Color("843129"),
 ]
-const _COMBAT_DISPLAY_SUBMENU = preload("res://ui/combat_info_display/combat_display_submenu.gd")
+const _COMBAT_DISPLAY_SUBMENU = preload("res://ui/combat_panel/combat_panel_submenu.gd")
 
 ## The unit being displayed on the bottom.
 var bottom_unit: Unit:
@@ -91,7 +91,7 @@ func _exit_tree() -> void:
 ## Creates a new instance.
 static func instantiate(top: Unit, bottom: Unit = null, focused: bool = false) -> CombatInfoDisplay:
 	const PACKED_SCENE: PackedScene = preload(
-		"res://ui/combat_info_display/combat_info_display.tscn"
+		"res://ui/combat_panel/combat_panel.tscn"
 	)
 	var scene := PACKED_SCENE.instantiate() as CombatInfoDisplay
 	scene._top_unit = top

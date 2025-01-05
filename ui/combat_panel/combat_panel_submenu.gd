@@ -4,7 +4,7 @@ extends MapMenu
 ## Emits the selected weapon when the selected weapon is changed.
 signal weapon_selected(weapon: Weapon)
 
-const _ITEM_MENU_ITEM = preload("res://ui/combat_info_display/combat_display_menu_item.gd")
+const _ITEM_MENU_ITEM = preload("res://ui/combat_panel/combat_panel_menu_item.gd")
 
 ## The weapons that are being displayed.
 var weapons: Array[Weapon]:
