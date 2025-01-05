@@ -1,19 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://bv0fufaguhv7n"]
+[gd_scene load_steps=3 format=3 uid="uid://bv0fufaguhv7n"]
 
 [ext_resource type="Script" path="res://ui/map_ui/status_screen/item_screen/item_screen.gd" id="1_qkrfo"]
 [ext_resource type="PackedScene" uid="uid://xr2l7ndlhq6x" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/weapon_rank_label.tscn" id="2_wxaj3"]
-[ext_resource type="Texture2D" uid="uid://b5yi44nfrhqt3" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/sword_icon.png" id="3_wklau"]
-[ext_resource type="Texture2D" uid="uid://x4vbvdne8ql5" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/knife_icon.png" id="4_ih0af"]
-[ext_resource type="Texture2D" uid="uid://323apbta8gi8" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/holy_icon.png" id="4_x7had"]
-[ext_resource type="Texture2D" uid="uid://dmwidm8vawtj0" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/anima_icon.png" id="5_f51kn"]
-[ext_resource type="Texture2D" uid="uid://cj120y6ghdebf" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/crimson_staff_icon.png" id="7_eia1s"]
-[ext_resource type="Texture2D" uid="uid://dnglfq7o6xh4q" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/spear_icon.png" id="8_qs8wo"]
-[ext_resource type="Texture2D" uid="uid://cgosroxi1bkqc" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/bow_icon.png" id="9_eltdm"]
-[ext_resource type="Texture2D" uid="uid://dgqo0p34nwah" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/cobalt_staff_icon.png" id="12_lufwk"]
-[ext_resource type="Texture2D" uid="uid://dmad12hwb12ng" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/axe_icon.png" id="13_2vcxs"]
-[ext_resource type="Texture2D" uid="uid://b6t4t5vqwwq03" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/shield_icon.png" id="13_rs43q"]
-[ext_resource type="Texture2D" uid="uid://dvhj25tofwef" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/eldritch_icon.png" id="15_p5osc"]
-[ext_resource type="Texture2D" uid="uid://cbim7d0v5s20i" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/siege_icon.png" id="17_2eyif"]
 
 [node name="Items" type="ReferenceRect"]
 anchors_preset = 15
@@ -58,78 +46,77 @@ columns = 2
 layout_mode = 2
 focus_neighbor_right = NodePath("../HolyRank")
 focus_neighbor_bottom = NodePath("../SpearRank")
-icon = ExtResource("3_wklau")
 
 [node name="HolyRank" parent="WeaponRanks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
 focus_neighbor_left = NodePath("../SwordRank")
 focus_neighbor_bottom = NodePath("../AnimaRank")
-icon = ExtResource("4_x7had")
+type = 6
 
 [node name="SpearRank" parent="WeaponRanks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
 focus_neighbor_top = NodePath("../SwordRank")
 focus_neighbor_right = NodePath("../AnimaRank")
 focus_neighbor_bottom = NodePath("../AxeRank")
-icon = ExtResource("8_qs8wo")
+type = 1
 
 [node name="AnimaRank" parent="WeaponRanks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
 focus_neighbor_left = NodePath("../SpearRank")
 focus_neighbor_top = NodePath("../HolyRank")
 focus_neighbor_bottom = NodePath("../EldritchRank")
-icon = ExtResource("5_f51kn")
+type = 5
 
 [node name="AxeRank" parent="WeaponRanks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
 focus_neighbor_top = NodePath("../SpearRank")
 focus_neighbor_right = NodePath("../EldritchRank")
 focus_neighbor_bottom = NodePath("../KnifeRank")
-icon = ExtResource("13_2vcxs")
+type = 2
 
 [node name="EldritchRank" parent="WeaponRanks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
 focus_neighbor_left = NodePath("../AxeRank")
 focus_neighbor_top = NodePath("../AnimaRank")
 focus_neighbor_bottom = NodePath("../CrimsonStaffRank")
-icon = ExtResource("15_p5osc")
+type = 7
 
 [node name="KnifeRank" parent="WeaponRanks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
 focus_neighbor_top = NodePath("../AxeRank")
 focus_neighbor_right = NodePath("../CrimsonStaffRank")
 focus_neighbor_bottom = NodePath("../BowRank")
-icon = ExtResource("4_ih0af")
+type = 4
 
 [node name="CrimsonStaffRank" parent="WeaponRanks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
 focus_neighbor_left = NodePath("../KnifeRank")
 focus_neighbor_top = NodePath("../EldritchRank")
 focus_neighbor_bottom = NodePath("../CobaltStaffRank")
-icon = ExtResource("7_eia1s")
+type = 8
 
 [node name="BowRank" parent="WeaponRanks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
 focus_neighbor_top = NodePath("../KnifeRank")
 focus_neighbor_right = NodePath("../CobaltStaffRank")
 focus_neighbor_bottom = NodePath("../ShieldRank")
-icon = ExtResource("9_eltdm")
+type = 3
 
 [node name="CobaltStaffRank" parent="WeaponRanks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
 focus_neighbor_left = NodePath("../BowRank")
 focus_neighbor_top = NodePath("../CrimsonStaffRank")
 focus_neighbor_bottom = NodePath("../SiegeRank")
-icon = ExtResource("12_lufwk")
+type = 9
 
 [node name="ShieldRank" parent="WeaponRanks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
 focus_neighbor_top = NodePath("../BowRank")
 focus_neighbor_right = NodePath("../SiegeRank")
-icon = ExtResource("13_rs43q")
+type = 11
 
 [node name="SiegeRank" parent="WeaponRanks/GridContainer" instance=ExtResource("2_wxaj3")]
 layout_mode = 2
 focus_neighbor_left = NodePath("../ShieldRank")
 focus_neighbor_top = NodePath("../CobaltStaffRank")
-icon = ExtResource("17_2eyif")
+type = 10

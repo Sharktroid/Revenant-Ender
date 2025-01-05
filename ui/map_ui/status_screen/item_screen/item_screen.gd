@@ -41,7 +41,7 @@ func _update() -> void:
 		Utilities.set_neighbor_path("top", index, -1, item_label_nodes)
 		Utilities.set_neighbor_path("bottom", index, 1, item_label_nodes)
 	for type: String in Weapon.Types.keys() as Array[String]:
-		_get_rank_label(type).weapon_rank = observing_unit.weapon_levels.get(Weapon.Types[type], 0)
+		_get_rank_label(type).unit = observing_unit
 
 
 func get_item_labels() -> Array[Node]:

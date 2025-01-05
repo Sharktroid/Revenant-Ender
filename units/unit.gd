@@ -96,7 +96,7 @@ var sprite_animated: bool = true:
 			_animation_player.play(_animation_player.current_animation)
 		else:
 			_animation_player.pause()
-var weapon_levels: Dictionary
+var personal_weapon_levels: Dictionary
 var traveler: Unit:
 	set(value):
 		traveler = value
@@ -187,15 +187,6 @@ func _enter_tree() -> void:
 	_animation_player = $AnimationPlayer as AnimationPlayer
 	_traveler_animation_player = $TravelerIcon/AnimationPlayer as AnimationPlayer
 	level = _base_level
-	for weapon_type: Weapon.Types in (
-		unit_class.get_base_weapon_levels().keys() as Array[Weapon.Types]
-	):
-		if weapon_type not in weapon_levels.keys():
-			weapon_levels[weapon_type] = lerpf(
-				unit_class.get_base_weapon_levels()[weapon_type] as float,
-				unit_class.get_max_weapon_levels()[weapon_type] as float,
-				inverse_lerp(1, unit_class.get_max_level(), level)
-			)
 	texture = unit_class.get_map_sprite()
 	material = material.duplicate() as Material
 	_reset_movement()
@@ -290,6 +281,10 @@ func get_raw_stat(stat: Stats, current_level: int = level) -> int:
 		+ _get_effort_modifier(stat, current_level)
 	)
 	return clampi(roundi(raw_stat), 0, get_stat_cap(stat))
+
+
+func get_base_stat(stat: Stats) -> int:
+	return get_raw_stat(stat, 30)
 
 
 func get_stat_boost(stat: Stats) -> int:
@@ -510,7 +505,7 @@ func get_exp_percent() -> int:
 
 
 func can_use_weapon(weapon: Weapon) -> bool:
-	return weapon.get_rank() <= weapon_levels.get(weapon.get_type(), 0)
+	return weapon.get_rank() <= get_weapon_level(weapon.get_type())
 
 
 func can_rescue(unit: Unit) -> bool:
@@ -817,6 +812,23 @@ func get_true_attack(enemy: Unit) -> float:
 			get_attack() + get_weapon().get_damage_bonus(enemy.get_weapon(), _get_distance(enemy))
 		)
 	return 0
+
+
+func get_weapon_level(type: Weapon.Types) -> int:
+	var unclamped_level: int = (
+		personal_weapon_levels.get(type, 0) as int
+		+ unit_class.get_base_weapon_level(type)
+		+ roundi(Formulas.WEAPON_LEVEL_BONUS.evaluate(self))
+	)
+	return clampi(unclamped_level, 0, unit_class.get_max_weapon_level(type))
+
+
+func set_weapon_level(type: Weapon.Types, new_level: int) -> void:
+	if not personal_weapon_levels.get(type):
+		personal_weapon_levels[type] = 0
+	personal_weapon_levels[type] += (
+		clampi(new_level, 0, unit_class.get_max_weapon_level(type)) - get_weapon_level(type)
+	)
 
 
 func _get_area() -> Area2D:

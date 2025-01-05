@@ -18,6 +18,9 @@ static var CRIT := Formula.new("{weapon_crit} + {dexterity}"):
 static var DODGE := Formula.new("{luck}"):
 	set(value):
 		pass
+static var WEAPON_LEVEL_BONUS := Formula.new("{dexterity} * 2"):
+	set(value):
+		pass
 #gdlint: enable=class-variable-name
 
 

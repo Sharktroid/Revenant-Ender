@@ -3,8 +3,8 @@ extends Unit
 
 
 # Unit-specific variables.
-func _init() -> void:
-	weapon_levels[Weapon.Types.SPEAR] = Weapon.Ranks.S
+func _ready() -> void:
+	set_weapon_level(Weapon.Types.SPEAR, Weapon.Ranks.S)
 	_personal_hit_points = 0
 	_personal_strength = 0
 	_personal_pierce = 0

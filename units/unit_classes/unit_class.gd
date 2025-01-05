@@ -92,12 +92,12 @@ func get_stat(stat: Unit.Stats, level: int) -> float:
 				)
 
 
-func get_base_weapon_levels() -> Dictionary:
-	return _base_weapon_levels
+func get_base_weapon_level(type: Weapon.Types) -> int:
+	return _base_weapon_levels.get(type, 0)
 
 
-func get_max_weapon_levels() -> Dictionary:
-	return _max_weapon_levels
+func get_max_weapon_level(type: Weapon.Types) -> int:
+	return _max_weapon_levels.get(type, 0)
 
 
 func get_max_level() -> int:

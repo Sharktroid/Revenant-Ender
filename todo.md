@@ -5,7 +5,6 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Have weapon rank increases on level up be linked to skill
 * Pallette the status screen for each unit
 * Rename Combat Display to Combat Panel and revamp the scene tree to be less hacky
 	* Expand the center labels
