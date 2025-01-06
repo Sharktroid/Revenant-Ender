@@ -5,7 +5,6 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Clean up debug map borders
 * Have movement ranges display even for waited units
 * Change authority to +5 * (allied authority - enemy authority) hit and
 +1 * authority stars damage dealt and -1 * authority stars damage taken if within authority giver

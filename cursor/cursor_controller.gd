@@ -7,7 +7,9 @@ signal moved
 enum Icons { ATTACK, NONE }
 
 ## Whether the cursor is being displayed.
-var cursor_visible: bool = true
+var cursor_visible: bool = true:
+	get:
+		return cursor_visible and not _offscreen
 ## The position of the cursor relative to the map's origin.
 var map_position := Vector2i():
 	set = _set_map_position
@@ -21,6 +23,7 @@ var screen_position: Vector2i:
 var _active: bool = true
 var _delay: int = 0
 var _repeat: bool = false
+var _offscreen: bool = false
 
 
 func _init() -> void:
@@ -35,6 +38,13 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
+	if GameController.controller_type == GameController.ControllerTypes.MOUSE:
+		_offscreen = not MapController.map.borders.has_point(
+			MapController.map.get_local_mouse_position()
+		)
+		get_area().monitorable = is_active()
+		get_area().monitoring = is_active()
+
 	if is_active():
 		if GameController.controller_type == GameController.ControllerTypes.MOUSE:
 			var destination: Vector2 = MapController.map.get_map_camera().get_destination()
@@ -43,6 +53,7 @@ func _physics_process(_delta: float) -> void:
 					get_viewport().get_mouse_position() + (_corner_offset() as Vector2)
 				)
 		else:
+			_offscreen = false
 			if _delay <= 0 and _repeat:
 				if (
 					Input.is_action_pressed("left")
@@ -118,7 +129,7 @@ func get_area() -> Area2D:
 
 ## Returns true if cursor movement is active.
 func is_active() -> bool:
-	return _active
+	return _active and not _offscreen
 
 
 ## Returns the unit currently underneath the cursor.
@@ -154,8 +165,6 @@ func _set_map_position(new_pos: Vector2i) -> void:
 
 func _set_active(active: bool) -> void:
 	_active = active
-	get_area().monitorable = active
-	get_area().monitoring = active
 
 
 func _corner_offset() -> Vector2i:
