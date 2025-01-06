@@ -453,9 +453,9 @@ func _canter_state_select() -> void:
 
 
 func _select_state_select() -> void:
-	AudioPlayer.play_sound_effect(preload("res://audio/sfx/double_select.ogg"))
 	var hovered_unit: Unit = CursorController.get_hovered_unit()
 	if hovered_unit and hovered_unit.selectable == true:
+		AudioPlayer.play_sound_effect(preload("res://audio/sfx/double_select.ogg"))
 		_selected_unit = hovered_unit
 		state = States.MOVING
 		_selected_unit.set_animation(Unit.Animations.MOVING_LEFT)
