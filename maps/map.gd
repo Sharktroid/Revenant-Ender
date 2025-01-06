@@ -19,10 +19,12 @@ var state: States = States.SELECTING:
 		if state == States.CANTERING:
 			if is_instance_valid(_canter_tiles):
 				_canter_tiles.queue_free()
+			_ghost_unit.queue_free()
 		state = new_state
 		match state:
 			States.SELECTING:
-				_selected_unit.arrived.disconnect(_update_ghost_unit)
+				if _selected_unit.arrived.is_connected(_update_ghost_unit):
+					_selected_unit.arrived.disconnect(_update_ghost_unit)
 			States.CANTERING:
 				var tiles: Array[Vector2i] = _selected_unit.get_movement_tiles()
 				if tiles.size() > 1:
@@ -454,7 +456,7 @@ func _canter_state_select() -> void:
 
 func _select_state_select() -> void:
 	var hovered_unit: Unit = CursorController.get_hovered_unit()
-	if hovered_unit and hovered_unit.selectable == true:
+	if hovered_unit and hovered_unit.selectable and not hovered_unit.waiting:
 		AudioPlayer.play_sound_effect(preload("res://audio/sfx/double_select.ogg"))
 		_selected_unit = hovered_unit
 		state = States.MOVING

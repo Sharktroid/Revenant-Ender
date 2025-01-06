@@ -516,10 +516,10 @@ func can_rescue(unit: Unit) -> bool:
 func wait() -> void:
 	_reset_movement()
 	if DebugConfig.UNIT_WAIT.value:
-		selectable = false
 		waiting = true
 	_get_map().unit_wait(self)
 	_update_palette()
+	deselect()
 
 
 ## Deselects unit.
@@ -897,11 +897,17 @@ func _on_area2d_area_entered(area: Area2D) -> void:
 			can_be_selected = not CursorController.get_hovered_unit().selected
 		if (
 			can_be_selected
-			and not (selected or waiting or dead)
+			and not (selected or dead)
 			and _get_map().state == Map.States.SELECTING
 			and CursorController.is_active()
 		):
 			display_movement_tiles()
+
+
+func _on_area2d_area_exited(area: Area2D) -> void:
+	# When cursor exits unit's area
+	if area == CursorController.get_area() and not selected:
+		hide_movement_tiles()
 
 
 func _get_personal_modifier(stat: Stats, current_level: int) -> float:
@@ -938,12 +944,6 @@ func _get_value_modifier(
 			max_value
 		)
 		return stat_modifier * value_weight
-
-
-func _on_area2d_area_exited(area: Area2D) -> void:
-	# When cursor exits unit's area
-	if area == CursorController.get_area() and not selected:
-		hide_movement_tiles()
 
 
 func _get_hair_palette() -> Array[Color]:

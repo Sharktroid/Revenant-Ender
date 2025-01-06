@@ -5,7 +5,6 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Have movement ranges display even for waited units
 * Change authority to +5 * (allied authority - enemy authority) hit and
 +1 * authority stars damage dealt and -1 * authority stars damage taken if within authority giver
 * Rewrite "_on_area2d_area_entered" in Unit
@@ -13,7 +12,6 @@ Before you commit
 * Add option for having the equipped weapon change if you use the attack preview with it.
 * Fix cursor not scrolling when mouse is still
 * Make static var tween to control unit map idle animation
-* Fix hover tiles not showing up after canter.
 * Add option to make cursor return to unit upon deselecting.
 * Add universal actionable swap
 * Add shove
