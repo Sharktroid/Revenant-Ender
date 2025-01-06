@@ -21,7 +21,6 @@ func _update_type() -> void:
 		"res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/%s_icon.png"
 	)
 	var type_name: String = (Weapon.Types.find_key(type) as String).to_lower()
-	print_debug(type_name)
 	($Icon as TextureRect).texture = load(UNFORMATTED_PATH % type_name)
 
 

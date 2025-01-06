@@ -86,7 +86,7 @@ focus_neighbor_right = NodePath("../../Values/IntelligenceBar")
 focus_neighbor_bottom = NodePath("../../../../../BottomPanels/MiscStats/HBoxContainer/MiscLabels/DexterityHelp")
 script = ExtResource("2_6g5y4")
 help_description = "Increases the damage that tomes and intelligenceal weapons deal by +1.
-It also raises the accuracy of crimson staves by +10."
+It also raises the duration of status staves by one turn per 5 points."
 
 [node name="IntelligenceLabel" type="Label" parent="TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels/IntelligenceHelp"]
 layout_mode = 2
@@ -182,7 +182,7 @@ focus_neighbor_right = NodePath("../../Values/ResistanceBar")
 focus_neighbor_bottom = NodePath("../../../../../BottomPanels/Other/HBoxContainer/OtherLabels/AuthorityHelp")
 script = ExtResource("2_6g5y4")
 help_description = "Reduces the damage tomes and intelligenceal weapons deal.
-It also lowers the accuracy of crimson staves by -10."
+It also reduces the duration of status staves by one turn per 5 points."
 
 [node name="ResistanceLabel" type="Label" parent="TopPanels/DefensiveStats/HBoxContainer/DefensiveLabels/ResistanceHelp"]
 layout_mode = 2
@@ -241,13 +241,14 @@ size_flags_horizontal = 0
 theme_override_constants/separation = 0
 
 [node name="DexterityHelp" type="BoxContainer" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels" groups=["left_nodes", "values"]]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_top = NodePath("../../../../../TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels/IntelligenceHelp")
 focus_neighbor_right = NodePath("../../Values/DexterityBar")
 focus_neighbor_bottom = NodePath("../SpeedHelp")
 script = ExtResource("2_6g5y4")
-help_description = "Increases hit rate by +2, and critical rate by +1."
+help_description = "Increases hit rate by +{dexterity_hit_multiplier} and critical rate by +1, and increases every weapon's level by +{dexterity_weapon_level_multiplier}."
 
 [node name="DexterityLabel" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/DexterityHelp"]
 layout_mode = 2
@@ -258,6 +259,7 @@ text = "Dexterity
 vertical_alignment = 1
 
 [node name="SpeedHelp" type="BoxContainer" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels" groups=["left_nodes", "values"]]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_left = NodePath(".")
@@ -265,7 +267,7 @@ focus_neighbor_top = NodePath("../DexterityHelp")
 focus_neighbor_right = NodePath("../../Values/SpeedBar")
 focus_neighbor_bottom = NodePath("../LuckHelp")
 script = ExtResource("2_6g5y4")
-help_description = "Increases avoid rate by -2. Base value; can be reduced by heavy weapons."
+help_description = "Increases avoid rate by +{speed_luck_avoid_multiplier}. Can be reduced by heavy weapons."
 
 [node name="SpeedLabel" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/SpeedHelp"]
 layout_mode = 2
@@ -275,13 +277,14 @@ text = "Speed"
 vertical_alignment = 1
 
 [node name="LuckHelp" type="BoxContainer" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels" groups=["left_nodes", "values"]]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_top = NodePath("../SpeedHelp")
 focus_neighbor_right = NodePath("../../Values/LuckBar")
 focus_neighbor_bottom = NodePath("../BuildHelp")
 script = ExtResource("2_6g5y4")
-help_description = "Increases hit rate, avoid rate, and dodge by +1 each."
+help_description = "Increases hit rate and dodge by +1 and avoid by +{speed_luck_avoid_multiplier}."
 
 [node name="LuckHelp" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/LuckHelp" groups=["values"]]
 layout_mode = 2

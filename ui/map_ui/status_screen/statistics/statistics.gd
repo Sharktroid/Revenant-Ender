@@ -9,6 +9,17 @@ var observing_unit: Unit:
 func _ready() -> void:
 	visibility_changed.connect(_update)
 
+	var dexterity_help := %DexterityHelp as HelpContainer
+	var replacements: Dictionary = {
+		"dexterity_hit_multiplier": Formulas.DEXTERITY_HIT_MULTIPLIER,
+		"dexterity_weapon_level_multiplier": Formulas.DEXTERITY_WEAPON_LEVEL_MULTIPLIER
+	}
+	dexterity_help.help_description = dexterity_help.help_description.format(replacements)
+	for help_container: HelpContainer in [%SpeedHelp, %LuckHelp]:
+		help_container.help_description = help_container.help_description.format(
+			{"speed_luck_avoid_multiplier": Formulas.SPEED_LUCK_AVOID_MULTIPLIER}
+		)
+
 
 func get_left_controls() -> Array[Node]:
 	return get_tree().get_nodes_in_group("left_nodes")
@@ -72,7 +83,9 @@ func _update() -> void:
 				_:
 					return "{build}"
 		var aid_description: String = get_unformatted_aid_description.call()
-		format_dictionary = {"build": observing_unit.get_build(), "aid_modifier": absi(aid_modifier)}
+		format_dictionary = {
+			"build": observing_unit.get_build(), "aid_modifier": absi(aid_modifier)
+		}
 		(%AidNumber as HelpContainer).help_description = aid_description.format(format_dictionary)
 
 

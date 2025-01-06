@@ -8,7 +8,6 @@ Before you commit
 * Change authority to +5 * (allied authority - enemy authority) hit and
 +1 * authority stars damage dealt and -1 * authority stars damage taken if within authority giver
 * Rewrite "_on_area2d_area_entered" in Unit
-* Make 1 skill and luck +4 hit and 1 speed and luck +4 avoid.
 * Add option for having the equipped weapon change if you use the attack preview with it.
 * Fix cursor not scrolling when mouse is still
 * Make static var tween to control unit map idle animation
@@ -42,6 +41,7 @@ Before you commit
 * Implement weapon rank bonuses
 * Investigate particles.
 * Implement terrain stars and a terrain status menu.
+	* Does not affect tomes
 * Make movement and related tiles behave more like in AW:DoR
 * Add combat preview even if attacking is not possible
 * Add rescue when clicking on an ally
@@ -53,12 +53,14 @@ Before you commit
 * Make attack Animations skippable
 * Dual Wielding
 * Shields
-	* Can parry via combat art if shield weight > opponent's weapon weight
+	* Can parry via combat art if shield weight > opponent's weapon weight (costs 3 durability)
+		* Cannot parry tomes
 * Implement durability
 * Implement authority
 * Implement AI
 * Implement activated skills
 	* Add Accost
+	* Don't work at range >= 3
 * Implement staves
 	* Duration = (staff might) + (mag - target res)/4
 	* Automatically hover over a unit if they are the only one that needs healing
