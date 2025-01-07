@@ -35,4 +35,3 @@ func set_description(description_text: String) -> void:
 		if size.x > Utilities.get_screen_size().x:
 			description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 			size.x = Utilities.get_screen_size().x
-	reset_size()

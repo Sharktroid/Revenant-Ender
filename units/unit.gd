@@ -45,22 +45,24 @@ const MAX_RATE: int = 95
 const PV_MAX_MODIFIER: float = 5
 ## The added amount when hit points are the unit class max and effort values are maxed
 const EV_MAX_MODIFIER: float = 5
+## The bonus to hit rates per extra authority star over enemy's faction.
+const AUTHORITY_HIT_BONUS: int = 5
 
-## The added amount when the stat is 0 and personal values are maxed
+# The added amount when the stat is 0 and personal values are maxed
 const _PV_MIN_MODIFIER: float = 2.5
-## The added amount when hit points are 0 and personal values are maxed
+# The added amount when hit points are 0 and personal values are maxed
 const _PV_MIN_HP_MODIFIER: float = 5
-## The added amount when hit points are the unit class max and personal values are maxed
+# The added amount when hit points are the unit class max and personal values are maxed
 const _PV_MAX_HP_MODIFIER: float = 10
-## The added amount when the stat is 0 and effort values are maxed
+# The added amount when the stat is 0 and effort values are maxed
 const _EV_MIN_MODIFIER: float = 2.5
-## The added amount when the stat is 0 and effort values are maxed
+# The added amount when the stat is 0 and effort values are maxed
 const _EV_MIN_HP_MODIFIER: float = 5
-## The added amount when hit points are the unit class max and effort values are maxed
+# The added amount when hit points are the unit class max and effort values are maxed
 const _EV_MAX_HP_MODIFIER: float = 10
-## The maximum value that a personal value can be
+# The maximum value that a personal value can be
 const _PV_LIMIT: int = 15
-## The maximum value that an EV can be
+# The maximum value that an EV can be
 const _INDIVIDUAL_EV_LIMIT: int = 250
 
 @export var display_name: String = "[Empty]"
@@ -216,6 +218,7 @@ func _process(_delta: float) -> void:
 		frame = 1 if anim_frame == 3 else anim_frame
 
 
+## Gets the current weapon
 func get_weapon() -> Weapon:
 	for item: Item in items:
 		if item is Weapon and can_use_weapon(item as Weapon):
@@ -223,6 +226,7 @@ func get_weapon() -> Weapon:
 	return null
 
 
+## Gets the quantity of the unit's current attack stat
 func get_current_attack() -> int:
 	if get_weapon():
 		match get_weapon().get_damage_type():
@@ -240,14 +244,17 @@ func get_attack() -> float:
 	return Formulas.ATTACK.evaluate(self)
 
 
+## Gets the damage done with a normal attack
 func get_damage(defender: Unit) -> float:
-	return maxf(0, get_true_attack(defender) - defender.get_current_defense(get_weapon()))
+	return maxf(0, get_true_attack(defender) - defender.get_current_defense(self))
 
 
+## Gets the damage done with a crit
 func get_crit_damage(defender: Unit) -> float:
-	return maxf(0, get_true_attack(defender) * 2 - defender.get_current_defense(get_weapon()))
+	return maxf(0, get_true_attack(defender) * 2 - defender.get_current_defense(self))
 
 
+## Sets the unit's map animation
 func set_animation(animation: Animations) -> void:
 	_animation_player.play("RESET")
 	_animation_player.advance(0)
@@ -270,10 +277,12 @@ func set_animation(animation: Animations) -> void:
 		_animation_player.pause()
 
 
+## Gets the unit's stat
 func get_stat(stat: Stats, current_level: int = level) -> int:
 	return get_raw_stat(stat, current_level) + get_stat_boost(stat)
 
 
+## Gets the unboosted stat, determined by class base and personal and effort values
 func get_raw_stat(stat: Stats, current_level: int = level) -> int:
 	var raw_stat: float = (
 		unit_class.get_stat(stat, current_level)
@@ -287,6 +296,7 @@ func get_base_stat(stat: Stats) -> int:
 	return get_raw_stat(stat, 30)
 
 
+## Gets the boost to a stat that is applied on top of the unit's raw stat
 func get_stat_boost(stat: Stats) -> int:
 	var total_boost: int = 0
 	match stat:
@@ -303,54 +313,67 @@ func get_stat_boost(stat: Stats) -> int:
 	return total_boost
 
 
+## Gets the unit's hit points
 func get_hit_points(current_level: int = level) -> int:
 	return get_stat(Stats.HIT_POINTS, current_level)
 
 
+## Gets the unit's strength
 func get_strength(current_level: int = level) -> int:
 	return get_stat(Stats.STRENGTH, current_level)
 
 
+## Gets the unit's pierce
 func get_pierce(current_level: int = level) -> int:
 	return get_stat(Stats.PIERCE, current_level)
 
 
+## Gets the unit's intelligence
 func get_intelligence(current_level: int = level) -> int:
 	return get_stat(Stats.INTELLIGENCE, current_level)
 
 
+## Gets the unit's dexterity
 func get_dexterity(current_level: int = level) -> int:
 	return get_stat(Stats.DEXTERITY, current_level)
 
 
+## Gets the unit's speed
 func get_speed(current_level: int = level) -> int:
 	return get_stat(Stats.SPEED, current_level)
 
 
+## Gets the unit's luck
 func get_luck(current_level: int = level) -> int:
 	return get_stat(Stats.LUCK, current_level)
 
 
+## Gets the unit's defense
 func get_defense(current_level: int = level) -> int:
 	return get_stat(Stats.DEFENSE, current_level)
 
 
+## Gets the unit's armor
 func get_armor(current_level: int = level) -> int:
 	return get_stat(Stats.ARMOR, current_level)
 
 
+## Gets the unit's resistance
 func get_resistance(current_level: int = level) -> int:
 	return get_stat(Stats.RESISTANCE, current_level)
 
 
+## Gets the unit's build
 func get_build(current_level: int = level) -> int:
 	return get_stat(Stats.BUILD, current_level)
 
 
+## Gets the unit's movement
 func get_movement(current_level: int = level) -> int:
 	return get_stat(Stats.MOVEMENT, current_level)
 
 
+## Gets the maximum amount of the stat possible
 func get_stat_cap(stat: Stats) -> int:
 	var max_stat: float = (
 		unit_class.get_stat(stat, MAX_LEVEL) + _get_personal_modifier(stat, MAX_LEVEL)
@@ -363,23 +386,27 @@ func get_stat_cap(stat: Stats) -> int:
 		return roundi(max_stat + EV_MAX_MODIFIER)
 
 
+## Gets the speed after factoring in weight
 func get_attack_speed() -> float:
 	return Formulas.ATTACK_SPEED.evaluate(self)
 
 
-func get_current_defense(weapon: Weapon) -> int:
-	match weapon.get_damage_type():
+## Gets the unit's defense type against a weapon
+func get_current_defense(enemy: Unit) -> int:
+	var authority_bonus: int = maxi(faction.get_authority() - enemy.faction.get_authority(), 0)
+	match enemy.get_weapon().get_damage_type():
 		Weapon.DamageTypes.PHYSICAL:
-			return get_defense()
+			return get_defense() + authority_bonus
 		Weapon.DamageTypes.RANGED:
-			return get_armor()
+			return get_armor() + authority_bonus
 		Weapon.DamageTypes.MAGICAL:
-			return get_resistance()
+			return get_resistance() + authority_bonus
 		var damage_type:
 			push_error("Damage Type %s Invalid" % damage_type)
 			return 0
 
 
+## Gets the unit's portrait
 func get_portrait() -> Portrait:
 	if _portrait:
 		return _portrait.duplicate() as Portrait
@@ -392,10 +419,12 @@ func get_portrait() -> Portrait:
 		return portrait
 
 
+## Gets the positional offset for the portrait
 func get_portrait_offset() -> Vector2i:
 	return Vector2i(-8, 0) if _portrait else Vector2i()
 
 
+## Gets the aid for rescuing
 func get_aid() -> int:
 	var aid_mod: int = unit_class.get_aid_modifier()
 	if aid_mod <= 0:
@@ -404,35 +433,48 @@ func get_aid() -> int:
 		return aid_mod - get_build()
 
 
+## Gets the unit's weight for rescuing purposes
 func get_weight() -> int:
 	return get_build() + unit_class.get_weight_modifier()
 
 
+## Gets the base hit rate
 func get_hit() -> float:
 	return Formulas.HIT.evaluate(self)
 
 
+## Gets the avoid, which reduces the enemy's hit
 func get_avoid() -> float:
 	return Formulas.AVOID.evaluate(self)
 
 
+## Gets the hit rate against an enemy
 func get_hit_rate(enemy: Unit) -> int:
 	var hit_bonus: int = get_weapon().get_hit_bonus(enemy.get_weapon(), _get_distance(enemy))
-	return _adjust_rate(roundi(clampf(get_hit() - enemy.get_avoid() + hit_bonus, 0, 100)))
+	var authority_bonus: int = (
+		AUTHORITY_HIT_BONUS * maxi(faction.get_authority() - enemy.faction.get_authority(), 0)
+	)
+	return _adjust_rate(
+		roundi(clampf(get_hit() - enemy.get_avoid() + hit_bonus + authority_bonus, 0, 100))
+	)
 
 
+## Gets the base crit rate
 func get_crit() -> float:
 	return Formulas.CRIT.evaluate(self)
 
 
+## Gets the dodge rate, or what reduces the enemy's crit rate
 func get_dodge() -> float:
 	return Formulas.DODGE.evaluate(self)
 
 
+## Gets the crit rate against an enemy
 func get_crit_rate(enemy: Unit) -> int:
 	return _adjust_rate(roundi(clampf(get_crit() - enemy.get_dodge(), 0, 100)))
 
 
+## Gets the last position from the unit's path that a unit does not occupy
 func get_path_last_pos() -> Vector2i:
 	var path: Array[Vector2i] = get_unit_path().duplicate()
 	var unit_positions: Array[Vector2i] = []
@@ -445,6 +487,7 @@ func get_path_last_pos() -> Vector2i:
 	return valid_path.back() if not valid_path.is_empty() else position
 
 
+## Gets a table displaying the details of the unit's stats
 func get_stat_table(stat: Stats) -> Array[String]:
 	var table_items: Dictionary = {
 		"Class Initial": str(roundi(unit_class.get_stat(stat, 1))),
@@ -484,30 +527,37 @@ func get_skills() -> Array[Skill]:
 	return _personal_skills + unit_class.get_skills()
 
 
+## Gets the amount of experience gained after reaching the unit's level
 func get_current_exp() -> float:
 	return total_exp - Unit.get_exp_from_level(level)
 
 
+## Gets the total experience to get to the level
 static func get_exp_from_level(current_level: float) -> float:
 	return BASE_EXP * (EXP_MULTIPLIER ** (current_level - 1) - 1) / (EXP_MULTIPLIER - 1)
 
 
+## Gets the level that the amount of experience would have
 static func get_level_from_exp(xp: float) -> float:
 	return log(float(xp) * (EXP_MULTIPLIER - 1) / BASE_EXP + 1) / log(EXP_MULTIPLIER) + 1
 
 
+## Gets the experience to get to a level from the previous level
 static func get_exp_to_level(current_level: float) -> float:
 	return get_exp_from_level(current_level) - get_exp_from_level(current_level - 1)
 
 
+## Gets the percentage of experience to the next level
 func get_exp_percent() -> int:
 	return floori((roundf(get_current_exp()) / Unit.get_exp_to_level(level + 1)) * 100)
 
 
+## Returns whether the unit can use the weapon
 func can_use_weapon(weapon: Weapon) -> bool:
 	return weapon.get_rank() <= get_weapon_level(weapon.get_type())
 
 
+## Returns whether the unit can rescue the other unit
 func can_rescue(unit: Unit) -> bool:
 	return unit.get_weight() < get_aid() and is_friend(unit) and not traveler
 
@@ -541,8 +591,8 @@ func awaken() -> void:
 	_update_palette()
 
 
+## Gets the movement tiles of the unit
 func get_movement_tiles() -> Array[Vector2i]:
-	# Gets the movement tiles of the unit
 	if _movement_tiles.is_empty():
 		var start: Vector2i = position
 		const RANGE_MULTIPLIER: float = 4.0 / 3
@@ -572,14 +622,16 @@ func get_movement_tiles() -> Array[Vector2i]:
 	return _movement_tiles.duplicate()
 
 
+## Gets the movement tiles the unit can perform an action on.
 func get_actionable_movement_tiles() -> Array[Vector2i]:
 	var movement_tiles: Array[Vector2i] = get_movement_tiles()
-	for unit: Unit in _get_map().get_faction_units(faction):
+	for unit: Unit in faction.get_units():
 		if unit != self and unit.visible:
 			movement_tiles.erase(unit.position as Vector2i)
 	return movement_tiles
 
 
+## Gets all the tiles the unit can attack.
 func get_all_attack_tiles() -> Array[Vector2i]:
 	if _attack_tiles.is_empty() and get_weapon():
 		var basis_movement_tiles: Array[Vector2i] = get_actionable_movement_tiles()
@@ -759,12 +811,13 @@ func show_path() -> void:
 		_get_map().get_child(0).add_child(_arrows_container)
 
 
+## Removes the unit's path
 func remove_path() -> void:
-	# Removes the unit's path
 	if is_instance_valid(_arrows_container):
 		_arrows_container.queue_free()
 
 
+## Returns true if the other unit's faction is friends with the unit's faction
 func is_friend(other_unit: Unit) -> bool:
 	return faction.is_friend(other_unit.faction)
 
@@ -787,6 +840,7 @@ func drop(item: Item) -> void:
 		display_movement_tiles()
 
 
+## Resets the cached tiles
 func reset_tile_cache() -> void:
 	_movement_tiles = []
 	_attack_tiles = []
@@ -809,11 +863,14 @@ func get_authority() -> int:
 func get_true_attack(enemy: Unit) -> float:
 	if get_weapon():
 		return (
-			get_attack() + get_weapon().get_damage_bonus(enemy.get_weapon(), _get_distance(enemy))
+			get_attack()
+			+ get_weapon().get_damage_bonus(enemy.get_weapon(), _get_distance(enemy))
+			+ maxi(faction.get_authority() - enemy.faction.get_authority(), 0)
 		)
 	return 0
 
 
+## Gets the weapon level for a weapon type
 func get_weapon_level(type: Weapon.Types) -> int:
 	var unclamped_level: int = (
 		personal_weapon_levels.get(type, 0) as int
@@ -823,6 +880,7 @@ func get_weapon_level(type: Weapon.Types) -> int:
 	return clampi(unclamped_level, 0, unit_class.get_max_weapon_level(type))
 
 
+## Sets the weapon level of a type
 func set_weapon_level(type: Weapon.Types, new_level: int) -> void:
 	if not personal_weapon_levels.get(type):
 		personal_weapon_levels[type] = 0

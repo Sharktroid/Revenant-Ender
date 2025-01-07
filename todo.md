@@ -5,8 +5,6 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Change authority to +5 * (allied authority - enemy authority) hit and
-+1 * authority stars damage dealt and -1 * authority stars damage taken if within authority giver
 * Rewrite "_on_area2d_area_entered" in Unit
 * Add option for having the equipped weapon change if you use the attack preview with it.
 * Fix cursor not scrolling when mouse is still

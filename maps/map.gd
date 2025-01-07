@@ -157,11 +157,6 @@ func get_current_faction() -> Faction:
 	return all_factions[_current_faction_index]
 
 
-## Gets the units that belong to the provided faction.
-func get_faction_units(faction: Faction) -> Array[Unit]:
-	return get_units().filter(func(unit: Unit) -> bool: return unit.faction == faction)
-
-
 ## Gets the next unit in the unit list relative to the given unit.
 func get_next_unit(unit: Unit) -> Unit:
 	return _get_unit_relative(unit, 1)
@@ -309,16 +304,6 @@ func get_map_camera() -> MapCamera:
 	return (get_node(path) as MapCamera) if has_node(path) else MapCamera.new()
 
 
-## Returns true if the faction is friendly to a human.
-func is_faction_friendly_to_human(faction: Faction) -> bool:
-	var is_human_friend: Callable = func(human_faction: Faction) -> bool:
-		return (
-			human_faction.player_type == Faction.PlayerTypes.HUMAN
-			and faction.is_friend(human_faction)
-		)
-	return all_factions.any(is_human_friend)
-
-
 # Updates AStarGrid2D
 func _update_a_star_grid_id(
 	a_star_grid: AStarGrid2D, movement_type: UnitClass.MovementTypes, id: Vector2i
@@ -381,7 +366,7 @@ func _parse_movement_cost() -> void:
 
 
 func _get_unit_relative(unit: Unit, rel_index: int) -> Unit:
-	var faction_units: Array[Unit] = get_faction_units(unit.faction)
+	var faction_units: Array[Unit] = unit.faction.get_units()
 	return faction_units[(faction_units.find(unit) + rel_index) % faction_units.size()]
 
 
@@ -586,7 +571,7 @@ func _update_map_borders() -> void:
 
 # Gets the units of the current faction
 func _get_current_units() -> Array[Unit]:
-	return get_faction_units(get_current_faction())
+	return get_current_faction().get_units()
 
 
 func _deselect() -> void:

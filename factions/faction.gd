@@ -51,3 +51,23 @@ func set_diplomacy_stance(faction: Faction, new_stance: DiplomacyStances) -> voi
 ## Returns true if the other faction is friendly (is self or ally).
 func is_friend(other_faction: Faction) -> bool:
 	return get_diplomacy_stance(other_faction) in [DiplomacyStances.SELF, DiplomacyStances.ALLY]
+
+
+## Gets the units that belong to the faction.
+func get_units() -> Array[Unit]:
+	return MapController.map.get_units().filter(
+		func(unit: Unit) -> bool: return unit.faction == self
+	)
+
+
+## Returns true if the faction is friendly to a human.
+func is_friendly_to_human() -> bool:
+	var is_human_friend: Callable = func(human_faction: Faction) -> bool:
+		return human_faction.player_type == Faction.PlayerTypes.HUMAN and is_friend(human_faction)
+	return MapController.map.all_factions.any(is_human_friend)
+
+
+func get_authority() -> int:
+	return get_units().reduce(
+		func(accumulator: int, unit: Unit) -> int: return accumulator + unit.get_authority(), 0
+	)

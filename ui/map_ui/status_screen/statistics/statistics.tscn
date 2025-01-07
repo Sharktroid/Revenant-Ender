@@ -384,13 +384,15 @@ size_flags_horizontal = 0
 theme_override_constants/separation = 0
 
 [node name="AuthorityHelp" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/OtherLabels" groups=["values"]]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_left = NodePath("../../../../MiscStats/HBoxContainer/Values/DexterityBar")
 focus_neighbor_top = NodePath("../../../../../TopPanels/DefensiveStats/HBoxContainer/DefensiveLabels/ResistanceHelp")
 focus_neighbor_bottom = NodePath("../WeightHelp")
 script = ExtResource("2_6g5y4")
-help_description = "Grants +3 hit and avoid."
+help_description = "Grants +5 hit, +1 damage dealt, and -1 damage taken
+for each cumulative authority star over the opponent's team."
 
 [node name="AuthorityLabel" type="Label" parent="BottomPanels/Other/HBoxContainer/OtherLabels/AuthorityHelp"]
 layout_mode = 2

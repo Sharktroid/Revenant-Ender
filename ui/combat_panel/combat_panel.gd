@@ -90,9 +90,7 @@ func _exit_tree() -> void:
 
 ## Creates a new instance.
 static func instantiate(top: Unit, bottom: Unit = null, focused: bool = false) -> CombatInfoDisplay:
-	const PACKED_SCENE: PackedScene = preload(
-		"res://ui/combat_panel/combat_panel.tscn"
-	)
+	const PACKED_SCENE: PackedScene = preload("res://ui/combat_panel/combat_panel.tscn")
 	var scene := PACKED_SCENE.instantiate() as CombatInfoDisplay
 	scene._top_unit = top
 	scene.bottom_unit = bottom
@@ -191,7 +189,7 @@ func _update() -> void:
 			)
 
 			(get_node(node_path % "Defense") as Label).text = str(
-				current_unit.get_current_defense(other_unit.get_weapon())
+				current_unit.get_current_defense(other_unit)
 			)
 
 			_update_rate_label(

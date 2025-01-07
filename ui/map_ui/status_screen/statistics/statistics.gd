@@ -19,6 +19,10 @@ func _ready() -> void:
 		help_container.help_description = help_container.help_description.format(
 			{"speed_luck_avoid_multiplier": Formulas.SPEED_LUCK_AVOID_MULTIPLIER}
 		)
+	var authority_help := %AuthorityHelp as HelpContainer
+	authority_help.help_description = authority_help.help_description.format(
+		{"authority_hit_bonus": Unit.AUTHORITY_HIT_BONUS}
+	)
 
 
 func get_left_controls() -> Array[Node]:

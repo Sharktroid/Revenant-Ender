@@ -173,7 +173,7 @@ func _play_hit_sound_effect(
 		const SMASH: AudioStreamOggVorbis = preload("res://audio/sfx/earthbound_smash.ogg")
 		const MORTAL: AudioStreamOggVorbis = preload("res://audio/sfx/earthbound_mortal.ogg")
 		var crit_sfx: AudioStreamOggVorbis = (
-			SMASH if MapController.map.is_faction_friendly_to_human(attacker.faction) else MORTAL
+			SMASH if attacker.faction.is_friendly_to_human() else MORTAL
 		)
 		AudioPlayer.play_sound_effect(crit_sfx)
 		return get_tree().create_timer(crit_sfx.get_length())
