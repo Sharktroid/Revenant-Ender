@@ -5,15 +5,11 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Rewrite "_on_area2d_area_entered" in Unit
-* Add option for having the equipped weapon change if you use the attack preview with it.
-* Fix cursor not scrolling when mouse is still
-* Make static var tween to control unit map idle animation
-* Add option to make cursor return to unit upon deselecting.
 * Add universal actionable swap
 * Add shove
 * Remove countering from ranges >= 3
 * Pallette the status screen for each unit
+* Fix tiles lingering after combat.
 
 # Major
 * Renovate Combat Panel:
@@ -22,6 +18,7 @@ Before you commit
 	* Make Engage-style
 	* Expand the center labels
 	* Show hp preview on combat panel
+	* Add option for having the equipped weapon change if you use the attack preview with it.
 * Implement Engage-style combat preview
 * Renovate debug menu
 	* Split into debug options and the others.

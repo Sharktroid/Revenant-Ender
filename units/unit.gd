@@ -947,8 +947,8 @@ func _render_status() -> void:
 	pass
 
 
+# When cursor enters unit's area
 func _on_area2d_area_entered(area: Area2D) -> void:
-	# When cursor enters unit's area
 	if area == CursorController.get_area() and visible:
 		var can_be_selected: bool = true
 		if is_instance_valid(CursorController.get_hovered_unit()):
@@ -962,8 +962,8 @@ func _on_area2d_area_entered(area: Area2D) -> void:
 			display_movement_tiles()
 
 
+# When cursor exits unit's area
 func _on_area2d_area_exited(area: Area2D) -> void:
-	# When cursor exits unit's area
 	if area == CursorController.get_area() and not selected:
 		hide_movement_tiles()
 

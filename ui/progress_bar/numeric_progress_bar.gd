@@ -5,6 +5,7 @@ extends ReferenceRect
 ## The modes that the value is displayed in.
 enum Modes { INTEGER, FLOAT, PERCENT }
 
+@export var two_valued: bool = false
 ## The current mode.
 @export var mode: Modes:
 	set(new_value):
@@ -74,13 +75,11 @@ static func instantiate(
 
 func _update() -> void:
 	var greater_value: bool = value > original_value
-	_progress_bar_green.visible = greater_value
-	_progress_bar_red.visible = not greater_value
 	if greater_value:
 		_progress_bar_green.visible = true
 		_progress_bar_red.visible = false
 		_progress_bar_green.value = value
-		_progress_bar_yellow.value = original_value
+		_progress_bar_yellow.value = original_value if two_valued else value
 	else:
 		_progress_bar_green.visible = false
 		_progress_bar_red.visible = true
@@ -101,11 +100,11 @@ func _update() -> void:
 			)
 		_:
 			_value_label.text = Utilities.float_to_string(snappedf(value, 0.001))
-
-	match sign(value - original_value) as int:
-		1:
-			_value_label.theme_type_variation = &"GreenLabel"
-		-1:
-			_value_label.theme_type_variation = &"RedLabel"
-		_:
-			_value_label.theme_type_variation = &"BlueLabel"
+	if two_valued:
+		match sign(value - original_value) as int:
+			1:
+				_value_label.theme_type_variation = &"GreenLabel"
+			-1:
+				_value_label.theme_type_variation = &"RedLabel"
+			_:
+				_value_label.theme_type_variation = &"BlueLabel"

@@ -12,3 +12,4 @@ script = ExtResource("1_1r07s")
 
 [node name="NumericProgressBar" parent="." instance=ExtResource("2_6fljw")]
 layout_mode = 2
+two_valued = true

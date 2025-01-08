@@ -13,11 +13,15 @@ var TEXT_SPEED := TextSpeedOption.new()
 var TERRAIN := BooleanOption.new(&"terrain", &"options", true, "Set Terrain window display.")
 ## @experimental Currently does nothing.
 var UNIT_PANEL := UnitPanelOption.new()
-## @experimental Changes the information displayed on the Combat Panel.
+## Changes the information displayed on the Combat Panel.
 var COMBAT_PANEL := CombatPanelOption.new()
-## @experimental Causes the cursor to go back to the main hero upon.
+## Causes the cursor to go back to the main hero upon.
 var SMART_CURSOR := BooleanOption.new(
 	&"smart_cursor", &"options", false, "Set cursor to start on main hero."
+)
+## Causes the cursor to go back to the deselected unit.
+var CURSOR_RETURN := BooleanOption.new(
+	&"cursor_return", &"options", false, "Set cursor to return to unit's position upon deselect."
 )
 ## @experimental Currently does nothing.
 var AUTOEND_TURNS := BooleanOption.new(
@@ -46,6 +50,7 @@ func get_options() -> Array[ConfigOption]:
 		UNIT_PANEL,
 		COMBAT_PANEL,
 		SMART_CURSOR,
+		CURSOR_RETURN,
 		AUTOEND_TURNS,
 		MUSIC,
 		SOUND_EFFECTS,

@@ -81,6 +81,8 @@ func _physics_process(_delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if GameController.controller_type == GameController.ControllerTypes.KEYBOARD:
+		_offscreen = false
 	if is_active():
 		var new_pos: Vector2i = map_position
 		if event.is_action_pressed("left") and not Input.is_action_pressed("right"):
@@ -146,15 +148,11 @@ func _set_map_position(new_pos: Vector2i) -> void:
 	map_position = new_pos.clamp(
 		MapController.map.borders.position, MapController.map.borders.end - Vector2i(16, 16)
 	)
-	var screen_pos: Vector2i = (map_position - _corner_offset()).clamp(
-		Vector2i(), Utilities.get_screen_size() - Vector2i(16, 16)
-	)
-	map_position = screen_pos + _corner_offset()
 	var map_move := Vector2i()
 	for i: int in 2:
-		if screen_position[i] < 16:
+		while screen_position[i] - map_move[i] < 16:
 			map_move[i] -= 16
-		elif screen_position[i] >= Utilities.get_screen_size()[i] - 16:
+		while screen_position[i] - map_move[i] >= Utilities.get_screen_size()[i] - 16:
 			map_move[i] += 16
 	if map_move != Vector2i():
 		MapController.map.get_map_camera().move(map_move)

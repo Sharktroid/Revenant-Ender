@@ -121,7 +121,6 @@ func _input(event: InputEvent) -> void:
 		if CursorController.get_hovered_unit():
 			create_status_screen()
 	elif event.is_action_pressed("flag"):
-		#print_debug(_flags.get(CursorController.map_position))
 		if is_instance_valid(_flags.get(CursorController.map_position)):
 			(_flags.get(CursorController.map_position) as Flag).queue_free()
 		else:
@@ -583,3 +582,8 @@ func _deselect() -> void:
 	if is_instance_valid(_selected_unit):
 		_selected_unit.deselect()
 		_selected_unit.z_index = 0
+		if (
+			Options.CURSOR_RETURN.value
+			and GameController.controller_type == GameController.ControllerTypes.KEYBOARD
+		):
+			CursorController.map_position = _selected_unit.position

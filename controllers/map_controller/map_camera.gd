@@ -15,7 +15,7 @@ func _enter_tree() -> void:
 
 func _process(delta: float) -> void:
 	_true_position = _true_position.move_toward(
-		get_destination(), maxf(4, (position.distance_to(get_destination())) / 16) * 60 * delta
+		get_destination(), maxf(1, (position.distance_to(get_destination())) / 16) * 4 * 60 * delta
 	)
 	position = _true_position.round()
 
