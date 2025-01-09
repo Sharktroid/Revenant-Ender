@@ -6,10 +6,10 @@ Before you commit
 
 # Minor
 * Remove countering from ranges >= 3
-* Pallette the status screen for each unit
 * Fix tiles lingering after combat.
 * Fix bug that causes invalid sfx to play when selecting with the attack controller.
 * Fix lag spike when hovering over a unit with the debug bow.
+* Fix ghost unit idle bug.
 
 # Major
 * Renovate Combat Panel:
@@ -67,6 +67,7 @@ Before you commit
 * Do something about the way input works
 * Implement gaining EVs
 	* Have units gain +0.02 movement EVs per tile traversed
+* Pallette the status screen for each unit
 
 # Long-term
 * Make game based on design document
