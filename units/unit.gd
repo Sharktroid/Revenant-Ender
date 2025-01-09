@@ -625,9 +625,10 @@ func get_movement_tiles() -> Array[Vector2i]:
 ## Gets the movement tiles the unit can perform an action on.
 func get_actionable_movement_tiles() -> Array[Vector2i]:
 	var movement_tiles: Array[Vector2i] = get_movement_tiles()
-	for unit: Unit in faction.get_units():
-		if unit != self and unit.visible:
-			movement_tiles.erase(unit.position as Vector2i)
+	for unit: Unit in faction.get_units().filter(
+		func(unit: Unit) -> bool: return unit != self and unit.visible
+	):
+		movement_tiles.erase(unit.position as Vector2i)
 	return movement_tiles
 
 
@@ -767,6 +768,7 @@ func update_path(destination: Vector2i) -> void:
 		CursorController.get_hovered_unit()
 		and Vector2i(CursorController.get_hovered_unit().position) in get_all_attack_tiles()
 	):
+		var actionable_movement_tiles: Array[Vector2i] = get_actionable_movement_tiles()
 		var adjacent_movement_tiles: Array[Vector2i] = []
 		for tile: Vector2i in Utilities.get_tiles(
 			CursorController.get_hovered_unit().position,
@@ -774,7 +776,7 @@ func update_path(destination: Vector2i) -> void:
 			get_min_range(),
 			_get_map().borders
 		):
-			if tile in get_actionable_movement_tiles():
+			if tile in actionable_movement_tiles:
 				adjacent_movement_tiles.append(tile)
 		if not adjacent_movement_tiles.is_empty():
 			destination = _get_nearest_path_tile(adjacent_movement_tiles)

@@ -5,7 +5,6 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Fix lag spike when hovering over a unit with the debug bow.
 * Fix ghost unit idle bug.
 * Fix stat bar bug.
 
