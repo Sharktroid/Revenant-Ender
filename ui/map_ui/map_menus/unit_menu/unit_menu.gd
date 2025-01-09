@@ -34,9 +34,7 @@ func _exit_tree() -> void:
 	CursorController.enable.call_deferred()
 
 
-static func instantiate(
-	new_offset: Vector2, parent: MapMenu, unit: Unit
-) -> MapMenu:
+static func instantiate(new_offset: Vector2, parent: MapMenu, unit: Unit) -> MapMenu:
 	const PACKED_SCENE = preload("res://ui/map_ui/map_menus/unit_menu/unit_menu.tscn")
 	var scene: MapMenu = _base_instantiate(PACKED_SCENE, new_offset, parent, unit)
 	return scene
@@ -55,6 +53,7 @@ static func get_displayed_items(unit: Unit) -> Dictionary:
 	var enabled_items: Dictionary = {
 		Attack = false,
 		Wait = false,
+		Shove = false,
 		Trade = false,
 		Rescue = false,
 		Take = false,
@@ -79,6 +78,8 @@ static func get_displayed_items(unit: Unit) -> Dictionary:
 				if unit.is_friend(adjacent_unit):
 					if not (unit.items.is_empty() or adjacent_unit.items.is_empty()):
 						enabled_items.Trade = true
+					if _can_shove(adjacent_unit, unit, CursorController.map_position):
+						enabled_items.Shove = true
 					if adjacent_unit.traveler:
 						if unit.traveler:
 							enabled_items.Exchange = true
@@ -151,6 +152,16 @@ func _select_item(item: MapMenuItem) -> void:
 
 		"Wait":
 			_wait()
+
+		"Shove":
+			var map_position: Vector2 = CursorController.map_position
+			var selector := UnitSelector.new(
+				connected_unit, 1, 1, _can_shove.bind(connected_unit, map_position)
+			)
+			var shove: Callable = func(selected_unit: Unit) -> void:
+				selected_unit.position += selected_unit.position - map_position
+				_wait()
+			_select_map(selector, _display_adjacent_support_tiles(), shove)
 
 		"Trade":
 			var selector := UnitSelector.new(connected_unit, 1, 1, connected_unit.is_friend)
@@ -376,10 +387,7 @@ func _exchange(unit: Unit) -> void:
 
 
 static func _base_instantiate(
-	packed_scene: PackedScene,
-	new_offset: Vector2,
-	parent: MapMenu,
-	unit: Unit = null
+	packed_scene: PackedScene, new_offset: Vector2, parent: MapMenu, unit: Unit = null
 ) -> UnitMenu:
 	var scene := super(packed_scene, new_offset, parent) as UnitMenu
 	scene.connected_unit = unit
@@ -392,3 +400,17 @@ func _can_take(unit: Unit) -> bool:
 
 func _can_give(unit: Unit) -> bool:
 	return connected_unit.is_friend(unit) and not unit.traveler
+
+
+static func _can_shove(adjacent_unit: Unit, unit: Unit, starting_tile: Vector2i) -> bool:
+	if adjacent_unit.is_friend(unit) and unit.get_build() > adjacent_unit.get_weight():
+		var unit_position: Vector2i = adjacent_unit.position
+		var destination: Vector2 = unit_position + (unit_position - starting_tile)
+		if adjacent_unit.faction.get_units().all(
+			func(allied_unit: Unit) -> bool: return allied_unit.position != destination
+		):
+			var movement_type: UnitClass.MovementTypes = (
+				adjacent_unit.unit_class.get_movement_type()
+			)
+			return MapController.map.get_terrain_cost(movement_type, destination) < INF
+	return false

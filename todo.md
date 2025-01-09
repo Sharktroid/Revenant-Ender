@@ -5,11 +5,11 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Add universal actionable swap
-* Add shove
 * Remove countering from ranges >= 3
 * Pallette the status screen for each unit
 * Fix tiles lingering after combat.
+* Fix bug that causes invalid sfx to play when selecting with the attack controller.
+* Fix lag spike when hovering over a unit with the debug bow.
 
 # Major
 * Renovate Combat Panel:
@@ -23,7 +23,7 @@ Before you commit
 * Renovate debug menu
 	* Split into debug options and the others.
 	* Add debug constant to control whether the setting is displayed in the main map menu
-* Replace recieving input with pausing/unpausing via process_mode = ProcessMode.PROCESS_MODE_DISABLED
+* Replace receiving input with pausing/unpausing via process_mode = ProcessMode.PROCESS_MODE_DISABLED
 * Implement dual weapons
 * Have option to display stat details all at once
 * Add undoing a non-combat command
@@ -69,9 +69,10 @@ Before you commit
 	* Have units gain +0.02 movement EVs per tile traversed
 
 # Long-term
-* Scrub Emblem
-	* Feautres scrub FE3 units
+* Make game based on design document
+	* Demo for first few chapters
+<!-- * Scrub Emblem
+	* Features scrub FE3 units
 * Dungeon crawler thing.
 * FERemix/Age of Emblem?
-* Implement FE5 Chapter 1
-* Make game based on design document
+* Implement FE5 Chapter 1 -->
