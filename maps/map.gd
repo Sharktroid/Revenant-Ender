@@ -134,9 +134,9 @@ func create_status_screen() -> void:
 	var status_screen: StatusScreen = StatusScreen.instantiate(CursorController.get_hovered_unit())
 	MapController.get_ui().add_child(status_screen)
 	CursorController.disable()
-	process_mode = ProcessMode.PROCESS_MODE_DISABLED
+	process_mode = PROCESS_MODE_DISABLED
 	await status_screen.tree_exited
-	process_mode = ProcessMode.PROCESS_MODE_INHERIT
+	process_mode = PROCESS_MODE_INHERIT
 
 
 ## A function that is called whenever a unit ends their turn.
@@ -382,10 +382,10 @@ func _moving_state_select() -> void:
 				CursorController.screen_position + Vector2i(16, 0), null, _selected_unit
 			)
 			CursorController.disable()
-			process_mode = ProcessMode.PROCESS_MODE_DISABLED
+			process_mode = PROCESS_MODE_DISABLED
 			MapController.get_ui().add_child(menu)
 			await menu.tree_exited
-			process_mode = ProcessMode.PROCESS_MODE_INHERIT
+			process_mode = PROCESS_MODE_INHERIT
 		elif (
 			CursorController.get_hovered_unit()
 			and CursorController.map_position in _selected_unit.get_all_attack_tiles()
@@ -453,7 +453,7 @@ func _select_state_select() -> void:
 		_ghost_unit.position = CursorController.map_position
 		MapController.map.get_child(0).add_child(_ghost_unit)
 		var on_cursor_moved: Callable = func() -> void:
-			if process_mode != ProcessMode.PROCESS_MODE_DISABLED and state != States.SELECTING:
+			if process_mode != PROCESS_MODE_DISABLED and state != States.SELECTING:
 				_selected_unit.update_path(CursorController.map_position)
 				_selected_unit.show_path()
 				_ghost_unit.position = _selected_unit.get_path_last_pos()

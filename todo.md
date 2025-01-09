@@ -5,11 +5,9 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Remove countering from ranges >= 3
-* Fix tiles lingering after combat.
-* Fix bug that causes invalid sfx to play when selecting with the attack controller.
 * Fix lag spike when hovering over a unit with the debug bow.
 * Fix ghost unit idle bug.
+* Fix stat bar bug.
 
 # Major
 * Renovate Combat Panel:
@@ -55,7 +53,6 @@ Before you commit
 * Implement AI
 * Implement activated skills
 	* Add Accost
-	* Don't work at range >= 3
 * Implement staves
 	* Duration = (staff might) + (mag - target res)/4
 	* Automatically hover over a unit if they are the only one that needs healing

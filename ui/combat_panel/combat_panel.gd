@@ -113,6 +113,7 @@ func _input(event: InputEvent) -> void:
 		_weapon_index -= 1
 	elif event.is_action_pressed("down"):
 		_weapon_index += 1
+	accept_event()
 
 
 ## Causes the node to be focused, allowing it to receive input and become opaque.
@@ -127,8 +128,10 @@ func _set_focus(is_focused: bool) -> void:
 		_update()
 	if is_focused:
 		_top_unit.display_current_attack_tiles()
+		process_mode = PROCESS_MODE_INHERIT
 	else:
 		_top_unit.display_current_attack_tiles(true)
+		process_mode = PROCESS_MODE_DISABLED
 
 
 func _get_current_weapon() -> Weapon:

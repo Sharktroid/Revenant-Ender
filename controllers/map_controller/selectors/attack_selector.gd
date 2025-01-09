@@ -34,12 +34,15 @@ func _position_selected() -> void:
 	if _can_select():
 		CursorController.disable()
 		_info_display.focus()
+		process_mode = PROCESS_MODE_DISABLED
 		var proceed: bool = await _info_display.completed
 		CursorController.enable()
 		if proceed:
 			selected.emit(CursorController.get_hovered_unit())
 			CursorController.disable()
 			queue_free()
+		else:
+			process_mode = PROCESS_MODE_INHERIT
 
 
 func _update_bottom_unit() -> void:

@@ -104,6 +104,7 @@ static func get_displayed_items(unit: Unit) -> Dictionary:
 ## Closes menu, taking the caller down as well.
 ## Use for turn-ending actions (such as attacking or rescuing).
 func _close() -> void:
+	MapController.map.state = Map.States.SELECTING
 	queue_free()
 
 
@@ -230,8 +231,10 @@ func _select_map(
 ) -> void:
 	MapController.get_ui().add_child(selector)
 	visible = false
+	process_mode = PROCESS_MODE_DISABLED
 	if selector is UnitSelector:
 		var selection: Unit = await (selector as UnitSelector).selected
+		process_mode = PROCESS_MODE_INHERIT
 		if selection == null:
 			canceled.call()
 			visible = true
@@ -239,6 +242,7 @@ func _select_map(
 			selected.call(selection)
 	else:
 		var selection: Vector2 = await (selector as TileSelector).selected
+		process_mode = PROCESS_MODE_INHERIT
 		if selection == Vector2.INF:
 			canceled.call()
 			visible = true
@@ -296,10 +300,10 @@ func _wait() -> void:
 	await connected_unit.move()
 	connected_unit.wait()
 	_close()
-	MapController.map.state = Map.States.SELECTING
 
 
 func _attack(selected_unit: Unit) -> void:
+	process_mode = PROCESS_MODE_DISABLED
 	await connected_unit.move()
 	await AttackController.combat(connected_unit, selected_unit)
 	connected_unit.wait()
