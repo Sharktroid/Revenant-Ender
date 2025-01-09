@@ -4,6 +4,7 @@ class_name GhostUnit
 extends Node2D
 
 var _unit: Unit
+var _animation := Unit.Animations.IDLE
 
 
 func _init(connected_unit: Unit) -> void:
@@ -24,4 +25,6 @@ func _exit_tree() -> void:
 
 ## Sets the animation of the GhostUnit.
 func set_animation(new_animation: Unit.Animations) -> void:
-	_unit.set_animation(new_animation)
+	if _animation != new_animation:
+		_unit.set_animation(new_animation)
+		_animation = new_animation

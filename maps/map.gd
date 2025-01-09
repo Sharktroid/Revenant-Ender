@@ -49,7 +49,6 @@ var _grid_current_faction: Faction
 var _current_turn: int
 var _selected_unit: Unit
 var _ghost_unit: GhostUnit
-var _ghost_unit_animation: Unit.Animations = Unit.Animations.IDLE
 var _canter_tiles: Node2D
 var _flags: Dictionary
 
@@ -486,9 +485,7 @@ func _update_ghost_unit() -> void:
 				next_animation = Unit.Animations.MOVING_UP
 			_:
 				next_animation = Unit.Animations.MOVING_DOWN
-		if _ghost_unit_animation != next_animation:
-			_ghost_unit.set_animation(next_animation)
-			_ghost_unit_animation = next_animation
+		_ghost_unit.set_animation(next_animation)
 
 
 func _update_grid_current_faction() -> void:
