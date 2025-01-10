@@ -5,8 +5,6 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Fix ghost unit idle bug.
-* Fix stat bar bug.
 
 # Major
 * Renovate Combat Panel:
