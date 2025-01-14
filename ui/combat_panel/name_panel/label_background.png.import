@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bgmuk7i8ltxac"
-path="res://.godot/imported/double.png-a1d01bafb06890716804f3307e1a051e.ctex"
+uid="uid://g1vrpin100mt"
+path="res://.godot/imported/label_background.png-e2c07442b27d631f7f0d1fac9f2c8cb6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/combat_panel/double.png"
-dest_files=["res://.godot/imported/double.png-a1d01bafb06890716804f3307e1a051e.ctex"]
+source_file="res://ui/combat_panel/name_panel/label_background.png"
+dest_files=["res://.godot/imported/label_background.png-e2c07442b27d631f7f0d1fac9f2c8cb6.ctex"]
 
 [params]
 

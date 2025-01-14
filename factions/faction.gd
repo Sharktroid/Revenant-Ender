@@ -68,6 +68,9 @@ func is_friendly_to_human() -> bool:
 
 
 func get_authority() -> int:
+	var units: Array[Unit] = get_units().filter(func(unit: Unit) -> bool: return unit.get_authority() > 0)
+	if units.size() > 2:
+		print_debug(units.map(func(unit: Unit) -> String: return unit.get_path()))
 	return get_units().reduce(
 		func(accumulator: int, unit: Unit) -> int: return accumulator + unit.get_authority(), 0
 	)

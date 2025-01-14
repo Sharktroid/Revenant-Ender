@@ -16,4 +16,5 @@ func _enter_tree() -> void:
 	_personal_resistance = 5
 	_personal_movement = 0
 	_personal_build = 5
+	effort_power = 50
 	super()

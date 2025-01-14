@@ -29,18 +29,6 @@ func _input(event: InputEvent) -> void:
 	elif event is InputEventKey:
 		controller_type = ControllerTypes.KEYBOARD
 
-	if event.is_action_released("select") and Input.is_action_pressed("back"):
-		var back_event := InputEventAction.new()
-		back_event.action = "back"
-		back_event.pressed = true
-		Input.parse_input_event(back_event)
-
-	if event.is_action_released("back") and Input.is_action_pressed("select"):
-		var select_event := InputEventAction.new()
-		select_event.action = "select"
-		select_event.pressed = true
-		Input.parse_input_event(select_event)
-
 	if event.is_action_pressed("fullscreen"):
 		match get_window().mode:
 			Window.MODE_EXCLUSIVE_FULLSCREEN, Window.MODE_FULLSCREEN:

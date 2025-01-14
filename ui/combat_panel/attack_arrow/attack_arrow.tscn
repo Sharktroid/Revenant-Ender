@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=3 uid="uid://ik2ok030xc12"]
+
+[ext_resource type="Texture2D" uid="uid://cpgnstcm4ku5j" path="res://ui/combat_panel/attack_arrow/attack_arrow.png" id="1_o0yc7"]
+[ext_resource type="Script" path="res://ui/combat_panel/attack_arrow/attack_arrow.gd" id="1_tb23t"]
+
+[node name="AttackArrow" type="HBoxContainer"]
+offset_right = 81.0
+offset_bottom = 11.0
+theme_override_constants/separation = 2
+script = ExtResource("1_tb23t")
+
+[node name="LeftSymbol" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+
+[node name="LeftDamage" type="Label" parent="."]
+custom_minimum_size = Vector2(18, 0)
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="ArrowCenterer" type="CenterContainer" parent="."]
+layout_mode = 2
+
+[node name="Arrow" type="TextureRect" parent="ArrowCenterer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("1_o0yc7")
+stretch_mode = 2
+
+[node name="RightDamage" type="Label" parent="."]
+custom_minimum_size = Vector2(18, 0)
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="RightSymbol" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2

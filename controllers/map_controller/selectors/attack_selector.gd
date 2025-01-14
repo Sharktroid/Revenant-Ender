@@ -48,4 +48,4 @@ func _position_selected() -> void:
 func _update_bottom_unit() -> void:
 	_info_display.visible = _within_range() and _condition.call(CursorController.get_hovered_unit())
 	if _info_display.visible:
-		_info_display.bottom_unit = CursorController.get_hovered_unit()
+		_info_display.right_unit = CursorController.get_hovered_unit()

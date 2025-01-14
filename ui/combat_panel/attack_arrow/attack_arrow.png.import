@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c8787mfg6cymr"
-path="res://.godot/imported/number_panel.png-9f1f3db0bbae93654964509d806cca1c.ctex"
+uid="uid://cpgnstcm4ku5j"
+path="res://.godot/imported/attack_arrow.png-bac6e8af11270353d0b4d2a9f32582ed.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://ui/combat_panel/number_panel.png"
-dest_files=["res://.godot/imported/number_panel.png-9f1f3db0bbae93654964509d806cca1c.ctex"]
+source_file="res://ui/combat_panel/attack_arrow/attack_arrow.png"
+dest_files=["res://.godot/imported/attack_arrow.png-bac6e8af11270353d0b4d2a9f32582ed.ctex"]
 
 [params]
 

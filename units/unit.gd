@@ -183,6 +183,7 @@ var _attack_tile_node: Node2D
 var _current_attack_tiles_node: Node2D
 # Resources to be loaded.
 var _arrows_container: CanvasGroup
+var _equipped_weapon: Weapon
 
 
 func _enter_tree() -> void:
@@ -220,10 +221,24 @@ func _process(_delta: float) -> void:
 
 ## Gets the current weapon
 func get_weapon() -> Weapon:
+	if _equipped_weapon:
+		return _equipped_weapon
 	for item: Item in items:
 		if item is Weapon and can_use_weapon(item as Weapon):
 			return item as Weapon
 	return null
+
+
+## Equips a weapon
+func equip_weapon(weapon: Weapon, shuffle: bool = true) -> void:
+	if weapon in items:
+		_equipped_weapon = weapon
+		if shuffle:
+			items.erase(weapon)
+			items.push_front(weapon)
+	else:
+		const UNFORMATTED_ERROR: String = 'Tried equipping invalid weapon "%s" on unit "%s"'
+		push_error(UNFORMATTED_ERROR % [weapon.resource_name, display_name])
 
 
 ## Gets the quantity of the unit's current attack stat
@@ -251,7 +266,8 @@ func get_damage(defender: Unit) -> float:
 
 ## Gets the damage done with a crit
 func get_crit_damage(defender: Unit) -> float:
-	return maxf(0, get_true_attack(defender) * 2 - defender.get_current_defense(self))
+	var crit_damage: float = get_true_attack(defender) * 2 - defender.get_current_defense(self)
+	return maxf(0, crit_damage)
 
 
 ## Sets the unit's map animation
@@ -450,7 +466,7 @@ func get_avoid() -> float:
 
 ## Gets the hit rate against an enemy
 func get_hit_rate(enemy: Unit) -> int:
-	var hit_bonus: int = get_weapon().get_hit_bonus(enemy.get_weapon(), _get_distance(enemy))
+	var hit_bonus: float = get_weapon().get_hit_bonus(enemy.get_weapon(), _get_distance(enemy))
 	var authority_bonus: int = (
 		AUTHORITY_HIT_BONUS * maxi(faction.get_authority() - enemy.faction.get_authority(), 0)
 	)
@@ -822,16 +838,6 @@ func remove_path() -> void:
 ## Returns true if the other unit's faction is friends with the unit's faction
 func is_friend(other_unit: Unit) -> bool:
 	return faction.is_friend(other_unit.faction)
-
-
-## Equips a weapon
-func equip_weapon(weapon: Weapon) -> void:
-	if weapon in items:
-		items.erase(weapon)
-		items.push_front(weapon)
-	else:
-		const UNFORMATTED_ERROR: String = 'Tried equipping invalid weapon "%s" on unit "%s"'
-		push_error(UNFORMATTED_ERROR % [weapon.resource_name, display_name])
 
 
 ## Drops an item

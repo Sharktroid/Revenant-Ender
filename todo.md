@@ -5,13 +5,11 @@ Before you commit
 * Make sure it all works
 
 # Minor
+* Make weapon triangle advantage = attack never misses
 
 # Major
 * Renovate Combat Panel:
-	* Fix bug with item menu
-	* Revamp the scene tree to be less hacky
-	* Make Engage-style
-	* Expand the center labels
+	* Add attack arrows
 	* Show hp preview on combat panel
 	* Add option for having the equipped weapon change if you use the attack preview with it.
 * Implement Engage-style combat preview
