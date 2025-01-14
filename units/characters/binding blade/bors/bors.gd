@@ -3,7 +3,7 @@ extends Unit
 
 
 # Unit-specific variables.
-func _init() -> void:
+func _enter_tree() -> void:
 	_personal_hit_points = 12
 	_personal_strength = 9
 	_personal_pierce = 5
@@ -16,3 +16,4 @@ func _init() -> void:
 	_personal_resistance = 1
 	_personal_movement = 0
 	_personal_build = 5
+	super()

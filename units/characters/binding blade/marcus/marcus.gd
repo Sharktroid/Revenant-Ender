@@ -3,7 +3,7 @@ extends Unit
 
 
 # Unit-specific variables.
-func _ready() -> void:
+func _enter_tree() -> void:
 	set_weapon_level(Weapon.Types.SPEAR, Weapon.Ranks.S)
 	_personal_hit_points = 0
 	_personal_strength = 0
@@ -29,3 +29,4 @@ func _ready() -> void:
 	effort_movement = 0
 	effort_build = 0
 	personal_authority = 1
+	super()
