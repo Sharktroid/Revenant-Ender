@@ -5,7 +5,6 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Make weapon triangle advantage = attack never misses
 
 # Major
 * Renovate Combat Panel:

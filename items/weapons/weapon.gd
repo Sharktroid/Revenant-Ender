@@ -81,12 +81,11 @@ func get_weapon_triangle_advantage(weapon: Weapon, _distance: int) -> AdvantageS
 		return AdvantageState.NEUTRAL
 
 
-func get_hit_bonus(weapon: Weapon, distance: int) -> int:
-	if weapon is Bow:
-		return -10 * weapon.get_weapon_triangle_advantage(self, distance)
+func get_hit_bonus(weapon: Weapon, distance: int) -> float:
+	if get_weapon_triangle_advantage(weapon, distance) == AdvantageState.ADVANTAGE:
+		return INF
 	else:
-		var bonus: int = 5 if _rank >= Ranks.C else 0
-		return bonus * get_weapon_triangle_advantage(weapon, distance)
+		return 0
 
 
 func get_damage_bonus(weapon: Weapon, distance: int) -> int:
