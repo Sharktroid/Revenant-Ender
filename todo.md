@@ -43,6 +43,12 @@ Before you commit
 	* Can parry via combat art if shield weight > opponent's weapon weight (costs 3 durability)
 		* Cannot parry tomes
 * Implement durability
+	* Physical weapons have Berwick-style breaking
+		* Good, Decent, Bad, and Critical
+			* -5 Crit penalty when below Good
+			* -2 might penalty when below decent
+			* Critical means weapon has a chance of breaking
+		* Durability decreases based on condition and rng
 * Implement authority
 * Implement AI
 * Implement activated skills

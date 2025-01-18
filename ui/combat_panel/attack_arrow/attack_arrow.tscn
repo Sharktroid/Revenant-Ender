@@ -1,11 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://ik2ok030xc12"]
+[gd_scene load_steps=5 format=3 uid="uid://ik2ok030xc12"]
 
+[ext_resource type="Shader" path="res://shaders/gba_palette.gdshader" id="1_niiq4"]
 [ext_resource type="Texture2D" uid="uid://cpgnstcm4ku5j" path="res://ui/combat_panel/attack_arrow/attack_arrow.png" id="1_o0yc7"]
 [ext_resource type="Script" path="res://ui/combat_panel/attack_arrow/attack_arrow.gd" id="1_tb23t"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fpdjf"]
+shader = ExtResource("1_niiq4")
+shader_parameter/darken_screen = 0.5
+shader_parameter/old_colors = null
+shader_parameter/new_colors = null
+
 [node name="AttackArrow" type="HBoxContainer"]
-offset_right = 81.0
-offset_bottom = 11.0
+offset_right = 157.0
+offset_bottom = 16.0
+size_flags_horizontal = 4
 theme_override_constants/separation = 2
 script = ExtResource("1_tb23t")
 
@@ -23,6 +31,7 @@ layout_mode = 2
 
 [node name="Arrow" type="TextureRect" parent="ArrowCenterer"]
 unique_name_in_owner = true
+material = SubResource("ShaderMaterial_fpdjf")
 layout_mode = 2
 texture = ExtResource("1_o0yc7")
 stretch_mode = 2

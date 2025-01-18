@@ -5,7 +5,7 @@
 
 [node name="StatsPanel" type="PanelContainer"]
 offset_right = 103.0
-offset_bottom = 88.0
+offset_bottom = 72.0
 script = ExtResource("1_7sbp3")
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="."]
@@ -91,22 +91,6 @@ theme_type_variation = &"YellowLabel"
 text = "Hit:"
 
 [node name="HitLabel" type="Label" parent="VBoxContainer2/VBoxContainer/HitHBox"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 10
-theme_type_variation = &"BlueLabel"
-text = "25"
-
-[node name="CriticalDamageHBox" type="HBoxContainer" parent="VBoxContainer2/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="Label" type="Label" parent="VBoxContainer2/VBoxContainer/CriticalDamageHBox"]
-layout_mode = 2
-theme_type_variation = &"YellowLabel"
-text = "Critical Damage:"
-
-[node name="CriticalDamageLabel" type="Label" parent="VBoxContainer2/VBoxContainer/CriticalDamageHBox"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10

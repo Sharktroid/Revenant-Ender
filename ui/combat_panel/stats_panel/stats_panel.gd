@@ -3,6 +3,7 @@ extends PanelContainer
 
 @onready var _detailed_stats: Array[HBoxContainer] = [%AttackHBox, %DefenseHBox, %AttackSpeedHBox]
 
+
 func _ready() -> void:
 	for hbox: HBoxContainer in _detailed_stats:
 		hbox.visible = true
@@ -21,14 +22,35 @@ func update(unit: Unit, enemy: Unit, weapon: Weapon, enemy_weapon: Weapon, dista
 	_update_rate_label(%CriticalRateLabel as Label, unit.get_crit_rate(enemy), in_range)
 
 	if Options.COMBAT_PANEL.value == Options.COMBAT_PANEL.STRATEGIC:
-		_update_damage_label(
-			%DamageLabel as Label, unit.get_damage(enemy), in_range
-		)
-		_update_damage_label(%CriticalDamageLabel as Label, unit.get_crit_damage(enemy), in_range)
+		if in_range:
+			var get_total_damage: Callable = func(
+				accumulator: float, attack: AttackController.CombatStage, damage: Callable
+			) -> float:
+				if attack.attacker == unit:
+					accumulator += damage.call()
+				return accumulator
+			var attack_queue: Array[AttackController.CombatStage] = (
+				AttackController.get_attack_queue(unit, distance, enemy)
+			)
+			var total_damage: float = attack_queue.reduce(
+				get_total_damage.bind(func() -> float: return unit.get_damage(enemy)), 0
+			)
+			var total_critical_damage: float = attack_queue.reduce(
+				get_total_damage.bind(func() -> float: return unit.get_crit_damage(enemy)), 0
+			)
+			var damage_label := %DamageLabel as Label
+			var formatting_replacements: Dictionary = {
+				"damage": Utilities.float_to_string(total_damage),
+				"critical_damage": Utilities.float_to_string(total_critical_damage)
+			}
+			damage_label.text = "{damage} ({critical_damage})".format(formatting_replacements)
+			damage_label.theme_type_variation = (
+				&"BlueLabel" if total_damage > 0 and in_range else &"GrayLabel"
+			)
+		else:
+			_update_damage_label(%DamageLabel as Label, 0, in_range)
 	elif Options.COMBAT_PANEL.value == Options.COMBAT_PANEL.DETAILED:
-		_update_damage_label(
-			%AttackLabel as Label, unit.get_true_attack(enemy), in_range
-		)
+		_update_damage_label(%AttackLabel as Label, unit.get_true_attack(enemy), in_range)
 		(%DefenseLabel as Label).text = Utilities.float_to_string(unit.get_current_defense(enemy))
 		var attack_speed_label := %AttackSpeedLabel as Label
 		attack_speed_label.text = Utilities.float_to_string(unit.get_attack_speed())

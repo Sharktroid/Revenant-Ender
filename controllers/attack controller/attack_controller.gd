@@ -5,27 +5,26 @@ extends Node
 ## Initiates combat between an attacker and a defender.
 func combat(attacker: Unit, defender: Unit) -> void:
 	CursorController.disable()
-	## The list of attacks that will be done in this round of combat.
-	var attack_queue: Array[CombatStage] = [CombatStage.new(attacker, defender)]
-	if _can_counter(attacker, defender):
-		attack_queue.append(CombatStage.new(defender, attacker))
-	if attacker.can_follow_up(defender):
-		attack_queue.append(CombatStage.new(attacker, defender))
-	elif defender.can_follow_up(attacker):
-		attack_queue.append(CombatStage.new(defender, attacker))
-	await _map_combat(attacker, defender, attack_queue)
+	var distance: int = roundi(Utilities.get_tile_distance(attacker.position, defender.position))
+	await _map_combat(attacker, defender, get_attack_queue(attacker, distance, defender))
 	CursorController.enable()
 
 
-func _input(_event: InputEvent) -> void:
-	pass
+## The list of attacks that will be done in this round of combat.
+func get_attack_queue(attacker: Unit, distance: int, defender: Unit) -> Array[CombatStage]:
+	var attack_queue: Array[CombatStage] = [CombatStage.new(attacker, defender)]
+	if _can_counter(defender, distance):
+		attack_queue.append(CombatStage.new(defender, attacker))
+	if attacker.can_follow_up(defender):
+		attack_queue.append(CombatStage.new(attacker, defender))
+	elif _can_counter(defender, distance) and defender.can_follow_up(attacker):
+		attack_queue.append(CombatStage.new(defender, attacker))
+	return attack_queue
 
 
-func _can_counter(attacker: Unit, defender: Unit) -> bool:
+func _can_counter(defender: Unit, distance: int) -> bool:
 	if defender.get_weapon() != null:
-		return defender.get_weapon().in_range(
-			roundi(Utilities.get_tile_distance(attacker.position, defender.position))
-		)
+		return defender.get_weapon().in_range(distance)
 	return false
 
 
@@ -50,7 +49,7 @@ func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[CombatStage
 			combat_round.defender,
 			attacker_animation if combat_round.attacker == attacker else defender_animation,
 			defender_animation if combat_round.defender == defender else attacker_animation,
-			combat_round.attack_type
+			combat_round.generate_attack_type()
 		)
 		if attacker.current_health <= 0 or defender.current_health <= 0:
 			break
@@ -218,9 +217,8 @@ class CombatStage:
 	func _init(attacking_unit: Unit, defending_unit: Unit) -> void:
 		attacker = attacking_unit
 		defender = defending_unit
-		attack_type = _generate_attack_type()
 
-	func _generate_attack_type() -> AttackTypes:
+	func generate_attack_type() -> AttackTypes:
 		if attacker.get_hit_rate(defender) > randi_range(0, 99):
 			if attacker.get_crit_rate(defender) > randi_range(0, 99):
 				return AttackTypes.CRIT

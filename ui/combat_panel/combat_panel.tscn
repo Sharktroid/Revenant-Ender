@@ -9,7 +9,7 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -131.0
+offset_top = -115.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/h_separation = 0
@@ -36,6 +36,7 @@ size_flags_horizontal = 3
 custom_minimum_size = Vector2(174, 0)
 layout_mode = 2
 size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_override_constants/separation = 0
 
 [node name="RightStatsPanel" parent="." instance=ExtResource("3_vq7xu")]

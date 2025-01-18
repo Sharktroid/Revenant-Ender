@@ -1,24 +1,13 @@
 [gd_scene load_steps=8 format=3 uid="uid://bojpgvlm623qa"]
 
 [ext_resource type="Texture2D" uid="uid://c8787mfg6cymr" path="res://ui/combat_panel/name_panel/number_panel.png" id="1_1otkq"]
+[ext_resource type="Shader" path="res://shaders/gba_palette.gdshader" id="1_dtftg"]
 [ext_resource type="Script" path="res://ui/combat_panel/name_panel/name_panel.gd" id="2_axwhg"]
 [ext_resource type="Texture2D" uid="uid://305svbe1l3to" path="res://items/weapons/axes/steel_axe/icon.png" id="2_xeovt"]
 [ext_resource type="PackedScene" uid="uid://dvo0wyjym5xwk" path="res://ui/arrow.tscn" id="3_tmfw0"]
 
-[sub_resource type="Shader" id="Shader_1kuw5"]
-code = "shader_type canvas_item;
-
-#include \"res://shaders/gba_color.gdshaderinc\"
-#include \"res://shaders/palette.gdshaderinc\"
-
-void fragment() {
-	COLOR = convert(COLOR, COLOR);
-	COLOR.rgb = gba_color(COLOR.rgb);
-}
-"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_n6efh"]
-shader = SubResource("Shader_1kuw5")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tk72q"]
+shader = ExtResource("1_dtftg")
 shader_parameter/darken_screen = 0.5
 shader_parameter/old_colors = null
 shader_parameter/new_colors = null
@@ -35,7 +24,7 @@ axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
 [node name="NamePanel" type="PanelContainer"]
-material = SubResource("ShaderMaterial_n6efh")
+material = SubResource("ShaderMaterial_tk72q")
 offset_right = 81.0
 offset_bottom = 39.0
 theme_override_styles/panel = SubResource("StyleBoxTexture_ni8gi")
