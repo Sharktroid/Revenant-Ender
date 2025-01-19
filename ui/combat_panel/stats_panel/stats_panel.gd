@@ -12,41 +12,21 @@ func _ready() -> void:
 
 
 ## Updates the stats that are on displayed.
-func update(unit: Unit, enemy: Unit, weapon: Weapon, enemy_weapon: Weapon, distance: int) -> void:
+func update(unit: Unit, enemy: Unit, enemy_damage: float, distance: int) -> void:
+	var weapon: Weapon = unit.get_weapon()
 	var in_range: bool = weapon and weapon.in_range(distance)
 	var hp_progress_bar := %HPProgressBar as NumericProgressBar
 	hp_progress_bar.max_value = unit.get_hit_points()
-	hp_progress_bar.value = unit.current_health
+	hp_progress_bar.value = maxf(unit.current_health - enemy_damage, 0)
+	hp_progress_bar.original_value = unit.current_health
+	(%HPLabel as Label).text = Utilities.float_to_string(unit.current_health)
 
 	_update_rate_label(%HitLabel as Label, unit.get_hit_rate(enemy), in_range)
 	_update_rate_label(%CriticalRateLabel as Label, unit.get_crit_rate(enemy), in_range)
 
 	if Options.COMBAT_PANEL.value == Options.COMBAT_PANEL.STRATEGIC:
 		if in_range:
-			var get_total_damage: Callable = func(
-				accumulator: float, attack: AttackController.CombatStage, damage: Callable
-			) -> float:
-				if attack.attacker == unit:
-					accumulator += damage.call()
-				return accumulator
-			var attack_queue: Array[AttackController.CombatStage] = (
-				AttackController.get_attack_queue(unit, distance, enemy)
-			)
-			var total_damage: float = attack_queue.reduce(
-				get_total_damage.bind(func() -> float: return unit.get_damage(enemy)), 0
-			)
-			var total_critical_damage: float = attack_queue.reduce(
-				get_total_damage.bind(func() -> float: return unit.get_crit_damage(enemy)), 0
-			)
-			var damage_label := %DamageLabel as Label
-			var formatting_replacements: Dictionary = {
-				"damage": Utilities.float_to_string(total_damage),
-				"critical_damage": Utilities.float_to_string(total_critical_damage)
-			}
-			damage_label.text = "{damage} ({critical_damage})".format(formatting_replacements)
-			damage_label.theme_type_variation = (
-				&"BlueLabel" if total_damage > 0 and in_range else &"GrayLabel"
-			)
+			_update_total_damage_label(unit, enemy, distance)
 		else:
 			_update_damage_label(%DamageLabel as Label, 0, in_range)
 	elif Options.COMBAT_PANEL.value == Options.COMBAT_PANEL.DETAILED:
@@ -55,7 +35,7 @@ func update(unit: Unit, enemy: Unit, weapon: Weapon, enemy_weapon: Weapon, dista
 		var attack_speed_label := %AttackSpeedLabel as Label
 		attack_speed_label.text = Utilities.float_to_string(unit.get_attack_speed())
 		attack_speed_label.theme_type_variation = _get_attack_speed_label_theme(
-			unit, enemy, weapon, enemy_weapon, distance
+			unit, enemy, weapon, enemy.get_weapon(), distance
 		)
 
 
@@ -96,3 +76,33 @@ func _get_attack_speed_label_theme(
 		elif other_unit.can_follow_up(current_unit):
 			return &"GrayLabel"
 	return &"BlueLabel"
+
+
+func _update_total_damage_label(unit: Unit, enemy: Unit, distance: int) -> void:
+	var weapon: Weapon = unit.get_weapon()
+	var get_total_damage: Callable = func(
+		accumulator: float, attack: AttackController.CombatStage, damage: Callable
+	) -> float:
+		if attack.attacker == unit:
+			accumulator += damage.call()
+		return accumulator
+	var attack_queue: Array[AttackController.CombatStage] = AttackController.get_attack_queue(
+		unit, distance, enemy
+	)
+	var total_damage: float = attack_queue.reduce(
+		get_total_damage.bind(func() -> float: return unit.get_damage(enemy)), 0
+	)
+	var total_critical_damage: float = attack_queue.reduce(
+		get_total_damage.bind(func() -> float: return unit.get_crit_damage(enemy)), 0
+	)
+	var damage_label := %DamageLabel as Label
+	var formatting_replacements: Dictionary = {
+		"damage": Utilities.float_to_string(total_damage),
+		"critical_damage": Utilities.float_to_string(total_critical_damage)
+	}
+	damage_label.text = "{damage} ({critical_damage})".format(formatting_replacements)
+	damage_label.theme_type_variation = (
+		&"BlueLabel"
+		if total_damage > 0 and (weapon and weapon.in_range(distance))
+		else &"GrayLabel"
+	)

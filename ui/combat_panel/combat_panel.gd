@@ -16,6 +16,9 @@ var right_unit: Unit:
 		_current_weapons.assign(_left_unit.get_weapons().filter(is_in_range))
 		_original_weapon = _left_unit.get_weapon()
 		_weapon_index = _get_index()
+		if not is_node_ready():
+			await ready
+		_left_name_panel.arrows = _current_weapons.size() > 1
 		_update()
 
 var _left_unit: Unit
@@ -37,7 +40,6 @@ var _original_weapon: Weapon
 
 func _ready() -> void:
 	_left_name_panel.unit = _left_unit
-	_left_name_panel.arrows = _left_unit.get_weapons().size() > 1
 	_update()
 
 
@@ -84,7 +86,7 @@ func focus() -> void:
 # Sets the focus.
 func _set_focus(is_focused: bool) -> void:
 	_focused = is_focused
-	modulate.a = 1.0 if is_focused else 2.0/3
+	modulate.a = 1.0 if is_focused else 2.0 / 3
 	if is_focused:
 		_left_unit.display_current_attack_tiles()
 		process_mode = PROCESS_MODE_INHERIT
@@ -106,26 +108,6 @@ func _get_index() -> int:
 
 func _update() -> void:
 	if right_unit and is_node_ready():
-		_left_name_panel.weapon = _left_unit.get_weapon()
-
-		var right_name_panel := $RightNamePanel as NamePanel
-		right_name_panel.unit = right_unit
-		right_name_panel.weapon = right_unit.get_weapon()
-		($LeftStatsPanel as StatsPanel).update(
-			_left_unit,
-			right_unit,
-			_get_current_weapon(),
-			right_unit.get_weapon(),
-			_distance
-		)
-		($RightStatsPanel as StatsPanel).update(
-			right_unit,
-			_left_unit,
-			right_unit.get_weapon(),
-			_get_current_weapon(),
-			_distance
-		)
-
 		for child: Node in $Damage.get_children():
 			child.queue_free()
 		var left_sum: float = 0
@@ -170,3 +152,11 @@ func _update() -> void:
 				attack.attacker.faction.color
 			)
 			$Damage.add_child(attack_arrow)
+
+		_left_name_panel.weapon = _left_unit.get_weapon()
+
+		var right_name_panel := $RightNamePanel as NamePanel
+		right_name_panel.unit = right_unit
+		right_name_panel.weapon = right_unit.get_weapon()
+		($LeftStatsPanel as StatsPanel).update(_left_unit, right_unit, right_sum, _distance)
+		($RightStatsPanel as StatsPanel).update(right_unit, _left_unit, left_sum, _distance)

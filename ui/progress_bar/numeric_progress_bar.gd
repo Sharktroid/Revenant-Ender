@@ -5,6 +5,7 @@ extends ReferenceRect
 ## The modes that the value is displayed in.
 enum Modes { INTEGER, FLOAT, PERCENT }
 
+## Whether the bar uses the original value.
 @export var two_valued: bool = false
 ## The current mode.
 @export var mode: Modes:
@@ -29,6 +30,7 @@ var original_value: float:
 		return original_value
 	set(new_value):
 		original_value = new_value
+		two_valued = true
 		_update()
 ## The minimum value that the bar can be.
 var min_value: float:
@@ -88,12 +90,7 @@ func _update() -> void:
 
 	match mode:
 		Modes.INTEGER:
-			if abs(value) == INF:
-				_value_label.text = (
-					Utilities.INF_CHAR if value == INF else "-%s" % Utilities.INF_CHAR
-				)
-			else:
-				_value_label.text = Utilities.float_to_string(roundi(value))
+			_value_label.text = _get_integer_string()
 		Modes.PERCENT:
 			_value_label.text = (
 				Utilities.float_to_string(snappedf(value / max_value * 100, 0.001)) + "%"
@@ -101,10 +98,21 @@ func _update() -> void:
 		_:
 			_value_label.text = Utilities.float_to_string(snappedf(value, 0.001))
 	if two_valued:
-		match sign(value - original_value) as int:
-			1:
-				_value_label.theme_type_variation = &"GreenLabel"
-			-1:
-				_value_label.theme_type_variation = &"RedLabel"
-			_:
-				_value_label.theme_type_variation = &"BlueLabel"
+		_value_label.theme_type_variation = _get_theme_variation()
+
+
+func _get_integer_string() -> String:
+	if abs(value) == INF:
+		return Utilities.INF_CHAR if value == INF else "-%s" % Utilities.INF_CHAR
+	else:
+		return Utilities.float_to_string(roundi(value))
+
+
+func _get_theme_variation() -> StringName:
+	match sign(value - original_value) as int:
+		1:
+			return &"GreenLabel"
+		-1:
+			return &"RedLabel"
+		_:
+			return &"BlueLabel"

@@ -5,11 +5,11 @@ Before you commit
 * Make sure it all works
 
 # Minor
+* Fix trade menu.
 
 # Major
 * Renovate Combat Panel:
-	* Add attack arrows
-	* Show hp preview on combat panel
+	* Implement 0% hit, 0% crit, and 100% crit support.
 	* Add option for having the equipped weapon change if you use the attack preview with it.
 * Implement Engage-style combat preview
 * Renovate debug menu
