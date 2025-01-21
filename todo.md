@@ -6,10 +6,10 @@ Before you commit
 
 # Minor
 * Fix trade menu.
+* Modify any function over 25 lines long
 
 # Major
 * Renovate Combat Panel:
-	* Implement 0% hit, 0% crit, and 100% crit support.
 	* Add option for having the equipped weapon change if you use the attack preview with it.
 * Implement Engage-style combat preview
 * Renovate debug menu

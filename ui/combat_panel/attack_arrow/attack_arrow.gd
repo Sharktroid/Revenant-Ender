@@ -4,7 +4,7 @@ extends HBoxContainer
 ## The direction the arrow is facing.
 enum DIRECTIONS { LEFT, RIGHT }
 ## What event will occur
-enum EVENTS { NONE, KILL, CRIT_KILL }
+enum EVENTS { NONE, KILL, CRIT_KILL, MISS }
 
 const _BLUE_COLORS: Array[Color] = [
 	Color("5294D6"),
@@ -26,24 +26,35 @@ static func instantiate(
 	)
 	var is_left: bool = direction == DIRECTIONS.LEFT
 	var damage_label := scene.get_node("LeftDamage" if is_left else "RightDamage") as Label
-	var format_dictionary: Dictionary = {
-		"damage": Utilities.float_to_string(damage),
-		"crit_damage": Utilities.float_to_string(crit_damage)
-	}
-	damage_label.text = "{damage} ({crit_damage})".format(format_dictionary)
+	damage_label.text = _get_damage_text(damage, crit_damage)
 	var symbol_rect := scene.get_node("LeftSymbol" if is_left else "RightSymbol") as TextureRect
-	if event in [EVENTS.KILL, EVENTS.CRIT_KILL]:
-		symbol_rect.texture = preload("res://ui/combat_panel/attack_arrow/kill.png")
-		if event == EVENTS.CRIT_KILL:
-			symbol_rect.modulate.a = 2.0/3
 	var arrow := scene.get_node("%Arrow") as TextureRect
 	arrow.flip_h = is_left
+
 	if color != Faction.Colors.BLUE:
 		var shader_material := arrow.material.duplicate(true) as ShaderMaterial
 		shader_material.set_shader_parameter("old_colors", _BLUE_COLORS.duplicate())
 		shader_material.set_shader_parameter("new_colors", _get_new_color(color).duplicate())
 		arrow.material = shader_material
+
+	if event == EVENTS.MISS:
+		damage_label.theme_type_variation = &"GrayLabel"
+	elif event in [EVENTS.KILL, EVENTS.CRIT_KILL]:
+		symbol_rect.texture = preload("res://ui/combat_panel/attack_arrow/kill.png")
+		if event == EVENTS.CRIT_KILL:
+			symbol_rect.modulate.a = 2.0 / 3
 	return scene
+
+
+static func _get_damage_text(damage: float, crit_damage: float) -> String:
+	if damage == crit_damage:
+		return Utilities.float_to_string(damage)
+	else:
+		var format_dictionary: Dictionary = {
+			"damage": Utilities.float_to_string(damage),
+			"crit_damage": Utilities.float_to_string(crit_damage)
+		}
+		return "{damage} ({crit_damage})".format(format_dictionary)
 
 
 static func _get_new_color(color: Faction.Colors) -> Array[Color]:

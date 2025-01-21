@@ -226,3 +226,6 @@ class CombatStage:
 				return AttackTypes.HIT
 		else:
 			return AttackTypes.MISS
+
+	func get_damage(crit: bool, check_miss: bool = true, check_crit: bool = true) -> float:
+		return attacker.get_displayed_damage(defender, crit, check_miss, check_crit)

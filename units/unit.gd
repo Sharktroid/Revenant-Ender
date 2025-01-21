@@ -270,6 +270,20 @@ func get_crit_damage(defender: Unit) -> float:
 	return maxf(0, crit_damage)
 
 
+func get_displayed_damage(
+	enemy: Unit, crit: bool, check_miss: bool = true, check_crit: bool = true
+) -> float:
+	if get_hit_rate(enemy) <= 0 and check_miss:
+		return 0
+	else:
+		if check_crit:
+			if get_crit_rate(enemy) >= 100:
+				return get_crit_damage(enemy)
+			elif get_crit_rate(enemy) <= 0:
+				return get_damage(enemy)
+		return get_crit_damage(enemy) if crit else get_damage(enemy)
+
+
 ## Sets the unit's map animation
 func set_animation(animation: Animations) -> void:
 	_animation_player.play("RESET")

@@ -79,30 +79,43 @@ func _get_attack_speed_label_theme(
 
 
 func _update_total_damage_label(unit: Unit, enemy: Unit, distance: int) -> void:
-	var weapon: Weapon = unit.get_weapon()
-	var get_total_damage: Callable = func(
-		accumulator: float, attack: AttackController.CombatStage, damage: Callable
-	) -> float:
-		if attack.attacker == unit:
-			accumulator += damage.call()
-		return accumulator
+	var total_damage: float = _get_total_damage(false, unit, enemy, distance)
+	var damage_label := %DamageLabel as Label
+	damage_label.text = _get_total_damage_string(unit, enemy, distance, total_damage)
+	damage_label.theme_type_variation = _get_total_damage_type_variation(
+		unit, distance, total_damage
+	)
+
+
+func _get_total_damage_string(
+	unit: Unit, enemy: Unit, distance: int, total_damage: float
+) -> String:
+	var total_critical_damage: float = _get_total_damage(true, unit, enemy, distance)
+	if total_damage == total_critical_damage:
+		return Utilities.float_to_string(total_damage)
+	else:
+		var formatting_replacements: Dictionary = {
+			"damage": Utilities.float_to_string(total_damage),
+			"critical_damage": Utilities.float_to_string(total_critical_damage)
+		}
+		return "{damage} ({critical_damage})".format(formatting_replacements)
+
+
+func _get_total_damage_type_variation(unit: Unit, distance: int, total_damage: float) -> StringName:
+	if total_damage > 0 and (unit.get_weapon() and unit.get_weapon().in_range(distance)):
+		return &"BlueLabel"
+	else:
+		return &"GrayLabel"
+
+
+func _get_total_damage(crit: bool, unit: Unit, enemy: Unit, distance: int) -> float:
 	var attack_queue: Array[AttackController.CombatStage] = AttackController.get_attack_queue(
 		unit, distance, enemy
 	)
-	var total_damage: float = attack_queue.reduce(
-		get_total_damage.bind(func() -> float: return unit.get_damage(enemy)), 0
-	)
-	var total_critical_damage: float = attack_queue.reduce(
-		get_total_damage.bind(func() -> float: return unit.get_crit_damage(enemy)), 0
-	)
-	var damage_label := %DamageLabel as Label
-	var formatting_replacements: Dictionary = {
-		"damage": Utilities.float_to_string(total_damage),
-		"critical_damage": Utilities.float_to_string(total_critical_damage)
-	}
-	damage_label.text = "{damage} ({critical_damage})".format(formatting_replacements)
-	damage_label.theme_type_variation = (
-		&"BlueLabel"
-		if total_damage > 0 and (weapon and weapon.in_range(distance))
-		else &"GrayLabel"
-	)
+	var get_total_damage: Callable = func(
+		accumulator: float, attack: AttackController.CombatStage
+	) -> float:
+		if attack.attacker == unit:
+			accumulator += unit.get_displayed_damage(enemy, crit)
+		return accumulator
+	return attack_queue.reduce(get_total_damage.bind(), 0)

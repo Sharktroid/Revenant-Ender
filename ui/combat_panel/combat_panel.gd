@@ -117,37 +117,32 @@ func _update() -> void:
 		for attack: AttackController.CombatStage in AttackController.get_attack_queue(
 			_left_unit, _distance, right_unit
 		):
-			var damage: float = attack.attacker.get_damage(attack.defender)
-			var get_critical_damage: Callable = func() -> float:
-				if attack.attacker.get_crit_rate(attack.defender) > 0:
-					return attack.attacker.get_crit_damage(attack.defender)
-				else:
-					return 0.0
 			if attack.attacker == _left_unit:
-				left_sum += damage
-				left_critical_sum += get_critical_damage.call()
+				left_sum += attack.get_damage(false)
+				left_critical_sum += attack.get_damage(true)
 			else:
-				right_sum += damage
-				right_critical_sum += get_critical_damage.call()
+				right_sum += attack.get_damage(false)
+				right_critical_sum += attack.get_damage(true)
+			const DIRS = AttackArrow.DIRECTIONS
 			var direction: AttackArrow.DIRECTIONS = (
-				AttackArrow.DIRECTIONS.RIGHT
-				if attack.attacker == _left_unit
-				else AttackArrow.DIRECTIONS.LEFT
+				DIRS.RIGHT if attack.attacker == _left_unit else DIRS.LEFT
 			)
 			var get_event: Callable = func() -> AttackArrow.EVENTS:
 				var current_sum: float = left_sum if attack.attacker == _left_unit else right_sum
 				var current_critical_sum: float = (
 					left_critical_sum if attack.attacker == _left_unit else right_critical_sum
 				)
-				if current_sum >= attack.defender.current_health:
+				if attack.attacker.get_hit_rate(attack.defender) <= 0:
+					return AttackArrow.EVENTS.MISS
+				elif current_sum >= attack.defender.current_health:
 					return AttackArrow.EVENTS.KILL
 				elif current_critical_sum >= attack.defender.current_health:
 					return AttackArrow.EVENTS.CRIT_KILL
 				return AttackArrow.EVENTS.NONE
 			var attack_arrow := AttackArrow.instantiate(
 				direction,
-				attack.attacker.get_damage(attack.defender),
-				attack.attacker.get_crit_damage(attack.defender),
+				attack.get_damage(false, false),
+				attack.get_damage(true, false),
 				get_event.call() as AttackArrow.EVENTS,
 				attack.attacker.faction.color
 			)
