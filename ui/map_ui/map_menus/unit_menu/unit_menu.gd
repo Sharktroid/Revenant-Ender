@@ -315,10 +315,12 @@ func _trade(selected_unit: Unit) -> void:
 	MapController.get_ui().add_child(menu)
 	CursorController.disable()
 	visible = false
+	process_mode = PROCESS_MODE_DISABLED
 	if await menu.completed:
 		await _unactionable()
 	else:
 		connected_unit.display_movement_tiles()
+	process_mode = PROCESS_MODE_INHERIT
 	visible = true
 	reset_size()
 

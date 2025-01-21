@@ -25,10 +25,14 @@ static func instantiate(
 	var scene := PACKED_SCENE.instantiate() as TradeMenuItem
 	scene._parent_menu = parent
 	if new_item:
-		scene._item = new_item
+		scene.item = new_item
 	scene._unit = unit
 	scene.add_to_group(TradeMenu.ITEM_GROUP)
 	return scene
+
+
+func update() -> void:
+	_update()
 
 
 func _update() -> void:
@@ -36,3 +40,10 @@ func _update() -> void:
 		child.visible = (_item != null)
 	if _item != null:
 		super()
+
+
+func _on_mouse_entered() -> void:
+	if HelpPopupController.is_active():
+		super()
+	else:
+		_parent_menu.current_label = self

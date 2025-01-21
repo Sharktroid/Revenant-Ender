@@ -5,13 +5,10 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Fix trade menu.
 * Modify any function over 25 lines long
+* Add SFX to trade menu
 
 # Major
-* Renovate Combat Panel:
-	* Add option for having the equipped weapon change if you use the attack preview with it.
-* Implement Engage-style combat preview
 * Renovate debug menu
 	* Split into debug options and the others.
 	* Add debug constant to control whether the setting is displayed in the main map menu

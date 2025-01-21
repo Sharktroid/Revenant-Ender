@@ -221,7 +221,7 @@ func _process(_delta: float) -> void:
 
 ## Gets the current weapon
 func get_weapon() -> Weapon:
-	if _equipped_weapon:
+	if _equipped_weapon and _equipped_weapon in items:
 		return _equipped_weapon
 	for item: Item in items:
 		if item is Weapon and can_use_weapon(item as Weapon):

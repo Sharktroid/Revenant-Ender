@@ -36,7 +36,14 @@ func _set_equip_status() -> void:
 		equip_status.add_theme_color_override("font_color", Color.ROYAL_BLUE)
 	else:
 		equip_status.text = ""
+	($Name as Label).theme_type_variation = _get_type_variation()
 
-	($Name as Label).theme_type_variation = (
-		"" if _item is Weapon and _unit.can_use_weapon(_item as Weapon) else "GrayLabel"
-	)
+
+func _get_type_variation() -> StringName:
+	if _item is Weapon:
+		if _unit.can_use_weapon(_item as Weapon):
+			return &""
+		else:
+			return &"GrayLabel"
+	else:
+		return &""
