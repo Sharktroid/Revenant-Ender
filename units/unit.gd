@@ -120,7 +120,9 @@ var faction: Faction:
 			return _get_map().all_factions[_faction_id]
 		return Faction.new("INVALID", Faction.Colors.BLUE, Faction.PlayerTypes.HUMAN, null)
 	set(new_faction):
+		remove_from_group(faction.get_group_name())
 		_faction_id = _get_map().all_factions.find(new_faction)
+		add_to_group(faction.get_group_name())
 var waiting: bool = false
 
 ## Effort value for hit points

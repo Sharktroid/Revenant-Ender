@@ -37,6 +37,10 @@ func _to_string() -> String:
 	return 'Faction:"{name}"<#{id}>'.format({"name": name, "id": get_instance_id()})
 
 
+func get_group_name() -> StringName:
+	return &"%s_unit" % name
+
+
 func get_diplomacy_stance(faction: Faction) -> DiplomacyStances:
 	if faction == self:
 		return DiplomacyStances.SELF
@@ -55,9 +59,10 @@ func is_friend(other_faction: Faction) -> bool:
 
 ## Gets the units that belong to the faction.
 func get_units() -> Array[Unit]:
-	return MapController.map.get_units().filter(
-		func(unit: Unit) -> bool: return unit.faction == self
-	)
+	var units: Array[Unit] = []
+	# Use groups as it is faster than using get_units and checking each unit.
+	units.assign(MapController.get_tree().get_nodes_in_group(get_group_name()))
+	return units
 
 
 ## Returns true if the faction is friendly to a human.
@@ -68,9 +73,9 @@ func is_friendly_to_human() -> bool:
 
 
 func get_authority() -> int:
-	var units: Array[Unit] = get_units().filter(func(unit: Unit) -> bool: return unit.get_authority() > 0)
-	if units.size() > 2:
-		print_debug(units.map(func(unit: Unit) -> String: return unit.get_path()))
-	return get_units().reduce(
+	var units: Array[Unit] = get_units().filter(
+		func(unit: Unit) -> bool: return unit.get_authority() > 0
+	)
+	return units.reduce(
 		func(accumulator: int, unit: Unit) -> int: return accumulator + unit.get_authority(), 0
 	)
