@@ -67,36 +67,43 @@ static func get_displayed_items(unit: Unit) -> Dictionary:
 		enabled_items.Drop = unit.traveler != null and not _get_drop_tiles(unit).is_empty()
 		enabled_items.Items = not unit.items.is_empty()
 		# Gets all adjacent units
-		var is_unit_valid: Callable = func(adjacent_unit: Unit) -> bool:
-			return adjacent_unit != unit and adjacent_unit.visible == true
-		for adjacent_unit: Unit in MapController.map.get_units().filter(is_unit_valid):
-			var tile_distance: float = Utilities.get_tile_distance(
-				CursorController.map_position, adjacent_unit.get_position()
-			)
-			if tile_distance == 1:
-				# Adjacent units
-				if unit.is_friend(adjacent_unit):
-					if not (unit.items.is_empty() or adjacent_unit.items.is_empty()):
-						enabled_items.Trade = true
-					if _can_shove(adjacent_unit, unit, CursorController.map_position):
-						enabled_items.Shove = true
-					if adjacent_unit.traveler:
-						if unit.traveler:
-							enabled_items.Exchange = true
-						else:
-							enabled_items.Take = true
-					else:
-						if unit.traveler:
-							enabled_items.Give = true
-						elif unit.can_rescue(adjacent_unit):
-							enabled_items.Rescue = true
-			if _can_attack(unit, adjacent_unit):
-				enabled_items.Attack = true
+		var adjacent_items: Dictionary = _get_adjacent_items(unit)
+		for item: String in adjacent_items:
+			enabled_items[item] = adjacent_items[item]
 	else:
 		if (
 			CursorController.get_hovered_unit()
 			and _can_attack(unit, CursorController.get_hovered_unit())
 		):
+			enabled_items.Attack = true
+	return enabled_items
+
+
+static func _get_adjacent_items(unit: Unit) -> Dictionary:
+	var enabled_items: Dictionary = {}
+	var is_unit_valid: Callable = func(adjacent_unit: Unit) -> bool:
+		return adjacent_unit != unit and adjacent_unit.visible == true
+	for adjacent_unit: Unit in MapController.map.get_units().filter(is_unit_valid):
+		var tile_distance: float = Utilities.get_tile_distance(
+			CursorController.map_position, adjacent_unit.get_position()
+		)
+		if tile_distance == 1 and unit.is_friend(adjacent_unit):
+			# Adjacent units
+			if not (unit.items.is_empty() or adjacent_unit.items.is_empty()):
+				enabled_items.Trade = true
+			if _can_shove(adjacent_unit, unit, CursorController.map_position):
+				enabled_items.Shove = true
+			if adjacent_unit.traveler:
+				if unit.traveler:
+					enabled_items.Exchange = true
+				else:
+					enabled_items.Take = true
+			else:
+				if unit.traveler:
+					enabled_items.Give = true
+				elif unit.can_rescue(adjacent_unit):
+					enabled_items.Rescue = true
+		if _can_attack(unit, adjacent_unit):
 			enabled_items.Attack = true
 	return enabled_items
 

@@ -30,9 +30,8 @@ static func instantiate(
 	var symbol_rect := scene.get_node("LeftSymbol" if is_left else "RightSymbol") as TextureRect
 	var arrow := scene.get_node("%Arrow") as TextureRect
 	arrow.flip_h = is_left
-
 	if color != Faction.Colors.BLUE:
-		var shader_material := arrow.material.duplicate(true) as ShaderMaterial
+		var shader_material := arrow.material.duplicate() as ShaderMaterial
 		shader_material.set_shader_parameter("old_colors", _BLUE_COLORS.duplicate())
 		shader_material.set_shader_parameter("new_colors", _get_new_color(color).duplicate())
 		arrow.material = shader_material

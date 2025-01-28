@@ -8,21 +8,7 @@ var _current_setting_index: int:
 	get:
 		return _settings_indices[_get_current_option()]
 	set(value):
-		_current_setting_index = posmod(value, _get_settings_count())
-		_get_current_setting_label().theme_type_variation = &"GrayLabel"
-		_settings_indices[_get_current_option()] = posmod(value, _get_settings_count())
-		_get_current_setting_label().theme_type_variation = _get_label_color(
-			_get_current_setting_label()
-		)
-		if _get_current_option() is BooleanOption:
-			(_get_current_option() as BooleanOption).value = (
-				_get_current_setting_label().text == "On"
-			)
-		else:
-			(_get_current_option() as StringNameOption).value = (
-				_get_current_setting_label().text.to_snake_case()
-			)
-		_hovered_setting_index = _current_setting_index
+		_set_current_setting_index(value)
 # The index of the option setting that the mouse is hovering over.
 var _hovered_setting_index: int:
 	set(value):
@@ -32,21 +18,7 @@ var _hovered_setting_index: int:
 			_update_description()
 # The index of the current option.
 var _current_index: int = 0:
-	set(value):
-		if value != _current_index:
-			_current_index = posmod(value, Options.get_options().size())
-			if _current_index == 0:
-				_top_index = 0
-			elif _current_index == Options.get_options().size() - 1:
-				_top_index = _get_top_index_max()
-			elif _get_relative_index() == _displayed_item_count() - 1:
-				_top_index += 1
-			elif _get_relative_index() == 0:
-				_top_index -= 1
-			_update_hand_y()
-			if _get_current_option() is not FloatOption:
-				_hovered_setting_index = _current_setting_index
-			_update_description()
+	set = _set_current_value
 # The index of the top-displayed item.
 var _top_index: int = 0:
 	set(value):
@@ -74,46 +46,7 @@ var _scroll_tween: Tween = create_tween()
 
 func _ready() -> void:
 	MapController.map.process_mode = Node.PROCESS_MODE_DISABLED
-	for option: ConfigOption in Options.get_options():
-		var icon_rect := TextureRect.new()
-		icon_rect.texture = load("res://ui/map_ui/options_menu/icons/%s.png" % option.get_name())
-		var icon_center := CenterContainer.new()
-		icon_center.custom_minimum_size = Vector2i(16, 16)
-		icon_center.add_child(icon_rect)
-		%IconsList.add_child(icon_center)
-
-		var name_label := Label.new()
-		name_label.text = option.get_name().capitalize()
-		%NamesList.add_child(name_label)
-
-		if option is FloatOption:
-			var float_option := option as FloatOption
-			var progress_bar := NumericProgressBar.instantiate(
-				float_option.value,
-				float_option.get_min(),
-				float_option.get_max(),
-				NumericProgressBar.Modes.FLOAT
-			)
-			progress_bar.custom_minimum_size.x = 200
-			%SettingsList.add_child(progress_bar)
-		else:
-			var settings_h_box := HBoxContainer.new()
-			if option is BooleanOption:
-				_settings_indices[option] = 0 if (option as BooleanOption).value else 1
-				settings_h_box.add_child(_create_label("On"))
-				settings_h_box.add_child(_create_label("Off"))
-			elif option is StringNameOption:
-				var string_name_option := option as StringNameOption
-				_settings_indices[option] = string_name_option.get_settings().find(
-					string_name_option.value
-				)
-				for setting_index: int in string_name_option.get_settings().size():
-					settings_h_box.add_child(
-						_create_label(string_name_option.get_settings()[setting_index].capitalize())
-					)
-			var label := settings_h_box.get_child(_settings_indices[option] as int) as Label
-			label.theme_type_variation = _get_label_color(label)
-			%SettingsList.add_child(settings_h_box)
+	_create_options()
 	_horizontal_tween.stop()
 	_vertical_tween.stop()
 	_scroll_tween.stop()
@@ -126,29 +59,7 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and not _scroll_tween.is_running():
-		#region Mouse handling
-		_current_index = clampi(
-			floori(_scroll_container.get_local_mouse_position().y / 16) + _top_index,
-			0,
-			Options.get_options().size() - 1
-		)
-		if _get_current_option() is not FloatOption:
-			var setting_box := %SettingsList.get_child(_current_index) as HBoxContainer
-			var last_label := setting_box.get_children().back() as Control
-			if setting_box.get_local_mouse_position().x < 0:
-				_hovered_setting_index = 0
-			elif (
-				setting_box.get_global_mouse_position().x
-				>= last_label.global_position.x + last_label.size.x
-			):
-				_hovered_setting_index = setting_box.get_child_count() - 1
-			else:
-				for index: int in setting_box.get_child_count():
-					var setting := setting_box.get_child(index) as Label
-					var mouse_x: float = setting.get_local_mouse_position().x
-					if mouse_x >= 0 and mouse_x < setting.size.x:
-						_hovered_setting_index = index
-		#endregion
+		_update_mouse_position()
 	elif event is InputEventKey:
 		if not _vertical_tween.is_running():
 			if event.is_action_pressed("up", true) and not Input.is_action_pressed("down"):
@@ -160,26 +71,9 @@ func _input(event: InputEvent) -> void:
 
 		if not _horizontal_tween.is_running():
 			if event.is_action_pressed("left", true) and not Input.is_action_pressed("right"):
-				if _get_current_option() is FloatOption:
-					if snappedf(_get_progress_bar().value, 0.1) != _get_progress_bar().value:
-						_set_progress_bar_value(
-							_get_progress_bar().value - fmod(_get_progress_bar().value, 0.1)
-						)
-					else:
-						_set_progress_bar_value(_get_progress_bar().value - 0.1)
-				else:
-					_current_setting_index -= 1
-				AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_H)
+				_move(-1)
 			elif event.is_action_pressed("right", true):
-				if _get_current_option() is FloatOption:
-					var new_value: float = _get_progress_bar().value + 0.1
-					if snappedf(_get_progress_bar().value, 0.1) != _get_progress_bar().value:
-						new_value -= fmod(_get_progress_bar().value, 0.1)
-					_set_progress_bar_value(new_value)
-				else:
-					_current_setting_index += 1
-				AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_H)
-
+				_move(1)
 	if event.is_action_pressed("back"):
 		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
 		queue_free()
@@ -206,10 +100,71 @@ func _exit_tree() -> void:
 	CursorController.enable()
 
 
+func _create_options() -> void:
+	for option: ConfigOption in Options.get_options():
+		var icon_rect := TextureRect.new()
+		icon_rect.texture = load("res://ui/map_ui/options_menu/icons/%s.png" % option.get_name())
+		var icon_center := CenterContainer.new()
+		icon_center.custom_minimum_size = Vector2i(16, 16)
+		icon_center.add_child(icon_rect)
+		%IconsList.add_child(icon_center)
+
+		var name_label := Label.new()
+		name_label.text = option.get_name().capitalize()
+		%NamesList.add_child(name_label)
+
+		if option is FloatOption:
+			_create_float_option(option as FloatOption)
+		else:
+			var settings_h_box := HBoxContainer.new()
+			if option is BooleanOption:
+				_create_bool_option(settings_h_box, option as BooleanOption)
+			elif option is StringNameOption:
+				_create_string_option(settings_h_box, option as StringNameOption)
+			var label := settings_h_box.get_child(_settings_indices[option] as int) as Label
+			label.theme_type_variation = _get_label_color(label)
+			%SettingsList.add_child(settings_h_box)
+
+
+func _create_float_option(option: FloatOption) -> void:
+	var progress_bar := NumericProgressBar.instantiate(
+		option.value, option.get_min(), option.get_max(), NumericProgressBar.Modes.FLOAT
+	)
+	progress_bar.custom_minimum_size.x = 200
+	%SettingsList.add_child(progress_bar)
+
+
+func _create_bool_option(settings_h_box: HBoxContainer, option: BooleanOption) -> void:
+	_settings_indices[option] = 0 if option.value else 1
+	settings_h_box.add_child(_create_label("On"))
+	settings_h_box.add_child(_create_label("Off"))
+
+
+func _create_string_option(settings_h_box: HBoxContainer, option: StringNameOption) -> void:
+	_settings_indices[option] = option.get_settings().find(option.value)
+	for setting_index: int in option.get_settings().size():
+		settings_h_box.add_child(_create_label(option.get_settings()[setting_index].capitalize()))
+
+
 # Gets the relative index compared to the top index
 func _get_relative_index() -> int:
 	return _current_index - _top_index
-
+func _set_current_setting_index(value: int) -> void:
+		_current_setting_index = posmod(value, _get_settings_count())
+		_get_current_setting_label().theme_type_variation = &"GrayLabel"
+		_settings_indices[_get_current_option()] = posmod(value, _get_settings_count())
+		_get_current_setting_label().theme_type_variation = _get_label_color(
+			_get_current_setting_label()
+		)
+		if _get_current_option() is BooleanOption:
+			(_get_current_option() as BooleanOption).value = (
+				_get_current_setting_label().text == "On"
+			)
+		else:
+			(_get_current_option() as StringNameOption).value = (
+				_get_current_setting_label().text.to_snake_case()
+			)
+		_hovered_setting_index = _current_setting_index
 
 # The setting label for the current index
 func _get_current_setting_label() -> Label:
@@ -219,7 +174,21 @@ func _get_current_setting_label() -> Label:
 # The setting label for the current index
 func _get_hovered_setting_label() -> Label:
 	return (%SettingsList).get_child(_current_index).get_child(_hovered_setting_index) as Label
-
+func _set_current_value(value: int) -> void:
+		if value != _current_index:
+			_current_index = posmod(value, Options.get_options().size())
+			if _current_index == 0:
+				_top_index = 0
+			elif _current_index == Options.get_options().size() - 1:
+				_top_index = _get_top_index_max()
+			elif _get_relative_index() == _displayed_item_count() - 1:
+				_top_index += 1
+			elif _get_relative_index() == 0:
+				_top_index -= 1
+			_update_hand_y()
+			if _get_current_option() is not FloatOption:
+				_hovered_setting_index = _current_setting_index
+			_update_description()
 
 # Updates the x of the column hand
 func _update_column_hand_x() -> void:
@@ -314,3 +283,45 @@ func _set_progress_bar_value(value: float) -> void:
 	)
 	_get_progress_bar().value = clamped_value
 	(_get_current_option() as FloatOption).value = clamped_value
+
+
+func _update_mouse_position() -> void:
+	_current_index = clampi(
+		floori(_scroll_container.get_local_mouse_position().y / 16) + _top_index,
+		0,
+		Options.get_options().size() - 1
+	)
+	if _get_current_option() is not FloatOption:
+		var setting_box := %SettingsList.get_child(_current_index) as HBoxContainer
+		var last_label := setting_box.get_children().back() as Control
+		if setting_box.get_local_mouse_position().x < 0:
+			_hovered_setting_index = 0
+		elif (
+			setting_box.get_global_mouse_position().x
+			>= last_label.global_position.x + last_label.size.x
+		):
+			_hovered_setting_index = setting_box.get_child_count() - 1
+		else:
+			for index: int in setting_box.get_child_count():
+				var setting := setting_box.get_child(index) as Label
+				var mouse_x: float = setting.get_local_mouse_position().x
+				if mouse_x >= 0 and mouse_x < setting.size.x:
+					_hovered_setting_index = index
+
+
+func _move(dir: int) -> void:
+	if _get_current_option() is FloatOption:
+		_set_progress_bar_value(_get_clamped_float_value(0.1 * dir))
+	else:
+		_current_setting_index += 1 * dir
+	AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_H)
+
+
+func _get_clamped_float_value(added_value: float) -> float:
+	var new_value: float = _get_progress_bar().value + added_value
+	if snappedf(_get_progress_bar().value, 0.1) != _get_progress_bar().value:
+		if added_value < 0:
+			return _get_progress_bar().value - fmod(_get_progress_bar().value, 0.1)
+		else:
+			new_value -= fmod(_get_progress_bar().value, 0.1)
+	return new_value

@@ -58,7 +58,7 @@ var max_value: float:
 
 ## Creates a new instance.
 static func instantiate(
-	new_value: float, minimum: float, maximum: float, new_mode := Modes.INTEGER, og_value: int = 0
+	new_value: float, minimum: float, maximum: float, new_mode := Modes.INTEGER, og_value: float = new_value
 ) -> NumericProgressBar:
 	const PACKED_SCENE: PackedScene = preload("res://ui/progress_bar/numeric_progress_bar.tscn")
 	var scene := PACKED_SCENE.instantiate() as NumericProgressBar
@@ -70,7 +70,8 @@ static func instantiate(
 		scene.min_value = minimum
 		scene.mode = new_mode
 		scene.value = new_value
-		scene.original_value = og_value
+		if new_value != og_value:
+			scene.original_value = og_value
 	coroutine.call()
 	return scene
 
@@ -88,24 +89,24 @@ func _update() -> void:
 		_progress_bar_yellow.value = value
 		_progress_bar_red.value = original_value
 
-	match mode:
-		Modes.INTEGER:
-			_value_label.text = _get_integer_string()
-		Modes.PERCENT:
-			_value_label.text = (
-				Utilities.float_to_string(snappedf(value / max_value * 100, 0.001)) + "%"
-			)
-		_:
-			_value_label.text = Utilities.float_to_string(snappedf(value, 0.001))
+	_value_label.text = _get_value_text()
 	if two_valued:
 		_value_label.theme_type_variation = _get_theme_variation()
 
 
-func _get_integer_string() -> String:
-	if abs(value) == INF:
-		return Utilities.INF_CHAR if value == INF else "-%s" % Utilities.INF_CHAR
-	else:
-		return Utilities.float_to_string(roundi(value))
+func _get_value_text() -> String:
+	match mode:
+		Modes.INTEGER:
+			if abs(value) == INF:
+				return Utilities.INF_CHAR if value == INF else "-%s" % Utilities.INF_CHAR
+			else:
+				return Utilities.float_to_string(roundi(value))
+		Modes.PERCENT:
+			return (
+				Utilities.float_to_string(snappedf(value / max_value * 100, 0.001)) + "%"
+			)
+		_:
+			return Utilities.float_to_string(snappedf(value, 0.001))
 
 
 func _get_theme_variation() -> StringName:

@@ -24,33 +24,30 @@ func _select_item(item: MapMenuItem) -> void:
 	match item.name:
 		"UnitWait":
 			DebugConfig.UNIT_WAIT.invert()
-
 		"DisplayBorders":
 			DebugConfig.DISPLAY_MAP_BORDERS.invert()
-
 		"DisplayTerrain":
 			DebugConfig.DISPLAY_MAP_TERRAIN.invert()
-
 		"DisplayMapCursor":
 			DebugConfig.DISPLAY_MAP_CURSOR.invert()
-
 		"PrintInputReceiver":
 			DebugConfig.PRINT_INPUT_RECEIVER.invert()
-
 		"PrintCursorPosition":
-			var format_dictionary: Dictionary = {
-				"ui": "Position relative to UI: %s" % CursorController.screen_position,
-				"map": "Position relative to map: %s" % CursorController.map_position
-			}
-			print("{ui}\n{map}".format(format_dictionary))
-
+			print(_get_cursor_position())
 		"DisplayFrameRate":
 			DebugConfig.SHOW_FPS.invert()
-
 		_:
 			push_error("%s is not a valid menu item" % item)
 	_update_items()
 	super(item)
+
+
+func _get_cursor_position() -> String:
+	var format_dictionary: Dictionary = {
+		"ui": "Position relative to UI: %s" % CursorController.screen_position,
+		"map": "Position relative to map: %s" % CursorController.map_position
+	}
+	return "{ui}\n{map}".format(format_dictionary)
 
 
 func _update_items() -> void:

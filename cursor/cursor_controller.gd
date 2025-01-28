@@ -61,18 +61,9 @@ func _physics_process(_delta: float) -> void:
 					or Input.is_action_pressed("up")
 					or Input.is_action_pressed("down")
 				):
-					var new_pos: Vector2i = map_position
-					var old_pos: Vector2i = new_pos
-					if Input.is_action_pressed("left") and not Input.is_action_pressed("right"):
-						new_pos.x -= 16
-					elif Input.is_action_pressed("right"):
-						new_pos.x += 16
-					if Input.is_action_pressed("up") and not Input.is_action_pressed("down"):
-						new_pos.y -= 16
-					elif Input.is_action_pressed("down"):
-						new_pos.y += 16
-					map_position = new_pos
-					if new_pos != old_pos and map_position != old_pos:
+					var old_pos: Vector2i = map_position
+					map_position = _get_new_position()
+					if map_position != old_pos:
 						AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.CURSOR)
 					_delay = 4
 				else:
@@ -136,10 +127,23 @@ func is_active() -> bool:
 
 ## Returns the unit currently underneath the cursor.
 func get_hovered_unit() -> Unit:
-	for unit: Unit in MapController.map.get_units():
-		if unit.position.round() as Vector2i == map_position and unit.visible:
-			return unit
-	return null
+	var filter: Callable = func(unit: Unit) -> bool:
+		return unit.position.round() as Vector2i == map_position and unit.visible
+	var units: Array[Unit] = MapController.map.get_units().filter(filter)
+	return units.front() if not units.is_empty() else null
+
+
+func _get_new_position() -> Vector2i:
+	var new_pos: Vector2i = map_position
+	if Input.is_action_pressed("left") and not Input.is_action_pressed("right"):
+		new_pos.x -= 16
+	elif Input.is_action_pressed("right"):
+		new_pos.x += 16
+	if Input.is_action_pressed("up") and not Input.is_action_pressed("down"):
+		new_pos.y -= 16
+	elif Input.is_action_pressed("down"):
+		new_pos.y += 16
+	return new_pos
 
 
 func _set_map_position(new_pos: Vector2i) -> void:

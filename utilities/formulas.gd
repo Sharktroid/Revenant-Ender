@@ -1,9 +1,6 @@
 class_name Formulas
 #gdlint: disable=class-variable-name
 ## Gets the amount of points of hit for every point of dexterity.
-const DEXTERITY_HIT_MULTIPLIER: int = 3
-const SPEED_LUCK_AVOID_MULTIPLIER: int = 2
-const DEXTERITY_WEAPON_LEVEL_MULTIPLIER: int = 2
 static var ATTACK := Formula.new("{weapon_might} + {attack_stat}"):
 	set(value):
 		pass
@@ -31,9 +28,9 @@ static var WEAPON_LEVEL_BONUS := Formula.new("{dexterity} * {dexterity_weapon_le
 ## A class that represents a formula.
 class Formula:
 	const _CONSTANTS: Dictionary = {
-		"dexterity_hit_multiplier": DEXTERITY_HIT_MULTIPLIER,
-		"speed_luck_avoid_multiplier": SPEED_LUCK_AVOID_MULTIPLIER,
-		"dexterity_weapon_level_multiplier": DEXTERITY_WEAPON_LEVEL_MULTIPLIER,
+		"dexterity_hit_multiplier": 3,
+		"speed_luck_avoid_multiplier": 2,
+		"dexterity_weapon_level_multiplier": 2,
 	}
 	var _functions: Dictionary = {
 		"weapon_hit": "get_weapon().get_hit()",

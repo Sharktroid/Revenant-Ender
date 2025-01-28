@@ -15,11 +15,7 @@ func _ready() -> void:
 func update(unit: Unit, enemy: Unit, enemy_damage: float, distance: int) -> void:
 	var weapon: Weapon = unit.get_weapon()
 	var in_range: bool = weapon and weapon.in_range(distance)
-	var hp_progress_bar := %HPProgressBar as NumericProgressBar
-	hp_progress_bar.max_value = unit.get_hit_points()
-	hp_progress_bar.value = maxf(unit.current_health - enemy_damage, 0)
-	hp_progress_bar.original_value = unit.current_health
-	(%HPLabel as Label).text = Utilities.float_to_string(unit.current_health)
+	_update_hp_display(unit, enemy_damage)
 
 	_update_rate_label(%HitLabel as Label, unit.get_hit_rate(enemy), in_range)
 	_update_rate_label(%CriticalRateLabel as Label, unit.get_crit_rate(enemy), in_range)
@@ -37,6 +33,15 @@ func update(unit: Unit, enemy: Unit, enemy_damage: float, distance: int) -> void
 		attack_speed_label.theme_type_variation = _get_attack_speed_label_theme(
 			unit, enemy, weapon, enemy.get_weapon(), distance
 		)
+
+
+func _update_hp_display(unit: Unit, enemy_damage: float) -> void:
+	var hp_progress_bar := %HPProgressBar as NumericProgressBar
+	hp_progress_bar.max_value = unit.get_hit_points()
+	hp_progress_bar.value = maxf(unit.current_health - enemy_damage, 0)
+	hp_progress_bar.original_value = unit.current_health
+	(%HPLabel as Label).text = Utilities.float_to_string(unit.current_health)
+
 
 
 func _get_invalid_hboxes() -> Array[HBoxContainer]:

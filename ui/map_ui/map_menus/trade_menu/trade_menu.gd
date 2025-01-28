@@ -6,6 +6,7 @@ signal completed(action_performed: bool)
 const ITEM_GROUP: StringName = &"trade_menu_item_group"
 
 var current_label: TradeMenuItem
+
 var _left_unit: Unit
 var _right_unit: Unit
 var _selected_label: TradeMenuItem

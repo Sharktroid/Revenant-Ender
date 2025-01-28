@@ -16,34 +16,44 @@ func _ready() -> void:
 	(%Name as Label).text = unit.display_name
 	bg_gradient.add_theme_stylebox_override("panel", gradient_stylebox as StyleBoxTexture)
 
-	#region set_color
-	var top_color: Color
-	var bottom_color: Color
-	match unit.faction.color:
-		Faction.Colors.BLUE:
-			top_color = Color("47B4D8")
-			bottom_color = Color("27647A")
-		Faction.Colors.RED:
-			top_color = Color("E36468")
-			bottom_color = Color("80363A")
-		Faction.Colors.GREEN:
-			top_color = Color.GREEN
-			top_color.s = 0.75
-			top_color = Color.GREEN
-			top_color.v = 0.5
-		Faction.Colors.PURPLE:
-			top_color = Color.PURPLE
-			top_color.s = 0.75
-			top_color = Color.PURPLE
-			top_color.v = 0.5
-
 	var gradient := (gradient_stylebox.texture as GradientTexture2D).gradient
-	gradient.set_color(0, top_color)
-	gradient.set_color(1, bottom_color)
-	#endregion
+	gradient.set_color(0, _get_top_color(unit.faction.color))
+	gradient.set_color(1, _get_bottom_color(unit.faction.color))
 
 	unit.health_changed.connect(_on_unit_health_changed)
 	_on_unit_health_changed()
+
+
+func _get_top_color(faction_color: Faction.Colors) -> Color:
+	match faction_color:
+		Faction.Colors.RED:
+			return Color("E36468")
+		Faction.Colors.GREEN:
+			var color := Color.GREEN
+			color.s = 0.75
+			return color
+		Faction.Colors.PURPLE:
+			var color := Color.PURPLE
+			color.s = 0.75
+			return color
+		_:
+			return Color("47B4D8")
+
+
+func _get_bottom_color(faction_color: Faction.Colors) -> Color:
+	match faction_color:
+		Faction.Colors.RED:
+			return Color("80363A")
+		Faction.Colors.GREEN:
+			var color := Color.GREEN
+			color.v = 0.5
+			return color
+		Faction.Colors.PURPLE:
+			var color := Color.PURPLE
+			color.v = 0.5
+			return color
+		_:
+			return Color("27647A")
 
 
 ## Updates the value displayed.

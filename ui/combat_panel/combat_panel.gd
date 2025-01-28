@@ -19,7 +19,6 @@ var right_unit: Unit:
 		if not is_node_ready():
 			await ready
 		_left_name_panel.arrows = _current_weapons.size() > 1
-		_update()
 
 var _left_unit: Unit
 var _distance: int
@@ -71,9 +70,9 @@ func _input(event: InputEvent) -> void:
 		_set_focus(false)
 		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
 		_left_unit.equip_weapon(_original_weapon)
-	elif event.is_action_pressed("left") and not Input.is_action_pressed("right"):
+	elif event.is_action_pressed("left", true) and not Input.is_action_pressed("right"):
 		_weapon_index -= 1
-	elif event.is_action_pressed("right"):
+	elif event.is_action_pressed("right", true):
 		_weapon_index += 1
 	accept_event()
 
@@ -108,50 +107,90 @@ func _get_index() -> int:
 
 func _update() -> void:
 	if right_unit and is_node_ready():
+		#Utilities.start_profiling()
 		for child: Node in $Damage.get_children():
 			child.queue_free()
-		var left_sum: float = 0
-		var right_sum: float = 0
-		var left_critical_sum: float = 0
-		var right_critical_sum: float = 0
-		for attack: AttackController.CombatStage in AttackController.get_attack_queue(
-			_left_unit, _distance, right_unit
-		):
-			if attack.attacker == _left_unit:
-				left_sum += attack.get_damage(false)
-				left_critical_sum += attack.get_damage(true)
-			else:
-				right_sum += attack.get_damage(false)
-				right_critical_sum += attack.get_damage(true)
-			const DIRS = AttackArrow.DIRECTIONS
-			var direction: AttackArrow.DIRECTIONS = (
-				DIRS.RIGHT if attack.attacker == _left_unit else DIRS.LEFT
-			)
-			var get_event: Callable = func() -> AttackArrow.EVENTS:
-				var current_sum: float = left_sum if attack.attacker == _left_unit else right_sum
-				var current_critical_sum: float = (
-					left_critical_sum if attack.attacker == _left_unit else right_critical_sum
-				)
-				if attack.attacker.get_hit_rate(attack.defender) <= 0:
-					return AttackArrow.EVENTS.MISS
-				elif current_sum >= attack.defender.current_health:
-					return AttackArrow.EVENTS.KILL
-				elif current_critical_sum >= attack.defender.current_health:
-					return AttackArrow.EVENTS.CRIT_KILL
-				return AttackArrow.EVENTS.NONE
-			var attack_arrow := AttackArrow.instantiate(
-				direction,
-				attack.get_damage(false, false),
-				attack.get_damage(true, false),
-				get_event.call() as AttackArrow.EVENTS,
-				attack.attacker.faction.color
-			)
-			$Damage.add_child(attack_arrow)
-
+		#Utilities.profiler_checkpoint()
 		_left_name_panel.weapon = _left_unit.get_weapon()
-
+		#Utilities.profiler_checkpoint()
+		var attack_queue: Array[AttackController.CombatStage] = AttackController.get_attack_queue(
+			_left_unit, _distance, right_unit
+		)
+		#Utilities.profiler_checkpoint()
+		_create_attack_arrows(attack_queue)
 		var right_name_panel := $RightNamePanel as NamePanel
+
 		right_name_panel.unit = right_unit
 		right_name_panel.weapon = right_unit.get_weapon()
-		($LeftStatsPanel as StatsPanel).update(_left_unit, right_unit, right_sum, _distance)
-		($RightStatsPanel as StatsPanel).update(right_unit, _left_unit, left_sum, _distance)
+		#Utilities.profiler_checkpoint()
+		var get_total_damage: Callable = func(
+			accumulator: float, attack: AttackController.CombatStage, unit: Unit
+		) -> float:
+			if attack.attacker == unit:
+				accumulator += attack.get_damage(false)
+			return accumulator
+		#Utilities.profiler_checkpoint()
+		($LeftStatsPanel as StatsPanel).update(
+			_left_unit,
+			right_unit,
+			attack_queue.reduce(get_total_damage.bind(right_unit), 0) as float,
+			_distance
+		)
+		#Utilities.profiler_checkpoint()
+		($RightStatsPanel as StatsPanel).update(
+			right_unit,
+			_left_unit,
+			attack_queue.reduce(get_total_damage.bind(_left_unit), 0) as float,
+			_distance
+		)
+		#Utilities.finish_profiling()
+
+
+func _create_attack_arrows(attack_queue: Array[AttackController.CombatStage]) -> void:
+	var left_sum: float = 0
+	var right_sum: float = 0
+	var left_critical_sum: float = 0
+	var right_critical_sum: float = 0
+	for attack: AttackController.CombatStage in attack_queue:
+		#Utilities.start_profiling()
+		if attack.attacker == _left_unit:
+			left_sum += attack.get_damage(false)
+			left_critical_sum += attack.get_damage(true)
+		else:
+			right_sum += attack.get_damage(false)
+			right_critical_sum += attack.get_damage(true)
+		#Utilities.profiler_checkpoint()
+		const DIRS = AttackArrow.DIRECTIONS
+		var direction: AttackArrow.DIRECTIONS = (
+			DIRS.RIGHT if attack.attacker == _left_unit else DIRS.LEFT
+		)
+		#Utilities.profiler_checkpoint()
+		var event: AttackArrow.EVENTS = _get_event(
+			left_sum if attack.attacker == _left_unit else right_sum,
+			left_critical_sum if attack.attacker == _left_unit else right_critical_sum,
+			attack
+		)
+		#Utilities.profiler_checkpoint()
+		var attack_arrow := AttackArrow.instantiate(
+			direction,
+			attack.get_damage(false, false),
+			attack.get_damage(true, false),
+			event,
+			attack.attacker.faction.color
+		)
+		#Utilities.profiler_checkpoint()
+		$Damage.add_child(attack_arrow)
+		#Utilities.finish_profiling()
+
+
+
+func _get_event(
+	current_sum: float, current_critical_sum: float, attack: AttackController.CombatStage
+) -> AttackArrow.EVENTS:
+	if attack.attacker.get_hit_rate(attack.defender) <= 0:
+		return AttackArrow.EVENTS.MISS
+	elif current_sum >= attack.defender.current_health:
+		return AttackArrow.EVENTS.KILL
+	elif current_critical_sum >= attack.defender.current_health:
+		return AttackArrow.EVENTS.CRIT_KILL
+	return AttackArrow.EVENTS.NONE

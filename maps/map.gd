@@ -15,27 +15,7 @@ var borders: Rect2i
 ## An array that contains all of the factions currently being used.
 var all_factions: Array[Faction]
 var state: States = States.SELECTING:
-	set(new_state):
-		if state == States.CANTERING:
-			if is_instance_valid(_canter_tiles):
-				_canter_tiles.queue_free()
-			_ghost_unit.queue_free()
-		state = new_state
-		match state:
-			States.SELECTING:
-				if _selected_unit.arrived.is_connected(_update_ghost_unit):
-					_selected_unit.arrived.disconnect(_update_ghost_unit)
-			States.CANTERING:
-				var tiles: Array[Vector2i] = _selected_unit.get_movement_tiles()
-				if tiles.size() > 1:
-					_canter_tiles = MapController.map.display_tiles(
-						tiles, Map.TileTypes.MOVEMENT, 1.0
-					)
-					_selected_unit.selected = true
-					_selected_unit.hide_movement_tiles()
-				else:
-					state = States.SELECTING
-					_selected_unit.wait()
+	set = _set_state
 
 # Movement costs for every movement type
 var _movement_cost_dict: Dictionary
@@ -78,18 +58,10 @@ func _ready() -> void:
 
 	var cell_max: Vector2i = _base_layer.get_used_cells().max()
 	size = cell_max * 16 + Vector2i(16, 16)
-	const TYPES = UnitClass.MovementTypes
-	for movement_type: TYPES in _movement_cost_dict.keys() as Array[TYPES]:
-		var a_star_grid := AStarGrid2D.new()
-		a_star_grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
-		a_star_grid.region = Rect2i(Vector2i(0, 0), cell_max + Vector2i(1, 1))
-		a_star_grid.default_compute_heuristic = AStarGrid2D.HEURISTIC_MANHATTAN
-		a_star_grid.default_estimate_heuristic = AStarGrid2D.HEURISTIC_MANHATTAN
-		a_star_grid.jumping_enabled = false
-		a_star_grid.update()
-		for cell: Vector2i in _base_layer.get_used_cells():
-			_update_a_star_grid_id(a_star_grid, movement_type, cell)
-		_cost_grids[movement_type] = a_star_grid
+	for movement_type: UnitClass.MovementTypes in (
+		_movement_cost_dict.keys() as Array[UnitClass.MovementTypes]
+	):
+		_cost_grids[movement_type] = _get_a_star_grid(cell_max, movement_type)
 	await _intro()
 	if not MapController.get_ui().is_node_ready():
 		await MapController.get_ui().ready
@@ -496,6 +468,27 @@ func _update_grid_current_faction() -> void:
 			)
 
 
+func _set_state(new_state: States) -> void:
+	if state == States.CANTERING:
+		if is_instance_valid(_canter_tiles):
+			_canter_tiles.queue_free()
+		_ghost_unit.queue_free()
+	state = new_state
+	match state:
+		States.SELECTING:
+			if _selected_unit.arrived.is_connected(_update_ghost_unit):
+				_selected_unit.arrived.disconnect(_update_ghost_unit)
+		States.CANTERING:
+			var tiles: Array[Vector2i] = _selected_unit.get_movement_tiles()
+			if tiles.size() > 1:
+				_canter_tiles = MapController.map.display_tiles(tiles, Map.TileTypes.MOVEMENT, 1.0)
+				_selected_unit.selected = true
+				_selected_unit.hide_movement_tiles()
+			else:
+				state = States.SELECTING
+				_selected_unit.wait()
+
+
 func _display_turn_change(faction: Faction) -> void:
 	var phase_display := PhaseDisplay.instantiate(faction)
 	MapController.get_ui().add_child(phase_display)
@@ -584,3 +577,16 @@ func _deselect() -> void:
 			and GameController.controller_type == GameController.ControllerTypes.KEYBOARD
 		):
 			CursorController.map_position = _selected_unit.position
+
+
+func _get_a_star_grid(cell_max: Vector2i, movement_type: UnitClass.MovementTypes) -> AStarGrid2D:
+	var a_star_grid := AStarGrid2D.new()
+	a_star_grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
+	a_star_grid.region = Rect2i(Vector2i(0, 0), cell_max + Vector2i(1, 1))
+	a_star_grid.default_compute_heuristic = AStarGrid2D.HEURISTIC_MANHATTAN
+	a_star_grid.default_estimate_heuristic = AStarGrid2D.HEURISTIC_MANHATTAN
+	a_star_grid.jumping_enabled = false
+	a_star_grid.update()
+	for cell: Vector2i in _base_layer.get_used_cells():
+		_update_a_star_grid_id(a_star_grid, movement_type, cell)
+	return a_star_grid

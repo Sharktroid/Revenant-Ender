@@ -21,6 +21,9 @@ enum Stats {
 	BUILD,
 }
 
+const DEXTERITY_HIT_MULTIPLIER: int = 3
+const SPEED_LUCK_AVOID_MULTIPLIER: int = 2
+const DEXTERITY_WEAPON_LEVEL_MULTIPLIER: int = 2
 const LEVEL_CAP: int = 30
 ## Duration of fade-away upon death
 const FADE_AWAY_DURATION: float = 20.0 / 60
@@ -279,9 +282,10 @@ func get_displayed_damage(
 		return 0
 	else:
 		if check_crit:
-			if get_crit_rate(enemy) >= 100:
+			var crit_rate: float = get_crit_rate(enemy)
+			if crit_rate >= 100:
 				return get_crit_damage(enemy)
-			elif get_crit_rate(enemy) <= 0:
+			elif crit_rate <= 0:
 				return get_damage(enemy)
 		return get_crit_damage(enemy) if crit else get_damage(enemy)
 
@@ -324,6 +328,7 @@ func get_raw_stat(stat: Stats, current_level: int = level) -> int:
 	return clampi(roundi(raw_stat), 0, get_stat_cap(stat))
 
 
+## Gets the stat without factoring in level.
 func get_base_stat(stat: Stats) -> int:
 	return get_raw_stat(stat, 30)
 
@@ -749,18 +754,7 @@ func move(move_target: Vector2i = get_unit_path()[-1]) -> void:
 		_current_movement -= _get_map().get_path_cost(unit_class.get_movement_type(), path)
 		while not path.is_empty():
 			var target: Vector2 = path.pop_at(0)
-			match target - position:
-				Vector2(16, 0):
-					set_animation(Animations.MOVING_RIGHT)
-				Vector2(-16, 0):
-					set_animation(Animations.MOVING_LEFT)
-				Vector2(0, 16):
-					set_animation(Animations.MOVING_DOWN)
-				Vector2(0, -16):
-					set_animation(Animations.MOVING_UP)
-				_:
-					set_animation(Animations.IDLE)
-
+			_update_animation(target)
 			while position != target:
 				var speed: float = 1.0 / _get_movement_speed()
 				if speed == 0:
@@ -800,33 +794,18 @@ func update_path(destination: Vector2i) -> void:
 		CursorController.get_hovered_unit()
 		and Vector2i(CursorController.get_hovered_unit().position) in get_all_attack_tiles()
 	):
-		var actionable_movement_tiles: Array[Vector2i] = get_actionable_movement_tiles()
-		var adjacent_movement_tiles: Array[Vector2i] = []
-		for tile: Vector2i in Utilities.get_tiles(
-			CursorController.get_hovered_unit().position,
-			get_max_range(),
-			get_min_range(),
-			_get_map().borders
-		):
-			if tile in actionable_movement_tiles:
-				adjacent_movement_tiles.append(tile)
+		var adjacent_movement_tiles: Array[Vector2i] = _get_actionable_attackable_tiles()
 		if not adjacent_movement_tiles.is_empty():
 			destination = _get_nearest_path_tile(adjacent_movement_tiles)
 	if destination in get_movement_tiles():
 		# Gets the path
-		var valid_path: Array[Vector2i] = _path.filter(
-			func(tile: Vector2i) -> bool: return tile != Vector2i(position)
-		)
-		var sum_cost: Callable = func(sum: float, tile: Vector2i) -> float:
-			return sum + _get_map().get_terrain_cost(unit_class.get_movement_type(), tile)
-		var total_cost: float = valid_path.reduce(sum_cost, 0)
 		if destination in _path:
 			_path = _path.slice(0, _path.find(destination) + 1) as Array[Vector2i]
 		else:
 			var path_end_adjacent_tiles: Array[Vector2i] = Utilities.get_tiles(
 				get_unit_path()[-1], 1, 1, _get_map().borders
 			)
-			if total_cost <= _current_movement and destination in path_end_adjacent_tiles:
+			if _get_path_cost() <= _current_movement and destination in path_end_adjacent_tiles:
 				_path.append(destination)
 			else:
 				_path = _get_map().get_movement_path(
@@ -872,10 +851,9 @@ func reset_tile_cache() -> void:
 
 ## Returns true if the unit can follow up against the opponent.
 func can_follow_up(opponent: Unit) -> bool:
-	var is_follow_up: Callable = func(skill: Skill) -> bool: return skill is FollowUp
-	var follow_up_check: Callable = func(skill: FollowUp) -> bool:
-		return skill.can_follow_up(self, opponent)
-	return get_skills().filter(is_follow_up).any(follow_up_check)
+	var follow_up_check: Callable = func(skill: Skill) -> bool:
+		return skill is FollowUp and (skill as FollowUp).can_follow_up(self, opponent)
+	return get_skills().any(follow_up_check)
 
 
 ## Gets the unit's authority
@@ -947,6 +925,20 @@ func _get_distance(unit: Unit) -> int:
 	return roundi(Utilities.get_tile_distance(position, unit.position))
 
 
+func _update_animation(target: Vector2) -> void:
+	match target - position:
+		Vector2(16, 0):
+			set_animation(Animations.MOVING_RIGHT)
+		Vector2(-16, 0):
+			set_animation(Animations.MOVING_LEFT)
+		Vector2(0, 16):
+			set_animation(Animations.MOVING_DOWN)
+		Vector2(0, -16):
+			set_animation(Animations.MOVING_UP)
+		_:
+			set_animation(Animations.IDLE)
+
+
 func _get_personal_value(stat: Stats) -> int:
 	return get("_personal_%s" % (Unit.Stats.find_key(stat) as String).to_snake_case())
 
@@ -956,6 +948,27 @@ func _get_effort_value(stat: Stats) -> int:
 		return effort_power
 	else:
 		return get("effort_%s" % (Unit.Stats.find_key(stat) as String).to_snake_case())
+
+
+func _get_path_cost() -> float:
+	var valid_path: Array[Vector2i] = _path.filter(
+		func(tile: Vector2i) -> bool: return tile != Vector2i(position)
+	)
+	var sum_cost: Callable = func(sum: float, tile: Vector2i) -> float:
+		return sum + _get_map().get_terrain_cost(unit_class.get_movement_type(), tile)
+	return valid_path.reduce(sum_cost, 0)
+
+
+func _get_actionable_attackable_tiles() -> Array[Vector2i]:
+	var range_tiles: Array[Vector2i] = Utilities.get_tiles(
+		CursorController.get_hovered_unit().position,
+		get_max_range(),
+		get_min_range(),
+		_get_map().borders
+	)
+	return get_actionable_movement_tiles().filter(
+		func(tile: Vector2i) -> bool: return tile in range_tiles
+	)
 
 
 func _die() -> void:

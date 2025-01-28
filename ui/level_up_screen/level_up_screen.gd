@@ -1,6 +1,21 @@
 class_name LevelUpScreen
 extends Control
 
+const _STAT_ORDER: Array[Unit.Stats] = [
+	Unit.Stats.HIT_POINTS,
+	Unit.Stats.STRENGTH,
+	Unit.Stats.PIERCE,
+	Unit.Stats.INTELLIGENCE,
+	Unit.Stats.DEXTERITY,
+	Unit.Stats.SPEED,
+	Unit.Stats.MOVEMENT,
+	Unit.Stats.DEFENSE,
+	Unit.Stats.ARMOR,
+	Unit.Stats.RESISTANCE,
+	Unit.Stats.LUCK,
+	Unit.Stats.BUILD
+]
+const _SPARKLE = preload("res://ui/level_up_screen/spiral_sparkle.gd")
 var _old_level: int = 1
 var _unit: Unit
 
@@ -12,27 +27,45 @@ func _ready() -> void:
 	AudioPlayer.play_track(TRACK)
 	await get_tree().create_timer(TRACK.loop_offset - 10.0 / 60).timeout
 
-	#region initialization
-	var left_panel := %Left as PanelContainer
-	var right_panel := %Right as PanelContainer
-	var max_width: float = ceilf(maxf(left_panel.size.x, right_panel.size.x) / 16) * 16
-	left_panel.custom_minimum_size.x = max_width
-	right_panel.custom_minimum_size.x = max_width
+	_update_panel_side()
 
 	(%ClassName as Label).text = _unit.display_name
 	var level_value := %LevelValue as Label
 	level_value.text = str(_old_level)
 
-	var stat_containers: Dictionary = {}
-	for control: Control in get_tree().get_nodes_in_group("stats"):
-		stat_containers[control.name] = control
 	for stat_name: String in Unit.Stats.keys():
 		(get_node("%%%sValue" % stat_name.to_pascal_case()) as Label).text = str(
 			_unit.get_stat(Unit.Stats[stat_name] as Unit.Stats, _old_level)
 		)
-	#endregion
 
 	children.visible = true
+	await _animate_slide()
+
+	level_value.text = str(_unit.level)
+	(%LevelSparkle as _SPARKLE).play()
+	AudioPlayer.play_sound_effect(preload("res://audio/sfx/level_up_level_blip.ogg"))
+	await get_tree().create_timer(20.0 / 60).timeout
+
+	await _display_stat_ups()
+	await get_tree().create_timer(1.0).timeout
+
+
+static func instantiate(observing_unit: Unit, level: int) -> LevelUpScreen:
+	var scene := (
+		preload("res://ui/level_up_screen/level_up_screen.tscn").instantiate() as LevelUpScreen
+	)
+	scene._unit = observing_unit
+	scene._old_level = level
+	return scene
+
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("select"):
+		AudioPlayer.stop_and_resume_previous_track()
+		queue_free()
+
+
+func _animate_slide() -> void:
 	var top_panel := %TopPanel as PanelContainer
 	var bottom_panel := %BottomPanel as PanelContainer
 	var slide_tween: Tween = create_tween()
@@ -46,27 +79,12 @@ func _ready() -> void:
 	bottom_panel.position.x = -bottom_panel.size.x
 	await get_tree().create_timer(35.0 / 60).timeout
 
-	level_value.text = str(_unit.level)
-	const Sparkle = preload("res://ui/level_up_screen/spiral_sparkle.gd")
-	(%LevelSparkle as Sparkle).play()
-	AudioPlayer.play_sound_effect(preload("res://audio/sfx/level_up_level_blip.ogg"))
-	await get_tree().create_timer(20.0 / 60).timeout
 
-	const STAT_ORDER: Array[Unit.Stats] = [
-		Unit.Stats.HIT_POINTS,
-		Unit.Stats.STRENGTH,
-		Unit.Stats.PIERCE,
-		Unit.Stats.INTELLIGENCE,
-		Unit.Stats.DEXTERITY,
-		Unit.Stats.SPEED,
-		Unit.Stats.MOVEMENT,
-		Unit.Stats.DEFENSE,
-		Unit.Stats.ARMOR,
-		Unit.Stats.RESISTANCE,
-		Unit.Stats.LUCK,
-		Unit.Stats.BUILD
-	]
-	for stat: Unit.Stats in STAT_ORDER:
+func _display_stat_ups() -> void:
+	var stat_containers: Dictionary = {}
+	for control: Control in get_tree().get_nodes_in_group("stats"):
+		stat_containers[control.name] = control
+	for stat: Unit.Stats in _STAT_ORDER:
 		var current_stat: int = _unit.get_stat(stat, _unit.level)
 		var formatted_stat: String = (
 			((Unit.Stats as Dictionary).find_key(stat) as String).to_pascal_case()
@@ -89,22 +107,13 @@ func _ready() -> void:
 			panel.position.x += panel.size.x / 2
 			panel.size.x = 0
 
-			(%Sparkles.get_node("%sSparkle" % formatted_stat) as Sparkle).play()
+			(%Sparkles.get_node("%sSparkle" % formatted_stat) as _SPARKLE).play()
 
 			await get_tree().create_timer(20.0 / 60).timeout
-	await get_tree().create_timer(1.0).timeout
 
-
-static func instantiate(observing_unit: Unit, level: int) -> LevelUpScreen:
-	var scene := (
-		preload("res://ui/level_up_screen/level_up_screen.tscn").instantiate() as LevelUpScreen
-	)
-	scene._unit = observing_unit
-	scene._old_level = level
-	return scene
-
-
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("select"):
-		AudioPlayer.stop_and_resume_previous_track()
-		queue_free()
+func _update_panel_side() -> void:
+	var left_panel := %Left as PanelContainer
+	var right_panel := %Right as PanelContainer
+	var max_width: float = ceilf(maxf(left_panel.size.x, right_panel.size.x) / 16) * 16
+	left_panel.custom_minimum_size.x = max_width
+	right_panel.custom_minimum_size.x = max_width

@@ -43,31 +43,19 @@ func get_tiles(
 			valid_ys.assign(range(boundaries.position.y, boundaries.end.y, 16).filter(is_y_valid))
 			output.append_array(valid_ys.map(func(y: int) -> Vector2i: return Vector2i(x, y)))
 	else:
-		var max_range: int = roundi(true_max_range)
-		if min_range > max_range:
+		if min_range > true_max_range:
 			return output
-
-		var top_bound: int = -max_range * 16 + center.y
-		var bottom_bound: int = max_range * 16 + center.y
+		var max_range: int = roundi(true_max_range)
+		var get_ranges: Callable = _get_ranges.bind(max_range, boundaries)
 		for x: int in range(
 			maxi(-max_range * 16 + center.x, boundaries.position.x),
 			mini(max_range * 16 + center.x, boundaries.end.x - 16) + 1,
 			16
 		):
-			var x_offset: int = -abs(x - center.x)
-			var current_min: int = x_offset + min_range * 16
-			var top_max: int = maxi(-x_offset + top_bound, boundaries.position.y)
-			var bottom_max: int = mini(x_offset + bottom_bound, boundaries.end.y - 16)
-
-			var ranges: Array = []
-			if current_min > 0:
-				if -current_min + center.y >= top_bound:
-					ranges += range(top_max, -current_min + center.y + 1, 16)
-				if current_min + center.y <= bottom_bound:
-					ranges += range(current_min + center.y, bottom_max + 1, 16)
-			else:
-				ranges = range(top_max, bottom_max + 1, 16)
-			output.append_array(ranges.map(func(y: int) -> Vector2i: return Vector2i(x, y)))
+			var ranges: Array = (get_ranges.call(x, center, min_range) as Array).map(
+				func(y: int) -> Vector2i: return Vector2i(x, y)
+			)
+			output.append_array(ranges)
 	return output
 
 
@@ -125,11 +113,14 @@ func profiler_checkpoint() -> void:
 func finish_profiling() -> void:
 	profiler_checkpoint()
 	var sum: float = 0
-	for checkpoint: int in _profile.size():
-		var usec := float(_profile[checkpoint])
-		print("Checkpoint %s: %s ms" % [checkpoint, usec / 1000])
-		sum += usec
-	print("Total length: %s ms" % (sum / 1000))
+	if _profile.size() > 1:
+		for checkpoint: int in _profile.size():
+			var usec := float(_profile[checkpoint])
+			print("Checkpoint %s: %s ms" % [checkpoint, usec / 1000])
+			sum += usec
+		print("Total length: %s ms" % (sum / 1000))
+	else:
+		print("Total length: %s ms" % (_profile[0] as float / 1000))
 
 
 func set_neighbor_path(
@@ -159,6 +150,26 @@ func is_running_project() -> bool:
 ## Converts a float to a string, using the infinite character.
 func float_to_string(num: float) -> String:
 	return str(num).replace("inf", INF_CHAR)
+
+
+func _get_ranges(
+	x: int, center: Vector2i, min_range: int, max_range: int, boundaries: Rect2i
+) -> Array:
+	var top_bound: int = -max_range * 16 + center.y
+	var bottom_bound: int = max_range * 16 + center.y
+	var x_offset: int = -abs(x - center.x)
+	var current_min: int = x_offset + min_range * 16
+	var top_max: int = maxi(-x_offset + top_bound, boundaries.position.y)
+	var bottom_max: int = mini(x_offset + bottom_bound, boundaries.end.y - 16)
+	if current_min > 0:
+		var ranges: Array = []
+		if -current_min + center.y >= top_bound:
+			ranges += range(top_max, -current_min + center.y + 1, 16)
+		if current_min + center.y <= bottom_bound:
+			ranges += range(current_min + center.y, bottom_max + 1, 16)
+		return ranges
+	else:
+		return range(top_max, bottom_max + 1, 16)
 
 
 func _slice_string(string: String, start: int, end: int) -> String:

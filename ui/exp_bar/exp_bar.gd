@@ -33,12 +33,10 @@ func _play(experience: float) -> void:
 	var new_exp: float = _unit.total_exp + experience
 	var old_level: int = _unit.level
 	var tween: Tween = _unit.create_tween()
-	tween.tween_property(
-		_unit,
-		^"total_exp",
-		new_exp,
+	var percent_exp: float = (
 		experience / Unit.get_exp_to_level(ceilf(Unit.get_level_from_exp(new_exp)))
 	)
+	tween.tween_property(_unit, ^"total_exp", new_exp, percent_exp)
 	var exp_audio_player := AudioStreamPlayer.new()
 	exp_audio_player.stream = preload("res://audio/sfx/experience.ogg")
 	add_child(exp_audio_player)

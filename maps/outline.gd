@@ -9,41 +9,11 @@ func _draw() -> void:
 		var current_outlined_units: Array[Unit] = []
 		if outline_faction in outlined_units:
 			current_outlined_units.assign(outlined_units[outline_faction] as Array)
-		var unit_highlight: Color
-		match outline_faction.color:
-			Faction.Colors.BLUE:
-				unit_highlight = Color.BLUE
-			Faction.Colors.RED:
-				unit_highlight = Color.RED
-			Faction.Colors.GREEN:
-				unit_highlight = Color.GREEN
-			Faction.Colors.PURPLE:
-				unit_highlight = Color.PURPLE
-		var all_current_coords: Array[Vector2i] = []
-		var is_within_coords: Callable = func(coord: Vector2i, coords: Array[Vector2i]) -> bool:
-			return not (coord in coords)
-		var can_unit_attack: Callable = func(unit: Unit) -> bool:
-			return is_instance_valid(unit) and not unit.get_all_attack_tiles().is_empty()
-		for unit: Unit in current_outlined_units.filter(can_unit_attack):
-			unit.modulate = unit_highlight
-			unit.modulate.s *= 0.5
-			all_current_coords.append_array(
-				_get_all_tiles(unit).filter(is_within_coords.bind(all_current_coords))
-			)
-		var all_general_coords: Array[Vector2i] = []
-		var current_faction: Faction = MapController.map.get_current_faction()
-
-		var can_enemy_attack: Callable = func(unit: Unit) -> bool:
-			const ENEMY: Faction.DiplomacyStances = Faction.DiplomacyStances.ENEMY
-			return (
-				MapController.map.get_current_faction().get_diplomacy_stance(unit.faction) == ENEMY
-				and not unit.get_all_attack_tiles().is_empty()
-			)
-		if current_faction.full_outline and outline_faction != current_faction:
-			for unit: Unit in MapController.map.get_units().filter(can_enemy_attack):
-				all_general_coords = _get_all_tiles(unit).filter(
-					is_within_coords.bind(all_general_coords)
-				)
+		var unit_highlight: Color = _get_unit_highlight(outline_faction.color)
+		var all_current_coords: Array[Vector2i] = _get_all_current_coords(
+			current_outlined_units, unit_highlight
+		)
+		var all_general_coords: Array[Vector2i] = _get_all_general_coords(outline_faction)
 		var tile_current: Color = unit_highlight
 		var line_current: Color = tile_current
 		line_current.v = .5
@@ -54,7 +24,7 @@ func _draw() -> void:
 		var line_general: Color = tile_general
 		line_general.v *= .5
 		for coords: Vector2i in all_general_coords.filter(
-			is_within_coords.bind(all_current_coords)
+			_is_within_coords.bind(all_current_coords)
 		):
 			_create_outline_tile(tile_general, line_general, coords, all_general_coords)
 
@@ -83,3 +53,52 @@ func _create_outline_tile(
 				draw_line(Vector2(15.5, 0) + offset, Vector2(15.5, 16) + offset, line_color, 1)
 			Vector2i(0, 16):
 				draw_line(Vector2(0, 15.5) + offset, Vector2(16, 15.5) + offset, line_color, 1)
+
+
+func _is_within_coords(coord: Vector2i, coords: Array[Vector2i]) -> bool:
+	return not (coord in coords)
+
+
+func _get_unit_highlight(color: Faction.Colors) -> Color:
+	match color:
+		Faction.Colors.RED:
+			return Color.RED
+		Faction.Colors.GREEN:
+			return Color.GREEN
+		Faction.Colors.PURPLE:
+			return Color.PURPLE
+		_:
+			return Color.BLUE
+
+
+func _get_all_current_coords(
+	current_outlined_units: Array[Unit], unit_highlight: Color
+) -> Array[Vector2i]:
+	var can_unit_attack: Callable = func(unit: Unit) -> bool:
+		return is_instance_valid(unit) and not unit.get_all_attack_tiles().is_empty()
+	var all_current_coords: Array[Vector2i] = []
+	for unit: Unit in current_outlined_units.filter(can_unit_attack):
+		unit.modulate = unit_highlight
+		unit.modulate.s *= 0.5
+		all_current_coords.append_array(
+			_get_all_tiles(unit).filter(_is_within_coords.bind(all_current_coords))
+		)
+	return all_current_coords
+
+
+func _get_all_general_coords(outline_faction: Faction) -> Array[Vector2i]:
+	var can_enemy_attack: Callable = func(unit: Unit) -> bool:
+		const ENEMY: Faction.DiplomacyStances = Faction.DiplomacyStances.ENEMY
+		return (
+			MapController.map.get_current_faction().get_diplomacy_stance(unit.faction) == ENEMY
+			and not unit.get_all_attack_tiles().is_empty()
+		)
+
+	var all_general_coords: Array[Vector2i] = []
+	var current_faction: Faction = MapController.map.get_current_faction()
+	if current_faction.full_outline and outline_faction != current_faction:
+		for unit: Unit in MapController.map.get_units().filter(can_enemy_attack):
+			all_general_coords.append_array(
+				_get_all_tiles(unit).filter(_is_within_coords.bind(all_general_coords))
+			)
+	return all_general_coords

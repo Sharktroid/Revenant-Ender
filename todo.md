@@ -5,10 +5,10 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Modify any function over 25 lines long
 * Add SFX to trade menu
 
 # Major
+* Create scripting language and script files
 * Renovate debug menu
 	* Split into debug options and the others.
 	* Add debug constant to control whether the setting is displayed in the main map menu
@@ -62,6 +62,7 @@ Before you commit
 * Implement gaining EVs
 	* Have units gain +0.02 movement EVs per tile traversed
 * Pallette the status screen for each unit
+* Add simple and extended scripts
 
 # Long-term
 * Make game based on design document
