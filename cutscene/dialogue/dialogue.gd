@@ -21,8 +21,8 @@ const _TEXT_BOX_HEIGHT: int = 94
 const _PORTRAIT_WIDTH: int = 96
 
 var _portraits: Dictionary = {}
-var _top_speaker: Unit
-var _bottom_speaker: Unit
+var _top_speaker: Portrait
+var _bottom_speaker: Portrait
 var _skipping: bool = false
 @onready var _top_bubble_point := $TopBubblePoint as TextureRect
 @onready var _bottom_bubble_point := $BottomBubblePoint as TextureRect
@@ -32,10 +32,10 @@ var _skipping: bool = false
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("back"):
-		var portraits: Array[Unit] = []
+		var portraits: Array[StringName] = []
 		portraits.assign(_portraits.keys())
-		var last_portrait: Unit = portraits.pop_back()
-		for portrait: Unit in portraits:
+		var last_portrait: StringName = portraits.pop_back()
+		for portrait: StringName in portraits:
 			remove_portrait(portrait)
 		await remove_portrait(last_portrait)
 		hide_top_text_box()
@@ -46,17 +46,13 @@ func _input(event: InputEvent) -> void:
 ## Sets the text to be displayed in the top text box.
 func set_top_text(string: String) -> void:
 	if not _skipping:
-		await _set_text_base(
-			string, _top_text_box, _portraits.get(_top_speaker, Portrait.new()) as Portrait
-		)
+		await _set_text_base(string, _top_text_box, _top_speaker as Portrait)
 
 
 ## Sets the text to be displayed in the bottom text box.
 func set_bottom_text(string: String) -> void:
 	if not _skipping:
-		await _set_text_base(
-			string, _bottom_text_box, _portraits.get(_bottom_speaker, Portrait.new()) as Portrait
-		)
+		await _set_text_base(string, _bottom_text_box, _bottom_speaker as Portrait)
 
 
 ## Removes the text in the top text box.
@@ -70,33 +66,35 @@ func clear_bottom() -> void:
 
 
 ## Sets the speaker for the top text box.
-func set_top_speaker(new_speaker: Unit) -> void:
+func set_top_speaker(new_speaker: StringName) -> void:
 	if not _skipping:
-		_top_speaker = new_speaker
+		_top_speaker = _get_portrait(new_speaker.to_lower())
 		if new_speaker in _portraits.keys():
-			_configure_point(
-				_top_bubble_point, roundi(_get_portrait(new_speaker as Unit).position.x)
-			)
+			_configure_point(_top_bubble_point, roundi(_top_speaker.position.x))
 		await clear_top()
-		await _set_speaker(%TopName as RichTextLabel, new_speaker as Unit)
+		await _set_speaker(%TopName as RichTextLabel, new_speaker)
 
 
 ## Sets the speaker for the bottom text box.
-func set_bottom_speaker(new_speaker: Unit) -> void:
+func set_bottom_speaker(new_speaker: StringName) -> void:
 	if not _skipping:
-		_bottom_speaker = new_speaker
+		_bottom_speaker = _get_portrait(new_speaker.to_lower())
 		if new_speaker in _portraits.keys():
-			_configure_point(
-				_bottom_bubble_point, roundi(_get_portrait(new_speaker as Unit).position.x)
-			)
+			_configure_point(_bottom_bubble_point, roundi(_bottom_speaker.position.x))
 		await clear_bottom()
-		await _set_speaker(%BottomName as RichTextLabel, new_speaker as Unit)
+		await _set_speaker(%BottomName as RichTextLabel, new_speaker)
 
 
 ## Adds a portrait to the current scene.
-func add_portrait(new_speaker: Unit, portrait_position: Positions, flip_h: bool = false) -> void:
+func add_portrait(
+	new_speaker: StringName, portrait_position: Positions, flip_h: bool = false
+) -> void:
 	if not _skipping:
-		var portrait: Portrait = new_speaker.get_portrait()
+		var path: String = "res://portraits/{speaker}/{speaker}.tscn".format(
+			{speaker = new_speaker}
+		)
+		var packed_portrait := load(path) as PackedScene
+		var portrait := packed_portrait.instantiate() as Portrait
 		if flip_h:
 			portrait.flip()
 		portrait.position = Vector2i(portrait_position, 20)
@@ -109,7 +107,7 @@ func add_portrait(new_speaker: Unit, portrait_position: Positions, flip_h: bool 
 
 
 ## Removes a portrait from the scene.
-func remove_portrait(old_speaker: Unit) -> void:
+func remove_portrait(old_speaker: StringName) -> void:
 	if not _skipping:
 		var portrait := Portrait.new()
 		if is_instance_valid(_portraits.get(old_speaker)):
@@ -273,14 +271,14 @@ func _get_line_height() -> int:
 	return 16 + _top_text_box.get_theme_constant("line_separation")
 
 
-func _set_speaker(name_label: RichTextLabel, new_speaker: Unit) -> void:
+func _set_speaker(name_label: RichTextLabel, new_speaker: StringName) -> void:
 	if not _skipping:
 		if name_label.text != "":
 			var slide_out: Tween = create_tween()
 			slide_out.set_speed_scale(2)
 			slide_out.tween_property(name_label, ^"visible_ratio", 0, _SHIFT_DURATION)
 			await slide_out.finished
-		name_label.text = new_speaker.display_name
+		name_label.text = new_speaker
 		var slide_in: Tween = create_tween()
 		slide_in.set_speed_scale(2)
 		slide_in.tween_property(name_label, ^"visible_ratio", 1, _SHIFT_DURATION / 2)
@@ -295,7 +293,7 @@ func _configure_point(bubble_point: TextureRect, point_x: int) -> void:
 	)
 
 
-func _get_portrait(unit: Unit) -> Portrait:
+func _get_portrait(unit: StringName) -> Portrait:
 	return _portraits[unit]
 
 
@@ -309,7 +307,7 @@ func _get_text_speed() -> int:
 		Options.TEXT_SPEED.FAST:
 			return BASE_SPEED * 2
 		Options.TEXT_SPEED.MAX:
-			return 4294967296  # Can't be infinite or causes issues;
+			return 4294967296  # Can't be infinite or causes issues
 		_:
 			push_warning(Options.TEXT_SPEED.get_error_message())
 			return BASE_SPEED

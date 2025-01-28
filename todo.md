@@ -6,6 +6,7 @@ Before you commit
 
 # Minor
 * Add SFX to trade menu
+* Make PVs a 10 point swing (from a 5 point swing)
 
 # Major
 * Create scripting language and script files
