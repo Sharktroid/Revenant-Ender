@@ -10,9 +10,16 @@ var _theme: Theme = preload("res://ui/theme/menu_theme.tres")
 var _default_screen_size: Vector2i
 var _profile: Array[int] = []
 var _current_checkpoint: int
-
-@onready var font_yellow: String = _theme.get_color("font_color", "YellowLabel").to_html()
-@onready var font_blue: String = _theme.get_color("font_color", "BlueLabel").to_html()
+#gdlint: disable = class-variable-name
+## The yellow font color.
+@onready var FONT_YELLOW: String:
+	get:
+		return _theme.get_color("font_color", "YellowLabel").to_html()
+## The blue font color.
+@onready var FONT_BLUE: String:
+	get:
+		return _theme.get_color("font_color", "BlueLabel").to_html()
+#gdlint: enable = class-variable-name
 
 
 func _init() -> void:
@@ -24,6 +31,7 @@ func _init() -> void:
 	await ready
 
 
+## Gets the tiles around the center within range.
 func get_tiles(
 	center: Vector2i,
 	true_max_range: float,
@@ -59,57 +67,65 @@ func get_tiles(
 	return output
 
 
+## Gets the size of the screen
 func get_screen_size() -> Vector2i:
 	return _default_screen_size
 
 
+## Gets the distance between two tiles in tiles.
 func get_tile_distance(pos_a: Vector2, pos_b: Vector2) -> float:
-	# Gets the distance between two tiles in tiles.
 	return (absf(pos_a.x - pos_b.x) + absf(pos_a.y - pos_b.y)) / 16
 
 
+## Rounds "coords" to the nearest tile (16x16).
 func round_coords_to_tile(coords: Vector2, offset := Vector2()) -> Vector2i:
-	# Rounds "coords" to the nearest tile (16x16).
 	coords -= offset
 	return Vector2(floori(coords.x / 16) * 16, floori(coords.y / 16) * 16) + offset
 
 
+## Syncs the animation to the current time.
 func sync_animation(animation_player: AnimationPlayer) -> void:
 	animation_player.seek(
 		fmod(float(Time.get_ticks_msec()) / 1000, animation_player.current_animation_length)
 	)
 
 
+## Switches tab based off of an offset.
 func switch_tab(tab_container: TabContainer, move_to: int) -> void:
 	tab_container.current_tab = posmod(
 		tab_container.current_tab + move_to, tab_container.get_tab_count()
 	)
 
 
+## Returns true if one value is true and the other is false.
 func xor(condition_a: bool, condition_b: bool) -> bool:
 	return not (condition_a == condition_b)
 
 
+## Turns a dictionary into a BBCode table.
 func dict_to_table(dict: Dictionary) -> Array[String]:
 	var table: Array[String] = []
 	for key: String in dict.keys() as Array[String]:
 		const KEY = "[color={yellow}]{key}[/color]"
-		table.append(KEY.format({"yellow": Utilities.font_yellow, "key": str(key)}))
+		table.append(KEY.format({"yellow": Utilities.FONT_YELLOW, "key": str(key)}))
 		const VALUE: String = "[color={blue}]{value}[/color]"
-		table.append(VALUE.format({"blue": Utilities.font_blue, "value": str(dict[key])}))
+		table.append(VALUE.format({"blue": Utilities.FONT_BLUE, "value": str(dict[key])}))
 	return table
 
 
+## Starts measuring execution time.
 func start_profiling() -> void:
 	_profile = []
 	_current_checkpoint = Time.get_ticks_usec()
 
 
+## Creates a checkpoint to be output when finishing profiling.
 func profiler_checkpoint() -> void:
 	_profile.append(Time.get_ticks_usec() - _current_checkpoint)
 	_current_checkpoint = Time.get_ticks_usec()
 
 
+## Stops measuring execution time, displaying every checkpoint.
 func finish_profiling() -> void:
 	profiler_checkpoint()
 	var sum: float = 0
@@ -123,6 +139,7 @@ func finish_profiling() -> void:
 		print("Total length: %s ms" % (_profile[0] as float / 1000))
 
 
+## Sets the focus path to the nearest neighbor
 func set_neighbor_path(
 	neighbor_name: String, index: int, modifier: int, parent: Array[Node]
 ) -> void:
@@ -133,6 +150,7 @@ func set_neighbor_path(
 		)
 
 
+## Gets the closest control within the control array to the checking control's center
 func get_control_within_height(checking_control: Control, control_array: Array[Control]) -> Control:
 	var get_distance: Callable = _get_distance.bind(checking_control)
 	var closest_control := control_array[0] as Control
@@ -142,6 +160,7 @@ func get_control_within_height(checking_control: Control, control_array: Array[C
 	return closest_control
 
 
+## Returns true if the engine is running the whole project.
 func is_running_project() -> bool:
 	const Renderer = preload("res://renderer/renderer.gd")
 	return get_tree().root.get_child(-1) is Renderer
@@ -150,6 +169,11 @@ func is_running_project() -> bool:
 ## Converts a float to a string, using the infinite character.
 func float_to_string(num: float) -> String:
 	return str(num).replace("inf", INF_CHAR)
+
+
+## Returns a substring where the first "start" characters and last "end" characters are removed.
+func slice_string(string: String, start: int, end: int) -> String:
+	return string.substr(start, string.length() - start - end)
 
 
 func _get_ranges(
@@ -170,11 +194,6 @@ func _get_ranges(
 		return ranges
 	else:
 		return range(top_max, bottom_max + 1, 16)
-
-
-func _slice_string(string: String, start: int, end: int) -> String:
-	# Returns a substring of "string" from index "start" to index "end"
-	return string.substr(start, string.length() - start - end)
 
 
 func _get_center(control: Control) -> float:

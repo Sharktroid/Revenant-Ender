@@ -14,6 +14,7 @@ enum States { SELECTING, MOVING, CANTERING }
 var borders: Rect2i
 ## An array that contains all of the factions currently being used.
 var all_factions: Array[Faction]
+## The current state. Controls input.
 var state: States = States.SELECTING:
 	set = _set_state
 
@@ -99,7 +100,7 @@ func _input(event: InputEvent) -> void:
 			$MapLayer.add_child(flag)
 			_flags[CursorController.map_position] = flag
 
-
+## Shows the status screen for the unit the cursor is hovering over.
 func create_status_screen() -> void:
 	AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
 	var status_screen: StatusScreen = StatusScreen.instantiate(CursorController.get_hovered_unit())
@@ -590,3 +591,9 @@ func _get_a_star_grid(cell_max: Vector2i, movement_type: UnitClass.MovementTypes
 	for cell: Vector2i in _base_layer.get_used_cells():
 		_update_a_star_grid_id(a_star_grid, movement_type, cell)
 	return a_star_grid
+
+
+func _run_script(script_name: StringName) -> void:
+	CursorController.disable()
+	await _get_dialogue().parse_script(script_name, self)
+	CursorController.enable()

@@ -164,9 +164,9 @@ func _get_attack_description() -> String:
 
 func _get_range_value() -> String:
 	var range_text: String = observing_unit.get_weapon().get_range_text().replace(
-		"-", " [color={yellow}]-[/color] ".format({"yellow": Utilities.font_yellow})
+		"-", " [color={yellow}]-[/color] ".format({"yellow": Utilities.FONT_YELLOW})
 	)
-	return "[color={blue}]{text}[/color]".format({"blue": Utilities.font_blue, "text": range_text})
+	return "[color={blue}]{text}[/color]".format({"blue": Utilities.FONT_BLUE, "text": range_text})
 
 
 func _get_exp_stat_help() -> String:
@@ -179,8 +179,8 @@ func _get_exp_stat_help() -> String:
 		+ "Total exp: [color={blue}]{total_exp}[/color]"
 	)
 	var replacements: Dictionary = {
-		"blue": Utilities.font_blue,
-		"yellow": Utilities.font_yellow,
+		"blue": Utilities.FONT_BLUE,
+		"yellow": Utilities.FONT_YELLOW,
 		"current_exp": roundi(current_exp),
 		"next_level_exp": roundi(next_level_exp),
 		"remaining_exp": roundi(next_level_exp - current_exp),

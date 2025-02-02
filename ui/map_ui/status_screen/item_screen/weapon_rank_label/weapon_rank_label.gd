@@ -66,11 +66,11 @@ func _get_weapon_rank() -> int:
 func _get_formatting_dictionary() -> Dictionary:
 	return {
 		"current value": _progress_bar.value,
-		"yellow": "color=%s" % Utilities.font_yellow,
+		"yellow": "color=%s" % Utilities.FONT_YELLOW,
 		"max value": _progress_bar.max_value,
 		"remaining value": _progress_bar.max_value - _progress_bar.value,
 		"rank": Weapon.Ranks.find_key(roundi(_progress_bar.max_value)),
-		"blue": "color=%s" % Utilities.font_blue,
+		"blue": "color=%s" % Utilities.FONT_BLUE,
 		"class value": unit.unit_class.get_base_weapon_level(type),
 		"personal value": unit.personal_weapon_levels.get(type, 0),
 		"skill value": Formulas.WEAPON_LEVEL_BONUS.evaluate(unit),

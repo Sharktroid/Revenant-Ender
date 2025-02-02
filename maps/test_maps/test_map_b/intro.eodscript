@@ -1,0 +1,27 @@
+SHOW TOP
+ADD_PORTRAIT Roy CLOSE_RIGHT LEFT, ADD_PORTRAIT Lance MID_LEFT RIGHT
+TALK TOP Roy "Oh, it's Lance! What's the matter? Why are you in such a hurry?"
+TALK BOTTOM Lance "Lord Roy! Bandits have appeared and are attacking the castle as we speak!"
+ADD_PORTRAIT Alen FAR_RIGHT LEFT
+TALK TOP Alen "No! Is the marquess unharmed?"
+CLEAR BOTTOM
+TALK BOTTOM Lance "He's inside, defending against the bandits' attack.
+But I don't know how long he can last with his illness...!"
+REMOVE_PORTRAIT Alen, ADD_PORTRAIT Bors FAR_RIGHT LEFT
+TALK TOP Bors "Excuse me. Lance, is it? Is Lady Lilina safe?"
+CLEAR BOTTOM
+TALK BOTTOM Lance "You must be a knight of Ostia. Lady Lilina is in the castle. She should be all right.
+She's with Lord Eliwood after all, but he can't last forever."
+REMOVE_PORTRAIT Bors, TALK TOP Roy "No... I shouldn't have let Lilina go to the castle before me."
+REMOVE_PORTRAIT Lance
+ADD_PORTRAIT Wolt FAR_LEFT RIGHT
+TALK BOTTOM Wolt "Lord Roy, regret won't solve anything! We must retake the castle!"
+ADD_PORTRAIT Marcus CLOSE_LEFT RIGHT
+TALK BOTTOM Marcus "Wolt is right. We must make haste!"
+CLEAR TOP
+REMOVE_PORTRAIT Wolt, REMOVE_PORTRAIT Marcus
+HIDE BOTTOM
+TALK TOP Roy "Yes, you're right. This is no time to despair. Very well.
+To arms then! Our target is the castle! We must rescue everyone!"
+REMOVE_PORTRAIT Roy
+HIDE TOP

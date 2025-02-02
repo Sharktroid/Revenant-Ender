@@ -7,6 +7,8 @@ Before you commit
 # Minor
 * Add SFX to trade menu
 * Make PVs a 10 point swing (from a 5 point swing)
+* Fix attack bubble not rendering.
+* Highlight enemies that can attack while positioning (in vein of Engage's attack lines)
 
 # Major
 * Create scripting language and script files
