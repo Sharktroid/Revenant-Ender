@@ -14,7 +14,7 @@ func _init() -> void:
 	_base_weapon_levels[Weapon.Types.SPEAR] = Weapon.Ranks.B
 	_max_weapon_levels[Weapon.Types.SPEAR] = Weapon.Ranks.S
 
-	_base_hit_points = 50
+	_base_hit_points = 40
 	_base_strength = 25
 	_base_pierce = 22
 	_base_intelligence = 22

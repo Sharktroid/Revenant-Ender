@@ -19,7 +19,7 @@ enum MovementTypes {
 }
 
 const MAX_START_STAT: int = 10
-const MAX_END_STAT: int = 30
+const MAX_END_STAT: int = 25
 const MIN_HIT_POINTS: int = 20
 const MAX_HIT_POINTS: int = 60
 

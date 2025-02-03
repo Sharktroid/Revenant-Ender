@@ -45,18 +45,18 @@ const MIN_RATE: int = 5
 ## Any rate above this value is set to 100%
 const MAX_RATE: int = 95
 ## The added amount when the stat is the unit class max and personal values are maxed
-const PV_MAX_MODIFIER: float = 5
+const PV_MAX_MODIFIER: float = 10
 ## The added amount when hit points are the unit class max and effort values are maxed
 const EV_MAX_MODIFIER: float = 5
 ## The bonus to hit rates per extra authority star over enemy's faction.
 const AUTHORITY_HIT_BONUS: int = 5
 
 # The added amount when the stat is 0 and personal values are maxed
-const _PV_MIN_MODIFIER: float = 2.5
+const _PV_MIN_MODIFIER: float = 5
 # The added amount when hit points are 0 and personal values are maxed
-const _PV_MIN_HP_MODIFIER: float = 5
+const _PV_MIN_HP_MODIFIER: float = 10
 # The added amount when hit points are the unit class max and personal values are maxed
-const _PV_MAX_HP_MODIFIER: float = 10
+const _PV_MAX_HP_MODIFIER: float = 20
 # The added amount when the stat is 0 and effort values are maxed
 const _EV_MIN_MODIFIER: float = 2.5
 # The added amount when the stat is 0 and effort values are maxed
