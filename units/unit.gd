@@ -74,7 +74,11 @@ const _INDIVIDUAL_EV_LIMIT: int = 250
 @export var items: Array[Item]
 
 ## Unit's faction. Should be in the map's Faction stack.
-@export var _faction_id: int
+@export var _faction_id: int:
+	set(value):
+		remove_from_group(faction.get_group_name())
+		_faction_id = value
+		add_to_group(faction.get_group_name())
 @export var _base_level: int = 1
 @export var _personal_skills: Array[Skill]
 
@@ -123,9 +127,7 @@ var faction: Faction:
 			return _get_map().all_factions[_faction_id]
 		return Faction.new("INVALID", Faction.Colors.BLUE, Faction.PlayerTypes.HUMAN, null)
 	set(new_faction):
-		remove_from_group(faction.get_group_name())
 		_faction_id = _get_map().all_factions.find(new_faction)
-		add_to_group(faction.get_group_name())
 var waiting: bool = false
 
 ## Effort value for hit points
@@ -209,6 +211,7 @@ func _enter_tree() -> void:
 	)
 	if FileAccess.file_exists(directory):
 		_portrait = (load(directory) as PackedScene).instantiate() as Portrait
+	add_to_group(faction.get_group_name())
 
 
 func _exit_tree() -> void:
