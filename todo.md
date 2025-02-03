@@ -5,7 +5,6 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Add SFX to trade menu
 * Fix attack bubble not rendering.
 * Highlight enemies that can attack while positioning (in vein of Engage's attack lines)
 

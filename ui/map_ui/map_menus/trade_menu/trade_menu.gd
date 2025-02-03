@@ -38,44 +38,8 @@ static func instantiate(left: Unit, right: Unit) -> TradeMenu:
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("select"):
 		if _selected_label != current_label:
-			_action_performed = true
-			if _selected_label:
-				var old_item_node: TradeMenuItem = _selected_label
-				var new_item_node: TradeMenuItem = current_label
-				var old_item: Item = old_item_node.item
-				var new_item: Item = new_item_node.item
-				var old_item_index: int = old_item_node.get_index()
-				var new_item_index: int = new_item_node.get_index()
-				var old_item_unit: Unit = _get_unit(old_item_node)
-				var new_item_unit: Unit = _get_unit(new_item_node)
-
-				if new_item == null:
-					old_item_unit.items.erase(old_item)
-					new_item_unit.items.append(old_item)
-				else:
-					old_item_unit.items[old_item_index] = new_item
-					new_item_unit.items[new_item_index] = old_item
-				old_item_node.item = new_item
-				new_item_node.item = old_item
-				if new_item_node == _empty_bar:
-					old_item_node.queue_free()
-					_empty_bar = null
-				_reset()
-			else:
-				_selected_label = current_label
-				var selected_hand := $SelectedHand as Sprite2D
-				selected_hand.visible = true
-				selected_hand.position = _selected_label.global_position.round()
-				_empty_bar = TradeMenuItem.instantiate(
-					null,
-					_left_unit if current_label.get_parent() == %LeftItems else _right_unit,
-					self
-				)
-				var new_parent: VBoxContainer = _get_other_parent(current_label)
-				new_parent.add_child(_empty_bar)
-				_change_current_label(new_parent, new_parent.get_children().size() - 1)
-			for item: TradeMenuItem in %LeftItems.get_children() + %RightItems.get_children():
-				item.update()
+			_label_selected()
+			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
 	elif event.is_action_pressed("back"):
 		if _selected_label:
 			_change_current_label(_selected_label.get_parent(), _selected_label.get_index())
@@ -83,6 +47,7 @@ func _input(event: InputEvent) -> void:
 		else:
 			queue_free()
 			accept_event()
+		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
 	elif event.is_action_pressed("up"):
 		_change_current_label(current_label.get_parent(), current_label.get_index() - 1)
 	elif event.is_action_pressed("down"):
@@ -93,6 +58,49 @@ func _input(event: InputEvent) -> void:
 			_change_current_label(
 				new_parent, mini(current_label.get_index(), new_parent.get_children().size())
 			)
+
+
+func _label_selected() -> void:
+	_action_performed = true
+	if _selected_label:
+		_labels_switched()
+	else:
+		_selected_label = current_label
+		var selected_hand := $SelectedHand as Sprite2D
+		selected_hand.visible = true
+		selected_hand.position = _selected_label.global_position.round()
+		_empty_bar = TradeMenuItem.instantiate(
+			null, _left_unit if current_label.get_parent() == %LeftItems else _right_unit, self
+		)
+		var new_parent: VBoxContainer = _get_other_parent(current_label)
+		new_parent.add_child(_empty_bar)
+		_change_current_label(new_parent, new_parent.get_children().size() - 1)
+	for item: TradeMenuItem in %LeftItems.get_children() + %RightItems.get_children():
+		item.update()
+
+
+func _labels_switched() -> void:
+	var old_item_node: TradeMenuItem = _selected_label
+	var new_item_node: TradeMenuItem = current_label
+	var old_item: Item = old_item_node.item
+	var new_item: Item = new_item_node.item
+	var old_item_index: int = old_item_node.get_index()
+	var new_item_index: int = new_item_node.get_index()
+	var old_item_unit: Unit = _get_unit(old_item_node)
+	var new_item_unit: Unit = _get_unit(new_item_node)
+
+	if new_item == null:
+		old_item_unit.items.erase(old_item)
+		new_item_unit.items.append(old_item)
+	else:
+		old_item_unit.items[old_item_index] = new_item
+		new_item_unit.items[new_item_index] = old_item
+	old_item_node.item = new_item
+	new_item_node.item = old_item
+	if new_item_node == _empty_bar:
+		old_item_node.queue_free()
+		_empty_bar = null
+	_reset()
 
 
 func _get_other_parent(label: ItemLabel) -> VBoxContainer:
