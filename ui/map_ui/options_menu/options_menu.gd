@@ -5,10 +5,8 @@ extends Control
 var _settings_indices: Dictionary
 # The index of the current option's setting.
 var _current_setting_index: int:
-	get:
-		return _settings_indices[_get_current_option()]
-	set(value):
-		_set_current_setting_index(value)
+	get = _get_current_setting_index,
+	set = _set_current_setting_index
 # The index of the option setting that the mouse is hovering over.
 var _hovered_setting_index: int:
 	set(value):
@@ -149,46 +147,54 @@ func _create_string_option(settings_h_box: HBoxContainer, option: StringNameOpti
 # Gets the relative index compared to the top index
 func _get_relative_index() -> int:
 	return _current_index - _top_index
+
+
 func _set_current_setting_index(value: int) -> void:
-		_current_setting_index = posmod(value, _get_settings_count())
-		_get_current_setting_label().theme_type_variation = &"GrayLabel"
-		_settings_indices[_get_current_option()] = posmod(value, _get_settings_count())
-		_get_current_setting_label().theme_type_variation = _get_label_color(
-			_get_current_setting_label()
+	_current_setting_index = posmod(value, _get_settings_count())
+	_get_current_setting_label().theme_type_variation = &"GrayLabel"
+	_settings_indices[_get_current_option()] = posmod(value, _get_settings_count())
+	_get_current_setting_label().theme_type_variation = _get_label_color(
+		_get_current_setting_label()
+	)
+	if _get_current_option() is BooleanOption:
+		(_get_current_option() as BooleanOption).value = (_get_current_setting_label().text == "On")
+	else:
+		(_get_current_option() as StringNameOption).value = (
+			_get_current_setting_label().text.to_snake_case()
 		)
-		if _get_current_option() is BooleanOption:
-			(_get_current_option() as BooleanOption).value = (
-				_get_current_setting_label().text == "On"
-			)
-		else:
-			(_get_current_option() as StringNameOption).value = (
-				_get_current_setting_label().text.to_snake_case()
-			)
-		_hovered_setting_index = _current_setting_index
+	_hovered_setting_index = _current_setting_index
+
 
 # The setting label for the current index
 func _get_current_setting_label() -> Label:
 	return (%SettingsList).get_child(_current_index).get_child(_current_setting_index) as Label
 
 
+func _get_current_setting_index() -> int:
+	return _settings_indices[_get_current_option()]
+
+
 # The setting label for the current index
 func _get_hovered_setting_label() -> Label:
 	return (%SettingsList).get_child(_current_index).get_child(_hovered_setting_index) as Label
+
+
 func _set_current_value(value: int) -> void:
-		if value != _current_index:
-			_current_index = posmod(value, Options.get_options().size())
-			if _current_index == 0:
-				_top_index = 0
-			elif _current_index == Options.get_options().size() - 1:
-				_top_index = _get_top_index_max()
-			elif _get_relative_index() == _displayed_item_count() - 1:
-				_top_index += 1
-			elif _get_relative_index() == 0:
-				_top_index -= 1
-			_update_hand_y()
-			if _get_current_option() is not FloatOption:
-				_hovered_setting_index = _current_setting_index
-			_update_description()
+	if value != _current_index:
+		_current_index = posmod(value, Options.get_options().size())
+		if _current_index == 0:
+			_top_index = 0
+		elif _current_index == Options.get_options().size() - 1:
+			_top_index = _get_top_index_max()
+		elif _get_relative_index() == _displayed_item_count() - 1:
+			_top_index += 1
+		elif _get_relative_index() == 0:
+			_top_index -= 1
+		_update_hand_y()
+		if _get_current_option() is not FloatOption:
+			_hovered_setting_index = _current_setting_index
+		_update_description()
+
 
 # Updates the x of the column hand
 func _update_column_hand_x() -> void:

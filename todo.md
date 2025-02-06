@@ -5,10 +5,14 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Fix attack bubble not rendering.
-* Highlight enemies that can attack while positioning (in vein of Engage's attack lines)
+* Highlight enemies that can attack while positioning (similar to Engage's attack lines)
+* Fix bug with javelin when iron sword is equipped in combat display
+* Add Berwick-style unit moving
+* Fix cursor disappearing when mouse is offscreen in combat panel.
+* Add Berwick-style 0 range
 
 # Major
+* Combine statistic and item screens
 * Create scripting language and script files
 * Renovate debug menu
 	* Split into debug options and the others.
@@ -62,7 +66,7 @@ Before you commit
 * Do something about the way input works
 * Implement gaining EVs
 	* Have units gain +0.02 movement EVs per tile traversed
-* Pallette the status screen for each unit
+* Palette the status screen for each unit
 * Add simple and extended scripts
 
 # Long-term
