@@ -10,11 +10,11 @@ full_list = [lowercase_chars, uppercase_chars, number_chars, misc_chars]
 
 for char in all_chars:
     char_num = ord(char)
-    if char_num >= 97 and char_num <= 122:
+    if 97 <= char_num <= 122:
         lowercase_chars.append(char)
-    elif char_num >= 65 and char_num <= 90:
+    elif 65 <= char_num <= 90:
         uppercase_chars.append(char)
-    elif char_num >= 48 and char_num <= 57:
+    elif 48 <= char_num <= 57:
         number_chars.append(char)
     else:
         misc_chars.append(char)

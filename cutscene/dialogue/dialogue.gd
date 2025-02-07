@@ -34,10 +34,12 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("back"):
 		_skipping = true
 
+
 ## Runs a script file. Path to the script file is relative to the map's root.
 func parse_script(script_name: StringName, map: Map) -> void:
 	_skipping = false
 	var map_path: String = (map.get_script() as GDScript).resource_path
+
 	var file_path: String = map_path.replace(map_path.get_file(), "%s.eodscript" % script_name)
 	var file := FileAccess.open(file_path, FileAccess.READ)
 	var lines: Array[String] = []

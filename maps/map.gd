@@ -70,6 +70,17 @@ func _ready() -> void:
 	_start_turn()
 
 
+func _process(_delta: float) -> void:
+	if state == States.MOVING and CursorController.is_active():
+		if (
+			CursorController.get_hovered_unit()
+			and not _selected_unit.is_friend(CursorController.get_hovered_unit())
+		):
+			CursorController.set_icon(CursorController.Icons.ATTACK)
+		else:
+			CursorController.set_icon(CursorController.Icons.NONE)
+
+
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("select"):
 		if CursorController.is_active():
@@ -99,6 +110,7 @@ func _input(event: InputEvent) -> void:
 			var flag: Flag = Flag.instantiate(CursorController.map_position)
 			$MapLayer.add_child(flag)
 			_flags[CursorController.map_position] = flag
+
 
 ## Shows the status screen for the unit the cursor is hovering over.
 func create_status_screen() -> void:
@@ -372,7 +384,6 @@ func _moving_state_select() -> void:
 
 func _attack_selection() -> void:
 	CursorController.disable()
-	CursorController.cursor_visible = false
 	_selected_unit.hide_movement_tiles()
 	AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
 	var info_display := CombatInfoDisplay.instantiate(
@@ -385,6 +396,7 @@ func _attack_selection() -> void:
 	_selected_unit.hide_current_attack_tiles()
 	info_display.queue_free()
 	if completed:
+		CursorController.set_icon(CursorController.Icons.NONE)
 		await _selected_unit.move()
 		await AttackController.combat(_selected_unit, CursorController.get_hovered_unit())
 		_selected_unit.wait()
@@ -394,7 +406,6 @@ func _attack_selection() -> void:
 		get_tree().root.set_input_as_handled()
 		state = States.MOVING
 	CursorController.enable()
-	CursorController.cursor_visible = true
 	set_process_input(true)
 
 

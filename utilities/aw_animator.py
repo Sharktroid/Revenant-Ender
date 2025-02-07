@@ -1,4 +1,3 @@
-from math import floor, ceil
 from PIL import Image
 
 def get_standing_tile(standing, column, row):

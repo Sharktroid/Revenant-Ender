@@ -34,8 +34,7 @@ with Image.open("walk.png", "r") as walking:
         all_images.append(get_walking_tile(walking, i))
 all_images.append(Image.new("RGB", (32, 32), (128, 160, 128)))
 
-all_images[2]
 full_image = Image.new("RGB", (32 * 4, 32 * 5), (128, 160, 128))
 for i in range(20):
-    full_image.paste(all_images[i], ((i % 4) * (32), (floor(i / 4)) * (32)))
+    full_image.paste(all_images[i], ((i % 4) * 32, (floor(i / 4)) * 32))
 full_image.save("Formatted.png")

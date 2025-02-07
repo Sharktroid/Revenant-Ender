@@ -27,7 +27,7 @@ for index in range(3):
                 (index + 1) * frame_dimensions.y,
             )
         ),
-        ((index) * 32 + 16 - round(frame_dimensions.x / 2), 16 - round(frame_dimensions.y / 2)),
+        (index * 32 + 16 - round(frame_dimensions.x / 2), 16 - round(frame_dimensions.y / 2)),
     )
 
 
