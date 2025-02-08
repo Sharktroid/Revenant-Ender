@@ -68,6 +68,7 @@ func _ready() -> void:
 		await MapController.get_ui().ready
 	CursorController.disable()
 	_start_turn()
+	CursorController.moved.connect(_on_cursor_moved)
 
 
 func _process(_delta: float) -> void:
@@ -365,11 +366,13 @@ func _moving_state_select() -> void:
 			var menu := UnitMenu.instantiate(
 				CursorController.screen_position + Vector2i(16, 0), null, _selected_unit
 			)
+			_reset_attack_colors()
 			CursorController.disable()
 			process_mode = PROCESS_MODE_DISABLED
 			MapController.get_ui().add_child(menu)
 			await menu.tree_exited
 			process_mode = PROCESS_MODE_INHERIT
+			_apply_attack_colors()
 		elif (
 			CursorController.get_hovered_unit()
 			and CursorController.map_position in _selected_unit.get_all_attack_tiles()
@@ -383,6 +386,7 @@ func _moving_state_select() -> void:
 
 
 func _attack_selection() -> void:
+	_reset_attack_colors()
 	CursorController.disable()
 	_selected_unit.hide_movement_tiles()
 	AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
@@ -435,13 +439,6 @@ func _select_state_select() -> void:
 		_ghost_unit = GhostUnit.new(_selected_unit)
 		_ghost_unit.position = CursorController.map_position
 		MapController.map.get_child(0).add_child(_ghost_unit)
-		var on_cursor_moved: Callable = func() -> void:
-			if process_mode != PROCESS_MODE_DISABLED and state != States.SELECTING:
-				_selected_unit.update_path(CursorController.map_position)
-				_selected_unit.show_path()
-				_ghost_unit.position = _selected_unit.get_path_last_pos()
-				_update_ghost_unit()
-		CursorController.moved.connect(on_cursor_moved)
 		_selected_unit.arrived.connect(_update_ghost_unit)
 		_update_ghost_unit()
 		_selected_unit.z_index = 1
@@ -485,6 +482,8 @@ func _set_state(new_state: States) -> void:
 		if is_instance_valid(_canter_tiles):
 			_canter_tiles.queue_free()
 		_ghost_unit.queue_free()
+	elif state == States.MOVING:
+		_reset_attack_colors()
 	state = new_state
 	match state:
 		States.SELECTING:
@@ -499,6 +498,8 @@ func _set_state(new_state: States) -> void:
 			else:
 				state = States.SELECTING
 				_selected_unit.wait()
+		States.MOVING:
+			_apply_attack_colors()
 
 
 func _display_turn_change(faction: Faction) -> void:
@@ -608,3 +609,30 @@ func _run_script(script_name: StringName) -> void:
 	CursorController.disable()
 	await _get_dialogue().parse_script(script_name, self)
 	CursorController.enable()
+
+
+func _on_cursor_moved() -> void:
+	if process_mode != PROCESS_MODE_DISABLED and state != States.SELECTING:
+		_selected_unit.update_path(CursorController.map_position)
+		_selected_unit.show_path()
+		_ghost_unit.position = _selected_unit.get_path_last_pos()
+		_update_ghost_unit()
+		_apply_attack_colors()
+
+
+func _apply_attack_colors() -> void:
+	for unit: Unit in get_units().filter(
+		func(unit: Unit) -> bool: return not unit.is_friend(_selected_unit)
+	):
+		if _selected_unit.get_path_last_pos() in unit.get_all_attack_tiles():
+			unit.modulate = Color.RED
+			unit.modulate.s = 0.5
+		else:
+			unit.modulate = Color.WHITE
+
+
+func _reset_attack_colors() -> void:
+	for unit: Unit in get_units().filter(
+		func(unit: Unit) -> bool: return not unit.is_friend(_selected_unit)
+	):
+		unit.modulate = Color.WHITE
