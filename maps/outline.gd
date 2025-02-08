@@ -29,10 +29,6 @@ func _draw() -> void:
 			_create_outline_tile(tile_general, line_general, coords, all_general_coords)
 
 
-func _get_all_tiles(unit: Unit) -> Array[Vector2i]:
-	return unit.get_all_attack_tiles() + unit.get_movement_tiles()
-
-
 func _create_outline_tile(
 	tile_color: Color, line_color: Color, coords: Vector2i, all_coords: Array[Vector2i]
 ) -> void:
@@ -81,7 +77,7 @@ func _get_all_current_coords(
 		unit.modulate = unit_highlight
 		unit.modulate.s *= 0.5
 		all_current_coords.append_array(
-			_get_all_tiles(unit).filter(_is_within_coords.bind(all_current_coords))
+			unit.get_all_attack_tiles().filter(_is_within_coords.bind(all_current_coords))
 		)
 	return all_current_coords
 
@@ -99,6 +95,6 @@ func _get_all_general_coords(outline_faction: Faction) -> Array[Vector2i]:
 	if current_faction.full_outline and outline_faction != current_faction:
 		for unit: Unit in MapController.map.get_units().filter(can_enemy_attack):
 			all_general_coords.append_array(
-				_get_all_tiles(unit).filter(_is_within_coords.bind(all_general_coords))
+				unit.get_all_attack_tiles().filter(_is_within_coords.bind(all_general_coords))
 			)
 	return all_general_coords

@@ -672,23 +672,18 @@ func get_actionable_movement_tiles() -> Array[Vector2i]:
 	return movement_tiles
 
 
-## Gets all the tiles the unit can attack.
+## Gets all the tiles the unit can attack from.
 func get_all_attack_tiles() -> Array[Vector2i]:
 	if _attack_tiles.is_empty() and get_weapon():
 		var basis_movement_tiles: Array[Vector2i] = get_actionable_movement_tiles()
 		var min_range: int = get_min_range()
 		var max_range: float = get_max_range()
-		var base_sub_tiles: Array[Vector2i] = Utilities.get_tiles(Vector2i(), min_range, 1)
-		var has_sub_tiles: Callable = func(tile: Vector2i) -> bool:
-			var has_sub_tile: Callable = func(subtile: Vector2i) -> bool:
-				return not tile + subtile in get_movement_tiles()
-			return base_sub_tiles.any(has_sub_tile)
-		for tile: Vector2i in basis_movement_tiles.filter(has_sub_tiles):
+		for tile: Vector2i in basis_movement_tiles:
 			var attack_tiles: Array[Vector2i] = Utilities.get_tiles(
 				tile, max_range, min_range, MapController.map.borders
 			)
 			var not_current_tile: Callable = func(attack_tile: Vector2i) -> bool:
-				return not (attack_tile in _attack_tiles + get_movement_tiles())
+				return not (attack_tile in _attack_tiles)
 			_attack_tiles.append_array(attack_tiles.filter(not_current_tile))
 	return _attack_tiles
 
@@ -696,8 +691,12 @@ func get_all_attack_tiles() -> Array[Vector2i]:
 ## Displays the unit's movement tiles.
 func display_movement_tiles() -> void:
 	hide_movement_tiles()
-	_movement_tiles_node = _get_map().display_tiles(get_movement_tiles(), Map.TileTypes.MOVEMENT, 1)
-	_attack_tile_node = _get_map().display_tiles(get_all_attack_tiles(), Map.TileTypes.ATTACK, 1)
+	var movement_tiles: Array[Vector2i] = get_movement_tiles()
+	_movement_tiles_node = _get_map().display_tiles(movement_tiles, Map.TileTypes.MOVEMENT, 1)
+	var attack_tiles: Array[Vector2i] = get_all_attack_tiles().filter(
+		func(tile: Vector2i) -> bool: return tile not in movement_tiles
+	)
+	_attack_tile_node = _get_map().display_tiles(attack_tiles, Map.TileTypes.ATTACK, 1)
 	if not selected:
 		_movement_tiles_node.modulate.a = 0.5
 		_attack_tile_node.modulate.a = 0.5
@@ -797,7 +796,7 @@ func update_path(destination: Vector2i) -> void:
 		CursorController.get_hovered_unit()
 		and Vector2i(CursorController.get_hovered_unit().position) in get_all_attack_tiles()
 	):
-		var adjacent_movement_tiles: Array[Vector2i] = _get_actionable_attackable_tiles()
+		var adjacent_movement_tiles: Array[Vector2i] = _get_actionable_attack_tiles()
 		if not adjacent_movement_tiles.is_empty():
 			destination = _get_nearest_path_tile(adjacent_movement_tiles)
 	if destination in get_movement_tiles():
@@ -962,7 +961,7 @@ func _get_path_cost() -> float:
 	return valid_path.reduce(sum_cost, 0)
 
 
-func _get_actionable_attackable_tiles() -> Array[Vector2i]:
+func _get_actionable_attack_tiles() -> Array[Vector2i]:
 	var range_tiles: Array[Vector2i] = Utilities.get_tiles(
 		CursorController.get_hovered_unit().position,
 		get_max_range(),
