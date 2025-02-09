@@ -10,6 +10,7 @@ Before you commit
 * Fix cursor disappearing when mouse is offscreen in combat panel.
 * Add Berwick-style 0 range
 * Fix bug where the path position is messed up if going to an inaccessable tile.
+* Convert gdsl functions and variables to camelCase
 
 # Major
 * Combine statistic and item screens
