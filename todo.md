@@ -9,7 +9,6 @@ Before you commit
 * Add Berwick-style unit moving
 * Fix cursor disappearing when mouse is offscreen in combat panel.
 * Add Berwick-style 0 range
-* Fix bug where the path position is messed up if going to an inaccessable tile.
 * Convert gdsl functions and variables to camelCase
 
 # Major

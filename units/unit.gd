@@ -518,8 +518,10 @@ func get_crit_rate(enemy: Unit) -> int:
 func get_path_last_pos() -> Vector2i:
 	var path: Array[Vector2i] = get_unit_path().duplicate()
 	var unit_positions: Array[Vector2i] = []
-	unit_positions.assign(
-		_get_map().get_units().map(func(unit: Unit) -> Vector2i: return unit.position)
+	(
+		unit_positions
+		. filter(func(unit: Unit) -> bool: return unit != self)
+		. assign(_get_map().get_units().map(func(unit: Unit) -> Vector2i: return unit.position))
 	)
 	var valid_path: Array[Vector2i] = path.filter(
 		func(tile: Vector2i) -> bool: return tile not in unit_positions
@@ -792,10 +794,7 @@ func update_path(destination: Vector2i) -> void:
 	if _path.is_empty():
 		_path.append(Vector2i(position))
 	# Sets destination to an adjacent tile to a unit if a unit is hovered and over an attack tile.
-	if (
-		CursorController.get_hovered_unit()
-		and Vector2i(CursorController.get_hovered_unit().position) in get_all_attack_tiles()
-	):
+	if _hovered_unit_in_range():
 		var adjacent_movement_tiles: Array[Vector2i] = _get_actionable_attack_tiles()
 		if not adjacent_movement_tiles.is_empty():
 			destination = _get_nearest_path_tile(adjacent_movement_tiles)
@@ -1073,6 +1072,16 @@ func _get_grayscale_hair_palette() -> Array[Color]:
 		return palette
 	else:
 		return default_palette
+
+
+func _hovered_unit_in_range() -> bool:
+	if CursorController.get_hovered_unit():
+		var hovered_position: Vector2i = Vector2i(CursorController.get_hovered_unit().position)
+		return (
+			hovered_position not in get_actionable_movement_tiles()
+			and hovered_position in get_all_attack_tiles()
+		)
+	return false
 
 
 func _get_nearest_path_tile(tiles: Array[Vector2i]) -> Vector2i:
