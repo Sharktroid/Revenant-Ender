@@ -5,7 +5,6 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Fix bug with javelin when iron sword is equipped in combat display
 * Add Berwick-style unit moving
 * Fix cursor disappearing when mouse is offscreen in combat panel.
 * Add Berwick-style 0 range

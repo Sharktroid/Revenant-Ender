@@ -30,7 +30,8 @@ var _weapon_index: int = 0:
 		_weapon_index = posmod(_weapon_index, _current_weapons.size())
 		_left_unit.equip_weapon(_get_current_weapon(), false)
 		_update()
-		_left_unit.display_current_attack_tiles()
+		if _focused:
+			_left_unit.display_current_attack_tiles()
 var _old_weapon: Weapon
 var _original_weapon: Weapon
 #@onready var _item_menu := %ItemMenu as _COMBAT_DISPLAY_SUBMENU
