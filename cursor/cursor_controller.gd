@@ -38,13 +38,12 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	if GameController.controller_type == GameController.ControllerTypes.MOUSE:
+	if _active and GameController.controller_type == GameController.ControllerTypes.MOUSE:
 		_offscreen = not MapController.map.borders.has_point(
 			MapController.map.get_local_mouse_position()
 		)
 		get_area().monitorable = is_active()
 		get_area().monitoring = is_active()
-
 	if is_active():
 		if GameController.controller_type == GameController.ControllerTypes.MOUSE:
 			var destination: Vector2 = MapController.map.get_map_camera().get_destination()

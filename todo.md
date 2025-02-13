@@ -5,14 +5,10 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Add Berwick-style unit moving
-* Fix cursor disappearing when mouse is offscreen in combat panel.
 * Add Berwick-style 0 range
-* Convert gdsl functions and variables to camelCase
 
 # Major
-* Combine statistic and item screens
-* Create scripting language and script files
+* Add Berwick-style unit moving
 * Renovate debug menu
 	* Split into debug options and the others.
 	* Add debug constant to control whether the setting is displayed in the main map menu
@@ -50,7 +46,7 @@ Before you commit
 			* -2 might penalty when below decent
 			* Critical means weapon has a chance of breaking
 		* Durability decreases based on condition and rng
-* Implement authority
+* Combine statistic and item screens
 * Implement AI
 * Implement activated skills
 	* Add Accost
