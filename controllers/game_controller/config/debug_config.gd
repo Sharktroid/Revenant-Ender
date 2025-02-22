@@ -33,3 +33,14 @@ var SHOW_FPS := BooleanOption.new(
 	&"show_fps", &"debug", false, "Whether the frame rate is displayed"
 )
 #gdlint: enable = class-variable-name
+
+
+func get_options() -> Array[ConfigOption]:
+	return [
+		UNIT_WAIT,
+		DISPLAY_MAP_BORDERS,
+		DISPLAY_MAP_TERRAIN,
+		DISPLAY_MAP_CURSOR,
+		PRINT_INPUT_RECEIVER,
+		SHOW_FPS
+	]

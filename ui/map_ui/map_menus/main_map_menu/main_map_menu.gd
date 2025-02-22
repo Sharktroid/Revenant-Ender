@@ -8,6 +8,7 @@ func _init() -> void:
 func _exit_tree() -> void:
 	super()
 
+
 func _input(event: InputEvent) -> void:
 	if not HelpPopupController.is_active():
 		if event.is_action_pressed("back"):
@@ -17,6 +18,7 @@ func _input(event: InputEvent) -> void:
 		else:
 			super(event)
 
+
 static func instantiate(new_offset: Vector2, parent: MapMenu = null) -> MapMenu:
 	return _base_instantiate(
 		preload("res://ui/map_ui/map_menus/main_map_menu/main_map_menu.tscn"), new_offset, parent
@@ -25,14 +27,23 @@ static func instantiate(new_offset: Vector2, parent: MapMenu = null) -> MapMenu:
 
 func _select_item(item: MapMenuItem) -> void:
 	match item.name:
-		"Debug":
-			const DebugMenu = preload("res://ui/map_ui/map_menus/debug_menu/debug_menu.gd")
+		"Debug Options":
+			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
+			const DEBUG_MENU: PackedScene = preload(
+				"res://ui/map_ui/options_menu/debug_options_menu/debug_options_menu.tscn"
+			)
+			MapController.get_ui().add_child(DEBUG_MENU.instantiate())
+
+		"Debug Commands":
+			const DebugMenu = preload(
+				"res://ui/map_ui/map_menus/debug_commands_menu/debug_commands_menu.gd"
+			)
 			MapController.get_ui().add_child(DebugMenu.instantiate(_offset, self))
 
 		"Options":
 			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
-			const OPTIONS_MENU := (
-				preload("res://ui/map_ui/options_menu/options_menu.tscn") as PackedScene
+			const OPTIONS_MENU: PackedScene = preload(
+				"res://ui/map_ui/options_menu/options_menu.tscn"
 			)
 			MapController.get_ui().add_child(OPTIONS_MENU.instantiate())
 

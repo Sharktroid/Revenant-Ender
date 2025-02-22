@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://c0mmbk17nyqii"]
+
+[ext_resource type="PackedScene" uid="uid://b4a6n61tdijwj" path="res://ui/map_ui/map_menus/map_menu.tscn" id="1"]
+[ext_resource type="Script" path="res://ui/map_ui/map_menus/debug_commands_menu/debug_commands_menu.gd" id="2"]
+[ext_resource type="Script" path="res://ui/map_ui/map_menus/map_menu_item.gd" id="3_cx8w0"]
+
+[node name="DebugMenu" instance=ExtResource("1")]
+script = ExtResource("2")
+
+[node name="PrintCursorPosition" type="BoxContainer" parent="Items" index="0"]
+layout_mode = 2
+script = ExtResource("3_cx8w0")
+help_description = "Prints the cursor's position."

@@ -5,18 +5,15 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Add Berwick-style 0 range
 
 # Major
-* Add Berwick-style unit moving
 * Renovate debug menu
 	* Split into debug options and the others.
 	* Add debug constant to control whether the setting is displayed in the main map menu
-* Replace receiving input with pausing/unpausing via process_mode = ProcessMode.PROCESS_MODE_DISABLED
 * Implement dual weapons
 * Have option to display stat details all at once
-* Add undoing a non-combat command
-* Add stats for performing kills on certain terrain and when units of categories
+* Add turnwheel
+* Add stats for performing kills on certain terrain and units of categories
 * Add unit hover display
 * Document classes (roll this out gradually so I don't burn out)
 * Add DS Font
@@ -63,6 +60,8 @@ Before you commit
 	* Have units gain +0.02 movement EVs per tile traversed
 * Palette the status screen for each unit
 * Add simple and extended scripts
+* Add Berwick-style 0 range
+* Add Berwick-style unit moving
 
 # Long-term
 * Make game based on design document

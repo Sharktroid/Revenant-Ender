@@ -26,11 +26,11 @@ var _top_index: int = 0:
 		_scroll_tween.tween_property(_scroll_container, ^"scroll_vertical", _top_index * 16, 4)
 
 # A Tween that controls cursor movement between settings.
-var _horizontal_tween: Tween = create_tween()
+var _horizontal_tween: Tween
 # A Tween that controls cursor movement between options.
-var _vertical_tween: Tween = create_tween()
+var _vertical_tween: Tween
 # A Tween that controls the scrolling of the menu.
-var _scroll_tween: Tween = create_tween()
+var _scroll_tween: Tween
 
 # The scroll container that scrolls to fit the content
 @onready var _scroll_container := %ScrollContainer as ScrollContainer
@@ -44,10 +44,14 @@ var _scroll_tween: Tween = create_tween()
 
 func _ready() -> void:
 	MapController.map.process_mode = Node.PROCESS_MODE_DISABLED
-	_create_options()
+	_horizontal_tween = create_tween()
 	_horizontal_tween.stop()
+	_vertical_tween = create_tween()
 	_vertical_tween.stop()
+	_scroll_tween = create_tween()
 	_scroll_tween.stop()
+
+	_create_options()
 	_update_description()
 	await get_tree().process_frame
 	if _get_current_option() is not FloatOption:
@@ -98,15 +102,23 @@ func _exit_tree() -> void:
 	CursorController.enable()
 
 
-func _create_options() -> void:
-	for option: ConfigOption in Options.get_options():
-		var icon_rect := TextureRect.new()
-		icon_rect.texture = load("res://ui/map_ui/options_menu/icons/%s.png" % option.get_name())
-		var icon_center := CenterContainer.new()
-		icon_center.custom_minimum_size = Vector2i(16, 16)
-		icon_center.add_child(icon_rect)
-		%IconsList.add_child(icon_center)
+func _get_options() -> Array[ConfigOption]:
+	return Options.get_options()
 
+
+func _add_icon(option: ConfigOption) -> void:
+	var icon_rect := TextureRect.new()
+	icon_rect.texture = load("res://ui/map_ui/options_menu/icons/%s.png" % option.get_name())
+	var icon_center := CenterContainer.new()
+	icon_center.custom_minimum_size = Vector2i(16, 16)
+	icon_center.add_child(icon_rect)
+	%IconsList.add_child(icon_center)
+
+
+
+func _create_options() -> void:
+	for option: ConfigOption in _get_options():
+		_add_icon(option)
 		var name_label := Label.new()
 		name_label.text = option.get_name().capitalize()
 		%NamesList.add_child(name_label)
@@ -181,10 +193,10 @@ func _get_hovered_setting_label() -> Label:
 
 func _set_current_value(value: int) -> void:
 	if value != _current_index:
-		_current_index = posmod(value, Options.get_options().size())
+		_current_index = posmod(value, _get_options().size())
 		if _current_index == 0:
 			_top_index = 0
-		elif _current_index == Options.get_options().size() - 1:
+		elif _current_index == _get_options().size() - 1:
 			_top_index = _get_top_index_max()
 		elif _get_relative_index() == _displayed_item_count() - 1:
 			_top_index += 1
@@ -247,11 +259,11 @@ func _displayed_item_count() -> int:
 
 # Gets the maximum value for the top index
 func _get_top_index_max() -> int:
-	return maxi(Options.get_options().size() - _displayed_item_count(), 0)
+	return maxi(_get_options().size() - _displayed_item_count(), 0)
 
 
 func _get_current_option() -> ConfigOption:
-	return Options.get_options()[_current_index]
+	return _get_options()[_current_index]
 
 
 func _get_settings_count() -> int:
@@ -295,7 +307,7 @@ func _update_mouse_position() -> void:
 	_current_index = clampi(
 		floori(_scroll_container.get_local_mouse_position().y / 16) + _top_index,
 		0,
-		Options.get_options().size() - 1
+		_get_options().size() - 1
 	)
 	if _get_current_option() is not FloatOption:
 		var setting_box := %SettingsList.get_child(_current_index) as HBoxContainer
