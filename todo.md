@@ -5,7 +5,6 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Fix jank when moving between help bubble for hp and hp description.
 
 # Major
 * Have option to display stat details all at once
