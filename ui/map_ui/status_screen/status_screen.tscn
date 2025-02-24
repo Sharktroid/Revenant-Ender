@@ -1,11 +1,11 @@
 [gd_scene load_steps=9 format=3 uid="uid://dfm25r0ju5214"]
 
-[ext_resource type="Script" path="res://ui/map_ui/status_screen/status_screen.gd" id="1_2pcwt"]
+[ext_resource type="Script" uid="uid://bukqqxqd0n5dt" path="res://ui/map_ui/status_screen/status_screen.gd" id="1_2pcwt"]
 [ext_resource type="PackedScene" uid="uid://b7h3kn7yes57v" path="res://backgrounds/scrolling_image/scrolling_image.tscn" id="1_fu38b"]
 [ext_resource type="Texture2D" uid="uid://cpy5pea1o30t6" path="res://ui/theme/portrait.png" id="2_hydo1"]
 [ext_resource type="PackedScene" uid="uid://jyd6v7dptm76" path="res://ui/map_ui/status_screen/statistics/statistics.tscn" id="3_a0hin"]
-[ext_resource type="Script" path="res://ui/help_popup/help_container.gd" id="4_g30x5"]
-[ext_resource type="Script" path="res://portraits/portrait.gd" id="5_a0q8g"]
+[ext_resource type="Script" uid="uid://ct4a5uumlk5g3" path="res://ui/help_popup/help_container.gd" id="4_g30x5"]
+[ext_resource type="Script" uid="uid://crilugtsdxom2" path="res://portraits/portrait.gd" id="5_a0q8g"]
 [ext_resource type="PackedScene" uid="uid://bv0fufaguhv7n" path="res://ui/map_ui/status_screen/item_screen/item_screen.tscn" id="5_ogdan"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8vmos"]

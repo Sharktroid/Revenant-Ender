@@ -1,31 +1,31 @@
 [gd_scene load_steps=60 format=4 uid="uid://c7imjt60y75n3"]
 
 [ext_resource type="PackedScene" uid="uid://bhm3c7lcoufva" path="res://maps/map.tscn" id="1_kb152"]
-[ext_resource type="Shader" path="res://shaders/gba_color.gdshader" id="2_1nmhw"]
-[ext_resource type="Script" path="res://maps/test_maps/test_map_b/test_map_b.gd" id="2_cy6k6"]
+[ext_resource type="Shader" uid="uid://dvhsb70ovjidp" path="res://shaders/gba_color.gdshader" id="2_1nmhw"]
+[ext_resource type="Script" uid="uid://xvlp3fbdscrs" path="res://maps/test_maps/test_map_b/test_map_b.gd" id="2_cy6k6"]
 [ext_resource type="Texture2D" uid="uid://drbehrx1xfpsp" path="res://maps/test_maps/test_map_b/fe6_chapter_1.png" id="3_ylwuq"]
 [ext_resource type="PackedScene" uid="uid://cuqamu0m16iep" path="res://units/characters/binding blade/roy/roy.tscn" id="4_vkjsj"]
 [ext_resource type="PackedScene" uid="uid://dvkbmwwrt5mmo" path="res://units/characters/binding blade/marcus/marcus.tscn" id="6_41yfy"]
-[ext_resource type="Shader" path="res://shaders/palette.gdshader" id="6_klyfp"]
-[ext_resource type="Script" path="res://items/weapons/swords/rapier/rapier.gd" id="7_e51sp"]
-[ext_resource type="Script" path="res://items/item.gd" id="8_4bj0l"]
+[ext_resource type="Shader" uid="uid://bcq4v4cx3y05u" path="res://shaders/palette.gdshader" id="6_klyfp"]
+[ext_resource type="Script" uid="uid://dp8n5a5waj0wr" path="res://items/weapons/swords/rapier/rapier.gd" id="7_e51sp"]
+[ext_resource type="Script" uid="uid://oxuirych6txp" path="res://items/item.gd" id="8_4bj0l"]
 [ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit.tscn" id="10_g0esg"]
-[ext_resource type="Script" path="res://items/weapons/swords/iron_sword/iron_sword.gd" id="10_kqmr4"]
+[ext_resource type="Script" uid="uid://de7w6uwdjjtko" path="res://items/weapons/swords/iron_sword/iron_sword.gd" id="10_kqmr4"]
 [ext_resource type="PackedScene" uid="uid://8gwj2xxrhmht" path="res://units/characters/binding blade/alen/alen.tscn" id="10_um4bb"]
 [ext_resource type="PackedScene" uid="uid://8f0f7er5vqbo" path="res://units/characters/binding blade/wolt/wolt.tscn" id="11_ify8r"]
-[ext_resource type="Script" path="res://items/weapons/spears/iron_spear/iron_spear.gd" id="11_s7ppl"]
+[ext_resource type="Script" uid="uid://byuvc4sho6jvd" path="res://items/weapons/spears/iron_spear/iron_spear.gd" id="11_s7ppl"]
 [ext_resource type="PackedScene" uid="uid://b4oirte2lakpd" path="res://units/characters/binding blade/bors/bors.tscn" id="13_1ke26"]
 [ext_resource type="PackedScene" uid="uid://cnrpvuqmny1m3" path="res://units/characters/binding blade/damas/damas.tscn" id="13_b2nf3"]
-[ext_resource type="Script" path="res://units/unit_classes/archer/archer.gd" id="14_a6bhl"]
-[ext_resource type="Script" path="res://items/weapons/axes/iron_axe/iron_axe.gd" id="14_kcchf"]
+[ext_resource type="Script" uid="uid://c1clcpf1btwub" path="res://units/unit_classes/archer/archer.gd" id="14_a6bhl"]
+[ext_resource type="Script" uid="uid://cbpdoho83oypb" path="res://items/weapons/axes/iron_axe/iron_axe.gd" id="14_kcchf"]
 [ext_resource type="Texture2D" uid="uid://dhm1yqcs0uc71" path="res://units/unit_classes/archer/map_sprite.png" id="16_mu4wr"]
-[ext_resource type="Script" path="res://units/unit_classes/fighter/fighter.gd" id="16_si68w"]
-[ext_resource type="Script" path="res://units/unit_classes/brigand/brigand.gd" id="17_2jg7w"]
+[ext_resource type="Script" uid="uid://c7gqcyndmk3eu" path="res://units/unit_classes/fighter/fighter.gd" id="16_si68w"]
+[ext_resource type="Script" uid="uid://clfd38is1kvt3" path="res://units/unit_classes/brigand/brigand.gd" id="17_2jg7w"]
 [ext_resource type="PackedScene" uid="uid://blysgn0u4e6ar" path="res://units/characters/binding blade/lance/lance.tscn" id="17_lj7l3"]
-[ext_resource type="Script" path="res://items/weapons/bows/iron_bow/iron_bow.gd" id="19_do6v3"]
+[ext_resource type="Script" uid="uid://cc3jmvibcnmc5" path="res://items/weapons/bows/iron_bow/iron_bow.gd" id="19_do6v3"]
 [ext_resource type="Texture2D" uid="uid://dgli13fqa0m3n" path="res://units/unit_classes/fighter/map_sprite.png" id="19_wsf8a"]
 [ext_resource type="Texture2D" uid="uid://k4v4jr2yobm1" path="res://units/unit_classes/brigand/map_sprite.png" id="22_b7ojr"]
-[ext_resource type="Shader" path="res://shaders/zoom.gdshader" id="26_3jmne"]
+[ext_resource type="Shader" uid="uid://cctsq6npxnkp0" path="res://shaders/zoom.gdshader" id="26_3jmne"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wqeup"]
 shader = ExtResource("2_1nmhw")
@@ -504,7 +504,7 @@ shader_parameter/white_percentage = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_don5o"]
 shader = ExtResource("26_3jmne")
-shader_parameter/center = null
+shader_parameter/center = Vector2(0, 0)
 shader_parameter/zoom = 1.0
 
 [node name="TestMapB" instance=ExtResource("1_kb152")]

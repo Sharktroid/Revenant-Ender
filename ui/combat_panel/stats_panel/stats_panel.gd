@@ -27,9 +27,9 @@ func update(unit: Unit, enemy: Unit, enemy_damage: float, distance: int) -> void
 			_update_damage_label(%DamageLabel as Label, 0, in_range)
 	elif Options.COMBAT_PANEL.value == Options.COMBAT_PANEL.DETAILED:
 		_update_damage_label(%AttackLabel as Label, unit.get_true_attack(enemy), in_range)
-		(%DefenseLabel as Label).text = Utilities.float_to_string(unit.get_current_defense(enemy))
+		(%DefenseLabel as Label).text = Utilities.float_to_string(unit.get_current_defense(enemy), true)
 		var attack_speed_label := %AttackSpeedLabel as Label
-		attack_speed_label.text = Utilities.float_to_string(unit.get_attack_speed())
+		attack_speed_label.text = Utilities.float_to_string(unit.get_attack_speed(), true)
 		attack_speed_label.theme_type_variation = _get_attack_speed_label_theme(
 			unit, enemy, weapon, enemy.get_weapon(), distance
 		)
@@ -40,7 +40,7 @@ func _update_hp_display(unit: Unit, enemy_damage: float) -> void:
 	hp_progress_bar.max_value = unit.get_hit_points()
 	hp_progress_bar.value = maxf(unit.current_health - enemy_damage, 0)
 	hp_progress_bar.original_value = unit.current_health
-	(%HPLabel as Label).text = Utilities.float_to_string(unit.current_health)
+	(%HPLabel as Label).text = Utilities.float_to_string(unit.current_health, true)
 
 
 
@@ -53,13 +53,13 @@ func _get_invalid_hboxes() -> Array[HBoxContainer]:
 
 
 func _update_damage_label(label: Label, damage: float, in_range: bool) -> void:
-	label.text = Utilities.float_to_string(damage) if in_range else "--"
+	label.text = Utilities.float_to_string(damage, true) if in_range else "--"
 	# Put code for effective damage color here.
 	label.theme_type_variation = &"BlueLabel" if damage > 0 and in_range else &"GrayLabel"
 
 
 func _update_rate_label(label: Label, rate: int, in_range: bool) -> void:
-	label.text = Utilities.float_to_string(rate) if in_range else "--"
+	label.text = Utilities.float_to_string(rate, true) if in_range else "--"
 	# Put code for effective damage color here.
 	var get_type_variation: Callable = func() -> StringName:
 		if rate <= 0 or not in_range:
@@ -97,11 +97,11 @@ func _get_total_damage_string(
 ) -> String:
 	var total_critical_damage: float = _get_total_damage(true, unit, enemy, distance)
 	if total_damage == total_critical_damage:
-		return Utilities.float_to_string(total_damage)
+		return Utilities.float_to_string(total_damage, true)
 	else:
-		var formatting_replacements: Dictionary = {
-			"damage": Utilities.float_to_string(total_damage),
-			"critical_damage": Utilities.float_to_string(total_critical_damage)
+		var formatting_replacements: Dictionary[String, String] = {
+			"damage": Utilities.float_to_string(total_damage, true),
+			"critical_damage": Utilities.float_to_string(total_critical_damage, true)
 		}
 		return "{damage} ({critical_damage})".format(formatting_replacements)
 

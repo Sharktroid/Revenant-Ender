@@ -17,6 +17,7 @@ var stat: Unit.Stats:
 func _update() -> void:
 	var max_value: float = maxi(unit.get_stat_cap(stat), 10)
 	var numeric_progress_bar := $NumericProgressBar as NumericProgressBar
+	numeric_progress_bar.mode = NumericProgressBar.Modes.INTEGER
 
 	numeric_progress_bar.max_value = max_value
 	if stat == Unit.Stats.SPEED:

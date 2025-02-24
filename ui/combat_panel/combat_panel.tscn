@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://c6sx28dkpeclq"]
 
-[ext_resource type="Script" path="res://ui/combat_panel/combat_panel.gd" id="1_1wwld"]
+[ext_resource type="Script" uid="uid://d1sg2fmoct87x" path="res://ui/combat_panel/combat_panel.gd" id="1_1wwld"]
 [ext_resource type="PackedScene" uid="uid://bojpgvlm623qa" path="res://ui/combat_panel/name_panel/name_panel.tscn" id="2_yi715"]
 [ext_resource type="PackedScene" uid="uid://dl5b1nrmjmryn" path="res://ui/combat_panel/stats_panel/stats_panel.tscn" id="3_vq7xu"]
 

@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://c8vpqlssnmggo" path="res://maps/map_tiles/movement_tile.tscn" id="1_f8y5b"]
 [ext_resource type="Texture2D" uid="uid://bmjy8ot661jfl" path="res://maps/map_tiles/red_tile.png" id="2_rjhaq"]
-[ext_resource type="Script" path="res://maps/map_tiles/attack_tile.gd" id="3_u47ur"]
+[ext_resource type="Script" uid="uid://dyyd48gapm57s" path="res://maps/map_tiles/attack_tile.gd" id="3_u47ur"]
 
 [node name="AttackTile" instance=ExtResource("1_f8y5b")]
 texture = ExtResource("2_rjhaq")

@@ -20,7 +20,7 @@ const _SHIFT_DURATION: float = 8.0 / 60  # In seconds
 const _TEXT_BOX_HEIGHT: int = 94
 const _PORTRAIT_WIDTH: int = 96
 
-var _portraits: Dictionary = {}
+var _portraits: Dictionary[StringName, Portrait] = {}
 var _top_speaker: String
 var _bottom_speaker: String
 var _skipping: bool = false
@@ -128,7 +128,7 @@ func _add_portrait(
 func _remove_portrait(old_speaker: StringName) -> void:
 	var portrait := Portrait.new()
 	if is_instance_valid(_portraits.get(old_speaker)):
-		portrait = _portraits.get(old_speaker, Portrait.new())
+		portrait = _portraits[old_speaker]
 	var tween: Tween = create_tween()
 	tween.tween_property(portrait, ^"modulate:v", 0, _SHIFT_DURATION)
 	await tween.finished
@@ -212,7 +212,7 @@ func _set_text(top: bool, unit_name: String, string: String) -> void:
 	if not _get_margin_container(top).visible:
 		await _show_text_box(top)
 	await _update_speaker(top, unit_name)
-	var portrait: Portrait = _get_portrait(unit_name)
+	var portrait: Portrait = _portraits[unit_name]
 	portrait.set_talking(true)
 	var label: RichTextLabel = _get_text_box(top)
 	label.text += string
@@ -279,7 +279,7 @@ func _update_speaker(top: bool, new_speaker: StringName) -> void:
 	var current_speaker: String = _top_speaker if top else _bottom_speaker
 	if new_speaker == current_speaker:
 		return
-	var portrait: Portrait = _get_portrait(new_speaker)
+	var portrait: Portrait = _portraits[new_speaker]
 	if new_speaker in _portraits.keys():
 		_configure_point(_get_bubble_point(top), roundi(portrait.position.x))
 	var counter := Counter.new(1)
@@ -316,10 +316,6 @@ func _configure_point(bubble_point: TextureRect, point_x: int) -> void:
 	bubble_point.position.x = (
 		float(point_x + _PORTRAIT_WIDTH) if bubble_point.flip_h else point_x - bubble_point.size.x
 	)
-
-
-func _get_portrait(unit: StringName) -> Portrait:
-	return _portraits[unit]
 
 
 func _get_text_speed() -> int:

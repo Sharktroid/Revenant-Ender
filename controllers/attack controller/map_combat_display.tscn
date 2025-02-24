@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dq4qai3phb4s7"]
 
-[ext_resource type="Script" path="res://controllers/attack controller/map_combat_display.gd" id="1_n6m7s"]
-[ext_resource type="PackedScene" uid="uid://wouoek0ybw4b" path="res://controllers/attack controller/map_combat_subdisplay/map_combat_subdisplay.tscn" id="2_jyer2"]
+[ext_resource type="Script" uid="uid://d0siidt2haeih" path="res://controllers/attack controller/map_combat_display.gd" id="1_n6m7s"]
+[ext_resource type="PackedScene" uid="uid://wouoek0ybw4b" path="res://controllers/attack controller/map_combat_subdisplay/map_hp_bar.tscn" id="2_jyer2"]
 
 [node name="MapBattleInfoDisplay" type="HBoxContainer"]
 anchors_preset = 5

@@ -154,7 +154,7 @@ func _update_offensive_parameters() -> void:
 
 func _get_attack_description() -> String:
 	if observing_unit.get_weapon():
-		var format_dictionary: Dictionary = {
+		var format_dictionary: Dictionary[String, float] = {
 			"attack": observing_unit.get_current_attack(),
 			"might": observing_unit.get_weapon().get_might()
 		}
@@ -178,13 +178,13 @@ func _get_exp_stat_help() -> String:
 		+ "[color={blue}]{remaining_exp}[/color] to next level\n"
 		+ "Total exp: [color={blue}]{total_exp}[/color]"
 	)
-	var replacements: Dictionary = {
+	var replacements: Dictionary[String, String] = {
 		"blue": Utilities.FONT_BLUE,
 		"yellow": Utilities.FONT_YELLOW,
-		"current_exp": roundi(current_exp),
-		"next_level_exp": roundi(next_level_exp),
-		"remaining_exp": roundi(next_level_exp - current_exp),
-		"total_exp": roundi(observing_unit.total_exp),
+		"current_exp": str(roundi(current_exp)),
+		"next_level_exp": str(roundi(next_level_exp)),
+		"remaining_exp": str(roundi(next_level_exp - current_exp)),
+		"total_exp": str(roundi(observing_unit.total_exp)),
 	}
 	return EXP_DESCRIPTION.format(replacements)
 
@@ -220,7 +220,7 @@ func _get_leftmost_item_tab_controls() -> Array[Node]:
 
 ## Sets a label's text to a float.
 func _set_label_text_to_number(label: Label, num: float) -> void:
-	label.text = Utilities.float_to_string(num)
+	label.text = Utilities.float_to_string(num, true)
 
 
 ## Moves the status screen to indicate switching units.

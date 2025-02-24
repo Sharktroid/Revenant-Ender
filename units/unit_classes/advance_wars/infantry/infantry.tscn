@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bcwjgr8njbr6t"]
 
-[ext_resource type="Script" path="res://units/unit_classes/advance_wars/infantry/infantry.gd" id="1"]
+[ext_resource type="Script" uid="uid://bkstvees2opxp" path="res://units/unit_classes/advance_wars/infantry/infantry.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://b0bxnipo5fa1k" path="res://units/unit_classes/advance_wars/advance_wars.png" id="2"]
 [ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit.tscn" id="3"]
 

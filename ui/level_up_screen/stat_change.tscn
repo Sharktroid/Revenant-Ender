@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://ci8e4u3byi58c"]
 
-[ext_resource type="Script" path="res://ui/level_up_screen/stat_change.gd" id="1_gqxav"]
+[ext_resource type="Script" uid="uid://c72fqalsgpd7p" path="res://ui/level_up_screen/stat_change.gd" id="1_gqxav"]
 [ext_resource type="PackedScene" uid="uid://bdjeg8jmudvyh" path="res://ui/level_up_screen/stat_arrow.tscn" id="1_txb0l"]
 
 [node name="StatChange" type="ReferenceRect"]

@@ -49,8 +49,8 @@ func _input(event: InputEvent) -> void:
 
 
 ## Gets the items that will be displayed.
-static func get_displayed_items(unit: Unit) -> Dictionary:
-	var enabled_items: Dictionary = {
+static func get_displayed_items(unit: Unit) -> Dictionary[String, bool]:
+	var enabled_items: Dictionary[String, bool] = {
 		Attack = false,
 		Wait = false,
 		Shove = false,
@@ -67,7 +67,7 @@ static func get_displayed_items(unit: Unit) -> Dictionary:
 		enabled_items.Drop = unit.traveler != null and not _get_drop_tiles(unit).is_empty()
 		enabled_items.Items = not unit.items.is_empty()
 		# Gets all adjacent units
-		var adjacent_items: Dictionary = _get_adjacent_items(unit)
+		var adjacent_items: Dictionary[String, bool] = _get_adjacent_items(unit)
 		for item: String in adjacent_items:
 			enabled_items[item] = adjacent_items[item]
 	else:
@@ -79,8 +79,8 @@ static func get_displayed_items(unit: Unit) -> Dictionary:
 	return enabled_items
 
 
-static func _get_adjacent_items(unit: Unit) -> Dictionary:
-	var enabled_items: Dictionary = {}
+static func _get_adjacent_items(unit: Unit) -> Dictionary[String, bool]:
+	var enabled_items: Dictionary[String, bool] = {}
 	var is_unit_valid: Callable = func(adjacent_unit: Unit) -> bool:
 		return adjacent_unit != unit and adjacent_unit.visible == true
 	for adjacent_unit: Unit in MapController.map.get_units().filter(is_unit_valid):
@@ -117,7 +117,7 @@ func _close() -> void:
 
 ## Gets the items for the unit menu.
 func _update() -> void:
-	var enabled_items: Dictionary = UnitMenu.get_displayed_items(connected_unit)
+	var enabled_items: Dictionary[String, bool] = UnitMenu.get_displayed_items(connected_unit)
 	var previous_node: MapMenuItem = get_current_item_node()
 	for node: MapMenuItem in _get_item_nodes():
 		node.visible = enabled_items[node.name]

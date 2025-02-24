@@ -19,11 +19,11 @@ var state: States = States.SELECTING:
 	set = _set_state
 
 # Movement costs for every movement type
-var _movement_cost_dict: Dictionary
+var _movement_cost_dict: Dictionary[UnitClass.MovementTypes, Dictionary]
 # The index of the current faction
 var _current_faction_index: int = 0
 # The [AStarGrids] that are used to generate movement paths
-var _cost_grids: Dictionary = {}
+var _cost_grids: Dictionary[UnitClass.MovementTypes, AStarGrid2D] = {}
 # The faction that last used a grid.
 var _grid_current_faction: Faction
 # The current turn.
@@ -31,7 +31,7 @@ var _current_turn: int
 var _selected_unit: Unit
 var _ghost_unit: GhostUnit
 var _canter_tiles: Node2D
-var _flags: Dictionary
+var _flags: Dictionary[Vector2i, Flag]
 
 # The terrain map layer
 @onready var _terrain_layer := $MapLayer/TerrainLayer as TileMapLayer
@@ -169,7 +169,8 @@ func end_turn() -> void:
 ## unit: unit trying to move over "coords".
 func get_terrain_cost(movement_type: UnitClass.MovementTypes, coords: Vector2) -> float:
 	if movement_type in _movement_cost_dict.keys():
-		var movement_type_terrain_dict: Dictionary = _movement_cost_dict[movement_type]
+		var movement_type_terrain_dict: Dictionary[String, String] = {}
+		movement_type_terrain_dict.assign(_movement_cost_dict[movement_type])
 		var terrain_name: String = _get_terrain(coords)
 		# Combines several terrain names for compactness.
 		match terrain_name:
@@ -546,7 +547,7 @@ func _toggle_full_outline() -> void:
 
 
 func _toggle_outline_unit(unit: Unit) -> void:
-	var outlined_units: Dictionary = get_current_faction().outlined_units
+	var outlined_units: Dictionary[Faction, Array] = get_current_faction().outlined_units
 	if not (unit.faction in outlined_units):
 		outlined_units[unit.faction] = []
 	if unit in outlined_units[unit.faction]:

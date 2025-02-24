@@ -10,14 +10,17 @@ func _ready() -> void:
 	visibility_changed.connect(_update)
 
 	var dexterity_help := %DexterityHelp as HelpContainer
-	var replacements: Dictionary = {
-		"dexterity_hit_multiplier": 3,
-		"dexterity_weapon_level_multiplier": 2
+	const DEXTERITY_REPLACEMENTS: Dictionary[String, int] = {
+		"dexterity_hit_multiplier": Unit.DEXTERITY_HIT_MULTIPLIER,
+		"dexterity_weapon_level_multiplier": Unit.DEXTERITY_WEAPON_LEVEL_MULTIPLIER
 	}
-	dexterity_help.help_description = dexterity_help.help_description.format(replacements)
+	dexterity_help.help_description = dexterity_help.help_description.format(DEXTERITY_REPLACEMENTS)
+	const SPEED_LUCK_REPLACEMENTS: Dictionary[String, int] = {
+		"speed_luck_avoid_multiplier": Unit.SPEED_LUCK_AVOID_MULTIPLIER
+	}
 	for help_container: HelpContainer in [%SpeedHelp, %LuckHelp]:
 		help_container.help_description = help_container.help_description.format(
-			{"speed_luck_avoid_multiplier": 2}
+			SPEED_LUCK_REPLACEMENTS
 		)
 	var authority_help := %AuthorityHelp as HelpContainer
 	authority_help.help_description = authority_help.help_description.format(
@@ -61,7 +64,7 @@ func _update() -> void:
 
 
 func _get_weight_description() -> String:
-	var format_dictionary: Dictionary = {
+	var format_dictionary: Dictionary[String, int] = {
 		"build": observing_unit.get_build(),
 		"weight_modifier": observing_unit.unit_class.get_weight_modifier()
 	}
@@ -79,7 +82,7 @@ func _get_aid_description() -> String:
 			_:
 				return "{build}"
 	var aid_description: String = get_unformatted_aid_description.call()
-	var format_dictionary: Dictionary = {
+	var format_dictionary: Dictionary[String, int] = {
 		"build": observing_unit.get_build(), "aid_modifier": absi(aid_modifier)
 	}
 	return aid_description.format(format_dictionary)

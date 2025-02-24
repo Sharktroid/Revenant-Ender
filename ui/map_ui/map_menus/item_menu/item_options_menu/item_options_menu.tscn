@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://bfd30uyseuacp"]
 
 [ext_resource type="PackedScene" uid="uid://b4a6n61tdijwj" path="res://ui/map_ui/map_menus/map_menu.tscn" id="1_ohgwd"]
-[ext_resource type="Script" path="res://ui/map_ui/map_menus/item_menu/item_options_menu/item_options_menu.gd" id="2_rwnj0"]
-[ext_resource type="Script" path="res://ui/map_ui/map_menus/map_menu_item.gd" id="3_jkodk"]
+[ext_resource type="Script" uid="uid://i7g2cqi43sbf" path="res://ui/map_ui/map_menus/item_menu/item_options_menu/item_options_menu.gd" id="2_rwnj0"]
+[ext_resource type="Script" uid="uid://d2etw4bhvm7ly" path="res://ui/map_ui/map_menus/map_menu_item.gd" id="3_jkodk"]
 
 [node name="ItemOptionsMenu" instance=ExtResource("1_ohgwd")]
 script = ExtResource("2_rwnj0")

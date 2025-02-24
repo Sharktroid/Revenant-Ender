@@ -4,7 +4,7 @@ extends Node
 const _MUSIC_GROUP: StringName = &"music_track"
 const _SFX_GROUP: StringName = &"sound_effect"
 
-var _tracks: Dictionary = {}
+var _tracks: Dictionary[AudioStream, AudioStreamPlayer] = {}
 var _track_stack: Array[AudioStream]
 
 
@@ -106,7 +106,7 @@ func _fade_out_track(duration: float = 1.0 / 3) -> void:
 
 
 func _get_current_player() -> AudioStreamPlayer:
-	return null if _track_stack.is_empty() else _tracks.get(_track_stack.back())
+	return null if _track_stack.is_empty() else _tracks[_track_stack.back()]
 
 
 func _percent_to_db(volume: float) -> float:

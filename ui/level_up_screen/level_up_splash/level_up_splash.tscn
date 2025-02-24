@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=3 uid="uid://d4ca3lxq0obvn"]
 
 [ext_resource type="Texture2D" uid="uid://dtmqkwdo4bkqp" path="res://ui/level_up_screen/level_up_splash/title.png" id="1_hagdh"]
-[ext_resource type="Script" path="res://ui/level_up_screen/level_up_splash/level_up_splash.gd" id="1_l2kem"]
+[ext_resource type="Script" uid="uid://55e2ij3a0dve" path="res://ui/level_up_screen/level_up_splash/level_up_splash.gd" id="1_l2kem"]
 [ext_resource type="Texture2D" uid="uid://b8wny2jruqu6q" path="res://ui/level_up_screen/level_up_splash/particle.png" id="1_pbwdh"]
 [ext_resource type="Texture2D" uid="uid://cmq2yghg40mkp" path="res://ui/level_up_screen/level_up_splash/darken.png" id="3_jcg87"]
 [ext_resource type="Texture2D" uid="uid://dnr3ed8apl5xf" path="res://ui/level_up_screen/level_up_splash/fade.png" id="4_mafy7"]
@@ -56,8 +56,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ndh63"]
 _data = {
-"RESET": SubResource("Animation_5w58f"),
-"play": SubResource("Animation_3bxmf")
+&"RESET": SubResource("Animation_5w58f"),
+&"play": SubResource("Animation_3bxmf")
 }
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_rwagm"]
@@ -97,8 +97,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_n1fk8"]
 _data = {
-"RESET": SubResource("Animation_t5lkm"),
-"play": SubResource("Animation_6kwau")
+&"RESET": SubResource("Animation_t5lkm"),
+&"play": SubResource("Animation_6kwau")
 }
 
 [node name="LevelUpSplash" type="ReferenceRect"]

@@ -105,7 +105,7 @@ var sprite_animated: bool = true:
 			_animation_player.play(_animation_player.current_animation)
 		else:
 			_animation_player.pause()
-var personal_weapon_levels: Dictionary
+var personal_weapon_levels: Dictionary[Weapon.Types, int]
 var traveler: Unit:
 	set(value):
 		traveler = value
@@ -152,30 +152,20 @@ var effort_movement: int
 var effort_build: int
 
 # Ignore warnings as these are called via "get" command (see get_stat)
-@warning_ignore("unused_private_class_variable")
+@warning_ignore_start("unused_private_class_variable")
 var _personal_hit_points: int = DEFAULT_PERSONAL_VALUE
-@warning_ignore("unused_private_class_variable")
 var _personal_strength: int = DEFAULT_PERSONAL_VALUE
-@warning_ignore("unused_private_class_variable")
 var _personal_pierce: int = DEFAULT_PERSONAL_VALUE
-@warning_ignore("unused_private_class_variable")
 var _personal_intelligence: int = DEFAULT_PERSONAL_VALUE
-@warning_ignore("unused_private_class_variable")
 var _personal_dexterity: int = DEFAULT_PERSONAL_VALUE
-@warning_ignore("unused_private_class_variable")
 var _personal_speed: int = DEFAULT_PERSONAL_VALUE
-@warning_ignore("unused_private_class_variable")
 var _personal_luck: int = DEFAULT_PERSONAL_VALUE
-@warning_ignore("unused_private_class_variable")
 var _personal_defense: int = DEFAULT_PERSONAL_VALUE
-@warning_ignore("unused_private_class_variable")
 var _personal_armor: int = DEFAULT_PERSONAL_VALUE
-@warning_ignore("unused_private_class_variable")
 var _personal_resistance: int = DEFAULT_PERSONAL_VALUE
-@warning_ignore("unused_private_class_variable")
 var _personal_movement: int
-@warning_ignore("unused_private_class_variable")
 var _personal_build: int = DEFAULT_PERSONAL_VALUE
+@warning_ignore_restore("unused_private_class_variable")
 
 var _current_movement: float
 var _attack_tiles: Array[Vector2i]
@@ -531,7 +521,7 @@ func get_path_last_pos() -> Vector2i:
 
 ## Gets a table displaying the details of the unit's stats
 func get_stat_table(stat: Stats) -> Array[String]:
-	var table_items: Dictionary = {
+	var table_items: Dictionary[String, String] = {
 		"Class Initial": str(roundi(unit_class.get_stat(stat, 1))),
 		"Personal Value": str(_get_personal_value(stat)),
 		"Unboosted Value": str(get_raw_stat(stat)),
@@ -638,7 +628,7 @@ func get_movement_tiles() -> Array[Vector2i]:
 	if _movement_tiles.is_empty():
 		var start: Vector2i = position
 		const RANGE_MULTIPLIER: float = 4.0 / 3
-		var movement_tiles_dict: Dictionary = {floori(_current_movement) as float: [start]}
+		var movement_tiles_dict: Dictionary[float, Array] = {floorf(_current_movement) as float: [start]}
 		if position == ((position / 16).floor() * 16):
 			#region Gets the initial grid
 			var h: Array[Vector2i] = Utilities.get_tiles(
@@ -1089,7 +1079,7 @@ func _get_nearest_path_tile(tiles: Array[Vector2i]) -> Vector2i:
 		if _path.back() in tiles:
 			return _path.back()
 		_path.pop_back()
-	var weighted_tiles: Dictionary = {}
+	var weighted_tiles: Dictionary[int, Array] = {}
 	for tile: Vector2i in tiles:
 		var path: Array[Vector2i] = _get_map().get_movement_path(
 			unit_class.get_movement_type(), position, tile, faction

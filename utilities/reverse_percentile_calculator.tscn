@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cmc2r6wefgb3t"]
 
-[ext_resource type="Script" path="res://utilities/reverse_percentile_calculator.gd" id="1_xrxtg"]
+[ext_resource type="Script" uid="uid://cut068f6ev62v" path="res://utilities/reverse_percentile_calculator.gd" id="1_xrxtg"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ypo3m"]
 

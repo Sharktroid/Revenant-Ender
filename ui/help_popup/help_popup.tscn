@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bpddjsft0t1wl"]
 
 [ext_resource type="PackedScene" uid="uid://dvyyy1vag5her" path="res://ui/text_box/text_box_background.tscn" id="1_t2cu5"]
-[ext_resource type="Script" path="res://ui/help_popup/help_popup.gd" id="2_c4kfo"]
+[ext_resource type="Script" uid="uid://43dllg3brp1g" path="res://ui/help_popup/help_popup.gd" id="2_c4kfo"]
 
 [node name="HelpPopup" instance=ExtResource("1_t2cu5")]
 z_index = 1

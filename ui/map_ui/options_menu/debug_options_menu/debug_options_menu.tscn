@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://34ynh2h052dh"]
 
 [ext_resource type="PackedScene" uid="uid://b4o82uca6ghni" path="res://ui/map_ui/options_menu/options_menu.tscn" id="1_6ulf4"]
-[ext_resource type="Script" path="res://ui/map_ui/options_menu/debug_options_menu/debug_options_menu.gd" id="2_v2l07"]
+[ext_resource type="Script" uid="uid://27c00mseii73" path="res://ui/map_ui/options_menu/debug_options_menu/debug_options_menu.gd" id="2_v2l07"]
 
 [node name="DebugMenu" instance=ExtResource("1_6ulf4")]
 script = ExtResource("2_v2l07")

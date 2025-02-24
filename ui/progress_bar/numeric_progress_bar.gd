@@ -8,7 +8,7 @@ enum Modes { INTEGER, FLOAT, PERCENT }
 ## Whether the bar uses the original value.
 @export var two_valued: bool = false
 ## The current mode.
-@export var mode: Modes:
+@export var mode: Modes = Modes.FLOAT:
 	set(new_value):
 		mode = new_value
 		for bar: ProgressBar in _progress_bars:
@@ -97,10 +97,7 @@ func _update() -> void:
 func _get_value_text() -> String:
 	match mode:
 		Modes.INTEGER:
-			if abs(value) == INF:
-				return Utilities.INF_CHAR if value == INF else "-%s" % Utilities.INF_CHAR
-			else:
-				return Utilities.float_to_string(roundi(value))
+			return Utilities.float_to_string(value, true)
 		Modes.PERCENT:
 			return (
 				Utilities.float_to_string(snappedf(value / max_value * 100, 0.001)) + "%"

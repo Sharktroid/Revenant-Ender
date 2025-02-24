@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cj8q35dlrc4ln"]
 
-[ext_resource type="Script" path="res://ui/map_ui/status_screen/statistics/stat_bar/stat_bar.gd" id="1_1r07s"]
+[ext_resource type="Script" uid="uid://4bidcniay8lq" path="res://ui/map_ui/status_screen/statistics/stat_bar/stat_bar.gd" id="1_1r07s"]
 [ext_resource type="PackedScene" uid="uid://j17i2dfs4bgi" path="res://ui/progress_bar/numeric_progress_bar.tscn" id="2_6fljw"]
 
 [node name="StatBar" type="BoxContainer"]

@@ -40,9 +40,9 @@ func get_tiles(
 ) -> Array[Vector2i]:
 	var output: Array[Vector2i] = []
 	if true_max_range == INF:
-		var tile_blacklist: Dictionary = {}
+		var tile_blacklist: Dictionary[Vector2i, bool] = {}
 		if min_range > 0:
-			for tile in get_tiles(center, min_range - 1, 0, boundaries):
+			for tile: Vector2i in get_tiles(center, min_range - 1, 0, boundaries):
 				tile_blacklist[tile] = true
 		for x: int in range(boundaries.position.x, boundaries.end.x, 16):
 			var valid_ys: Array[int] = []
@@ -103,7 +103,7 @@ func xor(condition_a: bool, condition_b: bool) -> bool:
 
 
 ## Turns a dictionary into a BBCode table.
-func dict_to_table(dict: Dictionary) -> Array[String]:
+func dict_to_table(dict: Dictionary[String, String]) -> Array[String]:
 	var table: Array[String] = []
 	for key: String in dict.keys() as Array[String]:
 		const KEY = "[color={yellow}]{key}[/color]"
@@ -167,8 +167,11 @@ func is_running_project() -> bool:
 
 
 ## Converts a float to a string, using the infinite character.
-func float_to_string(num: float) -> String:
-	return str(num).replace("inf", INF_CHAR)
+func float_to_string(num: float, to_int: bool = false) -> String:
+	if abs(num) == INF:
+		return INF_CHAR if sign(num) == 1 else "-%s" % INF_CHAR
+	else:
+		return str(roundi(num)) if to_int else str(num)
 
 
 ## Returns a substring where the first "start" characters and last "end" characters are removed.

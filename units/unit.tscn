@@ -1,14 +1,14 @@
-[gd_scene load_steps=17 format=3 uid="uid://klwwp0vjyw6"]
+[gd_scene load_steps=17 format=4 uid="uid://klwwp0vjyw6"]
 
-[ext_resource type="Script" path="res://units/unit.gd" id="1"]
-[ext_resource type="Shader" path="res://shaders/palette.gdshader" id="1_w0fnt"]
+[ext_resource type="Script" uid="uid://dni8eqk7vw67d" path="res://units/unit.gd" id="1"]
+[ext_resource type="Shader" uid="uid://bcq4v4cx3y05u" path="res://shaders/palette.gdshader" id="1_w0fnt"]
 [ext_resource type="PackedScene" uid="uid://c3u8sd6ld0tlh" path="res://units/health_bar/health_bar.tscn" id="2"]
 [ext_resource type="Texture2D" uid="uid://c8e54ae40dql" path="res://units/traveler_icon.png" id="5_k1iet"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lgtg6"]
 shader = ExtResource("1_w0fnt")
-shader_parameter/old_colors = null
-shader_parameter/new_colors = null
+shader_parameter/old_colors = PackedVector4Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/new_colors = PackedVector4Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 shader_parameter/white_percentage = 0.0
 
 [sub_resource type="RectangleShape2D" id="1"]
@@ -109,12 +109,12 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ygx8q"]
 _data = {
-"RESET": SubResource("Animation_f427t"),
-"idle": SubResource("Animation_j1381"),
-"moving_down": SubResource("Animation_4ck5q"),
-"moving_left": SubResource("Animation_asvuw"),
-"moving_right": SubResource("Animation_u0tli"),
-"moving_up": SubResource("Animation_q5ji2")
+&"RESET": SubResource("Animation_f427t"),
+&"idle": SubResource("Animation_j1381"),
+&"moving_down": SubResource("Animation_4ck5q"),
+&"moving_left": SubResource("Animation_asvuw"),
+&"moving_right": SubResource("Animation_u0tli"),
+&"moving_up": SubResource("Animation_q5ji2")
 }
 
 [sub_resource type="Animation" id="Animation_lvqd6"]
@@ -152,8 +152,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_6eaww"]
 _data = {
-"RESET": SubResource("Animation_lvqd6"),
-"display": SubResource("Animation_ivfw2")
+&"RESET": SubResource("Animation_lvqd6"),
+&"display": SubResource("Animation_ivfw2")
 }
 
 [node name="UnitBase" type="Sprite2D" groups=["unit"]]

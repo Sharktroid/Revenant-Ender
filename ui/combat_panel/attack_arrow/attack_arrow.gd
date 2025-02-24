@@ -47,11 +47,11 @@ static func instantiate(
 
 static func _get_damage_text(damage: float, crit_damage: float) -> String:
 	if damage == crit_damage:
-		return Utilities.float_to_string(damage)
+		return Utilities.float_to_string(damage, true)
 	else:
-		var format_dictionary: Dictionary = {
-			"damage": Utilities.float_to_string(damage),
-			"crit_damage": Utilities.float_to_string(crit_damage)
+		var format_dictionary: Dictionary[String, String] = {
+			"damage": Utilities.float_to_string(damage, true),
+			"crit_damage": Utilities.float_to_string(crit_damage, true)
 		}
 		return "{damage} ({crit_damage})".format(format_dictionary)
 

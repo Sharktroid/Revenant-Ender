@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://buoao583ri77s" path="res://units/unit_classes/advance_wars/city/city.tscn" id="1"]
 [ext_resource type="Texture2D" uid="uid://deebsfa7bcoa8" path="res://units/unit_classes/advance_wars/aw_buildings.png" id="2"]
-[ext_resource type="Script" path="res://units/unit_classes/advance_wars/factory/factory.gd" id="3"]
+[ext_resource type="Script" uid="uid://holssudxoak6" path="res://units/unit_classes/advance_wars/factory/factory.gd" id="3"]
 
 [node name="Factory" instance=ExtResource("1")]
 script = ExtResource("3")

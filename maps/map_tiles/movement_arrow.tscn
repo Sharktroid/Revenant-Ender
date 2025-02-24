@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://8h4ym31xu44m"]
 
 [ext_resource type="Texture2D" uid="uid://ducmtx4iqvs5c" path="res://maps/map_tiles/movement_arrows.png" id="1_jc24t"]
-[ext_resource type="Script" path="res://maps/map_tiles/movement_arrow.gd" id="2_s5qfb"]
+[ext_resource type="Script" uid="uid://dufv78ff710n4" path="res://maps/map_tiles/movement_arrow.gd" id="2_s5qfb"]
 
 [node name="MovementArrow" type="Sprite2D"]
 position = Vector2(-80, -32)

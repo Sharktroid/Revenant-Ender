@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c5ml6ssvuea3l"]
 
-[ext_resource type="Script" path="res://ui/map_ui/map_menus/trade_menu/trade_menu.gd" id="1_xggw2"]
+[ext_resource type="Script" uid="uid://bconyhysmiq3i" path="res://ui/map_ui/map_menus/trade_menu/trade_menu.gd" id="1_xggw2"]
 [ext_resource type="PackedScene" uid="uid://c66fkxgtp6bw6" path="res://ui/selection_hand/selection_hand.tscn" id="2_m2ko1"]
 
 [node name="TradeMenu" type="ReferenceRect"]

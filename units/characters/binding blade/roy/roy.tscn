@@ -1,12 +1,12 @@
 [gd_scene load_steps=11 format=3 uid="uid://cuqamu0m16iep"]
 
 [ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit.tscn" id="1_334ru"]
-[ext_resource type="Shader" path="res://shaders/palette.gdshader" id="2_fpafp"]
+[ext_resource type="Shader" uid="uid://bcq4v4cx3y05u" path="res://shaders/palette.gdshader" id="2_fpafp"]
 [ext_resource type="Texture2D" uid="uid://cmhfiso5t0t0t" path="res://units/unit_classes/lord/map_sprite.png" id="3_1rpd5"]
-[ext_resource type="Script" path="res://units/characters/binding blade/roy/roy.gd" id="4_cii6r"]
-[ext_resource type="Script" path="res://items/weapons/swords/rapier/rapier.gd" id="5_1mii5"]
-[ext_resource type="Script" path="res://units/unit_classes/lord/lord.gd" id="5_uk2gd"]
-[ext_resource type="Script" path="res://items/item.gd" id="6_87p36"]
+[ext_resource type="Script" uid="uid://corabdqbviaco" path="res://units/characters/binding blade/roy/roy.gd" id="4_cii6r"]
+[ext_resource type="Script" uid="uid://dp8n5a5waj0wr" path="res://items/weapons/swords/rapier/rapier.gd" id="5_1mii5"]
+[ext_resource type="Script" uid="uid://5eqx0cdhhxrv" path="res://units/unit_classes/lord/lord.gd" id="5_uk2gd"]
+[ext_resource type="Script" uid="uid://oxuirych6txp" path="res://items/item.gd" id="6_87p36"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_plquk"]
 shader = ExtResource("2_fpafp")

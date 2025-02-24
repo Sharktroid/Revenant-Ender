@@ -1,9 +1,9 @@
 [gd_scene load_steps=11 format=3 uid="uid://bm8qo5r81mo2y"]
 
 [ext_resource type="PackedScene" uid="uid://b5rhtmfvnnqvb" path="res://backgrounds/animated_background.tscn" id="1_8xr0r"]
-[ext_resource type="Shader" path="res://backgrounds/horizontal_distortion.gdshader" id="2_fxdsw"]
-[ext_resource type="Shader" path="res://backgrounds/gradient.gdshader" id="4_e1cjp"]
-[ext_resource type="Shader" path="res://backgrounds/scrolling_bg.gdshader" id="4_ne7kf"]
+[ext_resource type="Shader" uid="uid://bu241butcj7sk" path="res://backgrounds/horizontal_distortion.gdshader" id="2_fxdsw"]
+[ext_resource type="Shader" uid="uid://cysms3wq4nbk1" path="res://backgrounds/gradient.gdshader" id="4_e1cjp"]
+[ext_resource type="Shader" uid="uid://ctjxbrraqu7yj" path="res://backgrounds/scrolling_bg.gdshader" id="4_ne7kf"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vqmsm"]
 shader = ExtResource("4_ne7kf")

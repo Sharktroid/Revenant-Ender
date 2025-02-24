@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://6oui64usld1f"]
 
-[ext_resource type="Script" path="res://ui/map_ui/map_menus/item_menu/item_menu.gd" id="2_a0525"]
+[ext_resource type="Script" uid="uid://bcj75sicqbimg" path="res://ui/map_ui/map_menus/item_menu/item_menu.gd" id="2_a0525"]
 
 [node name="ItemMenu" type="PanelContainer"]
 offset_right = 9.0

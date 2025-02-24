@@ -1,11 +1,11 @@
 [gd_scene load_steps=10 format=3 uid="uid://bhm3c7lcoufva"]
 
-[ext_resource type="Script" path="res://maps/map.gd" id="2"]
+[ext_resource type="Script" uid="uid://dk6ts2ktrrsqi" path="res://maps/map.gd" id="2"]
 [ext_resource type="Texture2D" uid="uid://danddgqa5wdg" path="res://maps/terrain.png" id="2_mr7yy"]
-[ext_resource type="Script" path="res://maps/outline.gd" id="3_iwlk5"]
-[ext_resource type="Script" path="res://maps/cursor_area.gd" id="3_qdi6q"]
+[ext_resource type="Script" uid="uid://bovrnbni7v7gt" path="res://maps/outline.gd" id="3_iwlk5"]
+[ext_resource type="Script" uid="uid://d3dc3x8hw1lc7" path="res://maps/cursor_area.gd" id="3_qdi6q"]
 [ext_resource type="Texture2D" uid="uid://dfflqex64ee06" path="res://controllers/map_controller/collision_overlay_template.png" id="5_6l8pp"]
-[ext_resource type="Script" path="res://controllers/map_controller/map_camera.gd" id="6_l2ruo"]
+[ext_resource type="Script" uid="uid://bnap86pfgrgr6" path="res://controllers/map_controller/map_camera.gd" id="6_l2ruo"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_sd4j4"]
 texture = ExtResource("2_mr7yy")

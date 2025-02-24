@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c8vpqlssnmggo"]
 
 [ext_resource type="Texture2D" uid="uid://bdv7k8j5wvch0" path="res://maps/map_tiles/blue_tile.png" id="1_nv0tq"]
-[ext_resource type="Script" path="res://maps/map_tiles/movement_tile.gd" id="2_qbff8"]
+[ext_resource type="Script" uid="uid://duuh4xg708fad" path="res://maps/map_tiles/movement_tile.gd" id="2_qbff8"]
 
 [node name="MovementTile" type="Sprite2D"]
 texture = ExtResource("1_nv0tq")

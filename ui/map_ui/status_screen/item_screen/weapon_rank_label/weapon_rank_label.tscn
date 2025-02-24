@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://xr2l7ndlhq6x"]
 
-[ext_resource type="Script" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/weapon_rank_label.gd" id="1_era26"]
+[ext_resource type="Script" uid="uid://clednh61o0clx" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/weapon_rank_label.gd" id="1_era26"]
 [ext_resource type="Texture2D" uid="uid://crfr0u4x5xmdw" path="res://ui/theme/stat_bar_background.png" id="2_0beyw"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ad3mw"]

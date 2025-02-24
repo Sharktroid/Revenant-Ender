@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c1ebsuv0gdqsi"]
 
-[ext_resource type="Script" path="res://ui/map_ui/item_label/item_label.gd" id="1_6huud"]
+[ext_resource type="Script" uid="uid://dxamyufmtcasj" path="res://ui/map_ui/item_label/item_label.gd" id="1_6huud"]
 
 [node name="ItemLabel" type="BoxContainer"]
 anchors_preset = 15

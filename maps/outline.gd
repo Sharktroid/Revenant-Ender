@@ -4,7 +4,7 @@ extends Node2D
 func _draw() -> void:
 	for unit: Unit in MapController.map.get_units():
 		unit.modulate = Color.WHITE
-	var outlined_units: Dictionary = MapController.map.get_current_faction().outlined_units
+	var outlined_units: Dictionary[Faction, Array] = MapController.map.get_current_faction().outlined_units
 	for outline_faction: Faction in MapController.map.all_factions:
 		var current_outlined_units: Array[Unit] = []
 		if outline_faction in outlined_units:

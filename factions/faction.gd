@@ -2,21 +2,28 @@
 class_name Faction
 extends RefCounted
 
-# Valid inputs for the "player_type" field.
+## Valid inputs for the "player_type" field.
 enum PlayerTypes { HUMAN, COMPUTER, NONE }
-# Valid inputs for the "color" field.
+## Valid inputs for the "color" field.
 enum Colors { BLUE, RED, GREEN, PURPLE }
+## The possible diplomacy stances with other factions.
 enum DiplomacyStances { ALLY, PEACE, ENEMY, SELF }
 
-var full_outline: bool = false  # Whether the full outline is shown.
-var name: String  # Faction's name.
-var color: Colors  # Color of all units.
+## Whether the full outline is shown.
+var full_outline: bool = false
+## Faction's name.
+var name: String
+## Color of all units.
+var color: Colors
 var player_type: PlayerTypes
-var outlined_units: Dictionary  # The units that are outlined.
+## The units that are outlined.
+var outlined_units: Dictionary[Faction, Array]
+## The faction's theme.
 var theme: AudioStream
+## Whether the units have their x flipped.
 var flipped: bool
 
-var _diplomacy: Dictionary
+var _diplomacy: Dictionary[Faction, DiplomacyStances]
 
 
 func _init(

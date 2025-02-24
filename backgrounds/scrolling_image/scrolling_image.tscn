@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://b7h3kn7yes57v"]
 
-[ext_resource type="Shader" path="res://backgrounds/scrolling_bg.gdshader" id="2_8b6pk"]
+[ext_resource type="Shader" uid="uid://ctjxbrraqu7yj" path="res://backgrounds/scrolling_bg.gdshader" id="2_8b6pk"]
 [ext_resource type="Texture2D" uid="uid://dda11nhxypald" path="res://ui/theme/status_screen_background.png" id="2_g7y1c"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hj53u"]

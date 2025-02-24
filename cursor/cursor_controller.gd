@@ -114,7 +114,6 @@ func set_icon(icon: Icons) -> void:
 
 ## Gets the [Area2D] hitbox for the cursor.
 func get_area() -> Area2D:
-	## Returns the cursor area.
 	var path := NodePath("%s/MapLayer/CursorArea" % MapController.map.get_path())
 	return get_node(path) if has_node(path) else Area2D.new()
 

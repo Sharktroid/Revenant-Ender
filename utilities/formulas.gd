@@ -27,12 +27,12 @@ static var WEAPON_LEVEL_BONUS := Formula.new("{dexterity} * {dexterity_weapon_le
 
 ## A class that represents a formula.
 class Formula:
-	const _CONSTANTS: Dictionary = {
-		"dexterity_hit_multiplier": 3,
-		"speed_luck_avoid_multiplier": 2,
-		"dexterity_weapon_level_multiplier": 2,
+	const _CONSTANTS: Dictionary[String, int] = {
+		"dexterity_hit_multiplier": Unit.DEXTERITY_HIT_MULTIPLIER,
+		"speed_luck_avoid_multiplier": Unit.SPEED_LUCK_AVOID_MULTIPLIER,
+		"dexterity_weapon_level_multiplier": Unit.DEXTERITY_WEAPON_LEVEL_MULTIPLIER,
 	}
-	var _functions: Dictionary = {
+	var _functions: Dictionary[String, String] = {
 		"weapon_hit": "get_weapon().get_hit()",
 		"weapon_crit": "get_weapon().get_crit()",
 		"weapon_might": "get_weapon().get_might()",
@@ -65,7 +65,7 @@ class Formula:
 
 	## Gets the result of the formula.
 	func evaluate(unit: Unit) -> float:
-		var replacements: Dictionary = _get_all_replacements(unit)
+		var replacements: Dictionary[String, float] = _get_all_replacements(unit)
 		var expression := Expression.new()
 		expression.parse(_remove_braces(_base_string), replacements.keys())
 		return expression.execute(replacements.values(), self)
@@ -74,30 +74,30 @@ class Formula:
 	func format(unit: Unit) -> String:
 		return _format_string(_base_string, _get_all_replacements(unit))
 
-	func _format_string(string: String, replacements: Dictionary) -> String:
+	func _format_string(string: String, replacements: Dictionary[String, float]) -> String:
 		for key: String in replacements.keys():
 			string = string.replace(
 				"{%s}" % key, Utilities.float_to_string(replacements[key] as float)
 			)
 		return string
 
-	func _get_constant_replacements() -> Dictionary:
-		var replacements: Dictionary = {}
+	func _get_constant_replacements() -> Dictionary[String, float]:
+		var replacements: Dictionary[String, float] = {}
 		var expression := Expression.new()
 		for key: String in _CONSTANTS:
 			expression.parse(str(_CONSTANTS[key]))
 			replacements[key] = expression.execute([])
 		return replacements
 
-	func _get_function_replacements(unit: Unit) -> Dictionary:
-		var replacements: Dictionary = {}
+	func _get_function_replacements(unit: Unit) -> Dictionary[String, float]:
+		var replacements: Dictionary[String, float] = {}
 		var expression := Expression.new()
 		for key: String in _functions:
 			expression.parse(str(_functions[key]))
 			replacements[key] = expression.execute([], unit)
 		return replacements
 
-	func _get_all_replacements(unit: Unit) -> Dictionary:
+	func _get_all_replacements(unit: Unit) -> Dictionary[String, float]:
 		return _get_constant_replacements().merged(_get_function_replacements(unit))
 
 	func _remove_braces(string: String) -> String:

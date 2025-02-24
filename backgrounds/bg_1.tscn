@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dsg0v8jfjv2q6"]
 
 [ext_resource type="PackedScene" uid="uid://dnhly0ep5sh1c" path="res://backgrounds/gradient_squares/gradient_squares_bg.tscn" id="1_nafvo"]
-[ext_resource type="Shader" path="res://backgrounds/horizontal_distortion.gdshader" id="2_mbw3w"]
+[ext_resource type="Shader" uid="uid://bu241butcj7sk" path="res://backgrounds/horizontal_distortion.gdshader" id="2_mbw3w"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xmqhg"]
 shader = ExtResource("2_mbw3w")

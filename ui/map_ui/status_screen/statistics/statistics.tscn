@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://jyd6v7dptm76"]
 
-[ext_resource type="Script" path="res://ui/map_ui/status_screen/statistics/statistics.gd" id="1_7tuvq"]
-[ext_resource type="Script" path="res://ui/help_popup/help_container.gd" id="2_6g5y4"]
+[ext_resource type="Script" uid="uid://c1dqati4ox158" path="res://ui/map_ui/status_screen/statistics/statistics.gd" id="1_7tuvq"]
+[ext_resource type="Script" uid="uid://ct4a5uumlk5g3" path="res://ui/help_popup/help_container.gd" id="2_6g5y4"]
 [ext_resource type="PackedScene" uid="uid://cj8q35dlrc4ln" path="res://ui/map_ui/status_screen/statistics/stat_bar/stat_bar.tscn" id="2_ess3a"]
 [ext_resource type="StyleBox" uid="uid://441p5kjwr8b3" path="res://ui/theme/panel_background.tres" id="2_mqirk"]
 [ext_resource type="PackedScene" uid="uid://iuhdjformeos" path="res://ui/map_ui/status_screen/statistics/stars_label/stars_label.tscn" id="3_8euhf"]

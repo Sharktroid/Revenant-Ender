@@ -81,7 +81,7 @@ func _animate_slide() -> void:
 
 
 func _display_stat_ups() -> void:
-	var stat_containers: Dictionary = {}
+	var stat_containers: Dictionary[String, Control] = {}
 	for control: Control in get_tree().get_nodes_in_group("stats"):
 		stat_containers[control.name] = control
 	for stat: Unit.Stats in _STAT_ORDER:

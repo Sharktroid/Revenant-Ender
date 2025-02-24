@@ -2,7 +2,7 @@
 extends Control
 
 # The indices of the selected options' settings.
-var _settings_indices: Dictionary
+var _settings_indices: Dictionary[ConfigOption, int]
 # The index of the current option's setting.
 var _current_setting_index: int:
 	get = _get_current_setting_index,
@@ -131,7 +131,7 @@ func _create_options() -> void:
 				_create_bool_option(settings_h_box, option as BooleanOption)
 			elif option is StringNameOption:
 				_create_string_option(settings_h_box, option as StringNameOption)
-			var label := settings_h_box.get_child(_settings_indices[option] as int) as Label
+			var label := settings_h_box.get_child(_settings_indices[option]) as Label
 			label.theme_type_variation = _get_label_color(label)
 			%SettingsList.add_child(settings_h_box)
 

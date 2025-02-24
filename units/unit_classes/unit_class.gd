@@ -48,8 +48,8 @@ var _base_movement: int
 @warning_ignore("unused_private_class_variable")
 var _base_build: int
 
-var _base_weapon_levels: Dictionary
-var _max_weapon_levels: Dictionary
+var _base_weapon_levels: Dictionary[Weapon.Types, int]
+var _max_weapon_levels: Dictionary[Weapon.Types, int]
 var _max_level: int = 30
 var _movement_type: MovementTypes  # Movement class for handling moving over terrain.
 var _map_sprite: CompressedTexture2D

@@ -27,7 +27,7 @@ func _select_item(item: MapMenuItem) -> void:
 
 
 func _get_cursor_position() -> String:
-	var format_dictionary: Dictionary = {
+	var format_dictionary: Dictionary[String, String] = {
 		"ui": "Position relative to UI: %s" % CursorController.screen_position,
 		"map": "Position relative to map: %s" % CursorController.map_position
 	}

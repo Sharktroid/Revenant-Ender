@@ -1,19 +1,19 @@
 [gd_scene load_steps=13 format=3 uid="uid://dvkbmwwrt5mmo"]
 
 [ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit.tscn" id="1_lxmi0"]
-[ext_resource type="Script" path="res://units/characters/binding blade/marcus/marcus.gd" id="2_716f4"]
-[ext_resource type="Shader" path="res://shaders/palette.gdshader" id="2_r7bij"]
+[ext_resource type="Script" uid="uid://b04733n3i2n5r" path="res://units/characters/binding blade/marcus/marcus.gd" id="2_716f4"]
+[ext_resource type="Shader" uid="uid://bcq4v4cx3y05u" path="res://shaders/palette.gdshader" id="2_r7bij"]
 [ext_resource type="Texture2D" uid="uid://d1cl2wgqqgs6d" path="res://units/unit_classes/cavalier/map_sprite.png" id="3_b0khk"]
-[ext_resource type="Script" path="res://units/unit_classes/cavalier/cavalier.gd" id="5_eehvg"]
-[ext_resource type="Script" path="res://items/weapons/swords/iron_sword/iron_sword.gd" id="5_g7lkh"]
-[ext_resource type="Script" path="res://items/weapons/spears/silver_spear/silver_spear.gd" id="6_bxwmy"]
-[ext_resource type="Script" path="res://items/item.gd" id="6_gxow7"]
+[ext_resource type="Script" uid="uid://cyw4a2vvenaij" path="res://units/unit_classes/cavalier/cavalier.gd" id="5_eehvg"]
+[ext_resource type="Script" uid="uid://de7w6uwdjjtko" path="res://items/weapons/swords/iron_sword/iron_sword.gd" id="5_g7lkh"]
+[ext_resource type="Script" uid="uid://b0gsl2qe5mbok" path="res://items/weapons/spears/silver_spear/silver_spear.gd" id="6_bxwmy"]
+[ext_resource type="Script" uid="uid://oxuirych6txp" path="res://items/item.gd" id="6_gxow7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ejil1"]
 shader = ExtResource("2_r7bij")
 shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
 shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.94768, 0.8544, 0.96, 1), Color(0.42075, 0.4029, 0.51, 1)])
-shader_parameter/modulate = Vector4(1, 1, 1, 1)
+shader_parameter/white_percentage = 0.0
 
 [sub_resource type="Resource" id="Resource_udhl1"]
 resource_name = "Cavalier"

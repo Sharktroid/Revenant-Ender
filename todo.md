@@ -5,10 +5,10 @@ Before you commit
 * Make sure it all works
 
 # Minor
+* Fix jank when moving between help bubble for hp and hp description.
 
 # Major
 * Renovate debug menu
-	* Split into debug options and the others.
 	* Add debug constant to control whether the setting is displayed in the main map menu
 * Implement dual weapons
 * Have option to display stat details all at once
@@ -32,17 +32,7 @@ Before you commit
 * Add the remaining sub menus of the main map menu
 * Make GhostUnit a child of Unit and remove jankiness
 * Make attack Animations skippable
-* Dual Wielding
-* Shields
-	* Can parry via combat art if shield weight > opponent's weapon weight (costs 3 durability)
-		* Cannot parry tomes
 * Implement durability
-	* Physical weapons have Berwick-style breaking
-		* Good, Decent, Bad, and Critical
-			* -5 Crit penalty when below Good
-			* -2 might penalty when below decent
-			* Critical means weapon has a chance of breaking
-		* Durability decreases based on condition and rng
 * Combine statistic and item screens
 * Implement AI
 * Implement activated skills
@@ -60,14 +50,21 @@ Before you commit
 	* Have units gain +0.02 movement EVs per tile traversed
 * Palette the status screen for each unit
 * Add simple and extended scripts
+
+# Possible
+* Dual Wielding
+* Shields
 * Add Berwick-style 0 range
 * Add Berwick-style unit moving
+* Can parry via combat art if shield weight > opponent's weapon weight (costs 3 durability)
+	* Cannot parry tomes
+* Physical weapons have Berwick-style breaking
+	* Good, Decent, Bad, and Critical
+		* -5 Crit penalty when below Good
+		* -2 might penalty when below decent
+		* Critical means weapon has a chance of breaking
+	* Durability decreases based on condition and rng
 
 # Long-term
 * Make game based on design document
 	* Demo for first few chapters
-<!-- * Scrub Emblem
-	* Features scrub FE3 units
-* Dungeon crawler thing.
-* FERemix/Age of Emblem?
-* Implement FE5 Chapter 1 -->

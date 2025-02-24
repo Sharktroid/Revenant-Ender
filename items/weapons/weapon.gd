@@ -58,13 +58,13 @@ func in_range(distance: int) -> bool:
 
 
 func get_stat_table() -> Array[String]:
-	var table: Dictionary = {
+	var table: Dictionary[String, String] = {
 		str(Types.find_key(_type)).capitalize(): str(Ranks.find_key(_rank)).capitalize(),
 		"Range": get_range_text(),
-		"Weight": Utilities.float_to_string(_weight),
-		"Might": Utilities.float_to_string(_might),
-		"Hit": Utilities.float_to_string(_hit),
-		"Critical": Utilities.float_to_string(_crit)
+		"Weight": Utilities.float_to_string(_weight, true),
+		"Might": Utilities.float_to_string(_might, true),
+		"Hit": Utilities.float_to_string(_hit, true),
+		"Critical": Utilities.float_to_string(_crit, true)
 	}
 	return Utilities.dict_to_table(table)
 

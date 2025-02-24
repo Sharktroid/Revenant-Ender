@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ibshsirjjq2x"]
 
-[ext_resource type="Script" path="res://ui/map_ui/map_menus/map_menu_item.gd" id="1_4kavm"]
+[ext_resource type="Script" uid="uid://d2etw4bhvm7ly" path="res://ui/map_ui/map_menus/map_menu_item.gd" id="1_4kavm"]
 
 [node name="MapMenuItem" type="BoxContainer"]
 anchors_preset = 15

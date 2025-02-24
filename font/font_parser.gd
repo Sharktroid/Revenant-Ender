@@ -1,6 +1,6 @@
 @tool
 extends EditorScript
-var _char_frame: Dictionary = {
+var _char_frame: Dictionary[String, int] = {
 	" ": 5,
 	"!": 3,
 	'"': 5,

@@ -9,7 +9,7 @@ extends ReferenceRect
 ## The length in time, in seconds, it takes to get from min to max hue
 @export var duration: float = 2
 
-var _hue_offsets: Dictionary
+var _hue_offsets: Dictionary[Polygon2D, float]
 
 
 func _enter_tree() -> void:

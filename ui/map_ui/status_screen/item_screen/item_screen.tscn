@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bv0fufaguhv7n"]
 
-[ext_resource type="Script" path="res://ui/map_ui/status_screen/item_screen/item_screen.gd" id="1_qkrfo"]
+[ext_resource type="Script" uid="uid://qclhnil5ml7t" path="res://ui/map_ui/status_screen/item_screen/item_screen.gd" id="1_qkrfo"]
 [ext_resource type="PackedScene" uid="uid://xr2l7ndlhq6x" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/weapon_rank_label.tscn" id="2_wxaj3"]
 
 [node name="Items" type="ReferenceRect"]

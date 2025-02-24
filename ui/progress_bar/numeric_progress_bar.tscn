@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://j17i2dfs4bgi"]
 
 [ext_resource type="Texture2D" uid="uid://crfr0u4x5xmdw" path="res://ui/theme/stat_bar_background.png" id="1_8j7hy"]
-[ext_resource type="Script" path="res://ui/progress_bar/numeric_progress_bar.gd" id="1_aics6"]
+[ext_resource type="Script" uid="uid://ce30wypxkxigl" path="res://ui/progress_bar/numeric_progress_bar.gd" id="1_aics6"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_84oif"]
 texture = ExtResource("1_8j7hy")
