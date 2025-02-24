@@ -2,6 +2,11 @@
 extends Node
 
 #gdlint: disable = class-variable-name
+## Whether the debug menus are enabled.
+## This is hidden for end users; needs to be manually enabled in the config.cfg file.
+var DEBUG_ENABLED := BooleanOption.new(
+	&"debug_enabled", &"debug", false, "Whether the debug menu is shown"
+)
 ## Whether units are unable to move after movement.
 var UNIT_WAIT := BooleanOption.new(
 	&"unit_wait", &"debug", true, "Whether units are unable to move after movement"

@@ -7,11 +7,11 @@
 [node name="MainMapMenu" instance=ExtResource("1")]
 script = ExtResource("2")
 
-[node name="Debug Options" parent="Items" index="0" instance=ExtResource("3_c3im8")]
+[node name="DebugOptions" parent="Items" index="0" instance=ExtResource("3_c3im8")]
 layout_mode = 2
 help_description = "Opens the debug menu"
 
-[node name="Debug Commands" parent="Items" index="1" instance=ExtResource("3_c3im8")]
+[node name="DebugCommands" parent="Items" index="1" instance=ExtResource("3_c3im8")]
 layout_mode = 2
 help_description = "Opens the debug menu"
 

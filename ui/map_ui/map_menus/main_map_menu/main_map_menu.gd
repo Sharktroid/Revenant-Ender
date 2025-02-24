@@ -5,6 +5,12 @@ func _init() -> void:
 	_to_center = true
 
 
+func _enter_tree() -> void:
+	($Items/DebugOptions as MapMenuItem).visible = DebugConfig.DEBUG_ENABLED.value
+	($Items/DebugCommands as MapMenuItem).visible = DebugConfig.DEBUG_ENABLED.value
+	super()
+
+
 func _exit_tree() -> void:
 	super()
 
@@ -27,14 +33,14 @@ static func instantiate(new_offset: Vector2, parent: MapMenu = null) -> MapMenu:
 
 func _select_item(item: MapMenuItem) -> void:
 	match item.name:
-		"Debug Options":
+		"DebugOptions":
 			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
 			const DEBUG_MENU: PackedScene = preload(
 				"res://ui/map_ui/options_menu/debug_options_menu/debug_options_menu.tscn"
 			)
 			MapController.get_ui().add_child(DEBUG_MENU.instantiate())
 
-		"Debug Commands":
+		"DebugCommands":
 			const DebugMenu = preload(
 				"res://ui/map_ui/map_menus/debug_commands_menu/debug_commands_menu.gd"
 			)
@@ -53,5 +59,6 @@ func _select_item(item: MapMenuItem) -> void:
 
 		var node_name:
 			push_error("%s is not a valid menu item" % node_name)
+			CursorController.enable()
 	queue_free()
 	super(item)

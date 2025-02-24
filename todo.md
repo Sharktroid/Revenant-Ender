@@ -8,9 +8,6 @@ Before you commit
 * Fix jank when moving between help bubble for hp and hp description.
 
 # Major
-* Renovate debug menu
-	* Add debug constant to control whether the setting is displayed in the main map menu
-* Implement dual weapons
 * Have option to display stat details all at once
 * Add turnwheel
 * Add stats for performing kills on certain terrain and units of categories
@@ -64,6 +61,7 @@ Before you commit
 		* -2 might penalty when below decent
 		* Critical means weapon has a chance of breaking
 	* Durability decreases based on condition and rng
+* Implement dual weapons
 
 # Long-term
 * Make game based on design document

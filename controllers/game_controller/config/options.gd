@@ -84,6 +84,7 @@ class AnimationsOption:
 		_name = &"animation_option"
 		_default = ALL
 		_settings = [ALL, MOST, SOME, FEW]
+		_category = &"options"
 		super()
 
 	func get_description(option: StringName) -> String:
