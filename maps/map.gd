@@ -16,7 +16,7 @@ var borders: Rect2i
 var all_factions: Array[Faction]
 ## The current state. Controls input.
 var state: States = States.SELECTING:
-	set = _set_state
+	set = set_state
 
 # Movement costs for every movement type
 var _movement_cost_dict: Dictionary[UnitClass.MovementTypes, Dictionary]
@@ -478,7 +478,7 @@ func _update_grid_current_faction() -> void:
 			)
 
 
-func _set_state(new_state: States) -> void:
+func set_state(new_state: States) -> void:
 	if state == States.CANTERING:
 		if is_instance_valid(_canter_tiles):
 			_canter_tiles.queue_free()

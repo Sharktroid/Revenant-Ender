@@ -1,15 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://jyd6v7dptm76"]
+[gd_scene load_steps=7 format=3 uid="uid://jyd6v7dptm76"]
 
 [ext_resource type="Script" uid="uid://c1dqati4ox158" path="res://ui/map_ui/status_screen/statistics/statistics.gd" id="1_7tuvq"]
 [ext_resource type="Script" uid="uid://ct4a5uumlk5g3" path="res://ui/help_popup/help_container.gd" id="2_6g5y4"]
-[ext_resource type="PackedScene" uid="uid://cj8q35dlrc4ln" path="res://ui/map_ui/status_screen/statistics/stat_bar/stat_bar.tscn" id="2_ess3a"]
-[ext_resource type="StyleBox" uid="uid://441p5kjwr8b3" path="res://ui/theme/panel_background.tres" id="2_mqirk"]
+[ext_resource type="PackedScene" uid="uid://b470s2673ter3" path="res://ui/map_ui/status_screen/statistics/stats_panel/stats_panel.tscn" id="2_erw4i"]
 [ext_resource type="PackedScene" uid="uid://iuhdjformeos" path="res://ui/map_ui/status_screen/statistics/stars_label/stars_label.tscn" id="3_8euhf"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3i0vf"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_llk1q"]
 
 [sub_resource type="Theme" id="Theme_ux5tw"]
-HSeparator/styles/separator = SubResource("StyleBoxEmpty_3i0vf")
+HSeparator/styles/separator = SubResource("StyleBoxEmpty_llk1q")
 
 [node name="Columns" type="ReferenceRect"]
 anchors_preset = 15
@@ -30,191 +29,15 @@ anchor_bottom = 0.375
 offset_bottom = -1.0
 grow_horizontal = 2
 
-[node name="OffensiveStats" type="PanelContainer" parent="TopPanels"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-mouse_filter = 1
-theme_override_styles/panel = ExtResource("2_mqirk")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="TopPanels/OffensiveStats"]
-layout_mode = 2
-
-[node name="OffensiveLabels" type="VBoxContainer" parent="TopPanels/OffensiveStats/HBoxContainer"]
+[node name="OffensiveStats" parent="TopPanels" instance=ExtResource("2_erw4i")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 0
-theme = SubResource("Theme_ux5tw")
-theme_override_constants/separation = 0
+stats = Array[int]([1, 2, 3])
 
-[node name="StrengthHelp" type="BoxContainer" parent="TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels" groups=["left_nodes", "values"]]
-layout_mode = 2
-size_flags_vertical = 3
-focus_neighbor_right = NodePath("../../Values/StrengthBar")
-focus_neighbor_bottom = NodePath("../PierceHelp")
-script = ExtResource("2_6g5y4")
-help_description = "Increases the damage that physical weapons deal by +1."
-
-[node name="StrengthLabel" type="Label" parent="TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels/StrengthHelp"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"YellowLabel"
-text = "Strength"
-vertical_alignment = 1
-
-[node name="PierceHelp" type="BoxContainer" parent="TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels" groups=["left_nodes", "values"]]
-layout_mode = 2
-size_flags_vertical = 3
-focus_neighbor_top = NodePath("../StrengthHelp")
-focus_neighbor_right = NodePath("../../Values/PierceBar")
-focus_neighbor_bottom = NodePath("../IntelligenceHelp")
-script = ExtResource("2_6g5y4")
-help_description = "Increases the damage that bows and similar weapons deal by +1."
-
-[node name="PierceLabel" type="Label" parent="TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels/PierceHelp"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_type_variation = &"YellowLabel"
-text = "Pierce"
-vertical_alignment = 1
-
-[node name="IntelligenceHelp" type="BoxContainer" parent="TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels" groups=["left_nodes", "values"]]
-layout_mode = 2
-size_flags_vertical = 3
-focus_neighbor_top = NodePath("../PierceHelp")
-focus_neighbor_right = NodePath("../../Values/IntelligenceBar")
-focus_neighbor_bottom = NodePath("../../../../../BottomPanels/MiscStats/HBoxContainer/MiscLabels/DexterityHelp")
-script = ExtResource("2_6g5y4")
-help_description = "Increases the damage that tomes and intelligenceal weapons deal by +1.
-It also raises the duration of status staves by one turn per 5 points."
-
-[node name="IntelligenceLabel" type="Label" parent="TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels/IntelligenceHelp"]
-layout_mode = 2
-size_flags_horizontal = 2
-theme_type_variation = &"YellowLabel"
-text = "Intelligence"
-vertical_alignment = 1
-
-[node name="Values" type="VBoxContainer" parent="TopPanels/OffensiveStats/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme = SubResource("Theme_ux5tw")
-theme_override_constants/separation = 0
-
-[node name="StrengthBar" parent="TopPanels/OffensiveStats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
+[node name="DefensiveStats" parent="TopPanels" instance=ExtResource("2_erw4i")]
 unique_name_in_owner = true
 layout_mode = 2
-focus_neighbor_left = NodePath("../../OffensiveLabels/StrengthHelp")
-focus_neighbor_right = NodePath("../../../../DefensiveStats/HBoxContainer/DefensiveLabels/DefenseHelp")
-focus_neighbor_bottom = NodePath("../PierceBar")
-
-[node name="PierceBar" parent="TopPanels/OffensiveStats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
-unique_name_in_owner = true
-layout_mode = 2
-focus_neighbor_left = NodePath("../../OffensiveLabels/PierceHelp")
-focus_neighbor_top = NodePath("../StrengthBar")
-focus_neighbor_right = NodePath("../../../../DefensiveStats/HBoxContainer/DefensiveLabels/ArmorHelp")
-focus_neighbor_bottom = NodePath("../IntelligenceBar")
-
-[node name="IntelligenceBar" parent="TopPanels/OffensiveStats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
-unique_name_in_owner = true
-layout_mode = 2
-focus_neighbor_left = NodePath("../../OffensiveLabels/IntelligenceHelp")
-focus_neighbor_top = NodePath("../PierceBar")
-focus_neighbor_right = NodePath("../../../../DefensiveStats/HBoxContainer/DefensiveLabels/ResistanceHelp")
-focus_neighbor_bottom = NodePath("../../../../../BottomPanels/MiscStats/HBoxContainer/Values/DexterityBar")
-
-[node name="DefensiveStats" type="PanelContainer" parent="TopPanels"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-mouse_filter = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="TopPanels/DefensiveStats"]
-layout_mode = 2
-
-[node name="DefensiveLabels" type="VBoxContainer" parent="TopPanels/DefensiveStats/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 0
-theme = SubResource("Theme_ux5tw")
-theme_override_constants/separation = 0
-
-[node name="DefenseHelp" type="BoxContainer" parent="TopPanels/DefensiveStats/HBoxContainer/DefensiveLabels" groups=["values"]]
-layout_mode = 2
-size_flags_vertical = 3
-focus_neighbor_left = NodePath("../../../../OffensiveStats/HBoxContainer/Values/StrengthBar")
-focus_neighbor_right = NodePath("../../Values/DefenseBar")
-focus_neighbor_bottom = NodePath("../ArmorHelp")
-script = ExtResource("2_6g5y4")
-help_description = "Reduces damage from incoming physical attacks by -1."
-
-[node name="DefenseLabel" type="Label" parent="TopPanels/DefensiveStats/HBoxContainer/DefensiveLabels/DefenseHelp"]
-layout_mode = 2
-size_flags_horizontal = 2
-theme_type_variation = &"YellowLabel"
-text = "Defense"
-vertical_alignment = 1
-
-[node name="ArmorHelp" type="BoxContainer" parent="TopPanels/DefensiveStats/HBoxContainer/DefensiveLabels" groups=["values"]]
-layout_mode = 2
-size_flags_vertical = 3
-focus_neighbor_left = NodePath("../../../../OffensiveStats/HBoxContainer/Values/PierceBar")
-focus_neighbor_top = NodePath("../DefenseHelp")
-focus_neighbor_right = NodePath("../../Values/ArmorBar")
-focus_neighbor_bottom = NodePath("../ResistanceHelp")
-script = ExtResource("2_6g5y4")
-help_description = "Reduces damage from incoming damage from bows and similar weapons by -1."
-
-[node name="ArmorLabel" type="Label" parent="TopPanels/DefensiveStats/HBoxContainer/DefensiveLabels/ArmorHelp"]
-layout_mode = 2
-size_flags_horizontal = 2
-theme_type_variation = &"YellowLabel"
-text = "Armor"
-vertical_alignment = 1
-
-[node name="ResistanceHelp" type="BoxContainer" parent="TopPanels/DefensiveStats/HBoxContainer/DefensiveLabels" groups=["values"]]
-layout_mode = 2
-size_flags_vertical = 3
-focus_neighbor_left = NodePath("../../../../OffensiveStats/HBoxContainer/Values/IntelligenceBar")
-focus_neighbor_top = NodePath("../ArmorHelp")
-focus_neighbor_right = NodePath("../../Values/ResistanceBar")
-focus_neighbor_bottom = NodePath("../../../../../BottomPanels/Other/HBoxContainer/OtherLabels/AuthorityHelp")
-script = ExtResource("2_6g5y4")
-help_description = "Reduces the damage tomes and intelligenceal weapons deal.
-It also reduces the duration of status staves by one turn per 5 points."
-
-[node name="ResistanceLabel" type="Label" parent="TopPanels/DefensiveStats/HBoxContainer/DefensiveLabels/ResistanceHelp"]
-layout_mode = 2
-theme_type_variation = &"YellowLabel"
-text = "Resistance"
-vertical_alignment = 1
-
-[node name="Values" type="VBoxContainer" parent="TopPanels/DefensiveStats/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme = SubResource("Theme_ux5tw")
-theme_override_constants/separation = 0
-
-[node name="DefenseBar" parent="TopPanels/DefensiveStats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
-unique_name_in_owner = true
-layout_mode = 2
-focus_neighbor_left = NodePath("../../DefensiveLabels/DefenseHelp")
-focus_neighbor_bottom = NodePath("../ArmorBar")
-
-[node name="ArmorBar" parent="TopPanels/DefensiveStats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
-unique_name_in_owner = true
-layout_mode = 2
-focus_neighbor_left = NodePath("../../DefensiveLabels/ArmorHelp")
-focus_neighbor_top = NodePath("../DefenseBar")
-focus_neighbor_bottom = NodePath("../ResistanceBar")
-
-[node name="ResistanceBar" parent="TopPanels/DefensiveStats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
-unique_name_in_owner = true
-layout_mode = 2
-focus_neighbor_left = NodePath("../../DefensiveLabels/ResistanceHelp")
-focus_neighbor_top = NodePath("../ArmorBar")
-focus_neighbor_bottom = NodePath("../../../../../BottomPanels/Other/HBoxContainer/OtherLabels/AuthorityHelp")
+stats = Array[int]([7, 8, 9])
 
 [node name="BottomPanels" type="HBoxContainer" parent="."]
 layout_mode = 1
@@ -226,148 +49,10 @@ offset_top = 2.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="MiscStats" type="PanelContainer" parent="BottomPanels"]
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="BottomPanels/MiscStats"]
-layout_mode = 2
-
-[node name="MiscLabels" type="VBoxContainer" parent="BottomPanels/MiscStats/HBoxContainer"]
+[node name="MiscStats" parent="BottomPanels" instance=ExtResource("2_erw4i")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/separation = 0
-
-[node name="DexterityHelp" type="BoxContainer" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels" groups=["left_nodes", "values"]]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 3
-focus_neighbor_top = NodePath("../../../../../TopPanels/OffensiveStats/HBoxContainer/OffensiveLabels/IntelligenceHelp")
-focus_neighbor_right = NodePath("../../Values/DexterityBar")
-focus_neighbor_bottom = NodePath("../SpeedHelp")
-script = ExtResource("2_6g5y4")
-help_description = "Increases hit rate by +{dexterity_hit_multiplier} and critical rate by +1, and increases every weapon's level by +{dexterity_weapon_level_multiplier}."
-
-[node name="DexterityLabel" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/DexterityHelp"]
-layout_mode = 2
-size_flags_horizontal = 2
-theme_type_variation = &"YellowLabel"
-text = "Dexterity
-"
-vertical_alignment = 1
-
-[node name="SpeedHelp" type="BoxContainer" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels" groups=["left_nodes", "values"]]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 3
-focus_neighbor_left = NodePath(".")
-focus_neighbor_top = NodePath("../DexterityHelp")
-focus_neighbor_right = NodePath("../../Values/SpeedBar")
-focus_neighbor_bottom = NodePath("../LuckHelp")
-script = ExtResource("2_6g5y4")
-help_description = "Increases avoid rate by +{speed_luck_avoid_multiplier}. Can be reduced by heavy weapons."
-
-[node name="SpeedLabel" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/SpeedHelp"]
-layout_mode = 2
-size_flags_horizontal = 2
-theme_type_variation = &"YellowLabel"
-text = "Speed"
-vertical_alignment = 1
-
-[node name="LuckHelp" type="BoxContainer" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels" groups=["left_nodes", "values"]]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 3
-focus_neighbor_top = NodePath("../SpeedHelp")
-focus_neighbor_right = NodePath("../../Values/LuckBar")
-focus_neighbor_bottom = NodePath("../BuildHelp")
-script = ExtResource("2_6g5y4")
-help_description = "Increases hit rate and dodge by +1 and avoid by +{speed_luck_avoid_multiplier}."
-
-[node name="LuckHelp" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/LuckHelp" groups=["values"]]
-layout_mode = 2
-size_flags_horizontal = 2
-theme_type_variation = &"YellowLabel"
-text = "Luck"
-vertical_alignment = 1
-
-[node name="BuildHelp" type="BoxContainer" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels" groups=["left_nodes", "values"]]
-layout_mode = 2
-size_flags_vertical = 3
-focus_neighbor_top = NodePath("../LuckHelp")
-focus_neighbor_right = NodePath("../../Values/BuildBar")
-focus_neighbor_bottom = NodePath("../MovementHelp")
-script = ExtResource("2_6g5y4")
-help_description = "Reduces weapon weight and increases weight.
-Increases foot units' aid, decreases mounted units' aid."
-
-[node name="BuildLabel" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/BuildHelp"]
-layout_mode = 2
-size_flags_horizontal = 2
-theme_type_variation = &"YellowLabel"
-text = "Build"
-vertical_alignment = 1
-
-[node name="MovementHelp" type="BoxContainer" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels" groups=["left_nodes", "values"]]
-layout_mode = 2
-size_flags_vertical = 3
-focus_neighbor_top = NodePath("../BuildHelp")
-focus_neighbor_right = NodePath("../../Values/MovementBar")
-script = ExtResource("2_6g5y4")
-help_description = "Increases the amount of tiles that can be traversed in a turn."
-
-[node name="MovementLabel" type="Label" parent="BottomPanels/MiscStats/HBoxContainer/MiscLabels/MovementHelp"]
-layout_mode = 2
-size_flags_horizontal = 2
-theme_type_variation = &"YellowLabel"
-text = "Movement"
-vertical_alignment = 1
-
-[node name="Values" type="VBoxContainer" parent="BottomPanels/MiscStats/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme = SubResource("Theme_ux5tw")
-theme_override_constants/separation = 0
-
-[node name="DexterityBar" parent="BottomPanels/MiscStats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
-unique_name_in_owner = true
-layout_mode = 2
-focus_neighbor_left = NodePath("../../MiscLabels/DexterityHelp")
-focus_neighbor_top = NodePath("../../../../../TopPanels/OffensiveStats/HBoxContainer/Values/IntelligenceBar")
-focus_neighbor_right = NodePath("../../../../Other/HBoxContainer/OtherLabels/AuthorityHelp")
-focus_neighbor_bottom = NodePath("../SpeedBar")
-
-[node name="SpeedBar" parent="BottomPanels/MiscStats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
-unique_name_in_owner = true
-layout_mode = 2
-focus_neighbor_top = NodePath("../DexterityBar")
-focus_neighbor_right = NodePath("../../../../Other/HBoxContainer/OtherLabels/WeightHelp")
-focus_neighbor_bottom = NodePath("../LuckBar")
-
-[node name="LuckBar" parent="BottomPanels/MiscStats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
-unique_name_in_owner = true
-layout_mode = 2
-focus_neighbor_left = NodePath("../../MiscLabels/LuckHelp")
-focus_neighbor_top = NodePath("../SpeedBar")
-focus_neighbor_right = NodePath("../../../../Other/HBoxContainer/OtherLabels/AidHelp")
-focus_neighbor_bottom = NodePath("../BuildBar")
-
-[node name="BuildBar" parent="BottomPanels/MiscStats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
-unique_name_in_owner = true
-layout_mode = 2
-focus_neighbor_left = NodePath("../../MiscLabels/BuildHelp")
-focus_neighbor_top = NodePath("../LuckBar")
-focus_neighbor_right = NodePath("../../../../Other/HBoxContainer/OtherLabels/TravelerHelp")
-focus_neighbor_bottom = NodePath("../MovementBar")
-
-[node name="MovementBar" parent="BottomPanels/MiscStats/HBoxContainer/Values" instance=ExtResource("2_ess3a")]
-unique_name_in_owner = true
-layout_mode = 2
-focus_neighbor_left = NodePath("../../MiscLabels/MovementHelp")
-focus_neighbor_top = NodePath("../BuildBar")
-focus_neighbor_right = NodePath("../../../../Other/HBoxContainer/OtherLabels/StatusHelp")
+stats = Array[int]([4, 5, 6, 11, 10])
 
 [node name="Other" type="PanelContainer" parent="BottomPanels"]
 layout_mode = 2
@@ -387,8 +72,6 @@ theme_override_constants/separation = 0
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
-focus_neighbor_left = NodePath("../../../../MiscStats/HBoxContainer/Values/DexterityBar")
-focus_neighbor_top = NodePath("../../../../../TopPanels/DefensiveStats/HBoxContainer/DefensiveLabels/ResistanceHelp")
 focus_neighbor_bottom = NodePath("../WeightHelp")
 script = ExtResource("2_6g5y4")
 help_description = "Grants +5 hit, +1 damage dealt, and -1 damage taken
@@ -404,7 +87,6 @@ vertical_alignment = 1
 [node name="WeightHelp" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/OtherLabels" groups=["values"]]
 layout_mode = 2
 size_flags_vertical = 3
-focus_neighbor_left = NodePath("../../../../MiscStats/HBoxContainer/Values/SpeedBar")
 focus_neighbor_top = NodePath("../AuthorityHelp")
 focus_neighbor_right = NodePath("../../Values/WeightNumber")
 focus_neighbor_bottom = NodePath("../AidHelp")
@@ -422,7 +104,6 @@ vertical_alignment = 1
 [node name="AidHelp" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/OtherLabels" groups=["values"]]
 layout_mode = 2
 size_flags_vertical = 3
-focus_neighbor_left = NodePath("../../../../MiscStats/HBoxContainer/Values/LuckBar")
 focus_neighbor_top = NodePath("../WeightHelp")
 focus_neighbor_right = NodePath("../../Values/AidNumber")
 focus_neighbor_bottom = NodePath("../TravelerHelp")
@@ -439,7 +120,6 @@ vertical_alignment = 1
 [node name="TravelerHelp" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/OtherLabels" groups=["values"]]
 layout_mode = 2
 size_flags_vertical = 3
-focus_neighbor_left = NodePath("../../../../MiscStats/HBoxContainer/Values/BuildBar")
 focus_neighbor_top = NodePath("../AidHelp")
 focus_neighbor_bottom = NodePath("../StatusHelp")
 script = ExtResource("2_6g5y4")
@@ -455,7 +135,6 @@ vertical_alignment = 1
 [node name="StatusHelp" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/OtherLabels" groups=["values"]]
 layout_mode = 2
 size_flags_vertical = 3
-focus_neighbor_left = NodePath("../../../../MiscStats/HBoxContainer/Values/MovementBar")
 focus_neighbor_top = NodePath("../TravelerHelp")
 script = ExtResource("2_6g5y4")
 help_description = "All status conditions currently in effect."
@@ -477,7 +156,6 @@ theme_override_constants/separation = 0
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath("../../OtherLabels/AuthorityHelp")
-focus_neighbor_top = NodePath("../../../../../TopPanels/DefensiveStats/HBoxContainer/Values/ResistanceBar")
 focus_neighbor_bottom = NodePath("../WeightNumber")
 
 [node name="WeightNumber" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/Values"]

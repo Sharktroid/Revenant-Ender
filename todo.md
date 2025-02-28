@@ -5,11 +5,16 @@ Before you commit
 * Make sure it all works
 
 # Minor
+* Have PVs and EVs be based on level instead of base stat
+	* Add min and maxes to PV help description
 
 # Major
 * Have option to display stat details all at once
 * Add turnwheel
+	* Can undo last action for free but random outcomes will be fixed and if the unit didn't get a crit they can't crit again that phase
 * Add stats for performing kills on certain terrain and units of categories
+* Make it possible to attack preview with any unit at any time
+* Allow pinning a combat preview
 * Add unit hover display
 * Document classes (roll this out gradually so I don't burn out)
 * Add DS Font

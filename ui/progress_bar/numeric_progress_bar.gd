@@ -58,7 +58,7 @@ var max_value: float:
 
 ## Creates a new instance.
 static func instantiate(
-	new_value: float, minimum: float, maximum: float, new_mode := Modes.INTEGER, og_value: float = new_value
+	new_value: float, minimum: float, maximum: float, new_mode := Modes.FLOAT, og_value: float = new_value
 ) -> NumericProgressBar:
 	const PACKED_SCENE: PackedScene = preload("res://ui/progress_bar/numeric_progress_bar.tscn")
 	var scene := PACKED_SCENE.instantiate() as NumericProgressBar

@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://j17i2dfs4bgi" path="res://ui/progress_bar/numeric_progress_bar.tscn" id="2_6fljw"]
 
 [node name="StatBar" type="BoxContainer"]
-offset_right = 38.0
+offset_right = 70.0
 offset_bottom = 40.0
 size_flags_horizontal = 3
 size_flags_vertical = 3

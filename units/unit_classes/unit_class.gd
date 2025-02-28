@@ -100,7 +100,7 @@ func get_max_weapon_level(type: Weapon.Types) -> int:
 	return _max_weapon_levels.get(type, 0)
 
 
-func get_max_level() -> int:
+func get_LEVEL_CAP() -> int:
 	return _max_level
 
 

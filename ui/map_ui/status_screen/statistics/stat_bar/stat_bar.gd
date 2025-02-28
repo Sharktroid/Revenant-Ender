@@ -6,12 +6,23 @@ extends HelpContainer
 const ABSOLUTE_MAX_VALUE: int = ceili(30 + (Unit.PV_MAX_MODIFIER) + (Unit.EV_MAX_MODIFIER))
 
 ## The unit whose stat is displayed
-var unit: Unit
-## The stat being displayed
-var stat: Unit.Stats:
+var unit: Unit:
 	set(value):
-		stat = value
+		unit = value
 		_update.call_deferred()
+## The stat being displayed
+@export var stat: Unit.Stats
+
+
+#func _ready() -> void:
+	#visibility_changed.connect(_update)
+
+
+static func instantiate(new_stat: Unit.Stats) -> StatBar:
+	const PACKED_SCENE: PackedScene = preload("res://ui/map_ui/status_screen/statistics/stat_bar/stat_bar.tscn")
+	var scene := PACKED_SCENE.instantiate() as StatBar
+	scene.stat = new_stat
+	return scene
 
 
 func _update() -> void:
@@ -25,7 +36,7 @@ func _update() -> void:
 	else:
 		numeric_progress_bar.value = unit.get_stat(stat)
 	numeric_progress_bar.original_value = unit.get_raw_stat(stat)
-	numeric_progress_bar.set_size.call_deferred(
+	numeric_progress_bar.custom_minimum_size = (
 		Vector2(size.x * (float(max_value) / ABSOLUTE_MAX_VALUE), numeric_progress_bar.size.y)
 	)
 

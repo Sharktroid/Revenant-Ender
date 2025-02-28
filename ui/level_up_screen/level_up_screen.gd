@@ -94,7 +94,7 @@ func _display_stat_ups() -> void:
 		var difference: int = current_stat - _unit.get_stat(stat, _old_level)
 		if difference != 0:
 			AudioPlayer.play_sound_effect(preload("res://audio/sfx/level_up_blip.ogg"))
-			const StatChange = preload("res://ui/level_up_screen/stat_change.gd")
+			const StatChange: GDScript = preload("res://ui/level_up_screen/stat_change.gd")
 			(%StatChanges.get_node("%sChange" % formatted_stat) as StatChange).value = difference
 
 			var stat_container: Control = stat_containers["%sContainer" % formatted_stat]

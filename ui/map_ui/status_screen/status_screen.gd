@@ -97,7 +97,7 @@ func _update() -> void:
 	)
 
 	_set_label_text_to_number(%CurrentLevel as Label, observing_unit.level)
-	_set_label_text_to_number(%MaxLevel as Label, observing_unit.MAX_LEVEL)
+	_set_label_text_to_number(%MaxLevel as Label, observing_unit.LEVEL_CAP)
 	_set_label_text_to_number(%Current as Label, roundi(observing_unit.current_health))
 	_set_label_text_to_number(%MaxHitPoints as Label, observing_unit.get_hit_points())
 	var hp_help := %HitPointsStatHelp as HelpContainer

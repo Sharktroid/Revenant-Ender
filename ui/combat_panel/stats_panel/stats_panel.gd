@@ -1,4 +1,3 @@
-class_name StatsPanel
 extends PanelContainer
 
 @onready var _detailed_stats: Array[HBoxContainer] = [%AttackHBox, %DefenseHBox, %AttackSpeedHBox]

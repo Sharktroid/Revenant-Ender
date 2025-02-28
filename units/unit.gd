@@ -1,11 +1,16 @@
+## A unit that can be controlled either by the player or the ai.
 @tool
 class_name Unit
 extends Sprite2D
 
+## Emits when the unit's health changes.
 signal health_changed
+## Emits when the unit arrives at its destination.
 signal arrived
 
+## The map animations that a unit can have.
 enum Animations { IDLE, MOVING_DOWN, MOVING_UP, MOVING_LEFT, MOVING_RIGHT }
+## The stats that a unit can have.
 enum Stats {
 	HIT_POINTS,
 	STRENGTH,
@@ -21,14 +26,18 @@ enum Stats {
 	BUILD,
 }
 
+## The amount of hit each point of dexterity gives.
 const DEXTERITY_HIT_MULTIPLIER: int = 3
+## The amount of avoid each point of speed or luck gives.
 const SPEED_LUCK_AVOID_MULTIPLIER: int = 2
+## The amount of each weapon rank that is boosted by each point of dexterity.
 const DEXTERITY_WEAPON_LEVEL_MULTIPLIER: int = 2
+## The maximum level a unit can have.
 const LEVEL_CAP: int = 30
 ## Duration of fade-away upon death
 const FADE_AWAY_DURATION: float = 20.0 / 60
 ## The maximum amount of effort values a unit can have
-const TOTAL_EFFORT_VALUE_LIMIT: float = _INDIVIDUAL_EV_LIMIT * 4
+const TOTAL_EFFORT_VALUE_LIMIT: float = INDIVIDUAL_EV_LIMIT * 4
 ## The experience required to go from level 1 to level 2
 const BASE_EXP: int = 100
 ## The multiplier for the extra amount of experience to go from one level to the next
@@ -38,42 +47,45 @@ const EXP_MULTIPLIER: float = 2 ** (1.0 / 2)
 const ONE_ROUND_EXP_BASE: float = float(BASE_EXP) / 3
 ## The amount of combat experience reserved for when an enemy is killed
 const KILL_EXP_PERCENT: float = 0.25
+## The default value for personal values.
 const DEFAULT_PERSONAL_VALUE: int = 5
-const MAX_LEVEL: int = 30
 ## Any rate below this value is set to 0%
 const MIN_RATE: int = 5
 ## Any rate above this value is set to 100%
 const MAX_RATE: int = 95
 ## The added amount when the stat is the unit class max and personal values are maxed
-const PV_MAX_MODIFIER: float = 10
+const PV_MAX_MODIFIER: int = 10
 ## The added amount when hit points are the unit class max and effort values are maxed
-const EV_MAX_MODIFIER: float = 5
+const EV_MAX_MODIFIER: int = 5
 ## The bonus to hit rates per extra authority star over enemy's faction.
 const AUTHORITY_HIT_BONUS: int = 5
+## The maximum value that a personal value can be
+const PV_LIMIT: int = 15
+## The maximum value that an EV can be
+const INDIVIDUAL_EV_LIMIT: int = 250
 
 # The added amount when the stat is 0 and personal values are maxed
-const _PV_MIN_MODIFIER: float = 5
+const _PV_MIN_MODIFIER: int = 5
 # The added amount when hit points are 0 and personal values are maxed
-const _PV_MIN_HP_MODIFIER: float = 10
+const _PV_MIN_HP_MODIFIER: int = 10
 # The added amount when hit points are the unit class max and personal values are maxed
-const _PV_MAX_HP_MODIFIER: float = 20
+const _PV_MAX_HP_MODIFIER: int = 20
 # The added amount when the stat is 0 and effort values are maxed
-const _EV_MIN_MODIFIER: float = 2.5
+const _EV_MIN_MODIFIER: int = 2
 # The added amount when the stat is 0 and effort values are maxed
-const _EV_MIN_HP_MODIFIER: float = 5
+const _EV_MIN_HP_MODIFIER: int = 5
 # The added amount when hit points are the unit class max and effort values are maxed
-const _EV_MAX_HP_MODIFIER: float = 10
-# The maximum value that a personal value can be
-const _PV_LIMIT: int = 15
-# The maximum value that an EV can be
-const _INDIVIDUAL_EV_LIMIT: int = 250
+const _EV_MAX_HP_MODIFIER: int = 10
 
+## The unit's name.
 @export var display_name: String = "[Empty]"
+## The unit's description.
 @export_multiline var unit_description: String = "[Empty]"
+## The unit's class.
 @export var unit_class: UnitClass
+## The items in the unit's inventory.
 @export var items: Array[Item]
 
-## Unit's faction. Should be in the map's Faction stack.
 @export var _faction_id: int:
 	set(value):
 		remove_from_group(faction.get_group_name())
@@ -87,17 +99,21 @@ const _INDIVIDUAL_EV_LIMIT: int = 250
 @export_color_no_alpha var _hair_color_light: Color
 @export_color_no_alpha var _hair_color_dark: Color
 
+## The total experience the unit has.
 var total_exp: float
+## The unit's current level. Is derived from total_exp.
 var level: int:
 	set(value):
 		total_exp = Unit.get_exp_from_level(value)
 	get:
 		return floori(Unit.get_level_from_exp(total_exp))
+## Whether the unit is dead.
 var dead: bool = false
 ## Whether the unit is selected.
 var selected: bool = false
 ## Whether the unit can be selected.
 var selectable: bool = true
+## Whether the unit is animated on the map.
 var sprite_animated: bool = true:
 	set(value):
 		sprite_animated = value
@@ -105,7 +121,9 @@ var sprite_animated: bool = true:
 			_animation_player.play(_animation_player.current_animation)
 		else:
 			_animation_player.pause()
+## The unit's personal weapon levels.
 var personal_weapon_levels: Dictionary[Weapon.Types, int]
+## The unit being carried by the unit.
 var traveler: Unit:
 	set(value):
 		traveler = value
@@ -113,14 +131,17 @@ var traveler: Unit:
 			_traveler_animation_player.play("display")
 		else:
 			_traveler_animation_player.play("RESET")
+## The unit's personal authority.
 var personal_authority: int
+## The unit's current health. If this drops to 0, the unit dies.
 var current_health: int:
 	set(health):
 		current_health = clampi(health, 0, get_hit_points())
 		if not Engine.is_editor_hint():
-			const HealthBar = preload("res://units/health_bar/health_bar.gd")
+			const HealthBar: GDScript = preload("res://units/health_bar/health_bar.gd")
 			($HealthBar as HealthBar).update()
 		health_changed.emit()
+## The faction the unit belongs to.
 var faction: Faction:
 	get:
 		if _get_map() and not _get_map().all_factions.is_empty():
@@ -128,6 +149,7 @@ var faction: Faction:
 		return Faction.new("INVALID", Faction.Colors.BLUE, Faction.PlayerTypes.HUMAN, null)
 	set(new_faction):
 		_faction_id = _get_map().all_factions.find(new_faction)
+## Whether the unit is waiting.
 var waiting: bool = false
 
 ## Effort value for hit points
@@ -166,7 +188,7 @@ var _personal_resistance: int = DEFAULT_PERSONAL_VALUE
 var _personal_movement: int
 var _personal_build: int = DEFAULT_PERSONAL_VALUE
 @warning_ignore_restore("unused_private_class_variable")
-
+# Comment to prevent formatter breaking things.
 var _current_movement: float
 var _attack_tiles: Array[Vector2i]
 var _movement_tiles: Array[Vector2i]
@@ -174,7 +196,8 @@ var _map: Map
 var _animation_player: AnimationPlayer
 var _traveler_animation_player: AnimationPlayer
 var _portrait: Portrait
-var _path: Array[Vector2i]  # Path the unit will follow when moving.
+# Path the unit will follow when moving.
+var _path: Array[Vector2i]
 var _movement_tiles_node: Node2D
 var _attack_tile_node: Node2D
 var _current_attack_tiles_node: Node2D
@@ -268,6 +291,7 @@ func get_crit_damage(defender: Unit) -> float:
 	return maxf(0, crit_damage)
 
 
+## The displayed total damage dealt by the unit.
 func get_displayed_damage(
 	enemy: Unit, crit: bool, check_miss: bool = true, check_crit: bool = true
 ) -> float:
@@ -315,8 +339,8 @@ func get_stat(stat: Stats, current_level: int = level) -> int:
 func get_raw_stat(stat: Stats, current_level: int = level) -> int:
 	var raw_stat: float = (
 		unit_class.get_stat(stat, current_level)
-		+ _get_personal_modifier(stat, current_level)
-		+ _get_effort_modifier(stat, current_level)
+		+ get_personal_modifier(stat, current_level)
+		+ get_effort_modifier(stat, current_level)
 	)
 	return clampi(roundi(raw_stat), 0, get_stat_cap(stat))
 
@@ -406,7 +430,7 @@ func get_movement(current_level: int = level) -> int:
 ## Gets the maximum amount of the stat possible
 func get_stat_cap(stat: Stats) -> int:
 	var max_stat: float = (
-		unit_class.get_stat(stat, MAX_LEVEL) + _get_personal_modifier(stat, MAX_LEVEL)
+		unit_class.get_stat(stat, LEVEL_CAP) + get_personal_modifier(stat, LEVEL_CAP)
 	)
 	if stat == Stats.HIT_POINTS:
 		return roundi(max_stat + _EV_MAX_HP_MODIFIER)
@@ -523,10 +547,10 @@ func get_path_last_pos() -> Vector2i:
 func get_stat_table(stat: Stats) -> Array[String]:
 	var table_items: Dictionary[String, String] = {
 		"Class Initial": str(roundi(unit_class.get_stat(stat, 1))),
-		"Personal Value": str(_get_personal_value(stat)),
+		"Personal Value": str(get_personal_value(stat)),
 		"Unboosted Value": str(get_raw_stat(stat)),
-		"Class Final": str(unit_class.get_stat(stat, MAX_LEVEL)),
-		"Effort Value": str(_get_effort_value(stat)),
+		"Class Final": str(roundi(unit_class.get_stat(stat, LEVEL_CAP))),
+		"Effort Value": str(get_effort_value(stat)),
 		"Modifier": _get_modifier(stat),
 	}
 	return Utilities.dict_to_table(table_items)
@@ -628,7 +652,9 @@ func get_movement_tiles() -> Array[Vector2i]:
 	if _movement_tiles.is_empty():
 		var start: Vector2i = position
 		const RANGE_MULTIPLIER: float = 4.0 / 3
-		var movement_tiles_dict: Dictionary[float, Array] = {floorf(_current_movement) as float: [start]}
+		var movement_tiles_dict: Dictionary[float, Array] = {
+			floorf(_current_movement) as float: [start]
+		}
 		if position == ((position / 16).floor() * 16):
 			#region Gets the initial grid
 			var h: Array[Vector2i] = Utilities.get_tiles(
@@ -701,6 +727,7 @@ func hide_movement_tiles() -> void:
 		_attack_tile_node.queue_free()
 
 
+## The tiles the unit can attack from its current position.
 func get_current_attack_tiles(pos: Vector2i, all_weapons: bool = false) -> Array[Vector2i]:
 	if is_instance_valid(get_weapon()):
 		var min_range: int = get_min_range() if all_weapons else get_weapon().get_min_range()
@@ -882,6 +909,39 @@ func set_weapon_level(type: Weapon.Types, new_level: int) -> void:
 	)
 
 
+## Gets the unit's personal value for a stat.
+func get_personal_value(stat: Stats) -> int:
+	return get("_personal_%s" % (Unit.Stats.find_key(stat) as String).to_snake_case())
+
+
+## Gets the unit's effort value for a stat.
+func get_effort_value(stat: Stats) -> int:
+	if stat in [Stats.STRENGTH, Stats.PIERCE, Stats.INTELLIGENCE]:
+		return effort_power
+	else:
+		return get("effort_%s" % (Unit.Stats.find_key(stat) as String).to_snake_case())
+
+
+func get_personal_modifier(stat: Stats, current_level: int = level) -> int:
+	return _get_value_modifier(
+		stat,
+		current_level,
+		_PV_MIN_HP_MODIFIER if stat == Stats.HIT_POINTS else _PV_MIN_MODIFIER,
+		_PV_MAX_HP_MODIFIER if stat == Stats.HIT_POINTS else PV_MAX_MODIFIER,
+		clampf(get_personal_value(stat), 0, PV_LIMIT) / PV_LIMIT
+	)
+
+
+func get_effort_modifier(stat: Stats, current_level: int = level, effort_value: int = get_effort_value(stat)) -> int:
+	return _get_value_modifier(
+		stat,
+		current_level,
+		_EV_MIN_HP_MODIFIER if stat == Stats.HIT_POINTS else _EV_MIN_MODIFIER,
+		_EV_MAX_HP_MODIFIER if stat == Stats.HIT_POINTS else EV_MAX_MODIFIER,
+		clampf(effort_value, 0, INDIVIDUAL_EV_LIMIT) / INDIVIDUAL_EV_LIMIT
+	)
+
+
 func _get_area() -> Area2D:
 	return $Area2D as Area2D
 
@@ -928,17 +988,6 @@ func _update_animation(target: Vector2) -> void:
 			set_animation(Animations.MOVING_UP)
 		_:
 			set_animation(Animations.IDLE)
-
-
-func _get_personal_value(stat: Stats) -> int:
-	return get("_personal_%s" % (Unit.Stats.find_key(stat) as String).to_snake_case())
-
-
-func _get_effort_value(stat: Stats) -> int:
-	if stat in [Stats.STRENGTH, Stats.PIERCE, Stats.INTELLIGENCE]:
-		return effort_power
-	else:
-		return get("effort_%s" % (Unit.Stats.find_key(stat) as String).to_snake_case())
 
 
 func _get_path_cost() -> float:
@@ -996,31 +1045,11 @@ func _on_area2d_area_exited(area: Area2D) -> void:
 		hide_movement_tiles()
 
 
-func _get_personal_modifier(stat: Stats, current_level: int) -> float:
-	return _get_value_modifier(
-		stat,
-		current_level,
-		_PV_MIN_HP_MODIFIER if stat == Stats.HIT_POINTS else _PV_MIN_MODIFIER,
-		_PV_MAX_HP_MODIFIER if stat == Stats.HIT_POINTS else PV_MAX_MODIFIER,
-		clampf(_get_personal_value(stat) as int, 0, _PV_LIMIT) / _PV_LIMIT
-	)
-
-
-func _get_effort_modifier(stat: Stats, current_level: int) -> float:
-	return _get_value_modifier(
-		stat,
-		current_level,
-		_EV_MIN_HP_MODIFIER if stat == Stats.HIT_POINTS else _EV_MIN_MODIFIER,
-		_EV_MAX_HP_MODIFIER if stat == Stats.HIT_POINTS else EV_MAX_MODIFIER,
-		clampf(_get_effort_value(stat) as int, 0, _INDIVIDUAL_EV_LIMIT) / _INDIVIDUAL_EV_LIMIT
-	)
-
-
 func _get_value_modifier(
 	stat: Stats, current_level: int, min_value: float, max_value: float, value_weight: float
-) -> float:
+) -> int:
 	if stat in get_fixed_stats():
-		return (min_value if stat == Stats.MOVEMENT else max_value) * value_weight
+		return roundi((min_value if stat == Stats.MOVEMENT else max_value) * value_weight)
 	else:
 		var stat_modifier: float = remap(
 			unit_class.get_stat(stat, current_level),
@@ -1029,7 +1058,7 @@ func _get_value_modifier(
 			min_value,
 			max_value
 		)
-		return stat_modifier * value_weight
+		return roundi(stat_modifier * value_weight)
 
 
 func _get_hair_palette() -> Array[Color]:

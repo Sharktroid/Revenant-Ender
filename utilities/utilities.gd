@@ -162,7 +162,7 @@ func get_control_within_height(checking_control: Control, control_array: Array[C
 
 ## Returns true if the engine is running the whole project.
 func is_running_project() -> bool:
-	const Renderer = preload("res://renderer/renderer.gd")
+	const Renderer: GDScript = preload("res://renderer/renderer.gd")
 	return get_tree().root.get_child(-1) is Renderer
 
 

@@ -131,6 +131,7 @@ func _update() -> void:
 				accumulator += attack.get_damage(false)
 			return accumulator
 		#Utilities.profiler_checkpoint()
+		const StatsPanel: GDScript = preload("res://ui/combat_panel/stats_panel/stats_panel.gd")
 		($LeftStatsPanel as StatsPanel).update(
 			_left_unit,
 			right_unit,

@@ -1,0 +1,55 @@
+[gd_scene load_steps=5 format=3 uid="uid://b470s2673ter3"]
+
+[ext_resource type="StyleBox" uid="uid://441p5kjwr8b3" path="res://ui/theme/panel_background.tres" id="1_fj6y8"]
+[ext_resource type="Script" uid="uid://bnk8kjsrcdxj6" path="res://ui/map_ui/status_screen/statistics/stats_panel/stats_panel.gd" id="2_gu5aj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cis3q"]
+
+[sub_resource type="Theme" id="Theme_85ssr"]
+HSeparator/styles/separator = SubResource("StyleBoxEmpty_cis3q")
+
+[node name="StatsPanel" type="PanelContainer"]
+anchors_preset = -1
+anchor_right = 0.263813
+anchor_bottom = 0.41275
+offset_right = -0.0720062
+offset_bottom = 0.127998
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 1
+theme_override_styles/panel = ExtResource("1_fj6y8")
+script = ExtResource("2_gu5aj")
+metadata/_edit_use_anchors_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Labels" type="VBoxContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+theme = SubResource("Theme_85ssr")
+theme_override_constants/separation = 0
+
+[node name="Bars" type="VBoxContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_85ssr")
+theme_override_constants/separation = 0
+
+[node name="PersonalValues" type="VBoxContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_85ssr")
+theme_override_constants/separation = 0
+
+[node name="EffortValues" type="VBoxContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_85ssr")
+theme_override_constants/separation = 0

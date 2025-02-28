@@ -12,7 +12,7 @@ var cursor_visible: bool = true:
 		return cursor_visible and not _offscreen
 ## The position of the cursor relative to the map's origin.
 var map_position := Vector2i():
-	set = _set_map_position
+	set = set_map_position
 ## The position of the cursor relative to the top-left corner of the screen.
 var screen_position: Vector2i:
 	set(value):
@@ -144,7 +144,7 @@ func _get_new_position() -> Vector2i:
 	return new_pos
 
 
-func _set_map_position(new_pos: Vector2i) -> void:
+func set_map_position(new_pos: Vector2i) -> void:
 	## Sets cursor position relative to the map
 	var old_pos: Vector2i = map_position
 	map_position = new_pos.clamp(
