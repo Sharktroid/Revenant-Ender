@@ -72,12 +72,10 @@ func _get_ev_help_description(stat: Unit.Stats) -> String:
 		"modifier": str(unit.get_effort_modifier(stat)),
 		"yellow": "color=%s" % Utilities.FONT_YELLOW,
 		"blue": "color=%s" % Utilities.FONT_BLUE,
-		"max_modifier": str(unit.get_effort_modifier(stat, unit.level, Unit.INDIVIDUAL_EV_LIMIT)),
 	}
 	const UNFORMATTED_DESCRIPTION: String = (
 		"[center][{blue}]{current} [{yellow}]/[/color] {max}[/color][/center]\n"
-		+ "[{yellow}]Modifier:[/color] [{blue}]{modifier}[/color] "
-		+ "([{yellow}]Max:[/color] [{blue}]{max_modifier}[/color])"
+		+ "[{yellow}]Modifier:[/color] [{blue}]{modifier}[/color]"
 	)
 	return UNFORMATTED_DESCRIPTION.format(formatting_dictionary)
 

@@ -5,8 +5,7 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Have PVs and EVs be based on level instead of base stat
-	* Add min and maxes to PV help description
+* Authority also gives +2 dodge.
 
 # Major
 * Have option to display stat details all at once
@@ -34,6 +33,7 @@ Before you commit
 * Make GhostUnit a child of Unit and remove jankiness
 * Make attack Animations skippable
 * Implement durability
+* Guide
 * Combine statistic and item screens
 * Implement AI
 * Implement activated skills

@@ -71,11 +71,11 @@ const _PV_MIN_HP_MODIFIER: int = 10
 # The added amount when hit points are the unit class max and personal values are maxed
 const _PV_MAX_HP_MODIFIER: int = 20
 # The added amount when the stat is 0 and effort values are maxed
-const _EV_MIN_MODIFIER: int = 2
+const _EV_MIN_MODIFIER: int = EV_MAX_MODIFIER
 # The added amount when the stat is 0 and effort values are maxed
-const _EV_MIN_HP_MODIFIER: int = 5
+const _EV_MIN_HP_MODIFIER: int = _EV_MAX_HP_MODIFIER
 # The added amount when hit points are the unit class max and effort values are maxed
-const _EV_MAX_HP_MODIFIER: int = 10
+const _EV_MAX_HP_MODIFIER: int = EV_MAX_MODIFIER * 2
 
 ## The unit's name.
 @export var display_name: String = "[Empty]"
@@ -340,7 +340,7 @@ func get_raw_stat(stat: Stats, current_level: int = level) -> int:
 	var raw_stat: float = (
 		unit_class.get_stat(stat, current_level)
 		+ get_personal_modifier(stat, current_level)
-		+ get_effort_modifier(stat, current_level)
+		+ get_effort_modifier(stat)
 	)
 	return clampi(roundi(raw_stat), 0, get_stat_cap(stat))
 
@@ -932,14 +932,20 @@ func get_personal_modifier(stat: Stats, current_level: int = level) -> int:
 	)
 
 
-func get_effort_modifier(stat: Stats, current_level: int = level, effort_value: int = get_effort_value(stat)) -> int:
-	return _get_value_modifier(
-		stat,
-		current_level,
-		_EV_MIN_HP_MODIFIER if stat == Stats.HIT_POINTS else _EV_MIN_MODIFIER,
-		_EV_MAX_HP_MODIFIER if stat == Stats.HIT_POINTS else EV_MAX_MODIFIER,
-		clampf(effort_value, 0, INDIVIDUAL_EV_LIMIT) / INDIVIDUAL_EV_LIMIT
-	)
+func get_effort_modifier(
+	stat: Stats, effort_value: int = get_effort_value(stat)
+) -> int:
+	# Speedhack because min and max are equal
+	# If defines/macros ever get implemented this should use those
+	var modifier: int = _EV_MAX_HP_MODIFIER if stat == Stats.HIT_POINTS else EV_MAX_MODIFIER
+	return roundi(modifier * clampf(effort_value, 0, INDIVIDUAL_EV_LIMIT) / INDIVIDUAL_EV_LIMIT)
+	#return _get_value_modifier(
+		#stat,
+		#current_level,
+		#_EV_MIN_HP_MODIFIER if stat == Stats.HIT_POINTS else _EV_MIN_MODIFIER,
+		#_EV_MAX_HP_MODIFIER if stat == Stats.HIT_POINTS else EV_MAX_MODIFIER,
+		#clampf(effort_value, 0, INDIVIDUAL_EV_LIMIT) / INDIVIDUAL_EV_LIMIT
+	#)
 
 
 func _get_area() -> Area2D:
@@ -1051,14 +1057,7 @@ func _get_value_modifier(
 	if stat in get_fixed_stats():
 		return roundi((min_value if stat == Stats.MOVEMENT else max_value) * value_weight)
 	else:
-		var stat_modifier: float = remap(
-			unit_class.get_stat(stat, current_level),
-			UnitClass.MIN_HIT_POINTS if stat == Stats.HIT_POINTS else 0,
-			UnitClass.MAX_HIT_POINTS if stat == Stats.HIT_POINTS else UnitClass.MAX_END_STAT,
-			min_value,
-			max_value
-		)
-		return roundi(stat_modifier * value_weight)
+		return roundi(remap(current_level, 0, Unit.LEVEL_CAP, min_value, max_value) * value_weight)
 
 
 func _get_hair_palette() -> Array[Color]:
