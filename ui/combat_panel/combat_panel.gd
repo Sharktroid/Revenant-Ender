@@ -108,6 +108,8 @@ func _get_index() -> int:
 
 func _update() -> void:
 	if right_unit and is_node_ready():
+		var old_position: Vector2i = _left_unit.position
+		_left_unit.position = _left_unit.get_path_last_pos()
 		#Utilities.start_profiling()
 		for child: Node in $Damage.get_children():
 			child.queue_free()
@@ -146,6 +148,7 @@ func _update() -> void:
 			_distance
 		)
 		#Utilities.finish_profiling()
+		_left_unit.position = old_position
 
 
 func _create_attack_arrows(attack_queue: Array[AttackController.CombatStage]) -> void:

@@ -6,7 +6,6 @@ Before you commit
 
 # Minor
 * Fix damage increasing every time Marcus waits
-* Verify unit.get_distance works as intended
 
 # Major
 * Have option to display stat details all at once
