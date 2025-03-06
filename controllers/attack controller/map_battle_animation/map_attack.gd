@@ -22,7 +22,7 @@ func _init(connected_unit: Unit = null, targeted_tile := Vector2i(0, 16)) -> voi
 			child.queue_free()
 	position = _combat_sprite.position
 	_combat_sprite.position = Vector2i()
-	_combat_sprite.remove_from_group("unit")
+	_combat_sprite.remove_from_group(&"unit")
 	add_child(_combat_sprite)
 	await _combat_sprite.tree_entered
 	_combat_sprite.sprite_animated = false

@@ -5,10 +5,8 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Fix damage increasing every time Marcus waits
 
 # Major
-* Have option to display stat details all at once
 * Add turnwheel
 	* Can undo last action for free but random outcomes will be fixed and if the unit didn't get a crit they can't crit again that phase
 * Add stats for performing kills on certain terrain and units of categories

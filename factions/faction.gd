@@ -2,6 +2,8 @@
 class_name Faction
 extends RefCounted
 
+signal name_changed(old_name: String)
+
 ## Valid inputs for the "player_type" field.
 enum PlayerTypes { HUMAN, COMPUTER, NONE }
 ## Valid inputs for the "color" field.
@@ -12,7 +14,11 @@ enum DiplomacyStances { ALLY, PEACE, ENEMY, SELF }
 ## Whether the full outline is shown.
 var full_outline: bool = false
 ## Faction's name.
-var name: String
+var name: String:
+	set(value):
+		var old_name: String = name
+		name = value
+		name_changed.emit(old_name)
 ## Color of all units.
 var color: Colors
 var player_type: PlayerTypes
@@ -45,7 +51,7 @@ func _to_string() -> String:
 
 
 func get_group_name() -> StringName:
-	return &"%s_unit" % name
+	return &"%s_unit" % name.to_snake_case()
 
 
 func get_diplomacy_stance(faction: Faction) -> DiplomacyStances:

@@ -156,7 +156,7 @@ _data = {
 &"display": SubResource("Animation_ivfw2")
 }
 
-[node name="UnitBase" type="Sprite2D" groups=["unit"]]
+[node name="UnitBase" type="Sprite2D" groups=["units"]]
 texture_filter = 1
 material = SubResource("ShaderMaterial_lgtg6")
 centered = false

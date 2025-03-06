@@ -14,9 +14,13 @@ func _init(connected_unit: Unit) -> void:
 	_unit.get_node("Area2D").queue_free()
 	_unit.get_node("HealthBar").queue_free()
 	_unit.get_node("Status").queue_free()
-	_unit.remove_from_group("unit")
 	_unit.modulate.a = 0.5
 	add_child(_unit)
+
+
+func _ready() -> void:
+	for group: StringName in _unit.get_groups():
+		_unit.remove_from_group(group)
 
 
 func _exit_tree() -> void:

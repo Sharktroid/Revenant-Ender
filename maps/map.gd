@@ -111,6 +111,8 @@ func _input(event: InputEvent) -> void:
 			var flag: Flag = Flag.instantiate(CursorController.map_position)
 			$MapLayer.add_child(flag)
 			_flags[CursorController.map_position] = flag
+	elif event.is_action_pressed("debug"):
+		print_debug(MapController.map.get_current_faction().get_authority())
 
 
 ## Shows the status screen for the unit the cursor is hovering over.
@@ -267,7 +269,7 @@ func get_path_cost(movement_type: UnitClass.MovementTypes, path: Array[Vector2i]
 func get_units() -> Array[Unit]:
 	if is_inside_tree():
 		var units: Array[Unit] = []
-		units.assign(get_tree().get_nodes_in_group("unit"))
+		units.assign(get_tree().get_nodes_in_group(&"units"))
 		return units
 	return []
 
@@ -287,6 +289,33 @@ func update_position_terrain_cost(pos: Vector2i) -> void:
 func get_map_camera() -> MapCamera:
 	var path: String = NodePath("%s/MapCamera" % get_path())
 	return (get_node(path) as MapCamera) if has_node(path) else MapCamera.new()
+
+
+func set_state(new_state: States) -> void:
+	if state == States.CANTERING:
+		if is_instance_valid(_canter_tiles):
+			_canter_tiles.queue_free()
+		_ghost_unit.queue_free()
+	elif state == States.MOVING:
+		_reset_attack_colors()
+	state = new_state
+	match state:
+		States.SELECTING:
+			if is_instance_valid(_ghost_unit):
+				_ghost_unit.queue_free()
+			if _selected_unit.arrived.is_connected(_update_ghost_unit):
+				_selected_unit.arrived.disconnect(_update_ghost_unit)
+		States.CANTERING:
+			var tiles: Array[Vector2i] = _selected_unit.get_movement_tiles()
+			if tiles.size() > 1:
+				_canter_tiles = MapController.map.display_tiles(tiles, Map.TileTypes.MOVEMENT, 1.0)
+				_selected_unit.selected = true
+				_selected_unit.hide_movement_tiles()
+			else:
+				state = States.SELECTING
+				_selected_unit.wait()
+		States.MOVING:
+			_apply_attack_colors()
 
 
 # Updates AStarGrid2D
@@ -437,6 +466,8 @@ func _select_state_select() -> void:
 		_selected_unit.update_path(CursorController.map_position)
 		_selected_unit.update_displayed_tiles()
 		_selected_unit.display_movement_tiles()
+		if _ghost_unit:
+			_ghost_unit.queue_free()
 		_ghost_unit = GhostUnit.new(_selected_unit)
 		_ghost_unit.position = CursorController.map_position
 		MapController.map.get_child(0).add_child(_ghost_unit)
@@ -476,31 +507,6 @@ func _update_grid_current_faction() -> void:
 			(_cost_grids[movement_type] as AStarGrid2D).set_point_solid(
 				unit.position / 16, not unit.faction.is_friend(_grid_current_faction)
 			)
-
-
-func set_state(new_state: States) -> void:
-	if state == States.CANTERING:
-		if is_instance_valid(_canter_tiles):
-			_canter_tiles.queue_free()
-		_ghost_unit.queue_free()
-	elif state == States.MOVING:
-		_reset_attack_colors()
-	state = new_state
-	match state:
-		States.SELECTING:
-			if _selected_unit.arrived.is_connected(_update_ghost_unit):
-				_selected_unit.arrived.disconnect(_update_ghost_unit)
-		States.CANTERING:
-			var tiles: Array[Vector2i] = _selected_unit.get_movement_tiles()
-			if tiles.size() > 1:
-				_canter_tiles = MapController.map.display_tiles(tiles, Map.TileTypes.MOVEMENT, 1.0)
-				_selected_unit.selected = true
-				_selected_unit.hide_movement_tiles()
-			else:
-				state = States.SELECTING
-				_selected_unit.wait()
-		States.MOVING:
-			_apply_attack_colors()
 
 
 func _display_turn_change(faction: Faction) -> void:

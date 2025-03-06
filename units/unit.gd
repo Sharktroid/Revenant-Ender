@@ -92,6 +92,8 @@ const _EV_MAX_HP_MODIFIER: int = EV_MAX_MODIFIER * 2
 	set(value):
 		remove_from_group(faction.get_group_name())
 		_faction_id = value
+		if not _get_map().is_node_ready():
+			await _get_map().ready
 		add_to_group(faction.get_group_name())
 @export var _base_level: int = 1
 @export var _personal_skills: Array[Skill]
@@ -216,7 +218,7 @@ func _enter_tree() -> void:
 	material = material.duplicate() as Material
 	_reset_movement()
 	current_health = get_hit_points()
-	add_to_group("units")
+	add_to_group(&"units")
 	_update_palette()
 	if _animation_player.current_animation == "":
 		_animation_player.play("idle")
@@ -226,6 +228,7 @@ func _enter_tree() -> void:
 	)
 	if FileAccess.file_exists(directory):
 		_portrait = (load(directory) as PackedScene).instantiate() as Portrait
+	faction.name_changed.connect(_on_faction_name_changed)
 	add_to_group(faction.get_group_name())
 
 
@@ -1172,3 +1175,9 @@ func _get_modifier(stat: Stats) -> String:
 				)
 	else:
 		return str(get_stat_boost(stat))
+
+
+func _on_faction_name_changed(old_name: String) -> void:
+	var old_faction := Faction.new(old_name, Faction.Colors.BLUE, Faction.PlayerTypes.HUMAN, null)
+	remove_from_group(old_faction.get_group_name())
+	add_to_group(faction.get_group_name())
