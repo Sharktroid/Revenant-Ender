@@ -16,6 +16,14 @@ var observing_unit: Unit:
 func _ready() -> void:
 	visibility_changed.connect(_update)
 	_update_width()
+	const FORMATTING_DICTIONARY: Dictionary[String, int] = {
+		"authority_hit_bonus": Unit.AUTHORITY_HIT_BONUS,
+		"authority_dodge_bonus": Unit.AUTHORITY_DODGE_BONUS,
+	}
+	var authority_help := %AuthorityHelp as HelpContainer
+	authority_help.help_description = authority_help.help_description.format(
+		FORMATTING_DICTIONARY
+	)
 
 
 func _input(event: InputEvent) -> void:
@@ -79,6 +87,7 @@ func _get_aid_description() -> String:
 func _update_stat_bar(stat_bar: StatBar, stat: Unit.Stats) -> void:
 	stat_bar.unit = observing_unit
 	stat_bar.stat = stat
+
 
 func _update_width() -> void:
 	var other_labels := %OtherLabels as VBoxContainer

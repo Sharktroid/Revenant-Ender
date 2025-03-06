@@ -102,7 +102,7 @@ func _update() -> void:
 	_set_label_text_to_number(%MaxHitPoints as Label, observing_unit.get_hit_points())
 	var hp_help := %HitPointsStatHelp as HelpContainer
 	hp_help.help_table = observing_unit.get_stat_table(Unit.Stats.HIT_POINTS)
-	hp_help.table_columns = 4
+	hp_help.table_columns = 6
 	_set_label_text_to_number(%EXPPercent as Label, observing_unit.get_exp_percent())
 	(%EXPStatHelp as HelpContainer).help_description = _get_exp_stat_help()
 

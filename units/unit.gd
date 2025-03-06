@@ -57,12 +57,14 @@ const MAX_RATE: int = 95
 const PV_MAX_MODIFIER: int = 10
 ## The added amount when hit points are the unit class max and effort values are maxed
 const EV_MAX_MODIFIER: int = 5
-## The bonus to hit rates per extra authority star over enemy's faction.
-const AUTHORITY_HIT_BONUS: int = 5
 ## The maximum value that a personal value can be
 const PV_LIMIT: int = 15
 ## The maximum value that an EV can be
 const INDIVIDUAL_EV_LIMIT: int = 250
+## The amount of hit rates for every Authority over enemy's faction.
+const AUTHORITY_HIT_BONUS: int = 4
+## The amount of dodge given for every Authority over the enemy's faction.
+const AUTHORITY_DODGE_BONUS: int = 2
 
 # The added amount when the stat is 0 and personal values are maxed
 const _PV_MIN_MODIFIER: int = 5
@@ -447,7 +449,7 @@ func get_attack_speed() -> float:
 
 ## Gets the unit's defense type against a weapon
 func get_current_defense(enemy: Unit) -> int:
-	var authority_bonus: int = maxi(faction.get_authority() - enemy.faction.get_authority(), 0)
+	var authority_bonus: int = get_authority_modifier(enemy)
 	match enemy.get_weapon().get_damage_type():
 		Weapon.DamageTypes.PHYSICAL:
 			return get_defense() + authority_bonus
@@ -505,9 +507,7 @@ func get_avoid() -> float:
 ## Gets the hit rate against an enemy
 func get_hit_rate(enemy: Unit) -> int:
 	var hit_bonus: float = get_weapon().get_hit_bonus(enemy.get_weapon(), _get_distance(enemy))
-	var authority_bonus: int = (
-		AUTHORITY_HIT_BONUS * maxi(faction.get_authority() - enemy.faction.get_authority(), 0)
-	)
+	var authority_bonus: int = AUTHORITY_HIT_BONUS * get_authority_modifier(enemy)
 	return _adjust_rate(
 		roundi(clampf(get_hit() - enemy.get_avoid() + hit_bonus + authority_bonus, 0, 100))
 	)
@@ -525,7 +525,10 @@ func get_dodge() -> float:
 
 ## Gets the crit rate against an enemy
 func get_crit_rate(enemy: Unit) -> int:
-	return _adjust_rate(roundi(clampf(get_crit() - enemy.get_dodge(), 0, 100)))
+	var dodge: float = (
+		enemy.get_dodge() + enemy.get_authority_modifier(self) * AUTHORITY_DODGE_BONUS
+	)
+	return _adjust_rate(roundi(clampf(get_crit() - dodge, 0, 100)))
 
 
 ## Gets the last position from the unit's path that a unit does not occupy
@@ -885,7 +888,7 @@ func get_true_attack(enemy: Unit) -> float:
 		return (
 			get_attack()
 			+ get_weapon().get_damage_bonus(enemy.get_weapon(), _get_distance(enemy))
-			+ maxi(faction.get_authority() - enemy.faction.get_authority(), 0)
+			+ get_authority_modifier(enemy)
 		)
 	return 0
 
@@ -932,20 +935,22 @@ func get_personal_modifier(stat: Stats, current_level: int = level) -> int:
 	)
 
 
-func get_effort_modifier(
-	stat: Stats, effort_value: int = get_effort_value(stat)
-) -> int:
+func get_effort_modifier(stat: Stats, effort_value: int = get_effort_value(stat)) -> int:
 	# Speedhack because min and max are equal
 	# If defines/macros ever get implemented this should use those
 	var modifier: int = _EV_MAX_HP_MODIFIER if stat == Stats.HIT_POINTS else EV_MAX_MODIFIER
 	return roundi(modifier * clampf(effort_value, 0, INDIVIDUAL_EV_LIMIT) / INDIVIDUAL_EV_LIMIT)
 	#return _get_value_modifier(
-		#stat,
-		#current_level,
-		#_EV_MIN_HP_MODIFIER if stat == Stats.HIT_POINTS else _EV_MIN_MODIFIER,
-		#_EV_MAX_HP_MODIFIER if stat == Stats.HIT_POINTS else EV_MAX_MODIFIER,
-		#clampf(effort_value, 0, INDIVIDUAL_EV_LIMIT) / INDIVIDUAL_EV_LIMIT
+	#stat,
+	#current_level,
+	#_EV_MIN_HP_MODIFIER if stat == Stats.HIT_POINTS else _EV_MIN_MODIFIER,
+	#_EV_MAX_HP_MODIFIER if stat == Stats.HIT_POINTS else EV_MAX_MODIFIER,
+	#clampf(effort_value, 0, INDIVIDUAL_EV_LIMIT) / INDIVIDUAL_EV_LIMIT
 	#)
+
+
+func get_authority_modifier(enemy: Unit) -> int:
+	return maxi(faction.get_authority() - enemy.faction.get_authority(), 0)
 
 
 func _get_area() -> Area2D:

@@ -5,7 +5,8 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Authority also gives +2 dodge.
+* Fix damage increasing every time Marcus waits
+* Verify unit.get_distance works as intended
 
 # Major
 * Have option to display stat details all at once
