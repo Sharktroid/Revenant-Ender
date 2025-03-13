@@ -38,36 +38,37 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	if _active and GameController.controller_type == GameController.ControllerTypes.MOUSE:
-		_offscreen = not MapController.map.borders.has_point(
-			MapController.map.get_local_mouse_position()
-		)
-		get_area().monitorable = is_active()
-		get_area().monitoring = is_active()
-	if is_active():
-		if GameController.controller_type == GameController.ControllerTypes.MOUSE:
-			var destination: Vector2 = MapController.map.get_map_camera().get_destination()
-			if destination == MapController.map.get_map_camera().position:
-				map_position = Utilities.round_coords_to_tile(
-					get_viewport().get_mouse_position() + (_corner_offset() as Vector2)
-				)
-		else:
-			_offscreen = false
-			if _delay <= 0 and _repeat:
-				if (
-					Input.is_action_pressed("left")
-					or Input.is_action_pressed("right")
-					or Input.is_action_pressed("up")
-					or Input.is_action_pressed("down")
-				):
-					var old_pos: Vector2i = map_position
-					map_position = _get_new_position()
-					if map_position != old_pos:
-						AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.CURSOR)
-					_delay = 4
-				else:
-					_repeat = false
-	_delay -= 1
+	if MapController.map:
+		if _active and GameController.controller_type == GameController.ControllerTypes.MOUSE:
+			_offscreen = not MapController.map.borders.has_point(
+				MapController.map.get_local_mouse_position()
+			)
+			get_area().monitorable = is_active()
+			get_area().monitoring = is_active()
+		if is_active():
+			if GameController.controller_type == GameController.ControllerTypes.MOUSE:
+				var destination: Vector2 = MapController.map.get_map_camera().get_destination()
+				if destination == MapController.map.get_map_camera().position:
+					map_position = Utilities.round_coords_to_tile(
+						get_viewport().get_mouse_position() + (_corner_offset() as Vector2)
+					)
+			else:
+				_offscreen = false
+				if _delay <= 0 and _repeat:
+					if (
+						Input.is_action_pressed("left")
+						or Input.is_action_pressed("right")
+						or Input.is_action_pressed("up")
+						or Input.is_action_pressed("down")
+					):
+						var old_pos: Vector2i = map_position
+						map_position = _get_new_position()
+						if map_position != old_pos:
+							AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.CURSOR)
+						_delay = 4
+					else:
+						_repeat = false
+		_delay -= 1
 
 
 func _input(event: InputEvent) -> void:
@@ -168,7 +169,9 @@ func _set_active(active: bool) -> void:
 
 
 func _corner_offset() -> Vector2i:
-	return (
-		Vector2i(MapController.map.get_map_camera().get_map_position())
-		+ MapController.map.get_map_camera().get_map_offset()
-	)
+	if MapController.map:
+		return (
+			Vector2i(MapController.map.get_map_camera().get_map_position())
+			+ MapController.map.get_map_camera().get_map_offset()
+		)
+	return Vector2i.ZERO

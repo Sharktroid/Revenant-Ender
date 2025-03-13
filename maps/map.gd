@@ -5,6 +5,10 @@ extends ReferenceRect
 enum TileTypes { ATTACK, MOVEMENT, SUPPORT }
 enum States { SELECTING, MOVING, CANTERING }
 
+const _SAVED_PROPERTY_NAMES: Array[StringName] = [
+	&"all_factions", &"_current_faction_index", &"_current_turn", &"_flags"
+]
+
 # Border boundaries of the map.
 @export var _left_border: int
 @export var _right_border: int
@@ -111,8 +115,6 @@ func _input(event: InputEvent) -> void:
 			var flag: Flag = Flag.instantiate(CursorController.map_position)
 			$MapLayer.add_child(flag)
 			_flags[CursorController.map_position] = flag
-	elif event.is_action_pressed("debug"):
-		print_debug(MapController.map.get_current_faction().get_authority())
 
 
 ## Shows the status screen for the unit the cursor is hovering over.
@@ -303,7 +305,7 @@ func set_state(new_state: States) -> void:
 		States.SELECTING:
 			if is_instance_valid(_ghost_unit):
 				_ghost_unit.queue_free()
-			if _selected_unit.arrived.is_connected(_update_ghost_unit):
+			if _selected_unit and _selected_unit.arrived.is_connected(_update_ghost_unit):
 				_selected_unit.arrived.disconnect(_update_ghost_unit)
 		States.CANTERING:
 			var tiles: Array[Vector2i] = _selected_unit.get_movement_tiles()
@@ -316,6 +318,34 @@ func set_state(new_state: States) -> void:
 				_selected_unit.wait()
 		States.MOVING:
 			_apply_attack_colors()
+
+
+## Saves the current state of the map. Faster than PackedScene.pack().
+func quick_save() -> Dictionary[StringName, Variant]:
+	var properies: Dictionary[StringName, Variant] = {}
+	for property_name: String in _SAVED_PROPERTY_NAMES:
+		properies[property_name] = get(property_name)
+	var units: Dictionary[String, Dictionary] = {}
+	for unit: Unit in get_units():
+		units[unit.name] = unit.quick_save()
+	properies[&"units"] = units
+	return properies
+
+
+## Loads a dictionary returned from quick_save.
+func quick_load(properies: Dictionary[StringName, Variant]) -> void:
+	for property_name: StringName in _SAVED_PROPERTY_NAMES:
+		set(property_name, properies[property_name])
+	var units := (properies[&"units"] as Dictionary).duplicate() as Dictionary[String, Dictionary]
+	for unit: Unit in get_units():
+		if unit.name in units.keys():
+			unit.quick_load(units[unit.name])
+			units.erase(unit.name)
+		else:
+			unit.queue_free()
+	for unit_name: StringName in units.keys():
+		var new_unit := Unit.full_load(units[unit_name], %Units)
+		new_unit.name = unit_name
 
 
 # Updates AStarGrid2D

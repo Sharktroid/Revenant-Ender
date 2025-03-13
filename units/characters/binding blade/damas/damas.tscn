@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://b8kx8lc6l71y5" path="res://items/weapons/axes/steel_axe/steel_axe.gd" id="5_egi04"]
 [ext_resource type="Script" uid="uid://oxuirych6txp" path="res://items/item.gd" id="6_k3h7y"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_dan4f"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bhmtf"]
 shader = ExtResource("2_c5syf")
 shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
 shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.658824, 0.321569, 0.32549, 1), Color(0.372549, 0.211765, 0.235294, 1)])
@@ -22,7 +22,7 @@ script = ExtResource("3_vonah")
 script = ExtResource("5_egi04")
 
 [node name="Damas" instance=ExtResource("1_er2ak")]
-material = SubResource("ShaderMaterial_dan4f")
+material = SubResource("ShaderMaterial_bhmtf")
 texture = ExtResource("3_gi6qr")
 script = ExtResource("2_8cmre")
 display_name = "Damas"

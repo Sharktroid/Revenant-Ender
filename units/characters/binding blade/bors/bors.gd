@@ -4,16 +4,18 @@ extends Unit
 
 # Unit-specific variables.
 func _enter_tree() -> void:
-	_personal_hit_points = 12
-	_personal_strength = 9
-	_personal_pierce = 5
-	_personal_intelligence = 5
-	_personal_dexterity = 6
-	_personal_speed = 8
-	_personal_luck = 10
-	_personal_defense = 8
-	_personal_armor = 5
-	_personal_resistance = 1
-	_personal_movement = 0
-	_personal_build = 5
+	_personal_values = {
+		Stats.HIT_POINTS: 12,
+		Stats.STRENGTH: 9,
+		Stats.PIERCE: 5,
+		Stats.INTELLIGENCE: 5,
+		Stats.DEXTERITY: 6,
+		Stats.SPEED: 8,
+		Stats.LUCK: 10,
+		Stats.DEFENSE: 8,
+		Stats.ARMOR: 5,
+		Stats.RESISTANCE: 1,
+		Stats.MOVEMENT: 0,
+		Stats.BUILD: 5,
+	}
 	super()

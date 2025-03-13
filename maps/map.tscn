@@ -75,6 +75,7 @@ tile_set = SubResource("10")
 script = ExtResource("3_iwlk5")
 
 [node name="Units" type="Node2D" parent="MapLayer"]
+unique_name_in_owner = true
 y_sort_enabled = true
 
 [node name="CursorArea" type="Area2D" parent="MapLayer"]

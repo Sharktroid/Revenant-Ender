@@ -66,6 +66,22 @@ const AUTHORITY_HIT_BONUS: int = 4
 ## The amount of dodge given for every Authority over the enemy's faction.
 const AUTHORITY_DODGE_BONUS: int = 2
 
+const _SAVED_PROPERTY_NAMES: Array[StringName] = [
+	&"position",
+	&"total_exp",
+	&"traveler",
+	&"personal_authority",
+	&"current_health",
+	&"waiting",
+	&"unit_class",
+	&"items",
+	&"flip_h",
+	&"_faction_id",
+	&"_personal_values",
+	&"_effort_power",
+	&"_effort_values",
+	&"_equipped_weapon",
+]
 # The added amount when the stat is 0 and personal values are maxed
 const _PV_MIN_MODIFIER: int = 5
 # The added amount when hit points are 0 and personal values are maxed
@@ -92,8 +108,6 @@ const _EV_MAX_HP_MODIFIER: int = EV_MAX_MODIFIER * 2
 	set(value):
 		remove_from_group(faction.get_group_name())
 		_faction_id = value
-		if not _get_map().is_node_ready():
-			await _get_map().ready
 		add_to_group(faction.get_group_name())
 @export var _base_level: int = 1
 @export var _personal_skills: Array[Skill]
@@ -154,44 +168,14 @@ var faction: Faction:
 	set(new_faction):
 		_faction_id = _get_map().all_factions.find(new_faction)
 ## Whether the unit is waiting.
-var waiting: bool = false
+var waiting: bool = false:
+	set(value):
+		waiting = value
+		_update_palette()
 
-## Effort value for hit points
-var effort_hit_points: int
-## Effort value for strength, pierce, and intelligence
-var effort_power: int
-## Effort value for dexterity
-var effort_dexterity: int
-## Effort value for speed
-var effort_speed: int
-## Effort value for luck
-var effort_luck: int
-## Effort value for defense
-var effort_defense: int
-## Effort value for armor
-var effort_armor: int
-## Effort value for resistance
-var effort_resistance: int
-## Effort value for movement
-var effort_movement: int
-## Effort value for build
-var effort_build: int
-
-# Ignore warnings as these are called via "get" command (see get_stat)
-@warning_ignore_start("unused_private_class_variable")
-var _personal_hit_points: int = DEFAULT_PERSONAL_VALUE
-var _personal_strength: int = DEFAULT_PERSONAL_VALUE
-var _personal_pierce: int = DEFAULT_PERSONAL_VALUE
-var _personal_intelligence: int = DEFAULT_PERSONAL_VALUE
-var _personal_dexterity: int = DEFAULT_PERSONAL_VALUE
-var _personal_speed: int = DEFAULT_PERSONAL_VALUE
-var _personal_luck: int = DEFAULT_PERSONAL_VALUE
-var _personal_defense: int = DEFAULT_PERSONAL_VALUE
-var _personal_armor: int = DEFAULT_PERSONAL_VALUE
-var _personal_resistance: int = DEFAULT_PERSONAL_VALUE
-var _personal_movement: int
-var _personal_build: int = DEFAULT_PERSONAL_VALUE
-@warning_ignore_restore("unused_private_class_variable")
+var _personal_values: Dictionary[Stats, int]
+var _effort_power: int
+var _effort_values: Dictionary[Stats, int]
 # Comment to prevent formatter breaking things.
 var _current_movement: float
 var _attack_tiles: Array[Vector2i]
@@ -222,7 +206,8 @@ func _enter_tree() -> void:
 	_update_palette()
 	if _animation_player.current_animation == "":
 		_animation_player.play("idle")
-	Utilities.sync_animation(_animation_player)
+	if not Engine.is_editor_hint():
+		Utilities.sync_animation(_animation_player)
 	var directory: String = "res://portraits/{name}/{name}.tscn".format(
 		{"name": display_name.to_snake_case()}
 	)
@@ -630,7 +615,6 @@ func wait() -> void:
 	if DebugConfig.UNIT_WAIT.value:
 		waiting = true
 	_get_map().unit_wait(self)
-	_update_palette()
 	deselect()
 
 
@@ -917,15 +901,17 @@ func set_weapon_level(type: Weapon.Types, new_level: int) -> void:
 
 ## Gets the unit's personal value for a stat.
 func get_personal_value(stat: Stats) -> int:
-	return get("_personal_%s" % (Unit.Stats.find_key(stat) as String).to_snake_case())
+	return _personal_values.get_or_add(
+		stat, 0 if stat == Stats.MOVEMENT else DEFAULT_PERSONAL_VALUE
+	)
 
 
 ## Gets the unit's effort value for a stat.
 func get_effort_value(stat: Stats) -> int:
 	if stat in [Stats.STRENGTH, Stats.PIERCE, Stats.INTELLIGENCE]:
-		return effort_power
+		return _effort_power
 	else:
-		return get("effort_%s" % (Unit.Stats.find_key(stat) as String).to_snake_case())
+		return _effort_values.get(stat, 0)
 
 
 func get_personal_modifier(stat: Stats, current_level: int = level) -> int:
@@ -956,12 +942,39 @@ func get_authority_modifier(enemy: Unit) -> int:
 	return maxi(faction.get_authority() - enemy.faction.get_authority(), 0)
 
 
+## Saves the current state of the map. Faster than PackedScene.pack().
+func quick_save() -> Dictionary[StringName, Variant]:
+	var properties: Dictionary[StringName, Variant] = {&"scene_file_path": scene_file_path}
+	for property_name: String in _SAVED_PROPERTY_NAMES:
+		properties[property_name] = get(property_name)
+	return properties
+
+
+## Loads a dictionary returned from quick_save performed on this unit.
+func quick_load(properties: Dictionary[StringName, Variant]) -> void:
+	for property_name: String in _SAVED_PROPERTY_NAMES:
+		set(property_name, properties[property_name])
+
+
+## Creates a new unit, based off of a dictionary returned from quick_save.
+static func full_load(properties: Dictionary[StringName, Variant], parent: Node) -> Unit:
+	var unit_scene := load(properties.scene_file_path as String) as PackedScene
+	var new_unit := unit_scene.instantiate() as Unit
+	const _PRE_READY_PROPERTIES: Array[StringName] = [&"unit_class", &"_faction_id"]
+	for property_name: StringName in _PRE_READY_PROPERTIES:
+		new_unit.set(property_name, properties[property_name])
+	parent.add_child(new_unit)
+	new_unit.quick_load(properties)
+	print_debug(new_unit._faction_id)
+	return new_unit
+
+
 func _get_area() -> Area2D:
 	return $Area2D as Area2D
 
 
 func _get_map() -> Map:
-	if _map == null:
+	if not _map:
 		if Engine.is_editor_hint():
 			var current_parent: Node = get_parent()
 			while current_parent is not Map and current_parent:
