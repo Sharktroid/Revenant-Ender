@@ -89,8 +89,7 @@ func _run_command(command: String) -> void:
 		"CLEAR":
 			await _clear(arguments[0] == "TOP")
 		var invalid_command:
-			print_debug(invalid_command)
-			breakpoint
+			push_error("Invalid command: %s" % invalid_command)
 
 
 func _parse_quotations(lines: Array[String], joiner: String = "") -> Array[String]:

@@ -250,3 +250,7 @@ func _get_default_green_hair_palette() -> Array[Color]:
 		Color("D03830"),
 		Color("581000"),
 	]
+
+
+func _to_string() -> String:
+	return 'UnitClass:"{name}"<#{id}>'.format({"name": resource_name, "id": get_instance_id()})

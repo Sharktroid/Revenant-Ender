@@ -10,26 +10,23 @@ signal arrived
 ## The tile where the enemy unit is located.
 var _target_tile: Vector2i
 ## The unit that is being displayed by the animation.
-var _combat_sprite: Unit
+var _combat_sprite: UnitSprite
 var _running: bool = false
 
 
 func _init(connected_unit: Unit = null, targeted_tile := Vector2i(0, 16)) -> void:
-	_combat_sprite = connected_unit.duplicate() as Unit
+	_combat_sprite = connected_unit.get_sprite()
 	_target_tile = targeted_tile
-	for child: Node in _combat_sprite.get_children():
-		if child is not AnimationPlayer:
-			child.queue_free()
-	position = _combat_sprite.position
+	position = connected_unit.position
 	_combat_sprite.position = Vector2i()
-	_combat_sprite.remove_from_group(&"unit")
 	add_child(_combat_sprite)
-	await _combat_sprite.tree_entered
+	await _combat_sprite.ready
 	_combat_sprite.sprite_animated = false
-	_combat_sprite.flip_h = false
-	_combat_sprite.set_animation.call_deferred(
+	_combat_sprite.set_animation(
 		_get_animation((Vector2(_target_tile) - position).angle() * 4 / PI)
 	)
+	#_combat_sprite.set_animation(UnitSprite.Animations.MOVING_LEFT)
+	#print_debug((Vector2(_target_tile) - position).angle() * 4 / PI)
 
 
 ## @experimental

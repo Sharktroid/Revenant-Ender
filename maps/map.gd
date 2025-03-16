@@ -33,7 +33,7 @@ var _grid_current_faction: Faction
 # The current turn.
 var _current_turn: int
 var _selected_unit: Unit
-var _ghost_unit: GhostUnit
+var _ghost_unit: UnitSprite
 var _canter_tiles: Node2D
 var _flags: Dictionary[Vector2i, Flag]
 
@@ -138,6 +138,7 @@ func unit_wait(_unit: Unit) -> void:
 		and _get_current_units().all(func(unit: Unit) -> bool: return unit.waiting)
 	):
 		end_turn.call_deferred()
+	MapController.turnwheel_save(quick_save())
 
 
 ## Gets the faction that is currently making their turn.
@@ -498,7 +499,9 @@ func _select_state_select() -> void:
 		_selected_unit.display_movement_tiles()
 		if _ghost_unit:
 			_ghost_unit.queue_free()
-		_ghost_unit = GhostUnit.new(_selected_unit)
+		_ghost_unit = _selected_unit.get_sprite()
+		_ghost_unit.name = "Ghost Unit"
+		_ghost_unit.modulate.a = 0.5
 		_ghost_unit.position = CursorController.map_position
 		MapController.map.get_child(0).add_child(_ghost_unit)
 		_selected_unit.arrived.connect(_update_ghost_unit)
@@ -518,16 +521,16 @@ func _update_ghost_unit() -> void:
 		var distance := Vector2i()
 		if _selected_unit.get_unit_path().size() >= 2:
 			distance = _selected_unit.get_unit_path()[-1] - _selected_unit.get_unit_path()[-2]
-		var next_animation: Unit.Animations
+		var next_animation: UnitSprite.Animations
 		match distance:
 			Vector2i(16, 0):
-				next_animation = Unit.Animations.MOVING_RIGHT
+				next_animation = UnitSprite.Animations.MOVING_RIGHT
 			Vector2i(-16, 0):
-				next_animation = Unit.Animations.MOVING_LEFT
+				next_animation = UnitSprite.Animations.MOVING_LEFT
 			Vector2i(0, -16):
-				next_animation = Unit.Animations.MOVING_UP
+				next_animation = UnitSprite.Animations.MOVING_UP
 			_:
-				next_animation = Unit.Animations.MOVING_DOWN
+				next_animation = UnitSprite.Animations.MOVING_DOWN
 		_ghost_unit.set_animation(next_animation)
 
 
@@ -559,6 +562,7 @@ func _next_faction() -> void:
 
 ## Starts new turn.
 func _start_turn() -> void:
+	MapController.turnwheel_save(quick_save())
 	await _display_turn_change(get_current_faction())
 	if (
 		not Options.SMART_CURSOR.value

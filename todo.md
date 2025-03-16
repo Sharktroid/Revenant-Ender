@@ -8,11 +8,13 @@ Before you commit
 * Implement control groups.
 * Use "scene_file_path" when relevant.
 * Fix stat bars when switching from item panel.
+* Fix crashes with empty inventory
 
 # Major
 * Add saving
 	* Turnwheel
 		* Can undo last action for free but random outcomes will be fixed and if the unit didn't get a crit they can't crit again that phase
+		* Anything over 10 turns old will only have a turnwheel for the start of the turn
 * Add stats for performing kills on certain terrain and units of categories
 * Make it possible to attack preview with any unit at any time
 * Add testing mode
@@ -41,7 +43,6 @@ Before you commit
 * Add rescue when clicking on an ally
 * Have level up play sfx even when volume is muted
 * Add the remaining sub menus of the main map menu
-* Make GhostUnit a child of Unit and remove jankiness
 * Make attack Animations skippable
 * Guide
 * Combine statistic and item screens

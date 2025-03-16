@@ -86,7 +86,7 @@ func _map_attack(
 	attacker_animation.play_animation()
 	await attacker_animation.arrived
 	if attack_type == CombatStage.AttackTypes.MISS:
-		await AudioPlayer.play_sound_effect(preload("res://audio/sfx/miss.ogg"))
+		await AudioPlayer.play_sound_effect(preload("res://audio/sfx/miss.ogg")).finished
 	else:
 		#region Hit
 		var is_crit: bool = attack_type == CombatStage.AttackTypes.CRIT

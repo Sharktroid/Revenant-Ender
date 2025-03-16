@@ -75,16 +75,19 @@ func stop_and_resume_previous_track() -> void:
 
 
 ## Plays a sound effect.
-func play_sound_effect(stream: AudioStream) -> void:
+func play_sound_effect(stream: AudioStream) -> AudioStreamPlayer:
+	var player := AudioStreamPlayer.new()
 	if Options.SOUND_EFFECTS.value > 0:
-		var player := AudioStreamPlayer.new()
 		player.stream = stream
 		add_child(player)
 		player.volume_db = _percent_to_db(Options.SOUND_EFFECTS.value)
 		player.play()
 		player.add_to_group(_SFX_GROUP)
-		await player.finished
-		player.queue_free()
+		var coroutine: Callable = func() -> void:
+			await player.finished
+			player.queue_free()
+		coroutine.call()
+	return player
 
 
 ## Immediately causes all sound effects to stop playing.

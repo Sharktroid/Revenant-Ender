@@ -37,14 +37,14 @@ func _play(experience: float) -> void:
 		experience / Unit.get_exp_to_level(ceilf(Unit.get_level_from_exp(new_exp)))
 	)
 	tween.tween_property(_unit, ^"total_exp", new_exp, percent_exp)
-	var exp_audio_player := AudioStreamPlayer.new()
-	exp_audio_player.stream = preload("res://audio/sfx/experience.ogg")
-	add_child(exp_audio_player)
-	exp_audio_player.play()
+	var timer: SceneTreeTimer = get_tree().create_timer(0.25)
+	var exp_audio_player: AudioStreamPlayer = AudioPlayer.play_sound_effect(
+		preload("res://audio/sfx/experience.ogg")
+	)
 	await tween.finished
 	exp_audio_player.stop()
 	exp_audio_player.queue_free()
-	await get_tree().create_timer(0.25).timeout
+	await timer.timeout
 	await _close()
 
 	if _unit.level > old_level:

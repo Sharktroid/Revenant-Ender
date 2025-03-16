@@ -1,15 +1,12 @@
 ## A unit that can be controlled either by the player or the ai.
 @tool
 class_name Unit
-extends Sprite2D
+extends UnitSprite
 
 ## Emits when the unit's health changes.
 signal health_changed
 ## Emits when the unit arrives at its destination.
 signal arrived
-
-## The map animations that a unit can have.
-enum Animations { IDLE, MOVING_DOWN, MOVING_UP, MOVING_LEFT, MOVING_RIGHT }
 ## The stats that a unit can have.
 enum Stats {
 	HIT_POINTS,
@@ -99,23 +96,11 @@ const _EV_MAX_HP_MODIFIER: int = EV_MAX_MODIFIER * 2
 @export var display_name: String = "[Empty]"
 ## The unit's description.
 @export_multiline var unit_description: String = "[Empty]"
-## The unit's class.
-@export var unit_class: UnitClass
 ## The items in the unit's inventory.
 @export var items: Array[Item]
 
-@export var _faction_id: int:
-	set(value):
-		remove_from_group(faction.get_group_name())
-		_faction_id = value
-		add_to_group(faction.get_group_name())
 @export var _base_level: int = 1
 @export var _personal_skills: Array[Skill]
-
-@export_group("Hair")
-@export var _custom_hair: bool = false
-@export_color_no_alpha var _hair_color_light: Color
-@export_color_no_alpha var _hair_color_dark: Color
 
 ## The total experience the unit has.
 var total_exp: float
@@ -131,14 +116,6 @@ var dead: bool = false
 var selected: bool = false
 ## Whether the unit can be selected.
 var selectable: bool = true
-## Whether the unit is animated on the map.
-var sprite_animated: bool = true:
-	set(value):
-		sprite_animated = value
-		if sprite_animated:
-			_animation_player.play(_animation_player.current_animation)
-		else:
-			_animation_player.pause()
 ## The unit's personal weapon levels.
 var personal_weapon_levels: Dictionary[Weapon.Types, int]
 ## The unit being carried by the unit.
@@ -159,19 +136,6 @@ var current_health: int:
 			const HealthBar: GDScript = preload("res://units/health_bar/health_bar.gd")
 			($HealthBar as HealthBar).update()
 		health_changed.emit()
-## The faction the unit belongs to.
-var faction: Faction:
-	get:
-		if _get_map() and not _get_map().all_factions.is_empty():
-			return _get_map().all_factions[_faction_id]
-		return Faction.new("INVALID", Faction.Colors.BLUE, Faction.PlayerTypes.HUMAN, null)
-	set(new_faction):
-		_faction_id = _get_map().all_factions.find(new_faction)
-## Whether the unit is waiting.
-var waiting: bool = false:
-	set(value):
-		waiting = value
-		_update_palette()
 
 var _personal_values: Dictionary[Stats, int]
 var _effort_power: int
@@ -180,8 +144,6 @@ var _effort_values: Dictionary[Stats, int]
 var _current_movement: float
 var _attack_tiles: Array[Vector2i]
 var _movement_tiles: Array[Vector2i]
-var _map: Map
-var _animation_player: AnimationPlayer
 var _traveler_animation_player: AnimationPlayer
 var _portrait: Portrait
 # Path the unit will follow when moving.
@@ -195,19 +157,12 @@ var _equipped_weapon: Weapon
 
 
 func _enter_tree() -> void:
-	_animation_player = $AnimationPlayer as AnimationPlayer
+	super()
 	_traveler_animation_player = $TravelerIcon/AnimationPlayer as AnimationPlayer
 	level = _base_level
-	texture = unit_class.get_map_sprite()
-	material = material.duplicate() as Material
 	_reset_movement()
 	current_health = get_hit_points()
 	add_to_group(&"units")
-	_update_palette()
-	if _animation_player.current_animation == "":
-		_animation_player.play("idle")
-	if not Engine.is_editor_hint():
-		Utilities.sync_animation(_animation_player)
 	var directory: String = "res://portraits/{name}/{name}.tscn".format(
 		{"name": display_name.to_snake_case()}
 	)
@@ -215,6 +170,7 @@ func _enter_tree() -> void:
 		_portrait = (load(directory) as PackedScene).instantiate() as Portrait
 	faction.name_changed.connect(_on_faction_name_changed)
 	add_to_group(faction.get_group_name())
+	flip_h = faction.flipped if faction else false
 
 
 func _exit_tree() -> void:
@@ -222,12 +178,10 @@ func _exit_tree() -> void:
 
 
 func _process(_delta: float) -> void:
+	super(_delta)
 	if traveler:
 		traveler.position = position
 	_render_status()
-	if _animation_player.current_animation == "idle":
-		var anim_frame: int = floori((Engine.get_physics_frames() as float) / 16) % 4
-		frame = 1 if anim_frame == 3 else anim_frame
 
 
 ## Gets the current weapon
@@ -297,27 +251,9 @@ func get_displayed_damage(
 		return get_crit_damage(enemy) if crit else get_damage(enemy)
 
 
-## Sets the unit's map animation
-func set_animation(animation: Animations) -> void:
-	_animation_player.play("RESET")
-	_animation_player.advance(0)
+func set_animation(animation: UnitSprite.Animations) -> void:
 	flip_h = faction.flipped and animation == Animations.IDLE if faction else false
-	match animation:
-		Animations.IDLE:
-			_animation_player.play("idle")
-		Animations.MOVING_LEFT:
-			_animation_player.play("moving_left")
-		Animations.MOVING_RIGHT:
-			_animation_player.play("moving_right")
-		Animations.MOVING_UP:
-			_animation_player.play("moving_up")
-		Animations.MOVING_DOWN:
-			_animation_player.play("moving_down")
-	if sprite_animated:
-		Utilities.sync_animation(_animation_player)
-	else:
-		_animation_player.advance(0)
-		_animation_player.pause()
+	super(animation)
 
 
 ## Gets the unit's stat
@@ -523,11 +459,9 @@ func get_crit_rate(enemy: Unit) -> int:
 func get_path_last_pos() -> Vector2i:
 	var path: Array[Vector2i] = get_unit_path().duplicate()
 	var unit_positions: Array[Vector2i] = []
-	(
-		unit_positions
-		. filter(func(unit: Unit) -> bool: return unit != self)
-		. assign(_get_map().get_units().map(func(unit: Unit) -> Vector2i: return unit.position))
-	)
+	unit_positions.filter(func(unit: Unit) -> bool: return unit != self)
+	var get_unit_position: Callable = func(unit: Unit) -> Vector2i: return unit.position
+	unit_positions.assign(_get_map().get_units().map(get_unit_position))
 	var valid_path: Array[Vector2i] = path.filter(
 		func(tile: Vector2i) -> bool: return tile not in unit_positions
 	)
@@ -965,38 +899,29 @@ static func full_load(properties: Dictionary[StringName, Variant], parent: Node)
 		new_unit.set(property_name, properties[property_name])
 	parent.add_child(new_unit)
 	new_unit.quick_load(properties)
-	print_debug(new_unit._faction_id)
 	return new_unit
+
+
+func get_sprite() -> UnitSprite:
+	return UnitSprite.instantiate(
+		unit_class,
+		sprite_animated,
+		waiting,
+		faction,
+		_custom_hair,
+		_hair_color_light,
+		_hair_color_dark
+	)
+
+
+func _set_faction_id(value: int) -> void:
+	remove_from_group(faction.get_group_name())
+	super(value)
+	add_to_group(faction.get_group_name())
 
 
 func _get_area() -> Area2D:
 	return $Area2D as Area2D
-
-
-func _get_map() -> Map:
-	if not _map:
-		if Engine.is_editor_hint():
-			var current_parent: Node = get_parent()
-			while current_parent is not Map and current_parent:
-				current_parent = current_parent.get_parent()
-			return current_parent as Map
-		else:
-			return MapController.map
-	return _map
-
-
-func _update_palette() -> void:
-	var shader_material := material as ShaderMaterial
-	shader_material.set_shader_parameter("old_colors", unit_class.get_palette_basis())
-	var get_palette: Callable = func() -> Array[Color]:
-		if waiting:
-			return unit_class.get_wait_palette() + _get_grayscale_hair_palette()
-		else:
-			return (
-				unit_class.get_palette(faction.color if faction else Faction.Colors.BLUE)
-				+ _get_hair_palette()
-			)
-	shader_material.set_shader_parameter("new_colors", get_palette.call())
 
 
 func _get_distance(unit: Unit) -> int:
@@ -1052,7 +977,7 @@ func _render_status() -> void:
 
 
 # When cursor enters unit's area
-func _on_area2d_area_entered(area: Area2D) -> void:
+func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area == CursorController.get_area() and visible:
 		var can_be_selected: bool = true
 		if is_instance_valid(CursorController.get_hovered_unit()):
@@ -1067,7 +992,7 @@ func _on_area2d_area_entered(area: Area2D) -> void:
 
 
 # When cursor exits unit's area
-func _on_area2d_area_exited(area: Area2D) -> void:
+func _on_area_2d_area_exited(area: Area2D) -> void:
 	if area == CursorController.get_area() and not selected:
 		hide_movement_tiles()
 
@@ -1079,38 +1004,6 @@ func _get_value_modifier(
 		return roundi((min_value if stat == Stats.MOVEMENT else max_value) * value_weight)
 	else:
 		return roundi(remap(current_level, 0, Unit.LEVEL_CAP, min_value, max_value) * value_weight)
-
-
-func _get_hair_palette() -> Array[Color]:
-	var default_palette: Array[Color] = unit_class.get_default_hair_palette(
-		faction.color if faction else Faction.Colors.BLUE
-	)
-	if _custom_hair:
-		var palette_length: int = default_palette.size()
-		var palette: Array[Color] = []
-		var get_hair_color: Callable = func(index: int) -> Color:
-			return _hair_color_light.lerp(
-				_hair_color_dark, inverse_lerp(0, palette_length - 1, index)
-			)
-		palette.assign(range(palette_length).map(get_hair_color))
-		return palette
-	else:
-		return default_palette
-
-
-func _get_grayscale_hair_palette() -> Array[Color]:
-	var default_palette: Array[Color] = unit_class.get_default_hair_palette(faction.color)
-	if _custom_hair:
-		var palette_length: int = default_palette.size()
-		var palette: Array[Color] = []
-		var get_grayscale_color: Callable = func(index: int) -> Color:
-			var new_color := Color()
-			new_color.v = remap(index, 0, palette_length, _hair_color_light.v, _hair_color_dark.v)
-			return new_color
-		palette.assign(range(palette_length).map(get_grayscale_color))
-		return palette
-	else:
-		return default_palette
 
 
 func _hovered_unit_in_range() -> bool:

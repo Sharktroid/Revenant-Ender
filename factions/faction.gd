@@ -74,7 +74,9 @@ func is_friend(other_faction: Faction) -> bool:
 func get_units() -> Array[Unit]:
 	var units: Array[Unit] = []
 	# Use groups as it is faster than using get_units and checking each unit.
-	units.assign(MapController.get_tree().get_nodes_in_group(get_group_name()))
+	# Checking for tree to prevent an annoying crash when shutting down.
+	if MapController.get_tree():
+		units.assign(MapController.get_tree().get_nodes_in_group(get_group_name()))
 	return units
 
 
