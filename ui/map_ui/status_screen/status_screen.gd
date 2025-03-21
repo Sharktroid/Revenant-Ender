@@ -75,10 +75,10 @@ func _input(event: InputEvent) -> void:
 			Utilities.switch_tab(_menu_tabs as TabContainer, 1)
 			_delay = 5
 	if not _scroll_lock:
-		if Input.is_action_pressed("up") and not Input.is_action_pressed("down"):
+		if Input.is_action_pressed("scroll_up") and not Input.is_action_pressed("scroll_down"):
 			observing_unit = MapController.map.get_previous_unit(observing_unit)
 			_move(_Directions.UP)
-		elif Input.is_action_pressed("down"):
+		elif Input.is_action_pressed("scroll_down"):
 			observing_unit = MapController.map.get_next_unit(observing_unit)
 			_move(_Directions.DOWN)
 

@@ -31,11 +31,12 @@ var _cost_grids: Dictionary[UnitClass.MovementTypes, AStarGrid2D] = {}
 # The faction that last used a grid.
 var _grid_current_faction: Faction
 # The current turn.
-var _current_turn: int
+var _current_turn: int = 1
 var _selected_unit: Unit
 var _ghost_unit: UnitSprite
 var _canter_tiles: Node2D
 var _flags: Dictionary[Vector2i, Flag]
+var _rewind: Array[Dictionary]
 
 # The terrain map layer
 @onready var _terrain_layer := $MapLayer/TerrainLayer as TileMapLayer
@@ -87,7 +88,7 @@ func _process(_delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("select"):
+	if event.is_action_pressed(&"select"):
 		if CursorController.is_active():
 			match state:
 				States.SELECTING:
@@ -96,25 +97,37 @@ func _input(event: InputEvent) -> void:
 					_moving_state_select()
 				States.CANTERING:
 					_canter_state_select()
-	elif event.is_action_pressed("back"):
+	elif event.is_action_pressed(&"back"):
 		if state == States.MOVING:
 			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
 			_deselect()
-	elif event.is_action_pressed("ranges"):
+	elif event.is_action_pressed(&"ranges"):
 		if CursorController.get_hovered_unit():
 			_toggle_outline_unit(CursorController.get_hovered_unit())
 		else:
 			_toggle_full_outline()
-	elif event.is_action_pressed("status"):
+	elif event.is_action_pressed(&"status"):
 		if CursorController.get_hovered_unit():
 			create_status_screen()
-	elif event.is_action_pressed("flag"):
+	elif event.is_action_pressed(&"flag"):
 		if is_instance_valid(_flags.get(CursorController.map_position)):
 			(_flags.get(CursorController.map_position) as Flag).queue_free()
 		else:
 			var flag: Flag = Flag.instantiate(CursorController.map_position)
 			$MapLayer.add_child(flag)
 			_flags[CursorController.map_position] = flag
+	if event.is_action_pressed(&"rewind"):
+		process_mode = Node.PROCESS_MODE_DISABLED
+		CursorController.disable()
+		CursorController.cursor_visible = false
+		var rewind_menu := RewindMenu.instantiate(_rewind)
+		MapController.get_ui().add_child(rewind_menu)
+		await rewind_menu.tree_exited
+		CursorController.enable()
+		CursorController.cursor_visible = true
+		process_mode = Node.PROCESS_MODE_INHERIT
+		if get_current_faction().player_type != Faction.PlayerTypes.HUMAN:
+			end_turn.call_deferred()
 
 
 ## Shows the status screen for the unit the cursor is hovering over.
@@ -129,16 +142,19 @@ func create_status_screen() -> void:
 
 
 ## A function that is called whenever a unit ends their turn.
-func unit_wait(_unit: Unit) -> void:
+func unit_wait(unit: Unit, action_name: String) -> void:
 	_update_outline()
-	for unit: Unit in get_units():
-		unit.reset_tile_cache()
+	for map_unit: Unit in get_units():
+		map_unit.reset_tile_cache()
 	if (
 		Options.AUTOEND_TURNS.value
-		and _get_current_units().all(func(unit: Unit) -> bool: return unit.waiting)
+		and _get_current_units().all(func(current_unit: Unit) -> bool: return current_unit.waiting)
 	):
 		end_turn.call_deferred()
-	MapController.turnwheel_save(quick_save())
+	quick_save(
+		"{unit} {action}".format({"unit": unit.display_name, "action": action_name}),
+		unit.get_sprite()
+	)
 
 
 ## Gets the faction that is currently making their turn.
@@ -322,31 +338,42 @@ func set_state(new_state: States) -> void:
 
 
 ## Saves the current state of the map. Faster than PackedScene.pack().
-func quick_save() -> Dictionary[StringName, Variant]:
-	var properies: Dictionary[StringName, Variant] = {}
+func quick_save(action_name: String, unit_sprite: UnitSprite = null) -> void:
+	var properties: Dictionary[StringName, Variant] = {}
 	for property_name: String in _SAVED_PROPERTY_NAMES:
-		properies[property_name] = get(property_name)
+		properties[property_name] = get(property_name)
 	var units: Dictionary[String, Dictionary] = {}
 	for unit: Unit in get_units():
 		units[unit.name] = unit.quick_save()
-	properies[&"units"] = units
-	return properies
+	properties[&"units"] = units
+	properties[&"name"] = action_name
+	properties[&"unit_sprite"] = unit_sprite
+	properties[&"current_faction"] = get_current_faction()
+	# 10000 of these takes up ~302 MB
+	_rewind.append(properties)
 
 
 ## Loads a dictionary returned from quick_save.
-func quick_load(properies: Dictionary[StringName, Variant]) -> void:
+func quick_load(properties: Dictionary[StringName, Variant]) -> void:
 	for property_name: StringName in _SAVED_PROPERTY_NAMES:
-		set(property_name, properies[property_name])
-	var units := (properies[&"units"] as Dictionary).duplicate() as Dictionary[String, Dictionary]
+		set(property_name, properties[property_name])
+	var units := (properties[&"units"] as Dictionary).duplicate() as Dictionary[String, Dictionary]
 	for unit: Unit in get_units():
-		if unit.name in units.keys():
+		if unit.name in units.keys() and not units[unit.name][&"dead"]:
 			unit.quick_load(units[unit.name])
 			units.erase(unit.name)
 		else:
 			unit.queue_free()
 	for unit_name: StringName in units.keys():
-		var new_unit := Unit.full_load(units[unit_name], %Units)
-		new_unit.name = unit_name
+		if not units[unit_name][&"dead"]:
+			var new_unit := Unit.full_load(units[unit_name], %Units)
+			new_unit.name = unit_name
+
+
+func rewind_load(index: int, delete_newer: bool = false) -> void:
+	quick_load(_rewind[index])
+	if delete_newer:
+		_rewind = _rewind.slice(0, index + 1)
 
 
 # Updates AStarGrid2D
@@ -562,7 +589,7 @@ func _next_faction() -> void:
 
 ## Starts new turn.
 func _start_turn() -> void:
-	MapController.turnwheel_save(quick_save())
+	quick_save("Start of turn")
 	await _display_turn_change(get_current_faction())
 	if (
 		not Options.SMART_CURSOR.value

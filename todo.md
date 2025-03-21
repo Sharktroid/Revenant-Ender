@@ -6,16 +6,13 @@ Before you commit
 
 # Minor
 * Implement control groups.
-* Use "scene_file_path" when relevant.
 * Fix stat bars when switching from item panel.
 * Fix crashes with empty inventory
+* Use more @onready variables
+* Test keyboard ghosting with controllers
+	* See if Input calls in _input functions can be removed
 
 # Major
-* Add saving
-	* Turnwheel
-		* Can undo last action for free but random outcomes will be fixed and if the unit didn't get a crit they can't crit again that phase
-		* Anything over 10 turns old will only have a turnwheel for the start of the turn
-* Add stats for performing kills on certain terrain and units of categories
 * Make it possible to attack preview with any unit at any time
 * Add testing mode
 	* Allow the player to manually rig via an option
@@ -55,13 +52,14 @@ Before you commit
 	* Have units gain +0.02 movement EVs per tile traversed
 * Palette the status screen for each unit
 * Add simple and extended scripts
-
-# Possible
-* Shields
 * Add Berwick-style 0 range
 * Add Berwick-style unit moving
+* Shields
 * Can parry via combat art if shield weight > opponent's weapon weight (costs 3 durability)
 	* Cannot parry tomes
+
+# Possible
+* Add stats for performing kills on certain terrain and units of categories
 * Physical weapons have Berwick-style breaking
 	* Good, Decent, Bad, and Critical
 		* -5 Crit penalty when below Good

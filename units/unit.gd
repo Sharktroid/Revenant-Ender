@@ -73,6 +73,7 @@ const _SAVED_PROPERTY_NAMES: Array[StringName] = [
 	&"unit_class",
 	&"items",
 	&"flip_h",
+	&"dead",
 	&"_faction_id",
 	&"_personal_values",
 	&"_effort_power",
@@ -544,11 +545,11 @@ func can_rescue(unit: Unit) -> bool:
 
 
 ## Causes unit to wait.
-func wait() -> void:
+func wait(action_name: String = "waits") -> void:
 	_reset_movement()
 	if DebugConfig.UNIT_WAIT.value:
 		waiting = true
-	_get_map().unit_wait(self)
+	_get_map().unit_wait(self, action_name)
 	deselect()
 
 

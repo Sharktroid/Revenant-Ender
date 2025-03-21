@@ -44,7 +44,8 @@ func _play(experience: float) -> void:
 	await tween.finished
 	exp_audio_player.stop()
 	exp_audio_player.queue_free()
-	await timer.timeout
+	if timer.time_left > 0:
+		await timer.timeout
 	await _close()
 
 	if _unit.level > old_level:

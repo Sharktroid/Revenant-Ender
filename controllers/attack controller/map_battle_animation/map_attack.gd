@@ -25,8 +25,6 @@ func _init(connected_unit: Unit = null, targeted_tile := Vector2i(0, 16)) -> voi
 	_combat_sprite.set_animation(
 		_get_animation((Vector2(_target_tile) - position).angle() * 4 / PI)
 	)
-	#_combat_sprite.set_animation(UnitSprite.Animations.MOVING_LEFT)
-	#print_debug((Vector2(_target_tile) - position).angle() * 4 / PI)
 
 
 ## @experimental

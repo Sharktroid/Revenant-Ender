@@ -11,9 +11,14 @@ var _current_table: Array[String]
 var _current_table_cols: int
 
 
+func _init() -> void:
+	process_mode = Node.PROCESS_MODE_DISABLED
+
 func _ready() -> void:
+	Engine.is_editor_hint()
 	if Utilities.is_running_project():
 		_get_popup_node().visible = false
+		process_mode = Node.PROCESS_MODE_INHERIT
 	else:
 		queue_free()
 

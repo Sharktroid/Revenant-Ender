@@ -313,7 +313,7 @@ func _attack(selected_unit: Unit) -> void:
 	process_mode = PROCESS_MODE_DISABLED
 	await connected_unit.move()
 	await AttackController.combat(connected_unit, selected_unit)
-	connected_unit.wait()
+	connected_unit.wait("attacks")
 	_close()
 
 
