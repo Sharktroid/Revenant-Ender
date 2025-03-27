@@ -5,7 +5,6 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Implement control groups.
 * Fix stat bars when switching from item panel.
 * Fix crashes with empty inventory
 * Use more @onready variables
@@ -13,6 +12,12 @@ Before you commit
 	* See if Input calls in _input functions can be removed
 
 # Major
+* Add testing suite
+	* Add tests for previous and future bugs/regressions
+* Add categories to options menu, and remove debug options menu
+	* Add game settings (can't be changed on map)
+		* Include options for RNG
+			* Battle hit rates can't go below weapon's hit rates in dampened mode
 * Make it possible to attack preview with any unit at any time
 * Add testing mode
 	* Allow the player to manually rig via an option
@@ -29,7 +34,6 @@ Before you commit
 	* Add an option to disable support map animations
 * Dual Wielding
 * Implement dual weapons
-* Add categories to options menu, and remove debug options menu
 * Add unit hover display
 * Document classes (roll this out gradually so I don't burn out)
 * Add DS Font

@@ -37,6 +37,7 @@ var _ghost_unit: UnitSprite
 var _canter_tiles: Node2D
 var _flags: Dictionary[Vector2i, Flag]
 var _rewind: Array[Dictionary]
+var _shortcut_units: Dictionary[int, Unit] = {}
 
 # The terrain map layer
 @onready var _terrain_layer := $MapLayer/TerrainLayer as TileMapLayer
@@ -128,6 +129,23 @@ func _input(event: InputEvent) -> void:
 		process_mode = Node.PROCESS_MODE_INHERIT
 		if get_current_faction().player_type != Faction.PlayerTypes.HUMAN:
 			end_turn.call_deferred()
+	elif event.is_action_pressed(&"control_group", true):
+		if Input.is_action_pressed(&"group_modifier_set"):
+			if CursorController.get_hovered_unit():
+				_shortcut_units[MapController.get_control_group(event)] = (
+					CursorController.get_hovered_unit()
+				)
+		else:
+			if _shortcut_units.has(MapController.get_control_group(event)):
+				CursorController.map_position = (
+					_shortcut_units[MapController.get_control_group(event)].position
+				)
+				var pixel_scale: Vector2 = (
+					Vector2(DisplayServer.window_get_size()) / Vector2(Utilities.get_screen_size())
+				)
+				Input.warp_mouse(
+					Vector2(CursorController.screen_position + (Vector2i.ONE * 8)) * pixel_scale
+				)
 
 
 ## Shows the status screen for the unit the cursor is hovering over.
