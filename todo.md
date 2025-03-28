@@ -7,7 +7,6 @@ Before you commit
 # Minor
 * Fix stat bars when switching from item panel.
 * Fix crashes with empty inventory
-* Use more @onready variables
 * Test keyboard ghosting with controllers
 	* See if Input calls in _input functions can be removed
 

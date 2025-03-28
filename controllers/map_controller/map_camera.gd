@@ -5,12 +5,8 @@ extends Camera2D
 ## The position of the top-left corner of the screen relative to the map offset.
 var _map_position: Vector2i:
 	set = _set_map_position
-## The unrounded position.
-var _true_position: Vector2
-
-
-func _enter_tree() -> void:
-	_true_position = get_destination()
+# The unrounded position.
+@onready var _true_position: Vector2 = get_destination()
 
 
 func _process(delta: float) -> void:

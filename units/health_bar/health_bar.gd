@@ -5,10 +5,6 @@ func _init() -> void:
 	add_theme_stylebox_override("fill", get_theme_stylebox("fill").duplicate() as StyleBox)
 
 
-func _enter_tree() -> void:
-	update()
-
-
 func update() -> void:
 	var unit := get_parent() as Unit
 	max_value = unit.get_hit_points()

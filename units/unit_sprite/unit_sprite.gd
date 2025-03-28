@@ -46,7 +46,6 @@ var waiting: bool = false:
 		_update_palette()
 
 var _map: Map
-var test: bool = false
 
 
 static func instantiate(

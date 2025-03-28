@@ -105,12 +105,6 @@ const _EV_MAX_HP_MODIFIER: int = EV_MAX_MODIFIER * 2
 
 ## The total experience the unit has.
 var total_exp: float
-## The unit's current level. Is derived from total_exp.
-var level: int:
-	set(value):
-		total_exp = Unit.get_exp_from_level(value)
-	get:
-		return floori(Unit.get_level_from_exp(total_exp))
 ## Whether the unit is dead.
 var dead: bool = false
 ## Whether the unit is selected.
@@ -129,14 +123,6 @@ var traveler: Unit:
 			_traveler_animation_player.play("RESET")
 ## The unit's personal authority.
 var personal_authority: int
-## The unit's current health. If this drops to 0, the unit dies.
-var current_health: int:
-	set(health):
-		current_health = clampi(health, 0, get_hit_points())
-		if not Engine.is_editor_hint():
-			const HealthBar: GDScript = preload("res://units/health_bar/health_bar.gd")
-			($HealthBar as HealthBar).update()
-		health_changed.emit()
 
 var _personal_values: Dictionary[Stats, int]
 var _effort_power: int
@@ -145,7 +131,6 @@ var _effort_values: Dictionary[Stats, int]
 var _current_movement: float
 var _attack_tiles: Array[Vector2i]
 var _movement_tiles: Array[Vector2i]
-var _traveler_animation_player: AnimationPlayer
 var _portrait: Portrait
 # Path the unit will follow when moving.
 var _path: Array[Vector2i]
@@ -156,13 +141,26 @@ var _current_attack_tiles_node: Node2D
 var _arrows_container: CanvasGroup
 var _equipped_weapon: Weapon
 
+## The unit's current level. Is derived from total_exp.
+@onready var level: int = _base_level:
+	set(value):
+		total_exp = Unit.get_exp_from_level(value)
+	get:
+		return floori(Unit.get_level_from_exp(total_exp))
+## The unit's current health. If this drops to 0, the unit dies.
+@onready var current_health: int = get_hit_points():
+	set(health):
+		current_health = clampi(health, 0, get_hit_points())
+		if not Engine.is_editor_hint():
+			const HealthBar: GDScript = preload("res://units/health_bar/health_bar.gd")
+			($HealthBar as HealthBar).update()
+		health_changed.emit()
+@onready var _traveler_animation_player := $TravelerIcon/AnimationPlayer as AnimationPlayer
+
 
 func _enter_tree() -> void:
 	super()
-	_traveler_animation_player = $TravelerIcon/AnimationPlayer as AnimationPlayer
-	level = _base_level
 	_reset_movement()
-	current_health = get_hit_points()
 	add_to_group(&"units")
 	var directory: String = "res://portraits/{name}/{name}.tscn".format(
 		{"name": display_name.to_snake_case()}
