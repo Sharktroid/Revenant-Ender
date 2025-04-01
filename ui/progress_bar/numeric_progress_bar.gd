@@ -12,7 +12,6 @@ enum Modes { INTEGER, FLOAT, PERCENT }
 	set(new_value):
 		mode = new_value
 		for bar: ProgressBar in _progress_bars:
-			bar.min_value = value
 			if mode == Modes.INTEGER:
 				bar.step = 1
 			else:
@@ -88,7 +87,6 @@ func _update() -> void:
 		_progress_bar_red.visible = true
 		_progress_bar_yellow.value = value
 		_progress_bar_red.value = original_value
-
 	_value_label.text = _get_value_text()
 	if two_valued:
 		_value_label.theme_type_variation = _get_theme_variation()

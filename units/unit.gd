@@ -835,7 +835,7 @@ func set_weapon_level(type: Weapon.Types, new_level: int) -> void:
 ## Gets the unit's personal value for a stat.
 func get_personal_value(stat: Stats) -> int:
 	return _personal_values.get_or_add(
-		stat, 0 if stat == Stats.MOVEMENT else DEFAULT_PERSONAL_VALUE
+		stat, 0 if stat in [Stats.MOVEMENT, Stats.BUILD] else DEFAULT_PERSONAL_VALUE
 	)
 
 

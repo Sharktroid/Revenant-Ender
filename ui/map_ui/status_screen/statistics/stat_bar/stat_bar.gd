@@ -9,7 +9,7 @@ const ABSOLUTE_MAX_VALUE: int = ceili(30 + (Unit.PV_MAX_MODIFIER) + (Unit.EV_MAX
 var unit: Unit:
 	set(value):
 		unit = value
-		_update.call_deferred()
+		_update()
 ## The stat being displayed
 @export var stat: Unit.Stats
 

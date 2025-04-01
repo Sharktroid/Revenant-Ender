@@ -38,7 +38,7 @@ func get_left_controls() -> Array[Node]:
 
 
 func _update() -> void:
-	if observing_unit:
+	if visible and observing_unit:
 		offensive_stats_panel.unit = observing_unit
 		defensive_stats_panel.unit = observing_unit
 		misc_stats_panel.unit = observing_unit

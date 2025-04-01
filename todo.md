@@ -5,7 +5,7 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Fix stat bars when switching from item panel.
+* [Design doc] remove x2 strikes with +1 strikes.
 * Fix crashes with empty inventory
 * Test keyboard ghosting with controllers
 	* See if Input calls in _input functions can be removed
