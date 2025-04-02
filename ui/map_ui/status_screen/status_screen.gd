@@ -163,10 +163,12 @@ func _get_attack_description() -> String:
 
 
 func _get_range_value() -> String:
-	var range_text: String = observing_unit.get_weapon().get_range_text().replace(
-		"-", " [color={yellow}]-[/color] ".format({"yellow": Utilities.FONT_YELLOW})
-	)
-	return "[color={blue}]{text}[/color]".format({"blue": Utilities.FONT_BLUE, "text": range_text})
+	if observing_unit.get_weapon():
+		var range_text: String = observing_unit.get_weapon().get_range_text().replace(
+			"-", " [color={yellow}]-[/color] ".format({"yellow": Utilities.FONT_YELLOW})
+		)
+		return "[color={blue}]{text}[/color]".format({"blue": Utilities.FONT_BLUE, "text": range_text})
+	return "--"
 
 
 func _get_exp_stat_help() -> String:

@@ -429,11 +429,13 @@ func get_avoid() -> float:
 
 ## Gets the hit rate against an enemy
 func get_hit_rate(enemy: Unit) -> int:
-	var hit_bonus: float = get_weapon().get_hit_bonus(enemy.get_weapon(), _get_distance(enemy))
-	var authority_bonus: int = AUTHORITY_HIT_BONUS * get_authority_modifier(enemy)
-	return _adjust_rate(
-		roundi(clampf(get_hit() - enemy.get_avoid() + hit_bonus + authority_bonus, 0, 100))
-	)
+	if get_weapon(): # No point in doing something more elaborate and complicated.
+		var hit_bonus: float = get_weapon().get_hit_bonus(enemy.get_weapon(), _get_distance(enemy))
+		var authority_bonus: int = AUTHORITY_HIT_BONUS * get_authority_modifier(enemy)
+		return _adjust_rate(
+			roundi(clampf(get_hit() - enemy.get_avoid() + hit_bonus + authority_bonus, 0, 100))
+		)
+	return 0
 
 
 ## Gets the base crit rate

@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=4 uid="uid://c7imjt60y75n3"]
+[gd_scene load_steps=53 format=4 uid="uid://c7imjt60y75n3"]
 
 [ext_resource type="PackedScene" uid="uid://bhm3c7lcoufva" path="res://maps/map.tscn" id="1_kb152"]
 [ext_resource type="Shader" uid="uid://dvhsb70ovjidp" path="res://shaders/gba_color.gdshader" id="2_1nmhw"]
@@ -458,9 +458,6 @@ shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 
 shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.596078, 0.564706, 0.376471, 1), Color(0.282353, 0.282353, 0.188235, 1), Color(0.909804, 0.721569, 0.690196, 1), Color(0.658824, 0.219608, 0.0941176, 1), Color(0.282353, 0.0627451, 0.0941176, 1), Color(0.156863, 0.12549, 0.12549, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.533333, 0.407843, 0.313726, 1), Color(0.0627451, 0, 0, 1), Color(0.501961, 0.439216, 0.847059, 1), Color(0.313726, 0.12549, 0.596078, 1)])
 shader_parameter/white_percentage = 0.0
 
-[sub_resource type="Resource" id="Resource_8bxw0"]
-script = ExtResource("14_kcchf")
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ij6rw"]
 shader = ExtResource("6_klyfp")
 shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
@@ -651,7 +648,6 @@ texture = ExtResource("19_wsf8a")
 flip_h = true
 display_name = "Bandit"
 unit_description = "Brigands of Lycia."
-items = Array[ExtResource("7_7f3pc")]([SubResource("Resource_8bxw0")])
 unit_class = SubResource("Resource_6ahce")
 _faction_id = 1
 

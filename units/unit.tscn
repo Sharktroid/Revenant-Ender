@@ -176,6 +176,7 @@ autoplay = "idle"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_xx66i")
+debug_color = Color(0, 0.6, 0.701961, 0)
 
 [node name="HealthBar" parent="." instance=ExtResource("2")]
 visible = false

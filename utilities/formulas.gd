@@ -32,17 +32,17 @@ class Formula:
 		"speed_luck_avoid_multiplier": Unit.SPEED_LUCK_AVOID_MULTIPLIER,
 		"dexterity_weapon_level_multiplier": Unit.DEXTERITY_WEAPON_LEVEL_MULTIPLIER,
 	}
-	var _functions: Dictionary[String, String] = {
-		"weapon_hit": "get_weapon().get_hit()",
-		"weapon_crit": "get_weapon().get_crit()",
-		"weapon_might": "get_weapon().get_might()",
-		"weapon_weight": "get_weapon().get_weight()",
-		"dexterity": "get_dexterity()",
-		"speed": "get_speed()",
-		"luck": "get_luck()",
-		"build": "get_build()",
-		"attack_stat": "get_current_attack()",
-		"attack_speed": "get_attack_speed()",
+	var _functions: Dictionary[String, Callable] = {
+		"weapon_hit": func(unit: Unit) -> float: return unit.get_weapon().get_hit() if unit.get_weapon() else 0.0,
+		"weapon_crit": func(unit: Unit) -> float: return unit.get_weapon().get_crit() if unit.get_weapon() else 0.0,
+		"weapon_might": func(unit: Unit) -> float: return unit.get_weapon().get_might() if unit.get_weapon() else 0.0,
+		"weapon_weight": func(unit: Unit) -> float: return unit.get_weapon().get_weight() if unit.get_weapon() else 0.0,
+		"dexterity": func(unit: Unit) -> int: return unit.get_dexterity(),
+		"speed": func(unit: Unit) -> int: return unit.get_speed(),
+		"luck": func(unit: Unit) -> int: return unit.get_luck(),
+		"build": func(unit: Unit) -> int: return unit.get_build(),
+		"attack_stat": func(unit: Unit) -> int: return unit.get_current_attack(),
+		"attack_speed": func(unit: Unit) -> float: return unit.get_attack_speed(),
 	}
 	var _base_string: String
 
@@ -91,10 +91,8 @@ class Formula:
 
 	func _get_function_replacements(unit: Unit) -> Dictionary[String, float]:
 		var replacements: Dictionary[String, float] = {}
-		var expression := Expression.new()
 		for key: String in _functions:
-			expression.parse(str(_functions[key]))
-			replacements[key] = expression.execute([], unit)
+			replacements[key] = _functions[key].call(unit)
 		return replacements
 
 	func _get_all_replacements(unit: Unit) -> Dictionary[String, float]:

@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://5eqx0cdhhxrv" path="res://units/unit_classes/lord/lord.gd" id="5_uk2gd"]
 [ext_resource type="Script" uid="uid://oxuirych6txp" path="res://items/item.gd" id="6_87p36"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_plquk"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o5hyl"]
 shader = ExtResource("2_fpafp")
 shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
 shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.89, 0.0445, 0.185417, 1), Color(0.49, 0.1078, 0.19061, 1)])
@@ -22,7 +22,7 @@ resource_name = "Lord"
 script = ExtResource("5_uk2gd")
 
 [node name="Roy" instance=ExtResource("1_334ru")]
-material = SubResource("ShaderMaterial_plquk")
+material = SubResource("ShaderMaterial_o5hyl")
 texture = ExtResource("3_1rpd5")
 script = ExtResource("4_cii6r")
 display_name = "Roy"

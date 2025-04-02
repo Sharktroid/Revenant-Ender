@@ -39,8 +39,9 @@ var unit: Unit:
 var weapon: Weapon:
 	set(value):
 		weapon = value
-		(%ItemIcon as TextureRect).texture = weapon.get_icon()
-		(%ItemNameLabel as Label).text = weapon.get_item_name()
+		if weapon:
+			(%ItemIcon as TextureRect).texture = weapon.get_icon()
+		(%ItemNameLabel as Label).text = weapon.get_item_name() if weapon else "--"
 ## Whether the weapon displays a pair of arrows.
 var arrows: bool = false:
 	set(value):
