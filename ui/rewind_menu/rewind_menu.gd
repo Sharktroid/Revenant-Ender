@@ -47,40 +47,44 @@ func _ready() -> void:
 	)
 	await get_tree().process_frame
 	_index = _actions.size() - 1
+	var scroll: Callable = func(direction: float) -> void:
+		if sign(direction) == -1:
+			await _tween_index(floori(_index) + direction)
+		else:
+			await _tween_index(ceili(_index) + direction)
+	add_child(ScrollAxisInputController.new(scroll, &"up", &"down", 1))
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed(&"back") or event.is_action_pressed(&"rewind"):
-		MapController.map.rewind_load(_actions.size() - 1)
-		queue_free()
-	elif event.is_action_pressed(&"select"):
-		MapController.map.rewind_load(roundi(_index), true)
-		queue_free()
-	elif event.is_action_pressed(&"select"):
-		if (
-			event is InputEventMouseButton
-			and _action_scroll_container.get_rect().has_point(get_global_mouse_position())
-		):
-			var offset_position: Vector2 = get_global_mouse_position()
-			offset_position.y += (
-				_action_scroll_container.scroll_vertical - _full_cell_size * 3 - _vertical_spacing
-			)
-			for child: PanelContainer in _get_panel_containers():
-				if child.get_rect().has_point(offset_position):
-					_tween_index(_get_panel_containers().find(child))
-
-	elif event.is_action_pressed(&"scroll_up", true):
-		_tween_index(floori(_index) - 1)
-	elif event.is_action_pressed(&"scroll_down", true):
-		_tween_index(ceili(_index) + 1)
-	elif event.is_action_pressed(&"ui_home", true):
-		_tween_index(0)
-	elif event.is_action_pressed(&"ui_end", true):
-		_tween_index(_actions.size() - 1)
-	elif event.is_action_pressed(&"ui_page_up", true):
-		_tween_index(floori(_index) - (EXTRA_ACTIONS + 1))
-	elif event.is_action_pressed(&"ui_page_down", true):
-		_tween_index(ceili(_index) + EXTRA_ACTIONS + 1)
+	if not _tween or not _tween.is_running():
+		if event.is_action_pressed(&"back") or event.is_action_pressed(&"rewind"):
+			MapController.map.rewind_load(_actions.size() - 1)
+			queue_free()
+		elif event.is_action_pressed(&"select"):
+			MapController.map.rewind_load(roundi(_index), true)
+			queue_free()
+		elif event.is_action_pressed(&"select"):
+			if (
+				event is InputEventMouseButton
+				and _action_scroll_container.get_rect().has_point(get_global_mouse_position())
+			):
+				var offset_position: Vector2 = get_global_mouse_position()
+				offset_position.y += (
+					_action_scroll_container.scroll_vertical
+					- _full_cell_size * 3
+					- _vertical_spacing
+				)
+				for child: PanelContainer in _get_panel_containers():
+					if child.get_rect().has_point(offset_position):
+						_tween_index(_get_panel_containers().find(child))
+		elif event.is_action_pressed(&"ui_home", true):
+			_tween_index(0)
+		elif event.is_action_pressed(&"ui_end", true):
+			_tween_index(_actions.size() - 1)
+		elif event.is_action_pressed(&"ui_page_up", true):
+			_tween_index(floori(_index) - (EXTRA_ACTIONS + 1))
+		elif event.is_action_pressed(&"ui_page_down", true):
+			_tween_index(ceili(_index) + EXTRA_ACTIONS + 1)
 
 
 func _set_index(value: float) -> void:

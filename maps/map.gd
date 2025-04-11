@@ -182,12 +182,12 @@ func get_current_faction() -> Faction:
 
 ## Gets the next unit in the unit list relative to the given unit.
 func get_next_unit(unit: Unit) -> Unit:
-	return _get_unit_relative(unit, 1)
+	return get_unit_relative(unit, 1)
 
 
 ## Gets the previous unit in the unit list relative to the given unit.
 func get_previous_unit(unit: Unit) -> Unit:
-	return _get_unit_relative(unit, -1)
+	return get_unit_relative(unit, -1)
 
 
 ## Ends current turn.
@@ -455,7 +455,7 @@ func _parse_movement_cost() -> void:
 			_movement_cost_dict[type][header[cost]] = split[cost]
 
 
-func _get_unit_relative(unit: Unit, rel_index: int) -> Unit:
+func get_unit_relative(unit: Unit, rel_index: int) -> Unit:
 	var faction_units: Array[Unit] = unit.faction.get_units()
 	return faction_units[(faction_units.find(unit) + rel_index) % faction_units.size()]
 

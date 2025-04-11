@@ -21,9 +21,8 @@ var screen_position: Vector2i:
 		return map_position - _corner_offset()
 
 var _active: bool = true
-var _delay: int = 0
-var _repeat: bool = false
 var _offscreen: bool = false
+var _buffered_position: Vector2i
 
 
 func _init() -> void:
@@ -35,6 +34,7 @@ func _ready() -> void:
 		set_icon(Icons.NONE)
 	else:
 		queue_free()
+	add_child(TwoAxisInputController.new(_scroll, &"left", &"right", &"up", &"down"))
 
 
 func _physics_process(_delta: float) -> void:
@@ -52,43 +52,16 @@ func _physics_process(_delta: float) -> void:
 					map_position = Utilities.round_coords_to_tile(
 						get_viewport().get_mouse_position() + (_corner_offset() as Vector2)
 					)
-			else:
-				_offscreen = false
-				if _delay <= 0 and _repeat:
-					if (
-						Input.is_action_pressed("left")
-						or Input.is_action_pressed("right")
-						or Input.is_action_pressed("up")
-						or Input.is_action_pressed("down")
-					):
-						var old_pos: Vector2i = map_position
-						map_position = _get_new_position()
-						if map_position != old_pos:
-							AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.CURSOR)
-						_delay = 4
-					else:
-						_repeat = false
-		_delay -= 1
 
 
-func _input(event: InputEvent) -> void:
+func _input(_event: InputEvent) -> void:
 	if GameController.controller_type == GameController.ControllerTypes.KEYBOARD:
 		_offscreen = false
-	if is_active():
-		var new_pos: Vector2i = map_position
-		if event.is_action_pressed("left") and not Input.is_action_pressed("right"):
-			new_pos.x -= 16
-		elif event.is_action_pressed("right"):
-			new_pos.x += 16
-		if event.is_action_pressed("up") and not Input.is_action_pressed("down"):
-			new_pos.y -= 16
-		elif event.is_action_pressed("down"):
-			new_pos.y += 16
-		if new_pos != map_position:
-			map_position = new_pos
-			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.CURSOR)
-			await get_tree().create_timer(0.25).timeout
-			_repeat = true
+
+
+func _scroll(new_position: Vector2) -> void:
+	map_position += Vector2i(new_position.round() * 16)
+	AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.CURSOR)
 
 
 ## Enables movement of the cursor.
@@ -132,25 +105,13 @@ func get_hovered_unit() -> Unit:
 	return units.front() if not units.is_empty() else null
 
 
-func _get_new_position() -> Vector2i:
-	var new_pos: Vector2i = map_position
-	if Input.is_action_pressed("left") and not Input.is_action_pressed("right"):
-		new_pos.x -= 16
-	elif Input.is_action_pressed("right"):
-		new_pos.x += 16
-	if Input.is_action_pressed("up") and not Input.is_action_pressed("down"):
-		new_pos.y -= 16
-	elif Input.is_action_pressed("down"):
-		new_pos.y += 16
-	return new_pos
-
-
 func set_map_position(new_pos: Vector2i) -> void:
 	## Sets cursor position relative to the map
 	var old_pos: Vector2i = map_position
 	map_position = new_pos.clamp(
 		MapController.map.borders.position, MapController.map.borders.end - Vector2i(16, 16)
 	)
+	_buffered_position = map_position
 	var map_move := Vector2i()
 	for i: int in 2:
 		while screen_position[i] - map_move[i] < 16:
@@ -166,6 +127,7 @@ func set_map_position(new_pos: Vector2i) -> void:
 
 func _set_active(active: bool) -> void:
 	_active = active
+	process_mode = Node.PROCESS_MODE_ALWAYS if active else Node.PROCESS_MODE_DISABLED
 
 
 func _corner_offset() -> Vector2i:

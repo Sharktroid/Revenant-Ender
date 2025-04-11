@@ -41,6 +41,9 @@ var _original_weapon: Weapon
 func _ready() -> void:
 	_left_name_panel.unit = _left_unit
 	_update()
+	var set_weapon_index: Callable = func(direction: float) -> void:
+		_weapon_index += roundi(direction)
+	add_child(SingleAxisInputController.new(set_weapon_index, &"up", &"down"))
 
 
 func _exit_tree() -> void:
@@ -71,10 +74,6 @@ func _input(event: InputEvent) -> void:
 		_set_focus(false)
 		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
 		_left_unit.equip_weapon(_original_weapon)
-	elif event.is_action_pressed("left", true) and not Input.is_action_pressed("right"):
-		_weapon_index -= 1
-	elif event.is_action_pressed("right", true):
-		_weapon_index += 1
 	accept_event()
 
 
@@ -186,7 +185,6 @@ func _create_attack_arrows(attack_queue: Array[AttackController.CombatStage]) ->
 		#Utilities.profiler_checkpoint()
 		$Damage.add_child(attack_arrow)
 		#Utilities.finish_profiling()
-
 
 
 func _get_event(

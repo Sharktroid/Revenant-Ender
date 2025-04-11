@@ -30,6 +30,10 @@ func _enter_tree() -> void:
 	for index: int in visible_children.size():
 		Utilities.set_neighbor_path("top", index, -1, visible_children)
 		Utilities.set_neighbor_path("bottom", index, 1, visible_children)
+	var axis_moved: Callable = func(direction: float) -> void:
+		_current_item_index += roundi(direction)
+		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_V)
+	add_child(ScrollAxisInputController.new(axis_moved, &"up", &"down", 1))
 
 
 func _exit_tree() -> void:
@@ -39,19 +43,11 @@ func _exit_tree() -> void:
 
 func _input(event: InputEvent) -> void:
 	if not HelpPopupController.is_active():
-		if event.is_action_pressed("up") and not Input.is_action_pressed("down"):
-			_current_item_index -= 1
-			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_V)
-
-		elif event.is_action_pressed("down"):
-			_current_item_index += 1
-			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_TICK_V)
-
-		if event.is_action_pressed("select"):
+		if event.is_action_pressed(&"select"):
 			_play_select_sound_effect(get_current_item_node())
 			_select_item(get_current_item_node())
 
-		elif event.is_action_pressed("back"):
+		elif event.is_action_pressed(&"back"):
 			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
 			queue_free()
 		get_tree().root.set_input_as_handled()

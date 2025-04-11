@@ -28,6 +28,11 @@ func _input(event: InputEvent) -> void:
 		controller_type = ControllerTypes.MOUSE
 	elif event is InputEventKey:
 		controller_type = ControllerTypes.KEYBOARD
+	elif (
+		event is InputEventJoypadButton
+		or (event is InputEventJoypadMotion and (event as InputEventJoypadMotion).axis_value >= 0.1)
+	):
+		controller_type = ControllerTypes.KEYBOARD
 
 	if event.is_action_pressed("fullscreen"):
 		match get_window().mode:

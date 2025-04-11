@@ -14,8 +14,6 @@ var observing_unit := Unit.new()
 
 ## When true, scrolling is disabled.
 var _scroll_lock: bool = false
-## When >0, tab switching is disabled. Decreases by one each tick.
-var _delay: int = 0
 ## The [Portrait] currently on display.
 @onready var _portrait := %Portrait as Portrait
 ## The [TabContainer] that contains the submenus.
@@ -42,9 +40,15 @@ func _ready() -> void:
 	(%CritLabelDescription as HelpContainer).help_description += "\n%s" % Formulas.CRIT
 	(%DodgeLabelDescription as HelpContainer).help_description += "\n%s" % Formulas.DODGE
 
+	var tab_switch: Callable = func(direction: float) -> void:
+		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.TAB_SWITCH)
+		Utilities.switch_tab(_menu_tabs as TabContainer, roundi(direction))
+	add_child(SingleAxisInputController.new(tab_switch, &"left", &"right"))
 
-func _physics_process(_delta: float) -> void:
-	_delay -= 1
+	var scroll: Callable = func(direction: float) -> void:
+		observing_unit = MapController.map.get_unit_relative(observing_unit, roundi(direction))
+		await _move(-roundi(direction))
+	add_child(ScrollAxisInputController.new(scroll, &"up", &"down", 1))
 
 
 func _exit_tree() -> void:
@@ -65,22 +69,6 @@ static func instantiate(unit: Unit) -> StatusScreen:
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("back"):
 		queue_free()
-	if _delay <= 0:
-		if event.is_action_pressed("left", true) and not Input.is_action_pressed("right"):
-			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.TAB_SWITCH)
-			Utilities.switch_tab(_menu_tabs as TabContainer, -1)
-			_delay = 5
-		elif event.is_action_pressed("right", true):
-			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.TAB_SWITCH)
-			Utilities.switch_tab(_menu_tabs as TabContainer, 1)
-			_delay = 5
-	if not _scroll_lock:
-		if Input.is_action_pressed("scroll_up") and not Input.is_action_pressed("scroll_down"):
-			observing_unit = MapController.map.get_previous_unit(observing_unit)
-			_move(_Directions.UP)
-		elif Input.is_action_pressed("scroll_down"):
-			observing_unit = MapController.map.get_next_unit(observing_unit)
-			_move(_Directions.DOWN)
 
 
 ## Updates internal variables
@@ -167,7 +155,9 @@ func _get_range_value() -> String:
 		var range_text: String = observing_unit.get_weapon().get_range_text().replace(
 			"-", " [color={yellow}]-[/color] ".format({"yellow": Utilities.FONT_YELLOW})
 		)
-		return "[color={blue}]{text}[/color]".format({"blue": Utilities.FONT_BLUE, "text": range_text})
+		return "[color={blue}]{text}[/color]".format(
+			{"blue": Utilities.FONT_BLUE, "text": range_text}
+		)
 	return "--"
 
 
@@ -226,14 +216,13 @@ func _set_label_text_to_number(label: Label, num: float) -> void:
 
 
 ## Moves the status screen to indicate switching units.
-func _move(dir: _Directions) -> void:
+func _move(dir_multiplier: int) -> void:
 	_scroll_lock = true
 	const DURATION: float = 0.32
 	var menu := $MenuScreen as HBoxContainer
 	var dest: float = menu.size.y
 	const SWAP_THRESHOLD: float = 1.0 / 3
 	AudioPlayer.play_sound_effect(preload("res://audio/sfx/status_swap.ogg"))
-	var dir_multiplier: int = -1 if dir == _Directions.DOWN else 1
 	var destination: float = dest * SWAP_THRESHOLD * dir_multiplier
 
 	await _create_fade_tween(menu, destination, 0, DURATION / 2).finished

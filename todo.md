@@ -5,14 +5,15 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* [Design doc] remove x2 strikes with +1 strikes.
-* Fix crashes with empty inventory
-* Test keyboard ghosting with controllers
-	* See if Input calls in _input functions can be removed
+* See if Input calls in _input functions can be removed.
+* Replace "dodge" with "critical avoid".
+* Add a speed up button for moving the cursor with directional inputs.
+* Use "can_process()" instead of "process_mode =="
 
 # Major
 * Add testing suite
 	* Add tests for previous and future bugs/regressions
+		* Empty inventory.
 * Add categories to options menu, and remove debug options menu
 	* Add game settings (can't be changed on map)
 		* Include options for RNG
@@ -25,6 +26,7 @@ Before you commit
 * Implement terrain stars and a terrain status menu.
 	* Does not affect tomes
 * Implement durability
+  * Weapon debuffs when at low durability.
 * Implement activated skills
 	* Add Accost
 * Implement staves
@@ -63,12 +65,6 @@ Before you commit
 
 # Possible
 * Add stats for performing kills on certain terrain and units of categories
-* Physical weapons have Berwick-style breaking
-	* Good, Decent, Bad, and Critical
-		* -5 Crit penalty when below Good
-		* -2 might penalty when below decent
-		* Critical means weapon has a chance of breaking
-	* Durability decreases based on condition and rng
 
 # Long-term
 * Make game based on design document
