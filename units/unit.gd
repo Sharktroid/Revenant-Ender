@@ -60,8 +60,8 @@ const PV_LIMIT: int = 15
 const INDIVIDUAL_EV_LIMIT: int = 250
 ## The amount of hit rates for every Authority over enemy's faction.
 const AUTHORITY_HIT_BONUS: int = 4
-## The amount of dodge given for every Authority over the enemy's faction.
-const AUTHORITY_DODGE_BONUS: int = 2
+## The amount of critical avoid given for every Authority over the enemy's faction.
+const AUTHORITY_CRITICAL_AVOID_BONUS: int = 2
 
 const _SAVED_PROPERTY_NAMES: Array[StringName] = [
 	&"position",
@@ -443,17 +443,17 @@ func get_crit() -> float:
 	return Formulas.CRIT.evaluate(self)
 
 
-## Gets the dodge rate, or what reduces the enemy's crit rate
-func get_dodge() -> float:
-	return Formulas.DODGE.evaluate(self)
+## Gets the critical avoid rate, or what reduces the enemy's crit rate
+func get_critical_avoid() -> float:
+	return Formulas.CRITICAL_AVOID.evaluate(self)
 
 
 ## Gets the crit rate against an enemy
 func get_crit_rate(enemy: Unit) -> int:
-	var dodge: float = (
-		enemy.get_dodge() + enemy.get_authority_modifier(self) * AUTHORITY_DODGE_BONUS
+	var critical_avoid: float = (
+		enemy.get_critical_avoid() + enemy.get_authority_modifier(self) * AUTHORITY_CRITICAL_AVOID_BONUS
 	)
-	return _adjust_rate(roundi(clampf(get_crit() - dodge, 0, 100)))
+	return _adjust_rate(roundi(clampf(get_crit() - critical_avoid, 0, 100)))
 
 
 ## Gets the last position from the unit's path that a unit does not occupy

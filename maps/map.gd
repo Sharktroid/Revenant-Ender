@@ -698,7 +698,7 @@ func _run_script(script_name: StringName) -> void:
 
 
 func _on_cursor_moved() -> void:
-	if process_mode != PROCESS_MODE_DISABLED and state != States.SELECTING:
+	if not can_process() and state != States.SELECTING:
 		_selected_unit.update_path(CursorController.map_position)
 		_selected_unit.show_path()
 		_ghost_unit.position = _selected_unit.get_path_last_pos()

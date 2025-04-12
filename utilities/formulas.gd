@@ -16,7 +16,7 @@ static var AVOID := Formula.new("{speed_luck_avoid_multiplier} * ({attack_speed}
 static var CRIT := Formula.new("{weapon_crit} + {dexterity}"):
 	set(value):
 		pass
-static var DODGE := Formula.new("{luck}"):
+static var CRITICAL_AVOID := Formula.new("{luck}"):
 	set(value):
 		pass
 static var WEAPON_LEVEL_BONUS := Formula.new("{dexterity} * {dexterity_weapon_level_multiplier}"):

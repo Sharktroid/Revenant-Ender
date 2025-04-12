@@ -5,8 +5,6 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* See if Input calls in _input functions can be removed.
-* Replace "dodge" with "critical avoid".
 * Add a speed up button for moving the cursor with directional inputs.
 * Use "can_process()" instead of "process_mode =="
 

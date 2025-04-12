@@ -18,7 +18,7 @@ func _ready() -> void:
 	_update_width()
 	const FORMATTING_DICTIONARY: Dictionary[String, int] = {
 		"authority_hit_bonus": Unit.AUTHORITY_HIT_BONUS,
-		"authority_dodge_bonus": Unit.AUTHORITY_DODGE_BONUS,
+		"authority_critical_avoid_bonus": Unit.AUTHORITY_CRITICAL_AVOID_BONUS,
 	}
 	var authority_help := %AuthorityHelp as HelpContainer
 	authority_help.help_description = authority_help.help_description.format(

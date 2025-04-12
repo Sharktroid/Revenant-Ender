@@ -38,7 +38,7 @@ func _ready() -> void:
 	(%HitLabelDescription as HelpContainer).help_description += "\n%s" % Formulas.HIT
 	(%AvoidLabelDescription as HelpContainer).help_description += "\n%s" % Formulas.AVOID
 	(%CritLabelDescription as HelpContainer).help_description += "\n%s" % Formulas.CRIT
-	(%DodgeLabelDescription as HelpContainer).help_description += "\n%s" % Formulas.DODGE
+	(%CriticalAvoidLabelDescription as HelpContainer).help_description += "\n%s" % Formulas.CRITICAL_AVOID
 
 	var tab_switch: Callable = func(direction: float) -> void:
 		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.TAB_SWITCH)
@@ -102,8 +102,8 @@ func _update() -> void:
 	_set_label_text_to_number(%ASValue as Label, observing_unit.get_attack_speed())
 	(%AvoidDescription as HelpContainer).help_description = Formulas.AVOID.format(observing_unit)
 	_set_label_text_to_number(%AvoidValue as Label, observing_unit.get_avoid())
-	(%DodgeDescription as HelpContainer).help_description = Formulas.DODGE.format(observing_unit)
-	_set_label_text_to_number(%DodgeValue as Label, observing_unit.get_dodge())
+	(%CriticalAvoidDescription as HelpContainer).help_description = Formulas.CRITICAL_AVOID.format(observing_unit)
+	_set_label_text_to_number(%CriticalAvoidValue as Label, observing_unit.get_critical_avoid())
 	(%RangeValue as RichTextLabel).text = _get_range_value()
 
 	_update_tab()

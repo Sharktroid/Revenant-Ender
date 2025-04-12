@@ -174,7 +174,7 @@ It also reduces the duration of status staves by one turn per 5 points."""
 			)
 		Unit.Stats.LUCK:
 			const DESCRIPTION: String = (
-				"Increases hit rate and dodge by +1"
+				"Increases hit rate and critical avoid by +1"
 				+ " and avoid by +{speed_luck_avoid_multiplier}."
 			)
 			return DESCRIPTION.format(
