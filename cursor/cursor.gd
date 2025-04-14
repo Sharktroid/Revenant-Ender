@@ -46,6 +46,5 @@ func _get_position(delta: float) -> Vector2:
 		return CursorController.screen_position
 	else:
 		return position.move_toward(
-			CursorController.screen_position,
-			(maxf(1, position.distance_to(CursorController.screen_position) / 16) * 4) * 60 * delta
+			CursorController.screen_position, CursorController.get_cursor_speed() * delta
 		)

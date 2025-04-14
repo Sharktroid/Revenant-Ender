@@ -5,8 +5,6 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Add a speed up button for moving the cursor with directional inputs.
-* Use "can_process()" instead of "process_mode =="
 
 # Major
 * Add testing suite

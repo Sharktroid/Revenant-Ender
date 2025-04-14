@@ -19,10 +19,19 @@ var screen_position: Vector2i:
 		map_position = value + _corner_offset()
 	get:
 		return map_position - _corner_offset()
+var fast_cursor: bool = false:
+	set = set_fast_cursor
 
 var _active: bool = true
 var _offscreen: bool = false
 var _buffered_position: Vector2i
+var _slow_cursor_controller := TwoAxisInputController.new(
+	_scroll.bind(1.0/15), &"left", &"right", &"up", &"down", 0.25 - 1.0/15, 0
+)
+var _fast_cursor_controller := TwoAxisInputController.new(
+	_scroll.bind(1.0/60), &"left", &"right", &"up", &"down", 0, 0
+)
+var _cursor_speed: float = INF
 
 
 func _init() -> void:
@@ -32,9 +41,11 @@ func _init() -> void:
 func _ready() -> void:
 	if Utilities.is_running_project():
 		set_icon(Icons.NONE)
+		add_child(_slow_cursor_controller)
+		add_child(_fast_cursor_controller)
+		fast_cursor = false
 	else:
 		queue_free()
-	add_child(TwoAxisInputController.new(_scroll, &"left", &"right", &"up", &"down"))
 
 
 func _physics_process(_delta: float) -> void:
@@ -57,11 +68,8 @@ func _physics_process(_delta: float) -> void:
 func _input(_event: InputEvent) -> void:
 	if GameController.controller_type == GameController.ControllerTypes.KEYBOARD:
 		_offscreen = false
-
-
-func _scroll(new_position: Vector2) -> void:
-	map_position += Vector2i(new_position.round() * 16)
-	AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.CURSOR)
+	if _event.is_action(&"fast_cursor"):
+		fast_cursor = _event.is_pressed()
 
 
 ## Enables movement of the cursor.
@@ -105,8 +113,8 @@ func get_hovered_unit() -> Unit:
 	return units.front() if not units.is_empty() else null
 
 
+## Sets cursor position relative to the map
 func set_map_position(new_pos: Vector2i) -> void:
-	## Sets cursor position relative to the map
 	var old_pos: Vector2i = map_position
 	map_position = new_pos.clamp(
 		MapController.map.borders.position, MapController.map.borders.end - Vector2i(16, 16)
@@ -123,6 +131,30 @@ func set_map_position(new_pos: Vector2i) -> void:
 	if map_position != old_pos:
 		var emit_moved: Callable = func() -> void: moved.emit()
 		emit_moved.call_deferred()
+
+## Sets whether the cursor is on fast mode or not.
+func set_fast_cursor(on: bool) -> void:
+	fast_cursor = on
+	_slow_cursor_controller.process_mode = (
+		Node.PROCESS_MODE_DISABLED if fast_cursor else Node.PROCESS_MODE_INHERIT
+	)
+	_fast_cursor_controller.process_mode = (
+		Node.PROCESS_MODE_INHERIT if fast_cursor else Node.PROCESS_MODE_DISABLED
+	)
+
+
+## Gets the speed of the cursor in pixels per second
+func get_cursor_speed() -> float:
+	return _cursor_speed
+
+
+func _scroll(new_position: Vector2, duration: float) -> void:
+	var old_position: Vector2 = map_position
+	map_position += Vector2i(new_position.round() * 16)
+	AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.CURSOR)
+	_cursor_speed = Utilities.get_tile_distance(map_position, old_position) * 16 / duration
+	await get_tree().create_timer(duration).timeout
+	_cursor_speed = INF
 
 
 func _set_active(active: bool) -> void:
