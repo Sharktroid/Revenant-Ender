@@ -144,7 +144,7 @@ func get_disadvantage_types() -> Array[Types]:
 
 
 func get_range_text() -> String:
-	var max_range_text: String = Utilities.float_to_string(get_max_range())
+	var max_range_text: String = Utilities.float_to_string(get_max_range(), true)
 	if _min_range == get_max_range():
 		return max_range_text
 	else:

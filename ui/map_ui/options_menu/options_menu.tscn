@@ -1,9 +1,26 @@
-[gd_scene load_steps=6 format=3 uid="uid://b4o82uca6ghni"]
+[gd_scene load_steps=10 format=3 uid="uid://b4o82uca6ghni"]
 
 [ext_resource type="Script" uid="uid://dkk4gy8v3y388" path="res://ui/map_ui/options_menu/options_menu.gd" id="1_tm77p"]
 [ext_resource type="PackedScene" uid="uid://b7h3kn7yes57v" path="res://backgrounds/scrolling_image/scrolling_image.tscn" id="1_wjtl7"]
 [ext_resource type="Texture2D" uid="uid://ddqy3s2ya11s8" path="res://ui/map_ui/options_menu/banner.png" id="2_do551"]
 [ext_resource type="PackedScene" uid="uid://c66fkxgtp6bw6" path="res://ui/selection_hand/selection_hand.tscn" id="4_e6mfi"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l17h1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b4viv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b4viv"]
+content_margin_left = 10.0
+content_margin_top = 4.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+border_width_left = 1
+border_width_right = 1
+border_color = Color(0.176471, 0.176471, 0.176471, 1)
+corner_detail = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ul5wy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sjuts"]
 bg_color = Color(0, 0, 0, 0.74902)
@@ -24,6 +41,22 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 grow_horizontal = 1
 grow_vertical = 1
+
+[node name="TabBar" type="TabBar" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 137.0
+offset_right = 511.0
+offset_bottom = 24.0
+theme_override_styles/button_highlight = SubResource("StyleBoxEmpty_l17h1")
+theme_override_styles/button_pressed = SubResource("StyleBoxEmpty_b4viv")
+theme_override_styles/tab_selected = SubResource("StyleBoxFlat_b4viv")
+theme_override_styles/tab_focus = SubResource("StyleBoxEmpty_ul5wy")
+current_tab = 0
+tab_count = 3
+tab_0/title = "Main"
+tab_1/title = "Game"
+tab_2/title = "Debug"
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 custom_minimum_size = Vector2(0, 240)
@@ -108,3 +141,5 @@ position = Vector2(24, 35)
 
 [node name="ColumnHand" parent="." instance=ExtResource("4_e6mfi")]
 position = Vector2(120, 35)
+
+[connection signal="tab_clicked" from="TabBar" to="." method="_on_tab_bar_tab_clicked"]

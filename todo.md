@@ -5,15 +5,12 @@ Before you commit
 * Make sure it all works
 
 # Minor
+* Make weapon ranks fixed.
+* Have hand in options menu for the bars be based on the cursor position.
 
 # Major
-* Add testing suite
-	* Add tests for previous and future bugs/regressions
-		* Empty inventory.
-* Add categories to options menu, and remove debug options menu
-	* Add game settings (can't be changed on map)
-		* Include options for RNG
-			* Battle hit rates can't go below weapon's hit rates in dampened mode
+* Add all weapons from data doc
+	* Implement dual weapons
 * Make it possible to attack preview with any unit at any time
 * Add testing mode
 	* Allow the player to manually rig via an option
@@ -30,7 +27,6 @@ Before you commit
 	* Automatically hover over a unit if they are the only one that needs healing
 	* Add an option to disable support map animations
 * Dual Wielding
-* Implement dual weapons
 * Add unit hover display
 * Document classes (roll this out gradually so I don't burn out)
 * Add DS Font
@@ -60,6 +56,14 @@ Before you commit
 	* Cannot parry tomes
 
 # Possible
+* Add testing suite
+	* Add tests for previous and future bugs/regressions
+		* Empty inventory.
+		* Moving and waiting.
+		* Attacking.
+* Add game settings (can't be changed on map)
+	* Include options for RNG
+		* Battle hit rates can't go below weapon's hit rates in dampened mode.
 * Add stats for performing kills on certain terrain and units of categories
 
 # Long-term

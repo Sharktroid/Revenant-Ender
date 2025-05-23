@@ -24,6 +24,11 @@ func _init() -> void:
 	_value = _file.get_value(_category, _name, _default)
 
 
+## Gets the category. This is used in the config file as the section.
+func get_category() -> StringName:
+	return _category
+
+
 ## Gets the name. This is used in the config file as the key.
 func get_name() -> StringName:
 	return _name

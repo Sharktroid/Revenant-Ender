@@ -16,7 +16,7 @@ func _init() -> void:
 func _ready() -> void:
 	if get_root():
 		_update_fps_display()
-		DebugConfig.SHOW_FPS.value_updated.connect(_update_fps_display)
+		Options.SHOW_FPS.value_updated.connect(_update_fps_display)
 
 
 func _physics_process(_delta: float) -> void:
@@ -52,4 +52,4 @@ func get_root() -> Node:
 
 # Toggles the FPS display depending on the config
 func _update_fps_display() -> void:
-	(get_root().get_node("%FPSDisplay") as HBoxContainer).visible = (DebugConfig.SHOW_FPS.value)
+	(get_root().get_node("%FPSDisplay") as HBoxContainer).visible = (Options.SHOW_FPS.value)

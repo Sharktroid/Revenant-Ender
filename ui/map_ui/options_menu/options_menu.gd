@@ -40,6 +40,7 @@ var _scroll_tween: Tween
 @onready var _column_hand_sprite := $ColumnHand as Sprite2D
 # The starting y for the had sprites
 @onready var _hand_starting_y: int = roundi(_row_hand_sprite.position.y)
+@onready var _tab_bar := %TabBar as TabBar
 
 
 func _ready() -> void:
@@ -57,6 +58,10 @@ func _ready() -> void:
 	if _get_current_option() is not FloatOption:
 		_hovered_setting_index = _current_setting_index
 	_column_hand_sprite.position.x = _get_column_hand_x()
+
+	_tab_bar.clear_tabs()
+	for category: StringName in Options.get_options().keys():
+		_tab_bar.add_tab(category.capitalize())
 
 
 func _input(event: InputEvent) -> void:
@@ -102,8 +107,11 @@ func _exit_tree() -> void:
 	CursorController.enable()
 
 
-func _get_options() -> Array[ConfigOption]:
-	return Options.get_options()
+func _get_current_options() -> Array[ConfigOption]:
+	var output: Array[ConfigOption] = []
+	var options: Array = Options.get_options().get(_get_current_tab(), [])
+	output.assign(options)
+	return output
 
 
 func _add_icon(option: ConfigOption) -> void:
@@ -115,9 +123,8 @@ func _add_icon(option: ConfigOption) -> void:
 	%IconsList.add_child(icon_center)
 
 
-
 func _create_options() -> void:
-	for option: ConfigOption in _get_options():
+	for option: ConfigOption in _get_current_options():
 		_add_icon(option)
 		var name_label := Label.new()
 		name_label.text = option.get_name().capitalize()
@@ -193,10 +200,10 @@ func _get_hovered_setting_label() -> Label:
 
 func _set_current_value(value: int) -> void:
 	if value != _current_index:
-		_current_index = posmod(value, _get_options().size())
+		_current_index = posmod(value, _get_current_options().size())
 		if _current_index == 0:
 			_top_index = 0
-		elif _current_index == _get_options().size() - 1:
+		elif _current_index == _get_current_options().size() - 1:
 			_top_index = _get_top_index_max()
 		elif _get_relative_index() == _displayed_item_count() - 1:
 			_top_index += 1
@@ -259,11 +266,11 @@ func _displayed_item_count() -> int:
 
 # Gets the maximum value for the top index
 func _get_top_index_max() -> int:
-	return maxi(_get_options().size() - _displayed_item_count(), 0)
+	return maxi(_get_current_options().size() - _displayed_item_count(), 0)
 
 
 func _get_current_option() -> ConfigOption:
-	return _get_options()[_current_index]
+	return _get_current_options()[_current_index]
 
 
 func _get_settings_count() -> int:
@@ -307,7 +314,7 @@ func _update_mouse_position() -> void:
 	_current_index = clampi(
 		floori(_scroll_container.get_local_mouse_position().y / 16) + _top_index,
 		0,
-		_get_options().size() - 1
+		_get_current_options().size() - 1
 	)
 	if _get_current_option() is not FloatOption:
 		var setting_box := %SettingsList.get_child(_current_index) as HBoxContainer
@@ -343,3 +350,20 @@ func _get_clamped_float_value(added_value: float) -> float:
 		else:
 			new_value -= fmod(_get_progress_bar().value, 0.1)
 	return new_value
+
+
+func _get_current_tab() -> StringName:
+	return (_tab_bar.get_tab_title(_tab_bar.current_tab).to_lower()) as StringName
+
+
+func _on_tab_bar_tab_clicked(_tab: int) -> void:
+	process_mode = Node.PROCESS_MODE_DISABLED  # Halts updates until the menu has been updated
+	for child: Node in (
+		%SettingsList.get_children() + %IconsList.get_children() + %NamesList.get_children()
+	):
+		child.queue_free()
+		await child.tree_exited
+	_settings_indices = {}
+	_create_options()
+	_update_description()
+	process_mode = Node.PROCESS_MODE_INHERIT

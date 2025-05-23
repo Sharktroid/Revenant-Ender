@@ -57,11 +57,11 @@ func _ready() -> void:
 	borders = borders.expand(get_size() - Vector2(_right_border * 16, _bottom_border * 16))
 	_create_debug_borders()  # Only shows up when collision shapes are enabled
 	_update_terrain_display()
-	DebugConfig.DISPLAY_MAP_TERRAIN.value_updated.connect(_update_terrain_display)
+	Options.DISPLAY_MAP_TERRAIN.value_updated.connect(_update_terrain_display)
 	_update_map_borders()
-	DebugConfig.DISPLAY_MAP_BORDERS.value_updated.connect(_update_map_borders)
+	Options.DISPLAY_MAP_BORDERS.value_updated.connect(_update_map_borders)
 	_update_map_borders()
-	DebugConfig.DISPLAY_MAP_CURSOR.value_updated.connect(_update_map_borders)
+	Options.DISPLAY_MAP_CURSOR.value_updated.connect(_update_map_borders)
 
 	var cell_max: Vector2i = _base_layer.get_used_cells().max()
 	size = cell_max * 16 + Vector2i(16, 16)
@@ -648,12 +648,12 @@ func _update_outline() -> void:
 
 # Updates whether the terrain display is on
 func _update_terrain_display() -> void:
-	_terrain_layer.visible = DebugConfig.DISPLAY_MAP_TERRAIN.value
+	_terrain_layer.visible = Options.DISPLAY_MAP_TERRAIN.value
 
 
 # Updates whether map borders are displayed
 func _update_map_borders() -> void:
-	_border_overlay.visible = DebugConfig.DISPLAY_MAP_BORDERS.value
+	_border_overlay.visible = Options.DISPLAY_MAP_BORDERS.value
 
 
 # Gets the units of the current faction

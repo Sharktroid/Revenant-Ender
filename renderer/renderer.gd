@@ -10,7 +10,7 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	if Utilities.is_running_project():
-		(%FPSDisplay as HBoxContainer).visible = DebugConfig.SHOW_FPS.value
+		(%FPSDisplay as HBoxContainer).visible = Options.SHOW_FPS.value
 
 
 func _process(delta: float) -> void:

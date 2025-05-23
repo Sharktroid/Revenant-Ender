@@ -547,7 +547,7 @@ func can_rescue(unit: Unit) -> bool:
 ## Causes unit to wait.
 func wait(action_name: String = "waits") -> void:
 	_reset_movement()
-	if DebugConfig.UNIT_WAIT.value:
+	if Options.UNIT_WAIT.value:
 		waiting = true
 	_get_map().unit_wait(self, action_name)
 	deselect()
