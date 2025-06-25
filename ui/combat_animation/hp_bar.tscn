@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://d1lx62khd47o7"]
+
+[ext_resource type="Script" uid="uid://biyrdpxw7687s" path="res://ui/combat_animation/hp_bar.gd" id="1_op41e"]
+
+[node name="HPBar" type="VBoxContainer"]
+offset_left = 199.0
+offset_top = 145.0
+offset_right = 199.0
+offset_bottom = 145.0
+theme_override_constants/separation = 0
+script = ExtResource("1_op41e")
+max_hp = 10
+hp = 40
+
+[node name="TopRow" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 7)
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="BottomRow" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 7)
+layout_mode = 2
+theme_override_constants/separation = 0

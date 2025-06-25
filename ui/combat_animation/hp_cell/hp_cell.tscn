@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://dj0u35d06cspm"]
+
+[ext_resource type="Script" uid="uid://kp20ptlyv01f" path="res://ui/combat_animation/hp_cell/hp_cell.gd" id="1_fkay7"]
+[ext_resource type="Texture2D" uid="uid://1fkilsqpgi80" path="res://ui/combat_animation/hp_cell/fast_layer.png" id="1_j0pcu"]
+[ext_resource type="Texture2D" uid="uid://b1extntaxj1sg" path="res://ui/combat_animation/hp_cell/base_layer.png" id="1_wcdus"]
+[ext_resource type="Texture2D" uid="uid://bb5w6djm3fwcy" path="res://ui/combat_animation/hp_cell/slow_layer.png" id="2_fkay7"]
+
+[node name="HPCell" type="TextureRect"]
+offset_right = 3.0
+offset_bottom = 7.0
+texture = ExtResource("1_wcdus")
+script = ExtResource("1_fkay7")
+
+[node name="Fill" type="Node2D" parent="."]
+
+[node name="FastLayer" type="Sprite2D" parent="Fill"]
+visible = false
+texture = ExtResource("1_j0pcu")
+centered = false
+
+[node name="SlowLayer" type="TextureProgressBar" parent="Fill"]
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 2.0
+offset_bottom = 6.0
+max_value = 5.0
+fill_mode = 3
+texture_progress = ExtResource("2_fkay7")
