@@ -5,12 +5,19 @@ Before you commit
 * Make sure it all works
 
 # Minor
+* Rename to "Revenant Ender"
 * Make weapon ranks fixed.
 * Have hand in options menu for the bars be based on the cursor position.
+* Add a comment at the top of each class on how well it's programmed (e.g. how much does it function as expectd vs how many randpom things need to happen to make it work).
+* Add universal swap and give draw back to all infantry classes and give it the same formula as shove.
 
 # Major
 * Add all weapons from data doc
+	* Implement brave weapons and adept.
 	* Implement dual weapons
+	* Lances deal more damage on initial hit.
+	* Grenades.
+* Have help bubble be a fixed position thing.
 * Make it possible to attack preview with any unit at any time
 * Add testing mode
 	* Allow the player to manually rig via an option
@@ -54,6 +61,7 @@ Before you commit
 * Shields
 * Can parry via combat art if shield weight > opponent's weapon weight (costs 3 durability)
 	* Cannot parry tomes
+* 5D FE.
 
 # Possible
 * Add testing suite

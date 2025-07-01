@@ -3,15 +3,13 @@ extends Sword
 
 
 func _init() -> void:
+	super()
 	resource_name = "Rapier"
 	_rank = Ranks.B
-	_hit = 110
-	_might = 5
-	_crit = 10
-	_weight = 3
 	_max_uses = 30
-	_price = 6000
-	_weapon_exp = 2
-	_description = "A thin, nimble sword.\nx1.5 bonus damage against cavalry and armored units"
-#	effective_classes
-	super()
+	_price = 33
+	_might += 6
+	_weight -= 2
+	_hit += 10
+	_flavor_text = "A thin, pointed sword designed for thrusting attacks."
+	_description = "Ignores shields."

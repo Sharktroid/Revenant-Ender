@@ -1,0 +1,223 @@
+Name,Type,Description,Notes,Skills,Damage Type,Hit,Might,Crit,Range,Weight,Durability,WEXP,Rank,Sure?,Category
+Training Sword,Sword,,,Mastermind,Physical,,,0,0,,,2,D,Yes,"Training, Standard"
+Iron Sword,Sword,,,,Physical,100,6,0,0,6,20,1,D,Yes,Standard
+Iron Blade,Sword,,,,Physical,90,12,0,0,9,20,1,D,Yes,Heavy
+Baseball Bat,Sword,,Joke weapon; EarthBound reference,,Physical,,4,0,0,,,1,D,Yes,Joke
+Slim Sword,Sword,,,,Physical,∞,5,0,0,2,,1,D,Yes,Miscellaneous
+Shadow Sword,Sword,Deals recoil damage,-50% HP if discarded,,Physical,100,25,0,0,,,1,D,Yes,Risk-reward
+Bronze Sword,Sword,,,,Physical,90,10,0,0,10,40,1,C,Yes,Standard
+Bronze Blade,Sword,,,,Physical,80,16,0,0,13,40,1,C,Yes,Heavy
+Wingclipper,Sword,Effective against flying units,,,Physical,,,0,0,,,1,C,Yes,Effective
+Shadowkiller,Sword,Effective against monsters,,,Physical,,,0,0,,,1,C,Yes,Effective
+Axe Splitter,Sword,Effective against axe infantry,,,Physical,,,0,0,,,1,C,Yes,Effective
+Armorslayer,Sword,Effective against armored units,,,Physical,,,0,0,,,1,C,Yes,Effective
+Orcrist,Sword,Grants Scout,,,Physical,,,0,1,,,,C,No,???
+Steel Sword,Sword,,,,Physical,100,14,0,0,8,30,1,B,Yes,Standard
+Steel Blade,Sword,,,,Physical,90,20,0,0,11,30,1,B,Yes,Heavy
+Speareaver,Sword,,,,Physical,,,0,0,,,1,B,Yes,Reaver
+Gale Blade,Sword,"Falcon Knights only, effective against fliers",,,"Physical, Magical",,,0,"0, (0)-2",,,1,B,Yes,"Dual, Magic Weapon, Effective, Wind"
+Levin Sword,Sword,,,,"Physical, Magical",,,0,"0, (0)-2",,,1,B,Yes,"Dual, Magic Weapon, Effective, Lightning"
+Astral Sword,Sword,,,Astra,Physical,,,0,0,,,1,B,Yes,Skill
+Rapier,Sword,Effective against mounted and armored units,,,Physical,110,5,0,0,3,30,1,B,Yes,Effective
+Sword of Dawn,Sword,Summons four Bonewakers for 5 durability,,,Physical,,,0,0,,20,1,B,Yes,Skill
+Stunblade,Sword,Inflicts Solidification,,,Physical,140,12,0,0,16,,,B,Yes,
+Killing Edge,Sword,,,,Physical,105,9,25,0,9,20,1,B,Yes,Killer
+Berserking Blade,Sword,,,,Physical,,,0,0,,,1,B,Yes,Status
+Silver Sword,Sword,,,,Physical,105,18,0,0,9,20,1,A,Yes,Standard
+Silver Blade,Sword,,,,Physical,95,24,0,0,12,20,1,A,Yes,Heavy
+Brave Sword,Sword,,,Bravery,Physical,,13,0,0,13,,1,A,Yes,Brave
+Zweihänder,Sword,,,,,,19,0,0,,,,A,Yes,
+Gutsy Bat,Sword,A baseball bat that fills you with courage. +10 luck,EarthBound reference,,Physical,94 (104),,25,0,,,1,A,Yes,"Joke, Killer, Stat Boost"
+Flamberge,Sword,,,,"Physical, Magical",,,0,"1, 1-2",,,,A,No,Dual
+Runesword,Sword,,,Sol,Magical,,,0,(0)-2,,,1,A,Yes,"Magic Weapon, Healing, Skill"
+Stormbringer,Sword,Grants Lifetaker,,,Physical,,,0,0,,,1,A,Yes,"Healing, Skill"
+Kingmaker,Sword,+1 secondary strike,,"Charisma, Charm",Physical,,,0,0,,,1,A,Yes,Skill
+Sword of Slumber,Sword,Puts target to sleep on hit for 1 turn. Ends combat when it connects,,,Physical,,,0,0,15,,1,A,Yes,Status
+Dullahan,Sword,,,,Physical,,,0,0,17,,,A,Yes,Miscellaneous
+Valmanwë,Sword,+5 strikes (1 magic might),,,Physical,,,0,0,,,1,S,Yes,"Regalia, Magic Weapon, Stat Boost, Skill, Wind"
+Lævateinn,Sword,"+5 magic, +5 resistance",,,"Physical, Magical",,,0,"0, (0)-2",,,1,S,Yes,"Dual, Magic Weapon, Regalia, Stat Boost, Fire"
+Dáinsleif,Sword,,,,Physical,,,0,1,,,,S,No,???
+Mercurius,Sword,x2 EV gain,,,Physical,,,0,0,,,10,S,Yes,Miscellaneous
+Master Sword,Sword,+1 primary strike.,,,Physical,115,16,0,0,10,20,1,S,Yes,"Standard, Brave, Skill"
+Diamond Blade,Sword,,,,Physical,,,0,0,,,,S,Yes,Heavy
+Yltao Ana,Sword,Halves enemy defense,Can be forged into other weapon types.,,"Physical, Pierce, Magical",100,25,0,"0, 1-2, (0)-2",13,22,1,S,Yes,"Regalia, Piercing, Skill"
+Yltao Cata,Sword,Heals 1 HP for every 2 HP dealt,Can be forged into other weapon types.,,"Physical, Pierce, Magical",130,18,0,"0, 1-2, (0)-2",8,22,1,S,Yes,"Regalia, Healing, Skill"
+Muramasa,Sword,+2 might every kill (boost decreases by 1 per turn and resets at chapter end),,,Physical,,,0,0,,,1,Prf,Yes,Skill
+Zanbato,Sword,Effective against mounted units,,,Physical,,,0,0,,,1,Prf,Yes,Effective
+Zantetsuken,Sword,Effective against armors,,,Physical,,,0,0,,,,Prf,,
+Gurthang,Sword,,,,Physical,,,,1,,,,S,No,???
+Training Spear,Spear,x2 EV gain,,,Physical,,,0,0,,,2,D,Yes,"Training, Standard"
+Iron Spear,Spear,,,,Physical,95,8,0,0,7,20,1,D,Yes,Standard
+Iron Greatspear,Spear,,,,Physical,85,14,0,0,10,20,1,D,Yes,Heavy
+Slim Spear,Spear,,,,Physical,∞,7,0,0,5,20,1,D,Yes,Miscellaneous
+Cursed Spear,Spear,-15 Luck,-50% HP if discarded,,Physical,70,29,0,0,,,1,D,Yes,Risk-reward
+Spear of Faith,Spear,It only misses when you aren't believing hard enough.,Meme weapon,,Physical,1,20,∞,0,,4,1,D,Yes,"Joke, Risk-reward"
+Bronze Spear,Spear,,,,Physical,95,12,0,0,11,40,1,C,Yes,Standard
+Bronze Greatspear,Spear,,,,Physical,85,18,0,0,14,40,1,C,Yes,Heavy
+Javelin,Spear,,,,"Physical, Pierce",80,5,0,"0, 1-2",12,20,1,C,Yes,"Throwing, Dual"
+Glaive,Spear,Effective against mounts. Halberdier only,Ridersbane,,Physical,105,13,0,0,,,1,C,Yes,Effective
+Bright Spear,Spear,Effective against monsters,,,Physical,,,0,0,,,1,C,Yes,Effective
+Steel Spear,Spear,,,,Physical,95,16,0,0,9,30,1,B,Yes,Standard
+Steel Greatspear,Spear,,,,Physical,85,22,0,0,12,30,1,B,Yes,Heavy
+Killer Spear,Spear,,,,Physical,100,11,25,0,10,20,1,B,Yes,Killer
+Axereaver,Spear,,,,Physical,,,0,0,,,1,B,Yes,Reaver
+Guard Spear,Spear,-5 damage taken,,,Physical,,,0,0,,,1,B,Yes,Stat Boost
+Solar Spear,Spear,,,Sol,Physical,,,0,0,,,1,B,Yes,"Skill, Healing"
+Saunion,Spear,,,,Pierce,,14,0,1-3,,,1,B,Yes,Throwing
+Toxin Spear,Spear,Poisons opponent,,,Physical,,,0,0,,,1,B,Yes,Status
+Pilum,Spear,,,,"Physical, Pierce",90,9,0,"0, 1-2",12,20,1,B,Yes,"Throwing, Dual"
+Silver Spear,Spear,,,,Physical,100,20,0,0,10,20,1,A,Yes,Standard
+Silver Greatspear,Spear,,,,Physical,90,26,0,0,13,20,1,A,Yes,Heavy
+Brave Spear,Spear,+1 primary and secondary strike,,,Physical,,15,0,0,14,,1,A,Yes,Brave
+Arrow of Indra,Spear,,,,"Physical, Magical",,,0,"0, (0)-2",,,1,A,Yes,"Dual, Magic Weapon"
+Gungnir,Spear,Legendary spear of lightning. +10 skill. +1 strike after each hit (6 magic might),,,"Physical, Pierce",∞,,0 (10),"0, 1-2",,,,S,Yes,"Regalia, Throwing, Magic Weapon, Stat Boost"
+Cruise Saunion,Spear,A Saunion attached to a rocket.,,,,,32,,3-5,,,,S,Yes,
+Master Spear,Spear,Grants Adept,,,"Physical, Pierce",80,18,0,"0, 1-2",13,20,1,S,Yes,"Standard, Throwing, Brave, Dual, Skill"
+Diamond Greatspear,Spear,,,,Physical,,,0,0,,,,S,Yes,Heavy
+Uberspear,Spear,,,,Physical,,,0,1-3,,,,,Yes,
+Rhongomiant,Spear,,,,,70,,0,,,,,Prf,Yes,
+Gáe Bulg,Spear,Legendary spear made of a sea dragon's bone. +5 strength.,,,Physical,,21,0,0-2,,,1,Prf,Yes,"Regalia, Stat Boost"
+Training Axe,Axe,x2 EV gain,,,Physical,,,0,0,,,2,D,Yes,"Training, Standard"
+Iron Axe,Axe,,,,Physical,90,10,0,0,8,20,1,D,Yes,Standard
+Iron Greataxe,Axe,,,,Physical,80,16,0,0,11,20,1,D,Yes,Heavy
+Devil Axe,Axe,(15 - luck + enemy luck)% chance to backfire,-50% HP if discarded,,Physical,110,30,25,0,13,66,1,D,Yes,"Risk-reward, Killer"
+Frying Pan,Axe,,Joke weapon; EarthBound reference,,Physical,,,0,0,,,1,D,Yes,Joke
+Hatchet,Axe,,,,Physical,∞,7,0,0-2,5,20,1,D,Yes,Throwing
+Bronze Axe,Axe,,,,Physical,80,14,0,0,12,40,1,C,Yes,Standard
+Bronze Greataxe,Axe,,,,Physical,70,20,0,0,15,40,1,C,Yes,Heavy
+War Hammer,Axe,Effective against armored units,,,Physical,,,0,0,12,,1,C,Yes,Effective
+Fiendcleaver,Axe,Effective against monsters,,,Physical,,,0,0,,,1,C,Yes,Effective
+Hand Axe,Axe,,,,Physical,75,9,0,0-2,8,20,1,C,Yes,Throwing
+Steel Axe,Axe,,,,Physical,90,18,0,0,10,30,1,B,Yes,Standard
+Steel Greataxe,Axe,,,,Physical,80,24,0,0,13,30,1,B,Yes,Heavy
+Magebane,Axe,Effective against mages,,,Physical,,,0,0,,,1,B,Yes,Effective
+Vouge,Axe,,,,Physical,,,25,0-2,,,1,B,Yes,"Killer, Throwing"
+Duelists Axe,Axe,x2 rounds of combat,,,Physical,,,0,0,,,,B,Yes,
+Swordreaver,Axe,,,,Physical,,,0,0,,,1,B,Yes,Reaver
+Lunar Axe,Axe,Grants Luna,,,Physical,,,0,0,,,1,B,Yes,Skill
+Killer Axe,Axe,,,,Physical,95,13,25,0,11,20,1,B,Yes,Killer
+Silver Axe,Axe,,,,Physical,95,22,0,0,11,20,1,A,Yes,Standard
+Silver Greataxe,Axe,,,,Physical,85,28,0,0,14,20,1,A,Yes,Heavy
+Brave Axe,Axe,+1 primary and secondary strike,,,Physical,,17,0,0,15,,1,A,Yes,Brave
+Swordslayer,Axe,Reverses weapon triangle. Effective against sword infantry,,,Physical,,,0,0,,,1,A,Yes,"Effective, Reaver"
+Hurricane Axe,Axe,,,,"Physical, Magical",,,0,"0, (0)-2",,,1,A,Yes,"Dual, Magic Weapon, Stat Boost, Regalia"
+Maul,Axe,Effective against armored units,,,Physical,,,0,0,16,,1,A,Yes,Effective
+Magic Frying Pan,Axe,"+5 magic, +15 luck",EarthBound reference,,Physical,50 (65),,20,0,,,1,A,Yes,Stat Boost
+Tomahawk,Axe,,,,Physical,85,16,0,0-2,8,20,1,A,Yes,Throwing
+Master Axe,Axe,Grants Adept,,,Physical,75,20,0,0-2,14,20,1,S,Yes,"Standard, Brave, Skill, Throwing"
+Diamond Greataxe,Axe,,,,Physical,,,0,0,,,,S,Yes,Heavy
+Mjölnir,Axe,Legendary hammer of lightning. +10 skill. +1 strike after each hit (6 magic might),,,Physical,90 (110),,0,0,,,1,Prf,Yes,"Dual, Magic Weapon, Stat Boost, Regalia"
+Dolharken,Axe,Halves incoming damage,,,Physical,65,25,0,0,19,,,Prf,Yes,
+Labrys,Axe,,,,Physical,,,0,0,,,,Prf,Yes,
+Training Bow,Bow,x2 EV gain,,,Pierce,,,0,0,,,2,D,Yes,"Training, Standard"
+Iron Bow,Bow,,,,Pierce,100,8,0,1-3,6,20,1,D,Yes,Standard
+Bowgun,Bow,,,,Pierce,90,14,0,1-3,9,20,,D,Yes,Heavy
+Recurve Bow,Bow,,,Canter β,Pierce,,8,0,1-3,,20,1,D,Yes,Standard
+Pascanion,Bow,x2 strikes for both wielder and opponent. +1 strike after each hit (+10 magic damage).,,,Pierce,,,0,1-3,,,,D,Yes,
+Bronze Bow,Bow,,,,Pierce,90,12,0,1-3,10,40,1,C,Yes,Standard
+Crossbow,Bow,,,,Pierce,80,18,0,1-3,13,40,1,C,Yes,Heavy
+Beacon Bow,Bow,Effective against monsters,,,Pierce,,,0,1-3,,,,C,Yes,Effective
+Cleave Bow,Bow,Effective against armored units,,,Pierce,,,0,1-3,,,,C,Yes,Effective
+Spellbane Bow,Bow,Effective against mages,,,Pierce,,,0,1-3,,,,C,Yes,Effective
+Shortbow,Bow,,,,Pierce,,,0,1-2,,,,C,No,Miscellaneous
+Steel Bow,Bow,,,,Pierce,100,16,0,1-3,8,30,1,B,Yes,Standard
+Taksh,Bow,,,,Pierce,90,22,0,1-3,11,30,1,B,Yes,Heavy
+Longbow,Bow,,,,Pierce,90,,0,1-4,11,,1,B,Yes,Ext. Range
+Killer Bow,Bow,,,,Pierce,105,11,25,1-3,9,20,1,B,Yes,Killer
+Repeating Crossbow,Bow,+3 primary and secondary strike,,,Pierce,95,6,0,1-2,6,20,1,B,Yes,Brave
+Radiant Bow,Bow,,,,"Pierce, Magical",,,0,"1-3, (0)-2",,,,B,Yes,"Magic Weapon, Dual"
+Silver Bow,Bow,,,,Pierce,105,20,0,1-3,9,20,1,A,Yes,Standard
+Arbalest,Bow,,,,Pierce,95,26,0,1-3,12,20,1,A,Yes,Heavy
+Brave Bow,Bow,+1 primary and secondary strike,,,Pierce,,15,0,1-3,13,,,A,Yes,Brave
+Frozen Bow,Bow,"+1 strike after each hit (+1 magic damage, solidifies).",,,Pierce,,,0,1-3,,,1,A,Yes,"Magic Weapon, Dual, Status"
+Master Bow,Bow,+1 primary and secondary strike,,,Pierce,125,18,0,1-3,9,20,1,S,Yes,"Standard, Brave"
+Plasma Bow,Bow,Ignores blocking terrain. Hits on resistance.,,Piercing Blow,Pierce,,,0,"1-3, (0)-2",,,,S,Yes,
+Submachine Bow,,+7 primary and secondary strikes,,,,,0,0,1-2,,,,S,Yes,
+Galadhrim,Bow,,,,Pierce,∞,19,0,1-3,23,,,Prf,Yes,
+Polis Sagittarii,Bow,+1 primary and secondary strike (pierce only),,,"Pierce, Magical",,,0,"1-3, (0)-2",,,,Prf,Yes,"Magic Weapon, Dual"
+Training Knife,Knife,x2 EV gain,,,"Physical, Pierce",,,0,"0, 1-2",,,2,D,Yes,"Training, Standard"
+Iron Knife,Knife,,,,"Physical, Pierce",110,4,0,"0, 1-2",5,20,1,D,Yes,"Standard, Throwing, Dual"
+Baselard,Knife,,,,Physical,,,0,0,,,1,C,Yes,Standard
+Bronze Knife,Knife,,,,"Physical, Pierce",100,8,0,"0, 1-2",9,40,1,C,Yes,"Standard, Throwing, Dual"
+Main-Gauche,Knife,+4 def,,,Physical,,,0,0,,,,C,Yes,Stat Boost
+Steel Knife,Knife,,,,"Physical, Pierce",110,12,0,"0, 1-2",7,40,1,B,Yes,"Standard, Throwing, Dual"
+Light Brand,Knife,Light Brand,,,"Physical, Magical",,,0,"0, 1-2",,,1,B,Yes,"Magic Weapon, Dual"
+Stiletto,Knife,,,,Physical,,,25,0,,,1,B,Yes,Killer
+Kard,Knife,Effective against armor,,,Physical,,,0,0,,,1,B,Yes,Effective
+Peshkatz,Knife,+1 primary and secondary strike,,,Physical,,,0,0,,,1,B,Yes,"Brave, Skill"
+Mambele,Knife,,,,Physical,,,0,0-2,,,1,B,Yes,Miscellaneous
+Silver Knife,Knife,,,,"Physical, Pierce",110,16,0,"0, 1-2",8,20,1,A,Yes,"Standard, Throwing, Dual"
+Gaia Knife,Knife,Heals 1/2 damage dealt,,,Magical,,,0,(0)-2,,,1,A,Yes,"Magic Weapon, Healing"
+Cinquedea,Knife,,,,Physical,,,0,0,,,1,A,Yes,Standard
+Master Knife,Knife,Grants Adept,,,"Physical, Pierce",95,14,0,"0, 1-2",11,20,1,S,Yes,"Standard, Brave, Throwing, Dual, Skill"
+Diamond Knife,Knife,,,,Physical,,,0,0,,,,S,Yes,Heavy
+Fire,Anima,,,,Magical,,4,0,(0)-2,,,1,D,Yes,"Standard, Fire"
+Wind,Anima,,,,Magical,,1,0,(0)-2,,,1,D,Yes,"Standard, Wind"
+Lightning,Anima,,,,Magical,,8,0,(0)-3,,,1,D,Yes,"Ext. Range, Lightning"
+Blizzard,Anima,,,,Magical,,8,0,(0)-2,,,1,C,Yes,"Standard, Water, Wind"
+Cutting Gale,Anima,Effective against fliers,,,Magical,,,0,(0)-2,,,1,C,Yes,"Effective, Wind"
+Inferno,Anima,Effective against armored units,,,Magical,,9,0,(0)-2,,,1,C,Yes,"Effective, Fire, Wind"
+Surge,Anima,,,,Magical,,,0,(0)-1,,,1,C,Yes,"Miscellaneous, Lightning"
+Tornado,Anima,,,,Magical,,12,0,(0)-2,,,1,B,Yes,"Standard, Lightning"
+Thoron,Anima,,,,Magical,,,25,(0)-2,,,1,B,Yes,"Killer, Lightning"
+Bolting,Anima,,,,Magical,,,0,3-5,,,1,B,Yes,"Siege, Lightning"
+Ball Lightning,Anima,,,,Magical,,17,0,1-2,,,1,B,Yes,"Miscellaneous, Lightning"
+Ragnarok,Anima,,,,Magical,,22,0,(0)-2,,,1,A,Yes,"Standard, Fire"
+Fimbulvetr,Anima,,,,Magical,,16,0,(0)-2,,,1,A,Yes,"Standard, Water"
+Fusion,Anima,,,,Magical,,19,0,(0)-2,,,1,S,Yes,"Celestial, Fire"
+Meteor,Anima,Deals splash damage,,,Magical,,15,0,3-5,,,1,S,Yes,"Siege, Celestial, Fire"
+Volganone,Anima,+5 INT,,,Magical,,22 (27),0,(0)-2,14,,1,Prf,Yes,"Stat Boost, Fire"
+Daimbolt,Anima,+1 primary and secondary strike,,,Magical,,,0,(0)-1,20,,1,Prf,Yes,"Brave, Lightning"
+Mookscalibur,Anima,A poor copy of a famous tome,,,Magical,100,3,0,(0)-2,,,1,Prf,Yes,"Joke, Wind"
+Grafcalibur,Anima,Grants Pursuit; effective against Fliers,,,Magical,130,13,40,(0)-2,3,11,1,Prf,Yes,"Skill, Killer, Effective, Wind"
+Solar Flare,Anima,Deals effective damage,,,Magical,,,0,(0)-2,,,1,Prf,Yes,"Celestial, Fire"
+Sylphid,Anima,Solidifies opponent,,,Magical,,,0,(0)-2,,6,1,Prf,Yes,"Miscellaneous, Wind"
+Tsunami,Anima,,,Smite,Magical,,,0,(0)-2,,,1,Prf,Yes,"Miscellaneous, Water"
+Light,Holy,,,,Magical,,,0,(0)-2,,,1,D,Yes,Standard
+Shine,Holy,,,,Magical,,,0,(0)-2,,,1,C,Yes,Standard
+Flash,Holy,Inflicts stun on target for 1 turn,,,Magical,,,0,(0)-2,,,1,C,Yes,Status
+Seraphim,Holy,Effective against Revenant Enders,,,Magical,,,0,(0)-2,,,1,B,Yes,Effective
+Sagittae,Holy,Hits on armor.,,,Magical,,,0,(0)-2,,,1,B,Yes,Miscellaneous
+Abraxas,Holy,,,,Magical,,,0,(0)-2,,,1,B,Yes,Standard
+Luce,Holy,,,,Magical,,,0,1-2,,,,B,No,???
+Aura,Holy,,,,Magical,,,0,(0)-2,,,1,A,Yes,Standard
+Resire,Holy,Heals 1/2 damage dealt,,Sanctuary,Magical,,13,0,(0)-2,,16,,A,Yes,Healing
+Heavenly Arrows,Holy,Pierces defense,,,Magical,,0,0,3-5,,,,A,Yes,
+Divine,Holy,Grants Adept,,,Magical,,,0,(0)-2,,,1,A,Yes,"Brave, Skill"
+Supernova,Holy,,,,Magical,,,0,(0)-2,,,1,S,Yes,Celestial
+Wadjet,Holy,Halves damage taken,,,Magical,,9,0,(0)-3,,8,1,S,Yes,Healing
+Purge,Holy,Effective against Revenant Enders,,,Magical,,,0,3-5,,,1,Prf,Yes,Siege
+Flux,Eldritch,,,,Magical,,,0,(0)-2,,,1,D,Yes,Standard
+Miasma,Eldritch,Hits on defense.,,,Magical,,,0,(0)-2,,,1,C,Yes,Piercing
+Nosferatu,Eldritch,Grants Sol,,,Magical,,,0,(0)-2,,,1,C,Yes,"Healing, Skill"
+Mire,Eldritch,,,,Magical,,,0,(0)-3,,,1,C,Yes,Ext. Range
+Scylla,Eldritch,Halves enemy's health,,,Magical,,--,0,(0)-2,,,1,C,Yes,Miscellaneous
+Jormungand,Eldritch,,,,Magical,,,0,(0)-2,,,1,C,Yes,Standard
+Carreau,Eldritch,,,,Magical,,,,1-2,,,,C,No,???
+Swarm,Eldritch,,,,Magical,,,0,3-5,,,1,B,Yes,Siege
+Ruin,Eldritch,,,,Magical,,2,∞,(0)-2,,,1,B,Yes,Killer
+Hel,Eldritch,Grants Deadeye,,,Magical,,,0,(0)-2,,,1,B,Yes,Skill
+Glower,Eldritch,Ignores target's resistance. Caster's magic is halved,,,Magical,,13,0,(0)-2,,,1,B,Yes,"Piercing, Skill"
+Fenrir,Eldritch,,,,Magical,,,0,(0)-2,,,1,B,Yes,Standard
+Dark Spikes,Eldritch,Effective against mounted units,,,Magical,,,0,(0)-2,,,1,B,Yes,Effective
+Waste,Eldritch,,,Adept α,Magical,,,0,(0)-2,,,1,A,Yes,"Brave, Skill"
+Goetia,Eldritch,,,,Magical,,,0,(0)-2,,,1,A,Yes,Standard
+Ginnungagap,Eldritch,Inflicts cripple on caster,,,Magical,,40,0,(0)-2,,,1,A,Yes,Risk-reward
+Verrine,Eldritch,,,Luna,Magical,,,0,(0)-2,,,1,A,Yes,Skill
+Gespenst,Eldritch,,,,Magical,,,0,1-2,,,,A,No,???
+Baal-berith,Eldritch,,,,Magical,,38,0,(0)-2,32,,,A,Yes,???
+Black Hole,Eldritch,,,,Magical,,,0,(0)-2,,,1,S,Yes,Celestial
+Quasar,Eldritch,,,,Magical,,,0,3-5,,,1,S,Yes,"Celestial, Siege"
+Eclipse,Eldritch,Deals recoil,,Clear Mind,Magical,115,33,0,(0)-2,,,1,Prf,Yes,"Celestial, Skill"
+Calamity,Eldritch,,,,Magical,235,76,50,(0)-2,4,,1,Prf,Yes,
+Stonehoist,Siege,,,,Physical,,,0,3-5,,,1,D,Yes,
+Hoistflamme,Siege,,,,Physical,,,0,3-5,,,1,C,Yes,
+Lightningbolt,Siege,,,,Magical,,,0,3-5,,,1,B,Yes,
+Arrowspate,Siege,,,,Physical,,,0,3-5,,,1,B,Yes,
+Pachyderm,Siege,,,,Physical,,,0,3-5,,,1,A,Yes,
+Fragmentation Grenade,Grenade,,,,Pierce,,,0,,,,,,,
+Incendiary Grenade,Grenade,,,,Magical,,,0,,,,,,,
+Freezing Grenade,Grenade,,,,Magical,,,0,,,,,,,
+Stun Grenade,Grenade,,,,Magical,,,0,,,,,,,
+Gas Grenade,Grenade,,,,Magical,,,0,,,,,,,
+Thermobaric Grenade,Grenade,,,,Magical,,,0,,,,,,,

@@ -6,7 +6,9 @@ enum EquipType { DISABLED, ENABLED, WEAPON, ARMOR, OTHER }
 var current_uses: float
 var _icon: Texture2D = PlaceholderTexture2D.new()
 var _max_uses: float
+## Amount the item costs per each use.
 var _price: int
+var _flavor_text: String
 var _description: String
 var _droppable: bool = true
 var _usable: bool = false
@@ -38,6 +40,10 @@ func get_max_uses() -> float:
 
 func get_price() -> float:
 	return _price
+
+
+func get_flavor_text() -> String:
+	return _flavor_text
 
 
 func get_description() -> String:

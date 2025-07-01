@@ -9,5 +9,7 @@ func _init() -> void:
 	_max_range = 1
 	_advantage_types = [Types.SWORD]
 	_disadvantage_types = [Types.AXE]
+	_might = 10
+	_hit = 85
+	_weight = 10
 	super()
-
