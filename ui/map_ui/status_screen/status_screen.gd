@@ -38,7 +38,9 @@ func _ready() -> void:
 	(%HitLabelDescription as HelpContainer).help_description += "\n%s" % Formulas.HIT
 	(%AvoidLabelDescription as HelpContainer).help_description += "\n%s" % Formulas.AVOID
 	(%CritLabelDescription as HelpContainer).help_description += "\n%s" % Formulas.CRIT
-	(%CriticalAvoidLabelDescription as HelpContainer).help_description += "\n%s" % Formulas.CRITICAL_AVOID
+	(%CriticalAvoidLabelDescription as HelpContainer).help_description += (
+		"\n%s" % Formulas.CRITICAL_AVOID
+	)
 
 	var tab_switch: Callable = func(direction: float) -> void:
 		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.TAB_SWITCH)
@@ -90,7 +92,6 @@ func _update() -> void:
 	_set_label_text_to_number(%MaxHitPoints as Label, observing_unit.get_hit_points())
 	var hp_help := %HitPointsStatHelp as HelpContainer
 	hp_help.help_table = observing_unit.get_stat_table(Unit.Stats.HIT_POINTS)
-	hp_help.table_columns = 6
 	_set_label_text_to_number(%EXPPercent as Label, observing_unit.get_exp_percent())
 	(%EXPStatHelp as HelpContainer).help_description = _get_exp_stat_help()
 
@@ -102,7 +103,9 @@ func _update() -> void:
 	_set_label_text_to_number(%ASValue as Label, observing_unit.get_attack_speed())
 	(%AvoidDescription as HelpContainer).help_description = Formulas.AVOID.format(observing_unit)
 	_set_label_text_to_number(%AvoidValue as Label, observing_unit.get_avoid())
-	(%CriticalAvoidDescription as HelpContainer).help_description = Formulas.CRITICAL_AVOID.format(observing_unit)
+	(%CriticalAvoidDescription as HelpContainer).help_description = Formulas.CRITICAL_AVOID.format(
+		observing_unit
+	)
 	_set_label_text_to_number(%CriticalAvoidValue as Label, observing_unit.get_critical_avoid())
 	(%RangeValue as RichTextLabel).text = _get_range_value()
 

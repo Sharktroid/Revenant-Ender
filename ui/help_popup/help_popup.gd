@@ -2,36 +2,33 @@ extends PanelContainer
 
 
 func display_contents(display: bool) -> void:
-	($PanelContainer3/MarginContainer/VBoxContainer as VBoxContainer).visible = display
+	(%HelpGrid as GridContainer).visible = display
 
 
-func set_table(table_items: Array[String], columns: int) -> void:
-	var table: GridContainer = %Table as GridContainer
-	if table_items.is_empty():
-		table.visible = false
-	else:
-		table.visible = true
-		table.columns = columns
-		for child: Node in table.get_children():
-			child.queue_free()
-			table.remove_child(child)
-		for table_item: String in table_items:
-			var label := RichTextLabel.new()
-			label.bbcode_enabled = true
-			label.fit_content = true
-			label.autowrap_mode = TextServer.AUTOWRAP_OFF
-			label.text = table_item
-			table.add_child(label)
-	reset_size()
+func clear_nodes() -> void:
+	for child: Node in %HelpGrid.get_children():
+		child.queue_free()
+		await child.tree_exited
 
 
-func set_description(description_text: String) -> void:
-	var description: RichTextLabel = %Description as RichTextLabel
-	description.visible = description_text.length() != 0
-	if description.visible:
+func add_table(table: Table) -> void:
+	if table:
+		var table_node: GridContainer = table.to_grid_container()
+		table_node.name = "Table"
+		%HelpGrid.add_child(table_node)
+		reset_size()
+
+
+func add_description(description_text: String) -> void:
+	if description_text.length() != 0:
+		var description := RichTextLabel.new()
 		description.autowrap_mode = TextServer.AUTOWRAP_OFF
 		description.text = description_text
+		description.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		description.fit_content = true
+		description.scroll_active = false
 		if size.x > Utilities.get_screen_size().x:
 			description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 			size.x = Utilities.get_screen_size().x
-	reset_size()
+		%HelpGrid.add_child(description)
+		reset_size()

@@ -4,20 +4,16 @@
 [ext_resource type="Shader" uid="uid://bcq4v4cx3y05u" path="res://shaders/palette.gdshader" id="2_b5mit"]
 [ext_resource type="Script" uid="uid://dhtcix2gcogdi" path="res://units/characters/binding blade/lance/lance.gd" id="2_qgif2"]
 [ext_resource type="Texture2D" uid="uid://dcbp6yac31ins" path="res://units/unit_classes/knight/map_sprite.png" id="3_t16q6"]
-[ext_resource type="Script" uid="uid://de7w6uwdjjtko" path="res://items/weapons/swords/iron_sword/iron_sword.gd" id="5_e6nko"]
+[ext_resource type="Script" uid="uid://ciiv3yqapeihw" path="res://items/weapons/swords/iron_sword/iron_sword.gd" id="5_e6nko"]
 [ext_resource type="Script" uid="uid://cufk2nxi5at8o" path="res://units/unit_classes/knight/knight.gd" id="5_w0fo1"]
-[ext_resource type="Script" uid="uid://bswukcjmg7w1" path="res://items/weapons/spears/javelin/javelin.gd" id="6_5ps04"]
+[ext_resource type="Script" uid="uid://4v365uhmw1ik" path="res://items/weapons/spears/javelin/javelin.gd" id="6_5ps04"]
 [ext_resource type="Script" uid="uid://oxuirych6txp" path="res://items/item.gd" id="6_twhkb"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_uepw2"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bh6tl"]
 shader = ExtResource("2_b5mit")
 shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
 shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.3071, 0.83, 0.524975, 1), Color(0.2562, 0.42, 0.29169, 1)])
 shader_parameter/white_percentage = 0.0
-
-[sub_resource type="Resource" id="Resource_qo8hb"]
-resource_name = "Knight"
-script = ExtResource("5_w0fo1")
 
 [sub_resource type="Resource" id="Resource_qra60"]
 script = ExtResource("5_e6nko")
@@ -25,15 +21,19 @@ script = ExtResource("5_e6nko")
 [sub_resource type="Resource" id="Resource_w6kla"]
 script = ExtResource("6_5ps04")
 
+[sub_resource type="Resource" id="Resource_qo8hb"]
+resource_name = "Knight"
+script = ExtResource("5_w0fo1")
+
 [node name="Lance" instance=ExtResource("1_iwuln")]
-material = SubResource("ShaderMaterial_uepw2")
+material = SubResource("ShaderMaterial_bh6tl")
 texture = ExtResource("3_t16q6")
 script = ExtResource("2_qgif2")
 display_name = "Lance"
 unit_description = "A knight serving Pherae.
 Calm and cool-headed."
-unit_class = SubResource("Resource_qo8hb")
 items = Array[ExtResource("6_twhkb")]([SubResource("Resource_qra60"), SubResource("Resource_w6kla")])
+unit_class = SubResource("Resource_qo8hb")
 _custom_hair = true
 _hair_color_light = Color(0.3071, 0.83, 0.524975, 1)
 _hair_color_dark = Color(0.2562, 0.42, 0.29169, 1)

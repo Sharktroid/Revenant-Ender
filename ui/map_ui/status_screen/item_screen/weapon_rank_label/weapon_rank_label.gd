@@ -35,7 +35,6 @@ func _update_rank() -> void:
 	else:
 		_update_rank_bar(_progress_bar, _rank_label)
 		_progress_bar.value = _get_weapon_rank()
-		table_columns = 2
 		help_table = _get_help_table()
 		help_description = _get_help_description()
 
@@ -78,18 +77,14 @@ func _get_formatting_dictionary() -> Dictionary:
 	}
 
 
-func _get_help_table() -> Array[String]:
-	var table: Array[String] = []
-	const UNFORMATTED_TABLE: Array[String] = [
-		"[{yellow}]Class:[/color] [{blue}]{class value}[/color]\n",
-		"[{yellow}]Personal:[/color] [{blue}]{personal value}[/color]\n",
-		"[{yellow}]Skill bonus:[/color] [{blue}]{skill value}[/color]\n",
-		"[{yellow}]Total:[/color] [{blue}]{total}[/color]\n",
-	]
-	var format: Callable = func(string: String) -> String:
-		return string.format(_get_formatting_dictionary())
-	table.assign(UNFORMATTED_TABLE.map(format))
-	return table
+func _get_help_table() -> Table:
+	var table_dict: Dictionary[String, String] = {
+		"Class": str(unit.unit_class.get_base_weapon_level(type)),
+		"Personal": str(unit.personal_weapon_levels.get(type, 0)),
+		"Skill bonus": str(Formulas.WEAPON_LEVEL_BONUS.evaluate(unit)),
+		"Total": str(unit.get_weapon_level(type))
+	}
+	return Table.from_dictionary(table_dict, 1)
 
 
 func _get_help_description() -> String:

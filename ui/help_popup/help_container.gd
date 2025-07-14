@@ -2,8 +2,7 @@ class_name HelpContainer
 extends BoxContainer
 
 @export_multiline var help_description: String
-@export var help_table: Array[String]
-@export var table_columns: int = 1
+var help_table: Table
 
 var selectable: bool = true
 
@@ -26,8 +25,7 @@ func set_as_current_help_container() -> void:
 		help_description,
 		global_position + Vector2(size.x / 2, 0).round(),
 		self,
-		help_table,
-		table_columns
+		help_table
 	)
 
 

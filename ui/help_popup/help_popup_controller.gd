@@ -7,8 +7,7 @@ var _active: bool = false
 var _busy: bool = false
 var _current_container: HelpContainer
 var _current_text: String
-var _current_table: Array[String]
-var _current_table_cols: int
+var _current_table: Table
 
 
 func _init() -> void:
@@ -43,11 +42,10 @@ func display_text(
 	text: String,
 	pos: Vector2,
 	new_container: HelpContainer,
-	table: Array[String] = [],
-	table_cols: int = 1
+	table: Table = null
 ) -> void:
 	if not _busy:
-		var new_size: Vector2 = _get_node_size(text, table, table_cols)
+		var new_size: Vector2 = await _get_node_size(text, table)
 		var bottom_bound: float = pos.y + new_size.y + new_container.size.y
 		var above_bottom: bool = bottom_bound >= Utilities.get_screen_size().y
 		pos.y += -new_size.y if above_bottom else new_container.size.y
@@ -57,14 +55,14 @@ func display_text(
 			pos.x = new_size.x / 2
 		if pos != _default_position():
 			if not _get_popup_node().visible:
-				await _expand(text, table, table_cols, pos)
+				await _expand(text, table, pos)
 			else:
 				await _resize(new_size, pos, _get_popup_node().size)
 			_current_table = table
-			_current_table_cols = table_cols
 			_current_text = text
-			_get_popup_node().set_table(table, table_cols)
-			_get_popup_node().set_description(text)
+			await _get_popup_node().clear_nodes()
+			_get_popup_node().add_table(table)
+			_get_popup_node().add_description(text)
 			_current_container = new_container
 
 
@@ -88,19 +86,21 @@ func _get_popup_node() -> _HELP_POPUP:
 	return get_node(path) if has_node(path) else _HELP_POPUP.new()
 
 
-func _get_node_size(new_text: String, new_table: Array[String], new_table_cols: int) -> Vector2i:
-	_get_popup_node().set_table(new_table, new_table_cols)
-	_get_popup_node().set_description(new_text)
+func _get_node_size(new_text: String, new_table: Table) -> Vector2i:
+	await _get_popup_node().clear_nodes()
+	_get_popup_node().add_table(new_table)
+	_get_popup_node().add_description(new_text)
 	var node_size: Vector2i = _get_popup_node().size
-	_get_popup_node().set_table(_current_table, _current_table_cols)
-	_get_popup_node().set_description(_current_text)
+	await _get_popup_node().clear_nodes()
+	_get_popup_node().add_table(_current_table)
+	_get_popup_node().add_description(_current_text)
 	return node_size
 
 
-func _expand(text: String, table: Array[String], table_cols: int, pos: Vector2) -> void:
+func _expand(text: String, table: Table, pos: Vector2) -> void:
 	_active = true
 	_get_popup_node().visible = true
-	await _resize(_get_node_size(text, table, table_cols), pos, Vector2(), pos)
+	await _resize(await _get_node_size(text, table), pos, Vector2(), pos)
 
 
 func _resize(

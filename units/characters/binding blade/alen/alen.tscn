@@ -6,10 +6,10 @@
 [ext_resource type="Script" uid="uid://86m1wvgsf31" path="res://units/characters/binding blade/alen/alen.gd" id="2_k3lvx"]
 [ext_resource type="Texture2D" uid="uid://dcbp6yac31ins" path="res://units/unit_classes/knight/map_sprite.png" id="3_qjqc5"]
 [ext_resource type="Script" uid="uid://oxuirych6txp" path="res://items/item.gd" id="5_i565i"]
-[ext_resource type="Script" uid="uid://de7w6uwdjjtko" path="res://items/weapons/swords/iron_sword/iron_sword.gd" id="5_v11hb"]
-[ext_resource type="Script" uid="uid://byuvc4sho6jvd" path="res://items/weapons/spears/iron_spear/iron_spear.gd" id="6_ou60j"]
+[ext_resource type="Script" uid="uid://ciiv3yqapeihw" path="res://items/weapons/swords/iron_sword/iron_sword.gd" id="5_v11hb"]
+[ext_resource type="Script" uid="uid://ct5nf025t4s6l" path="res://items/weapons/spears/iron_spear/iron_spear.gd" id="6_ou60j"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_82v3r"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i565i"]
 shader = ExtResource("2_42wgt")
 shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
 shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.65, 0.0455, 0.156325, 1), Color(0.37, 0.1406, 0.18648, 1)])
@@ -26,7 +26,7 @@ resource_name = "Knight"
 script = ExtResource("2_am6bc")
 
 [node name="Alen" instance=ExtResource("1_x0tds")]
-material = SubResource("ShaderMaterial_82v3r")
+material = SubResource("ShaderMaterial_i565i")
 texture = ExtResource("3_qjqc5")
 script = ExtResource("2_k3lvx")
 display_name = "Alen"

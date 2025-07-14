@@ -8,10 +8,6 @@ var _item: Item:
 var _unit: Unit
 
 
-func _init() -> void:
-	table_columns = 6
-
-
 static func instantiate(connected_item: Item, unit: Unit) -> ItemLabel:
 	var scene := preload("res://ui/map_ui/item_label/item_label.tscn").instantiate() as ItemLabel
 	scene._item = connected_item
@@ -25,7 +21,7 @@ func _update() -> void:
 	($CurrentUses as Label).text = Utilities.float_to_string(_item.current_uses, true)
 	($MaxUses as Label).text = Utilities.float_to_string(_item.get_max_uses(), true)
 	help_description = _item.get_description()
-	help_table = (_item as Weapon).get_stat_table() if _item is Weapon else []
+	help_table = (_item as Weapon).get_stat_table() if _item is Weapon else null
 	_set_equip_status()
 
 
