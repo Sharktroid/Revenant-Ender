@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://43dllg3brp1g" path="res://ui/help_popup/help_popup.gd" id="2_c4kfo"]
 
 [node name="HelpPopup" instance=ExtResource("1_t2cu5")]
+process_mode = 3
 z_index = 1
 anchors_preset = 0
 anchor_right = 0.0

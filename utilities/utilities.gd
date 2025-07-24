@@ -102,17 +102,6 @@ func xor(condition_a: bool, condition_b: bool) -> bool:
 	return not (condition_a == condition_b)
 
 
-## Turns a dictionary into a BBCode table.
-func dict_to_table(dict: Dictionary[String, String]) -> Array[String]:
-	var table: Array[String] = []
-	for key: String in dict.keys() as Array[String]:
-		const KEY = "[color={yellow}]{key}[/color]"
-		table.append(KEY.format({"yellow": Utilities.FONT_YELLOW, "key": str(key)}))
-		const VALUE: String = "[color={blue}]{value}[/color]"
-		table.append(VALUE.format({"blue": Utilities.FONT_BLUE, "value": str(dict[key])}))
-	return table
-
-
 ## Starts measuring execution time.
 func start_profiling() -> void:
 	_profile = []

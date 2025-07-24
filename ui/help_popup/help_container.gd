@@ -21,11 +21,13 @@ func _gui_input(event: InputEvent) -> void:
 
 
 func set_as_current_help_container() -> void:
-	HelpPopupController.display_text(
-		help_description,
-		global_position + Vector2(size.x / 2, 0).round(),
-		self,
-		help_table
+	var nodes: Array[Control] = []
+	if help_description.length() > 0:
+		nodes.append(HelpPopupController.create_text_node(help_description))
+	if help_table:
+		nodes.insert(0, help_table.to_grid_container())
+	HelpPopupController.set_help_nodes(
+		[nodes], global_position + Vector2(size.x / 2, 0).round(), self
 	)
 
 

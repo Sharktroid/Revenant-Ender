@@ -21,9 +21,10 @@ script = ExtResource("5_e6nko")
 [sub_resource type="Resource" id="Resource_w6kla"]
 script = ExtResource("6_5ps04")
 
-[sub_resource type="Resource" id="Resource_qo8hb"]
+[sub_resource type="Resource" id="Resource_bh6tl"]
 resource_name = "Knight"
 script = ExtResource("5_w0fo1")
+metadata/_custom_type_script = "uid://cufk2nxi5at8o"
 
 [node name="Lance" instance=ExtResource("1_iwuln")]
 material = SubResource("ShaderMaterial_bh6tl")
@@ -33,7 +34,7 @@ display_name = "Lance"
 unit_description = "A knight serving Pherae.
 Calm and cool-headed."
 items = Array[ExtResource("6_twhkb")]([SubResource("Resource_qra60"), SubResource("Resource_w6kla")])
-unit_class = SubResource("Resource_qo8hb")
+unit_class = SubResource("Resource_bh6tl")
 _custom_hair = true
 _hair_color_light = Color(0.3071, 0.83, 0.524975, 1)
 _hair_color_dark = Color(0.2562, 0.42, 0.29169, 1)

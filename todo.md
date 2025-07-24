@@ -16,10 +16,12 @@ Before you commit
 * Improve pausing when focus is lost.
 * Update to Godot 4.5
 	* Abstract classes.
+* Fix broken arrow key scrolling in Status Screen.
 
 # Major
 * Add all weapons from data doc
 	* Implement dual weapons
+		* Have the help menu use two pages.
 	* Lances deal more damage on initial hit.
 	* Grenades.
 * Have help bubble be a fixed position thing.

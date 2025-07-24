@@ -15,7 +15,7 @@ enum Types {
 	SIEGE,
 	SHIELD,
 }
-enum Ranks { S = 5, A = 4, B = 3, C = 2, D = 1, DISABLED = 0 }
+enum Ranks { S = 171, A = 121, B = 71, C = 31, D = 1, DISABLED = 0 }
 enum DamageTypes { PHYSICAL, RANGED, MAGICAL }
 enum AdvantageState { ADVANTAGE = 1, DISADVANTAGE = -1, NEUTRAL = 0 }
 
@@ -62,10 +62,20 @@ var _preset: _Presets:
 	set(value):
 		_load_preset(_preset, value)
 		_preset = value
+		_update_name()
 var _heavy_weapon: bool = false:
 	set(value):
 		_heavy_weapon = value
 		_load_heavy_modifiers()
+var _mode_name: String
+var _linked_weapon: Weapon = null:
+	set(value):
+		_linked_weapon = value
+		_linked_weapon.resource_name = resource_name
+		_linked_weapon._flavor_text = _flavor_text
+		_linked_weapon._rank = _rank
+		_linked_weapon._type = _type
+		_linked_weapon._price = _price
 
 
 func _init() -> void:
@@ -90,16 +100,19 @@ func in_range(distance: int) -> bool:
 	return distance <= get_max_range() and distance >= get_min_range()
 
 
-func get_stat_table() -> Array[String]:
+func get_stat_table() -> Table:
 	var table: Dictionary[String, String] = {
-		str(Types.find_key(_type)).capitalize(): str(Ranks.find_key(_rank)).capitalize(),
-		"Range": get_range_text(),
-		"Weight": Utilities.float_to_string(_weight, true),
+		"Type": (Types.find_key(_type) as String).capitalize(),
+		"Rank": (Ranks.find_key(_rank) as String).capitalize(),
+		"G/use": Utilities.float_to_string(_price, true),
+		"D. cat.": (DamageTypes.find_key(_damage_type) as String).capitalize(),
 		"Might": Utilities.float_to_string(_might, true),
 		"Hit": Utilities.float_to_string(_hit, true),
+		"Range": get_range_text(),
+		"Weight": Utilities.float_to_string(_weight, true),
 		"Critical": Utilities.float_to_string(_crit, true)
 	}
-	return Utilities.dict_to_table(table)
+	return Table.from_dictionary(table, 3)
 
 
 func get_weapon_triangle_advantage(weapon: Weapon, _distance: int) -> AdvantageState:
@@ -184,13 +197,27 @@ func get_range_text() -> String:
 		return "{min}-{max}".format({"min": str(get_min_range()), "max": max_range_text})
 
 
+func get_mode_name() -> String:
+	if _mode_name:
+		return "{name} ({type})".format({"name": resource_name, "type": _mode_name})
+	else:
+		return resource_name
+
+
+func get_weapon_modes() -> Array[Weapon]:
+	var modes: Array[Weapon] = [self]
+	while modes[-1]._linked_weapon:
+		modes.append(modes[-1]._linked_weapon)
+	return modes
+
+
 func _load_preset(old_preset: _Presets, new_preset: _Presets) -> void:
 	const HEAVY_PRESETS: Array[_Presets] = [_Presets.BRAVE, _Presets.STATUS, _Presets.DIAMOND]
 	if new_preset in HEAVY_PRESETS:
 		_heavy_weapon = true
 	elif old_preset in HEAVY_PRESETS:
 		_heavy_weapon = false
-	resource_name = (_get_type_name() + " " + str(_Presets.find_key(new_preset)).capitalize())
+	_update_name()
 	_rank = _get_preset_rank(new_preset)
 	_might += (_get_preset_might(new_preset) - _get_preset_might(old_preset))
 	_weight += _get_preset_weight(new_preset) + _get_preset_weight(old_preset)
@@ -204,7 +231,7 @@ func _load_preset(old_preset: _Presets, new_preset: _Presets) -> void:
 
 func _load_heavy_modifiers() -> void:
 	var heavy_multiplier: int = 1 if _heavy_weapon else -1
-	resource_name = (_get_type_name() + " " + str(_Presets.find_key(_preset)).capitalize())
+	_update_name()
 
 	_might += (_HEAVY_WEIGHT_MODIFIER * heavy_multiplier)
 	_weight += (_HEAVY_WEIGHT_MODIFIER * heavy_multiplier)
@@ -345,11 +372,11 @@ func _get_preset_durability(preset: _Presets) -> int:
 	match preset:
 		_Presets.IRON, _Presets.MEME:
 			return 20
-		_Presets.SLIM,_Presets.BRONZE,_Presets.MASTER:
+		_Presets.SLIM, _Presets.BRONZE, _Presets.MASTER:
 			return 30
 		_Presets.TRAINING, _Presets.DIAMOND:
 			return 50
-		_Presets.ANTI_MONSTER,_Presets.KILLER,_Presets.SILVER:
+		_Presets.ANTI_MONSTER, _Presets.KILLER, _Presets.SILVER:
 			return 25
 		_Presets.STEEL:
 			return 40
@@ -451,3 +478,18 @@ func _get_type_name() -> String:
 				return str(Types.find_key(_type)).capitalize()
 	else:
 		return str(Types.find_key(_type)).capitalize()
+
+
+func _clone() -> Weapon:
+	var clone := Weapon.new()
+	clone._might = _might
+	clone._weight = _weight
+	clone._hit = _hit
+	clone._crit = _crit
+	clone._min_range = _min_range
+	clone._max_range = _max_range
+	return clone
+
+
+func _update_name() -> void:
+	resource_name = (str(_Presets.find_key(_preset)).capitalize() + " " + _get_type_name())

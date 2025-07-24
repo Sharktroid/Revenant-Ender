@@ -47,12 +47,14 @@ func get_cell(position: Vector2i) -> Cell:
 func to_grid_container() -> GridContainer:
 	var grid_container := GridContainer.new()
 	grid_container.columns = size.x
+	grid_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	for y in size.y:
 		for x in size.x:
 			var item: Label = Label.new()
 			item.name = _get_node_name(x, y)
 			var cell: Cell = get_cell(Vector2i(x, y))
 			item.text = cell.text
+			item.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			_set_header(item, cell.header)
 			grid_container.add_child(item)
 	return grid_container

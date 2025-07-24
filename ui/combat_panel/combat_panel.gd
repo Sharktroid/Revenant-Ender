@@ -13,7 +13,7 @@ var right_unit: Unit:
 		var path_end: Vector2i = _left_unit.get_unit_path().back()
 		_distance = roundi(Utilities.get_tile_distance(path_end, right_unit.position))
 		var is_in_range: Callable = func(weapon: Weapon) -> bool: return weapon.in_range(_distance)
-		_current_weapons.assign(_left_unit.get_weapons().filter(is_in_range))
+		_current_weapons = _left_unit.get_all_weapon_modes().filter(is_in_range)
 		_original_weapon = _left_unit.get_weapon()
 		_weapon_index = _get_index()
 		if not is_node_ready():

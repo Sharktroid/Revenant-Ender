@@ -4,7 +4,5 @@ extends Knife
 
 func _init() -> void:
 	super()
+	_preset = _Presets.MASTER
 	resource_name = "Master Knife"
-	_rank = Ranks.20
-	_max_uses =  1-2"
-	_price =

@@ -15,13 +15,35 @@ static func instantiate(connected_item: Item, unit: Unit) -> ItemLabel:
 	return scene
 
 
+func set_as_current_help_container() -> void:
+	var pages: Array[Array] = []
+	if _item is Weapon:
+		var weapon := (_item as Weapon)
+		for mode: Weapon in weapon.get_weapon_modes():
+			var page: Array[Control]
+			var mode_name: String = mode.get_mode_name()
+			if mode_name.length() > 0:
+				page.append(HelpPopupController.create_text_node(mode_name))
+			page.append(mode.get_stat_table().to_grid_container())
+			page.append(HelpPopupController.create_text_node(mode.get_flavor_text()))
+			var description: String = mode.get_description()
+			if description.length() > 0:
+				page.append(HelpPopupController.create_text_node(description))
+			pages.append(page)
+	else:
+		pass
+	HelpPopupController.set_help_nodes(
+		pages,
+		global_position + Vector2(size.x / 2, 0).round(),
+		self
+	)
+
+
 func _update() -> void:
 	($Icon as TextureRect).texture = _item.get_icon()
 	($Name as Label).text = _item.resource_name
 	($CurrentUses as Label).text = Utilities.float_to_string(_item.current_uses, true)
 	($MaxUses as Label).text = Utilities.float_to_string(_item.get_max_uses(), true)
-	help_description = _item.get_description()
-	help_table = (_item as Weapon).get_stat_table() if _item is Weapon else null
 	_set_equip_status()
 
 

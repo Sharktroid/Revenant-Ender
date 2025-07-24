@@ -41,4 +41,11 @@ func _update() -> void:
 		size.x * (float(max_value) / ABSOLUTE_MAX_VALUE), numeric_progress_bar.size.y
 	))
 
-	help_table = unit.get_stat_table(stat)
+
+
+func set_as_current_help_container() -> void:
+	HelpPopupController.set_help_nodes(
+		[[unit.get_stat_table(stat).to_grid_container()]],
+		global_position + Vector2(size.x / 2, 0).round(),
+		self
+	)

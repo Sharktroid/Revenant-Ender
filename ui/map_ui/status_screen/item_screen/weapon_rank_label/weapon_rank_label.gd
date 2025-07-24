@@ -19,10 +19,19 @@ func _ready() -> void:
 	_update_type()
 
 
-func _update_type() -> void:
-	const UNFORMATTED_PATH: String = (
-		"res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/%s_icon.png"
+func set_as_current_help_container() -> void:
+	var nodes: Array[Control] = [
+		HelpPopupController.create_text_node(_get_help_description())
+	]
+	if _get_weapon_rank() > 0:
+		nodes.insert(0, _get_help_table().to_grid_container())
+	HelpPopupController.set_help_nodes(
+		[nodes], global_position + Vector2(size.x / 2, 0).round(), self
 	)
+
+
+func _update_type() -> void:
+	const UNFORMATTED_PATH: String = "res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/%s_icon.png"
 	var type_name: String = (Weapon.Types.find_key(type) as String).to_lower()
 	($Icon as TextureRect).texture = load(UNFORMATTED_PATH % type_name)
 
@@ -31,12 +40,9 @@ func _update_rank() -> void:
 	if _get_weapon_rank() < Weapon.Ranks.D:
 		_rank_label.text = "-"
 		_progress_bar.value = 0
-		help_description = "This unit cannot wield weapons of this type"
 	else:
 		_update_rank_bar(_progress_bar, _rank_label)
 		_progress_bar.value = _get_weapon_rank()
-		help_table = _get_help_table()
-		help_description = _get_help_description()
 
 
 func _update_rank_bar(progress_bar: ProgressBar, rank_label: Label) -> void:
@@ -81,15 +87,17 @@ func _get_help_table() -> Table:
 	var table_dict: Dictionary[String, String] = {
 		"Class": str(unit.unit_class.get_base_weapon_level(type)),
 		"Personal": str(unit.personal_weapon_levels.get(type, 0)),
-		"Skill bonus": str(Formulas.WEAPON_LEVEL_BONUS.evaluate(unit)),
+		"Dexterity bonus": str(Formulas.WEAPON_LEVEL_BONUS.evaluate(unit)),
 		"Total": str(unit.get_weapon_level(type))
 	}
 	return Table.from_dictionary(table_dict, 1)
 
 
 func _get_help_description() -> String:
-	if _rank_label.text == "S":
+	if _get_weapon_rank() >= Weapon.Ranks.S:
 		return "This unit has maxed out their\nrank for this weapon"
+	elif _get_weapon_rank() < Weapon.Ranks.D:
+		return "This unit cannot wield weapons of this type"
 	else:
 		const UNFORMATTED_DESCRIPTION: String = (
 			"[center][{blue}]{current value}[/color] [{yellow}]/[/color] "

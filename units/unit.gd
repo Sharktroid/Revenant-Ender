@@ -185,7 +185,7 @@ func _process(_delta: float) -> void:
 
 ## Gets the current weapon
 func get_weapon() -> Weapon:
-	if _equipped_weapon and _equipped_weapon in items:
+	if _equipped_weapon and _equipped_weapon in get_all_weapon_modes():
 		return _equipped_weapon
 	for item: Item in items:
 		if item is Weapon and can_use_weapon(item as Weapon):
@@ -195,7 +195,7 @@ func get_weapon() -> Weapon:
 
 ## Equips a weapon
 func equip_weapon(weapon: Weapon, shuffle: bool = true) -> void:
-	if weapon in items:
+	if weapon in get_all_weapon_modes():
 		_equipped_weapon = weapon
 		if shuffle:
 			items.erase(weapon)
@@ -470,7 +470,7 @@ func get_path_last_pos() -> Vector2i:
 
 
 ## Gets a table displaying the details of the unit's stats
-func get_stat_table(stat: Stats) -> Array[String]:
+func get_stat_table(stat: Stats) -> Table:
 	var table_items: Dictionary[String, String] = {
 		"Class Initial": str(roundi(unit_class.get_stat(stat, 1))),
 		"Personal Value": str(get_personal_value(stat)),
@@ -479,7 +479,7 @@ func get_stat_table(stat: Stats) -> Array[String]:
 		"Effort Value": str(get_effort_value(stat)),
 		"Modifier": _get_modifier(stat),
 	}
-	return Utilities.dict_to_table(table_items)
+	return Table.from_dictionary(table_items, 3)
 
 
 ## Gets the unit's weapons
@@ -491,7 +491,7 @@ func get_weapons() -> Array[Weapon]:
 
 ## Gets the unit's minimum range.
 func get_min_range() -> int:
-	return get_weapons().reduce(
+	return get_all_weapon_modes().reduce(
 		func(min_range: int, weapon: Weapon) -> int: return mini(min_range, weapon.get_min_range()),
 		get_weapon().get_min_range()
 	)
@@ -501,7 +501,7 @@ func get_min_range() -> int:
 func get_max_range() -> float:
 	var max_range_reduce: Callable = func(max_range: float, weapon: Weapon) -> float:
 		return maxf(max_range, weapon.get_max_range())
-	return get_weapons().reduce(max_range_reduce, get_weapon().get_max_range())
+	return get_all_weapon_modes().reduce(max_range_reduce, get_weapon().get_max_range())
 
 
 ## Gets the unit's skills
@@ -913,6 +913,12 @@ func get_sprite() -> UnitSprite:
 		_hair_color_light,
 		_hair_color_dark
 	)
+
+
+func get_all_weapon_modes() -> Array[Weapon]:
+	var get_all_modes: Callable = func(modes: Array[Weapon], weapon: Weapon) -> Array[Weapon]:
+		return modes + weapon.get_weapon_modes()
+	return get_weapons().reduce(get_all_modes, [] as Array[Weapon])
 
 
 func _set_faction_id(value: int) -> void:

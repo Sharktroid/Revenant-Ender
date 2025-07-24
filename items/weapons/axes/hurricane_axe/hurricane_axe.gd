@@ -6,12 +6,20 @@ func _init() -> void:
 	super()
 	resource_name = "Hurricane Axe"
 	_rank = Ranks.A
+	_mode_name = "Melee"
 	_max_uses = 30
 	_price = 47
-	_might += 18
-	_weight += 6
+	_might += 7
+	_weight += 4
 	_hit -= 5
-	_max_range = 2
-	_damage_type = DamageTypes.MAGICAL
 	_flavor_text = "An axe that can unleash the fury of a storm upon its enemies."
-	_description = "Deals magical damage."
+	_linked_weapon = HurricaneAxeCast.new()
+
+class HurricaneAxeCast extends Anima:
+	func _init() -> void:
+		super()
+		_heavy_weapon = true
+		_mode_name = "Cast"
+		_might += 12
+		_weight += 2
+		_hit -= 5

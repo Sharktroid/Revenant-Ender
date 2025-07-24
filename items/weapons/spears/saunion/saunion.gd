@@ -5,6 +5,7 @@ extends Spear
 func _init() -> void:
 	super()
 	resource_name = "Saunion"
+	_damage_type = DamageTypes.RANGED
 	_rank = Ranks.B
 	_max_uses = 30
 	_price = 37
