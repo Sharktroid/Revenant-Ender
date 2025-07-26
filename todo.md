@@ -5,8 +5,6 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Move dict_to_table to Table.
-* Rename to "Revenant Ender"
 * Make weapon ranks fixed.
 	* Update help table to reflect.
 * Have hand in options menu for the bars be based on the cursor position.
