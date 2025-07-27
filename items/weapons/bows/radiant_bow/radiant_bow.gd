@@ -3,7 +3,6 @@ extends Bow
 
 
 func _init() -> void:
-	super()
 	resource_name = "Radiant Bow"
 	_rank = Ranks.B
 	_max_uses = 30
@@ -13,3 +12,4 @@ func _init() -> void:
 	_hit -= 5
 	_damage_type = DamageTypes.MAGICAL
 	_flavor_text = "A bow empowered with light magic, letting it cast holy spells."
+	super()

@@ -3,7 +3,6 @@ extends Axe
 
 
 func _init() -> void:
-	super()
 	const LUCK_MODIFIER: int = 15
 	resource_name = "Angelic Frying Pan"
 	_rank = Ranks.A
@@ -15,3 +14,4 @@ func _init() -> void:
 	_crit = 25
 	_description = "A frying pan blessed with a holy aura that boosts the wielder's aura."
 	_flavor_text = "+5 magic, +15 luck."
+	super()

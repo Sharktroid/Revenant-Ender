@@ -3,7 +3,6 @@ extends Spear
 
 
 func _init() -> void:
-	super()
 	resource_name = "Guard Spear"
 	_rank = Ranks.B
 	_max_uses = 20
@@ -13,3 +12,4 @@ func _init() -> void:
 	_hit -= 10
 	_flavor_text = "A spear that bolsters the user's defenses."
 	_description = "+4 defense and armor"
+	super()

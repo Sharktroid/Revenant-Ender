@@ -4,7 +4,6 @@ extends Knife
 
 
 func _init() -> void:
-	super()
 	resource_name = "Mambele"
 	_rank = Ranks.B
 	_max_uses = 30
@@ -15,3 +14,4 @@ func _init() -> void:
 	_hit = base_axe.get_hit()
 	_max_range = 2
 	_flavor_text = "A hybrid of an axe and a knife, featuring multiple blades designed to inflict damage no matter what side lands on an opponent."
+	super()

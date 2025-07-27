@@ -2,7 +2,6 @@ class_name YltaoCata
 extends Sword
 
 func _init() -> void:
-	super()
 	_heavy_weapon = true
 	_mode_name = "Melee"
 	resource_name = "Yltao Cata"
@@ -23,4 +22,5 @@ func _init() -> void:
 	_linked_weapon._mode_name = "Cast"
 	_linked_weapon._max_range = 2
 	_linked_weapon._heavy_weapon = false
+	super()
 

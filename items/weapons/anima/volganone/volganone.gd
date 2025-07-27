@@ -3,7 +3,6 @@ extends Anima
 
 
 func _init() -> void:
-	super()
 	const INTELLIGENCE_MODIFIER: int = 5
 	_heavy_weapon = true
 	resource_name = "Volganone"
@@ -15,3 +14,4 @@ func _init() -> void:
 	_hit -= 5
 	_flavor_text = "Causes a burst of magma to erupt from within the planet, and incinerate foes."
 	_description = "+%d int."
+	super()

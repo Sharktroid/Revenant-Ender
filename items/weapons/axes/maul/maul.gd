@@ -3,7 +3,6 @@ extends Axe
 
 
 func _init() -> void:
-	super()
 	resource_name = "Maul"
 	_rank = Ranks.A
 	_max_uses = 35
@@ -13,3 +12,4 @@ func _init() -> void:
 	_hit -= 10
 	_flavor_text = "A heavy two-handed axe that can crush even the toughest armor."
 	_description = "Effective against armored foes."
+	super()

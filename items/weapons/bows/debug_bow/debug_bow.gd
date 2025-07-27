@@ -4,7 +4,6 @@ extends Bow
 
 # Weapon-specific variables.
 func _init() -> void:
-	super()
 	resource_name = "Debug Bow"
 	_rank = Ranks.D
 	_might = INF
@@ -18,3 +17,4 @@ func _init() -> void:
 #	effective_classes
 	_min_range = 1
 	_max_range = INF
+	super()

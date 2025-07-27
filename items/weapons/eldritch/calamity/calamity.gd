@@ -3,7 +3,6 @@ extends Eldritch
 
 
 func _init() -> void:
-	super()
 	resource_name = "Calamity"
 	_rank = Ranks.S
 	_max_uses = 1345
@@ -12,3 +11,4 @@ func _init() -> void:
 	_weight -= 2
 	_hit += 235
 	_crit = 50
+	super()

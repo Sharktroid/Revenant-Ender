@@ -3,7 +3,6 @@ extends Axe
 
 
 func _init() -> void:
-	super()
 	resource_name = "Hurricane Axe"
 	_rank = Ranks.A
 	_mode_name = "Melee"
@@ -14,6 +13,7 @@ func _init() -> void:
 	_hit -= 5
 	_flavor_text = "An axe that can unleash the fury of a storm upon its enemies."
 	_linked_weapon = HurricaneAxeCast.new()
+	super()
 
 class HurricaneAxeCast extends Anima:
 	func _init() -> void:

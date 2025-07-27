@@ -3,7 +3,6 @@ extends Sword
 
 
 func _init() -> void:
-	super()
 	resource_name = "Shadow Sword"
 	_rank = Ranks.D
 	_max_uses = 66
@@ -13,3 +12,4 @@ func _init() -> void:
 	_hit -= 20
 	_flavor_text = "A sword forged from the essence of darkness."
 	_description = "Deals 1 recoil per 2 dealt."
+	super()

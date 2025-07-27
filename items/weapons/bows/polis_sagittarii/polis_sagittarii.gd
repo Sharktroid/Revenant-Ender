@@ -3,7 +3,6 @@ extends Bow
 
 
 func _init() -> void:
-	super()
 	resource_name = "Polis Sagittarii"
 	_mode_name = "Bow"
 	_rank = Ranks.D
@@ -18,3 +17,4 @@ func _init() -> void:
 	_linked_weapon._mode_name = "Cast"
 	_linked_weapon._min_range = 1
 	_linked_weapon._max_range = 2
+	super()

@@ -3,7 +3,6 @@ extends Spear
 
 
 func _init() -> void:
-	super()
 	resource_name = "Arrow of Indra"
 	_mode_name = "Melee"
 	_rank = Ranks.A
@@ -18,3 +17,4 @@ func _init() -> void:
 	_linked_weapon._damage_type = DamageTypes.MAGICAL
 	_linked_weapon._mode_name = "Cast"
 	_linked_weapon._max_range = 2
+	super()

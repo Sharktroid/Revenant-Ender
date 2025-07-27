@@ -3,7 +3,6 @@ extends Eldritch
 
 
 func _init() -> void:
-	super()
 	resource_name = "Ruin"
 	_rank = Ranks.B
 	_max_uses = 20
@@ -13,3 +12,4 @@ func _init() -> void:
 	_hit -= 5
 	_crit = INF
 	_flavor_text = "Sends a life-killing burst of energy at an enemy."
+	super()

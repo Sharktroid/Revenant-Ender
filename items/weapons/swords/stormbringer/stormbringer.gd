@@ -3,7 +3,6 @@ extends Sword
 
 
 func _init() -> void:
-	super()
 	resource_name = "Stormbringer"
 	_rank = Ranks.A
 	_max_uses = 25
@@ -13,3 +12,4 @@ func _init() -> void:
 	_hit -= 15
 	_flavor_text = "A sword said to have a will of its own."
 	_description = "Grants Lifetaker."
+	super()

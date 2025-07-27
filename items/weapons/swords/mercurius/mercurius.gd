@@ -3,7 +3,6 @@ extends Sword
 
 
 func _init() -> void:
-	super()
 	resource_name = "Mercurius"
 	_rank = Ranks.S
 	_max_uses = 20
@@ -12,3 +11,4 @@ func _init() -> void:
 	_weight += 2
 	_flavor_text = "A legendary sword from the age of Krystaliythiyia."
 	_description = "Boosts the wielder's learning rate.\n\nx2 EV gain."
+	super()

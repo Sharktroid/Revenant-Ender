@@ -3,7 +3,6 @@ extends Sword
 
 
 func _init() -> void:
-	super()
 	resource_name = "Levin Sword"
 	_mode_name = "Melee"
 	_rank = Ranks.B
@@ -17,3 +16,4 @@ func _init() -> void:
 	_linked_weapon._damage_type = DamageTypes.MAGICAL
 	_linked_weapon._mode_name = "Cast"
 	_linked_weapon._max_range = 2
+	super()

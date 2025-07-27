@@ -3,7 +3,6 @@ extends Bow
 
 
 func _init() -> void:
-	super()
 	_heavy_weapon = true
 	resource_name = "Repeating Crossbow"
 	_rank = Ranks.B
@@ -15,3 +14,4 @@ func _init() -> void:
 	_max_range = 2
 	_flavor_text = "A crossbow that fires many bolts in fast succession."
 	_description = "+3 primary and c.s. strikes."
+	super()

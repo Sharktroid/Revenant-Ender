@@ -3,7 +3,6 @@ extends Anima
 
 
 func _init() -> void:
-	super()
 	resource_name = "Cutting Gale"
 	_rank = Ranks.C
 	_max_uses = 30
@@ -13,3 +12,4 @@ func _init() -> void:
 	_hit += 10
 	_flavor_text = "Summons a fast, fierce gust of wind."
 	_description = "Effective against fliers."
+	super()

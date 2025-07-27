@@ -9,8 +9,8 @@ func _init() -> void:
 	_max_range = 2
 	_advantage_types = [Types.HOLY]
 	_disadvantage_types = [Types.ELDRITCH]
-	_might = 4
-	_hit = 100
-	_weight = 4
+	_might += 4
+	_hit += 100
+	_weight += 4
 	_damage_type = DamageTypes.MAGICAL
 	super()

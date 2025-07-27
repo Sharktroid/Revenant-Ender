@@ -3,7 +3,6 @@ extends Holy
 
 
 func _init() -> void:
-	super()
 	resource_name = "Sagittae"
 	_rank = Ranks.B
 	_max_uses = 25
@@ -12,3 +11,4 @@ func _init() -> void:
 	_hit += 5
 	_flavor_text = "Summons a storm of light arrows to barrage foes."
 	_description = "Hits on pierce."
+	super()

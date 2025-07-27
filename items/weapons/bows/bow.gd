@@ -7,9 +7,9 @@ func _init() -> void:
 	_type = Types.BOW
 	_min_range = 2
 	_max_range = 3
-	_might = 8
-	_hit = 95
-	_weight = 8
+	_might += 8
+	_hit += 95
+	_weight += 8
 	super()
 
 

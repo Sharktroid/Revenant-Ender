@@ -3,6 +3,6 @@ extends Axe
 
 
 func _init() -> void:
-	super()
 	_preset = _Presets.STEEL
 	_heavy_weapon = true
+	super()

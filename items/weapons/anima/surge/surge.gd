@@ -3,7 +3,6 @@ extends Anima
 
 
 func _init() -> void:
-	super()
 	resource_name = "Surge"
 	_rank = Ranks.C
 	_max_uses = 35
@@ -13,3 +12,4 @@ func _init() -> void:
 	_hit = INF
 	_max_range = 1
 	_flavor_text = "Sends a burst of electricity through the ground."
+	super()

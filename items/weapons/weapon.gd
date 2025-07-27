@@ -15,7 +15,7 @@ enum Types {
 	SIEGE,
 	SHIELD,
 }
-enum Ranks { S = 171, A = 121, B = 71, C = 31, D = 1, DISABLED = 0 }
+enum Ranks { S = 5, A = 4, B = 3, C = 2, D = 1, DISABLED = 0 }
 enum DamageTypes { PHYSICAL, RANGED, MAGICAL }
 enum AdvantageState { ADVANTAGE = 1, DISADVANTAGE = -1, NEUTRAL = 0 }
 
@@ -79,6 +79,7 @@ var _linked_weapon: Weapon = null:
 
 
 func _init() -> void:
+	_update_name()
 	if not _damage_type:
 		match _type:
 			Types.SWORD, Types.AXE, Types.KNIFE, Types.SPEAR:

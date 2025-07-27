@@ -3,7 +3,6 @@ extends Spear
 
 
 func _init() -> void:
-	super()
 	resource_name = "Saunion"
 	_damage_type = DamageTypes.RANGED
 	_rank = Ranks.B
@@ -13,3 +12,4 @@ func _init() -> void:
 	_min_range = 2
 	_max_range = 3
 	_flavor_text = "A spear that can be thrown at enemies to deal damage from a distance, but can't be used in close combat."
+	super()

@@ -3,7 +3,6 @@ extends Axe
 
 
 func _init() -> void:
-	super()
 	resource_name = "Dolharken"
 	_rank = Ranks.D
 	_max_uses = 50
@@ -13,3 +12,4 @@ func _init() -> void:
 	_hit -= 15
 	_flavor_text = "A heavy and inaccurate axe that reduces the damage taken by its wielder."
 	_description = "Halves the damage taken by the wielder."
+	super()

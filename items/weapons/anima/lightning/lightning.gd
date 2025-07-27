@@ -3,7 +3,6 @@ extends Anima
 
 
 func _init() -> void:
-	super()
 	_heavy_weapon = true
 	resource_name = "Lightning"
 	_rank = Ranks.D
@@ -14,3 +13,4 @@ func _init() -> void:
 	_hit -= 5
 	_max_range += 1
 	_flavor_text = "Casts a bolt of lightning down upon its foes."
+	super()

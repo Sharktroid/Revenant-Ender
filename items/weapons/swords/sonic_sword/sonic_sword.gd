@@ -3,7 +3,6 @@ extends Sword
 
 
 func _init() -> void:
-	super()
 	resource_name = "Sonic Sword"
 	_rank = Ranks.B
 	_max_uses = 10
@@ -13,3 +12,4 @@ func _init() -> void:
 	_hit += 20
 	_flavor_text = "A sword that delivers a lightning-fast strike that staggers foes."
 	_description = "Solidifies the target on hit."
+	super()

@@ -3,7 +3,6 @@ extends Axe
 
 
 func _init() -> void:
-	super()
 	resource_name = "Devil Axe"
 	_rank = Ranks.D
 	_max_uses = 66
@@ -13,3 +12,4 @@ func _init() -> void:
 	_crit = 25
 	_flavor_text = "A cursed axe will sometimes backfire on its wielder."
 	_description = "Has a (15 - luck + enemy's luck)% chance of backfiring."
+	super()

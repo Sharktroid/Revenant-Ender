@@ -3,7 +3,6 @@ extends Eldritch
 
 
 func _init() -> void:
-	super()
 	resource_name = "Glower"
 	_rank = Ranks.B
 	_max_uses = 15
@@ -13,3 +12,4 @@ func _init() -> void:
 	_hit += 10
 	_flavor_text = "Pierces into the foe's soul with evil eyes."
 	_description = "Ignores target's defense."
+	super()

@@ -3,7 +3,6 @@ extends Bow
 
 
 func _init() -> void:
-	super()
 	resource_name = "Longbow"
 	_rank = Ranks.B
 	_max_uses = 25
@@ -14,3 +13,4 @@ func _init() -> void:
 	_min_range = 2
 	_max_range = 5
 	_flavor_text = "A long bow that can stretch extra far, letting it fire arrows from long range."
+	super()

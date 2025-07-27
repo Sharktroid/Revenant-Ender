@@ -3,7 +3,6 @@ extends Spear
 
 
 func _init() -> void:
-	super()
 	resource_name = "Uberspear"
 	_rank = Ranks.S
 	_max_uses = 5
@@ -15,3 +14,4 @@ func _init() -> void:
 	_max_range = 3
 	_flavor_text = "A spear infused with a power that vastly increases the strength of its wielder."
 	_description = "Maxes all stats of the wielder."
+	super()

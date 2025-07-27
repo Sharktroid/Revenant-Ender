@@ -3,7 +3,6 @@ extends Axe
 
 
 func _init() -> void:
-	super()
 	resource_name = "Mjölnir"
 	_rank = Ranks.D
 	_max_uses = 20
@@ -14,3 +13,4 @@ func _init() -> void:
 	_max_range = 2
 	_flavor_text = "A hammer made by Irashkalla for Adriana as a gift. It is based on Gurthang, with similar lightning magic and accuracy."
 	_description = "+10 skill. +6 magic damage."
+	super()

@@ -3,7 +3,6 @@ extends Sword
 
 
 func _init() -> void:
-	super()
 	resource_name = "Rapier"
 	_rank = Ranks.B
 	_max_uses = 30
@@ -13,3 +12,4 @@ func _init() -> void:
 	_hit += 10
 	_flavor_text = "A thin, pointed sword designed for thrusting attacks."
 	_description = "Ignores shields."
+	super()

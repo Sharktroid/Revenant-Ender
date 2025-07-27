@@ -3,7 +3,6 @@ extends Sword
 
 
 func _init() -> void:
-	super()
 	resource_name = "Runesword"
 	_rank = Ranks.A
 	_damage_type = DamageTypes.MAGICAL
@@ -16,3 +15,4 @@ func _init() -> void:
 	_max_range = 2
 	_flavor_text = "A sword with ancient runes inscribed on it."
 	_description = "Grants Sol. Casts a powerful dark magic spell when used."
+	super()

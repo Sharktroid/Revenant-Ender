@@ -3,7 +3,6 @@ extends Sword
 
 
 func _init() -> void:
-	super()
 	resource_name = "Yltao Ana"
 	_mode_name = "Melee"
 	_rank = Ranks.S
@@ -24,3 +23,4 @@ func _init() -> void:
 	_linked_weapon._max_range = 2
 	_linked_weapon._description = "Ignores enemy resistance."
 	_linked_weapon._heavy_weapon = true
+	super()

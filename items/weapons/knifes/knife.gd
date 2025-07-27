@@ -7,9 +7,9 @@ func _init() -> void:
 	_min_range = 1
 	_max_range = 2
 	_type = Types.KNIFE
-	_might = 4
-	_hit = 105
-	_weight = 4
+	_might += 4
+	_hit += 105
+	_weight += 4
 	super()
 
 
@@ -34,5 +34,5 @@ func _update_linked_weapon() -> void:
 		_mode_name = "Melee"
 		_linked_weapon = _clone()
 		_linked_weapon._damage_type = DamageTypes.RANGED
-		_linked_weapon._mode_name = "Throw"
+		_linked_weapon._mode_name = "Thrown"
 		_linked_weapon._max_range = 2

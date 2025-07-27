@@ -3,7 +3,6 @@ extends Bow
 
 
 func _init() -> void:
-	super()
 	_heavy_weapon = true
 	resource_name = "Submachine Bow"
 	_rank = Ranks.S
@@ -14,3 +13,4 @@ func _init() -> void:
 	_hit -= 10
 	_flavor_text = "A bow with a revolving barrel that fires arrows at an incredible rate."
 	_description += "+7 primary and c.s. strikes."
+	super()

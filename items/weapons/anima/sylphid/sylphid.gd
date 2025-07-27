@@ -3,7 +3,6 @@ extends Anima
 
 
 func _init() -> void:
-	super()
 	resource_name = "Sylphid"
 	_rank = Ranks.D
 	_max_uses = 6
@@ -13,3 +12,4 @@ func _init() -> void:
 	_hit += 10
 	_flavor_text = "Summons the saint of the wind to blow a chilling gale at foes."
 	_description = "Solidifies on hit."
+	super()

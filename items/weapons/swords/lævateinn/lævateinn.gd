@@ -4,7 +4,6 @@ extends Sword
 const DESCRIPTION: String = "+5 magic, +5 resistance."
 
 func _init() -> void:
-	super()
 	resource_name = "Lævateinn"
 	_rank = Ranks.S
 	_mode_name = "Melee"
@@ -16,6 +15,7 @@ func _init() -> void:
 	_flavor_text = "An ornate sword infused with fire magic that can create roaring infernos in the blink of an eye."
 	_description = DESCRIPTION
 	_linked_weapon = LævateinnCast.new()
+	super()
 
 class LævateinnCast extends Anima:
 	func _init() -> void:

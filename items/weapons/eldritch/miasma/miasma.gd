@@ -3,7 +3,6 @@ extends Eldritch
 
 
 func _init() -> void:
-	super()
 	resource_name = "Miasma"
 	_rank = Ranks.B
 	_max_uses = 25
@@ -13,3 +12,4 @@ func _init() -> void:
 	_hit -= 5
 	_flavor_text = "Summons a dark, filthy cloud to attack foes."
 	_description = "Hits on the target's resistance."
+	super()
