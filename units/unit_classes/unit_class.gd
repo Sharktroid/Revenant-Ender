@@ -48,8 +48,7 @@ var _base_movement: int
 @warning_ignore("unused_private_class_variable")
 var _base_build: int
 
-var _base_weapon_levels: Dictionary[Weapon.Types, int]
-var _max_weapon_levels: Dictionary[Weapon.Types, int]
+var _weapon_levels: Dictionary[Weapon.Types, int]
 var _max_level: int = 30
 var _movement_type: MovementTypes  # Movement class for handling moving over terrain.
 var _map_sprite: CompressedTexture2D
@@ -92,12 +91,8 @@ func get_stat(stat: Unit.Stats, level: int) -> float:
 				)
 
 
-func get_base_weapon_level(type: Weapon.Types) -> int:
-	return _base_weapon_levels.get(type, 0)
-
-
-func get_max_weapon_level(type: Weapon.Types) -> int:
-	return _max_weapon_levels.get(type, 0)
+func get_weapon_level(type: Weapon.Types) -> int:
+	return _weapon_levels.get(type, 0)
 
 
 func get_LEVEL_CAP() -> int:

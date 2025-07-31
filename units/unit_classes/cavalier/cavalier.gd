@@ -10,14 +10,9 @@ func _init() -> void:
 	_weight_modifier = 25
 	_description = "Dedicated cavalry with superior abilities all around."
 
-	_base_weapon_levels = {
-		Weapon.Types.SWORD: Weapon.Ranks.C,
+	_weapon_levels = {
+		Weapon.Types.SWORD: Weapon.Ranks.B,
 		Weapon.Types.SPEAR: Weapon.Ranks.B,
-	}
-
-	_max_weapon_levels = {
-		Weapon.Types.SWORD: Weapon.Ranks.A,
-		Weapon.Types.SPEAR: Weapon.Ranks.S,
 	}
 
 	_base_hit_points = 40

@@ -27,8 +27,6 @@ enum Stats {
 const DEXTERITY_HIT_MULTIPLIER: int = 3
 ## The amount of avoid each point of speed or luck gives.
 const SPEED_LUCK_AVOID_MULTIPLIER: int = 2
-## The amount of each weapon rank that is boosted by each point of dexterity.
-const DEXTERITY_WEAPON_LEVEL_MULTIPLIER: int = 2
 ## The maximum level a unit can have.
 const LEVEL_CAP: int = 30
 ## Duration of fade-away upon death
@@ -429,7 +427,7 @@ func get_avoid() -> float:
 
 ## Gets the hit rate against an enemy
 func get_hit_rate(enemy: Unit) -> int:
-	if get_weapon(): # No point in doing something more elaborate and complicated.
+	if get_weapon():  # No point in doing something more elaborate and complicated.
 		var hit_bonus: float = get_weapon().get_hit_bonus(enemy.get_weapon(), _get_distance(enemy))
 		var authority_bonus: int = AUTHORITY_HIT_BONUS * get_authority_modifier(enemy)
 		return _adjust_rate(
@@ -451,7 +449,8 @@ func get_critical_avoid() -> float:
 ## Gets the crit rate against an enemy
 func get_crit_rate(enemy: Unit) -> int:
 	var critical_avoid: float = (
-		enemy.get_critical_avoid() + enemy.get_authority_modifier(self) * AUTHORITY_CRITICAL_AVOID_BONUS
+		enemy.get_critical_avoid()
+		+ enemy.get_authority_modifier(self) * AUTHORITY_CRITICAL_AVOID_BONUS
 	)
 	return _adjust_rate(roundi(clampf(get_crit() - critical_avoid, 0, 100)))
 
@@ -817,21 +816,27 @@ func get_true_attack(enemy: Unit) -> float:
 
 ## Gets the weapon level for a weapon type
 func get_weapon_level(type: Weapon.Types) -> int:
-	var unclamped_level: int = (
-		personal_weapon_levels.get(type, 0) as int
-		+ unit_class.get_base_weapon_level(type)
-		+ roundi(Formulas.WEAPON_LEVEL_BONUS.evaluate(self))
-	)
-	return clampi(unclamped_level, 0, unit_class.get_max_weapon_level(type))
+	var faire_reduce: Callable = func(total_boost: int, skill: Skill) -> int:
+		if skill is Faire and (skill as Faire).get_weapon_type() == type:
+			return total_boost + (skill as Faire).get_rank_boost()
+		return total_boost
+	return unit_class.get_weapon_level(type) + get_skills().reduce(faire_reduce, 0)
+	# Part of the classic weapon rank system.
+	#var unclamped_level: int = (
+	#	personal_weapon_levels.get(type, 0) as int
+	#	+ unit_class.get_base_weapon_level(type)
+	#	+ roundi(Formulas.WEAPON_LEVEL_BONUS.evaluate(self))
+	#)
+	#return clampi(unclamped_level, 0, unit_class.get_max_weapon_level(type))
 
 
-## Sets the weapon level of a type
-func set_weapon_level(type: Weapon.Types, new_level: int) -> void:
-	if not personal_weapon_levels.get(type):
-		personal_weapon_levels[type] = 0
-	personal_weapon_levels[type] += (
-		clampi(new_level, 0, unit_class.get_max_weapon_level(type)) - get_weapon_level(type)
-	)
+# Part of the classic weapon rank system.
+#func set_weapon_level(type: Weapon.Types, new_level: int) -> void:
+#if not personal_weapon_levels.get(type):
+#personal_weapon_levels[type] = 0
+#personal_weapon_levels[type] += (
+#clampi(new_level, 0, unit_class.get_max_weapon_level(type)) - get_weapon_level(type)
+#)
 
 
 ## Gets the unit's personal value for a stat.
@@ -865,11 +870,11 @@ func get_effort_modifier(stat: Stats, effort_value: int = get_effort_value(stat)
 	var modifier: int = _EV_MAX_HP_MODIFIER if stat == Stats.HIT_POINTS else EV_MAX_MODIFIER
 	return roundi(modifier * clampf(effort_value, 0, INDIVIDUAL_EV_LIMIT) / INDIVIDUAL_EV_LIMIT)
 	#return _get_value_modifier(
-	#stat,
-	#current_level,
-	#_EV_MIN_HP_MODIFIER if stat == Stats.HIT_POINTS else _EV_MIN_MODIFIER,
-	#_EV_MAX_HP_MODIFIER if stat == Stats.HIT_POINTS else EV_MAX_MODIFIER,
-	#clampf(effort_value, 0, INDIVIDUAL_EV_LIMIT) / INDIVIDUAL_EV_LIMIT
+	#	stat,
+	#	current_level,
+	#	_EV_MIN_HP_MODIFIER if stat == Stats.HIT_POINTS else _EV_MIN_MODIFIER,
+	#	_EV_MAX_HP_MODIFIER if stat == Stats.HIT_POINTS else EV_MAX_MODIFIER,
+	#	clampf(effort_value, 0, INDIVIDUAL_EV_LIMIT) / INDIVIDUAL_EV_LIMIT
 	#)
 
 

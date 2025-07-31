@@ -161,7 +161,6 @@ It also reduces the duration of status staves by one turn per 5 points."""
 			)
 			const REPLACEMENTS: Dictionary[String, int] = {
 				"dexterity_hit_multiplier": Unit.DEXTERITY_HIT_MULTIPLIER,
-				"dexterity_weapon_level_multiplier": Unit.DEXTERITY_WEAPON_LEVEL_MULTIPLIER
 			}
 			return DESCRIPTION.format(REPLACEMENTS)
 		Unit.Stats.SPEED:

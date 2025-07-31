@@ -4,7 +4,7 @@ extends Unit
 
 # Unit-specific variables.
 func _enter_tree() -> void:
-	set_weapon_level(Weapon.Types.AXE, Weapon.Ranks.B)
+	#set_weapon_level(Weapon.Types.AXE, Weapon.Ranks.B)
 	_personal_values = {
 		Stats.HIT_POINTS: 14,
 		Stats.STRENGTH: 10,

@@ -62,7 +62,6 @@ var _preset: _Presets:
 	set(value):
 		_load_preset(_preset, value)
 		_preset = value
-		_update_name()
 var _heavy_weapon: bool = false:
 	set(value):
 		_heavy_weapon = value
@@ -79,7 +78,8 @@ var _linked_weapon: Weapon = null:
 
 
 func _init() -> void:
-	_update_name()
+	if resource_name == "":
+		_update_name()
 	if not _damage_type:
 		match _type:
 			Types.SWORD, Types.AXE, Types.KNIFE, Types.SPEAR:
@@ -103,17 +103,18 @@ func in_range(distance: int) -> bool:
 
 func get_stat_table() -> Table:
 	var table: Dictionary[String, String] = {
+		"Mode": _mode_name if _mode_name.length() > 0 else "Standard",
 		"Type": (Types.find_key(_type) as String).capitalize(),
-		"Rank": (Ranks.find_key(_rank) as String).capitalize(),
 		"G/use": Utilities.float_to_string(_price, true),
-		"D. cat.": (DamageTypes.find_key(_damage_type) as String).capitalize(),
 		"Might": Utilities.float_to_string(_might, true),
 		"Hit": Utilities.float_to_string(_hit, true),
+		"D. cat.": (DamageTypes.find_key(_damage_type) as String).capitalize(),
+		"Rank": (Ranks.find_key(_rank) as String).capitalize(),
 		"Range": get_range_text(),
 		"Weight": Utilities.float_to_string(_weight, true),
 		"Critical": Utilities.float_to_string(_crit, true)
 	}
-	return Table.from_dictionary(table, 3)
+	return Table.from_dictionary(table, 5)
 
 
 func get_weapon_triangle_advantage(weapon: Weapon, _distance: int) -> AdvantageState:
@@ -218,7 +219,6 @@ func _load_preset(old_preset: _Presets, new_preset: _Presets) -> void:
 		_heavy_weapon = true
 	elif old_preset in HEAVY_PRESETS:
 		_heavy_weapon = false
-	_update_name()
 	_rank = _get_preset_rank(new_preset)
 	_might += (_get_preset_might(new_preset) - _get_preset_might(old_preset))
 	_weight += _get_preset_weight(new_preset) + _get_preset_weight(old_preset)
@@ -232,7 +232,6 @@ func _load_preset(old_preset: _Presets, new_preset: _Presets) -> void:
 
 func _load_heavy_modifiers() -> void:
 	var heavy_multiplier: int = 1 if _heavy_weapon else -1
-	_update_name()
 
 	_might += (_HEAVY_WEIGHT_MODIFIER * heavy_multiplier)
 	_weight += (_HEAVY_WEIGHT_MODIFIER * heavy_multiplier)

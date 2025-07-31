@@ -19,9 +19,9 @@ static var CRIT := Formula.new("{weapon_crit} + {dexterity}"):
 static var CRITICAL_AVOID := Formula.new("{luck}"):
 	set(value):
 		pass
-static var WEAPON_LEVEL_BONUS := Formula.new("{dexterity} * {dexterity_weapon_level_multiplier}"):
-	set(value):
-		pass
+#static var WEAPON_LEVEL_BONUS := Formula.new("{dexterity} * {dexterity_weapon_level_multiplier}"):
+	#set(value):
+		#pass
 #gdlint: enable=class-variable-name
 
 
@@ -30,7 +30,6 @@ class Formula:
 	const _CONSTANTS: Dictionary[String, int] = {
 		"dexterity_hit_multiplier": Unit.DEXTERITY_HIT_MULTIPLIER,
 		"speed_luck_avoid_multiplier": Unit.SPEED_LUCK_AVOID_MULTIPLIER,
-		"dexterity_weapon_level_multiplier": Unit.DEXTERITY_WEAPON_LEVEL_MULTIPLIER,
 	}
 	var _functions: Dictionary[String, Callable] = {
 		"weapon_hit": func(unit: Unit) -> float: return unit.get_weapon().get_hit() if unit.get_weapon() else 0.0,

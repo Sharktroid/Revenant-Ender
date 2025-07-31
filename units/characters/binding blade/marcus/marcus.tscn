@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dvkbmwwrt5mmo"]
+[gd_scene load_steps=20 format=3 uid="uid://dvkbmwwrt5mmo"]
 
 [ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit.tscn" id="1_lxmi0"]
 [ext_resource type="Script" uid="uid://b04733n3i2n5r" path="res://units/characters/binding blade/marcus/marcus.gd" id="2_716f4"]
@@ -10,8 +10,10 @@
 [ext_resource type="Script" uid="uid://oxuirych6txp" path="res://items/item.gd" id="6_gxow7"]
 [ext_resource type="Script" uid="uid://rg6mvjo73yko" path="res://items/weapons/spears/silver_greatspear/silver_greatspear.gd" id="8_4dyju"]
 [ext_resource type="Script" uid="uid://b0lv5h8j444ah" path="res://items/weapons/spears/pilum/pilum.gd" id="9_nonwl"]
+[ext_resource type="Script" uid="uid://dya3s8phtivsv" path="res://skills/skill.gd" id="10_7dtq5"]
+[ext_resource type="Script" uid="uid://k48he3us0ehg" path="res://skills/faire/faire_base.gd" id="11_a23ob"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_nonwl"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7dtq5"]
 shader = ExtResource("2_r7bij")
 shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
 shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.94768, 0.8544, 0.96, 1), Color(0.42075, 0.4029, 0.51, 1)])
@@ -31,12 +33,18 @@ metadata/_custom_type_script = "uid://rg6mvjo73yko"
 script = ExtResource("9_nonwl")
 metadata/_custom_type_script = "uid://b0lv5h8j444ah"
 
+[sub_resource type="Resource" id="Resource_quw5p"]
+script = ExtResource("11_a23ob")
+weapon_type = 1
+variant = 1
+metadata/_custom_type_script = "uid://k48he3us0ehg"
+
 [sub_resource type="Resource" id="Resource_udhl1"]
 resource_name = "Cavalier"
 script = ExtResource("5_eehvg")
 
 [node name="Marcus" instance=ExtResource("1_lxmi0")]
-material = SubResource("ShaderMaterial_nonwl")
+material = SubResource("ShaderMaterial_7dtq5")
 texture = ExtResource("3_b0khk")
 script = ExtResource("2_716f4")
 display_name = "Marcus"
@@ -44,6 +52,7 @@ unit_description = "A veteran paladin serving Pherae.
 Roy's instructor in combat."
 items = Array[ExtResource("6_gxow7")]([SubResource("Resource_co5aq"), SubResource("Resource_67pnp"), SubResource("Resource_yvurv"), SubResource("Resource_7dtq5")])
 _base_level = 5
+_personal_skills = Array[ExtResource("10_7dtq5")]([SubResource("Resource_quw5p")])
 unit_class = SubResource("Resource_udhl1")
 _custom_hair = true
 _hair_color_light = Color(0.94768, 0.8544, 0.96, 1)

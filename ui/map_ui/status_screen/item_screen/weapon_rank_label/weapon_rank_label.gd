@@ -20,11 +20,11 @@ func _ready() -> void:
 
 
 func set_as_current_help_container() -> void:
-	var nodes: Array[Control] = [
-		HelpPopupController.create_text_node(_get_help_description())
-	]
+	var nodes: Array[Control] = []
 	if _get_weapon_rank() > 0:
-		nodes.insert(0, _get_help_table().to_grid_container())
+		nodes.append(_get_help_table().to_grid_container())
+	else:
+		nodes.append(HelpPopupController.create_text_node("This unit cannot wield weapons of this type."))
 	HelpPopupController.set_help_nodes(
 		[nodes], global_position + Vector2(size.x / 2, 0).round(), self
 	)
@@ -68,40 +68,37 @@ func _get_weapon_rank() -> int:
 	return unit.get_weapon_level(type)
 
 
-func _get_formatting_dictionary() -> Dictionary:
-	return {
-		"current value": _progress_bar.value,
-		"yellow": "color=%s" % Utilities.FONT_YELLOW,
-		"max value": _progress_bar.max_value,
-		"remaining value": _progress_bar.max_value - _progress_bar.value,
-		"rank": Weapon.Ranks.find_key(roundi(_progress_bar.max_value)),
-		"blue": "color=%s" % Utilities.FONT_BLUE,
-		"class value": unit.unit_class.get_base_weapon_level(type),
-		"personal value": unit.personal_weapon_levels.get(type, 0),
-		"skill value": Formulas.WEAPON_LEVEL_BONUS.evaluate(unit),
-		"total": unit.get_weapon_level(type),
-	}
+#func _get_formatting_dictionary() -> Dictionary:
+	#return {
+		#"current value": _progress_bar.value,
+		#"yellow": "color=%s" % Utilities.FONT_YELLOW,
+		#"max value": _progress_bar.max_value,
+		#"remaining value": _progress_bar.max_value - _progress_bar.value,
+		#"rank": Weapon.Ranks.find_key(roundi(_progress_bar.max_value)),
+		#"blue": "color=%s" % Utilities.FONT_BLUE,
+		#"class value": unit.unit_class.get_base_weapon_level(type),
+		#"personal value": unit.personal_weapon_levels.get(type, 0),
+		##"skill value": Formulas.WEAPON_LEVEL_BONUS.evaluate(unit),
+		#"total": unit.get_weapon_level(type),
+	#}
 
 
 func _get_help_table() -> Table:
 	var table_dict: Dictionary[String, String] = {
-		"Class": str(unit.unit_class.get_base_weapon_level(type)),
-		"Personal": str(unit.personal_weapon_levels.get(type, 0)),
-		"Dexterity bonus": str(Formulas.WEAPON_LEVEL_BONUS.evaluate(unit)),
-		"Total": str(unit.get_weapon_level(type))
+		"Class": str(Weapon.Ranks.find_key(unit.unit_class.get_weapon_level(type))),
 	}
 	return Table.from_dictionary(table_dict, 1)
 
 
-func _get_help_description() -> String:
-	if _get_weapon_rank() >= Weapon.Ranks.S:
-		return "This unit has maxed out their\nrank for this weapon"
-	elif _get_weapon_rank() < Weapon.Ranks.D:
-		return "This unit cannot wield weapons of this type"
-	else:
-		const UNFORMATTED_DESCRIPTION: String = (
-			"[center][{blue}]{current value}[/color] [{yellow}]/[/color] "
-			+ "[{blue}]{max value}[/color]\n"
-			+ "[{blue}]{remaining value}[/color] to [{blue}]{rank}[/color] rank[/center]\n"
-		)
-		return UNFORMATTED_DESCRIPTION.format(_get_formatting_dictionary())
+#func _get_help_description() -> String:
+	#if _get_weapon_rank() >= Weapon.Ranks.S:
+		#return "This unit has maxed out their\nrank for this weapon"
+	#elif _get_weapon_rank() < Weapon.Ranks.D:
+		#return "This unit cannot wield weapons of this type"
+	#else:
+		#const UNFORMATTED_DESCRIPTION: String = (
+			#"[center][{blue}]{current value}[/color] [{yellow}]/[/color] "
+			#+ "[{blue}]{max value}[/color]\n"
+			#+ "[{blue}]{remaining value}[/color] to [{blue}]{rank}[/color] rank[/center]\n"
+		#)
+		#return UNFORMATTED_DESCRIPTION.format(_get_formatting_dictionary())

@@ -11,8 +11,7 @@ func _init() -> void:
 	_weight_modifier = 5
 	_description = "Heavily armored knights with stout defense, but low speed."
 
-	_base_weapon_levels[Weapon.Types.SPEAR] = Weapon.Ranks.B
-	_max_weapon_levels[Weapon.Types.SPEAR] = Weapon.Ranks.S
+	_weapon_levels[Weapon.Types.SPEAR] = Weapon.Ranks.A
 
 	_base_hit_points = 40
 	_base_strength = 25

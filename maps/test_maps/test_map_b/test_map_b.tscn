@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=4 uid="uid://c7imjt60y75n3"]
+[gd_scene load_steps=54 format=4 uid="uid://c7imjt60y75n3"]
 
 [ext_resource type="PackedScene" uid="uid://bhm3c7lcoufva" path="res://maps/map.tscn" id="1_kb152"]
 [ext_resource type="Shader" uid="uid://dvhsb70ovjidp" path="res://shaders/gba_color.gdshader" id="2_1nmhw"]
@@ -13,11 +13,14 @@
 [ext_resource type="PackedScene" uid="uid://b4oirte2lakpd" path="res://units/characters/binding blade/bors/bors.tscn" id="13_1ke26"]
 [ext_resource type="PackedScene" uid="uid://cnrpvuqmny1m3" path="res://units/characters/binding blade/damas/damas.tscn" id="13_b2nf3"]
 [ext_resource type="Script" uid="uid://c1clcpf1btwub" path="res://units/unit_classes/archer/archer.gd" id="14_a6bhl"]
+[ext_resource type="Script" uid="uid://oxuirych6txp" path="res://items/item.gd" id="15_tt605"]
 [ext_resource type="Texture2D" uid="uid://dhm1yqcs0uc71" path="res://units/unit_classes/archer/map_sprite.png" id="16_mu4wr"]
+[ext_resource type="Script" uid="uid://d3ay2oc7h37pk" path="res://items/weapons/axes/iron_axe/iron_axe.gd" id="16_ogsov"]
 [ext_resource type="Script" uid="uid://c7gqcyndmk3eu" path="res://units/unit_classes/fighter/fighter.gd" id="16_si68w"]
 [ext_resource type="Script" uid="uid://clfd38is1kvt3" path="res://units/unit_classes/brigand/brigand.gd" id="17_2jg7w"]
 [ext_resource type="PackedScene" uid="uid://blysgn0u4e6ar" path="res://units/characters/binding blade/lance/lance.tscn" id="17_lj7l3"]
 [ext_resource type="Texture2D" uid="uid://dgli13fqa0m3n" path="res://units/unit_classes/fighter/map_sprite.png" id="19_wsf8a"]
+[ext_resource type="Script" uid="uid://c6jb78fbs60fi" path="res://items/weapons/bows/iron_bow/iron_bow.gd" id="21_ogsov"]
 [ext_resource type="Texture2D" uid="uid://k4v4jr2yobm1" path="res://units/unit_classes/brigand/map_sprite.png" id="22_b7ojr"]
 [ext_resource type="Shader" uid="uid://cctsq6npxnkp0" path="res://shaders/zoom.gdshader" id="26_3jmne"]
 
@@ -346,68 +349,46 @@ texture = ExtResource("3_ylwuq")
 [sub_resource type="TileSet" id="TileSet_mmpoq"]
 sources/0 = SubResource("TileSetAtlasSource_o2x6g")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_e4cq0"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ogsov"]
 shader = ExtResource("6_klyfp")
 shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
 shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.89, 0.0445, 0.185417, 1), Color(0.49, 0.1078, 0.19061, 1)])
 shader_parameter/white_percentage = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_tldb4"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tkqn4"]
 shader = ExtResource("6_klyfp")
 shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
 shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.94768, 0.8544, 0.96, 1), Color(0.42075, 0.4029, 0.51, 1)])
 shader_parameter/white_percentage = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_tt605"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bfqdh"]
 shader = ExtResource("6_klyfp")
 shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
 shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.65, 0.0455, 0.156325, 1), Color(0.37, 0.1406, 0.18648, 1)])
 shader_parameter/white_percentage = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ogsov"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7f3pc"]
 shader = ExtResource("6_klyfp")
 shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
 shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.3071, 0.83, 0.524975, 1), Color(0.2562, 0.42, 0.29169, 1)])
 shader_parameter/white_percentage = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_tkqn4"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hfsiu"]
 shader = ExtResource("6_klyfp")
 shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
 shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.73, 0.715643, 0.2993, 1), Color(0.4, 0.3688, 0.296, 1)])
 shader_parameter/white_percentage = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_bfqdh"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7tow3"]
 shader = ExtResource("6_klyfp")
 shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
 shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
 shader_parameter/white_percentage = 0.0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_7f3pc"]
-shader = ExtResource("6_klyfp")
-shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
-shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.596078, 0.564706, 0.376471, 1), Color(0.282353, 0.282353, 0.188235, 1), Color(0.909804, 0.721569, 0.690196, 1), Color(0.658824, 0.219608, 0.0941176, 1), Color(0.282353, 0.0627451, 0.0941176, 1), Color(0.156863, 0.12549, 0.12549, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.533333, 0.407843, 0.313726, 1), Color(0.0627451, 0, 0, 1), Color(0.658824, 0.321569, 0.32549, 1), Color(0.372549, 0.211765, 0.235294, 1)])
-shader_parameter/white_percentage = 0.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_hfsiu"]
-shader = ExtResource("6_klyfp")
-shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
-shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.596078, 0.564706, 0.376471, 1), Color(0.282353, 0.282353, 0.188235, 1), Color(0.909804, 0.721569, 0.690196, 1), Color(0.658824, 0.219608, 0.0941176, 1), Color(0.282353, 0.0627451, 0.0941176, 1), Color(0.156863, 0.12549, 0.12549, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.533333, 0.407843, 0.313726, 1), Color(0.0627451, 0, 0, 1), Color(0.501961, 0.439216, 0.847059, 1), Color(0.313726, 0.12549, 0.596078, 1)])
-shader_parameter/white_percentage = 0.0
-
-[sub_resource type="Resource" id="Resource_6ahce"]
-resource_name = "Fighter"
-script = ExtResource("16_si68w")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_7tow3"]
-shader = ExtResource("6_klyfp")
-shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
-shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.596078, 0.564706, 0.376471, 1), Color(0.282353, 0.282353, 0.188235, 1), Color(0.909804, 0.721569, 0.690196, 1), Color(0.658824, 0.219608, 0.0941176, 1), Color(0.282353, 0.0627451, 0.0941176, 1), Color(0.156863, 0.12549, 0.12549, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.533333, 0.407843, 0.313726, 1), Color(0.0627451, 0, 0, 1), Color(0.501961, 0.439216, 0.847059, 1), Color(0.313726, 0.12549, 0.596078, 1)])
-shader_parameter/white_percentage = 0.0
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_txp18"]
 shader = ExtResource("6_klyfp")
 shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
-shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.596078, 0.564706, 0.376471, 1), Color(0.282353, 0.282353, 0.188235, 1), Color(0.909804, 0.721569, 0.690196, 1), Color(0.658824, 0.219608, 0.0941176, 1), Color(0.282353, 0.0627451, 0.0941176, 1), Color(0.156863, 0.12549, 0.12549, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.533333, 0.407843, 0.313726, 1), Color(0.0627451, 0, 0, 1), Color(0.501961, 0.439216, 0.847059, 1), Color(0.313726, 0.12549, 0.596078, 1)])
+shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.596078, 0.564706, 0.376471, 1), Color(0.282353, 0.282353, 0.188235, 1), Color(0.909804, 0.721569, 0.690196, 1), Color(0.658824, 0.219608, 0.0941176, 1), Color(0.282353, 0.0627451, 0.0941176, 1), Color(0.156863, 0.12549, 0.12549, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.533333, 0.407843, 0.313726, 1), Color(0.0627451, 0, 0, 1), Color(0.658824, 0.321569, 0.32549, 1), Color(0.372549, 0.211765, 0.235294, 1)])
 shader_parameter/white_percentage = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p1jw0"]
@@ -415,6 +396,14 @@ shader = ExtResource("6_klyfp")
 shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
 shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.596078, 0.564706, 0.376471, 1), Color(0.282353, 0.282353, 0.188235, 1), Color(0.909804, 0.721569, 0.690196, 1), Color(0.658824, 0.219608, 0.0941176, 1), Color(0.282353, 0.0627451, 0.0941176, 1), Color(0.156863, 0.12549, 0.12549, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.533333, 0.407843, 0.313726, 1), Color(0.0627451, 0, 0, 1), Color(0.501961, 0.439216, 0.847059, 1), Color(0.313726, 0.12549, 0.596078, 1)])
 shader_parameter/white_percentage = 0.0
+
+[sub_resource type="Resource" id="Resource_tkqn4"]
+script = ExtResource("16_ogsov")
+metadata/_custom_type_script = "uid://d3ay2oc7h37pk"
+
+[sub_resource type="Resource" id="Resource_6ahce"]
+resource_name = "Fighter"
+script = ExtResource("16_si68w")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_g56w3"]
 shader = ExtResource("6_klyfp")
@@ -458,21 +447,47 @@ shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 
 shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.596078, 0.564706, 0.376471, 1), Color(0.282353, 0.282353, 0.188235, 1), Color(0.909804, 0.721569, 0.690196, 1), Color(0.658824, 0.219608, 0.0941176, 1), Color(0.282353, 0.0627451, 0.0941176, 1), Color(0.156863, 0.12549, 0.12549, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.533333, 0.407843, 0.313726, 1), Color(0.0627451, 0, 0, 1), Color(0.501961, 0.439216, 0.847059, 1), Color(0.313726, 0.12549, 0.596078, 1)])
 shader_parameter/white_percentage = 0.0
 
-[sub_resource type="Resource" id="Resource_v6ipr"]
-resource_name = "Brigand"
-script = ExtResource("17_2jg7w")
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7v2ki"]
 shader = ExtResource("6_klyfp")
 shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
 shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.596078, 0.564706, 0.376471, 1), Color(0.282353, 0.282353, 0.188235, 1), Color(0.909804, 0.721569, 0.690196, 1), Color(0.658824, 0.219608, 0.0941176, 1), Color(0.282353, 0.0627451, 0.0941176, 1), Color(0.156863, 0.12549, 0.12549, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.533333, 0.407843, 0.313726, 1), Color(0.0627451, 0, 0, 1), Color(0.501961, 0.439216, 0.847059, 1), Color(0.313726, 0.12549, 0.596078, 1)])
 shader_parameter/white_percentage = 0.0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j2hus"]
+shader = ExtResource("6_klyfp")
+shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
+shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.596078, 0.564706, 0.376471, 1), Color(0.282353, 0.282353, 0.188235, 1), Color(0.909804, 0.721569, 0.690196, 1), Color(0.658824, 0.219608, 0.0941176, 1), Color(0.282353, 0.0627451, 0.0941176, 1), Color(0.156863, 0.12549, 0.12549, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.533333, 0.407843, 0.313726, 1), Color(0.0627451, 0, 0, 1), Color(0.501961, 0.439216, 0.847059, 1), Color(0.313726, 0.12549, 0.596078, 1)])
+shader_parameter/white_percentage = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ij6rw"]
+shader = ExtResource("6_klyfp")
+shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
+shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.596078, 0.564706, 0.376471, 1), Color(0.282353, 0.282353, 0.188235, 1), Color(0.909804, 0.721569, 0.690196, 1), Color(0.658824, 0.219608, 0.0941176, 1), Color(0.282353, 0.0627451, 0.0941176, 1), Color(0.156863, 0.12549, 0.12549, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.533333, 0.407843, 0.313726, 1), Color(0.0627451, 0, 0, 1), Color(0.501961, 0.439216, 0.847059, 1), Color(0.313726, 0.12549, 0.596078, 1)])
+shader_parameter/white_percentage = 0.0
+
+[sub_resource type="Resource" id="Resource_bfqdh"]
+script = ExtResource("16_ogsov")
+metadata/_custom_type_script = "uid://d3ay2oc7h37pk"
+
+[sub_resource type="Resource" id="Resource_v6ipr"]
+resource_name = "Brigand"
+script = ExtResource("17_2jg7w")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5sd1r"]
+shader = ExtResource("6_klyfp")
+shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
+shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.596078, 0.564706, 0.376471, 1), Color(0.282353, 0.282353, 0.188235, 1), Color(0.909804, 0.721569, 0.690196, 1), Color(0.658824, 0.219608, 0.0941176, 1), Color(0.282353, 0.0627451, 0.0941176, 1), Color(0.156863, 0.12549, 0.12549, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.533333, 0.407843, 0.313726, 1), Color(0.0627451, 0, 0, 1), Color(0.501961, 0.439216, 0.847059, 1), Color(0.313726, 0.12549, 0.596078, 1)])
+shader_parameter/white_percentage = 0.0
+
+[sub_resource type="Resource" id="Resource_7f3pc"]
+script = ExtResource("21_ogsov")
+metadata/_custom_type_script = "uid://c6jb78fbs60fi"
+
 [sub_resource type="Resource" id="Resource_bfbd5"]
 resource_name = "Archer"
 script = ExtResource("14_a6bhl")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_j2hus"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_41b4g"]
 shader = ExtResource("6_klyfp")
 shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
 shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.596078, 0.564706, 0.376471, 1), Color(0.282353, 0.282353, 0.188235, 1), Color(0.909804, 0.721569, 0.690196, 1), Color(0.658824, 0.219608, 0.0941176, 1), Color(0.282353, 0.0627451, 0.0941176, 1), Color(0.156863, 0.12549, 0.12549, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.533333, 0.407843, 0.313726, 1), Color(0.0627451, 0, 0, 1), Color(0.501961, 0.439216, 0.847059, 1), Color(0.313726, 0.12549, 0.596078, 1)])
@@ -504,162 +519,175 @@ tile_map_data = PackedByteArray("AAAAAAAADgAAAAAAAAAAAAEADgAAAAAAAAAAAAIADgAAAAA
 texture_filter = 1
 
 [node name="Roy" parent="MapLayer/Units" index="0" groups=["units"] instance=ExtResource("4_vkjsj")]
-material = SubResource("ShaderMaterial_e4cq0")
+material = SubResource("ShaderMaterial_ogsov")
 position = Vector2(32, 288)
 
 [node name="Marcus" parent="MapLayer/Units" index="1" groups=["units"] instance=ExtResource("6_41yfy")]
-material = SubResource("ShaderMaterial_tldb4")
+material = SubResource("ShaderMaterial_tkqn4")
 position = Vector2(16, 272)
 
 [node name="Alen" parent="MapLayer/Units" index="2" groups=["units"] instance=ExtResource("10_um4bb")]
-material = SubResource("ShaderMaterial_tt605")
+material = SubResource("ShaderMaterial_bfqdh")
 position = Vector2(48, 272)
 
 [node name="Lance" parent="MapLayer/Units" index="3" groups=["units"] instance=ExtResource("17_lj7l3")]
-material = SubResource("ShaderMaterial_ogsov")
+material = SubResource("ShaderMaterial_7f3pc")
 position = Vector2(64, 288)
 
 [node name="Wolt" parent="MapLayer/Units" index="4" groups=["units"] instance=ExtResource("11_ify8r")]
-material = SubResource("ShaderMaterial_tkqn4")
+material = SubResource("ShaderMaterial_hfsiu")
 position = Vector2(32, 256)
 
 [node name="Bors" parent="MapLayer/Units" index="5" groups=["units"] instance=ExtResource("13_1ke26")]
-material = SubResource("ShaderMaterial_bfqdh")
+material = SubResource("ShaderMaterial_7tow3")
 position = Vector2(48, 304)
 
 [node name="Damas" parent="MapLayer/Units" index="6" groups=["units"] instance=ExtResource("13_b2nf3")]
-material = SubResource("ShaderMaterial_7f3pc")
+material = SubResource("ShaderMaterial_txp18")
 position = Vector2(80, 64)
 flip_h = true
 _faction_id = 1
 
 [node name="Fighter2" parent="MapLayer/Units" index="7" groups=["units"] instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_hfsiu")
+material = SubResource("ShaderMaterial_p1jw0")
 position = Vector2(64, 80)
 texture = ExtResource("19_wsf8a")
 flip_h = true
 display_name = "Bandit"
 unit_description = "Brigands of Lycia."
+items = Array[ExtResource("15_tt605")]([SubResource("Resource_tkqn4")])
 unit_class = SubResource("Resource_6ahce")
 _faction_id = 1
 
 [node name="Fighter3" parent="MapLayer/Units" index="8" groups=["units"] instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_7tow3")
+material = SubResource("ShaderMaterial_g56w3")
 position = Vector2(96, 80)
 texture = ExtResource("19_wsf8a")
 flip_h = true
 display_name = "Bandit"
 unit_description = "Brigands of Lycia."
+items = Array[ExtResource("15_tt605")]([SubResource("Resource_tkqn4")])
 unit_class = SubResource("Resource_6ahce")
 _faction_id = 1
 
 [node name="Fighter4" parent="MapLayer/Units" index="9" groups=["units"] instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_txp18")
+material = SubResource("ShaderMaterial_etry0")
 position = Vector2(16, 48)
 texture = ExtResource("19_wsf8a")
 flip_h = true
 display_name = "Bandit"
 unit_description = "Brigands of Lycia."
+items = Array[ExtResource("15_tt605")]([SubResource("Resource_tkqn4")])
 unit_class = SubResource("Resource_6ahce")
 _faction_id = 1
 
 [node name="Fighter5" parent="MapLayer/Units" index="10" groups=["units"] instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_p1jw0")
+material = SubResource("ShaderMaterial_rqu2p")
 position = Vector2(176, 112)
 texture = ExtResource("19_wsf8a")
 flip_h = true
 display_name = "Bandit"
 unit_description = "Brigands of Lycia."
+items = Array[ExtResource("15_tt605")]([SubResource("Resource_tkqn4")])
 unit_class = SubResource("Resource_6ahce")
 _faction_id = 1
 
 [node name="Fighter6" parent="MapLayer/Units" index="11" groups=["units"] instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_g56w3")
+material = SubResource("ShaderMaterial_c7cx7")
 position = Vector2(144, 144)
 texture = ExtResource("19_wsf8a")
 flip_h = true
 display_name = "Bandit"
 unit_description = "Brigands of Lycia."
+items = Array[ExtResource("15_tt605")]([SubResource("Resource_tkqn4")])
 unit_class = SubResource("Resource_6ahce")
 _faction_id = 1
 
 [node name="Fighter7" parent="MapLayer/Units" index="12" groups=["units"] instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_etry0")
+material = SubResource("ShaderMaterial_0r5tm")
 position = Vector2(128, 144)
 texture = ExtResource("19_wsf8a")
 flip_h = true
 display_name = "Bandit"
 unit_description = "Brigands of Lycia."
+items = Array[ExtResource("15_tt605")]([SubResource("Resource_tkqn4")])
 unit_class = SubResource("Resource_6ahce")
 _faction_id = 1
 
 [node name="Fighter8" parent="MapLayer/Units" index="13" groups=["units"] instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_rqu2p")
+material = SubResource("ShaderMaterial_3mxx4")
 position = Vector2(192, 208)
 texture = ExtResource("19_wsf8a")
 flip_h = true
 display_name = "Bandit"
 unit_description = "Brigands of Lycia."
+items = Array[ExtResource("15_tt605")]([SubResource("Resource_tkqn4")])
 unit_class = SubResource("Resource_6ahce")
 _faction_id = 1
 
 [node name="Fighter9" parent="MapLayer/Units" index="14" groups=["units"] instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_c7cx7")
+material = SubResource("ShaderMaterial_laptu")
 position = Vector2(112, 240)
 texture = ExtResource("19_wsf8a")
 flip_h = true
 display_name = "Bandit"
 unit_description = "Brigands of Lycia."
+items = Array[ExtResource("15_tt605")]([SubResource("Resource_tkqn4")])
 unit_class = SubResource("Resource_6ahce")
 _faction_id = 1
 
 [node name="Fighter10" parent="MapLayer/Units" index="15" groups=["units"] instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_0r5tm")
+material = SubResource("ShaderMaterial_7v2ki")
 position = Vector2(128, 224)
 texture = ExtResource("19_wsf8a")
 flip_h = true
 display_name = "Bandit"
 unit_description = "Brigands of Lycia."
+items = Array[ExtResource("15_tt605")]([SubResource("Resource_tkqn4")])
 unit_class = SubResource("Resource_6ahce")
 _faction_id = 1
 
 [node name="Fighter11" parent="MapLayer/Units" index="16" groups=["units"] instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_3mxx4")
+material = SubResource("ShaderMaterial_j2hus")
 position = Vector2(128, 288)
 texture = ExtResource("19_wsf8a")
 flip_h = true
 display_name = "Bandit"
 unit_description = "Brigands of Lycia."
+items = Array[ExtResource("15_tt605")]([SubResource("Resource_tkqn4")])
 unit_class = SubResource("Resource_6ahce")
 _faction_id = 1
 
 [node name="Brigand" parent="MapLayer/Units" index="17" groups=["units"] instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_laptu")
+material = SubResource("ShaderMaterial_ij6rw")
 position = Vector2(64, 144)
 texture = ExtResource("22_b7ojr")
 flip_h = true
 display_name = "Bandit"
 unit_description = "Brigands of Lycia."
+items = Array[ExtResource("15_tt605")]([SubResource("Resource_bfqdh")])
 unit_class = SubResource("Resource_v6ipr")
 _faction_id = 1
 
 [node name="Archer" parent="MapLayer/Units" index="18" groups=["units"] instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_7v2ki")
+material = SubResource("ShaderMaterial_5sd1r")
 position = Vector2(16, 32)
 texture = ExtResource("16_mu4wr")
 flip_h = true
 display_name = "Bandit"
 unit_description = "Brigands of Lycia."
+items = Array[ExtResource("15_tt605")]([SubResource("Resource_7f3pc")])
 unit_class = SubResource("Resource_bfbd5")
 _faction_id = 1
 
 [node name="Archer2" parent="MapLayer/Units" index="19" groups=["units"] instance=ExtResource("10_g0esg")]
-material = SubResource("ShaderMaterial_j2hus")
+material = SubResource("ShaderMaterial_41b4g")
 position = Vector2(160, 160)
 texture = ExtResource("16_mu4wr")
 flip_h = true
 display_name = "Bandit"
 unit_description = "Brigands of Lycia."
+items = Array[ExtResource("15_tt605")]([SubResource("Resource_7f3pc")])
 unit_class = SubResource("Resource_bfbd5")
 _faction_id = 1
 

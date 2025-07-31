@@ -21,9 +21,6 @@ func set_as_current_help_container() -> void:
 		var weapon := (_item as Weapon)
 		for mode: Weapon in weapon.get_weapon_modes():
 			var page: Array[Control]
-			var mode_name: String = mode.get_mode_name()
-			if mode_name.length() > 0:
-				page.append(HelpPopupController.create_text_node(mode_name))
 			page.append(mode.get_stat_table().to_grid_container())
 			page.append(HelpPopupController.create_text_node(mode.get_flavor_text()))
 			var description: String = mode.get_description()

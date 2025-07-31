@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://xr2l7ndlhq6x"]
+[gd_scene load_steps=8 format=3 uid="uid://xr2l7ndlhq6x"]
 
 [ext_resource type="Script" uid="uid://clednh61o0clx" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/weapon_rank_label.gd" id="1_era26"]
 [ext_resource type="Texture2D" uid="uid://crfr0u4x5xmdw" path="res://ui/theme/stat_bar_background.png" id="2_0beyw"]
+[ext_resource type="Texture2D" uid="uid://b5yi44nfrhqt3" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/icons/sword_icon.png" id="2_jrr1h"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ad3mw"]
 texture = ExtResource("2_0beyw")
@@ -41,6 +42,7 @@ help_description = "This unit cannot wield weapons of this type"
 custom_minimum_size = Vector2(17, 0)
 layout_mode = 2
 size_flags_vertical = 4
+texture = ExtResource("2_jrr1h")
 stretch_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="."]

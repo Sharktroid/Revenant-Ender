@@ -12,10 +12,10 @@ var _current_container: HelpContainer
 var _current_page: int = 0:
 	set(value):
 		_current_page = posmod(value, _all_pages.size())
-		_get_popup_node().set_nodes(_get_current_nodes())
 var _all_pages: Array[Array]:
 	set(value):
 		_all_pages = value
+		_current_page = 0
 		# Adding every node from each page to the popup node.
 		var old_size: Vector2 = _get_popup_node().size
 		var old_position: Vector2 = _default_position()
@@ -34,7 +34,7 @@ var _all_pages: Array[Array]:
 				await _expand(_get_current_nodes(), _position)
 			else:
 				await _resize(new_size, _position, old_size, old_position)
-		_current_page = 0
+		_get_popup_node().set_nodes(_get_current_nodes())
 var _position: Vector2
 
 
@@ -65,9 +65,9 @@ func _input(event: InputEvent) -> void:
 		elif event.is_action_pressed("right", true):
 			_move_popup("right")
 		elif event.is_action_pressed("previous"):
-			_current_page -= 1
+			_move_page(-1)
 		elif event.is_action_pressed("next"):
-			_current_page += 1
+			_move_page(1)
 		get_tree().root.set_input_as_handled()
 
 
@@ -166,3 +166,8 @@ func _get_current_nodes() -> Array[Control]:
 	var nodes: Array[Control] = []
 	nodes.assign(_all_pages[_current_page])
 	return nodes
+
+
+func _move_page(offset: int) -> void:
+	_current_page += offset
+	_get_popup_node().set_nodes(_get_current_nodes())

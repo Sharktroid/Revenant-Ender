@@ -5,8 +5,6 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Make weapon ranks fixed.
-	* Update help table to reflect.
 * Have hand in options menu for the bars be based on the cursor position.
 * Add a comment at the top of each class on how well it's programmed (e.g. how much does it function as expectd vs how many randpom things need to happen to make it work).
 * Add universal swap and give draw back to all infantry classes and give it the same formula as shove.
@@ -18,10 +16,9 @@ Before you commit
 
 # Major
 * Add all weapons from data doc
-	* Implement dual weapons
-		* Have the help menu use two pages.
 	* Lances deal more damage on initial hit.
 	* Grenades.
+	* Prfs.
 * Have help bubble be a fixed position thing.
 * Make it possible to attack preview with any unit at any time
 * Add testing mode
