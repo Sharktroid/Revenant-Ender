@@ -16,7 +16,7 @@ func _ready() -> void:
 		_slow_layer_node.value = 0
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	_slow_layer_node.value += 1 if slow_layer else -1
 	if _break:
 		($Fill as Node2D).position += _velocity

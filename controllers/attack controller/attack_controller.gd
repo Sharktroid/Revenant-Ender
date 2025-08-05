@@ -50,7 +50,8 @@ func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[CombatStage
 			combat_round.defender,
 			attacker_animation if combat_round.attacker == attacker else defender_animation,
 			defender_animation if combat_round.defender == defender else attacker_animation,
-			combat_round.generate_attack_type()
+			combat_round.generate_attack_type(),
+			combat_round == attack_queue[0]
 		)
 		if attacker.current_health <= 0 or defender.current_health <= 0:
 			break
@@ -81,7 +82,8 @@ func _map_attack(
 	defender: Unit,
 	attacker_animation: MapAttack,
 	defender_animation: MapAttack,
-	attack_type: CombatStage.AttackTypes
+	attack_type: CombatStage.AttackTypes,
+	initial: bool
 ) -> void:
 	attacker_animation.play_animation()
 	await attacker_animation.arrived
@@ -91,7 +93,7 @@ func _map_attack(
 		#region Hit
 		var is_crit: bool = attack_type == CombatStage.AttackTypes.CRIT
 		var old_health: int = ceili(defender.current_health)
-		var damage: int = roundi(get_damage(attacker, defender, is_crit) as float)
+		var damage: int = roundi(_get_damage(attacker, defender, is_crit, initial) as float)
 		var new_health: int = old_health - damage
 
 		# The time that the health bar takes to scroll down from full health to none
@@ -117,10 +119,10 @@ func _map_attack(
 		await attacker_animation.completed
 
 
-func get_damage(attacker: Unit, defender: Unit, is_crit: bool) -> float:
+func _get_damage(attacker: Unit, defender: Unit, initiation: bool, is_crit: bool) -> float:
 	return minf(
 		defender.current_health,
-		attacker.get_crit_damage(defender) if is_crit else attacker.get_damage(defender)
+		attacker.get_crit_damage(defender, initiation) if is_crit else attacker.get_damage(defender, initiation)
 	)
 
 
@@ -235,5 +237,5 @@ class CombatStage:
 		else:
 			return AttackTypes.MISS
 
-	func get_damage(crit: bool, check_miss: bool = true, check_crit: bool = true) -> float:
-		return attacker.get_displayed_damage(defender, crit, check_miss, check_crit)
+	func get_damage(crit: bool, initiation: bool, check_miss: bool = true, check_crit: bool = true) -> float:
+		return attacker.get_displayed_damage(defender, crit, initiation, check_miss, check_crit)

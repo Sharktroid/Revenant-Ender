@@ -129,7 +129,7 @@ func _update() -> void:
 			accumulator: float, attack: AttackController.CombatStage, unit: Unit
 		) -> float:
 			if attack.attacker == unit:
-				accumulator += attack.get_damage(false)
+				accumulator += attack.get_damage(false, attack_queue[0] == attack)
 			return accumulator
 		#Utilities.profiler_checkpoint()
 		const StatsPanel: GDScript = preload("res://ui/combat_panel/stats_panel/stats_panel.gd")
@@ -157,12 +157,13 @@ func _create_attack_arrows(attack_queue: Array[AttackController.CombatStage]) ->
 	var right_critical_sum: float = 0
 	for attack: AttackController.CombatStage in attack_queue:
 		#Utilities.start_profiling()
+		var initiation: bool = attack == attack_queue[0]
 		if attack.attacker == _left_unit:
-			left_sum += attack.get_damage(false)
-			left_critical_sum += attack.get_damage(true)
+			left_sum += attack.get_damage(false, initiation)
+			left_critical_sum += attack.get_damage(true, initiation)
 		else:
-			right_sum += attack.get_damage(false)
-			right_critical_sum += attack.get_damage(true)
+			right_sum += attack.get_damage(false, initiation)
+			right_critical_sum += attack.get_damage(true, initiation)
 		#Utilities.profiler_checkpoint()
 		const DIRS = AttackArrow.DIRECTIONS
 		var direction: AttackArrow.DIRECTIONS = (
@@ -177,8 +178,8 @@ func _create_attack_arrows(attack_queue: Array[AttackController.CombatStage]) ->
 		#Utilities.profiler_checkpoint()
 		var attack_arrow := AttackArrow.instantiate(
 			direction,
-			attack.get_damage(false, false),
-			attack.get_damage(true, false),
+			attack.get_damage(false, initiation, false),
+			attack.get_damage(true, initiation, false),
 			event,
 			attack.attacker.faction.color
 		)

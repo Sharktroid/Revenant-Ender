@@ -9,4 +9,3 @@ mono_crash.*.json
 .vscode/
 .DS_Store
 *.bak
-gdlintrc

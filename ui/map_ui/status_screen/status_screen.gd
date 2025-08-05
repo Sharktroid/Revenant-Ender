@@ -130,7 +130,12 @@ func _update_offensive_parameters() -> void:
 	var crit_description := %CritDescription as HelpContainer
 	var crit_label := %CritValue as Label
 	if observing_unit.get_weapon():
-		_set_label_text_to_number(attack_label, observing_unit.get_attack())
+		if observing_unit.get_weapon() is Spear:
+			attack_label.text = "{initiation}/{standard}".format(
+				{"initiation": observing_unit.get_attack(true),"standard": observing_unit.get_attack(false)}
+			)
+		else:
+			_set_label_text_to_number(attack_label, observing_unit.get_attack(false))
 		hit_description.help_description = Formulas.HIT.format(observing_unit)
 		_set_label_text_to_number(hit_label, observing_unit.get_hit())
 		crit_description.help_description = Formulas.CRIT.format(observing_unit)

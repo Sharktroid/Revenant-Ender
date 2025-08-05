@@ -116,7 +116,13 @@ func _get_current_options() -> Array[ConfigOption]:
 
 func _add_icon(option: ConfigOption) -> void:
 	var icon_rect := TextureRect.new()
-	icon_rect.texture = load("res://ui/map_ui/options_menu/icons/%s.png" % option.get_name())
+	icon_rect.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	var texture_path: String = "res://ui/map_ui/options_menu/icons/%s.png" % option.get_name()
+	if ResourceLoader.exists(texture_path):
+		icon_rect.texture = load(texture_path)
+	else:
+		icon_rect.texture = PlaceholderTexture2D.new()
+		icon_rect.size = Vector2(16, 16)
 	var icon_center := CenterContainer.new()
 	icon_center.custom_minimum_size = Vector2i(16, 16)
 	icon_center.add_child(icon_rect)

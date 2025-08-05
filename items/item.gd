@@ -16,7 +16,9 @@ var _usable: bool = false
 
 func _init() -> void:
 	var path: String = get_script().resource_path
-	_icon = load(path.substr(0, path.rfind("/") + 1) + "icon.png") as Texture2D
+	var icon_path: String = path.substr(0, path.rfind("/") + 1) + "icon.png"
+	if ResourceLoader.exists(icon_path):
+		_icon = load(icon_path) as Texture2D
 	if _icon is PlaceholderTexture2D:
 		(_icon as PlaceholderTexture2D).size = Vector2i(16, 16)
 	current_uses = get_max_uses()

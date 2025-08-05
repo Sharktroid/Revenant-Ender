@@ -58,18 +58,33 @@ text = "25"
 
 [node name="AttackHBox" type="HBoxContainer" parent="VBoxContainer2/VBoxContainer"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
+theme_override_constants/separation = 0
 
 [node name="Label" type="Label" parent="VBoxContainer2/VBoxContainer/AttackHBox"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_type_variation = &"YellowLabel"
 text = "Attack:"
 
-[node name="AttackLabel" type="Label" parent="VBoxContainer2/VBoxContainer/AttackHBox"]
+[node name="AttackInitialLabel" type="Label" parent="VBoxContainer2/VBoxContainer/AttackHBox"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 10
+size_flags_horizontal = 8
+theme_type_variation = &"BlueLabel"
+text = "25"
+
+[node name="AttackSlash" type="Label" parent="VBoxContainer2/VBoxContainer/AttackHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+theme_type_variation = &"YellowLabel"
+text = "/"
+
+[node name="AttackSustainedLabel" type="Label" parent="VBoxContainer2/VBoxContainer/AttackHBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
 theme_type_variation = &"BlueLabel"
 text = "25"
 

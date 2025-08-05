@@ -25,7 +25,14 @@ func update(unit: Unit, enemy: Unit, enemy_damage: float, distance: int) -> void
 		else:
 			_update_damage_label(%DamageLabel as Label, 0, in_range)
 	elif Options.COMBAT_PANEL.value == Options.COMBAT_PANEL.DETAILED:
-		_update_damage_label(%AttackLabel as Label, unit.get_true_attack(enemy), in_range)
+		var is_spear: bool = unit.get_weapon() is Spear
+		(%AttackInitialLabel as Label).visible = is_spear
+		(%AttackSlash as Label).visible = is_spear
+		if is_spear:
+			_update_damage_label(%AttackInitialLabel as Label, unit.get_true_attack(enemy, true), in_range)
+			_update_damage_label(%AttackSustainedLabel as Label, unit.get_true_attack(enemy, false), in_range)
+		else:
+			_update_damage_label(%AttackSustainedLabel as Label, unit.get_true_attack(enemy, true), in_range)
 		(%DefenseLabel as Label).text = Utilities.float_to_string(unit.get_current_defense(enemy), true)
 		var attack_speed_label := %AttackSpeedLabel as Label
 		attack_speed_label.text = Utilities.float_to_string(unit.get_attack_speed(), true)
@@ -47,7 +54,7 @@ func _get_invalid_hboxes() -> Array[HBoxContainer]:
 	if Options.COMBAT_PANEL.value == Options.COMBAT_PANEL.STRATEGIC:
 		return [%AttackHBox, %DefenseHBox, %AttackSpeedHBox]
 	elif Options.COMBAT_PANEL.value == Options.COMBAT_PANEL.DETAILED:
-		return [%DamageHBox, %CriticalDamageHBox]
+		return [%DamageHBox]
 	return []
 
 
@@ -120,6 +127,6 @@ func _get_total_damage(crit: bool, unit: Unit, enemy: Unit, distance: int) -> fl
 		accumulator: float, attack: AttackController.CombatStage
 	) -> float:
 		if attack.attacker == unit:
-			accumulator += unit.get_displayed_damage(enemy, crit)
+			accumulator += unit.get_displayed_damage(enemy, crit, attack == attack_queue[0])
 		return accumulator
 	return attack_queue.reduce(get_total_damage.bind(), 0)

@@ -217,24 +217,29 @@ func get_current_attack() -> int:
 
 
 ## Attack without weapon triangle bonuses
-func get_attack() -> float:
-	return Formulas.ATTACK.evaluate(self)
+func get_attack(initiation: bool) -> float:
+	var attack: float = Formulas.ATTACK.evaluate(self)
+	if get_weapon() is Spear and initiation:
+		attack += (get_weapon() as Spear).get_initial_might() - get_weapon().get_might()
+	return attack
 
 
 ## Gets the damage done with a normal attack
-func get_damage(defender: Unit) -> float:
-	return maxf(0, get_true_attack(defender) - defender.get_current_defense(self))
+func get_damage(defender: Unit, initiation: bool) -> float:
+	return maxf(0, get_true_attack(defender, initiation) - defender.get_current_defense(self))
 
 
 ## Gets the damage done with a crit
-func get_crit_damage(defender: Unit) -> float:
-	var crit_damage: float = get_true_attack(defender) * 2 - defender.get_current_defense(self)
+func get_crit_damage(defender: Unit, initiation: bool) -> float:
+	var crit_damage: float = (
+		get_true_attack(defender, initiation) * 2 - defender.get_current_defense(self)
+	)
 	return maxf(0, crit_damage)
 
 
 ## The displayed total damage dealt by the unit.
 func get_displayed_damage(
-	enemy: Unit, crit: bool, check_miss: bool = true, check_crit: bool = true
+	enemy: Unit, crit: bool, initiation: bool, check_miss: bool = true, check_crit: bool = true
 ) -> float:
 	if get_hit_rate(enemy) <= 0 and check_miss:
 		return 0
@@ -242,10 +247,10 @@ func get_displayed_damage(
 		if check_crit:
 			var crit_rate: float = get_crit_rate(enemy)
 			if crit_rate >= 100:
-				return get_crit_damage(enemy)
+				return get_crit_damage(enemy, initiation)
 			elif crit_rate <= 0:
-				return get_damage(enemy)
-		return get_crit_damage(enemy) if crit else get_damage(enemy)
+				return get_damage(enemy, initiation)
+		return get_crit_damage(enemy, initiation) if crit else get_damage(enemy, initiation)
 
 
 func set_animation(animation: UnitSprite.Animations) -> void:
@@ -804,10 +809,10 @@ func get_authority() -> int:
 
 
 ## Gets the true attack when attacking an enemy
-func get_true_attack(enemy: Unit) -> float:
+func get_true_attack(enemy: Unit, initiation: bool) -> float:
 	if get_weapon():
 		return (
-			get_attack()
+			get_attack(initiation)
 			+ get_weapon().get_damage_bonus(enemy.get_weapon(), _get_distance(enemy))
 			+ get_authority_modifier(enemy)
 		)
@@ -832,11 +837,11 @@ func get_weapon_level(type: Weapon.Types) -> int:
 
 # Part of the classic weapon rank system.
 #func set_weapon_level(type: Weapon.Types, new_level: int) -> void:
-#if not personal_weapon_levels.get(type):
-#personal_weapon_levels[type] = 0
-#personal_weapon_levels[type] += (
-#clampi(new_level, 0, unit_class.get_max_weapon_level(type)) - get_weapon_level(type)
-#)
+#	if not personal_weapon_levels.get(type):
+#		personal_weapon_levels[type] = 0
+#		personal_weapon_levels[type] += (
+#			clampi(new_level, 0, unit_class.get_max_weapon_level(type)) - get_weapon_level(type)
+#		)
 
 
 ## Gets the unit's personal value for a stat.

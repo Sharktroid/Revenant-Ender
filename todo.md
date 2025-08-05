@@ -5,6 +5,9 @@ Before you commit
 * Make sure it all works
 
 # Minor
+* Use bit arrays instead of enum arrays.
+* Adjust combat preview to accomidate triple-digit damage.
+* Fix bug where clicking on an item container of the same position of the last closed one doesn't work.
 * Have hand in options menu for the bars be based on the cursor position.
 * Add a comment at the top of each class on how well it's programmed (e.g. how much does it function as expectd vs how many randpom things need to happen to make it work).
 * Add universal swap and give draw back to all infantry classes and give it the same formula as shove.
@@ -12,12 +15,12 @@ Before you commit
 * Improve pausing when focus is lost.
 * Update to Godot 4.5
 	* Abstract classes.
+	* VarArg.
 * Fix broken arrow key scrolling in Status Screen.
 
 # Major
 * Add all weapons from data doc
-	* Lances deal more damage on initial hit.
-	* Grenades.
+	* Effectives.
 	* Prfs.
 * Have help bubble be a fixed position thing.
 * Make it possible to attack preview with any unit at any time
@@ -50,6 +53,7 @@ Before you commit
 * Guide
 * Combine statistic and item screens
 * Implement AI
+* Add grenades.
 * Implement split screen like in demo
 * Replace test map with Thracia chapter 1
 * Replace map attack animations with Thracia counterparts
