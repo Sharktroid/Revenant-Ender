@@ -38,7 +38,7 @@ static func instantiate(
 
 	if event == EVENTS.MISS:
 		damage_label.theme_type_variation = &"GrayLabel"
-	elif event in [EVENTS.KILL, EVENTS.CRIT_KILL]:
+	elif 1 << event & Utilities.to_flag([EVENTS.KILL, EVENTS.CRIT_KILL]):
 		symbol_rect.texture = preload("res://ui/combat_panel/attack_arrow/kill.png")
 		if event == EVENTS.CRIT_KILL:
 			symbol_rect.modulate.a = 2.0 / 3

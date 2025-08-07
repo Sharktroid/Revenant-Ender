@@ -42,6 +42,10 @@ func _update() -> void:
 	($CurrentUses as Label).text = Utilities.float_to_string(_item.current_uses, true)
 	($MaxUses as Label).text = Utilities.float_to_string(_item.get_max_uses(), true)
 	_set_equip_status()
+	#var node: CanvasItem = $Icon
+	#while node:
+		#print_debug(node.texture_filter)
+		#node = node.get_parent()
 
 
 func _set_equip_status() -> void:

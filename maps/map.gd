@@ -129,16 +129,16 @@ func _input(event: InputEvent) -> void:
 		process_mode = Node.PROCESS_MODE_INHERIT
 		if get_current_faction().player_type != Faction.PlayerTypes.HUMAN:
 			end_turn.call_deferred()
-	elif event.is_action_pressed(&"control_group", true):
+	elif event.is_action_pressed(&"control_group", true) and event is InputEventKey:
 		if Input.is_action_pressed(&"group_modifier_set"):
 			if CursorController.get_hovered_unit():
-				_shortcut_units[MapController.get_control_group(event)] = (
+				_shortcut_units[MapController.get_control_group(event as InputEventKey)] = (
 					CursorController.get_hovered_unit()
 				)
 		else:
-			if _shortcut_units.has(MapController.get_control_group(event)):
+			if _shortcut_units.has(MapController.get_control_group(event as InputEventKey)):
 				CursorController.map_position = (
-					_shortcut_units[MapController.get_control_group(event)].position
+					_shortcut_units[MapController.get_control_group(event as InputEventKey)].position
 				)
 				var pixel_scale: Vector2 = (
 					Vector2(DisplayServer.window_get_size()) / Vector2(Utilities.get_screen_size())
@@ -207,7 +207,7 @@ func end_turn() -> void:
 ## Gets the terrain cost of the tiles at "coords".
 ## unit: unit trying to move over "coords".
 func get_terrain_cost(movement_type: UnitClass.MovementTypes, coords: Vector2) -> float:
-	if movement_type in _movement_cost_dict.keys():
+	if _movement_cost_dict.has(movement_type):
 		var movement_type_terrain_dict: Dictionary[String, String] = {}
 		movement_type_terrain_dict.assign(_movement_cost_dict[movement_type])
 		var terrain_name: String = _get_terrain(coords)
@@ -217,11 +217,11 @@ func get_terrain_cost(movement_type: UnitClass.MovementTypes, coords: Vector2) -
 				terrain_name = "Road"
 			"Sea":
 				terrain_name = "Ocean"
-		if terrain_name in movement_type_terrain_dict:
+		if movement_type_terrain_dict.has(terrain_name):
 			var cost: String = movement_type_terrain_dict[terrain_name]
 			if cost.is_valid_float():
 				return float(cost)
-			if cost in "N/A":
+			elif cost == "N/A":
 				return INF
 			push_error('Terrain cost "%s" is invalid' % cost)
 		else:
@@ -632,12 +632,12 @@ func _toggle_full_outline() -> void:
 
 func _toggle_outline_unit(unit: Unit) -> void:
 	var outlined_units: Dictionary[Faction, Array] = get_current_faction().outlined_units
-	if not (unit.faction in outlined_units):
+	if not outlined_units.has(unit.faction):
 		outlined_units[unit.faction] = []
-	if unit in outlined_units[unit.faction]:
-		(outlined_units[unit.faction] as Array).erase(unit)
+	if outlined_units[unit.faction].has(unit):
+		outlined_units[unit.faction].erase(unit)
 	else:
-		(outlined_units[unit.faction] as Array).append(unit)
+		outlined_units[unit.faction].append(unit)
 	all_factions[_current_faction_index].outlined_units = outlined_units
 	_update_outline()
 

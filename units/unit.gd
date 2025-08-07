@@ -598,7 +598,7 @@ func get_movement_tiles() -> Array[Vector2i]:
 					movement_type, _get_map().get_movement_path(movement_type, position, x, faction)
 				)
 				if cost <= _current_movement:
-					if not cost in movement_tiles_dict.keys():
+					if not movement_tiles_dict.has(cost):
 						movement_tiles_dict[cost] = []
 					(movement_tiles_dict[cost] as Array).append(x)
 			#endregion
@@ -731,8 +731,8 @@ func get_unit_path() -> Array[Vector2i]:
 
 
 ## Gets array of stats where the modifier of PVs and EVs are static
-static func get_fixed_stats() -> Array[Stats]:
-	return [Stats.BUILD, Stats.MOVEMENT]
+static func get_fixed_stat_flags() -> int:
+	return Utilities.to_flag([Stats.BUILD, Stats.MOVEMENT])
 
 
 ## Gets the path of the unit.
@@ -853,7 +853,7 @@ func get_personal_value(stat: Stats) -> int:
 
 ## Gets the unit's effort value for a stat.
 func get_effort_value(stat: Stats) -> int:
-	if stat in [Stats.STRENGTH, Stats.PIERCE, Stats.INTELLIGENCE]:
+	if stat & (1 << Stats.STRENGTH | 1 << Stats.PIERCE | 1 << Stats.INTELLIGENCE):
 		return _effort_power
 	else:
 		return _effort_values.get(stat, 0)
@@ -1017,7 +1017,7 @@ func _on_area_2d_area_exited(area: Area2D) -> void:
 func _get_value_modifier(
 	stat: Stats, current_level: int, min_value: float, max_value: float, value_weight: float
 ) -> int:
-	if stat in get_fixed_stats():
+	if 1 << stat & get_fixed_stat_flags():
 		return roundi((min_value if stat == Stats.MOVEMENT else max_value) * value_weight)
 	else:
 		return roundi(remap(current_level, 0, Unit.LEVEL_CAP, min_value, max_value) * value_weight)

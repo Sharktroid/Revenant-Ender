@@ -8,8 +8,8 @@ func _init() -> void:
 	_type = Types.HOLY
 	_min_range = 1
 	_max_range = 2
-	_advantage_types = [Types.ANIMA]
-	_disadvantage_types = [Types.HOLY]
+	_advantage_types |= 1 << Types.ANIMA
+	_disadvantage_types |= 1 << Types.HOLY
 	_might += 7
 	_hit += 85
 	_weight += 6

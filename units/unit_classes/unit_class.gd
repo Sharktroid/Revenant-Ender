@@ -73,7 +73,7 @@ func _init() -> void:
 
 func get_stat(stat: Unit.Stats, level: int) -> float:
 	# Can't use match as this technically isn't constant.
-	if stat in Unit.get_fixed_stats():
+	if 1 << stat & Unit.get_fixed_stat_flags():
 		return _get_base_stat(stat) as float
 	else:
 		var weight: float = inverse_lerp(1, Unit.LEVEL_CAP, level)
@@ -95,7 +95,7 @@ func get_weapon_level(type: Weapon.Types) -> int:
 	return _weapon_levels.get(type, 0)
 
 
-func get_LEVEL_CAP() -> int:
+func get_level_cap() -> int:
 	return _max_level
 
 

@@ -168,6 +168,15 @@ func slice_string(string: String, start: int, end: int) -> String:
 	return string.substr(start, string.length() - start - end)
 
 
+## Converts an array of enums to an integer containing their bitwise representations.
+# TODO: make VarArg when feature is implemented in 4.5
+func to_flag(enums: Array[int]) -> int:
+	var flags: int = 0
+	for e: int in enums:
+		flags += 1 << e
+	return flags
+
+
 func _get_ranges(
 	x: int, center: Vector2i, min_range: int, max_range: int, boundaries: Rect2i
 ) -> Array:

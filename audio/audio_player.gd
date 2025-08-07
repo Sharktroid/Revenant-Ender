@@ -10,10 +10,10 @@ var _track_stack: Array[AudioStream]
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	var _update_volume: Callable = func() -> void:
+	var update_volume: Callable = func() -> void:
 		_get_current_player().volume_db = _percent_to_db(Options.MUSIC.value)
 		_get_current_player().stream_paused = not (Options.MUSIC.value > 0)
-	Options.MUSIC.value_updated.connect(_update_volume)
+	Options.MUSIC.value_updated.connect(update_volume)
 
 
 ## Plays an audio track and pauses any current audio track.

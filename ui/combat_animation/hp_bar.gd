@@ -2,6 +2,7 @@ extends VBoxContainer
 
 const HPCell = preload("res://ui/combat_animation/hp_cell/hp_cell.gd")
 const _MAX_CELLS: int = 80
+const _HALF_CELLS: float = float(_MAX_CELLS) / 2
 
 @export var max_hp: int = 1:
 	set(value):
@@ -18,7 +19,7 @@ const _MAX_CELLS: int = 80
 func _ready() -> void:
 	for index in max_hp:
 		var child: HPCell = preload("res://ui/combat_animation/hp_cell/hp_cell.tscn").instantiate()
-		if index < float(_MAX_CELLS) / 2:
+		if index < _HALF_CELLS:
 			$BottomRow.add_child(child)
 		else:
 			$TopRow.add_child(child)
@@ -29,14 +30,12 @@ func _toggle_range(old_hp: int, new_hp: int) -> void:
 	var adding: bool = new_hp > old_hp
 	var hp_range: Array[int] = range(old_hp, new_hp) if adding else range(new_hp, old_hp)
 	for index in hp_range:
-		var cell := (
-			(
-				$BottomRow.get_child(index)
-				if index < float(_MAX_CELLS) / 2
-				else $BottomRow.get_child(roundi(index - float(_MAX_CELLS) / 2))
-			)
-			as HPCell
-		)
+		var get_cell: Callable = func(i: int) -> HPCell:
+			if i < _HALF_CELLS:
+				return $BottomRow.get_child(i) as HPCell
+			else:
+				return $TopRow.get_child(roundi(i - _HALF_CELLS)) as HPCell
+		var cell := get_cell.call(index) as HPCell
 		cell.fast_layer = adding
 		var tween: Tween = create_tween()
 		tween.set_speed_scale(max_hp)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=4 uid="uid://c7imjt60y75n3"]
+[gd_scene load_steps=65 format=4 uid="uid://c7imjt60y75n3"]
 
 [ext_resource type="PackedScene" uid="uid://bhm3c7lcoufva" path="res://maps/map.tscn" id="1_kb152"]
 [ext_resource type="Shader" uid="uid://dvhsb70ovjidp" path="res://shaders/gba_color.gdshader" id="2_1nmhw"]
@@ -22,6 +22,8 @@
 [ext_resource type="Script" uid="uid://cufk2nxi5at8o" path="res://units/unit_classes/knight/knight.gd" id="18_bfqdh"]
 [ext_resource type="Texture2D" uid="uid://dcbp6yac31ins" path="res://units/unit_classes/knight/map_sprite.png" id="18_hfsiu"]
 [ext_resource type="Script" uid="uid://ckx514sfhhf77" path="res://units/unit_classes/hoplite/hoplite.gd" id="19_7f3pc"]
+[ext_resource type="Script" uid="uid://ct5nf025t4s6l" path="res://items/weapons/spears/iron_spear/iron_spear.gd" id="19_7tow3"]
+[ext_resource type="Script" uid="uid://ciiv3yqapeihw" path="res://items/weapons/swords/iron_sword/iron_sword.gd" id="19_txp18"]
 [ext_resource type="Texture2D" uid="uid://dgli13fqa0m3n" path="res://units/unit_classes/fighter/map_sprite.png" id="19_wsf8a"]
 [ext_resource type="Texture2D" uid="uid://ybdk2ivoxxyj" path="res://units/unit_classes/hoplite/map_sprite.png" id="20_7tow3"]
 [ext_resource type="Script" uid="uid://c6jb78fbs60fi" path="res://items/weapons/bows/iron_bow/iron_bow.gd" id="21_ogsov"]
@@ -451,6 +453,14 @@ shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 
 shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
 shader_parameter/white_percentage = 0.0
 
+[sub_resource type="Resource" id="Resource_p1jw0"]
+script = ExtResource("19_txp18")
+metadata/_custom_type_script = "uid://ciiv3yqapeihw"
+
+[sub_resource type="Resource" id="Resource_txp18"]
+script = ExtResource("19_7tow3")
+metadata/_custom_type_script = "uid://ct5nf025t4s6l"
+
 [sub_resource type="Resource" id="Resource_hfsiu"]
 resource_name = "Knight"
 script = ExtResource("18_bfqdh")
@@ -467,6 +477,10 @@ shader = ExtResource("6_klyfp")
 shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
 shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.596078, 0.564706, 0.376471, 1), Color(0.282353, 0.282353, 0.188235, 1), Color(0.909804, 0.721569, 0.690196, 1), Color(0.658824, 0.219608, 0.0941176, 1), Color(0.282353, 0.0627451, 0.0941176, 1), Color(0.156863, 0.12549, 0.12549, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.533333, 0.407843, 0.313726, 1), Color(0.0627451, 0, 0, 1), Color(0.501961, 0.439216, 0.847059, 1), Color(0.313726, 0.12549, 0.596078, 1)])
 shader_parameter/white_percentage = 0.0
+
+[sub_resource type="Resource" id="Resource_g56w3"]
+script = ExtResource("19_7tow3")
+metadata/_custom_type_script = "uid://ct5nf025t4s6l"
 
 [sub_resource type="Resource" id="Resource_7tow3"]
 resource_name = "Hoplite"
@@ -646,7 +660,7 @@ texture = ExtResource("18_hfsiu")
 flip_h = true
 display_name = "Bandit"
 unit_description = "Brigands of Lycia."
-items = Array[ExtResource("15_tt605")]([SubResource("Resource_tkqn4")])
+items = Array[ExtResource("15_tt605")]([SubResource("Resource_p1jw0"), SubResource("Resource_txp18")])
 unit_class = SubResource("Resource_hfsiu")
 _faction_id = 1
 
@@ -668,7 +682,7 @@ texture = ExtResource("20_7tow3")
 flip_h = true
 display_name = "Bandit"
 unit_description = "Brigands of Lycia."
-items = Array[ExtResource("15_tt605")]([SubResource("Resource_tkqn4")])
+items = Array[ExtResource("15_tt605")]([SubResource("Resource_g56w3")])
 unit_class = SubResource("Resource_7tow3")
 _faction_id = 1
 

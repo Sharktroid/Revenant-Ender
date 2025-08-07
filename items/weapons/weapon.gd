@@ -54,8 +54,8 @@ var _max_range: float
 var _weapon_exp: int
 var _effective_classes: int
 var _type: Types
-var _advantage_types: Array[Types]
-var _disadvantage_types: Array[Types]
+var _advantage_types: int
+var _disadvantage_types: int
 var _damage_type: DamageTypes
 var _damage_type_ranged: DamageTypes
 var _preset: _Presets:
@@ -75,6 +75,7 @@ var _linked_weapon: Weapon = null:
 		_linked_weapon._rank = _rank
 		_linked_weapon._type = _type
 		_linked_weapon._price = _price
+		_linked_weapon._icon = _icon
 
 
 func _init() -> void:
@@ -119,9 +120,9 @@ func get_stat_table() -> Table:
 
 func get_weapon_triangle_advantage(weapon: Weapon, _distance: int) -> AdvantageState:
 	if weapon:
-		if weapon.get_type() in _advantage_types:
+		if 1 << weapon.get_type() & _advantage_types:
 			return AdvantageState.ADVANTAGE
-		elif weapon.get_type() in _disadvantage_types:
+		elif 1 << weapon.get_type() & _disadvantage_types:
 			return AdvantageState.DISADVANTAGE
 		else:
 			return AdvantageState.NEUTRAL
@@ -183,14 +184,6 @@ func get_type() -> Types:
 	return _type
 
 
-func get_advantage_types() -> Array[Types]:
-	return _advantage_types
-
-
-func get_disadvantage_types() -> Array[Types]:
-	return _disadvantage_types
-
-
 func get_range_text() -> String:
 	var max_range_text: String = Utilities.float_to_string(get_max_range(), true)
 	if _min_range == get_max_range():
@@ -214,10 +207,10 @@ func get_weapon_modes() -> Array[Weapon]:
 
 
 func _load_preset(old_preset: _Presets, new_preset: _Presets) -> void:
-	const HEAVY_PRESETS: Array[_Presets] = [_Presets.BRAVE, _Presets.STATUS, _Presets.DIAMOND]
-	if new_preset in HEAVY_PRESETS:
+	const HEAVY_PRESETS: int = 1 << _Presets.BRAVE | 1 << _Presets.STATUS | 1 << _Presets.DIAMOND
+	if 1 << new_preset & HEAVY_PRESETS:
 		_heavy_weapon = true
-	elif old_preset in HEAVY_PRESETS:
+	elif 1 << old_preset & HEAVY_PRESETS:
 		_heavy_weapon = false
 	_rank = _get_preset_rank(new_preset)
 	_might += (_get_preset_might(new_preset) - _get_preset_might(old_preset))

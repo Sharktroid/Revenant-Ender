@@ -12,5 +12,5 @@ func _init() -> void:
 	_hit += 10
 	_flavor_text = "A thin, pointed sword designed for thrusting attacks."
 	_description = "Ignores shields."
-	_effective_classes = []
+	#_effective_classes = []
 	super()
