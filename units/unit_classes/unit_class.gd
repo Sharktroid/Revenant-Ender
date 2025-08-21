@@ -17,6 +17,9 @@ enum MovementTypes {
 	ADVANCED_HEAVY_CAVALRY,
 	FLIERS,
 }
+enum ArmorClasses {
+	ARMOR, FLIER, HORSE, MAGE
+}
 
 const MAX_START_STAT: int = 10
 const MAX_END_STAT: int = 25

@@ -62,7 +62,7 @@ static func get_displayed_items(unit: Unit) -> Dictionary[String, bool]:
 		Exchange = false,
 		Items = false,
 	}
-	if CursorController.map_position in unit.get_actionable_movement_tiles():
+	if unit.get_actionable_movement_tiles().has(CursorController.map_position):
 		enabled_items.Wait = unit.get_movement() > 0
 		enabled_items.Drop = unit.traveler != null and not _get_drop_tiles(unit).is_empty()
 		enabled_items.Items = not unit.items.is_empty()
@@ -261,19 +261,16 @@ func _select_map(
 ## Returns true if the unit is capable of attacking an adjacent unit
 static func _can_attack(unit: Unit, adjacent_unit: Unit) -> bool:
 	if unit.faction.get_diplomacy_stance(adjacent_unit.faction) == Faction.DiplomacyStances.ENEMY:
-		return (
+		return unit.get_current_attack_tiles(unit.get_path_last_pos(), true).has(
 			Vector2i(adjacent_unit.position)
-			in unit.get_current_attack_tiles(unit.get_path_last_pos(), true)
 		)
 	else:
 		return false
 
 
 ## Gets the tiles that the unit can drop their traveler to.
-static func _get_drop_tiles(unit: Unit) -> Array[Vector2i]:
-	var tiles: Array[Vector2i] = []
-	tiles.assign(Utilities.get_tiles(unit.get_path_last_pos(), 1, 1).filter(_can_drop.bind(unit)))
-	return tiles
+static func _get_drop_tiles(unit: Unit) -> Set:
+	return Utilities.get_tiles(unit.get_path_last_pos(), 1, 1).filter(_can_drop.bind(unit))
 
 
 static func _can_drop(tile: Vector2i, unit: Unit) -> bool:
@@ -291,7 +288,7 @@ static func _can_drop(tile: Vector2i, unit: Unit) -> bool:
 
 ## Displays support tiles around the unit.
 func _display_adjacent_support_tiles() -> Node2D:
-	var tiles: Array[Vector2i] = Utilities.get_tiles(connected_unit.get_path_last_pos(), 1, 1)
+	var tiles: Set = Utilities.get_tiles(connected_unit.get_path_last_pos(), 1, 1)
 	return MapController.map.display_highlighted_tiles(tiles, connected_unit, Map.TileTypes.SUPPORT)
 
 

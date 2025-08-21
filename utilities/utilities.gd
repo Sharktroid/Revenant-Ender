@@ -37,8 +37,8 @@ func get_tiles(
 	true_max_range: float,
 	min_range: int = 0,
 	boundaries := Rect2i(_MIN_POSITION, _MIN_POSITION, _SIZE, _SIZE)
-) -> Array[Vector2i]:
-	var output: Array[Vector2i] = []
+) -> Set:
+	var output := Set.new()
 	if true_max_range == INF:
 		var tile_blacklist: Dictionary[Vector2i, bool] = {}
 		if min_range > 0:

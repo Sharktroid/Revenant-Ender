@@ -233,10 +233,10 @@ func get_terrain_cost(movement_type: UnitClass.MovementTypes, coords: Vector2) -
 
 ## Displays an array of tile coordinates on the map.
 func display_tiles(
-	tiles: Array[Vector2i],
+	tiles: Set,
 	type: TileTypes,
 	modulation: float = 0.5,
-	modulate_blacklist: Array[Vector2i] = [],
+	modulate_blacklist := Set.new(),
 	blacklist_as_whitelist: bool = false
 ) -> Node2D:
 	var tiles_node := Node2D.new()
@@ -251,14 +251,14 @@ func display_tiles(
 			current_tile_base = preload("res://maps/map_tiles/support_tile.gd")
 	for i: Vector2i in tiles:
 		var get_alpha: Callable = func() -> float:
-			return modulation if not ((i in modulate_blacklist) != blacklist_as_whitelist) else 1.0
+			return modulation if not (modulate_blacklist.has(i) != blacklist_as_whitelist) else 1.0
 		tiles_node.add_child(current_tile_base.instantiate(Vector2(i), get_alpha.call() as float))
 	_base_layer.add_child(tiles_node)
 	return tiles_node
 
 
 ## Displays tiles while highlighting tiles where a unit currently is.
-func display_highlighted_tiles(tiles: Array[Vector2i], unit: Unit, type: TileTypes) -> Node2D:
+func display_highlighted_tiles(tiles: Set, unit: Unit, type: TileTypes) -> Node2D:
 	var unit_coords: Array[Vector2i] = []
 	var enemy_units: Array[Unit] = get_units().filter(
 		func(e_unit: Unit) -> bool: return not (unit.is_friend(e_unit)) and e_unit.visible
@@ -266,7 +266,7 @@ func display_highlighted_tiles(tiles: Array[Vector2i], unit: Unit, type: TileTyp
 	unit_coords.assign(
 		enemy_units.map(func(e_unit: Unit) -> Vector2i: return Vector2i(e_unit.position))
 	)
-	return display_tiles(tiles, type, 0.5, unit_coords)
+	return display_tiles(tiles, type, 0.5, Set.new(unit_coords))
 
 
 ## Gets the movement path to navigate from the starting point to the destination.
@@ -343,7 +343,7 @@ func set_state(new_state: States) -> void:
 			if _selected_unit and _selected_unit.arrived.is_connected(_update_ghost_unit):
 				_selected_unit.arrived.disconnect(_update_ghost_unit)
 		States.CANTERING:
-			var tiles: Array[Vector2i] = _selected_unit.get_movement_tiles()
+			var tiles: Set = _selected_unit.get_movement_tiles()
 			if tiles.size() > 1:
 				_canter_tiles = MapController.map.display_tiles(tiles, Map.TileTypes.MOVEMENT, 1.0)
 				_selected_unit.selected = true
@@ -377,7 +377,7 @@ func quick_load(properties: Dictionary[StringName, Variant]) -> void:
 		set(property_name, properties[property_name])
 	var units := (properties[&"units"] as Dictionary).duplicate() as Dictionary[String, Dictionary]
 	for unit: Unit in get_units():
-		if unit.name in units.keys() and not units[unit.name][&"dead"]:
+		if units.has(unit.name) and not units[unit.name][&"dead"]:
 			unit.quick_load(units[unit.name])
 			units.erase(unit.name)
 		else:
@@ -465,7 +465,7 @@ func _moving_state_select() -> void:
 		var items: Array[bool] = []
 		items.assign(UnitMenu.get_displayed_items(_selected_unit).values())
 		if (
-			CursorController.map_position in _selected_unit.get_movement_tiles()
+			CursorController.map_position in _selected_unit.get_movement_tiles().to_array()
 			and items.any(func(value: bool) -> bool: return value)
 		):
 			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
@@ -481,7 +481,7 @@ func _moving_state_select() -> void:
 			_apply_attack_colors()
 		elif (
 			CursorController.get_hovered_unit()
-			and CursorController.map_position in _selected_unit.get_all_attack_tiles()
+			and _selected_unit.get_all_attack_tiles().has(CursorController.map_position)
 		):
 			_attack_selection()
 
@@ -520,7 +520,7 @@ func _attack_selection() -> void:
 
 
 func _canter_state_select() -> void:
-	if CursorController.map_position in _selected_unit.get_actionable_movement_tiles():
+	if _selected_unit.get_actionable_movement_tiles().has(CursorController.map_position):
 		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
 		const CanterMenu = preload("res://ui/map_ui/map_menus/canter_menu/canter_menu.gd")
 		CursorController.disable()
@@ -709,7 +709,7 @@ func _apply_attack_colors() -> void:
 	for unit: Unit in get_units().filter(
 		func(unit: Unit) -> bool: return not unit.is_friend(_selected_unit)
 	):
-		if _selected_unit.get_path_last_pos() in unit.get_all_attack_tiles():
+		if unit.get_all_attack_tiles().has(_selected_unit.get_path_last_pos()):
 			unit.modulate = Color.RED
 			unit.modulate.s = 0.5
 		else:

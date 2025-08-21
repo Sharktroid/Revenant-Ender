@@ -219,6 +219,7 @@ func _set_text(top: bool, unit_name: String, string: String) -> void:
 	if string.length() == 0:
 		label.visible_ratio = 1
 	label.visible_characters = label.text.length() - string.length()
+	var punctuation := Set.new([",", ".", ";", ":"])
 	var auto_scroll: bool = false
 	#region Gradually displays text
 	while label.visible_ratio < 1 and not _skipping:
@@ -239,7 +240,7 @@ func _set_text(top: bool, unit_name: String, string: String) -> void:
 				await _scroll(label)
 				break
 			# Delays for punctuation
-			elif label.text[label.visible_characters - 1] in [",", ".", ";", ":"]:
+			elif punctuation.has(label.text[label.visible_characters - 1]):
 				if not auto_scroll:
 					await get_tree().create_timer(15.0 / _get_text_speed()).timeout
 				break
@@ -279,7 +280,7 @@ func _update_speaker(top: bool, new_speaker: StringName) -> void:
 	if new_speaker == current_speaker:
 		return
 	var portrait: Portrait = _portraits[new_speaker]
-	if new_speaker in _portraits.keys():
+	if _portraits.has(new_speaker):
 		_configure_point(_get_bubble_point(top), roundi(portrait.position.x))
 	var counter := Counter.new(1)
 	var async_speaker: Callable = func() -> void:

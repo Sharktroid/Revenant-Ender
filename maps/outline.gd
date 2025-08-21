@@ -10,10 +10,10 @@ func _draw() -> void:
 		if outlined_units.has(outline_faction):
 			current_outlined_units.assign(outlined_units[outline_faction] as Array)
 		var unit_highlight: Color = _get_unit_highlight(outline_faction.color)
-		var all_current_coords: Array[Vector2i] = _get_all_current_coords(
+		var all_current_coords: Set = _get_all_current_coords(
 			current_outlined_units, unit_highlight
 		)
-		var all_general_coords: Array[Vector2i] = _get_all_general_coords(outline_faction)
+		var all_general_coords: Set = _get_all_general_coords(outline_faction)
 		var tile_current: Color = unit_highlight
 		var line_current: Color = tile_current
 		line_current.v = .5
@@ -30,14 +30,14 @@ func _draw() -> void:
 
 
 func _create_outline_tile(
-	tile_color: Color, line_color: Color, coords: Vector2i, all_coords: Array[Vector2i]
+	tile_color: Color, line_color: Color, coords: Vector2i, all_coords: Set
 ) -> void:
 	tile_color.a = 0.5
 	line_color.a = 0.5
 	draw_rect(Rect2(coords, Vector2i(16, 16)), tile_color, true)
 
 	for tile_offset: Vector2i in Utilities.get_tiles(Vector2i.ZERO, 1).filter(
-		func(tile_offset: Vector2i) -> bool: return not (coords + tile_offset in all_coords)
+		func(tile_offset: Vector2i) -> bool: return not all_coords.has(coords + tile_offset)
 	):
 		var offset: Vector2 = coords
 		match tile_offset:
@@ -51,8 +51,8 @@ func _create_outline_tile(
 				draw_line(Vector2(0, 15.5) + offset, Vector2(16, 15.5) + offset, line_color, 1)
 
 
-func _is_within_coords(coord: Vector2i, coords: Array[Vector2i]) -> bool:
-	return not (coord in coords)
+func _is_within_coords(coord: Vector2i, coords: Set) -> bool:
+	return not coords.has(coord)
 
 
 func _get_unit_highlight(color: Faction.Colors) -> Color:
@@ -69,20 +69,20 @@ func _get_unit_highlight(color: Faction.Colors) -> Color:
 
 func _get_all_current_coords(
 	current_outlined_units: Array[Unit], unit_highlight: Color
-) -> Array[Vector2i]:
+) -> Set:
 	var can_unit_attack: Callable = func(unit: Unit) -> bool:
 		return is_instance_valid(unit) and not unit.get_all_attack_tiles().is_empty()
-	var all_current_coords: Array[Vector2i] = []
+	var all_current_coords := Set.new()
 	for unit: Unit in current_outlined_units.filter(can_unit_attack):
 		unit.modulate = unit_highlight
 		unit.modulate.s *= 0.5
 		all_current_coords.append_array(
-			unit.get_all_attack_tiles().filter(_is_within_coords.bind(all_current_coords))
+			unit.get_all_attack_tiles().filter(_is_within_coords.bind(all_current_coords)).to_array()
 		)
 	return all_current_coords
 
 
-func _get_all_general_coords(outline_faction: Faction) -> Array[Vector2i]:
+func _get_all_general_coords(outline_faction: Faction) -> Set:
 	var can_enemy_attack: Callable = func(unit: Unit) -> bool:
 		const ENEMY: Faction.DiplomacyStances = Faction.DiplomacyStances.ENEMY
 		return (
@@ -90,11 +90,11 @@ func _get_all_general_coords(outline_faction: Faction) -> Array[Vector2i]:
 			and not unit.get_all_attack_tiles().is_empty()
 		)
 
-	var all_general_coords: Array[Vector2i] = []
+	var all_general_coords := Set.new()
 	var current_faction: Faction = MapController.map.get_current_faction()
 	if current_faction.full_outline and outline_faction != current_faction:
 		for unit: Unit in MapController.map.get_units().filter(can_enemy_attack):
 			all_general_coords.append_array(
-				unit.get_all_attack_tiles().filter(_is_within_coords.bind(all_general_coords))
+				unit.get_all_attack_tiles().filter(_is_within_coords.bind(all_general_coords)).to_array()
 			)
 	return all_general_coords

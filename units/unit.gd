@@ -127,8 +127,8 @@ var _effort_power: int
 var _effort_values: Dictionary[Stats, int]
 # Comment to prevent formatter breaking things.
 var _current_movement: float
-var _attack_tiles: Array[Vector2i]
-var _movement_tiles: Array[Vector2i]
+var _attack_tiles := Set.new()
+var _movement_tiles := Set.new()
 var _portrait: Portrait
 # Path the unit will follow when moving.
 var _path: Array[Vector2i]
@@ -463,12 +463,11 @@ func get_crit_rate(enemy: Unit) -> int:
 ## Gets the last position from the unit's path that a unit does not occupy
 func get_path_last_pos() -> Vector2i:
 	var path: Array[Vector2i] = get_unit_path().duplicate()
-	var unit_positions: Array[Vector2i] = []
-	unit_positions.filter(func(unit: Unit) -> bool: return unit != self)
+	var unit_positions := Set.new()
 	var get_unit_position: Callable = func(unit: Unit) -> Vector2i: return unit.position
-	unit_positions.assign(_get_map().get_units().map(get_unit_position))
+	unit_positions = Set.new(_get_map().get_units().map(get_unit_position))
 	var valid_path: Array[Vector2i] = path.filter(
-		func(tile: Vector2i) -> bool: return tile not in unit_positions
+		func(tile: Vector2i) -> bool: return not unit_positions.has(tile)
 	)
 	return valid_path.back() if not valid_path.is_empty() else position
 
@@ -577,7 +576,7 @@ func awaken() -> void:
 
 
 ## Gets the movement tiles of the unit
-func get_movement_tiles() -> Array[Vector2i]:
+func get_movement_tiles() -> Set:
 	if _movement_tiles.is_empty():
 		var start: Vector2i = position
 		const RANGE_MULTIPLIER: float = 4.0 / 3
@@ -586,7 +585,7 @@ func get_movement_tiles() -> Array[Vector2i]:
 		}
 		if position == ((position / 16).floor() * 16):
 			#region Gets the initial grid
-			var h: Array[Vector2i] = Utilities.get_tiles(
+			var h := Utilities.get_tiles(
 				start, ceili(_current_movement * RANGE_MULTIPLIER), 0, MapController.map.borders
 			)
 			#endregion
@@ -603,15 +602,13 @@ func get_movement_tiles() -> Array[Vector2i]:
 					(movement_tiles_dict[cost] as Array).append(x)
 			#endregion
 			for v: Array in movement_tiles_dict.values() as Array[Array]:
-				var converted: Array[Vector2i] = []
-				converted.assign(v)
-				_movement_tiles.append_array(converted)
+				_movement_tiles.append_array(v)
 	return _movement_tiles.duplicate()
 
 
 ## Gets the movement tiles the unit can perform an action on.
-func get_actionable_movement_tiles() -> Array[Vector2i]:
-	var movement_tiles: Array[Vector2i] = get_movement_tiles()
+func get_actionable_movement_tiles() -> Set:
+	var movement_tiles: Set = get_movement_tiles()
 	for unit: Unit in faction.get_units().filter(
 		func(unit: Unit) -> bool: return unit != self and unit.visible
 	):
@@ -620,29 +617,28 @@ func get_actionable_movement_tiles() -> Array[Vector2i]:
 
 
 ## Gets all the tiles the unit can attack from.
-func get_all_attack_tiles() -> Array[Vector2i]:
+func get_all_attack_tiles() -> Set:
 	if _attack_tiles.is_empty() and get_weapon():
-		var basis_movement_tiles: Array[Vector2i] = get_actionable_movement_tiles()
+		var basis_movement_tiles: Set = get_actionable_movement_tiles()
 		var min_range: int = get_min_range()
 		var max_range: float = get_max_range()
 		for tile: Vector2i in basis_movement_tiles:
-			var attack_tiles: Array[Vector2i] = Utilities.get_tiles(
+			var attack_tiles := Utilities.get_tiles(
 				tile, max_range, min_range, MapController.map.borders
 			)
 			var not_current_tile: Callable = func(attack_tile: Vector2i) -> bool:
-				return not (attack_tile in _attack_tiles)
-			_attack_tiles.append_array(attack_tiles.filter(not_current_tile))
+				return not (_attack_tiles.has(attack_tile))
+			_attack_tiles.append_set(attack_tiles.filter(not_current_tile))
 	return _attack_tiles
 
 
 ## Displays the unit's movement tiles.
 func display_movement_tiles() -> void:
 	hide_movement_tiles()
-	var movement_tiles: Array[Vector2i] = get_movement_tiles()
+	var movement_tiles: Set = get_movement_tiles()
 	_movement_tiles_node = _get_map().display_tiles(movement_tiles, Map.TileTypes.MOVEMENT, 1)
-	var attack_tiles: Array[Vector2i] = get_all_attack_tiles().filter(
-		func(tile: Vector2i) -> bool: return tile not in movement_tiles
-	)
+	var filter: Callable = func(tile: Vector2i) -> bool: return not movement_tiles.has(tile)
+	var attack_tiles: Set = get_all_attack_tiles().filter(filter)
 	_attack_tile_node = _get_map().display_tiles(attack_tiles, Map.TileTypes.ATTACK, 1)
 	if not selected:
 		_movement_tiles_node.modulate.a = 0.5
@@ -657,12 +653,12 @@ func hide_movement_tiles() -> void:
 
 
 ## The tiles the unit can attack from its current position.
-func get_current_attack_tiles(pos: Vector2i, all_weapons: bool = false) -> Array[Vector2i]:
+func get_current_attack_tiles(pos: Vector2i, all_weapons: bool = false) -> Set:
 	if is_instance_valid(get_weapon()):
 		var min_range: int = get_min_range() if all_weapons else get_weapon().get_min_range()
 		var max_range: float = get_max_range() if all_weapons else get_weapon().get_max_range()
 		return Utilities.get_tiles(pos, max_range, min_range, MapController.map.borders)
-	return []
+	return Set.new()
 
 
 ## Shows off the tiles the unit can attack from its current position.
@@ -741,18 +737,18 @@ func update_path(destination: Vector2i) -> void:
 		_path.append(Vector2i(position))
 	# Sets destination to an adjacent tile to a unit if a unit is hovered and over an attack tile.
 	if _hovered_unit_in_range():
-		var adjacent_movement_tiles: Array[Vector2i] = _get_actionable_attack_tiles()
+		var adjacent_movement_tiles: Set = _get_actionable_attack_tiles()
 		if not adjacent_movement_tiles.is_empty():
 			destination = _get_nearest_path_tile(adjacent_movement_tiles)
-	if destination in get_movement_tiles():
+	if get_movement_tiles().has(destination):
 		# Gets the path
 		if destination in _path:
 			_path = _path.slice(0, _path.find(destination) + 1) as Array[Vector2i]
 		else:
-			var path_end_adjacent_tiles: Array[Vector2i] = Utilities.get_tiles(
+			var path_end_adjacent_tiles: Set = Utilities.get_tiles(
 				get_unit_path()[-1], 1, 1, _get_map().borders
 			)
-			if _get_path_cost() <= _current_movement and destination in path_end_adjacent_tiles:
+			if _get_path_cost() <= _current_movement and path_end_adjacent_tiles.has(destination):
 				_path.append(destination)
 			else:
 				_path = _get_map().get_movement_path(
@@ -792,8 +788,8 @@ func drop(item: Item) -> void:
 
 ## Resets the cached tiles
 func reset_tile_cache() -> void:
-	_movement_tiles = []
-	_attack_tiles = []
+	_movement_tiles = Set.new()
+	_attack_tiles = Set.new()
 
 
 ## Returns true if the unit can follow up against the opponent.
@@ -968,15 +964,17 @@ func _get_path_cost() -> float:
 	return valid_path.reduce(sum_cost, 0)
 
 
-func _get_actionable_attack_tiles() -> Array[Vector2i]:
-	var range_tiles: Array[Vector2i] = Utilities.get_tiles(
+func _get_actionable_attack_tiles() -> Set:
+	var range_tiles: Set = Utilities.get_tiles(
 		CursorController.get_hovered_unit().position,
 		get_max_range(),
 		get_min_range(),
 		_get_map().borders
 	)
-	return get_actionable_movement_tiles().filter(
-		func(tile: Vector2i) -> bool: return tile in range_tiles
+	return Set.new(
+		get_actionable_movement_tiles().to_array().filter(
+			func(tile: Vector2i) -> bool: return range_tiles.has(tile)
+		)
 	)
 
 
@@ -1027,15 +1025,15 @@ func _hovered_unit_in_range() -> bool:
 	if CursorController.get_hovered_unit():
 		var hovered_position: Vector2i = Vector2i(CursorController.get_hovered_unit().position)
 		return (
-			hovered_position not in get_actionable_movement_tiles()
-			and hovered_position in get_all_attack_tiles()
+			not get_actionable_movement_tiles().has(hovered_position)
+			and get_all_attack_tiles().has(hovered_position)
 		)
 	return false
 
 
-func _get_nearest_path_tile(tiles: Array[Vector2i]) -> Vector2i:
+func _get_nearest_path_tile(tiles: Set) -> Vector2i:
 	while not _path.is_empty():
-		if _path.back() in tiles:
+		if tiles.has(_path.back()):
 			return _path.back()
 		_path.pop_back()
 	var weighted_tiles: Dictionary[int, Array] = {}
@@ -1048,7 +1046,6 @@ func _get_nearest_path_tile(tiles: Array[Vector2i]) -> Vector2i:
 			(weighted_tiles[tile_cost] as Array[Vector2i]).append(tile)
 		else:
 			weighted_tiles[tile_cost] = [tile]
-
 	return (weighted_tiles[weighted_tiles.keys().min()] as Array[Vector2i]).pick_random()
 
 
