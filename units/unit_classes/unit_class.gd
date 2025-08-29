@@ -18,7 +18,7 @@ enum MovementTypes {
 	FLIERS,
 }
 enum ArmorClasses {
-	ARMOR, FLIER, HORSE, MAGE
+	ARMOR, FLIER, CAVALRY, MAGE, SWORD_INFANTRY
 }
 
 const MAX_START_STAT: int = 10
@@ -64,6 +64,7 @@ var _weight_modifier: int = 0
 var _description: String = "[Empty]"
 var _authority: int
 var _skills: Array[Skill] = [FollowUp.new(), Shove.new()]
+var _armor_classes: int
 
 
 func _init() -> void:
@@ -178,6 +179,10 @@ func get_default_hair_palette(color: Faction.Colors) -> Array[Color]:
 		_:
 			push_error("Color %s not found." % Faction.Colors.find_key(color))
 			return _get_blue_palette()
+
+
+func get_armor_classes() -> int:
+	return _armor_classes
 
 
 func _get_base_stat(stat: Unit.Stats) -> int:

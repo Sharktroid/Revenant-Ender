@@ -11,6 +11,7 @@ func _init() -> void:
 	_weight += 2
 	_hit -= 5
 	_max_range = 2
+	_effective_classes |= 1 << UnitClass.ArmorClasses.MAGE
 	_flavor_text = "A spear that is designed to slay magic users."
 	_description = "Effective against mages."
 	super()

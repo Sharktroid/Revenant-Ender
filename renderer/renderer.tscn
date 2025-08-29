@@ -43,10 +43,6 @@ tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAACAAAAAAAAAAA
 tile_set = SubResource("TileSet_5kgth")
 
 [node name="TestMapB" parent="SubViewport" instance=ExtResource("4_nu4j5")]
-_left_border = null
-_right_border = null
-_top_border = null
-_bottom_border = null
 
 [node name="MapUILayer" parent="SubViewport" instance=ExtResource("5_0qpof")]
 

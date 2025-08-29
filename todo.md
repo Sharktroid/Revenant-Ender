@@ -18,6 +18,7 @@ Before you commit
 	* Abstract classes.
 	* VarArg.
 * Fix broken arrow key scrolling in Status Screen.
+* Revamp effective weapons to be more specific to class/weapon type.
 
 # Major
 * Add all weapons from data doc

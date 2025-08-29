@@ -10,6 +10,7 @@ func _init() -> void:
 	_might += 3
 	_weight += 1
 	_hit += 10
+	_effective_classes |= 1 << UnitClass.ArmorClasses.FLIER
 	_flavor_text = "Summons a fast, fierce gust of wind."
 	_description = "Effective against fliers."
 	super()

@@ -9,6 +9,7 @@ func _init() -> void:
 	_price = 28
 	_might += 10
 	_weight += 7
+	_effective_classes |= 1 << UnitClass.ArmorClasses.FLIER
 	_flavor_text = '"Legendary" sword with a wide blade, used to cut through a rider and their mount.'
 	_description = "Effective against cavalry."
 	super()

@@ -10,6 +10,7 @@ func _init() -> void:
 	_might += 8
 	_hit += 95
 	_weight += 8
+	_effective_classes |= 1 << UnitClass.ArmorClasses.FLIER
 	super()
 
 

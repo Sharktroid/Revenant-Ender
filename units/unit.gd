@@ -807,11 +807,15 @@ func get_authority() -> int:
 ## Gets the true attack when attacking an enemy
 func get_true_attack(enemy: Unit, initiation: bool) -> float:
 	if get_weapon():
-		return (
+		var effectiveness_multiplier: int = (
+			2 if get_weapon().get_effective_classes() & enemy.unit_class.get_armor_classes() else 1
+		)
+		var might: float = (
 			get_attack(initiation)
 			+ get_weapon().get_damage_bonus(enemy.get_weapon(), _get_distance(enemy))
 			+ get_authority_modifier(enemy)
 		)
+		return effectiveness_multiplier * might
 	return 0
 
 
