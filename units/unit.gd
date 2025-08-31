@@ -928,7 +928,7 @@ func get_sprite() -> UnitSprite:
 func get_all_weapon_modes() -> Array[Weapon]:
 	var get_all_modes: Callable = func(modes: Array[Weapon], weapon: Weapon) -> Array[Weapon]:
 		return modes + weapon.get_weapon_modes()
-	return get_weapons().reduce(get_all_modes, [] as Array[Weapon])
+	return get_weapons().filter(can_use_weapon).reduce(get_all_modes, [] as Array[Weapon])
 
 
 func _set_faction_id(value: int) -> void:

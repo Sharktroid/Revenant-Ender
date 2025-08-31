@@ -5,7 +5,6 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Remove ability to attack with invalid weapons.
 * Adjust combat preview to accomidate triple-digit damage.
 * Fix bug where clicking on an item container of the same position of the last closed one doesn't work.
 * Have hand in options menu for the bars be based on the cursor position.
