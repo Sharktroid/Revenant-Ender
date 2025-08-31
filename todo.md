@@ -5,7 +5,6 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Fix sword damage (Alen does ~27 on initiaton).
 * Remove ability to attack with invalid weapons.
 * Adjust combat preview to accomidate triple-digit damage.
 * Fix bug where clicking on an item container of the same position of the last closed one doesn't work.
@@ -21,9 +20,6 @@ Before you commit
 * Revamp effective weapons to be more specific to class/weapon type.
 
 # Major
-* Add all weapons from data doc
-	* Effectives.
-	* Prfs.
 * Have help bubble be a fixed position thing.
 * Make it possible to attack preview with any unit at any time
 * Add testing mode
@@ -33,7 +29,7 @@ Before you commit
 * Implement terrain stars and a terrain status menu.
 	* Does not affect tomes
 * Implement durability
-  * Weapon debuffs when at low durability.
+	* Weapon debuffs when at low durability.
 * Implement activated skills
 	* Add Accost
 * Implement staves

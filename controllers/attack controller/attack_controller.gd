@@ -93,7 +93,9 @@ func _map_attack(
 		#region Hit
 		var is_crit: bool = attack_type == CombatStage.AttackTypes.CRIT
 		var old_health: int = ceili(defender.current_health)
-		var damage: int = roundi(_get_damage(attacker, defender, is_crit, initial) as float)
+		var damage: int = roundi(_get_damage(attacker, defender, initial, is_crit) as float)
+		if attacker.display_name == "Alen":
+			print_debug(damage)
 		var new_health: int = old_health - damage
 
 		# The time that the health bar takes to scroll down from full health to none
