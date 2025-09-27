@@ -5,16 +5,12 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Adjust combat preview to accomidate triple-digit damage.
 * Fix bug where clicking on an item container of the same position of the last closed one doesn't work.
 * Have hand in options menu for the bars be based on the cursor position.
 * Add a comment at the top of each class on how well it's programmed (e.g. how much does it function as expectd vs how many randpom things need to happen to make it work).
 * Add universal swap and give draw back to all infantry classes and give it the same formula as shove.
 * Fix status menu scrolling while help menu is active.
 * Improve pausing when focus is lost.
-* Update to Godot 4.5
-	* Abstract classes.
-	* VarArg.
 * Fix broken arrow key scrolling in Status Screen.
 * Revamp effective weapons to be more specific to class/weapon type.
 
@@ -23,8 +19,7 @@ Before you commit
 * Make it possible to attack preview with any unit at any time
 * Add testing mode
 	* Allow the player to manually rig via an option
-* Implement effective damage
-	* Display effective damage on status screen.
+* Display effective damage on status screen.
 * Implement terrain stars and a terrain status menu.
 	* Does not affect tomes
 * Implement durability

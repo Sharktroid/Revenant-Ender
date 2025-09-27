@@ -1,3 +1,4 @@
+@abstract
 ## Abstract class for handling selecting with the cursor.
 class_name Selector
 extends Control

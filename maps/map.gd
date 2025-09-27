@@ -1,4 +1,5 @@
 ## A Node that represents a map.
+@abstract
 class_name Map
 extends ReferenceRect
 

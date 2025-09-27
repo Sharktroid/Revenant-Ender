@@ -170,7 +170,7 @@ func slice_string(string: String, start: int, end: int) -> String:
 
 ## Converts an array of enums to an integer containing their bitwise representations.
 # TODO: make VarArg when feature is implemented in 4.5
-func to_flag(enums: Array[int]) -> int:
+func to_flag(...enums: Array) -> int:
 	var flags: int = 0
 	for e: int in enums:
 		flags += 1 << e

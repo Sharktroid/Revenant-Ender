@@ -140,7 +140,7 @@ var _arrows_container: CanvasGroup
 var _equipped_weapon: Weapon
 
 ## The unit's current level. Is derived from total_exp.
-@onready var level: int = _base_level:
+@onready var level: int:
 	set(value):
 		total_exp = Unit.get_exp_from_level(value)
 	get:
@@ -168,6 +168,7 @@ func _enter_tree() -> void:
 	faction.name_changed.connect(_on_faction_name_changed)
 	add_to_group(faction.get_group_name())
 	flip_h = faction.flipped if faction else false
+	level = _base_level
 
 
 func _exit_tree() -> void:
@@ -728,7 +729,7 @@ func get_unit_path() -> Array[Vector2i]:
 
 ## Gets array of stats where the modifier of PVs and EVs are static
 static func get_fixed_stat_flags() -> int:
-	return Utilities.to_flag([Stats.BUILD, Stats.MOVEMENT])
+	return Utilities.to_flag(Stats.BUILD, Stats.MOVEMENT)
 
 
 ## Gets the path of the unit.

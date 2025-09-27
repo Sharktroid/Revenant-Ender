@@ -1,6 +1,5 @@
-[gd_scene load_steps=10 format=3 uid="uid://bhm3c7lcoufva"]
+[gd_scene load_steps=9 format=3 uid="uid://bhm3c7lcoufva"]
 
-[ext_resource type="Script" uid="uid://dk6ts2ktrrsqi" path="res://maps/map.gd" id="2"]
 [ext_resource type="Texture2D" uid="uid://danddgqa5wdg" path="res://maps/terrain.png" id="2_mr7yy"]
 [ext_resource type="Script" uid="uid://bovrnbni7v7gt" path="res://maps/outline.gd" id="3_iwlk5"]
 [ext_resource type="Script" uid="uid://d3dc3x8hw1lc7" path="res://maps/cursor_area.gd" id="3_qdi6q"]
@@ -58,7 +57,6 @@ size = Vector2(7, 7)
 [node name="Map" type="ReferenceRect"]
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("2")
 
 [node name="MapLayer" type="CanvasLayer" parent="."]
 process_mode = 1

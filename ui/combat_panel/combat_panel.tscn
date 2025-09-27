@@ -33,7 +33,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Damage" type="VBoxContainer" parent="."]
-custom_minimum_size = Vector2(174, 0)
+custom_minimum_size = Vector2(178, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
