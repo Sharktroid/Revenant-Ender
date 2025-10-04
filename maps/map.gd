@@ -611,7 +611,7 @@ func _start_turn() -> void:
 	quick_save("Start of turn")
 	await _display_turn_change(get_current_faction())
 	if (
-		not Options.SMART_CURSOR.value
+		not Options.SMART_CURSOR.value and not _get_current_units().is_empty()
 	):
 		CursorController.map_position = _get_current_units()[0].position
 	# play banner

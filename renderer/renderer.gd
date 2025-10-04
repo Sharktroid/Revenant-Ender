@@ -11,6 +11,8 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	if Utilities.is_running_project():
 		(%FPSDisplay as HBoxContainer).visible = Options.SHOW_FPS.value
+	else:
+		%DebugUI.add_child(preload("res://renderer/crash_handler/crash_handler.tscn").instantiate())
 
 
 func _process(delta: float) -> void:
@@ -29,12 +31,11 @@ func _notification(what: int) -> void:
 		NOTIFICATION_APPLICATION_FOCUS_IN:
 			get_tree().paused = false
 
+
 func get_pixel_scale() -> int:
 	var scale_vector: Vector2 = DisplayServer.window_get_size() / Utilities.get_screen_size()
 	return floori(minf(scale_vector.x, scale_vector.y))
 
 
 func _on_size_changed() -> void:
-	(material as ShaderMaterial).set_shader_parameter(
-		"pixel_scale", get_pixel_scale()
-	)
+	(material as ShaderMaterial).set_shader_parameter("pixel_scale", get_pixel_scale())
