@@ -41,7 +41,7 @@ func play(faction: Faction) -> void:
 
 	var darken_tween: Tween = create_tween()
 	darken_tween.tween_property(_darken_panel, ^"modulate:a", 1, 0.2)
-	await get_tree().create_timer(1.0 / 30).timeout
+	#await get_tree().create_timer(1.0 / 30).timeout
 
 	var fade_in_tween: Tween = create_tween()
 	const SLIDE_DURATION: float = 0.5
@@ -50,24 +50,33 @@ func play(faction: Faction) -> void:
 	)
 	slide_tweener.set_trans(Tween.TRANS_CIRC).set_ease(Tween.EASE_OUT)
 	fade_in_tween.parallel().tween_property(_canvas_group, ^"self_modulate:a", 1, SLIDE_DURATION)
-	await fade_in_tween.finished
+	#await fade_in_tween.finished
 
 	const COLOR_STAGE: float = 7.0 / 30
 	var running_tween: Tween = create_tween()
 	var _set_new_color: Callable = func(new_color: Color) -> void:
 		_shader_material.set_shader_parameter("new_colors", [new_color])
 	running_tween.tween_method(_set_new_color, Color(base_color, 0), Color(base_color), COLOR_STAGE)
-	await running_tween.finished
+	#await running_tween.finished
 
-	await get_tree().create_timer(COLOR_STAGE).timeout
+	#await get_tree().create_timer(COLOR_STAGE).timeout
 
 	var color_remove: Tween = create_tween()
 	color_remove.tween_method(_set_new_color, Color(base_color), Color(base_color, 0), COLOR_STAGE)
-	await color_remove.finished
+	#await color_remove.finished
 
 	const FADE_OUT: float = 4.0 / 15
 	var fade_out: Tween = create_tween()
 	fade_out.tween_property(_canvas_group, ^"self_modulate:a", 0, FADE_OUT)
 	fade_out.parallel().tween_property(_darken_panel, ^"modulate:a", 0, FADE_OUT)
-	await fade_out.finished
+	#await fade_out.finished
+
+	var master_tween: Tween = create_tween()
+	master_tween.tween_subtween(fade_in_tween).set_delay(1.0/30)
+	master_tween.parallel().tween_subtween(darken_tween)
+	master_tween.tween_subtween(running_tween)
+	master_tween.tween_interval(COLOR_STAGE)
+	master_tween.tween_subtween(color_remove)
+	master_tween.tween_subtween(fade_out)
+	await master_tween.finished
 	queue_free()

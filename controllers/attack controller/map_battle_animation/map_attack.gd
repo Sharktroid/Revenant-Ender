@@ -48,17 +48,17 @@ func set_alpha(alpha: float) -> void:
 
 ## Plays the animation for when a unit it hit by a non-critical hit
 func damage_animation() -> void:
-	var white_tween: Tween = create_tween()
-	white_tween.set_speed_scale(60)
-	white_tween.tween_method(_set_white_percentage, 1.0, 0.0, 29)
 	var starting_x: int = roundi(position.x)
 	var oscillate_tween: Tween = create_tween()
 	oscillate_tween.set_speed_scale(60)
 	oscillate_tween.set_loops(8)
 	oscillate_tween.tween_callback(func() -> void: position.x = starting_x + 1).set_delay(1)
 	oscillate_tween.tween_callback(func() -> void: position.x = starting_x - 1).set_delay(1)
-	await oscillate_tween.finished
-	position.x = starting_x
+	var white_tween: Tween = create_tween()
+	white_tween.set_speed_scale(60)
+	white_tween.tween_subtween(oscillate_tween)
+	white_tween.tween_callback(func() -> void: position.x = starting_x).set_delay(1)
+	white_tween.parallel().tween_method(_set_white_percentage, 1.0, 0.0, 29)
 	await white_tween.finished
 
 

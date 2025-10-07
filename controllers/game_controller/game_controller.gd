@@ -44,7 +44,7 @@ func _input(event: InputEvent) -> void:
 
 ## Gets the [SubViewport] that all nodes originate in.
 func get_root() -> Node:
-	const PATH: NodePath = ^"SubViewportContainer/SubViewport"
+	const PATH: NodePath = ^"Renderer/SubViewport"
 	if get_viewport() and get_viewport().has_node(PATH):
 		return get_viewport().get_node(PATH) as Node
 	return null

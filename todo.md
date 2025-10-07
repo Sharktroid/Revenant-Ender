@@ -14,7 +14,6 @@ Before you commit
 * Fix broken arrow key scrolling in Status Screen.
 * Revamp effective weapons to be more specific to class/weapon type.
 * System for multiple sources to try to pause the tree.
-* Subtweens?
 
 # Major
 * Have help bubble be a fixed position thing.
