@@ -32,10 +32,10 @@ func _notification(what: int) -> void:
 			get_tree().paused = false
 
 
-func get_pixel_scale() -> int:
+func _get_pixel_scale() -> int:
 	var scale_vector: Vector2 = DisplayServer.window_get_size() / Utilities.get_screen_size()
 	return floori(minf(scale_vector.x, scale_vector.y))
 
 
 func _on_size_changed() -> void:
-	(material as ShaderMaterial).set_shader_parameter("pixel_scale", get_pixel_scale())
+	(material as ShaderMaterial).set_shader_parameter("pixel_scale", _get_pixel_scale())

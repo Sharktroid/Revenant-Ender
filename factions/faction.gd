@@ -49,7 +49,7 @@ func _init(
 func _to_string() -> String:
 	return 'Faction:"{name}"<#{id}>'.format({"name": name, "id": get_instance_id()})
 
-
+# FIXME This is some annoying code. See if this can be improved.
 func get_group_name() -> StringName:
 	return &"%s_unit" % name.to_snake_case()
 

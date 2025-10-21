@@ -5,17 +5,18 @@ Before you commit
 * Make sure it all works
 
 # Minor
+* Use TODO notation to store these as well.
 * Fix bug where clicking on an item container of the same position of the last closed one doesn't work.
 * Have hand in options menu for the bars be based on the cursor position.
-* Add a comment at the top of each class on how well it's programmed (e.g. how much does it function as expectd vs how many randpom things need to happen to make it work).
 * Add universal swap and give draw back to all infantry classes and give it the same formula as shove.
 * Fix status menu scrolling while help menu is active.
-* Improve pausing when focus is lost.
 * Fix broken arrow key scrolling in Status Screen.
 * Revamp effective weapons to be more specific to class/weapon type.
 * System for multiple sources to try to pause the tree.
+* Trim rewind if turn count is getting too high.
 
 # Major
+* Tomes can't initate at 1-range.
 * Have help bubble be a fixed position thing.
 * Make it possible to attack preview with any unit at any time
 * Add testing mode
@@ -55,7 +56,6 @@ Before you commit
 	* Have units gain +0.02 movement EVs per tile traversed
 * Palette the status screen for each unit
 * Add simple and extended scripts
-* Add Berwick-style 0 range
 * Add Berwick-style unit moving
 * Shields
 * Can parry via combat art if shield weight > opponent's weapon weight (costs 3 durability)

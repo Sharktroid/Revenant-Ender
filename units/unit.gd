@@ -7,6 +7,8 @@ extends UnitSprite
 signal health_changed
 ## Emits when the unit arrives at its destination.
 signal arrived
+## Emits when the unit ends its turn.
+signal turn_ended(action: String)
 ## The stats that a unit can have.
 enum Stats {
 	HIT_POINTS,
@@ -549,11 +551,12 @@ func can_rescue(unit: Unit) -> bool:
 
 
 ## Causes unit to wait.
+# TODO: rename to "end turn"
 func wait(action_name: String = "waits") -> void:
 	_reset_movement()
 	if Options.UNIT_WAIT.value:
 		waiting = true
-	_get_map().unit_wait(self, action_name)
+	turn_ended.emit(action_name)
 	deselect()
 
 
@@ -568,6 +571,7 @@ func deselect() -> void:
 		hide_movement_tiles()
 
 
+# TODO: rename to "refresh"
 ## Un-waits unit.
 func awaken() -> void:
 	_reset_movement()
@@ -787,6 +791,7 @@ func drop(item: Item) -> void:
 		display_movement_tiles()
 
 
+# FIXME: This is disgusting and there needs to be a better way to handle these. At least make this signal-based and not public.
 ## Resets the cached tiles
 func reset_tile_cache() -> void:
 	_movement_tiles = Set.new()

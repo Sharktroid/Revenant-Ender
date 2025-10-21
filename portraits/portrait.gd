@@ -3,18 +3,20 @@ extends Sprite2D
 
 enum Emotions { NONE, DEFAULT, HAPPY }
 
-var _talking: bool = false:
+var talking: bool = false:
 	set(value):
-		if _talking != value:
-			_animate_mouth.call_deferred()
-		_talking = value
+		talking = value
+		_current_mouth.visible = talking
+		_talking_frame = 0
+var emotion := Emotions.DEFAULT:
+	set = set_emotion
+
 var _talking_frame: int = 0:
 	set(value):
 		_talking_frame = value % 4
-		if _emotion != Emotions.NONE:
+		if emotion != Emotions.NONE:
 			_current_mouth.frame = 1 if _talking_frame == 3 else _talking_frame
 var _current_mouth: Sprite2D
-var _emotion := Emotions.DEFAULT
 
 
 func _ready() -> void:
@@ -25,24 +27,18 @@ func _ready() -> void:
 		_current_mouth.vframes = 3
 
 
-func set_talking(talking: bool) -> void:
-	_current_mouth.visible = true
-	_talking = talking
-	_talking_frame = 0
-
-
-func set_emotion(emotion: Emotions) -> void:
-	_emotion = emotion
+func set_emotion(new_emotion: Emotions) -> void:
+	emotion = new_emotion
 	for mouth: Sprite2D in get_tree().get_nodes_in_group("mouth") as Array[Sprite2D]:
 		mouth.visible = false
-	match _emotion:
+	match emotion:
 		Emotions.HAPPY:
 			_current_mouth = $MouthHappy as Sprite2D
 		Emotions.NONE:
 			_current_mouth = Sprite2D.new()
 		_:
 			_current_mouth = $Mouth as Sprite2D
-	if _emotion != Emotions.NONE:
+	if emotion != Emotions.NONE:
 		_current_mouth.visible = true
 
 
@@ -54,7 +50,7 @@ func flip() -> void:
 
 
 func _animate_mouth() -> void:
-	while _talking:
+	while talking:
 		# Based on values from FE8
 		# FE6: 0x02024492 for frame, 0x02024493 for duration
 		# FE8: 0x02025774 for frame, 0x02025776 for duration

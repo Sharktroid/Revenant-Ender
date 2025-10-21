@@ -11,7 +11,7 @@ static func instantiate(faction: Faction) -> PhaseDisplay:
 	var scene := (
 		preload("res://maps/phase_display/phase_display.tscn").instantiate() as PhaseDisplay
 	)
-	scene.play(faction)
+	scene._play(faction)
 	return scene
 
 
@@ -21,7 +21,7 @@ func _input(event: InputEvent) -> void:
 		queue_free()
 
 
-func play(faction: Faction) -> void:
+func _play(faction: Faction) -> void:
 	await ready
 	_canvas_group.self_modulate.a = 0
 	_darken_panel.modulate.a = 0

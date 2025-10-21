@@ -98,10 +98,12 @@ func get_damage_type() -> DamageTypes:
 	return _damage_type
 
 
+## Returns whether the distance is within the weapon's range.
 func in_range(distance: int) -> bool:
 	return distance <= get_max_range() and distance >= get_min_range()
 
 
+## Returns a visual representation of the weapon's stats.
 func get_stat_table() -> Table:
 	var table: Dictionary[String, String] = {
 		"Mode": _mode_name if _mode_name.length() > 0 else "Standard",
@@ -118,6 +120,7 @@ func get_stat_table() -> Table:
 	return Table.from_dictionary(table, 5)
 
 
+## Returns the weapon triangle advantage state of this weapon against another weapon.
 func get_weapon_triangle_advantage(weapon: Weapon, _distance: int) -> AdvantageState:
 	if weapon:
 		if 1 << weapon.get_type() & _advantage_types:
@@ -130,6 +133,7 @@ func get_weapon_triangle_advantage(weapon: Weapon, _distance: int) -> AdvantageS
 		return AdvantageState.NEUTRAL
 
 
+## Returns the hit bonus provided when this weapon has weapon triangle advantage.
 func get_hit_bonus(weapon: Weapon, distance: int) -> float:
 	if get_weapon_triangle_advantage(weapon, distance) == AdvantageState.ADVANTAGE:
 		return INF
@@ -137,6 +141,7 @@ func get_hit_bonus(weapon: Weapon, distance: int) -> float:
 		return 0
 
 
+## Returns the damage bonus provided when this weapon has weapon triangle advantage.
 func get_damage_bonus(weapon: Weapon, distance: int) -> int:
 	if weapon is Bow:
 		return -weapon.get_weapon_triangle_advantage(self, distance)

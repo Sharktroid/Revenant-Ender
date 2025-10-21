@@ -2,11 +2,6 @@
 class_name MapAttack
 extends Node2D
 
-## Emitted when the animation completes.
-signal completed
-## Emitted when the animation has arrived to the destination.
-signal arrived
-
 ## The tile where the enemy unit is located.
 var _target_tile: Vector2i
 ## The unit that is being displayed by the animation.
@@ -29,36 +24,31 @@ func _init(connected_unit: Unit = null, targeted_tile := Vector2i(0, 16)) -> voi
 
 ## @experimental
 ## Plays the map animation.
-func play_animation() -> void:
+func play_animation(on_arrival: Callable) -> void:
 	_running = true
 	var movement: Vector2 = (Vector2(_target_tile) - position).normalized() * 4
 	_combat_sprite.sprite_animated = true
-	await _move(movement)
-	arrived.emit()
-	await _move(-movement)
-	completed.emit()
+	await _create_move_tween(movement).finished
+	var reverse_tween: Tween = _create_move_tween(-movement)
+	await on_arrival.call()
+	if reverse_tween.is_running():
+		await reverse_tween.finished
 	_combat_sprite.sprite_animated = false
 	_running = false
-
-
-## Sets the animation's alpha value.
-func set_alpha(alpha: float) -> void:
-	_combat_sprite.modulate.a = alpha
 
 
 ## Plays the animation for when a unit it hit by a non-critical hit
 func damage_animation() -> void:
 	var starting_x: int = roundi(position.x)
 	var oscillate_tween: Tween = create_tween()
-	oscillate_tween.set_speed_scale(60)
 	oscillate_tween.set_loops(8)
 	oscillate_tween.tween_callback(func() -> void: position.x = starting_x + 1).set_delay(1)
 	oscillate_tween.tween_callback(func() -> void: position.x = starting_x - 1).set_delay(1)
 	var white_tween: Tween = create_tween()
 	white_tween.set_speed_scale(60)
 	white_tween.tween_subtween(oscillate_tween)
-	white_tween.tween_callback(func() -> void: position.x = starting_x).set_delay(1)
 	white_tween.parallel().tween_method(_set_white_percentage, 1.0, 0.0, 29)
+	white_tween.tween_callback(func() -> void: position.x = starting_x).set_delay(1)
 	await white_tween.finished
 
 
@@ -79,13 +69,13 @@ func is_running() -> bool:
 
 
 ## Moves the sprite to show they're attacking.
-func _move(movement: Vector2) -> void:
+func _create_move_tween(movement: Vector2) -> Tween:
 	var tween: Tween = create_tween()
 	tween.set_speed_scale(60)
 	tween.tween_method(
 		func(new_pos: Vector2) -> void: position = new_pos.round(), position, position + movement, 8
 	)
-	await tween.finished
+	return tween
 
 
 ## Sets the sprite's shader white percentage

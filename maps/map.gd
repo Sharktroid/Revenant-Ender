@@ -19,10 +19,16 @@ const _SAVED_PROPERTY_NAMES: Array[StringName] = [
 var borders: Rect2i
 ## An array that contains all of the factions currently being used.
 var all_factions: Array[Faction]
+# FIXME: The implementation of this shouldn't go beyond the scope of this class. Look into unit_wait.
 ## The current state. Controls input.
 var state: States = States.SELECTING:
 	set = set_state
 
+var _group_keys: Array[Key] = [
+	KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7, KEY_8, KEY_9, KEY_0
+]
+var _keys_dictionary: Dictionary[Key, int] = {}
+var _group_modifiers: Array[Key] = [KEY_SHIFT, KEY_ALT]
 # Movement costs for every movement type
 var _movement_cost_dict: Dictionary[UnitClass.MovementTypes, Dictionary]
 # The index of the current faction
@@ -53,6 +59,14 @@ func _init() -> void:
 
 
 func _ready() -> void:
+	for key_index: int in _group_keys.size():
+		_keys_dictionary[_group_keys[key_index]] = key_index
+		var input_event := InputEventKey.new()
+		input_event.keycode = _group_keys[key_index]
+		var action_name: StringName = "group_%s" % (key_index + 1)
+		InputMap.action_add_event(&"control_group", input_event)
+		InputMap.add_action(action_name)
+		InputMap.action_add_event(action_name, input_event)
 	CursorController.cursor_visible = false
 	borders = Rect2i(_left_border * 16, _top_border * 16, 32, 32)
 	borders = borders.expand(get_size() - Vector2(_right_border * 16, _bottom_border * 16))
@@ -76,6 +90,9 @@ func _ready() -> void:
 	CursorController.disable()
 	_start_turn()
 	CursorController.moved.connect(_on_cursor_moved)
+
+	for unit in get_units():
+		unit.turn_ended.connect(func(action: String) -> void: _unit_wait(unit, action))
 
 
 func _process(_delta: float) -> void:
@@ -110,7 +127,7 @@ func _input(event: InputEvent) -> void:
 			_toggle_full_outline()
 	elif event.is_action_pressed(&"status"):
 		if CursorController.get_hovered_unit():
-			create_status_screen()
+			_create_status_screen()
 	elif event.is_action_pressed(&"flag"):
 		if is_instance_valid(_flags.get(CursorController.map_position)):
 			(_flags.get(CursorController.map_position) as Flag).queue_free()
@@ -133,13 +150,13 @@ func _input(event: InputEvent) -> void:
 	elif event.is_action_pressed(&"control_group", true) and event is InputEventKey:
 		if Input.is_action_pressed(&"group_modifier_set"):
 			if CursorController.get_hovered_unit():
-				_shortcut_units[MapController.get_control_group(event as InputEventKey)] = (
+				_shortcut_units[_get_control_group(event as InputEventKey)] = (
 					CursorController.get_hovered_unit()
 				)
 		else:
-			if _shortcut_units.has(MapController.get_control_group(event as InputEventKey)):
+			if _shortcut_units.has(_get_control_group(event as InputEventKey)):
 				CursorController.map_position = (
-					_shortcut_units[MapController.get_control_group(event as InputEventKey)].position
+					_shortcut_units[_get_control_group(event as InputEventKey)].position
 				)
 				var pixel_scale: Vector2 = (
 					Vector2(DisplayServer.window_get_size()) / Vector2(Utilities.get_screen_size())
@@ -147,33 +164,6 @@ func _input(event: InputEvent) -> void:
 				Input.warp_mouse(
 					Vector2(CursorController.screen_position + (Vector2i.ONE * 8)) * pixel_scale
 				)
-
-
-## Shows the status screen for the unit the cursor is hovering over.
-func create_status_screen() -> void:
-	AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
-	var status_screen: StatusScreen = StatusScreen.instantiate(CursorController.get_hovered_unit())
-	MapController.get_ui().add_child(status_screen)
-	CursorController.disable()
-	process_mode = PROCESS_MODE_DISABLED
-	await status_screen.tree_exited
-	process_mode = PROCESS_MODE_INHERIT
-
-
-## A function that is called whenever a unit ends their turn.
-func unit_wait(unit: Unit, action_name: String) -> void:
-	_update_outline()
-	for map_unit: Unit in get_units():
-		map_unit.reset_tile_cache()
-	if (
-		Options.AUTOEND_TURNS.value
-		and _get_current_units().all(func(current_unit: Unit) -> bool: return current_unit.waiting)
-	):
-		end_turn.call_deferred()
-	quick_save(
-		"{unit} {action}".format({"unit": unit.display_name, "action": action_name}),
-		unit.get_sprite()
-	)
 
 
 ## Gets the faction that is currently making their turn.
@@ -194,6 +184,7 @@ func get_previous_unit(unit: Unit) -> Unit:
 ## Ends current turn.
 func end_turn() -> void:
 	# Have to wait a frame to avoid a race condition with MainMapMenu._exit_tree()
+	# TODO: See if there's a more elegant way to eliminate the race con; document the race con.
 	await get_tree().physics_frame
 	for unit: Unit in get_units():
 		unit.awaken()
@@ -232,6 +223,7 @@ func get_terrain_cost(movement_type: UnitClass.MovementTypes, coords: Vector2) -
 	return INF
 
 
+# TODO: Maybe this can be per-unit and stae.
 ## Displays an array of tile coordinates on the map.
 func display_tiles(
 	tiles: Set,
@@ -258,6 +250,7 @@ func display_tiles(
 	return tiles_node
 
 
+# TODO: merge with the one above.
 ## Displays tiles while highlighting tiles where a unit currently is.
 func display_highlighted_tiles(tiles: Set, unit: Unit, type: TileTypes) -> Node2D:
 	var unit_coords: Array[Vector2i] = []
@@ -270,6 +263,7 @@ func display_highlighted_tiles(tiles: Set, unit: Unit, type: TileTypes) -> Node2
 	return display_tiles(tiles, type, 0.5, Set.new(unit_coords))
 
 
+# TODO: Might be worth making this threaded.
 ## Gets the movement path to navigate from the starting point to the destination.
 func get_movement_path(
 	movement_type: UnitClass.MovementTypes,
@@ -395,6 +389,38 @@ func rewind_load(index: int, delete_newer: bool = false) -> void:
 		_rewind = _rewind.slice(0, index + 1)
 
 
+func get_unit_relative(unit: Unit, rel_index: int) -> Unit:
+	var faction_units: Array[Unit] = unit.faction.get_units()
+	return faction_units[(faction_units.find(unit) + rel_index) % faction_units.size()]
+
+
+## Shows the status screen for the unit the cursor is hovering over.
+func _create_status_screen() -> void:
+	AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
+	var status_screen: StatusScreen = StatusScreen.instantiate(CursorController.get_hovered_unit())
+	MapController.get_ui().add_child(status_screen)
+	CursorController.disable()
+	process_mode = PROCESS_MODE_DISABLED
+	await status_screen.tree_exited
+	process_mode = PROCESS_MODE_INHERIT
+
+
+## A function that is called whenever a unit ends their turn.
+func _unit_wait(unit: Unit, action_name: String) -> void:
+	_update_outline()
+	for map_unit: Unit in get_units():
+		map_unit.reset_tile_cache()
+	if (
+		Options.AUTOEND_TURNS.value
+		and _get_current_units().all(func(current_unit: Unit) -> bool: return current_unit.waiting)
+	):
+		end_turn.call_deferred()
+	quick_save(
+		"{unit} {action}".format({"unit": unit.display_name, "action": action_name}),
+		unit.get_sprite()
+	)
+
+
 # Updates AStarGrid2D
 func _update_a_star_grid_id(
 	a_star_grid: AStarGrid2D, movement_type: UnitClass.MovementTypes, id: Vector2i
@@ -456,9 +482,12 @@ func _parse_movement_cost() -> void:
 			_movement_cost_dict[type][header[cost]] = split[cost]
 
 
-func get_unit_relative(unit: Unit, rel_index: int) -> Unit:
-	var faction_units: Array[Unit] = unit.faction.get_units()
-	return faction_units[(faction_units.find(unit) + rel_index) % faction_units.size()]
+func _get_control_group(event: InputEventKey) -> int:
+	var value: int = _keys_dictionary[event.keycode] + 1
+	for modifier_index: int in _group_modifiers.size():
+		if Input.is_key_pressed(_group_modifiers[modifier_index]):
+			value += _group_keys.size() * (modifier_index + 1)
+	return value
 
 
 func _moving_state_select() -> void:

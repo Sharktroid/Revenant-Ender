@@ -85,10 +85,22 @@ func _map_attack(
 	attack_type: CombatStage.AttackTypes,
 	initial: bool
 ) -> void:
-	attacker_animation.play_animation()
-	await attacker_animation.arrived
+	await attacker_animation.play_animation(
+		_deal_damage.bind(attacker, defender, defender_animation, attack_type, initial)
+	)
+
+
+func _deal_damage(
+	attacker: Unit,
+	defender: Unit,
+	defender_animation: MapAttack,
+	attack_type: CombatStage.AttackTypes,
+	initial: bool
+) -> void:
 	if attack_type == CombatStage.AttackTypes.MISS:
-		await AudioPlayer.play_sound_effect(preload("res://audio/sfx/miss.ogg")).finished
+		var sound_effect: AudioStreamPlayer = AudioPlayer.play_sound_effect(preload("res://audio/sfx/miss.ogg"))
+		if sound_effect.playing:
+			await sound_effect.finished
 	else:
 		#region Hit
 		var is_crit: bool = attack_type == CombatStage.AttackTypes.CRIT
@@ -117,14 +129,16 @@ func _map_attack(
 		if sfx_timer.time_left > 0:
 			await sfx_timer.timeout
 		#endregion
-	if attacker_animation.is_running():
-		await attacker_animation.completed
 
 
 func _get_damage(attacker: Unit, defender: Unit, initiation: bool, is_crit: bool) -> float:
 	return minf(
 		defender.current_health,
-		attacker.get_crit_damage(defender, initiation) if is_crit else attacker.get_damage(defender, initiation)
+		(
+			attacker.get_crit_damage(defender, initiation)
+			if is_crit
+			else attacker.get_damage(defender, initiation)
+		)
 	)
 
 
@@ -132,7 +146,7 @@ func _get_damage(attacker: Unit, defender: Unit, initiation: bool, is_crit: bool
 func _kill(unit: Unit, unit_animation: MapAttack) -> void:
 	AudioPlayer.play_sound_effect(preload("res://audio/sfx/death_fade.ogg"))
 	var sync_fade: Tween = unit.create_tween()
-	sync_fade.tween_method(unit_animation.set_alpha, 1.0, 0.0, Unit.FADE_AWAY_DURATION)
+	sync_fade.tween_property(unit_animation, "modulate:a", 0.0, Unit.FADE_AWAY_DURATION)
 	await sync_fade.finished
 	unit_animation.visible = false
 	unit.dead = true
@@ -239,5 +253,7 @@ class CombatStage:
 		else:
 			return AttackTypes.MISS
 
-	func get_damage(crit: bool, initiation: bool, check_miss: bool = true, check_crit: bool = true) -> float:
+	func get_damage(
+		crit: bool, initiation: bool, check_miss: bool = true, check_crit: bool = true
+	) -> float:
 		return attacker.get_displayed_damage(defender, crit, initiation, check_miss, check_crit)

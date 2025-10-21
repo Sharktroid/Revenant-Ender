@@ -74,12 +74,12 @@ func _input(_event: InputEvent) -> void:
 
 ## Enables movement of the cursor.
 func enable() -> void:
-	_set_active(true)
+	set_active(true)
 
 
 ## Disables movement of the cursor.
 func disable() -> void:
-	_set_active(false)
+	set_active(false)
 
 
 func set_icon(icon: Icons) -> void:
@@ -148,6 +148,11 @@ func get_cursor_speed() -> float:
 	return _cursor_speed
 
 
+func set_active(active: bool) -> void:
+	_active = active
+	process_mode = Node.PROCESS_MODE_ALWAYS if active else Node.PROCESS_MODE_DISABLED
+
+
 func _scroll(new_position: Vector2, duration: float) -> void:
 	var old_position: Vector2 = map_position
 	map_position += Vector2i(new_position.round() * 16)
@@ -155,11 +160,6 @@ func _scroll(new_position: Vector2, duration: float) -> void:
 	_cursor_speed = Utilities.get_tile_distance(map_position, old_position) * 16 / duration
 	await get_tree().create_timer(duration).timeout
 	_cursor_speed = INF
-
-
-func _set_active(active: bool) -> void:
-	_active = active
-	process_mode = Node.PROCESS_MODE_ALWAYS if active else Node.PROCESS_MODE_DISABLED
 
 
 func _corner_offset() -> Vector2i:

@@ -4,7 +4,7 @@ class_name CombatInfoDisplay
 extends GridContainer
 
 ## Emits true when the player presses select, and false when the player cancels out.
-signal completed(proceed: bool)
+#signal completed(proceed: bool)
 
 ## The unit being displayed on the bottom.
 var right_unit: Unit:
@@ -34,6 +34,8 @@ var _weapon_index: int = 0:
 			_left_unit.display_current_attack_tiles()
 var _old_weapon: Weapon
 var _original_weapon: Weapon
+var _on_info_display_complete: Callable
+var _on_info_display_return: Callable
 #@onready var _item_menu := %ItemMenu as _COMBAT_DISPLAY_SUBMENU
 @onready var _left_name_panel := $LeftNamePanel as NamePanel
 
@@ -51,26 +53,25 @@ func _exit_tree() -> void:
 
 
 ## Creates a new instance.
-static func instantiate(top: Unit, bottom: Unit = null, focused: bool = false) -> CombatInfoDisplay:
+static func instantiate(top: Unit, on_info_display_complete: Callable, on_info_display_return: Callable) -> CombatInfoDisplay:
 	const PACKED_SCENE: PackedScene = preload("res://ui/combat_panel/combat_panel.tscn")
 	var scene := PACKED_SCENE.instantiate() as CombatInfoDisplay
 	scene._left_unit = top
-	if bottom:
-		scene.right_unit = bottom
-	# gdlint:ignore = private-method-call
-	scene._set_focus(focused)
+	scene._on_info_display_complete = on_info_display_complete
+	scene._on_info_display_return = on_info_display_return
 	return scene
 
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("select"):
 		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.BATTLE_SELECT)
-		completed.emit(true)
+		_on_info_display_complete.call()
+		_set_focus(false)
 		_left_unit.equip_weapon(_get_current_weapon())
 	elif event.is_action_pressed("back"):
 		if _old_weapon:
 			_left_unit.equip_weapon(_old_weapon)
-		completed.emit(false)
+		_on_info_display_return.call()
 		_set_focus(false)
 		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
 		_left_unit.equip_weapon(_original_weapon)
@@ -85,6 +86,7 @@ func focus() -> void:
 # Sets the focus.
 func _set_focus(is_focused: bool) -> void:
 	_focused = is_focused
+	CursorController.set_active(_focused)
 	modulate.a = 1.0 if is_focused else 2.0 / 3
 	if is_focused:
 		_left_unit.display_current_attack_tiles()
