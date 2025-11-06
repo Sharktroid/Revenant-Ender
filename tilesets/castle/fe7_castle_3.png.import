@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://xx7w45cl4hpe"
-path="res://.godot/imported/fe8_fields.png-aa0c1cc1d8e235230fb0e8679d7a23b8.ctex"
+uid="uid://dd2se8ei5s21v"
+path="res://.godot/imported/fe7_castle_3.png-4ad4f1d0e3cda68f6ea4a472468603a3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://tilesets/fields/fe8_fields.png"
-dest_files=["res://.godot/imported/fe8_fields.png-aa0c1cc1d8e235230fb0e8679d7a23b8.ctex"]
+source_file="res://tilesets/castle/fe7_castle_3.png"
+dest_files=["res://.godot/imported/fe7_castle_3.png-4ad4f1d0e3cda68f6ea4a472468603a3.ctex"]
 
 [params]
 

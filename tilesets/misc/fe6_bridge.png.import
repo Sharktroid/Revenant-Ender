@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://xx7w45cl4hpe"
-path="res://.godot/imported/fe8_fields.png-aa0c1cc1d8e235230fb0e8679d7a23b8.ctex"
+uid="uid://ckdjcxogw7dsa"
+path="res://.godot/imported/fe6_bridge.png-01388bba21452a80d391c3b9a1465b17.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://tilesets/fields/fe8_fields.png"
-dest_files=["res://.godot/imported/fe8_fields.png-aa0c1cc1d8e235230fb0e8679d7a23b8.ctex"]
+source_file="res://tilesets/misc/fe6_bridge.png"
+dest_files=["res://.godot/imported/fe6_bridge.png-01388bba21452a80d391c3b9a1465b17.ctex"]
 
 [params]
 

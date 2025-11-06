@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://xx7w45cl4hpe"
-path="res://.godot/imported/fe8_fields.png-aa0c1cc1d8e235230fb0e8679d7a23b8.ctex"
+uid="uid://dhuamj8kvq3pc"
+path="res://.godot/imported/fe8_fort_3.png-0a69787314449bbb4ed213a86e0e9a8a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://tilesets/fields/fe8_fields.png"
-dest_files=["res://.godot/imported/fe8_fields.png-aa0c1cc1d8e235230fb0e8679d7a23b8.ctex"]
+source_file="res://tilesets/fort/fe8_fort_3.png"
+dest_files=["res://.godot/imported/fe8_fort_3.png-0a69787314449bbb4ed213a86e0e9a8a.ctex"]
 
 [params]
 

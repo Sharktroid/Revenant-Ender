@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://xx7w45cl4hpe"
-path="res://.godot/imported/fe8_fields.png-aa0c1cc1d8e235230fb0e8679d7a23b8.ctex"
+uid="uid://ch2mcsexpjk6a"
+path="res://.godot/imported/fe8_village.png-afd3f15cd859af0662410b9680473bc1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://tilesets/fields/fe8_fields.png"
-dest_files=["res://.godot/imported/fe8_fields.png-aa0c1cc1d8e235230fb0e8679d7a23b8.ctex"]
+source_file="res://tilesets/village/fe8_village.png"
+dest_files=["res://.godot/imported/fe8_village.png-afd3f15cd859af0662410b9680473bc1.ctex"]
 
 [params]
 

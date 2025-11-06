@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://xx7w45cl4hpe"
-path="res://.godot/imported/fe8_fields.png-aa0c1cc1d8e235230fb0e8679d7a23b8.ctex"
+uid="uid://bkdsvck8d1bq6"
+path="res://.godot/imported/fe6_frontier_castle.png-c7a31a218430f43283651924b8d0843a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://tilesets/fields/fe8_fields.png"
-dest_files=["res://.godot/imported/fe8_fields.png-aa0c1cc1d8e235230fb0e8679d7a23b8.ctex"]
+source_file="res://tilesets/frontier/fe6_frontier_castle.png"
+dest_files=["res://.godot/imported/fe6_frontier_castle.png-c7a31a218430f43283651924b8d0843a.ctex"]
 
 [params]
 

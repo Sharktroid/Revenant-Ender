@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://xx7w45cl4hpe"
-path="res://.godot/imported/fe8_fields.png-aa0c1cc1d8e235230fb0e8679d7a23b8.ctex"
+uid="uid://boqei7ncbatpo"
+path="res://.godot/imported/fe8_mountainous_2.png-a2feb6e554b24c2acc22abd83f19ac1d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://tilesets/fields/fe8_fields.png"
-dest_files=["res://.godot/imported/fe8_fields.png-aa0c1cc1d8e235230fb0e8679d7a23b8.ctex"]
+source_file="res://tilesets/mountainous/fe8_mountainous_2.png"
+dest_files=["res://.godot/imported/fe8_mountainous_2.png-a2feb6e554b24c2acc22abd83f19ac1d.ctex"]
 
 [params]
 
