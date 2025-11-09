@@ -1,6 +1,5 @@
 ## A Node that represents a map.
-@abstract
-class_name Map
+@abstract class_name Map
 extends ReferenceRect
 
 enum TileTypes { ATTACK, MOVEMENT, SUPPORT }
@@ -24,9 +23,7 @@ var all_factions: Array[Faction]
 var state: States = States.SELECTING:
 	set = set_state
 
-var _group_keys: Array[Key] = [
-	KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7, KEY_8, KEY_9, KEY_0
-]
+var _group_keys: Array[Key] = [KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7, KEY_8, KEY_9, KEY_0]
 var _keys_dictionary: Dictionary[Key, int] = {}
 var _group_modifiers: Array[Key] = [KEY_SHIFT, KEY_ALT]
 # Movement costs for every movement type
@@ -45,6 +42,7 @@ var _canter_tiles: Node2D
 var _flags: Dictionary[Vector2i, Flag]
 var _rewind: Array[Dictionary]
 var _shortcut_units: Dictionary[int, Unit] = {}
+var _info_display: CombatInfoDisplay
 
 # The terrain map layer
 @onready var _terrain_layer := $MapLayer/TerrainLayer as TileMapLayer
@@ -526,15 +524,21 @@ func _attack_selection() -> void:
 	CursorController.disable()
 	_selected_unit.hide_movement_tiles()
 	AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
-	var info_display := CombatInfoDisplay.instantiate(
-		_selected_unit, CursorController.get_hovered_unit(), true
+	_info_display = CombatInfoDisplay.instantiate(
+		_selected_unit,
+		_on_attack_confirmation.bind(true),
+		_on_attack_confirmation.bind(false),
+		CursorController.get_hovered_unit(),
+		true
 	)
-	MapController.get_ui().add_child(info_display)
+	MapController.get_ui().add_child(_info_display)
 	_selected_unit.display_current_attack_tiles()
 	set_process_input(false)
-	var completed: bool = await info_display.completed
+
+
+func _on_attack_confirmation(completed: bool) -> void:
 	_selected_unit.hide_current_attack_tiles()
-	info_display.queue_free()
+	_info_display.queue_free()
 	if completed:
 		CursorController.set_icon(CursorController.Icons.NONE)
 		await _selected_unit.move()
@@ -545,7 +549,7 @@ func _attack_selection() -> void:
 		_selected_unit.display_movement_tiles()
 		get_tree().root.set_input_as_handled()
 		state = States.MOVING
-	CursorController.enable()
+		CursorController.enable()
 	set_process_input(true)
 
 
@@ -639,9 +643,7 @@ func _next_faction() -> void:
 func _start_turn() -> void:
 	quick_save("Start of turn")
 	await _display_turn_change(get_current_faction())
-	if (
-		not Options.SMART_CURSOR.value and not _get_current_units().is_empty()
-	):
+	if not Options.SMART_CURSOR.value and not _get_current_units().is_empty():
 		CursorController.map_position = _get_current_units()[0].position
 	# play banner
 	if is_inside_tree():

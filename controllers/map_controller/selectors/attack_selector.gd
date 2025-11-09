@@ -19,7 +19,10 @@ func _init(
 
 
 func _ready() -> void:
-	_info_display = CombatInfoDisplay.instantiate(_unit) as CombatInfoDisplay
+	_info_display = (
+		CombatInfoDisplay.instantiate(_unit, _on_combat_panel_select, _on_combat_panel_cancel)
+		as CombatInfoDisplay
+	)
 	MapController.get_ui().add_child(_info_display)
 	_update_bottom_unit()
 	_unit.display_current_attack_tiles(true)
@@ -35,14 +38,16 @@ func _position_selected() -> void:
 		CursorController.disable()
 		_info_display.focus()
 		process_mode = PROCESS_MODE_DISABLED
-		var proceed: bool = await _info_display.completed
-		CursorController.enable()
-		if proceed:
-			selected.emit(CursorController.get_hovered_unit())
-			CursorController.disable()
-			queue_free()
-		else:
-			process_mode = PROCESS_MODE_INHERIT
+
+
+func _on_combat_panel_select() -> void:
+	selected.emit(CursorController.get_hovered_unit())
+	queue_free()
+
+
+func _on_combat_panel_cancel() -> void:
+	process_mode = PROCESS_MODE_INHERIT
+	CursorController.enable()
 
 
 func _update_bottom_unit() -> void:

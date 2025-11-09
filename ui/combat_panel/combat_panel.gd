@@ -53,12 +53,22 @@ func _exit_tree() -> void:
 
 
 ## Creates a new instance.
-static func instantiate(top: Unit, on_info_display_complete: Callable, on_info_display_return: Callable) -> CombatInfoDisplay:
+static func instantiate(
+	top: Unit,
+	on_info_display_complete: Callable,
+	on_info_display_return: Callable,
+	bottom: Unit = null,
+	focused: bool = false
+) -> CombatInfoDisplay:
 	const PACKED_SCENE: PackedScene = preload("res://ui/combat_panel/combat_panel.tscn")
 	var scene := PACKED_SCENE.instantiate() as CombatInfoDisplay
 	scene._left_unit = top
 	scene._on_info_display_complete = on_info_display_complete
 	scene._on_info_display_return = on_info_display_return
+	if bottom:
+		scene.right_unit = bottom
+	# gdlint:ignore = private-method-call
+	scene._set_focus(focused)
 	return scene
 
 
@@ -86,7 +96,6 @@ func focus() -> void:
 # Sets the focus.
 func _set_focus(is_focused: bool) -> void:
 	_focused = is_focused
-	CursorController.set_active(_focused)
 	modulate.a = 1.0 if is_focused else 2.0 / 3
 	if is_focused:
 		_left_unit.display_current_attack_tiles()

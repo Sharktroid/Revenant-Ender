@@ -212,7 +212,7 @@ func _set_text(top: bool, unit_name: String, string: String) -> void:
 		await _show_text_box(top)
 	await _update_speaker(top, unit_name)
 	var portrait: Portrait = _portraits[unit_name]
-	portrait.set_talking(true)
+	portrait.talking = true
 	var label: RichTextLabel = _get_text_box(top)
 	label.text += string
 	label.visible_ratio = 0
@@ -247,7 +247,7 @@ func _set_text(top: bool, unit_name: String, string: String) -> void:
 	label.visible_ratio = 1
 	#endregion
 	if portrait:
-		portrait.set_talking(false)
+		portrait.talking = false
 	while not (Input.is_action_just_pressed("select") or _skipping):
 		await get_tree().physics_frame
 
