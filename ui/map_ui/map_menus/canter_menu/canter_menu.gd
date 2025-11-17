@@ -11,6 +11,8 @@ static func instantiate(
 func _update() -> void:
 	pass
 
+static func get_displayed_items(unit: Unit) -> Dictionary[String, bool]:
+	return {"Wait": super(unit)["Wait"]}
 
 func _wait() -> void:
 	MapController.map.state = Map.States.SELECTING

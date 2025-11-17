@@ -10,14 +10,14 @@ func _init() -> void:
 	_weight_modifier = 1
 	_description = "An honorific bestowed upon famed mercenary masters."
 
-	_base_weapon_levels = {
+	_weapon_levels = {
 		Weapon.Types.SWORD: Weapon.Ranks.B,
 		Weapon.Types.AXE: Weapon.Ranks.C,
 	}
-	_max_weapon_levels = {
-		Weapon.Types.SWORD: Weapon.Ranks.S,
-		Weapon.Types.AXE: Weapon.Ranks.A,
-	}
+	#_max_weapon_levels = {
+		#Weapon.Types.SWORD: Weapon.Ranks.S,
+		#Weapon.Types.AXE: Weapon.Ranks.A,
+	#}
 
 	_base_hit_points = 41
 	_base_strength = 24

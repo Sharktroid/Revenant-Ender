@@ -14,6 +14,8 @@ Before you commit
 * Revamp effective weapons to be more specific to class/weapon type.
 * System for multiple sources to try to pause the tree.
 * Trim rewind if turn count is getting too high.
+* Fix bug where the tile that the first unit who moved is blocked.
+* Make a Promise object and replace the counter + await chains with Promise chains.
 
 # Major
 * Tomes can't initate at 1-range.

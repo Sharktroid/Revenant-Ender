@@ -64,7 +64,7 @@ var _aid_modifier: int = -1
 var _weight_modifier: int = 0
 var _description: String = "[Empty]"
 var _authority: int
-var _skills: Array[Skill] = [FollowUp.new(), Shove.new()]
+var _skills: Array[Skill] = [FollowUp.new(), Shove.new(), Swap.new()]
 var _armor_classes: int
 
 

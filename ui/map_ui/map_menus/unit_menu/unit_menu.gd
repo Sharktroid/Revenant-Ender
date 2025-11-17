@@ -2,6 +2,9 @@
 class_name UnitMenu
 extends MapMenu
 
+## The index that movement skills will be inserted at.
+const _MOVEMENT_SKILL_INDEX: int = 2
+
 ## The unit who is currently active.
 var connected_unit: Unit
 ## If false, closing the menu will call [method _check_canter].
@@ -9,6 +12,7 @@ var actionable: bool = true
 
 ## If true, closing the menu will create a CanterController.
 var _canter: bool
+var _completed: bool = true
 
 
 func _init() -> void:
@@ -16,7 +20,11 @@ func _init() -> void:
 
 
 func _enter_tree() -> void:
-	connected_unit.tree_exited.connect(_close)
+	connected_unit.tree_exited.connect(queue_free)
+	for item_name: String in get_displayed_items(connected_unit).keys():
+		var item := MapMenuItem.new()
+		item.name = item_name
+		%Items.add_child(item)
 	_update()
 	_current_item_index = 0
 	reset_size.call_deferred()
@@ -29,8 +37,11 @@ func _enter_tree() -> void:
 func _exit_tree() -> void:
 	if not actionable:
 		_check_canter()
-	if _canter and connected_unit._current_movement > 0:
-		MapController.map.state = Map.States.CANTERING
+	if _completed:
+		if _canter and connected_unit._current_movement > 0:
+			MapController.map.state = Map.States.CANTERING
+		else:
+			MapController.map.state = Map.States.SELECTING
 	CursorController.enable.call_deferred()
 
 
@@ -43,6 +54,7 @@ static func instantiate(new_offset: Vector2, parent: MapMenu, unit: Unit) -> Map
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("back"):
 		AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.DESELECT)
+		_completed = false
 		queue_free()
 	else:
 		super(event)
@@ -50,18 +62,17 @@ func _input(event: InputEvent) -> void:
 
 ## Gets the items that will be displayed.
 static func get_displayed_items(unit: Unit) -> Dictionary[String, bool]:
-	var enabled_items: Dictionary[String, bool] = {
-		Attack = false,
-		Wait = false,
-		Shove = false,
-		Trade = false,
-		Rescue = false,
-		Take = false,
-		Drop = false,
-		Give = false,
-		Exchange = false,
-		Items = false,
-	}
+	const TOP_ITEMS: Array[String] = ["Attack", "Wait"]
+	const BOTTOM_ITEMS: Array[String] = [
+		"Trade", "Rescue", "Take", "Drop", "Give", "Exchange", "Items"
+	]
+	var movement_skills: Array[Skill] = unit.get_skills().filter(
+		func(skill: Skill) -> bool: return skill is MovementSkill
+	)
+	var skill_names: Array = movement_skills.map(func(skill: Skill) -> String: return str(skill))
+	var enabled_items: Dictionary[String, bool] = {}
+	for item: String in TOP_ITEMS + skill_names + BOTTOM_ITEMS:
+		enabled_items[item] = false
 	if unit.get_actionable_movement_tiles().has(CursorController.map_position):
 		enabled_items.Wait = unit.get_movement() > 0
 		enabled_items.Drop = unit.traveler != null and not _get_drop_tiles(unit).is_empty()
@@ -87,32 +98,35 @@ static func _get_adjacent_items(unit: Unit) -> Dictionary[String, bool]:
 		var tile_distance: float = Utilities.get_tile_distance(
 			CursorController.map_position, adjacent_unit.get_position()
 		)
-		if tile_distance == 1 and unit.is_friend(adjacent_unit):
-			# Adjacent units
-			if not (unit.items.is_empty() or adjacent_unit.items.is_empty()):
-				enabled_items.Trade = true
-			if _can_shove(adjacent_unit, unit, CursorController.map_position):
-				enabled_items.Shove = true
-			if adjacent_unit.traveler:
-				if unit.traveler:
-					enabled_items.Exchange = true
+		if tile_distance == 1:
+			for movement_skill: MovementSkill in unit.get_skills().filter(
+				func(skill: Skill) -> bool: return skill is MovementSkill
+			):
+				if movement_skill.is_move_valid(adjacent_unit, unit, CursorController.map_position):
+					enabled_items[str(movement_skill)] = true
+			if unit.is_friend(adjacent_unit):
+				# Adjacent units
+				if not (unit.items.is_empty() or adjacent_unit.items.is_empty()):
+					enabled_items.Trade = true
+				if adjacent_unit.traveler:
+					if unit.traveler:
+						enabled_items.Exchange = true
+					else:
+						enabled_items.Take = true
 				else:
-					enabled_items.Take = true
-			else:
-				if unit.traveler:
-					enabled_items.Give = true
-				elif unit.can_rescue(adjacent_unit):
-					enabled_items.Rescue = true
+					if unit.traveler:
+						enabled_items.Give = true
+					elif unit.can_rescue(adjacent_unit):
+						enabled_items.Rescue = true
 		if _can_attack(unit, adjacent_unit):
 			enabled_items.Attack = true
 	return enabled_items
 
 
-## Closes menu, taking the caller down as well.
-## Use for turn-ending actions (such as attacking or rescuing).
-func _close() -> void:
-	MapController.map.state = Map.States.SELECTING
-	queue_free()
+### Closes menu, taking the caller down as well.
+### Use for turn-ending actions (such as attacking or rescuing).
+#func queue_free() -> void:
+#queue_free()
 
 
 ## Gets the items for the unit menu.
@@ -121,7 +135,7 @@ func _update() -> void:
 	var previous_node: MapMenuItem = get_current_item_node()
 	for node: MapMenuItem in _get_item_nodes():
 		node.visible = enabled_items[node.name]
-	if previous_node.visible:
+	if previous_node:
 		set_current_item_node(previous_node)
 	else:
 		previous_node.selected = false
@@ -161,16 +175,6 @@ func _select_item(item: MapMenuItem) -> void:
 		"Wait":
 			_wait()
 
-		"Shove":
-			var map_position: Vector2 = CursorController.map_position
-			var selector := UnitSelector.new(
-				connected_unit, 1, 1, _can_shove.bind(connected_unit, map_position)
-			)
-			var shove: Callable = func(selected_unit: Unit) -> void:
-				selected_unit.position += selected_unit.position - map_position
-				_wait()
-			_select_map(selector, _display_adjacent_support_tiles(), shove)
-
 		"Trade":
 			var selector := UnitSelector.new(connected_unit, 1, 1, connected_unit.is_friend)
 			_select_map(selector, _display_adjacent_support_tiles(), _trade)
@@ -204,6 +208,38 @@ func _select_item(item: MapMenuItem) -> void:
 				_display_adjacent_support_tiles(),
 				_exchange
 			)
+		_:
+			var skill_index: int = connected_unit.get_skills().find_custom(
+				func(skill: Skill) -> bool: return str(skill) == item.name
+			)
+			if skill_index != -1:
+				var skill: MovementSkill = connected_unit.get_skills()[skill_index]
+				var map_position: Vector2 = CursorController.map_position
+				var selector := UnitSelector.new(
+					connected_unit, 1, 1, skill.is_move_valid.bind(connected_unit, map_position)
+				)
+				var shove: Callable = func(selected_unit: Unit) -> void:
+					await connected_unit.move()
+					connected_unit.wait()
+					var offset: Vector2 = selected_unit.position - map_position
+					var counter := Counter.new(1)
+					counter.call_and_increment(
+						func() -> void:
+							await connected_unit.move(
+								connected_unit.position + offset * skill.get_self_move()
+							)
+					)
+					counter.call_and_increment(
+						func() -> void:
+							await selected_unit.move(
+								selected_unit.position + offset * skill.get_target_move()
+							)
+					)
+					await counter.limit_reached
+					connected_unit.wait()
+					selected_unit.wait()
+					queue_free()
+				_select_map(selector, _display_adjacent_support_tiles(), shove)
 	super(item)
 
 
@@ -273,19 +309,6 @@ static func _get_drop_tiles(unit: Unit) -> Set:
 	return Utilities.get_tiles(unit.get_path_last_pos(), 1, 1).filter(_can_drop.bind(unit))
 
 
-static func _can_drop(tile: Vector2i, unit: Unit) -> bool:
-	var traveler: Unit = unit.traveler
-	var terrain_cost: float = MapController.map.get_terrain_cost(
-		traveler.unit_class.get_movement_type(), tile
-	)
-	if terrain_cost <= traveler.get_movement():
-		return MapController.map.get_units().all(
-			func(adjacent_unit: Unit) -> bool: return Vector2i(adjacent_unit.position) != tile
-		)
-	else:
-		return false
-
-
 ## Displays support tiles around the unit.
 func _display_adjacent_support_tiles() -> Node2D:
 	var tiles: Set = Utilities.get_tiles(connected_unit.get_path_last_pos(), 1, 1)
@@ -303,7 +326,7 @@ func _wait() -> void:
 	visible = false
 	await connected_unit.move()
 	connected_unit.wait()
-	_close()
+	queue_free()
 
 
 func _attack(selected_unit: Unit) -> void:
@@ -311,7 +334,7 @@ func _attack(selected_unit: Unit) -> void:
 	await connected_unit.move()
 	await AttackController.combat(connected_unit, selected_unit)
 	connected_unit.wait("attacks")
-	_close()
+	queue_free()
 
 
 func _trade(selected_unit: Unit) -> void:
@@ -336,7 +359,7 @@ func _rescue(selected_unit: Unit) -> void:
 	selected_unit.visible = false
 	connected_unit.traveler = selected_unit
 	_check_canter()
-	_close()
+	queue_free()
 
 
 func _drop(dropped_tile: Vector2i) -> void:
@@ -347,7 +370,7 @@ func _drop(dropped_tile: Vector2i) -> void:
 	connected_unit.traveler = null
 	await traveler.move(dropped_tile)
 	_check_canter()
-	_close()
+	queue_free()
 
 
 func _take(unit: Unit) -> void:
@@ -404,23 +427,22 @@ static func _base_instantiate(
 	return scene
 
 
+static func _can_drop(tile: Vector2i, unit: Unit) -> bool:
+	var traveler: Unit = unit.traveler
+	var terrain_cost: float = MapController.map.get_terrain_cost(
+		traveler.unit_class.get_movement_type(), tile
+	)
+	if terrain_cost <= traveler.get_movement():
+		return MapController.map.get_units().all(
+			func(adjacent_unit: Unit) -> bool: return Vector2i(adjacent_unit.position) != tile
+		)
+	else:
+		return false
+
+
 func _can_take(unit: Unit) -> bool:
 	return connected_unit.is_friend(unit) and unit.traveler
 
 
 func _can_give(unit: Unit) -> bool:
 	return connected_unit.is_friend(unit) and not unit.traveler
-
-
-static func _can_shove(adjacent_unit: Unit, unit: Unit, starting_tile: Vector2i) -> bool:
-	if adjacent_unit.is_friend(unit) and unit.get_build() > adjacent_unit.get_weight():
-		var unit_position: Vector2i = adjacent_unit.position
-		var destination: Vector2 = unit_position + (unit_position - starting_tile)
-		if adjacent_unit.faction.get_units().all(
-			func(allied_unit: Unit) -> bool: return allied_unit.position != destination
-		):
-			var movement_type: UnitClass.MovementTypes = (
-				adjacent_unit.unit_class.get_movement_type()
-			)
-			return MapController.map.get_terrain_cost(movement_type, destination) < INF
-	return false

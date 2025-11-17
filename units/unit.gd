@@ -565,6 +565,7 @@ func deselect() -> void:
 	set_animation(Animations.IDLE)
 	selected = false
 	remove_path()
+	_reset_movement()
 	if CursorController.get_hovered_unit() == self:
 		update_displayed_tiles()
 	else:
@@ -598,9 +599,7 @@ func get_movement_tiles() -> Set:
 			h.erase(start)
 			for x: Vector2i in h:
 				var movement_type: UnitClass.MovementTypes = unit_class.get_movement_type()
-				var cost: float = _get_map().get_path_cost(
-					movement_type, _get_map().get_movement_path(movement_type, position, x, faction)
-				)
+				var cost: float = _get_map().get_path_cost(movement_type, _get_new_path(x))
 				if cost <= _current_movement:
 					if not movement_tiles_dict.has(cost):
 						movement_tiles_dict[cost] = []
@@ -695,34 +694,34 @@ func update_displayed_tiles() -> void:
 
 
 ## Moves unit to "move_target"
-func move(move_target: Vector2i = get_unit_path()[-1]) -> void:
+func move(move_target: Vector2i = Vector2i.MAX) -> void:
 	hide_movement_tiles()
-	update_path(move_target)
-	var path: Array[Vector2i] = get_unit_path()
-	if move_target in path:
-		remove_path()
-		_get_area().monitoring = false
-		_current_movement -= _get_map().get_path_cost(unit_class.get_movement_type(), path)
-		while not path.is_empty():
-			var target: Vector2 = path.pop_at(0)
-			_update_animation(target)
-			while position != target:
-				var speed: float = 1.0 / _get_movement_speed()
-				if speed == 0:
-					position = target
-				else:
-					var tween: Tween = create_tween()
-					tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
-					tween.tween_method(
-						func(new_pos: Vector2) -> void: position = new_pos.round(),
-						position,
-						target,
-						1.0 / _get_movement_speed()
-					)
-					await tween.finished
-		_get_area().monitoring = true
-		set_animation(Animations.IDLE)
-		arrived.emit()
+	var path: Array[Vector2i] = (
+		get_unit_path() if move_target == Vector2i.MAX else _get_new_path(move_target)
+	)
+	remove_path()
+	_get_area().monitoring = false
+	_current_movement -= _get_map().get_path_cost(unit_class.get_movement_type(), path)
+	while not path.is_empty():
+		var target: Vector2 = path.pop_at(0)
+		_update_animation(target)
+		while position != target:
+			var speed: float = 1.0 / _get_movement_speed()
+			if speed == 0:
+				position = target
+			else:
+				var tween: Tween = create_tween()
+				tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
+				tween.tween_method(
+					func(new_pos: Vector2) -> void: position = new_pos.round(),
+					position,
+					target,
+					1.0 / _get_movement_speed()
+				)
+				await tween.finished
+	_get_area().monitoring = true
+	set_animation(Animations.IDLE)
+	arrived.emit()
 	reset_tile_cache()
 
 
@@ -756,9 +755,7 @@ func update_path(destination: Vector2i) -> void:
 			if _get_path_cost() <= _current_movement and path_end_adjacent_tiles.has(destination):
 				_path.append(destination)
 			else:
-				_path = _get_map().get_movement_path(
-					unit_class.get_movement_type(), position, destination, faction
-				)
+				_path = _get_new_path(destination)
 
 
 ## Displays the unit's path
@@ -1105,6 +1102,12 @@ func _get_modifier(stat: Stats) -> String:
 				)
 	else:
 		return str(get_stat_boost(stat))
+
+
+func _get_new_path(destination: Vector2i) -> Array[Vector2i]:
+	return _get_map().get_movement_path(
+		unit_class.get_movement_type(), position, destination, faction
+	)
 
 
 func _on_faction_name_changed(old_name: String) -> void:

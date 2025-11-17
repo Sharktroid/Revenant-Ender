@@ -44,6 +44,11 @@ func is_empty() -> bool:
 
 
 ## Adds every element in an array to the set.
+func append(...elements: Array[Variant]) -> void:
+	append_array(elements)
+
+
+## Adds every element in an array to the set.
 func append_array(array: Array) -> void:
 	for element: Variant in array:
 		_dict[element] = true
