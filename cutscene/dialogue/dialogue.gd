@@ -50,23 +50,17 @@ func parse_script(script_name: StringName, map: Map) -> void:
 		if _skipping:
 			break
 		var commands: Array[String] = _parse_quotations(line.split(", "), ", ")
-		var command_counter := Counter.new(commands.size())
-		for command in commands:
-			command_counter.call_and_increment(_run_command.bind(command))
-		if not command_counter.is_limit_reached():
-			await command_counter.limit_reached
+		var command_promise: Promise = Promise.new.callv(
+			commands.map(func(command: String) -> Callable: return _run_command.bind(command))
+		)
+		await command_promise.completed
 	var portraits: Array[StringName] = []
 	portraits.assign(_portraits.keys())
-	var portrait_counter := Counter.new(portraits.size())
-	for portrait: StringName in portraits:
-		portrait_counter.call_and_increment(_remove_portrait.bind(portrait))
-	if portrait_counter.is_limit_reached():
-		await portrait_counter.limit_reached
-	var close_counter := Counter.new(2)
-	close_counter.call_and_increment(_hide_text_box.bind(true))
-	close_counter.call_and_increment(_hide_text_box.bind(false))
-	if close_counter.is_limit_reached():
-		await close_counter.limit_reached
+	var promise: Promise = Promise.new.callv(
+		portraits.map(func(portrait: StringName) -> Callable: return _remove_portrait.bind(portrait))
+	)
+	await promise.completed
+	await Promise.new(_hide_text_box.bind(true), _hide_text_box.bind(false)).completed
 
 
 func _run_command(command: String) -> void:
@@ -282,14 +276,7 @@ func _update_speaker(top: bool, new_speaker: StringName) -> void:
 	var portrait: Portrait = _portraits[new_speaker]
 	if _portraits.has(new_speaker):
 		_configure_point(_get_bubble_point(top), roundi(portrait.position.x))
-	var counter := Counter.new(1)
-	var async_speaker: Callable = func() -> void:
-		await _set_speaker(top, new_speaker)
-		counter.increment()
-	async_speaker.call()
-	await _clear(top)
-	if not counter.is_limit_reached():
-		await counter.limit_reached
+	await Promise.new(_set_speaker.bind(top, new_speaker), _clear.bind(top)).completed
 
 
 func _set_speaker(top: bool, new_speaker: StringName) -> void:

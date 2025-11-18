@@ -222,20 +222,13 @@ func _select_item(item: MapMenuItem) -> void:
 					await connected_unit.move()
 					connected_unit.wait()
 					var offset: Vector2 = selected_unit.position - map_position
-					var counter := Counter.new(1)
-					counter.call_and_increment(
-						func() -> void:
-							await connected_unit.move(
-								connected_unit.position + offset * skill.get_self_move()
-							)
+					var move_connected_unit: Callable = connected_unit.move.bind(
+						connected_unit.position + offset * skill.get_self_move()
 					)
-					counter.call_and_increment(
-						func() -> void:
-							await selected_unit.move(
-								selected_unit.position + offset * skill.get_target_move()
-							)
+					var move_selected_unit: Callable = selected_unit.move.bind(
+						selected_unit.position + offset * skill.get_target_move()
 					)
-					await counter.limit_reached
+					await Promise.new(move_connected_unit, move_selected_unit).completed
 					connected_unit.wait()
 					selected_unit.wait()
 					queue_free()

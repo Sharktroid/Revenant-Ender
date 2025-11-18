@@ -8,6 +8,7 @@ var talking: bool = false:
 		talking = value
 		_current_mouth.visible = talking
 		_talking_frame = 0
+		_animate_mouth()
 var emotion := Emotions.DEFAULT:
 	set = set_emotion
 

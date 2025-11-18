@@ -3,6 +3,7 @@ extends MovementSkill
 
 
 func _init() -> void:
+	_self_move = -1
 	_target_move = 1
 	_name = "Shove"
 
