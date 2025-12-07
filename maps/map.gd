@@ -42,7 +42,7 @@ var _canter_tiles: Node2D
 var _flags: Dictionary[Vector2i, Flag]
 var _rewind: Array[Dictionary]
 var _shortcut_units: Dictionary[int, Unit] = {}
-var _info_display: CombatInfoDisplay
+var _info_display: CombatPanel
 
 # The terrain map layer
 @onready var _terrain_layer := $MapLayer/TerrainLayer as TileMapLayer
@@ -524,7 +524,7 @@ func _attack_selection() -> void:
 	CursorController.disable()
 	_selected_unit.hide_movement_tiles()
 	AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
-	_info_display = CombatInfoDisplay.instantiate(
+	_info_display = CombatPanel.instantiate(
 		_selected_unit,
 		_on_attack_confirmation.bind(true),
 		_on_attack_confirmation.bind(false),
@@ -538,11 +538,12 @@ func _attack_selection() -> void:
 
 func _on_attack_confirmation(completed: bool) -> void:
 	_selected_unit.hide_current_attack_tiles()
+	var combat_art: CombatArt = _info_display.get_combat_art()
 	_info_display.queue_free()
 	if completed:
 		CursorController.set_icon(CursorController.Icons.NONE)
 		await _selected_unit.move()
-		await AttackController.combat(_selected_unit, CursorController.get_hovered_unit())
+		await AttackController.combat(_selected_unit, CursorController.get_hovered_unit(), combat_art)
 		_selected_unit.wait()
 		_deselect()
 	else:

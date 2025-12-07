@@ -155,7 +155,7 @@ func _select_item(item: MapMenuItem) -> void:
 				func(unit: Unit) -> bool: return UnitMenu._can_attack(connected_unit, unit),
 				CursorController.Icons.ATTACK
 			)
-			_select_map(selector, Node2D.new(), _attack)
+			_select_map(selector, Node2D.new(), _attack.bind(selector.get_combat_art))
 
 		"Drop":
 			var tiles_node: Node2D = (MapController.map as Map).display_tiles(
@@ -322,10 +322,10 @@ func _wait() -> void:
 	queue_free()
 
 
-func _attack(selected_unit: Unit) -> void:
+func _attack(selected_unit: Unit, get_combat_art: Callable) -> void:
 	process_mode = PROCESS_MODE_DISABLED
 	await connected_unit.move()
-	await AttackController.combat(connected_unit, selected_unit)
+	await AttackController.combat(connected_unit, selected_unit, get_combat_art.call() as CombatArt)
 	connected_unit.wait("attacks")
 	queue_free()
 

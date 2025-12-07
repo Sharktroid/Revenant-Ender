@@ -1,6 +1,6 @@
 ## A scene that display combat information to the player.
 ## The information can be changed via an option.
-class_name CombatInfoDisplay
+class_name CombatPanel
 extends GridContainer
 
 ## Emits true when the player presses select, and false when the player cancels out.
@@ -26,18 +26,22 @@ var _focused: bool = false
 var _current_weapons: Array[Weapon] = []
 var _weapon_index: int = 0:
 	set(value):
-		_weapon_index = value
-		_weapon_index = posmod(_weapon_index, _current_weapons.size())
+		_weapon_index = posmod(value, _current_weapons.size())
 		_left_unit.equip_weapon(_get_current_weapon(), false)
 		_update()
 		if _focused:
 			_left_unit.display_current_attack_tiles()
+var _art_index: int = 0:
+	set(value):
+		_art_index = posmod(value, _left_unit.get_combat_arts().size())
+		_update()
 var _old_weapon: Weapon
 var _original_weapon: Weapon
 var _on_info_display_complete: Callable
 var _on_info_display_return: Callable
 #@onready var _item_menu := %ItemMenu as _COMBAT_DISPLAY_SUBMENU
 @onready var _left_name_panel := $LeftNamePanel as NamePanel
+@onready var _art_label := $%ArtLabel as Label
 
 
 func _ready() -> void:
@@ -45,7 +49,24 @@ func _ready() -> void:
 	_update()
 	var set_weapon_index: Callable = func(direction: float) -> void:
 		_weapon_index += roundi(direction)
-	add_child(SingleAxisInputController.new(set_weapon_index, &"up", &"down"))
+	add_child(SingleAxisInputController.new(set_weapon_index, &"left", &"right"))
+	var set_art_index: Callable = func(direction: float) -> void:
+		_art_index += roundi(direction)
+	add_child(SingleAxisInputController.new(set_art_index, &"up", &"down"))
+
+	await get_tree().process_frame
+	var combat_art_panel := %CombatArtPanel as PanelContainer
+	var center: Vector2 = (combat_art_panel.size/2).round()
+	const VERTICAL_GAP: int = 5 + 3
+	var vertical_offset: int = VERTICAL_GAP + round(combat_art_panel.size.y/2)
+	var top_arrow := %TopArrow as Sprite2D
+	var bottom_arrow := %BottomArrow as Sprite2D
+	if _left_unit.get_combat_arts().size() > 1:
+		top_arrow.position = center + Vector2(0, -(vertical_offset))
+		bottom_arrow.position = center + Vector2(0, (vertical_offset))
+	else:
+		top_arrow.visible = false
+		bottom_arrow.visible = false
 
 
 func _exit_tree() -> void:
@@ -59,9 +80,9 @@ static func instantiate(
 	on_info_display_return: Callable,
 	bottom: Unit = null,
 	focused: bool = false
-) -> CombatInfoDisplay:
+) -> CombatPanel:
 	const PACKED_SCENE: PackedScene = preload("res://ui/combat_panel/combat_panel.tscn")
-	var scene := PACKED_SCENE.instantiate() as CombatInfoDisplay
+	var scene := PACKED_SCENE.instantiate() as CombatPanel
 	scene._left_unit = top
 	scene._on_info_display_complete = on_info_display_complete
 	scene._on_info_display_return = on_info_display_return
@@ -93,6 +114,10 @@ func focus() -> void:
 	_set_focus(true)
 
 
+func get_combat_art() -> CombatArt:
+	return _left_unit.get_combat_arts()[_art_index]
+
+
 # Sets the focus.
 func _set_focus(is_focused: bool) -> void:
 	_focused = is_focused
@@ -120,29 +145,23 @@ func _update() -> void:
 	if right_unit and is_node_ready():
 		var old_position: Vector2i = _left_unit.position
 		_left_unit.position = _left_unit.get_path_last_pos()
-		#Utilities.start_profiling()
 		for child: Node in $Damage.get_children():
 			child.queue_free()
-		#Utilities.profiler_checkpoint()
 		_left_name_panel.weapon = _left_unit.get_weapon()
-		#Utilities.profiler_checkpoint()
 		var attack_queue: Array[AttackController.CombatStage] = AttackController.get_attack_queue(
-			_left_unit, _distance, right_unit
+			_left_unit, _distance, right_unit, get_combat_art()
 		)
-		#Utilities.profiler_checkpoint()
 		_create_attack_arrows(attack_queue)
 		var right_name_panel := $RightNamePanel as NamePanel
 
 		right_name_panel.unit = right_unit
 		right_name_panel.weapon = right_unit.get_weapon()
-		#Utilities.profiler_checkpoint()
 		var get_total_damage: Callable = func(
 			accumulator: float, attack: AttackController.CombatStage, unit: Unit
 		) -> float:
 			if attack.attacker == unit:
 				accumulator += attack.get_damage(false, attack_queue[0] == attack)
 			return accumulator
-		#Utilities.profiler_checkpoint()
 		const StatsPanel: GDScript = preload("res://ui/combat_panel/stats_panel/stats_panel.gd")
 		($LeftStatsPanel as StatsPanel).update(
 			_left_unit,
@@ -150,15 +169,14 @@ func _update() -> void:
 			attack_queue.reduce(get_total_damage.bind(right_unit), 0) as float,
 			_distance
 		)
-		#Utilities.profiler_checkpoint()
 		($RightStatsPanel as StatsPanel).update(
 			right_unit,
 			_left_unit,
 			attack_queue.reduce(get_total_damage.bind(_left_unit), 0) as float,
 			_distance
 		)
-		#Utilities.finish_profiling()
 		_left_unit.position = old_position
+		_art_label.text = str(_left_unit.get_combat_arts()[_art_index])
 
 
 func _create_attack_arrows(attack_queue: Array[AttackController.CombatStage]) -> void:
@@ -167,7 +185,6 @@ func _create_attack_arrows(attack_queue: Array[AttackController.CombatStage]) ->
 	var left_critical_sum: float = 0
 	var right_critical_sum: float = 0
 	for attack: AttackController.CombatStage in attack_queue:
-		#Utilities.start_profiling()
 		var initiation: bool = attack == attack_queue[0]
 		if attack.attacker == _left_unit:
 			left_sum += attack.get_damage(false, initiation)
@@ -175,18 +192,15 @@ func _create_attack_arrows(attack_queue: Array[AttackController.CombatStage]) ->
 		else:
 			right_sum += attack.get_damage(false, initiation)
 			right_critical_sum += attack.get_damage(true, initiation)
-		#Utilities.profiler_checkpoint()
 		const DIRS = AttackArrow.DIRECTIONS
 		var direction: AttackArrow.DIRECTIONS = (
 			DIRS.RIGHT if attack.attacker == _left_unit else DIRS.LEFT
 		)
-		#Utilities.profiler_checkpoint()
 		var event: AttackArrow.EVENTS = _get_event(
 			left_sum if attack.attacker == _left_unit else right_sum,
 			left_critical_sum if attack.attacker == _left_unit else right_critical_sum,
 			attack
 		)
-		#Utilities.profiler_checkpoint()
 		var attack_arrow := AttackArrow.instantiate(
 			direction,
 			attack.get_damage(false, initiation, false),
@@ -194,9 +208,7 @@ func _create_attack_arrows(attack_queue: Array[AttackController.CombatStage]) ->
 			event,
 			attack.attacker.faction.color
 		)
-		#Utilities.profiler_checkpoint()
 		$Damage.add_child(attack_arrow)
-		#Utilities.finish_profiling()
 
 
 func _get_event(

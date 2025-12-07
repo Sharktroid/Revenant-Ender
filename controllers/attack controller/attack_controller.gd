@@ -3,16 +3,18 @@ extends Node
 
 
 ## Initiates combat between an attacker and a defender.
-func combat(attacker: Unit, defender: Unit) -> void:
+func combat(attacker: Unit, defender: Unit, combat_art: CombatArt) -> void:
 	CursorController.disable()
 	var distance: int = roundi(Utilities.get_tile_distance(attacker.position, defender.position))
-	await _map_combat(attacker, defender, get_attack_queue(attacker, distance, defender))
+	await _map_combat(attacker, defender, get_attack_queue(attacker, distance, defender, combat_art))
 	CursorController.enable()
 
 
 ## The list of attacks that will be done in this round of combat.
-func get_attack_queue(attacker: Unit, distance: int, defender: Unit) -> Array[CombatStage]:
-	var attack_queue: Array[CombatStage] = [CombatStage.new(attacker, defender)]
+func get_attack_queue(attacker: Unit, distance: int, defender: Unit, combat_art: CombatArt) -> Array[CombatStage]:
+	var attack_queue: Array[CombatStage] = []
+	for strike: int in 1 + combat_art.get_additional_primary_strikes():
+		attack_queue.append(CombatStage.new(attacker, defender))
 	if _can_counter(defender, distance):
 		attack_queue.append(CombatStage.new(defender, attacker))
 	if attacker.can_follow_up(defender):

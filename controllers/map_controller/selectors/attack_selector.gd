@@ -1,8 +1,8 @@
-## [UnitSelector] that utilizes a [CombatInfoDisplay].
+## [UnitSelector] that utilizes a [CombatPanel].
 class_name AttackSelector
 extends UnitSelector
 
-var _info_display: CombatInfoDisplay
+var _info_display: CombatPanel
 
 
 func _init(
@@ -20,8 +20,8 @@ func _init(
 
 func _ready() -> void:
 	_info_display = (
-		CombatInfoDisplay.instantiate(_unit, _on_combat_panel_select, _on_combat_panel_cancel)
-		as CombatInfoDisplay
+		CombatPanel.instantiate(_unit, _on_combat_panel_select, _on_combat_panel_cancel)
+		as CombatPanel
 	)
 	MapController.get_ui().add_child(_info_display)
 	_update_bottom_unit()
@@ -31,6 +31,10 @@ func _ready() -> void:
 func _exit_tree() -> void:
 	_info_display.queue_free()
 	super()
+
+
+func get_combat_art() -> CombatArt:
+	return _info_display.get_combat_art()
 
 
 func _position_selected() -> void:

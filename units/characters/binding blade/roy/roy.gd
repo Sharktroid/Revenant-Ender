@@ -19,4 +19,5 @@ func _enter_tree() -> void:
 		Stats.BUILD: 5,
 	}
 	personal_authority = 1
+	_personal_skills.append(Adept.new())
 	super()

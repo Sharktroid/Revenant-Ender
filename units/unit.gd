@@ -934,6 +934,12 @@ func get_all_weapon_modes() -> Array[Weapon]:
 	return get_weapons().filter(can_use_weapon).reduce(get_all_modes, [] as Array[Weapon])
 
 
+func get_combat_arts() -> Array[CombatArt]:
+	var arts: Array[CombatArt] = [NullArt.new()]
+	arts.append_array(get_skills().filter(func(skill: Skill) -> bool: return skill is CombatArt))
+	return arts
+
+
 func _set_faction_id(value: int) -> void:
 	remove_from_group(faction.get_group_name())
 	super(value)
