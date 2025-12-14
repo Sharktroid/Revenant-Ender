@@ -148,7 +148,7 @@ func _update() -> void:
 		for child: Node in $Damage.get_children():
 			child.queue_free()
 		_left_name_panel.weapon = _left_unit.get_weapon()
-		var attack_queue: Array[AttackController.CombatStage] = AttackController.get_attack_queue(
+		var attack_queue: Array[CombatStage] = AttackController.get_attack_queue(
 			_left_unit, _distance, right_unit, get_combat_art()
 		)
 		_create_attack_arrows(attack_queue)
@@ -157,7 +157,7 @@ func _update() -> void:
 		right_name_panel.unit = right_unit
 		right_name_panel.weapon = right_unit.get_weapon()
 		var get_total_damage: Callable = func(
-			accumulator: float, attack: AttackController.CombatStage, unit: Unit
+			accumulator: float, attack: CombatStage, unit: Unit
 		) -> float:
 			if attack.attacker == unit:
 				accumulator += attack.get_damage(false, attack_queue[0] == attack)
@@ -179,12 +179,12 @@ func _update() -> void:
 		_art_label.text = str(_left_unit.get_combat_arts()[_art_index])
 
 
-func _create_attack_arrows(attack_queue: Array[AttackController.CombatStage]) -> void:
+func _create_attack_arrows(attack_queue: Array[CombatStage]) -> void:
 	var left_sum: float = 0
 	var right_sum: float = 0
 	var left_critical_sum: float = 0
 	var right_critical_sum: float = 0
-	for attack: AttackController.CombatStage in attack_queue:
+	for attack: CombatStage in attack_queue:
 		var initiation: bool = attack == attack_queue[0]
 		if attack.attacker == _left_unit:
 			left_sum += attack.get_damage(false, initiation)
@@ -212,7 +212,7 @@ func _create_attack_arrows(attack_queue: Array[AttackController.CombatStage]) ->
 
 
 func _get_event(
-	current_sum: float, current_critical_sum: float, attack: AttackController.CombatStage
+	current_sum: float, current_critical_sum: float, attack: CombatStage
 ) -> AttackArrow.EVENTS:
 	if attack.attacker.get_hit_rate(attack.defender) <= 0:
 		return AttackArrow.EVENTS.MISS

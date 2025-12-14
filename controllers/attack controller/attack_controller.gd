@@ -6,15 +6,17 @@ extends Node
 func combat(attacker: Unit, defender: Unit, combat_art: CombatArt) -> void:
 	CursorController.disable()
 	var distance: int = roundi(Utilities.get_tile_distance(attacker.position, defender.position))
-	await _map_combat(attacker, defender, get_attack_queue(attacker, distance, defender, combat_art))
+	await _map_combat(
+		attacker, defender, get_attack_queue(attacker, distance, defender, combat_art)
+	)
 	CursorController.enable()
 
 
 ## The list of attacks that will be done in this round of combat.
-func get_attack_queue(attacker: Unit, distance: int, defender: Unit, combat_art: CombatArt) -> Array[CombatStage]:
-	var attack_queue: Array[CombatStage] = []
-	for strike: int in 1 + combat_art.get_additional_primary_strikes():
-		attack_queue.append(CombatStage.new(attacker, defender))
+func get_attack_queue(
+	attacker: Unit, distance: int, defender: Unit, combat_art: CombatArt
+) -> Array[CombatStage]:
+	var attack_queue: Array[CombatStage] = combat_art.get_attack_queue(attacker, defender)
 	if _can_counter(defender, distance):
 		attack_queue.append(CombatStage.new(defender, attacker))
 	if attacker.can_follow_up(defender):
@@ -100,7 +102,9 @@ func _deal_damage(
 	initial: bool
 ) -> void:
 	if attack_type == CombatStage.AttackTypes.MISS:
-		var sound_effect: AudioStreamPlayer = AudioPlayer.play_sound_effect(preload("res://audio/sfx/miss.ogg"))
+		var sound_effect: AudioStreamPlayer = AudioPlayer.play_sound_effect(
+			preload("res://audio/sfx/miss.ogg")
+		)
 		if sound_effect.playing:
 			await sound_effect.finished
 	else:
@@ -226,36 +230,3 @@ func _get_hit_b_sound_effect(old_health: int, new_health: int) -> AudioStream:
 		return preload("res://audio/sfx/no_damage.ogg")  # No damage SFX
 	else:
 		return preload("res://audio/sfx/hit_b_heavy.ogg")  # Normal SFX
-
-
-## Object that represents one attack in a round of combat.
-class CombatStage:
-	extends RefCounted
-
-	## The possible results of a combat stage
-	enum AttackTypes { HIT, MISS, CRIT }
-
-	## The unit who is attacking.
-	var attacker: Unit
-	## The unit who is being attacked.
-	var defender: Unit
-	## The type of attack for this round of combat.
-	var attack_type: AttackTypes
-
-	func _init(attacking_unit: Unit, defending_unit: Unit) -> void:
-		attacker = attacking_unit
-		defender = defending_unit
-
-	func generate_attack_type() -> AttackTypes:
-		if attacker.get_hit_rate(defender) > randi_range(0, 99):
-			if attacker.get_crit_rate(defender) > randi_range(0, 99):
-				return AttackTypes.CRIT
-			else:
-				return AttackTypes.HIT
-		else:
-			return AttackTypes.MISS
-
-	func get_damage(
-		crit: bool, initiation: bool, check_miss: bool = true, check_crit: bool = true
-	) -> float:
-		return attacker.get_displayed_damage(defender, crit, initiation, check_miss, check_crit)

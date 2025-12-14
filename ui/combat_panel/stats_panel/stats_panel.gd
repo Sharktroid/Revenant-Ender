@@ -120,11 +120,11 @@ func _get_total_damage_type_variation(unit: Unit, distance: int, total_damage: f
 
 
 func _get_total_damage(crit: bool, unit: Unit, enemy: Unit, distance: int) -> float:
-	var attack_queue: Array[AttackController.CombatStage] = AttackController.get_attack_queue(
+	var attack_queue: Array[CombatStage] = AttackController.get_attack_queue(
 		unit, distance, enemy, (get_parent() as CombatPanel).get_combat_art()
 	)
 	var get_total_damage: Callable = func(
-		accumulator: float, attack: AttackController.CombatStage
+		accumulator: float, attack: CombatStage
 	) -> float:
 		if attack.attacker == unit:
 			accumulator += unit.get_displayed_damage(enemy, crit, attack == attack_queue[0])
