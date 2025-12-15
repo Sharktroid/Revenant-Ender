@@ -156,23 +156,15 @@ func _update() -> void:
 
 		right_name_panel.unit = right_unit
 		right_name_panel.weapon = right_unit.get_weapon()
-		var get_total_damage: Callable = func(
-			accumulator: float, attack: CombatStage, unit: Unit
-		) -> float:
-			if attack.attacker == unit:
-				accumulator += attack.get_damage(false, attack_queue[0] == attack)
-			return accumulator
 		const StatsPanel: GDScript = preload("res://ui/combat_panel/stats_panel/stats_panel.gd")
 		($LeftStatsPanel as StatsPanel).update(
 			_left_unit,
-			right_unit,
-			attack_queue.reduce(get_total_damage.bind(right_unit), 0) as float,
+			attack_queue,
 			_distance
 		)
 		($RightStatsPanel as StatsPanel).update(
 			right_unit,
-			_left_unit,
-			attack_queue.reduce(get_total_damage.bind(_left_unit), 0) as float,
+			attack_queue,
 			_distance
 		)
 		_left_unit.position = old_position
@@ -185,13 +177,12 @@ func _create_attack_arrows(attack_queue: Array[CombatStage]) -> void:
 	var left_critical_sum: float = 0
 	var right_critical_sum: float = 0
 	for attack: CombatStage in attack_queue:
-		var initiation: bool = attack == attack_queue[0]
 		if attack.attacker == _left_unit:
-			left_sum += attack.get_damage(false, initiation)
-			left_critical_sum += attack.get_damage(true, initiation)
+			left_sum += attack.get_displayed_damage(false)
+			left_critical_sum += attack.get_displayed_damage(true)
 		else:
-			right_sum += attack.get_damage(false, initiation)
-			right_critical_sum += attack.get_damage(true, initiation)
+			right_sum += attack.get_displayed_damage(false)
+			right_critical_sum += attack.get_displayed_damage(true)
 		const DIRS = AttackArrow.DIRECTIONS
 		var direction: AttackArrow.DIRECTIONS = (
 			DIRS.RIGHT if attack.attacker == _left_unit else DIRS.LEFT
@@ -203,8 +194,8 @@ func _create_attack_arrows(attack_queue: Array[CombatStage]) -> void:
 		)
 		var attack_arrow := AttackArrow.instantiate(
 			direction,
-			attack.get_damage(false, initiation, false),
-			attack.get_damage(true, initiation, false),
+			attack.get_displayed_damage(false),
+			attack.get_displayed_damage(true),
 			event,
 			attack.attacker.faction.color
 		)
@@ -214,7 +205,7 @@ func _create_attack_arrows(attack_queue: Array[CombatStage]) -> void:
 func _get_event(
 	current_sum: float, current_critical_sum: float, attack: CombatStage
 ) -> AttackArrow.EVENTS:
-	if attack.attacker.get_hit_rate(attack.defender) <= 0:
+	if attack.get_hit_rate() <= 0:
 		return AttackArrow.EVENTS.MISS
 	elif current_sum >= attack.defender.current_health:
 		return AttackArrow.EVENTS.KILL

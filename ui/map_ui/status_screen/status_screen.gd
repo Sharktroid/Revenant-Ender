@@ -150,11 +150,7 @@ func _update_offensive_parameters() -> void:
 
 func _get_attack_description() -> String:
 	if observing_unit.get_weapon():
-		var format_dictionary: Dictionary[String, float] = {
-			"attack": observing_unit.get_current_attack(),
-			"might": observing_unit.get_weapon().get_might()
-		}
-		return "{attack} + {might}".format(format_dictionary)
+		return Formulas.ATTACK.format(observing_unit)
 	return "--"
 
 

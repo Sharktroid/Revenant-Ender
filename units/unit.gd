@@ -46,10 +46,6 @@ const ONE_ROUND_EXP_BASE: float = float(BASE_EXP) / 3
 const KILL_EXP_PERCENT: float = 0.25
 ## The default value for personal values.
 const DEFAULT_PERSONAL_VALUE: int = 5
-## Any rate below this value is set to 0%
-const MIN_RATE: int = 5
-## Any rate above this value is set to 100%
-const MAX_RATE: int = 95
 ## The added amount when the stat is the unit class max and personal values are maxed
 const PV_MAX_MODIFIER: int = 10
 ## The added amount when hit points are the unit class max and effort values are maxed
@@ -219,41 +215,20 @@ func get_current_attack() -> int:
 	return 0
 
 
+## Gets the quantity of the unit's current attack stat
+func get_might(initiation: bool = false) -> float:
+	var weapon: Weapon = get_weapon()
+	if weapon:
+		if weapon is Spear and initiation:
+			return (weapon as Spear).get_initial_might()
+		else:
+			return weapon.get_might()
+	return 0
+
+
 ## Attack without weapon triangle bonuses
 func get_attack(initiation: bool) -> float:
-	var attack: float = Formulas.ATTACK.evaluate(self)
-	if get_weapon() is Spear and initiation:
-		attack += (get_weapon() as Spear).get_initial_might() - get_weapon().get_might()
-	return attack
-
-
-## Gets the damage done with a normal attack
-func get_damage(defender: Unit, initiation: bool) -> float:
-	return maxf(0, get_true_attack(defender, initiation) - defender.get_current_defense(self))
-
-
-## Gets the damage done with a crit
-func get_crit_damage(defender: Unit, initiation: bool) -> float:
-	var crit_damage: float = (
-		get_true_attack(defender, initiation) * 2 - defender.get_current_defense(self)
-	)
-	return maxf(0, crit_damage)
-
-
-## The displayed total damage dealt by the unit.
-func get_displayed_damage(
-	enemy: Unit, crit: bool, initiation: bool, check_miss: bool = true, check_crit: bool = true
-) -> float:
-	if get_hit_rate(enemy) <= 0 and check_miss:
-		return 0
-	else:
-		if check_crit:
-			var crit_rate: float = get_crit_rate(enemy)
-			if crit_rate >= 100:
-				return get_crit_damage(enemy, initiation)
-			elif crit_rate <= 0:
-				return get_damage(enemy, initiation)
-		return get_crit_damage(enemy, initiation) if crit else get_damage(enemy, initiation)
+	return get_current_attack() + get_might(initiation)
 
 
 func set_animation(animation: UnitSprite.Animations) -> void:
@@ -376,21 +351,6 @@ func get_attack_speed() -> float:
 	return Formulas.ATTACK_SPEED.evaluate(self)
 
 
-## Gets the unit's defense type against a weapon
-func get_current_defense(enemy: Unit) -> int:
-	var authority_bonus: int = get_authority_modifier(enemy)
-	match enemy.get_weapon().get_damage_type():
-		Weapon.DamageTypes.PHYSICAL:
-			return get_defense() + authority_bonus
-		Weapon.DamageTypes.RANGED:
-			return get_armor() + authority_bonus
-		Weapon.DamageTypes.MAGICAL:
-			return get_resistance() + authority_bonus
-		var damage_type:
-			push_error("Damage Type %s Invalid" % damage_type)
-			return 0
-
-
 ## Gets the unit's portrait
 func get_portrait() -> Portrait:
 	if _portrait:
@@ -433,17 +393,6 @@ func get_avoid() -> float:
 	return Formulas.AVOID.evaluate(self)
 
 
-## Gets the hit rate against an enemy
-func get_hit_rate(enemy: Unit) -> int:
-	if get_weapon():  # No point in doing something more elaborate and complicated.
-		var hit_bonus: float = get_weapon().get_hit_bonus(enemy.get_weapon(), _get_distance(enemy))
-		var authority_bonus: int = AUTHORITY_HIT_BONUS * get_authority_modifier(enemy)
-		return _adjust_rate(
-			roundi(clampf(get_hit() - enemy.get_avoid() + hit_bonus + authority_bonus, 0, 100))
-		)
-	return 0
-
-
 ## Gets the base crit rate
 func get_crit() -> float:
 	return Formulas.CRIT.evaluate(self)
@@ -452,15 +401,6 @@ func get_crit() -> float:
 ## Gets the critical avoid rate, or what reduces the enemy's crit rate
 func get_critical_avoid() -> float:
 	return Formulas.CRITICAL_AVOID.evaluate(self)
-
-
-## Gets the crit rate against an enemy
-func get_crit_rate(enemy: Unit) -> int:
-	var critical_avoid: float = (
-		enemy.get_critical_avoid()
-		+ enemy.get_authority_modifier(self) * AUTHORITY_CRITICAL_AVOID_BONUS
-	)
-	return _adjust_rate(roundi(clampf(get_crit() - critical_avoid, 0, 100)))
 
 
 ## Gets the last position from the unit's path that a unit does not occupy
@@ -807,21 +747,6 @@ func get_authority() -> int:
 	return personal_authority + unit_class.get_authority()
 
 
-## Gets the true attack when attacking an enemy
-func get_true_attack(enemy: Unit, initiation: bool) -> float:
-	if get_weapon():
-		var effectiveness_multiplier: int = (
-			2 if get_weapon().get_effective_classes() & enemy.unit_class.get_armor_classes() else 1
-		)
-		var might: float = (
-			get_attack(initiation)
-			+ get_weapon().get_damage_bonus(enemy.get_weapon(), _get_distance(enemy))
-			+ get_authority_modifier(enemy)
-		)
-		return effectiveness_multiplier * might
-	return 0
-
-
 ## Gets the weapon level for a weapon type
 func get_weapon_level(type: Weapon.Types) -> int:
 	var faire_reduce: Callable = func(total_boost: int, skill: Skill) -> int:
@@ -950,10 +875,6 @@ func _get_area() -> Area2D:
 	return $Area2D as Area2D
 
 
-func _get_distance(unit: Unit) -> int:
-	return roundi(Utilities.get_tile_distance(position, unit.position))
-
-
 func _update_animation(target: Vector2) -> void:
 	match target - position:
 		Vector2(16, 0):
@@ -1060,16 +981,6 @@ func _get_nearest_path_tile(tiles: Set) -> Vector2i:
 		else:
 			weighted_tiles[tile_cost] = [tile]
 	return (weighted_tiles[weighted_tiles.keys().min()] as Array[Vector2i]).pick_random()
-
-
-# Gets the rate, with the min and max rates
-func _adjust_rate(rate: int) -> int:
-	if rate < MIN_RATE:
-		return 0
-	elif rate > MAX_RATE:
-		return 100
-	else:
-		return rate
 
 
 # Returns the unit movement speed in tiles/second.

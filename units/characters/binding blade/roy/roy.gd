@@ -19,5 +19,5 @@ func _enter_tree() -> void:
 		Stats.BUILD: 5,
 	}
 	personal_authority = 1
-	_personal_skills.append(AllOutAssault.new())
+	_personal_skills.append_array([AllOutAssault.new(), Luna.new()])
 	super()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cuqamu0m16iep"]
+[gd_scene load_steps=22 format=3 uid="uid://cuqamu0m16iep"]
 
 [ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit.tscn" id="1_334ru"]
 [ext_resource type="Shader" uid="uid://bcq4v4cx3y05u" path="res://shaders/palette.gdshader" id="2_fpafp"]
@@ -7,8 +7,12 @@
 [ext_resource type="Script" uid="uid://oxuirych6txp" path="res://items/item.gd" id="5_o5hyl"]
 [ext_resource type="Script" uid="uid://5eqx0cdhhxrv" path="res://units/unit_classes/lord/lord.gd" id="5_uk2gd"]
 [ext_resource type="Script" uid="uid://tbin0gvctk37" path="res://items/weapons/swords/rapier/rapier.gd" id="6_ujitq"]
+[ext_resource type="Script" uid="uid://ciiv3yqapeihw" path="res://items/weapons/swords/iron_sword/iron_sword.gd" id="7_crnxp"]
+[ext_resource type="Script" uid="uid://dya3s8phtivsv" path="res://skills/skill.gd" id="8_bq2nc"]
+[ext_resource type="Script" uid="uid://bmt2aefid3ans" path="res://skills/combat_art/all_out_assault.gd" id="9_87jdu"]
+[ext_resource type="Script" uid="uid://q45xjkns0nc7" path="res://skills/combat_art/luna.gd" id="10_78gcb"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_o5hyl"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_crnxp"]
 shader = ExtResource("2_fpafp")
 shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.65882355, 0.65882355, 0.59607846, 1), Color(0.28235295, 0.28235295, 0.2509804, 1), Color(0.6901961, 0.8156863, 0.972549, 1), Color(0.2509804, 0.28235295, 0.972549, 1), Color(0.0627451, 0.09411765, 0.3137255, 1), Color(0.1254902, 0.1254902, 0.15686275, 1), Color(0.84705883, 0.72156864, 0.5647059, 1), Color(0.5019608, 0.3764706, 0.28235295, 1), Color(0.03137255, 0.0627451, 0.1254902, 1), Color(0.8156863, 0.4392157, 0.1882353, 1), Color(0.47058824, 0.1882353, 0.09411765, 1)])
 shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.65882355, 0.65882355, 0.59607846, 1), Color(0.28235295, 0.28235295, 0.2509804, 1), Color(0.6901961, 0.8156863, 0.972549, 1), Color(0.2509804, 0.28235295, 0.972549, 1), Color(0.0627451, 0.09411765, 0.3137255, 1), Color(0.1254902, 0.1254902, 0.15686275, 1), Color(0.84705883, 0.72156864, 0.5647059, 1), Color(0.5019608, 0.3764706, 0.28235295, 1), Color(0.03137255, 0.0627451, 0.1254902, 1), Color(0.89, 0.0445, 0.185417, 1), Color(0.49, 0.1078, 0.19061, 1)])
@@ -18,18 +22,41 @@ shader_parameter/white_percentage = 0.0
 script = ExtResource("6_ujitq")
 metadata/_custom_type_script = "uid://tbin0gvctk37"
 
+[sub_resource type="Resource" id="Resource_slbpq"]
+script = ExtResource("7_crnxp")
+metadata/_custom_type_script = "uid://ciiv3yqapeihw"
+
+[sub_resource type="Resource" id="Resource_iraxo"]
+script = ExtResource("9_87jdu")
+
+[sub_resource type="Resource" id="Resource_wuxa1"]
+script = ExtResource("10_78gcb")
+
+[sub_resource type="Resource" id="Resource_p40f5"]
+script = ExtResource("9_87jdu")
+
+[sub_resource type="Resource" id="Resource_v0k8h"]
+script = ExtResource("10_78gcb")
+
+[sub_resource type="Resource" id="Resource_bq2nc"]
+script = ExtResource("9_87jdu")
+
+[sub_resource type="Resource" id="Resource_87jdu"]
+script = ExtResource("10_78gcb")
+
 [sub_resource type="Resource" id="Resource_tt5sv"]
 resource_name = "Lord"
 script = ExtResource("5_uk2gd")
 
 [node name="Roy" instance=ExtResource("1_334ru")]
-material = SubResource("ShaderMaterial_o5hyl")
+material = SubResource("ShaderMaterial_crnxp")
 texture = ExtResource("3_1rpd5")
 script = ExtResource("4_cii6r")
 display_name = "Roy"
 unit_description = "The next heir to Pherae.
 The protagonist of this story."
-items = Array[ExtResource("5_o5hyl")]([SubResource("Resource_mdtkw")])
+items = Array[ExtResource("5_o5hyl")]([SubResource("Resource_mdtkw"), SubResource("Resource_slbpq")])
+_personal_skills = Array[ExtResource("8_bq2nc")]([SubResource("Resource_iraxo"), SubResource("Resource_wuxa1"), SubResource("Resource_p40f5"), SubResource("Resource_v0k8h"), SubResource("Resource_bq2nc"), SubResource("Resource_87jdu")])
 unit_class = SubResource("Resource_tt5sv")
 _custom_hair = true
 _hair_color_light = Color(0.89, 0.0445, 0.185417, 1)
