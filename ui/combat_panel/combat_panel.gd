@@ -196,6 +196,7 @@ func _create_attack_arrows(attack_queue: Array[CombatStage]) -> void:
 			direction,
 			attack.get_displayed_damage(false),
 			attack.get_displayed_damage(true),
+			attack.get_recoil(),
 			event,
 			attack.attacker.faction.color
 		)

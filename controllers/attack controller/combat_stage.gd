@@ -107,6 +107,10 @@ func get_displayed_damage(crit: bool, check_miss: bool = true, check_crit: bool 
 		return get_crit_damage() if crit else get_damage()
 
 
+func get_recoil() -> float:
+	return floorf(attacker.get_weapon().get_recoil_multiplier() * get_damage())
+
+
 func _get_distance() -> int:
 	return roundi(Utilities.get_tile_distance(attacker.position, defender.position))
 

@@ -19,6 +19,8 @@ func update(unit: Unit, attack_queue: Array[CombatStage], distance: int) -> void
 	) -> float:
 		if attack.defender == unit:
 			accumulator += attack.get_displayed_damage(false)
+		else:
+			accumulator = maxf(accumulator + attack.get_recoil(), 0)
 		return accumulator
 	_update_hp_display(unit, attack_queue.reduce(get_total_damage, 0) as float)
 

@@ -10,6 +10,7 @@ func _init() -> void:
 	_might += 15
 	_weight += 1
 	_hit -= 20
+	_recoil_multiplier = 0.5
 	_flavor_text = "A sword forged from the essence of darkness."
 	_description = "Deals 1 recoil per 2 dealt."
 	super()

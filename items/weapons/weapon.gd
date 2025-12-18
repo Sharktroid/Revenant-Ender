@@ -51,6 +51,7 @@ var _hit: float
 var _crit: float = 0
 var _min_range: int
 var _max_range: float
+var _recoil_multiplier: float
 var _weapon_exp: int
 var _effective_classes: int
 var _type: Types
@@ -209,6 +210,10 @@ func get_weapon_modes() -> Array[Weapon]:
 	while modes[-1]._linked_weapon:
 		modes.append(modes[-1]._linked_weapon)
 	return modes
+
+
+func get_recoil_multiplier() -> float:
+	return _recoil_multiplier
 
 
 func _load_preset(old_preset: _Presets, new_preset: _Presets) -> void:

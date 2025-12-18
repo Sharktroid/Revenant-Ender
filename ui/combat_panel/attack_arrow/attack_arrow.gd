@@ -19,13 +19,22 @@ const _RED_COLORS: Array[Color] = [
 
 
 static func instantiate(
-	direction: DIRECTIONS, damage: float, crit_damage: float, event: EVENTS, color: Faction.Colors
+	direction: DIRECTIONS, damage: float, crit_damage: float, recoil: float, event: EVENTS, color: Faction.Colors
 ) -> AttackArrow:
 	var scene: AttackArrow = (
 		preload("res://ui/combat_panel/attack_arrow/attack_arrow.tscn").instantiate()
 	)
 	var is_left: bool = direction == DIRECTIONS.LEFT
 	var damage_label := scene.get_node("LeftDamage" if is_left else "RightDamage") as Label
+	damage_label.text = _get_damage_text(damage, crit_damage)
+	var recoil_label := scene.get_node("RightDamage" if is_left else "LeftDamage") as Label
+	match roundi(signf(recoil)):
+		1:
+			recoil_label.text = Utilities.float_to_string(recoil, true)
+			recoil_label.theme_type_variation = &"RedLabel"
+		-1:
+			recoil_label.text = Utilities.float_to_string(-recoil, true)
+			recoil_label.theme_type_variation = &"GreenLabel"
 	damage_label.text = _get_damage_text(damage, crit_damage)
 	var symbol_rect := scene.get_node("LeftSymbol" if is_left else "RightSymbol") as TextureRect
 	var arrow := scene.get_node("%Arrow") as TextureRect

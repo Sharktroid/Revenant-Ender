@@ -10,6 +10,7 @@ func _init() -> void:
 	_might += 6
 	_weight += 3
 	_hit -= 10
+	_recoil_multiplier = -0.5
 	_flavor_text = "A decorated knife with long golden lines. It is said to be blessed by the earth mother herself."
 	_description = "Heals 1 HP per 2 dealt."
 	super()

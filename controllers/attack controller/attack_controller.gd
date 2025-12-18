@@ -95,21 +95,29 @@ func _deal_damage(combat_stage: CombatStage, defender_animation: MapAttack) -> v
 	else:
 		#region Hit
 		var is_crit: bool = attack_type == CombatStage.AttackTypes.CRIT
-		var old_health: int = ceili(combat_stage.defender.current_health)
-		var new_health: int = roundi(maxf(old_health - _get_damage(combat_stage, is_crit), 0))
-		var damage: int = old_health - new_health
+		var defender_old_health: int = ceili(combat_stage.defender.current_health)
+		var defender_new_health: int = roundi(maxf(defender_old_health - _get_damage(combat_stage, is_crit), 0))
+		var defender_damage: int = defender_old_health - defender_new_health
+		var attacker_old_health: int = ceili(combat_stage.attacker.current_health)
+		var attacker_new_health: int = roundi(maxf(attacker_old_health - combat_stage.get_recoil(), 0))
+		var attacker_damage: int = attacker_old_health - attacker_new_health
 
 		# The time that the health bar takes to scroll down from full health to none
 		const HEALTH_SCROLL_DURATION: float = 0.5
-		var duration: float = (
-			HEALTH_SCROLL_DURATION * damage / combat_stage.defender.get_hit_points()
+		var defender_duration: float = (
+			HEALTH_SCROLL_DURATION * abs(defender_damage) / combat_stage.defender.get_hit_points()
 		)
+		var attacker_duration: float = (
+			HEALTH_SCROLL_DURATION * abs(attacker_damage) / combat_stage.attacker.get_hit_points()
+		)
+
 		var tween: Tween = combat_stage.defender.create_tween()
 		tween.set_parallel()
 		tween.tween_interval(0.1)
-		tween.tween_property(combat_stage.defender, ^"current_health", new_health, duration)
+		tween.tween_property(combat_stage.defender, ^"current_health", defender_new_health, defender_duration)
+		tween.tween_property(combat_stage.attacker, ^"current_health", attacker_new_health, attacker_duration)
 		var sfx_timer: SceneTreeTimer = _play_hit_sound_effect(
-			old_health, new_health, is_crit, combat_stage.attacker
+			defender_old_health, defender_new_health, is_crit, combat_stage.attacker
 		)
 		if is_crit:
 			await defender_animation.crit_damage_animation()
