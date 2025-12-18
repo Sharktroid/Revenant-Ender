@@ -20,7 +20,13 @@ var attack_type: AttackTypes
 var _combat_art: CombatArt
 var _initial: bool = false
 
-func _init(attacking_unit: Unit, defending_unit: Unit, combat_art: CombatArt = NullArt.new(), initial: bool = false) -> void:
+
+func _init(
+	attacking_unit: Unit,
+	defending_unit: Unit,
+	combat_art: CombatArt = NullArt.new(),
+	initial: bool = false
+) -> void:
 	attacker = attacking_unit
 	defender = defending_unit
 	_combat_art = combat_art
@@ -56,15 +62,14 @@ func get_attack() -> float:
 
 ## Gets the damage done with a normal attack
 func get_damage() -> float:
-	return maxf(0, get_attack() - _get_current_defense())
+	return maxf(
+		0, _combat_art.get_damage(get_attack(), _get_current_defense(), defender.current_health)
+	)
 
 
 ## Gets the damage done with a crit
 func get_crit_damage() -> float:
-	var crit_damage: float = (
-		get_attack() * 2 - _get_current_defense()
-	)
-	return maxf(0, crit_damage)
+	return maxf(0, _combat_art.get_crit_damage(get_attack(), _get_current_defense()))
 
 
 ## Gets the hit rate against an enemy
@@ -72,10 +77,10 @@ func get_hit_rate() -> int:
 	var weapon: Weapon = attacker.get_weapon()
 	if weapon:  # No point in doing something more elaborate and complicated.
 		var hit_bonus: float = weapon.get_hit_bonus(defender.get_weapon(), _get_distance())
-		var authority_bonus: int = Unit.AUTHORITY_HIT_BONUS * attacker.get_authority_modifier(defender)
-		return _adjust_rate(
-			roundi(clampf(attacker.get_hit() - defender.get_avoid() + hit_bonus + authority_bonus, 0, 100))
+		var authority_bonus: int = (
+			Unit.AUTHORITY_HIT_BONUS * attacker.get_authority_modifier(defender)
 		)
+		return _adjust_rate(attacker.get_hit() - defender.get_avoid() + hit_bonus + authority_bonus)
 	return 0
 
 
@@ -89,9 +94,7 @@ func get_crit_rate() -> int:
 
 
 ## The displayed total damage dealt by the unit.
-func get_displayed_damage(
-	crit: bool, check_miss: bool = true, check_crit: bool = true
-) -> float:
+func get_displayed_damage(crit: bool, check_miss: bool = true, check_crit: bool = true) -> float:
 	if get_hit_rate() <= 0 and check_miss:
 		return 0
 	else:
@@ -109,13 +112,13 @@ func _get_distance() -> int:
 
 
 # Gets the rate, with the min and max rates
-func _adjust_rate(rate: int) -> int:
+func _adjust_rate(rate: float) -> int:
 	if rate < MIN_RATE:
 		return 0
 	elif rate > MAX_RATE:
 		return 100
 	else:
-		return rate
+		return roundi(rate)
 
 
 ## Gets the quantity of the unit's current attack stat

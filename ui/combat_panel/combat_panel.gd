@@ -33,7 +33,7 @@ var _weapon_index: int = 0:
 			_left_unit.display_current_attack_tiles()
 var _art_index: int = 0:
 	set(value):
-		_art_index = posmod(value, _left_unit.get_combat_arts().size())
+		_art_index = posmod(value, _left_unit.get_combat_arts(right_unit).size())
 		_update()
 var _old_weapon: Weapon
 var _original_weapon: Weapon
@@ -61,7 +61,7 @@ func _ready() -> void:
 	var vertical_offset: int = VERTICAL_GAP + round(combat_art_panel.size.y/2)
 	var top_arrow := %TopArrow as Sprite2D
 	var bottom_arrow := %BottomArrow as Sprite2D
-	if _left_unit.get_combat_arts().size() > 1:
+	if _left_unit.get_combat_arts(right_unit).size() > 1:
 		top_arrow.position = center + Vector2(0, -(vertical_offset))
 		bottom_arrow.position = center + Vector2(0, (vertical_offset))
 	else:
@@ -115,7 +115,7 @@ func focus() -> void:
 
 
 func get_combat_art() -> CombatArt:
-	return _left_unit.get_combat_arts()[_art_index]
+	return _left_unit.get_combat_arts(right_unit)[_art_index]
 
 
 # Sets the focus.
@@ -168,7 +168,7 @@ func _update() -> void:
 			_distance
 		)
 		_left_unit.position = old_position
-		_art_label.text = str(_left_unit.get_combat_arts()[_art_index])
+		_art_label.text = str(_left_unit.get_combat_arts(right_unit)[_art_index])
 
 
 func _create_attack_arrows(attack_queue: Array[CombatStage]) -> void:

@@ -33,3 +33,13 @@ func get_defense(attacker: Unit, defender: Unit) -> int:
 		var damage_type:
 			push_error("Damage Type %s Invalid" % damage_type)
 			return 0
+
+
+## Gets the damage done with a normal attack
+func get_damage(attack: float, defense: float, _hp: int) -> float:
+	return attack - defense
+
+
+## Gets the damage done with a crit
+func get_crit_damage(attack: float, defense: float) -> float:
+	return attack * 2 - defense
