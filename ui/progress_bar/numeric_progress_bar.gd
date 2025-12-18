@@ -105,7 +105,7 @@ func _get_value_text() -> String:
 
 
 func _get_theme_variation() -> StringName:
-	match sign(value - original_value) as int:
+	match roundi(signf(value - original_value)):
 		1:
 			return &"GreenLabel"
 		-1:

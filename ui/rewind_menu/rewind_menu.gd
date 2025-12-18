@@ -48,7 +48,7 @@ func _ready() -> void:
 	await get_tree().process_frame
 	_index = _actions.size() - 1
 	var scroll: Callable = func(direction: float) -> void:
-		if sign(direction) == -1:
+		if signf(direction) == -1.0:
 			await _tween_index(floori(_index) + direction)
 		else:
 			await _tween_index(ceili(_index) + direction)

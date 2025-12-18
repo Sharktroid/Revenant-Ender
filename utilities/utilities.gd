@@ -158,7 +158,7 @@ func is_running_project() -> bool:
 ## Converts a float to a string, using the infinite character.
 func float_to_string(num: float, to_int: bool = false) -> String:
 	if abs(num) == INF:
-		return INF_CHAR if sign(num) == 1 else "-%s" % INF_CHAR
+		return INF_CHAR if signf(num) == 1.0 else "-%s" % INF_CHAR
 	else:
 		return str(roundi(num)) if to_int else str(num)
 
@@ -169,7 +169,6 @@ func slice_string(string: String, start: int, end: int) -> String:
 
 
 ## Converts an array of enums to an integer containing their bitwise representations.
-# TODO: make VarArg when feature is implemented in 4.5
 func to_flag(...enums: Array) -> int:
 	var flags: int = 0
 	for e: int in enums:

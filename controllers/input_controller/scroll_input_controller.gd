@@ -14,7 +14,7 @@ func _init(
 ) -> void:
 	super(on_axis_moved, x_axis_negative, x_axis_positive, press_delay, hold_delay)
 	_on_axis_moved = func(vector: Vector2) -> void: await on_axis_moved.call(vector.x)
-	_scroll_direction = sign(scroll_direction)
+	_scroll_direction = signi(scroll_direction)
 
 
 func _input(event: InputEvent) -> void:

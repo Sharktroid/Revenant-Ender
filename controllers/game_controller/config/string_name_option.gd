@@ -1,5 +1,5 @@
 ## A [ConfigOption] that stores a StringName value.
-## This is an abstract class; it should be extended.
+@abstract
 class_name StringNameOption
 extends ConfigOption
 

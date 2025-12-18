@@ -1006,7 +1006,7 @@ func _reset_movement() -> void:
 
 func _get_modifier(stat: Stats) -> String:
 	if stat == Stats.SPEED and get_speed() != get_attack_speed():
-		match sign(get_stat_boost(stat)) as int:
+		match signi(get_stat_boost(stat)) as int:
 			-1:
 				return "-({bonus} + {weight})".format(
 					{"bonus": -get_stat_boost(stat), "weight": get_speed() - get_attack_speed()}

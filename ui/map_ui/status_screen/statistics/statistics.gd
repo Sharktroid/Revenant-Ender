@@ -70,7 +70,7 @@ func _get_weight_description() -> String:
 func _get_aid_description() -> String:
 	var aid_modifier: int = observing_unit.unit_class.get_aid_modifier()
 	var get_unformatted_aid_description: Callable = func() -> String:
-		match sign(aid_modifier):
+		match signi(aid_modifier):
 			1:
 				return "{aid_modifier} - {build}"
 			-1:
