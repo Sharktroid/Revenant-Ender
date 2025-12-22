@@ -16,13 +16,17 @@ func combat(attacker: Unit, defender: Unit, combat_art: CombatArt) -> void:
 func get_attack_queue(
 	attacker: Unit, distance: int, defender: Unit, combat_art: CombatArt
 ) -> Array[CombatStage]:
-	var attack_queue: Array[CombatStage] = combat_art.get_attack_queue(attacker, defender)
+	#TODO: Implement braves
+	var attack_round: Array[CombatStage] = combat_art.get_attack_queue(attacker, defender)
 	if _can_counter(defender, distance):
-		attack_queue.append(CombatStage.new(defender, attacker))
+		attack_round.append(CombatStage.new(defender, attacker))
 	if attacker.can_follow_up(defender):
-		attack_queue.append(CombatStage.new(attacker, defender))
+		attack_round.append(CombatStage.new(attacker, defender))
 	elif _can_counter(defender, distance) and defender.can_follow_up(attacker):
-		attack_queue.append(CombatStage.new(defender, attacker))
+		attack_round.append(CombatStage.new(defender, attacker))
+	var attack_queue: Array[CombatStage] = []
+	for num: int in combat_art.get_rounds():
+		attack_queue.append_array(attack_round)
 	return attack_queue
 
 

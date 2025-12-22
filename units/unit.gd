@@ -859,10 +859,10 @@ func get_all_weapon_modes() -> Array[Weapon]:
 	return get_weapons().filter(can_use_weapon).reduce(get_all_modes, [] as Array[Weapon])
 
 
-func get_combat_arts(target: Unit) -> Array[CombatArt]:
+func get_combat_arts(target: Unit, distance: int) -> Array[CombatArt]:
 	var arts: Array[CombatArt] = [NullArt.new()]
 	var filter: Callable = func(skill: Skill) -> bool:
-		return (skill is CombatArt) and (skill as CombatArt).is_active(self, target)
+		return (skill is CombatArt) and (skill as CombatArt).is_active(self, target, distance)
 	arts.append_array(get_skills().filter(filter))
 	return arts
 

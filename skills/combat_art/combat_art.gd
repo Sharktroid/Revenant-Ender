@@ -2,8 +2,10 @@
 class_name CombatArt
 extends Skill
 
+var _rounds: int = 1
 
-func is_active(_unit: Unit, _target: Unit) -> bool:
+
+func is_active(_unit: Unit, _target: Unit, _distance: int) -> bool:
 	return true
 
 
@@ -43,3 +45,7 @@ func get_damage(attack: float, defense: float, _hp: int) -> float:
 ## Gets the damage done with a crit
 func get_crit_damage(attack: float, defense: float) -> float:
 	return attack * 2 - defense
+
+
+func get_rounds() -> int:
+	return _rounds

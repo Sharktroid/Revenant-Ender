@@ -155,7 +155,7 @@ func set_active(active: bool) -> void:
 
 func _scroll(new_position: Vector2, duration: float) -> void:
 	var old_position: Vector2 = map_position
-	map_position += Vector2i(new_position.round() * 16)
+	map_position += Vector2i(new_position.ceil() * 16)
 	AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.CURSOR)
 	_cursor_speed = Utilities.get_tile_distance(map_position, old_position) * 16 / duration
 	await get_tree().create_timer(duration).timeout
