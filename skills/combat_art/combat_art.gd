@@ -49,3 +49,7 @@ func get_crit_damage(attack: float, defense: float) -> float:
 
 func get_rounds() -> int:
 	return _rounds
+
+
+func finish(_attacker: Unit, _defender: Unit) -> void:
+	pass

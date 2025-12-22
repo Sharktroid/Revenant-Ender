@@ -9,6 +9,7 @@ func combat(attacker: Unit, defender: Unit, combat_art: CombatArt) -> void:
 	await _map_combat(
 		attacker, defender, get_attack_queue(attacker, distance, defender, combat_art)
 	)
+	combat_art.finish(attacker, defender)
 	CursorController.enable()
 
 
