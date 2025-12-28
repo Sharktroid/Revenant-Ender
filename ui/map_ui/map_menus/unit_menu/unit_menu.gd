@@ -323,9 +323,10 @@ func _wait() -> void:
 
 
 func _attack(selected_unit: Unit, get_combat_art: Callable) -> void:
+	var combat_art := get_combat_art.call() as CombatArt
 	process_mode = PROCESS_MODE_DISABLED
 	await connected_unit.move()
-	await AttackController.combat(connected_unit, selected_unit, get_combat_art.call() as CombatArt)
+	await AttackController.play_combat_animation(connected_unit, selected_unit, combat_art)
 	connected_unit.wait("attacks")
 	queue_free()
 

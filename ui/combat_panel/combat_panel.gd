@@ -152,74 +152,16 @@ func _update() -> void:
 		for child: Node in %Damage.get_children():
 			child.queue_free()
 		_left_name_panel.weapon = _left_unit.get_weapon()
-		var attack_queue: Array[CombatStage] = AttackController.get_attack_queue(
-			_left_unit, _distance, right_unit, get_combat_art()
-		)
-		_create_attack_arrows(attack_queue)
+		var combat := Combat.new(_left_unit, right_unit, _distance, get_combat_art())
+		for arrow: AttackArrow in combat.create_attack_arrows():
+			%Damage.add_child(arrow)
 		var right_name_panel := $RightNamePanel as NamePanel
 
 		right_name_panel.unit = right_unit
 		right_name_panel.weapon = right_unit.get_weapon()
 		const StatsPanel: GDScript = preload("res://ui/combat_panel/stats_panel/stats_panel.gd")
-		($LeftStatsPanel as StatsPanel).update(_left_unit, attack_queue, _distance)
-		($RightStatsPanel as StatsPanel).update(right_unit, attack_queue, _distance)
+		($LeftStatsPanel as StatsPanel).update(_left_unit, combat, _distance)
+		($RightStatsPanel as StatsPanel).update(right_unit, combat, _distance)
 		_left_unit.position = old_position
-		_art_label.text = str(_left_unit.get_combat_arts(right_unit, _distance)[_art_index])
-		#var damage_scroll := $DamageScroll as ScrollContainer
-		#var damage_vbox := %Damage as VBoxContainer
-		#if _scroll_tween:
-			#_scroll_tween.kill()
-		#_scroll_tween = create_tween()
-		#await get_tree().process_frame
-		#var limit: float = damage_vbox.size.y - damage_scroll.size.y
-		#_scroll_tween.set_loops()
-		#var top_tweener: PropertyTweener = _scroll_tween.tween_property(
-			#damage_scroll, ^"scroll_vertical", limit, 1.0
-		#)
-		#top_tweener.set_delay(0.5)
-		#_scroll_tween.tween_property(damage_scroll, ^"scroll_vertical", 0, 1.0).set_delay(0.5)
-		#_scroll_tween.play()
-
-
-func _create_attack_arrows(attack_queue: Array[CombatStage]) -> void:
-	var left_sum: float = 0
-	var right_sum: float = 0
-	var left_critical_sum: float = 0
-	var right_critical_sum: float = 0
-	for attack: CombatStage in attack_queue:
-		if attack.attacker == _left_unit:
-			left_sum += attack.get_displayed_damage(false)
-			left_critical_sum += attack.get_displayed_damage(true)
-		else:
-			right_sum += attack.get_displayed_damage(false)
-			right_critical_sum += attack.get_displayed_damage(true)
-		const DIRS = AttackArrow.DIRECTIONS
-		var direction: AttackArrow.DIRECTIONS = (
-			DIRS.RIGHT if attack.attacker == _left_unit else DIRS.LEFT
-		)
-		var event: AttackArrow.EVENTS = _get_event(
-			left_sum if attack.attacker == _left_unit else right_sum,
-			left_critical_sum if attack.attacker == _left_unit else right_critical_sum,
-			attack
-		)
-		var attack_arrow := AttackArrow.instantiate(
-			direction,
-			attack.get_displayed_damage(false),
-			attack.get_displayed_damage(true),
-			attack.get_recoil(),
-			event,
-			attack.attacker.faction.color
-		)
-		%Damage.add_child(attack_arrow)
-
-
-func _get_event(
-	current_sum: float, current_critical_sum: float, attack: CombatStage
-) -> AttackArrow.EVENTS:
-	if attack.get_hit_rate() <= 0:
-		return AttackArrow.EVENTS.MISS
-	elif current_sum >= attack.defender.current_health:
-		return AttackArrow.EVENTS.KILL
-	elif current_critical_sum >= attack.defender.current_health:
-		return AttackArrow.EVENTS.CRIT_KILL
-	return AttackArrow.EVENTS.NONE
+		var combat_art: CombatArt = _left_unit.get_combat_arts(right_unit, _distance)[_art_index]
+		_art_label.text = str(combat_art) if combat_art else "None"

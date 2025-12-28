@@ -131,9 +131,11 @@ func _update_offensive_parameters() -> void:
 	var crit_label := %CritValue as Label
 	if observing_unit.get_weapon():
 		if observing_unit.get_weapon() is Spear:
-			attack_label.text = "{initiation}/{standard}".format(
-				{"initiation": observing_unit.get_attack(true),"standard": observing_unit.get_attack(false)}
-			)
+			var formatting_dictionary: Dictionary[String, String] = {
+				"initiation": Utilities.float_to_string(observing_unit.get_attack(true)),
+				"standard": Utilities.float_to_string(observing_unit.get_attack(false))
+			}
+			attack_label.text = "{initiation}/{standard}".format(formatting_dictionary)
 		else:
 			_set_label_text_to_number(attack_label, observing_unit.get_attack(false))
 		hit_description.help_description = Formulas.HIT.format(observing_unit)

@@ -781,7 +781,7 @@ func get_personal_value(stat: Stats) -> int:
 
 ## Gets the unit's effort value for a stat.
 func get_effort_value(stat: Stats) -> int:
-	if stat & (1 << Stats.STRENGTH | 1 << Stats.PIERCE | 1 << Stats.INTELLIGENCE):
+	if (1 << stat) & (1 << Stats.STRENGTH | 1 << Stats.PIERCE | 1 << Stats.INTELLIGENCE):
 		return _effort_power
 	else:
 		return _effort_values.get(stat, 0)
@@ -860,7 +860,7 @@ func get_all_weapon_modes() -> Array[Weapon]:
 
 
 func get_combat_arts(target: Unit, distance: int) -> Array[CombatArt]:
-	var arts: Array[CombatArt] = [NullArt.new()]
+	var arts: Array[CombatArt] = [null]
 	var filter: Callable = func(skill: Skill) -> bool:
 		return (skill is CombatArt) and (skill as CombatArt).is_active(self, target, distance)
 	arts.append_array(get_skills().filter(filter))

@@ -9,8 +9,8 @@ func is_active(_unit: Unit, _target: Unit, _distance: int) -> bool:
 	return true
 
 
-func get_attack_queue(attacker: Unit, defender: Unit) -> Array[CombatStage]:
-	return [CombatStage.new(attacker, defender, self, true)]
+func get_attack_queue(combat: Combat) -> Array[CombatStage]:
+	return [CombatStage.new(combat, true, true, true)]
 
 
 ## Gets the quantity of the unit's current attack stat
@@ -49,6 +49,14 @@ func get_crit_damage(attack: float, defense: float) -> float:
 
 func get_rounds() -> int:
 	return _rounds
+
+
+func get_hit(unit: Unit) -> float:
+	return unit.get_hit()
+
+
+func get_avoid(unit: Unit) -> float:
+	return unit.get_avoid()
 
 
 func finish(_attacker: Unit, _defender: Unit) -> void:

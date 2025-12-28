@@ -11,44 +11,25 @@ func _ready() -> void:
 
 
 ## Updates the stats that are on displayed.
-func update(unit: Unit, attack_queue: Array[CombatStage], distance: int) -> void:
+func update(unit: Unit, combat: Combat, distance: int) -> void:
 	var weapon: Weapon = unit.get_weapon()
 	var in_range: bool = weapon and weapon.in_range(distance)
-	var get_total_damage: Callable = func(
-		accumulator: float, attack: CombatStage
-	) -> float:
-		if attack.defender == unit:
-			accumulator += attack.get_displayed_damage(false)
-		else:
-			accumulator = maxf(accumulator + attack.get_recoil(), 0)
-		return accumulator
-	_update_hp_display(unit, attack_queue.reduce(get_total_damage, 0) as float)
+	var enemy: Unit = (
+		combat.get_defender() if unit == combat.get_attacker() else combat.get_attacker()
+	)
+	_update_hp_display(unit, combat.get_total_damage(false, enemy))
 
-	_update_rate_label(%HitLabel as Label, attack_queue[0].get_hit_rate(), in_range)
-	_update_rate_label(%CriticalRateLabel as Label, attack_queue[0].get_crit_rate(), in_range)
+	_update_rate_label(%HitLabel as Label, combat.get_hit_rate(unit), in_range)
+	_update_rate_label(%CriticalRateLabel as Label, combat.get_crit_rate(unit), in_range)
 
 	if Options.COMBAT_PANEL.value == Options.COMBAT_PANEL.STRATEGIC:
 		if in_range:
-			_update_total_damage_label(unit, attack_queue, distance)
+			_update_total_damage_label(unit, combat, distance)
 		else:
 			_update_damage_label(%DamageLabel as Label, 0, in_range)
 	elif Options.COMBAT_PANEL.value == Options.COMBAT_PANEL.DETAILED:
-		##TODO: remove detailed?
+		##TODO: remove detailed
 		pass
-		#var is_spear: bool = unit.get_weapon() is Spear
-		#(%AttackInitialLabel as Label).visible = is_spear
-		#(%AttackSlash as Label).visible = is_spear
-		#if is_spear:
-			#_update_damage_label(%AttackInitialLabel as Label, unit.get_true_attack(enemy, true), in_range)
-			#_update_damage_label(%AttackSustainedLabel as Label, unit.get_true_attack(enemy, false), in_range)
-		#else:
-			#_update_damage_label(%AttackSustainedLabel as Label, unit.get_true_attack(enemy, true), in_range)
-		#(%DefenseLabel as Label).text = Utilities.float_to_string(unit.get_current_defense(enemy), true)
-		#var attack_speed_label := %AttackSpeedLabel as Label
-		#attack_speed_label.text = Utilities.float_to_string(unit.get_attack_speed(), true)
-		#attack_speed_label.theme_type_variation = _get_attack_speed_label_theme(
-			#unit, enemy, weapon, enemy.get_weapon(), distance
-		#)
 
 
 func _update_hp_display(unit: Unit, enemy_damage: float) -> void:
@@ -57,7 +38,6 @@ func _update_hp_display(unit: Unit, enemy_damage: float) -> void:
 	hp_progress_bar.value = maxf(unit.current_health - enemy_damage, 0)
 	hp_progress_bar.original_value = unit.current_health
 	(%HPLabel as Label).text = Utilities.float_to_string(unit.current_health, true)
-
 
 
 func _get_invalid_hboxes() -> Array[HBoxContainer]:
@@ -99,19 +79,17 @@ func _get_attack_speed_label_theme(
 	return &"BlueLabel"
 
 
-func _update_total_damage_label(unit: Unit, attack_queue: Array[CombatStage], distance: int) -> void:
-	var total_damage: float = _get_total_damage(false, unit, attack_queue)
+func _update_total_damage_label(unit: Unit, combat: Combat, distance: int) -> void:
+	var total_damage: float = combat.get_total_damage(false, unit)
 	var damage_label := %DamageLabel as Label
-	damage_label.text = _get_total_damage_string(unit, attack_queue, total_damage)
+	damage_label.text = _get_total_damage_string(unit, combat, total_damage)
 	damage_label.theme_type_variation = _get_total_damage_type_variation(
 		unit, distance, total_damage
 	)
 
 
-func _get_total_damage_string(
-	unit: Unit, attack_queue: Array[CombatStage], total_damage: float
-) -> String:
-	var total_critical_damage: float = _get_total_damage(true, unit, attack_queue)
+func _get_total_damage_string(unit: Unit, combat: Combat, total_damage: float) -> String:
+	var total_critical_damage: float = combat.get_total_damage(true, unit)
 	if total_damage == total_critical_damage:
 		return Utilities.float_to_string(total_damage, true)
 	else:
@@ -127,13 +105,3 @@ func _get_total_damage_type_variation(unit: Unit, distance: int, total_damage: f
 		return &"BlueLabel"
 	else:
 		return &"GrayLabel"
-
-
-func _get_total_damage(crit: bool, unit: Unit, attack_queue: Array[CombatStage]) -> float:
-	var get_total_damage: Callable = func(
-		accumulator: float, attack: CombatStage
-	) -> float:
-		if attack.attacker == unit:
-			accumulator += attack.get_displayed_damage(crit)
-		return accumulator
-	return attack_queue.reduce(get_total_damage.bind(), 0)

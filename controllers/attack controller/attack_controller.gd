@@ -3,42 +3,37 @@ extends Node
 
 
 ## Initiates combat between an attacker and a defender.
-func combat(attacker: Unit, defender: Unit, combat_art: CombatArt) -> void:
+func play_combat_animation(attacker: Unit, defender: Unit, combat_art: CombatArt) -> void:
 	CursorController.disable()
 	var distance: int = roundi(Utilities.get_tile_distance(attacker.position, defender.position))
 	await _map_combat(
-		attacker, defender, get_attack_queue(attacker, distance, defender, combat_art)
+		attacker, defender, Combat.new(attacker, defender, distance, combat_art)
 	)
-	combat_art.finish(attacker, defender)
+	if combat_art:
+		combat_art.finish(attacker, defender)
 	CursorController.enable()
 
 
-## The list of attacks that will be done in this round of combat.
-func get_attack_queue(
-	attacker: Unit, distance: int, defender: Unit, combat_art: CombatArt
-) -> Array[CombatStage]:
-	#TODO: Implement braves
-	var attack_round: Array[CombatStage] = combat_art.get_attack_queue(attacker, defender)
-	if _can_counter(defender, distance):
-		attack_round.append(CombatStage.new(defender, attacker))
-	if attacker.can_follow_up(defender):
-		attack_round.append(CombatStage.new(attacker, defender))
-	elif _can_counter(defender, distance) and defender.can_follow_up(attacker):
-		attack_round.append(CombatStage.new(defender, attacker))
-	var attack_queue: Array[CombatStage] = []
-	for num: int in combat_art.get_rounds():
-		attack_queue.append_array(attack_round)
-	return attack_queue
-
-
-func _can_counter(defender: Unit, distance: int) -> bool:
-	if defender.get_weapon() != null:
-		return defender.get_weapon().in_range(distance)
-	return false
+### The list of attacks that will be done in this round of combat.
+#func get_attack_queue(
+	#attacker: Unit, distance: int, defender: Unit, combat_art: CombatArt
+#) -> Array[CombatStage]:
+	##TODO: Implement braves
+	#var attack_round: Array[CombatStage] = combat_art.get_attack_queue(attacker, defender)
+	#if _can_counter(defender, distance):
+		#attack_round.append(CombatStage.new(defender, attacker))
+	#if attacker.can_follow_up(defender):
+		#attack_round.append(CombatStage.new(attacker, defender))
+	#elif _can_counter(defender, distance) and defender.can_follow_up(attacker):
+		#attack_round.append(CombatStage.new(defender, attacker))
+	#var attack_queue: Array[CombatStage] = []
+	#for num: int in combat_art.get_rounds():
+		#attack_queue.append_array(attack_round)
+	#return attack_queue
 
 
 ## Initiates combat between two units using map animations.
-func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[CombatStage]) -> void:
+func _map_combat(attacker: Unit, defender: Unit, combat: Combat) -> void:
 	var hp_bar := MapCombatDisplay.instantiate(attacker, defender)
 	MapController.get_ui().add_child(hp_bar)
 	var attacker_animation: MapAttack = await MapAttack.new(attacker, defender.position)
@@ -52,12 +47,12 @@ func _map_combat(attacker: Unit, defender: Unit, attack_queue: Array[CombatStage
 	## Delay between attacks
 	const DELAY: float = 0.25
 
-	for combat_round: CombatStage in attack_queue:
+	for combat_round: CombatStage in combat.get_attack_stages():
 		await get_tree().create_timer(DELAY).timeout
 		await _map_attack(
 			combat_round,
-			attacker_animation if combat_round.attacker == attacker else defender_animation,
-			defender_animation if combat_round.defender == defender else attacker_animation
+			attacker_animation if combat_round.get_attacker() == attacker else defender_animation,
+			defender_animation if combat_round.get_defender() == defender else attacker_animation
 		)
 		if attacker.current_health <= 0 or defender.current_health <= 0:
 			break
@@ -90,7 +85,7 @@ func _map_attack(
 
 
 func _deal_damage(combat_stage: CombatStage, defender_animation: MapAttack) -> void:
-	var attack_type: CombatStage.AttackTypes = combat_stage.generate_attack_type()
+	var attack_type: CombatStage.AttackTypes = combat_stage._attack_type
 	if attack_type == CombatStage.AttackTypes.MISS:
 		var sound_effect: AudioStreamPlayer = AudioPlayer.play_sound_effect(
 			preload("res://audio/sfx/miss.ogg")
@@ -99,30 +94,30 @@ func _deal_damage(combat_stage: CombatStage, defender_animation: MapAttack) -> v
 			await sound_effect.finished
 	else:
 		#region Hit
-		var is_crit: bool = attack_type == CombatStage.AttackTypes.CRIT
-		var defender_old_health: int = ceili(combat_stage.defender.current_health)
-		var defender_new_health: int = roundi(maxf(defender_old_health - _get_damage(combat_stage, is_crit), 0))
+		var defender_old_health: int = ceili(combat_stage.get_defender().current_health)
+		var defender_new_health: int = roundi(maxf(defender_old_health - combat_stage.get_damage(), 0))
 		var defender_damage: int = defender_old_health - defender_new_health
-		var attacker_old_health: int = ceili(combat_stage.attacker.current_health)
+		var attacker_old_health: int = ceili(combat_stage.get_attacker().current_health)
 		var attacker_new_health: int = roundi(maxf(attacker_old_health - combat_stage.get_recoil(), 0))
 		var attacker_damage: int = attacker_old_health - attacker_new_health
 
 		# The time that the health bar takes to scroll down from full health to none
 		const HEALTH_SCROLL_DURATION: float = 0.5
 		var defender_duration: float = (
-			HEALTH_SCROLL_DURATION * abs(defender_damage) / combat_stage.defender.get_hit_points()
+			HEALTH_SCROLL_DURATION * abs(defender_damage) / combat_stage.get_defender().get_hit_points()
 		)
 		var attacker_duration: float = (
-			HEALTH_SCROLL_DURATION * abs(attacker_damage) / combat_stage.attacker.get_hit_points()
+			HEALTH_SCROLL_DURATION * abs(attacker_damage) / combat_stage.get_attacker().get_hit_points()
 		)
 
-		var tween: Tween = combat_stage.defender.create_tween()
+		var tween: Tween = combat_stage.get_defender().create_tween()
 		tween.set_parallel()
 		tween.tween_interval(0.1)
-		tween.tween_property(combat_stage.defender, ^"current_health", defender_new_health, defender_duration)
-		tween.tween_property(combat_stage.attacker, ^"current_health", attacker_new_health, attacker_duration)
+		tween.tween_property(combat_stage.get_defender(), ^"current_health", defender_new_health, defender_duration)
+		tween.tween_property(combat_stage.get_attacker(), ^"current_health", attacker_new_health, attacker_duration)
+		var is_crit: bool = attack_type == CombatStage.AttackTypes.CRIT
 		var sfx_timer: SceneTreeTimer = _play_hit_sound_effect(
-			defender_old_health, defender_new_health, is_crit, combat_stage.attacker
+			defender_old_health, defender_new_health, is_crit, combat_stage.get_attacker()
 		)
 		if is_crit:
 			await defender_animation.crit_damage_animation()
@@ -133,10 +128,6 @@ func _deal_damage(combat_stage: CombatStage, defender_animation: MapAttack) -> v
 		if sfx_timer.time_left > 0:
 			await sfx_timer.timeout
 		#endregion
-
-
-func _get_damage(combat_stage: CombatStage, is_crit: bool) -> float:
-	return combat_stage.get_crit_damage() if is_crit else combat_stage.get_damage()
 
 
 ## Kills a unit.

@@ -1,11 +1,21 @@
 class_name Luna
-extends CombatArt
+extends StaticClass
+
+class Alpha extends CombatArt:
+	func _init() -> void:
+		_name = "Luna α"
 
 
-func _init() -> void:
-	_name = "Luna"
+	## Gets the defender's defense type against a weapon
+	func get_defense(attacker: Unit, defender: Unit) -> int:
+		return ceili(float(super(attacker, defender)) / 2)
 
 
-## Gets the defender's defense type against a weapon
-func get_defense(_attacker: Unit, _defender: Unit) -> int:
-	return 0
+class Omega extends Alpha:
+	func _init() -> void:
+		_name = "Luna ω"
+
+
+	## Gets the defender's defense type against a weapon
+	func get_defense(_attacker: Unit, _defender: Unit) -> int:
+		return 0

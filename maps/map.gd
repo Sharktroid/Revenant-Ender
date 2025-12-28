@@ -543,7 +543,7 @@ func _on_attack_confirmation(completed: bool) -> void:
 	if completed:
 		CursorController.set_icon(CursorController.Icons.NONE)
 		await _selected_unit.move()
-		await AttackController.combat(_selected_unit, CursorController.get_hovered_unit(), combat_art)
+		await AttackController.play_combat_animation(_selected_unit, CursorController.get_hovered_unit(), combat_art)
 		_selected_unit.wait()
 		_deselect()
 	else:

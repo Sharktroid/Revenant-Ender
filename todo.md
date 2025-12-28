@@ -6,6 +6,7 @@ Before you commit
 
 # Minor
 * Use TODO notation to store these as well.
+* Fix the combat panel arrows when pressing attack
 * Fix bug where clicking on an item container of the same position of the last closed one doesn't work.
 * Have hand in options menu for the bars be based on the cursor position.
 * Add universal swap and give draw back to all infantry classes and give it the same formula as shove.

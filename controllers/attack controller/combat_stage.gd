@@ -5,37 +5,36 @@ extends RefCounted
 ## The possible results of a combat stage
 enum AttackTypes { HIT, MISS, CRIT }
 
-## Any rate below this value is set to 0%
-const MIN_RATE: int = 5
-## Any rate above this value is set to 100%
-const MAX_RATE: int = 95
-
-## The unit who is attacking.
-var attacker: Unit
-## The unit who is being attacked.
-var defender: Unit
+### The unit who is attacking.
+#var get_attacker(): Unit
+### The unit who is being attacked.
+#var get_defender(): Unit
 ## The type of attack for this round of combat.
-var attack_type: AttackTypes
+var _attack_type: AttackTypes
 
 var _combat_art: CombatArt
 var _initial: bool = false
+var _combat: Combat
+var _attacker_stage: bool
+var _primary_strike: bool
 
 
 func _init(
-	attacking_unit: Unit,
-	defending_unit: Unit,
-	combat_art: CombatArt = NullArt.new(),
-	initial: bool = false
+	combat: Combat, attacker_stage: bool, primary_strike: bool, initial: bool = false
 ) -> void:
-	attacker = attacking_unit
-	defender = defending_unit
-	_combat_art = combat_art
+	#get_attacker() = combat._attacker
+	#get_defender() = combat._defender
+	_attacker_stage = attacker_stage
+	_primary_strike = primary_strike
+	_combat_art = combat._combat_art
+	_combat = combat
 	_initial = initial
+	_attack_type = _generate_attack_type()
 
 
-func generate_attack_type() -> AttackTypes:
-	if get_hit_rate() > randi_range(0, 99):
-		if get_crit_rate() > randi_range(0, 99):
+func _generate_attack_type() -> AttackTypes:
+	if _combat.get_hit_rate(get_attacker()) > randi_range(0, 99):
+		if _combat.get_crit_rate(get_attacker()) > randi_range(0, 99):
 			return AttackTypes.CRIT
 		else:
 			return AttackTypes.HIT
@@ -43,18 +42,20 @@ func generate_attack_type() -> AttackTypes:
 		return AttackTypes.MISS
 
 
-## Gets the true attack value of the attacker
-func get_attack() -> float:
-	var weapon: Weapon = attacker.get_weapon()
+## Gets the true attack value of the get_attacker()
+func _get_attack() -> float:
+	var weapon: Weapon = get_attacker().get_weapon()
 	if weapon:
 		var effectiveness_multiplier: int = (
-			2 if weapon.get_effective_classes() & defender.unit_class.get_armor_classes() else 1
+			2
+			if weapon.get_effective_classes() & get_defender().unit_class.get_armor_classes()
+			else 1
 		)
 		var attack: float = (
-			_combat_art.get_attack(attacker)
-			+ _combat_art.get_might(attacker)
-			+ weapon.get_damage_bonus(defender.get_weapon(), _get_distance())
-			+ attacker.get_authority_modifier(defender)
+			_combat_art.get_attack(get_attacker())
+			+ _combat_art.get_might(get_attacker())
+			+ weapon.get_damage_bonus(get_defender().get_weapon(), _get_distance())
+			+ get_attacker().get_authority_modifier(get_defender())
 		)
 		return effectiveness_multiplier * attack
 	return 0
@@ -62,82 +63,69 @@ func get_attack() -> float:
 
 ## Gets the damage done with a normal attack
 func get_damage() -> float:
+	return clampf(_get_unclamped_damage(), 0, 99)
+
+
+func _get_unclamped_damage() -> float:
+	match _attack_type:
+		AttackTypes.CRIT:
+			return _get_crit_damage()
+		AttackTypes.MISS:
+			return 0
+		_:
+			return _get_hit_damage()
+
+
+## Gets the damage done with a normal attack
+func _get_hit_damage() -> float:
 	return maxf(
-		0, _combat_art.get_damage(get_attack(), _get_current_defense(), defender.current_health)
+		0,
+		_combat_art.get_damage(_get_attack(), _get_current_defense(), get_defender().current_health)
 	)
 
 
 ## Gets the damage done with a crit
-func get_crit_damage() -> float:
-	return maxf(0, _combat_art.get_crit_damage(get_attack(), _get_current_defense()))
-
-
-## Gets the hit rate against an enemy
-func get_hit_rate() -> int:
-	var weapon: Weapon = attacker.get_weapon()
-	if weapon:  # No point in doing something more elaborate and complicated.
-		var hit_bonus: float = weapon.get_hit_bonus(defender.get_weapon(), _get_distance())
-		var authority_bonus: int = (
-			Unit.AUTHORITY_HIT_BONUS * attacker.get_authority_modifier(defender)
-		)
-		return _adjust_rate(attacker.get_hit() - defender.get_avoid() + hit_bonus + authority_bonus)
-	return 0
-
-
-## Gets the crit rate against an enemy
-func get_crit_rate() -> int:
-	var critical_avoid: float = (
-		defender.get_critical_avoid()
-		+ defender.get_authority_modifier(attacker) * Unit.AUTHORITY_CRITICAL_AVOID_BONUS
-	)
-	return _adjust_rate(roundi(clampf(attacker.get_crit() - critical_avoid, 0, 100)))
+func _get_crit_damage() -> float:
+	return maxf(0, _combat_art.get_crit_damage(_get_attack(), _get_current_defense()))
 
 
 ## The displayed total damage dealt by the unit.
-func get_displayed_damage(crit: bool, check_miss: bool = true, check_crit: bool = true) -> float:
-	if get_hit_rate() <= 0 and check_miss:
+func _get_displayed_damage(crit: bool, check_miss: bool = true, check_crit: bool = true) -> float:
+	if _combat.get_hit_rate(get_attacker()) <= 0 and check_miss:
 		return 0
 	else:
 		if check_crit:
-			var crit_rate: float = get_crit_rate()
+			var crit_rate: float = _combat.get_crit_rate(get_attacker())
 			if crit_rate >= 100:
-				return get_crit_damage()
+				return _get_crit_damage()
 			elif crit_rate <= 0:
-				return get_damage()
-		return get_crit_damage() if crit else get_damage()
+				return _get_hit_damage()
+		return _get_crit_damage() if crit else _get_hit_damage()
 
 
 func get_recoil() -> float:
-	return floorf(attacker.get_weapon().get_recoil_multiplier() * get_damage())
+	return floorf(get_attacker().get_weapon().get_recoil_multiplier() * _get_hit_damage())
+
+
+func get_attack_type() -> AttackTypes:
+	return _attack_type
+
+
+func get_attacker() -> Unit:
+	return _combat._attacker if _attacker_stage else _combat._defender
+
+
+func get_defender() -> Unit:
+	return _combat._defender if _attacker_stage else _combat._attacker
 
 
 func _get_distance() -> int:
-	return roundi(Utilities.get_tile_distance(attacker.position, defender.position))
+	return roundi(Utilities.get_tile_distance(get_attacker().position, get_defender().position))
 
 
-# Gets the rate, with the min and max rates
-func _adjust_rate(rate: float) -> int:
-	if rate < MIN_RATE:
-		return 0
-	elif rate > MAX_RATE:
-		return 100
-	else:
-		return roundi(rate)
-
-
-## Gets the quantity of the unit's current attack stat
-func _get_current_attack() -> int:
-	if attacker.get_weapon():
-		match attacker.get_weapon().get_damage_type():
-			Weapon.DamageTypes.PHYSICAL:
-				return attacker.get_strength()
-			Weapon.DamageTypes.RANGED:
-				return attacker.get_pierce()
-			Weapon.DamageTypes.MAGICAL:
-				return attacker.get_intelligence()
-	return 0
-
-
-## Gets the defender's defense type against a weapon
+## Gets the get_defender()'s defense type against a weapon
 func _get_current_defense() -> int:
-	return defender.get_authority_modifier(attacker) + _combat_art.get_defense(attacker, defender)
+	return (
+		get_defender().get_authority_modifier(get_attacker())
+		+ _combat_art.get_defense(get_attacker(), get_defender())
+	)
