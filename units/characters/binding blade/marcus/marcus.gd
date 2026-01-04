@@ -24,7 +24,7 @@ func _enter_tree() -> void:
 	_effort_values = {
 		Stats.HIT_POINTS: 100,
 		Stats.DEXTERITY: 250,
-		Stats.SPEED: 150,
+		Stats.SPEED: 100,
 		Stats.LUCK: 200,
 		Stats.DEFENSE: 50,
 		Stats.ARMOR: 50,
@@ -33,4 +33,6 @@ func _enter_tree() -> void:
 		Stats.BUILD: 0,
 	}
 	personal_authority = 1
+	_personal_skills.append(Sol.new())
+	_personal_skills.append(Luna.Omega.new())
 	super()

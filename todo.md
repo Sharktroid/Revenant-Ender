@@ -17,6 +17,9 @@ Before you commit
 * Trim rewind if turn count is getting too high.
 
 # Major
+* Implement activated skills
+	* Add Accost
+	* Something for dealing with multiple copies of the same skill
 * Tomes can't initate at 1-range.
 * Have help bubble be a fixed position thing.
 * Make it possible to attack preview with any unit at any time
@@ -27,8 +30,6 @@ Before you commit
 	* Does not affect tomes
 * Implement durability
 	* Weapon debuffs when at low durability.
-* Implement activated skills
-	* Add Accost
 * Implement staves
 	* Duration = (staff might) + (mag - target res)/4
 	* Automatically hover over a unit if they are the only one that needs healing

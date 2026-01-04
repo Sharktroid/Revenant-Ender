@@ -7,8 +7,8 @@ class Alpha extends CombatArt:
 
 
 	## Gets the defender's defense type against a weapon
-	func get_defense(attacker: Unit, defender: Unit) -> int:
-		return ceili(float(super(attacker, defender)) / 2)
+	func get_defense(defense: int, _defender: Unit) -> int:
+		return ceili(float(defense) / 2)
 
 
 class Omega extends Alpha:
@@ -17,5 +17,5 @@ class Omega extends Alpha:
 
 
 	## Gets the defender's defense type against a weapon
-	func get_defense(_attacker: Unit, _defender: Unit) -> int:
+	func get_defense(_defense: int, _defender: Unit) -> int:
 		return 0

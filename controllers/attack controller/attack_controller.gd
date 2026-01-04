@@ -47,7 +47,7 @@ func _map_combat(attacker: Unit, defender: Unit, combat: Combat) -> void:
 	## Delay between attacks
 	const DELAY: float = 0.25
 
-	for combat_round: CombatStage in combat.get_attack_stages():
+	for combat_round: Combat.Stage in combat.get_attack_stages():
 		await get_tree().create_timer(DELAY).timeout
 		await _map_attack(
 			combat_round,
@@ -79,14 +79,14 @@ func _map_combat(attacker: Unit, defender: Unit, combat: Combat) -> void:
 
 ## One round of map combat.
 func _map_attack(
-	combat_stage: CombatStage, attacker_animation: MapAttack, defender_animation: MapAttack
+	combat_stage: Combat.Stage, attacker_animation: MapAttack, defender_animation: MapAttack
 ) -> void:
 	await attacker_animation.play_animation(_deal_damage.bind(combat_stage, defender_animation))
 
 
-func _deal_damage(combat_stage: CombatStage, defender_animation: MapAttack) -> void:
-	var attack_type: CombatStage.AttackTypes = combat_stage._attack_type
-	if attack_type == CombatStage.AttackTypes.MISS:
+func _deal_damage(combat_stage: Combat.Stage, defender_animation: MapAttack) -> void:
+	var attack_type: Combat.Stage.AttackTypes = combat_stage._attack_type
+	if attack_type == Combat.Stage.AttackTypes.MISS:
 		var sound_effect: AudioStreamPlayer = AudioPlayer.play_sound_effect(
 			preload("res://audio/sfx/miss.ogg")
 		)
@@ -95,11 +95,11 @@ func _deal_damage(combat_stage: CombatStage, defender_animation: MapAttack) -> v
 	else:
 		#region Hit
 		var defender_old_health: int = ceili(combat_stage.get_defender().current_health)
-		var defender_new_health: int = roundi(maxf(defender_old_health - combat_stage.get_damage(), 0))
-		var defender_damage: int = defender_old_health - defender_new_health
+		var defender_damage: int = combat_stage.get_damage()
+		var defender_new_health: int = defender_old_health - defender_damage
 		var attacker_old_health: int = ceili(combat_stage.get_attacker().current_health)
-		var attacker_new_health: int = roundi(maxf(attacker_old_health - combat_stage.get_recoil(), 0))
-		var attacker_damage: int = attacker_old_health - attacker_new_health
+		var attacker_damage: int = combat_stage.get_recoil(defender_damage)
+		var attacker_new_health: int = attacker_old_health - attacker_damage
 
 		# The time that the health bar takes to scroll down from full health to none
 		const HEALTH_SCROLL_DURATION: float = 0.5
@@ -115,7 +115,7 @@ func _deal_damage(combat_stage: CombatStage, defender_animation: MapAttack) -> v
 		tween.tween_interval(0.1)
 		tween.tween_property(combat_stage.get_defender(), ^"current_health", defender_new_health, defender_duration)
 		tween.tween_property(combat_stage.get_attacker(), ^"current_health", attacker_new_health, attacker_duration)
-		var is_crit: bool = attack_type == CombatStage.AttackTypes.CRIT
+		var is_crit: bool = attack_type == Combat.Stage.AttackTypes.CRIT
 		var sfx_timer: SceneTreeTimer = _play_hit_sound_effect(
 			defender_old_health, defender_new_health, is_crit, combat_stage.get_attacker()
 		)
