@@ -16,15 +16,15 @@ func _init() -> void:
 	}
 
 	_base_hit_points = 40
-	_base_strength = 22
-	_base_pierce = 20
-	_base_intelligence = 20
-	_base_dexterity = 23
-	_base_speed = 22
-	_base_luck = 20
-	_base_defense = 22
-	_base_armor = 18
-	_base_resistance = 21
+	_base_strength = 12
+	_base_pierce = 10
+	_base_intelligence = 10
+	_base_dexterity = 13
+	_base_speed = 12
+	_base_luck = 10
+	_base_defense = 12
+	_base_armor = 8
+	_base_resistance = 11
 	_base_movement = 9
 	_base_build = 11
 	super()

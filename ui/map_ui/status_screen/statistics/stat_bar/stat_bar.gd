@@ -3,7 +3,7 @@ class_name StatBar
 extends HelpContainer
 
 ## Highest value that can be ever displayed.
-const ABSOLUTE_MAX_VALUE: int = ceili(30 + (Unit.PV_MAX_MODIFIER) + (Unit.EV_MAX_MODIFIER))
+const ABSOLUTE_MAX_VALUE: int = ceili(15 + (Unit.PV_MAX_MODIFIER) + (Unit.EV_MAX_MODIFIER))
 
 ## The stat being displayed
 @export var stat: Unit.Stats
