@@ -14,10 +14,8 @@ func _ready() -> void:
 func update(unit: Unit, combat: Combat, distance: int) -> void:
 	var weapon: Weapon = unit.get_weapon()
 	var in_range: bool = weapon and weapon.in_range(distance)
-	var enemy: Unit = (
-		combat.get_defender() if unit == combat.get_attacker() else combat.get_attacker()
-	)
-	_update_hp_display(unit, combat.get_total_damage(false, enemy))
+	var is_attacker: bool = unit == combat.get_attacker()
+	_update_hp_display(unit, combat.get_total_damage(false, not(is_attacker)))
 
 	_update_rate_label(%HitLabel as Label, combat.get_hit_rate(unit), in_range)
 	_update_rate_label(%CriticalRateLabel as Label, combat.get_crit_rate(unit), in_range)
@@ -80,16 +78,17 @@ func _get_attack_speed_label_theme(
 
 
 func _update_total_damage_label(unit: Unit, combat: Combat, distance: int) -> void:
-	var total_damage: float = combat.get_total_damage(false, unit)
+	var is_attacker: bool = unit == combat.get_attacker()
+	var total_damage: float = combat.get_total_damage(false, is_attacker)
 	var damage_label := %DamageLabel as Label
-	damage_label.text = _get_total_damage_string(unit, combat, total_damage)
+	damage_label.text = _get_total_damage_string(is_attacker, combat, total_damage)
 	damage_label.theme_type_variation = _get_total_damage_type_variation(
 		unit, distance, total_damage
 	)
 
 
-func _get_total_damage_string(unit: Unit, combat: Combat, total_damage: float) -> String:
-	var total_critical_damage: float = combat.get_total_damage(true, unit)
+func _get_total_damage_string(is_attacker: bool, combat: Combat, total_damage: float) -> String:
+	var total_critical_damage: float = combat.get_total_damage(true, is_attacker)
 	if total_damage == total_critical_damage:
 		return Utilities.float_to_string(total_damage, true)
 	else:

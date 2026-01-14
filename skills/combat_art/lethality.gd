@@ -6,7 +6,7 @@ func _init() -> void:
 	_name = "Lethality"
 
 
-func is_active(_unit: Unit, target: Unit) -> bool:
+func is_active(_unit: Unit, target: Unit, _distance: int) -> bool:
 	return target.current_health < target.get_hit_points()
 
 

@@ -33,6 +33,5 @@ func _enter_tree() -> void:
 		Stats.BUILD: 0,
 	}
 	personal_authority = 1
-	_personal_skills.append(Sol.new())
-	_personal_skills.append(Luna.Omega.new())
+	_personal_skills.append(Lethality.new())
 	super()

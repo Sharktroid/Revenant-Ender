@@ -50,7 +50,10 @@ static func instantiate(
 	elif 1 << event & Utilities.to_flag(EVENTS.KILL, EVENTS.CRIT_KILL):
 		symbol_rect.texture = preload("res://ui/combat_panel/attack_arrow/kill.png")
 		if event == EVENTS.CRIT_KILL:
-			symbol_rect.modulate.a = 2.0 / 3
+			var modulate_tween: Tween = symbol_rect.create_tween()
+			modulate_tween.set_loops()
+			modulate_tween.tween_property(symbol_rect, "modulate:a", 0, 0.75)
+			modulate_tween.tween_property(symbol_rect, "modulate:a", 1, 1)
 	return scene
 
 

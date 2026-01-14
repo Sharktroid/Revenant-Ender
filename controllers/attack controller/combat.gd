@@ -7,11 +7,24 @@ const MIN_RATE: int = 5
 ## Any rate above this value is set to 100%
 const MAX_RATE: int = 95
 
+enum StrikeFlags { ATTACKER = 1, PRIMARY = 2 }
+enum StrikeTypes {
+	ATTACKER_PRIMARY = StrikeFlags.ATTACKER + StrikeFlags.PRIMARY,
+	DEFENDER_PRIMARY = StrikeFlags.PRIMARY,
+	ATTACKER_SECONDARY = StrikeFlags.ATTACKER,
+	DEFENDER_SECONDARY = 0,
+}
+
 var _attacker: Unit
 var _defender: Unit
 var _combat_art: CombatArt
-var _combat_round: Array[Stage]
 var _distance: int
+var _strikes: Dictionary[int, int] = {
+	StrikeTypes.ATTACKER_PRIMARY: 1,
+	StrikeTypes.DEFENDER_PRIMARY: 0,
+	StrikeTypes.ATTACKER_SECONDARY: 0,
+	StrikeTypes.DEFENDER_SECONDARY: 0,
+}
 
 
 func _init(attacker: Unit, defender: Unit, distance: int, combat_art: CombatArt) -> void:
@@ -19,15 +32,14 @@ func _init(attacker: Unit, defender: Unit, distance: int, combat_art: CombatArt)
 	_defender = defender
 	_combat_art = combat_art
 	_distance = distance
-	_combat_round = [Stage.new(self, true, true, true)]
-	if _combat_art and _combat_art.get_bonus_strikes():
-		_combat_round.append(Stage.new(self, true, true))
+	if _combat_art:
+		_strikes[StrikeTypes.ATTACKER_PRIMARY] += _combat_art.get_bonus_strikes()
 	if _can_counter():
-		_combat_round.append(Stage.new(self, false, true))
+		_strikes[StrikeTypes.DEFENDER_PRIMARY] += 1
 	if _attacker.can_follow_up(_defender):
-		_combat_round.append(Stage.new(self, true, false))
+		_strikes[StrikeTypes.ATTACKER_SECONDARY] += 1
 	elif _can_counter() and _defender.can_follow_up(_attacker):
-		_combat_round.append(Stage.new(self, false, false))
+		_strikes[StrikeTypes.DEFENDER_SECONDARY] += 1
 
 
 func _can_counter() -> bool:
@@ -36,13 +48,22 @@ func _can_counter() -> bool:
 	return false
 
 
-func get_attack_stages() -> Array[Stage]:
-	if is_combat_art_active(get_attacker()) and _combat_art.get_rounds() > 1:
-		var attack_queue: Array[Stage] = []
-		for num: int in _combat_art.get_rounds():
-			attack_queue.append_array(_combat_round)
-		return attack_queue
-	return _combat_round
+func get_attack_stages() -> Array[Strike]:
+	var attack_queue: Array[Strike] = []
+	for _round: int in _get_rounds():
+		for strike_type: StrikeTypes in StrikeTypes.values():
+			for strike: int in _strikes[strike_type]:
+				var initial: bool = strike == 0 and strike_type == StrikeTypes.ATTACKER_PRIMARY
+				var attacker: bool = strike_type & StrikeFlags.ATTACKER
+				var primary: bool = strike_type & StrikeFlags.PRIMARY
+				attack_queue.append(Strike.new(self, strike, attacker, primary, initial))
+	return attack_queue
+
+
+func _get_rounds() -> int:
+	if is_combat_art_active(get_attacker()):
+		return _combat_art.get_rounds()
+	return 1
 
 
 ## Gets the hit rate against an enemy
@@ -58,12 +79,15 @@ func get_hit_rate(unit: Unit) -> int:
 
 
 ## Gets the crit rate against an enemy
-func get_crit_rate(unit: Unit) -> int:
+func get_crit_rate(unit: Unit, strike_number: int = -1) -> int:
 	var critical_avoid: float = (
 		_get_enemy(unit).get_critical_avoid()
 		+ _get_enemy(unit).get_authority_modifier(unit) * Unit.AUTHORITY_CRITICAL_AVOID_BONUS
 	)
-	return _adjust_rate(roundi(clampf(unit.get_crit() - critical_avoid, 0, 100)))
+	var raw_crit: int = roundi(unit.get_crit() - critical_avoid)
+	if is_combat_art_active(unit):
+		raw_crit = _combat_art.get_crit_rate(raw_crit, strike_number)
+	return _adjust_rate(raw_crit)
 
 
 func create_attack_arrows() -> Array[AttackArrow]:
@@ -72,43 +96,58 @@ func create_attack_arrows() -> Array[AttackArrow]:
 	var attacker_critical_sum: float = 0
 	var defender_critical_sum: float = 0
 	var arrows: Array[AttackArrow] = []
-	var initiation: bool = true
-	for attack: Stage in get_attack_stages():
-		if attack.get_attacker() == _attacker:
-			attacker_sum += _get_displayed_damage(initiation, false, _attacker)
-			attacker_critical_sum += _get_displayed_damage(initiation, true, _attacker)
-		else:
-			defender_sum += _get_displayed_damage(initiation, false, _defender)
-			defender_critical_sum += _get_displayed_damage(initiation, true, _defender)
-		const DIRS = AttackArrow.DIRECTIONS
-		var direction: AttackArrow.DIRECTIONS = (
-			DIRS.RIGHT if attack.get_attacker() == _attacker else DIRS.LEFT
-		)
-		var event: AttackArrow.EVENTS = _get_event(
-			attacker_sum if attack.get_attacker() == _attacker else defender_sum,
-			attacker_critical_sum if attack.get_attacker() == _attacker else defender_critical_sum,
-			attack
-		)
-		var attack_arrow := AttackArrow.instantiate(
-			direction,
-			_get_displayed_damage(initiation, false, attack.get_attacker()),
-			_get_displayed_damage(initiation, true, attack.get_attacker()),
-			attack.get_recoil(_get_displayed_damage(initiation, false, attack.get_attacker())),
-			event,
-			attack.get_attacker().faction.color
-		)
-		arrows.append(attack_arrow)
-		initiation = false
+	var stage: Array[int] = []
+	stage.assign(StrikeTypes.values())
+	for round_num: int in _get_rounds():
+		for stage_flags: int in stage:
+			for strike: int in _strikes[stage_flags]:
+				var attacker_strike: bool = stage_flags & StrikeFlags.ATTACKER
+				var primary_strike: bool = stage_flags & StrikeFlags.PRIMARY
+				if attacker_strike:
+					attacker_sum += _get_displayed_damage(
+						strike, attacker_strike, primary_strike, false
+					)
+					attacker_critical_sum += _get_displayed_damage(
+						strike, attacker_strike, primary_strike, true
+					)
+				else:
+					defender_sum += _get_displayed_damage(
+						strike, attacker_strike, primary_strike, false
+					)
+					defender_critical_sum += _get_displayed_damage(
+						strike, attacker_strike, primary_strike, true
+					)
+				const DIRS = AttackArrow.DIRECTIONS
+				var direction: AttackArrow.DIRECTIONS = DIRS.RIGHT if attacker_strike else DIRS.LEFT
+				var attacker: Unit = get_attacker() if attacker_strike else get_defender()
+				var event: AttackArrow.EVENTS = _get_event(
+					attacker_sum if attacker_strike else defender_sum,
+					attacker_critical_sum if attacker_strike else defender_critical_sum,
+					attacker,
+					get_defender() if attacker_strike else get_attacker(),
+				)
+				var attack_arrow := AttackArrow.instantiate(
+					direction,
+					_get_displayed_damage(strike, attacker_strike, primary_strike, false),
+					_get_displayed_damage(strike, attacker_strike, primary_strike, true),
+					get_recoil(
+						attacker, _get_displayed_damage(strike, attacker_strike, primary_strike, false)
+					),
+					event,
+					attacker.faction.color
+				)
+				arrows.append(attack_arrow)
 	return arrows
 
 
-func get_total_damage(crit: bool, unit: Unit) -> float:
-	var attack_stages: Array[Stage] = get_attack_stages()
-	var damage_reducer: Callable = func(accumulator: float, attack: Stage) -> float:
-		if attack.get_attacker() == unit:
-			return accumulator + _get_displayed_damage(attack_stages[0] == attack, crit, unit)
-		return accumulator
-	return get_attack_stages().reduce(damage_reducer, 0)
+func get_total_damage(crit: bool, attacker: bool) -> float:
+	var sum: float = 0
+	var attacker_flag: int = StrikeFlags.ATTACKER if attacker else 0
+	var stages: Array[int] = [StrikeFlags.PRIMARY, 0]
+	for stage: int in stages:
+		for strike: int in _strikes[stage + attacker_flag]:
+			sum += _get_displayed_damage(strike, attacker, stage == StrikeFlags.PRIMARY, crit)
+	return sum
 
 
 func get_attacker() -> Unit:
@@ -221,13 +260,20 @@ func _get_defense_stat(unit: Unit) -> int:
 
 ## The displayed total damage dealt by the unit.
 func _get_displayed_damage(
-	initiation: bool, crit: bool, unit: Unit, check_miss: bool = true, check_crit: bool = true
+	strike_number: int,
+	attacker_strike: bool,
+	primary_strike: bool,
+	crit: bool,
+	check_miss: bool = true,
+	check_crit: bool = true
 ) -> float:
+	var unit: Unit = get_attacker() if attacker_strike else get_defender()
+	var initiation: bool = strike_number == 0 and attacker_strike and primary_strike
 	if get_hit_rate(unit) <= 0 and check_miss:
 		return 0
 	else:
 		if check_crit:
-			var crit_rate: float = get_crit_rate(unit)
+			var crit_rate: float = get_crit_rate(unit, strike_number)
 			if crit_rate >= 100:
 				return get_crit_damage(initiation, unit)
 			elif crit_rate <= 0:
@@ -236,13 +282,13 @@ func _get_displayed_damage(
 
 
 func _get_event(
-	current_sum: float, current_critical_sum: float, attack: Stage
+	current_sum: float, current_critical_sum: float, attacker: Unit, defender: Unit
 ) -> AttackArrow.EVENTS:
-	if get_hit_rate(attack.get_attacker()) <= 0:
+	if get_hit_rate(attacker) <= 0:
 		return AttackArrow.EVENTS.MISS
-	if current_sum >= attack.get_defender().current_health:
+	if current_sum >= defender.current_health:
 		return AttackArrow.EVENTS.KILL
-	elif current_critical_sum >= attack.get_defender().current_health:
+	elif current_critical_sum >= defender.current_health:
 		return AttackArrow.EVENTS.CRIT_KILL
 	return AttackArrow.EVENTS.NONE
 
@@ -259,7 +305,7 @@ func is_combat_art_active(unit: Unit) -> bool:
 	)
 
 
-class Stage:
+class Strike:
 	## Object that represents one attack in a round of combat.
 	extends RefCounted
 
@@ -274,15 +320,21 @@ class Stage:
 	var _combat: Combat
 	var _attacker_stage: bool
 	var _primary_strike: bool
+	var _strike_number: int
 
 	func _init(
-		combat: Combat, attacker_stage: bool, primary_strike: bool, initial: bool = false
+		combat: Combat,
+		strike_number: int,
+		attacker_strike: bool,
+		primary_strike: bool,
+		initial: bool = false
 	) -> void:
-		_attacker_stage = attacker_stage
+		_attacker_stage = attacker_strike
 		_primary_strike = primary_strike
 		_combat_art = combat._combat_art
 		_combat = combat
 		_initial = initial
+		_strike_number = strike_number
 		_attack_type = _generate_attack_type()
 
 	## Gets the damage done with a normal attack
@@ -303,7 +355,7 @@ class Stage:
 
 	func _generate_attack_type() -> AttackTypes:
 		if _combat.get_hit_rate(get_attacker()) > randi_range(0, 99):
-			if _combat.get_crit_rate(get_attacker()) > randi_range(0, 99):
+			if _combat.get_crit_rate(get_attacker(), _strike_number) > randi_range(0, 99):
 				return AttackTypes.CRIT
 			else:
 				return AttackTypes.HIT

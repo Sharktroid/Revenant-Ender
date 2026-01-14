@@ -11,10 +11,6 @@ func is_active(_unit: Unit, _target: Unit, _distance: int) -> bool:
 	return true
 
 
-func get_attack_queue(combat: Combat) -> Array[Combat.Stage]:
-	return [Combat.Stage.new(combat, true, true, true)]
-
-
 ## Gets the quantity of the unit's current attack stat
 func get_attack(unit: Unit) -> int:
 	return unit.get_current_attack()
@@ -53,6 +49,10 @@ func get_bonus_strikes() -> int:
 
 func get_recoil_modifier() -> float:
 	return _recoil_modifier
+
+
+func get_crit_rate(crit: int, _strike: int) -> int:
+	return crit
 
 
 func finish(_attacker: Unit, _defender: Unit) -> void:

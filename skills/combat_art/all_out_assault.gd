@@ -4,18 +4,10 @@ extends CombatArt
 
 func _init() -> void:
 	_name = "All-Out Assault"
+	_bonus_strikes = 2
 
 
-func get_attack_queue(attacker: Unit, defender: Unit) -> Array[CombatStage]:
-	return [
-		CombatStage.new(attacker, defender),
-		CombatStage.new(attacker, defender),
-		CritStage.new(attacker, defender)
-	]
-
-
-class CritStage:
-	extends CombatStage
-
-	func get_crit_rate() -> int:
+func get_crit_rate(crit: int, strike: int) -> int:
+	if strike == 2:
 		return 100
+	return super(crit, strike)

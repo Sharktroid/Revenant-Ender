@@ -47,7 +47,7 @@ func _map_combat(attacker: Unit, defender: Unit, combat: Combat) -> void:
 	## Delay between attacks
 	const DELAY: float = 0.25
 
-	for combat_round: Combat.Stage in combat.get_attack_stages():
+	for combat_round: Combat.Strike in combat.get_attack_stages():
 		await get_tree().create_timer(DELAY).timeout
 		await _map_attack(
 			combat_round,
@@ -79,14 +79,14 @@ func _map_combat(attacker: Unit, defender: Unit, combat: Combat) -> void:
 
 ## One round of map combat.
 func _map_attack(
-	combat_stage: Combat.Stage, attacker_animation: MapAttack, defender_animation: MapAttack
+	combat_stage: Combat.Strike, attacker_animation: MapAttack, defender_animation: MapAttack
 ) -> void:
 	await attacker_animation.play_animation(_deal_damage.bind(combat_stage, defender_animation))
 
 
-func _deal_damage(combat_stage: Combat.Stage, defender_animation: MapAttack) -> void:
-	var attack_type: Combat.Stage.AttackTypes = combat_stage._attack_type
-	if attack_type == Combat.Stage.AttackTypes.MISS:
+func _deal_damage(combat_stage: Combat.Strike, defender_animation: MapAttack) -> void:
+	var attack_type: Combat.Strike.AttackTypes = combat_stage._attack_type
+	if attack_type == Combat.Strike.AttackTypes.MISS:
 		var sound_effect: AudioStreamPlayer = AudioPlayer.play_sound_effect(
 			preload("res://audio/sfx/miss.ogg")
 		)
@@ -115,7 +115,7 @@ func _deal_damage(combat_stage: Combat.Stage, defender_animation: MapAttack) -> 
 		tween.tween_interval(0.1)
 		tween.tween_property(combat_stage.get_defender(), ^"current_health", defender_new_health, defender_duration)
 		tween.tween_property(combat_stage.get_attacker(), ^"current_health", attacker_new_health, attacker_duration)
-		var is_crit: bool = attack_type == Combat.Stage.AttackTypes.CRIT
+		var is_crit: bool = attack_type == Combat.Strike.AttackTypes.CRIT
 		var sfx_timer: SceneTreeTimer = _play_hit_sound_effect(
 			defender_old_health, defender_new_health, is_crit, combat_stage.get_attacker()
 		)
