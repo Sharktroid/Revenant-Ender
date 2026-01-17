@@ -30,25 +30,20 @@ func _draw() -> void:
 
 
 func _create_outline_tile(
-	tile_color: Color, line_color: Color, coords: Vector2i, all_coords: Set
+	tile_color: Color, line_color: Color, coords: Vector2, all_coords: Set
 ) -> void:
 	tile_color.a = 0.5
 	line_color.a = 0.5
 	draw_rect(Rect2(coords, Vector2i(16, 16)), tile_color, true)
 
-	for tile_offset: Vector2i in Utilities.get_tiles(Vector2i.ZERO, 1).filter(
-		func(tile_offset: Vector2i) -> bool: return not all_coords.has(coords + tile_offset)
-	):
-		var offset: Vector2 = coords
-		match tile_offset:
-			Vector2i(-16, 0):
-				draw_line(Vector2(0.5, 0) + offset, Vector2(0.5, 16) + offset, line_color, 1)
-			Vector2i(0, -16):
-				draw_line(Vector2(0, 0.5) + offset, Vector2(16, 0.5) + offset, line_color, 1)
-			Vector2i(16, 0):
-				draw_line(Vector2(15.5, 0) + offset, Vector2(15.5, 16) + offset, line_color, 1)
-			Vector2i(0, 16):
-				draw_line(Vector2(0, 15.5) + offset, Vector2(16, 15.5) + offset, line_color, 1)
+	if all_coords.has(coords + Vector2(-16, 0)):
+		draw_line(Vector2(0.5, 0) + coords, Vector2(0.5, 16) + coords, line_color, 1)
+	if all_coords.has(coords + Vector2(0, -16)):
+		draw_line(Vector2(0, 0.5) + coords, Vector2(16, 0.5) + coords, line_color, 1)
+	if all_coords.has(coords + Vector2(16, 0)):
+		draw_line(Vector2(15.5, 0) + coords, Vector2(15.5, 16) + coords, line_color, 1)
+	if all_coords.has(coords + Vector2(16, 0)):
+		draw_line(Vector2(0, 15.5) + coords, Vector2(16, 15.5) + coords, line_color, 1)
 
 
 func _is_within_coords(coord: Vector2i, coords: Set) -> bool:

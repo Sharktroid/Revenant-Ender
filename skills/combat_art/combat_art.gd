@@ -12,7 +12,7 @@ func is_active(_unit: Unit, _target: Unit, _distance: int) -> bool:
 
 
 ## Gets the quantity of the unit's current attack stat
-func get_attack(unit: Unit) -> int:
+func get_attack(unit: Unit, _target: Unit) -> int:
 	return unit.get_current_attack()
 
 

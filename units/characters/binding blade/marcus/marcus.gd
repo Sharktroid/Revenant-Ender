@@ -33,5 +33,5 @@ func _enter_tree() -> void:
 		Stats.BUILD: 0,
 	}
 	personal_authority = 1
-	_personal_skills.append(Lethality.new())
+	_personal_skills.append(Dragonhaze.new())
 	super()

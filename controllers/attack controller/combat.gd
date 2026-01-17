@@ -167,7 +167,7 @@ func get_attack(initiation: float, unit: Unit) -> float:
 		)
 		var effectiveness_multiplier: int = 2 if effectiveness else 1
 		var attack: float = (
-			_get_base_attack(initiation, unit)
+			_get_base_attack(initiation, unit, _get_enemy(unit))
 			+ weapon.get_damage_bonus(_get_enemy(unit).get_weapon(), _get_distance())
 			+ unit.get_authority_modifier(_get_enemy(unit))
 		)
@@ -175,9 +175,9 @@ func get_attack(initiation: float, unit: Unit) -> float:
 	return 0
 
 
-func _get_base_attack(initiation: float, unit: Unit) -> float:
+func _get_base_attack(initiation: float, unit: Unit, target: Unit) -> float:
 	if is_combat_art_active(unit):
-		return _combat_art.get_attack(unit) + _combat_art.get_might(unit, initiation)
+		return _combat_art.get_attack(unit, target) + _combat_art.get_might(unit, initiation)
 	else:
 		return unit.get_attack(initiation)
 

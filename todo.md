@@ -17,8 +17,8 @@ Before you commit
 * Trim rewind if turn count is getting too high.
 
 # Major
+* BITMAPS!
 * Implement activated skills
-	* Add Accost
 	* Something for dealing with multiple copies of the same skill
 * Tomes can't initate at 1-range.
 * Have help bubble be a fixed position thing.

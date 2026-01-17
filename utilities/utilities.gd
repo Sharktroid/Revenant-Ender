@@ -34,12 +34,12 @@ func _init() -> void:
 ## Gets the tiles around the center within range.
 func get_tiles(
 	center: Vector2i,
-	true_max_range: float,
+	max_range: float,
 	min_range: int = 0,
 	boundaries := Rect2i(_MIN_POSITION, _MIN_POSITION, _SIZE, _SIZE)
 ) -> Set:
 	var output := Set.new()
-	if true_max_range == INF:
+	if max_range == INF:
 		var tile_blacklist: Dictionary[Vector2i, bool] = {}
 		if min_range > 0:
 			for tile: Vector2i in get_tiles(center, min_range - 1, 0, boundaries):
@@ -51,13 +51,13 @@ func get_tiles(
 			valid_ys.assign(range(boundaries.position.y, boundaries.end.y, 16).filter(is_y_valid))
 			output.append_array(valid_ys.map(func(y: int) -> Vector2i: return Vector2i(x, y)))
 	else:
-		if min_range > true_max_range:
+		if min_range > max_range:
 			return output
-		var max_range: int = roundi(true_max_range)
-		var get_ranges: Callable = _get_ranges.bind(max_range, boundaries)
+		var true_max_range: int = roundi(max_range)
+		var get_ranges: Callable = _get_ranges.bind(true_max_range, boundaries)
 		for x: int in range(
-			maxi(-max_range * 16 + center.x, boundaries.position.x),
-			mini(max_range * 16 + center.x, boundaries.end.x - 16) + 1,
+			maxi(-true_max_range * 16 + center.x, boundaries.position.x),
+			mini(true_max_range * 16 + center.x, boundaries.end.x - 16) + 1,
 			16
 		):
 			var ranges: Array = (get_ranges.call(x, center, min_range) as Array).map(
