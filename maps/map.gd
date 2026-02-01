@@ -2,7 +2,7 @@
 @abstract class_name Map
 extends ReferenceRect
 
-enum TileTypes { ATTACK, MOVEMENT, SUPPORT }
+enum TileTypes { ATTACK, MOVEMENT, SUPPORT, WARP }
 enum States { SELECTING, MOVING, CANTERING }
 
 const _SAVED_PROPERTY_NAMES: Array[StringName] = [
@@ -240,6 +240,8 @@ func display_tiles(
 			current_tile_base = MovementTile
 		TileTypes.SUPPORT:
 			current_tile_base = preload("res://maps/map_tiles/support_tile.gd")
+		TileTypes.WARP:
+			current_tile_base = preload("res://maps/map_tiles/warp_tile.gd")
 	for i: Vector2i in tiles:
 		var get_alpha: Callable = func() -> float:
 			return modulation if not (modulate_blacklist.has(i) != blacklist_as_whitelist) else 1.0
@@ -493,7 +495,7 @@ func _moving_state_select() -> void:
 		var items: Array[bool] = []
 		items.assign(UnitMenu.get_displayed_items(_selected_unit).values())
 		if (
-			CursorController.map_position in _selected_unit.get_movement_tiles().to_array()
+			_selected_unit.get_actionable_movement_tiles().has(CursorController.map_position)
 			and items.any(func(value: bool) -> bool: return value)
 		):
 			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)

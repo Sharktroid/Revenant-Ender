@@ -1,0 +1,9 @@
+[gd_scene load_steps=4 format=3 uid="uid://csg7r1dm26yid"]
+
+[ext_resource type="PackedScene" uid="uid://c8vpqlssnmggo" path="res://maps/map_tiles/movement_tile.tscn" id="1_lmikd"]
+[ext_resource type="Texture2D" uid="uid://tmh115wfkr0b" path="res://maps/map_tiles/yellow_tile.png" id="2_lmikd"]
+[ext_resource type="Script" uid="uid://dq4m3xswq4srl" path="res://maps/map_tiles/warp_tile.gd" id="3_q1ikv"]
+
+[node name="SupportTile" instance=ExtResource("1_lmikd")]
+texture = ExtResource("2_lmikd")
+script = ExtResource("3_q1ikv")

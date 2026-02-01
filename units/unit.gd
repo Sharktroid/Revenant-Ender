@@ -120,6 +120,7 @@ var traveler: Unit:
 ## The unit's personal authority.
 var personal_authority: int
 
+var _path_warp_mode: bool = false
 var _personal_values: Dictionary[Stats, int]
 var _effort_power: int
 var _effort_values: Dictionary[Stats, int]
@@ -132,6 +133,7 @@ var _portrait: Portrait
 var _path: Array[Vector2i]
 var _movement_tiles_node: Node2D
 var _attack_tile_node: Node2D
+var _warp_tile_node: Node2D
 var _current_attack_tiles_node: Node2D
 # Resources to be loaded.
 var _arrows_container: CanvasGroup
@@ -566,27 +568,49 @@ func get_all_attack_tiles() -> Set:
 		var basis_movement_tiles: Set = get_actionable_movement_tiles()
 		var min_range: int = get_min_range()
 		var max_range: float = get_max_range()
-		for tile: Vector2i in basis_movement_tiles:
-			var attack_tiles := Utilities.get_tiles(
-				tile, max_range, min_range, MapController.map.borders
-			)
-			var not_current_tile: Callable = func(attack_tile: Vector2i) -> bool:
-				return not (_attack_tiles.has(attack_tile))
-			_attack_tiles.append_set(attack_tiles.filter(not_current_tile))
+		if _get_warp_tiles():
+			var weapon: Weapon = get_weapon()  # Performance
+			basis_movement_tiles.append_set(_get_warp_tiles())
+			for x: int in range(0, _get_map().size.x, 16):
+				for y: int in range(0, _get_map().size.y, 16):
+					var tile := Vector2i(x, y)
+					if not basis_movement_tiles.has(tile):
+						#var range_tiles: Set = Utilities.get_tiles(
+						#tile, max_range, min_range, MapController.map.borders
+						#)
+						#var has_tile: Callable = func(current_tile: Vector2i) -> bool: return basis_movement_tiles.has(current_tile)
+						var is_tile_in_range: Callable = func(current_tile: Vector2i) -> bool:
+							return weapon.in_range(
+								roundi(Utilities.get_tile_distance(tile, current_tile))
+							)
+						if basis_movement_tiles.to_array().any(is_tile_in_range):
+							_attack_tiles.append(tile)
+		else:
+			for tile: Vector2i in basis_movement_tiles:
+				var attack_tiles := Utilities.get_tiles(
+					tile, max_range, min_range, MapController.map.borders
+				)
+				var not_current_tile: Callable = func(attack_tile: Vector2i) -> bool:
+					return not (_attack_tiles.has(attack_tile))
+				_attack_tiles.append_set(attack_tiles.filter(not_current_tile))
 	return _attack_tiles
 
 
 ## Displays the unit's movement tiles.
 func display_movement_tiles() -> void:
 	hide_movement_tiles()
-	var movement_tiles: Set = get_movement_tiles()
+	var movement_tiles: Set = get_movement_tiles()  # Performance
 	_movement_tiles_node = _get_map().display_tiles(movement_tiles, Map.TileTypes.MOVEMENT, 1)
-	var filter: Callable = func(tile: Vector2i) -> bool: return not movement_tiles.has(tile)
+	var warp_tiles: Set = _get_warp_tiles()  # Performance
+	_warp_tile_node = _get_map().display_tiles(warp_tiles, Map.TileTypes.WARP, 1)
+	var filter: Callable = func(tile: Vector2i) -> bool:
+		return not (movement_tiles.has(tile) or warp_tiles.has(tile))
 	var attack_tiles: Set = get_all_attack_tiles().filter(filter)
 	_attack_tile_node = _get_map().display_tiles(attack_tiles, Map.TileTypes.ATTACK, 1)
 	if not selected:
 		_movement_tiles_node.modulate.a = 0.5
 		_attack_tile_node.modulate.a = 0.5
+		_warp_tile_node.modulate.a = 0.5
 
 
 ## Hides the unit's movement tiles.
@@ -594,6 +618,7 @@ func hide_movement_tiles() -> void:
 	if is_instance_valid(_movement_tiles_node):
 		_movement_tiles_node.queue_free()
 		_attack_tile_node.queue_free()
+		_warp_tile_node.queue_free()
 
 
 ## The tiles the unit can attack from its current position.
@@ -628,38 +653,44 @@ func update_displayed_tiles() -> void:
 			true:
 				_movement_tiles_node.modulate.a = 1
 				_attack_tile_node.modulate.a = 1
+				_warp_tile_node.modulate.a = 1
 			false:
 				_movement_tiles_node.modulate.a = .5
 				_attack_tile_node.modulate.a = .5
+				_warp_tile_node.modulate.a = .5
 
 
 ## Moves unit to "move_target"
-func move(move_target: Vector2i = Vector2i.MAX) -> void:
+func move(move_target: Vector2i = get_unit_path()[-1]) -> void:
 	hide_movement_tiles()
-	var path: Array[Vector2i] = (
-		get_unit_path() if move_target == Vector2i.MAX else _get_new_path(move_target)
-	)
-	remove_path()
-	_get_area().monitoring = false
-	_current_movement -= _get_map().get_path_cost(unit_class.get_movement_type(), path)
-	while not path.is_empty():
-		var target: Vector2 = path.pop_at(0)
-		_update_animation(target)
-		while position != target:
-			var speed: float = 1.0 / _get_movement_speed()
-			if speed == 0:
-				position = target
-			else:
-				var tween: Tween = create_tween()
-				tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
-				tween.tween_method(
-					func(new_pos: Vector2) -> void: position = new_pos.round(),
-					position,
-					target,
-					1.0 / _get_movement_speed()
-				)
-				await tween.finished
-	_get_area().monitoring = true
+	if _path_warp_mode:
+		await get_tree().process_frame
+		position = move_target
+	else:
+		var path: Array[Vector2i] = (
+			get_unit_path() if move_target == get_unit_path()[-1] else _get_new_path(move_target)
+		)
+		remove_path()
+		_get_area().monitoring = false
+		_current_movement -= _get_map().get_path_cost(unit_class.get_movement_type(), path)
+		while not path.is_empty():
+			var target: Vector2 = path.pop_at(0)
+			_update_animation(target)
+			while position != target:
+				var speed: float = 1.0 / _get_movement_speed()
+				if speed == 0:
+					position = target
+				else:
+					var tween: Tween = create_tween()
+					tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
+					tween.tween_method(
+						func(new_pos: Vector2) -> void: position = new_pos.round(),
+						position,
+						target,
+						1.0 / _get_movement_speed()
+					)
+					await tween.finished
+		_get_area().monitoring = true
 	set_animation(Animations.IDLE)
 	arrived.emit()
 	reset_tile_cache()
@@ -677,25 +708,34 @@ static func get_fixed_stat_flags() -> int:
 
 ## Gets the path of the unit.
 func update_path(destination: Vector2i) -> void:
-	if _path.is_empty():
-		_path.append(Vector2i(position))
-	# Sets destination to an adjacent tile to a unit if a unit is hovered and over an attack tile.
-	if _hovered_unit_in_range():
-		var adjacent_movement_tiles: Set = _get_actionable_attack_tiles()
-		if not adjacent_movement_tiles.is_empty():
-			destination = _get_nearest_path_tile(adjacent_movement_tiles)
-	if get_movement_tiles().has(destination):
-		# Gets the path
-		if destination in _path:
-			_path = _path.slice(0, _path.find(destination) + 1) as Array[Vector2i]
-		else:
-			var path_end_adjacent_tiles: Set = Utilities.get_tiles(
-				get_unit_path()[-1], 1, 1, _get_map().borders
-			)
-			if _get_path_cost() <= _current_movement and path_end_adjacent_tiles.has(destination):
-				_path.append(destination)
+	if _get_warp_tiles().has(destination):
+		_path_warp_mode = true
+		_path = [destination]
+	else:
+		if _path.is_empty():
+			_path = [Vector2i(position)]
+		# Sets destination to an adjacent tile to a unit if a unit is hovered and over an attack tile.
+		if _hovered_unit_in_range():
+			var adjacent_movement_tiles: Set = _get_actionable_attack_tiles()
+			if not adjacent_movement_tiles.is_empty():
+				destination = _get_nearest_path_tile(adjacent_movement_tiles)
+		if get_movement_tiles().has(destination):
+			# Gets the path
+			if destination in _path:
+				_path = _path.slice(0, _path.find(destination) + 1) as Array[Vector2i]
 			else:
-				_path = _get_new_path(destination)
+				var path_end_adjacent_tiles: Set = Utilities.get_tiles(
+					get_unit_path()[-1], 1, 1, _get_map().borders
+				)
+				if (
+					_get_path_cost() <= _current_movement
+					and path_end_adjacent_tiles.has(destination)
+					and not _path_warp_mode
+				):
+					_path.append(destination)
+				else:
+					_path = _get_new_path(destination)
+			_path_warp_mode = false
 
 
 ## Displays the unit's path
@@ -865,6 +905,27 @@ func get_combat_arts(target: Unit, distance: int) -> Array[CombatArt]:
 		return (skill is CombatArt) and (skill as CombatArt).is_active(self, target, distance)
 	arts.append_array(get_skills().filter(filter))
 	return arts
+
+
+func _get_warp_tiles() -> Set:
+	var warp_tiles := Set.new()
+	if get_skills().any(func(skill: Skill) -> bool: return skill is Warp):
+		var occupied_tiles: Set = get_movement_tiles()
+		var enemy_units: Array[Unit] = _get_map().get_units().filter(
+			func(unit: Unit) -> bool: return not is_friend(unit)
+		)
+		occupied_tiles.append_array(
+			enemy_units.map(func(unit: Unit) -> Vector2i: return Vector2i(unit.position))
+		)
+		for x: int in range(0, _get_map().size.x, 16):
+			for y: int in range(0, _get_map().size.y, 16):
+				var tile := Vector2i(x, y)
+				if (
+					not occupied_tiles.has(tile)
+					and _get_map().get_terrain_cost(unit_class.get_movement_type(), tile) < INF
+				):
+					warp_tiles.append(tile)
+	return warp_tiles
 
 
 func _set_faction_id(value: int) -> void:
