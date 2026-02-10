@@ -29,11 +29,10 @@ var _all_pages: Array[Array]:
 			_position.x = Utilities.get_screen_size().x - new_size.x / 2
 		elif _position.x < new_size.x / 2:
 			_position.x = new_size.x / 2
-		if _position != _default_position():
-			if not _get_popup_node().visible:
-				await _expand(_get_current_nodes(), _position)
-			else:
-				await _resize(new_size, _position, old_size, old_position)
+		if not _get_popup_node().visible:
+			await _expand(_get_current_nodes(), _position)
+		else:
+			await _resize(new_size, _position, old_size, old_position)
 		_get_popup_node().set_nodes(_get_current_nodes())
 var _position: Vector2
 
