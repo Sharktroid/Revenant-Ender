@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://488my7qqcacb" path="res://ui/arrow.gd" id="2_gw513"]
 
 [node name="Arrow" type="Sprite2D"]
+process_mode = 3
 texture = ExtResource("1_et5q3")
 centered = false
 vframes = 6

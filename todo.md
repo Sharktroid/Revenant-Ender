@@ -5,11 +5,8 @@ Before you commit
 * Make sure it all works
 
 # Minor
-* Use TODO notation to store these as well.
-* Fix the combat panel arrows when pressing attack
 * Fix bug where clicking on an item container of the same position of the last closed one doesn't work.
 * Have hand in options menu for the bars be based on the cursor position.
-* Add universal swap and give draw back to all infantry classes and give it the same formula as shove.
 * Fix status menu scrolling while help menu is active.
 * Fix broken arrow key scrolling in Status Screen.
 * Revamp effective weapons to be more specific to class/weapon type.
@@ -17,11 +14,6 @@ Before you commit
 * Trim rewind if turn count is getting too high.
 
 # Major
-* BITMAPS!
-* Implement activated skills
-	* Something for dealing with multiple copies of the same skill
-* Tomes can't initate at 1-range.
-* Have help bubble be a fixed position thing.
 * Make it possible to attack preview with any unit at any time
 * Add testing mode
 	* Allow the player to manually rig via an option
@@ -65,6 +57,10 @@ Before you commit
 * 5D FE.
 
 # Possible
+* Add universal swap and give draw back to all infantry classes and give it the same formula as shove.
+* Tomes can't initate at 1-range.
+* Have help bubble be a fixed position thing.
+* Something for dealing with multiple copies of the same skill
 * Add testing suite
 	* Add tests for previous and future bugs/regressions
 		* Empty inventory.

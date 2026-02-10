@@ -8,17 +8,7 @@ extends GridContainer
 
 ## The unit being displayed on the bottom.
 var right_unit: Unit:
-	set(value):
-		right_unit = value
-		var path_end: Vector2i = _left_unit.get_unit_path().back()
-		_distance = roundi(Utilities.get_tile_distance(path_end, right_unit.position))
-		var is_in_range: Callable = func(weapon: Weapon) -> bool: return weapon.in_range(_distance)
-		_current_weapons = _left_unit.get_all_weapon_modes().filter(is_in_range)
-		_original_weapon = _left_unit.get_weapon()
-		_weapon_index = _get_index()
-		if not is_node_ready():
-			await ready
-		_left_name_panel.arrows = _current_weapons.size() > 1
+	set = _set_right_unit
 
 var _left_unit: Unit
 var _distance: int
@@ -52,20 +42,6 @@ func _ready() -> void:
 	add_child(SingleAxisInputController.new(set_weapon_index, &"left", &"right"))
 	var set_art_index: Callable = func(direction: float) -> void: _art_index += roundi(direction)
 	add_child(SingleAxisInputController.new(set_art_index, &"up", &"down"))
-
-	await get_tree().process_frame
-	var combat_art_panel := %CombatArtPanel as PanelContainer
-	var center: Vector2 = (combat_art_panel.size / 2).round()
-	const VERTICAL_GAP: int = 5 + 3
-	var vertical_offset: int = VERTICAL_GAP + round(combat_art_panel.size.y / 2)
-	var top_arrow := %TopArrow as Sprite2D
-	var bottom_arrow := %BottomArrow as Sprite2D
-	if _left_unit.get_combat_arts(right_unit, _distance).size() > 1:
-		top_arrow.position = center + Vector2(0, -(vertical_offset))
-		bottom_arrow.position = center + Vector2(0, vertical_offset)
-	else:
-		top_arrow.visible = false
-		bottom_arrow.visible = false
 
 
 func _exit_tree() -> void:
@@ -165,3 +141,31 @@ func _update() -> void:
 		_left_unit.position = old_position
 		var combat_art: CombatArt = _left_unit.get_combat_arts(right_unit, _distance)[_art_index]
 		_art_label.text = str(combat_art) if combat_art else "None"
+
+
+
+func _set_right_unit(unit: Unit) -> void:
+	right_unit = unit
+	var path_end: Vector2i = _left_unit.get_unit_path().back()
+	_distance = roundi(Utilities.get_tile_distance(path_end, right_unit.position))
+	var is_in_range: Callable = func(weapon: Weapon) -> bool: return weapon.in_range(_distance)
+	_current_weapons = _left_unit.get_all_weapon_modes().filter(is_in_range)
+	_original_weapon = _left_unit.get_weapon()
+	_weapon_index = _get_index()
+	if not is_node_ready():
+		await ready
+	_left_name_panel.arrows = _current_weapons.size() > 1
+
+	await get_tree().process_frame
+	var combat_art_panel := %CombatArtPanel as PanelContainer
+	var center: Vector2 = (combat_art_panel.size / 2).round()
+	const VERTICAL_GAP: int = 5 + 3
+	var vertical_offset: int = VERTICAL_GAP + round(combat_art_panel.size.y / 2)
+	var top_arrow := %TopArrow as Sprite2D
+	var bottom_arrow := %BottomArrow as Sprite2D
+	if _left_unit.get_combat_arts(right_unit, _distance).size() > 1:
+		top_arrow.position = center + Vector2(0, -(vertical_offset))
+		bottom_arrow.position = center + Vector2(0, vertical_offset)
+	else:
+		top_arrow.visible = false
+		bottom_arrow.visible = false
