@@ -48,7 +48,9 @@ func _ready() -> void:
 
 static func instantiate(path: Array[Vector2i], index: int) -> MovementArrow:
 	var scene := preload("res://maps/map_tiles/movement_arrow.tscn").instantiate() as MovementArrow
+	@warning_ignore("integer_division")
 	scene._prev = (path[index - 1] - path[index]) / 16 if index > 0 else _END
+	@warning_ignore("integer_division")
 	scene._next = (path[index + 1] - path[index]) / 16 if index < path.size() - 1 else _END
 	scene.position = path[index]
 	return scene

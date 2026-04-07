@@ -1,11 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://ctum3uogksbaf"]
+[gd_scene format=3 uid="uid://ctum3uogksbaf"]
 
+[ext_resource type="Shader" uid="uid://bo88g3h3w3rer" path="res://shaders/vignette.gdshader" id="1_s8st7"]
 [ext_resource type="Script" uid="uid://bmjbw5rls558r" path="res://ui/rewind_menu/rewind_menu.gd" id="1_sousa"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ugeim"]
+shader = ExtResource("1_s8st7")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kvqp4"]
 bg_color = Color(1, 0, 1, 0.498039)
 
-[node name="Rewind" type="Panel"]
+[node name="Rewind" type="Panel" unique_id=201025461]
+material = SubResource("ShaderMaterial_ugeim")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -14,44 +19,44 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_kvqp4")
 script = ExtResource("1_sousa")
 
-[node name="TopPanel" type="PanelContainer" parent="."]
+[node name="TopPanel" type="PanelContainer" parent="." unique_id=1791817481]
 layout_mode = 0
 offset_top = 5.0
 offset_right = 210.0
 offset_bottom = 45.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TopPanel"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TopPanel" unique_id=2067791094]
 layout_mode = 2
 
-[node name="PhaseLabel" type="Label" parent="TopPanel/HBoxContainer"]
+[node name="PhaseLabel" type="Label" parent="TopPanel/HBoxContainer" unique_id=162781552]
 layout_mode = 2
 text = "Phase"
 
-[node name="VBoxContainer" type="GridContainer" parent="TopPanel/HBoxContainer"]
+[node name="VBoxContainer" type="GridContainer" parent="TopPanel/HBoxContainer" unique_id=87791945]
 layout_mode = 2
 size_flags_horizontal = 10
 theme_override_constants/v_separation = 0
 columns = 2
 
-[node name="TurnLabel" type="Label" parent="TopPanel/HBoxContainer/VBoxContainer"]
+[node name="TurnLabel" type="Label" parent="TopPanel/HBoxContainer/VBoxContainer" unique_id=1249809078]
 layout_mode = 2
 text = "Turn: "
 
-[node name="TurnNumber" type="Label" parent="TopPanel/HBoxContainer/VBoxContainer"]
+[node name="TurnNumber" type="Label" parent="TopPanel/HBoxContainer/VBoxContainer" unique_id=1161384225]
 unique_name_in_owner = true
 layout_mode = 2
 text = "4"
 
-[node name="ReadyUnitsLabel" type="Label" parent="TopPanel/HBoxContainer/VBoxContainer"]
+[node name="ReadyUnitsLabel" type="Label" parent="TopPanel/HBoxContainer/VBoxContainer" unique_id=1933166571]
 layout_mode = 2
 text = "Ready Units: "
 
-[node name="ReadyUnitsNumber" type="Label" parent="TopPanel/HBoxContainer/VBoxContainer"]
+[node name="ReadyUnitsNumber" type="Label" parent="TopPanel/HBoxContainer/VBoxContainer" unique_id=628876775]
 unique_name_in_owner = true
 layout_mode = 2
 text = "17"
 
-[node name="ActionScrollContainer" type="ScrollContainer" parent="."]
+[node name="ActionScrollContainer" type="ScrollContainer" parent="." unique_id=933635835]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 1
 anchors_preset = -1
@@ -63,25 +68,25 @@ grow_vertical = 2
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="ActionScrollContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="ActionScrollContainer" unique_id=26075647]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ActionVBox" type="VBoxContainer" parent="ActionScrollContainer/MarginContainer"]
+[node name="ActionVBox" type="VBoxContainer" parent="ActionScrollContainer/MarginContainer" unique_id=1158854300]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 6
 theme_override_constants/separation = 3
 
-[node name="BottomPanel" type="PanelContainer" parent="."]
+[node name="BottomPanel" type="PanelContainer" parent="." unique_id=1137484740]
 visible = false
 layout_mode = 0
 offset_top = 259.0
 offset_right = 97.0
 offset_bottom = 281.0
 
-[node name="CostLabel" type="Label" parent="BottomPanel"]
+[node name="CostLabel" type="Label" parent="BottomPanel" unique_id=1460696645]
 layout_mode = 2
 text = "Charges: "

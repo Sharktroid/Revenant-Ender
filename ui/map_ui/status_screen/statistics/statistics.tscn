@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://jyd6v7dptm76"]
+[gd_scene format=3 uid="uid://jyd6v7dptm76"]
 
 [ext_resource type="Script" uid="uid://c1dqati4ox158" path="res://ui/map_ui/status_screen/statistics/statistics.gd" id="1_7tuvq"]
 [ext_resource type="Script" uid="uid://ct4a5uumlk5g3" path="res://ui/help_popup/help_container.gd" id="2_6g5y4"]
@@ -10,7 +10,7 @@
 [sub_resource type="Theme" id="Theme_ux5tw"]
 HSeparator/styles/separator = SubResource("StyleBoxEmpty_llk1q")
 
-[node name="Columns" type="ReferenceRect"]
+[node name="Columns" type="ReferenceRect" unique_id=169262030]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -20,7 +20,7 @@ size_flags_vertical = 3
 mouse_filter = 1
 script = ExtResource("1_7tuvq")
 
-[node name="TopPanels" type="HBoxContainer" parent="."]
+[node name="TopPanels" type="HBoxContainer" parent="." unique_id=1082550397]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 1
 anchors_preset = -1
@@ -29,17 +29,17 @@ anchor_bottom = 0.375
 offset_bottom = -1.0
 grow_horizontal = 2
 
-[node name="OffensiveStats" parent="TopPanels" instance=ExtResource("2_erw4i")]
+[node name="OffensiveStats" parent="TopPanels" unique_id=1752572103 instance=ExtResource("2_erw4i")]
 unique_name_in_owner = true
 layout_mode = 2
 stats = Array[int]([1, 2, 3])
 
-[node name="DefensiveStats" parent="TopPanels" instance=ExtResource("2_erw4i")]
+[node name="DefensiveStats" parent="TopPanels" unique_id=864053586 instance=ExtResource("2_erw4i")]
 unique_name_in_owner = true
 layout_mode = 2
 stats = Array[int]([7, 8, 9])
 
-[node name="BottomPanels" type="HBoxContainer" parent="."]
+[node name="BottomPanels" type="HBoxContainer" parent="." unique_id=1292623927]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.375
@@ -49,26 +49,26 @@ offset_top = 2.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="MiscStats" parent="BottomPanels" instance=ExtResource("2_erw4i")]
+[node name="MiscStats" parent="BottomPanels" unique_id=1736294376 instance=ExtResource("2_erw4i")]
 unique_name_in_owner = true
 layout_mode = 2
 stats = Array[int]([4, 5, 6, 11, 10])
 
-[node name="Other" type="PanelContainer" parent="BottomPanels"]
+[node name="Other" type="PanelContainer" parent="BottomPanels" unique_id=1987562873]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="BottomPanels/Other"]
+[node name="HBoxContainer" type="HBoxContainer" parent="BottomPanels/Other" unique_id=344526993]
 layout_mode = 2
 
-[node name="OtherLabels" type="VBoxContainer" parent="BottomPanels/Other/HBoxContainer"]
+[node name="OtherLabels" type="VBoxContainer" parent="BottomPanels/Other/HBoxContainer" unique_id=1820402388]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/separation = 0
 
-[node name="AuthorityHelp" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/OtherLabels" groups=["values"]]
+[node name="AuthorityHelp" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/OtherLabels" unique_id=564341971 groups=["values"]]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
@@ -77,14 +77,14 @@ script = ExtResource("2_6g5y4")
 help_description = "Grants +{authority_hit_bonus} hit, +{authority_critical avoid_bonus} critical avoid, +1 damage dealt, and -1 damage taken
 for each cumulative authority star over the opponent's team."
 
-[node name="AuthorityLabel" type="Label" parent="BottomPanels/Other/HBoxContainer/OtherLabels/AuthorityHelp"]
+[node name="AuthorityLabel" type="Label" parent="BottomPanels/Other/HBoxContainer/OtherLabels/AuthorityHelp" unique_id=606048259]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Authority"
 vertical_alignment = 1
 
-[node name="WeightHelp" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/OtherLabels" groups=["values"]]
+[node name="WeightHelp" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/OtherLabels" unique_id=1497736309 groups=["values"]]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_top = NodePath("../AuthorityHelp")
@@ -94,14 +94,14 @@ script = ExtResource("2_6g5y4")
 help_description = "Determines what the unit can shove, be shoved by, and be rescued by.
 Affected by class and Build."
 
-[node name="Weight" type="Label" parent="BottomPanels/Other/HBoxContainer/OtherLabels/WeightHelp" groups=["values"]]
+[node name="Weight" type="Label" parent="BottomPanels/Other/HBoxContainer/OtherLabels/WeightHelp" unique_id=850013596 groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Weight"
 vertical_alignment = 1
 
-[node name="AidHelp" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/OtherLabels" groups=["values"]]
+[node name="AidHelp" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/OtherLabels" unique_id=1981848499 groups=["values"]]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_top = NodePath("../WeightHelp")
@@ -110,14 +110,14 @@ focus_neighbor_bottom = NodePath("../TravelerHelp")
 script = ExtResource("2_6g5y4")
 help_description = "Allows the unit to rescue any unit with lower weight."
 
-[node name="Aid" type="Label" parent="BottomPanels/Other/HBoxContainer/OtherLabels/AidHelp" groups=["values"]]
+[node name="Aid" type="Label" parent="BottomPanels/Other/HBoxContainer/OtherLabels/AidHelp" unique_id=1013575881 groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Aid"
 vertical_alignment = 1
 
-[node name="TravelerHelp" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/OtherLabels" groups=["values"]]
+[node name="TravelerHelp" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/OtherLabels" unique_id=556968055 groups=["values"]]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_top = NodePath("../AidHelp")
@@ -125,40 +125,40 @@ focus_neighbor_bottom = NodePath("../StatusHelp")
 script = ExtResource("2_6g5y4")
 help_description = "The unit that is currently being rescued."
 
-[node name="Traveler" type="Label" parent="BottomPanels/Other/HBoxContainer/OtherLabels/TravelerHelp" groups=["values"]]
+[node name="Traveler" type="Label" parent="BottomPanels/Other/HBoxContainer/OtherLabels/TravelerHelp" unique_id=1414729795 groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Traveler"
 vertical_alignment = 1
 
-[node name="StatusHelp" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/OtherLabels" groups=["values"]]
+[node name="StatusHelp" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/OtherLabels" unique_id=1079362320 groups=["values"]]
 layout_mode = 2
 size_flags_vertical = 3
 focus_neighbor_top = NodePath("../TravelerHelp")
 script = ExtResource("2_6g5y4")
 help_description = "All status conditions currently in effect."
 
-[node name="Status" type="Label" parent="BottomPanels/Other/HBoxContainer/OtherLabels/StatusHelp" groups=["values"]]
+[node name="Status" type="Label" parent="BottomPanels/Other/HBoxContainer/OtherLabels/StatusHelp" unique_id=105097750 groups=["values"]]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Status"
 vertical_alignment = 1
 
-[node name="Values" type="VBoxContainer" parent="BottomPanels/Other/HBoxContainer"]
+[node name="Values" type="VBoxContainer" parent="BottomPanels/Other/HBoxContainer" unique_id=1424620752]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = SubResource("Theme_ux5tw")
 theme_override_constants/separation = 0
 
-[node name="AuthorityStars" parent="BottomPanels/Other/HBoxContainer/Values" instance=ExtResource("3_8euhf")]
+[node name="AuthorityStars" parent="BottomPanels/Other/HBoxContainer/Values" unique_id=2021979465 instance=ExtResource("3_8euhf")]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath("../../OtherLabels/AuthorityHelp")
 focus_neighbor_bottom = NodePath("../WeightNumber")
 
-[node name="WeightNumber" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/Values"]
+[node name="WeightNumber" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/Values" unique_id=856423239]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
@@ -167,12 +167,12 @@ focus_neighbor_left = NodePath("../../OtherLabels/WeightHelp")
 focus_neighbor_bottom = NodePath("../AidNumber")
 script = ExtResource("2_6g5y4")
 
-[node name="MarginContainer" type="MarginContainer" parent="BottomPanels/Other/HBoxContainer/Values/WeightNumber"]
+[node name="MarginContainer" type="MarginContainer" parent="BottomPanels/Other/HBoxContainer/Values/WeightNumber" unique_id=994758092]
 layout_mode = 2
 theme_override_constants/margin_left = 1
 theme_override_constants/margin_right = 2
 
-[node name="WeightValue" type="Label" parent="BottomPanels/Other/HBoxContainer/Values/WeightNumber/MarginContainer"]
+[node name="WeightValue" type="Label" parent="BottomPanels/Other/HBoxContainer/Values/WeightNumber/MarginContainer" unique_id=1614071235]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
@@ -180,7 +180,7 @@ theme_type_variation = &"BlueLabel"
 text = "0"
 vertical_alignment = 1
 
-[node name="AidNumber" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/Values"]
+[node name="AidNumber" type="BoxContainer" parent="BottomPanels/Other/HBoxContainer/Values" unique_id=319954188]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
@@ -189,25 +189,25 @@ focus_neighbor_left = NodePath("../../OtherLabels/AidHelp")
 focus_neighbor_top = NodePath("../WeightNumber")
 script = ExtResource("2_6g5y4")
 
-[node name="MarginContainer" type="MarginContainer" parent="BottomPanels/Other/HBoxContainer/Values/AidNumber"]
+[node name="MarginContainer" type="MarginContainer" parent="BottomPanels/Other/HBoxContainer/Values/AidNumber" unique_id=365755099]
 layout_mode = 2
 theme_override_constants/margin_left = 1
 theme_override_constants/margin_right = 2
 
-[node name="AidValue" type="Label" parent="BottomPanels/Other/HBoxContainer/Values/AidNumber/MarginContainer"]
+[node name="AidValue" type="Label" parent="BottomPanels/Other/HBoxContainer/Values/AidNumber/MarginContainer" unique_id=742735289]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "0"
 vertical_alignment = 1
 
-[node name="TravelerName" type="Label" parent="BottomPanels/Other/HBoxContainer/Values"]
+[node name="TravelerName" type="Label" parent="BottomPanels/Other/HBoxContainer/Values" unique_id=1107433258]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 theme_type_variation = &"BlueLabel"
 vertical_alignment = 1
 
-[node name="Statuses" type="HBoxContainer" parent="BottomPanels/Other/HBoxContainer/Values"]
+[node name="Statuses" type="HBoxContainer" parent="BottomPanels/Other/HBoxContainer/Values" unique_id=668097357]
 layout_mode = 2
 size_flags_vertical = 3

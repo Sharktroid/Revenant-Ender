@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://bdjeg8jmudvyh"]
+[gd_scene format=3 uid="uid://bdjeg8jmudvyh"]
 
 [ext_resource type="Script" uid="uid://3nrfc21tcipm" path="res://ui/level_up_screen/stat_arrow.gd" id="1_w4ckp"]
 
@@ -12,19 +12,19 @@ height = 8
 fill_to = Vector2(0, 1)
 repeat = 2
 
-[node name="StatArrow" type="Polygon2D"]
+[node name="StatArrow" type="Polygon2D" unique_id=1983640953]
 color = Color(0.231373, 0.152941, 0.12549, 1)
 polygon = PackedVector2Array(4, 0, 5, 0, 5, 1, 6, 1, 6, 2, 7, 2, 7, 3, 8, 3, 8, 4, 9, 4, 9, 6, 8, 6, 8, 9, 1, 9, 1, 6, 0, 6, 0, 4, 1, 4, 1, 3, 2, 3, 2, 2, 3, 2, 3, 1, 4, 1)
 script = ExtResource("1_w4ckp")
 
-[node name="InnerColoring" type="Polygon2D" parent="."]
+[node name="InnerColoring" type="Polygon2D" parent="." unique_id=2060566330]
 texture_filter = 2
 texture_repeat = 3
 position = Vector2(1, 1)
 texture = SubResource("GradientTexture2D_0xife")
 polygon = PackedVector2Array(3, 0, 4, 0, 4, 1, 5, 1, 5, 2, 6, 2, 6, 3, 7, 3, 7, 4, 6, 4, 6, 7, 1, 7, 1, 4, 0, 4, 0, 3, 1, 3, 1, 2, 2, 2, 2, 1, 3, 1)
 
-[node name="SquishedArrow" type="Polygon2D" parent="."]
+[node name="SquishedArrow" type="Polygon2D" parent="." unique_id=2126952593]
 visible = false
 texture_filter = 2
 texture_repeat = 3
@@ -32,14 +32,14 @@ position = Vector2(11, 0)
 color = Color(0.231373, 0.152941, 0.12549, 1)
 polygon = PackedVector2Array(7, 0, 7, 1, 9, 1, 9, 2, 10, 2, 10, 4, 9, 4, 9, 6, 0, 6, 0, 4, -1, 4, -1, 2, 0, 2, 0, 1, 2, 1, 2, 0)
 
-[node name="SquishedInner" type="Polygon2D" parent="SquishedArrow"]
+[node name="SquishedInner" type="Polygon2D" parent="SquishedArrow" unique_id=250369104]
 texture_filter = 2
 texture_repeat = 3
 position = Vector2(1, 1)
 texture = SubResource("GradientTexture2D_0xife")
 polygon = PackedVector2Array(6, 0, 6, 1, 8, 1, 8, 2, 7, 2, 7, 4, 0, 4, 0, 2, -1, 2, -1, 1, 1, 1, 1, 0)
 
-[node name="TallArrow" type="Polygon2D" parent="."]
+[node name="TallArrow" type="Polygon2D" parent="." unique_id=779360509]
 visible = false
 texture_filter = 2
 texture_repeat = 3
@@ -47,14 +47,14 @@ position = Vector2(21, 0)
 color = Color(0.231373, 0.152941, 0.12549, 1)
 polygon = PackedVector2Array(4, 0, 5, 0, 5, 1, 6, 1, 6, 3, 7, 3, 7, 5, 8, 5, 8, 8, 7, 8, 7, 15, 2, 15, 2, 8, 1, 8, 1, 5, 2, 5, 2, 3, 3, 3, 3, 1, 4, 1)
 
-[node name="TallInner" type="Polygon2D" parent="TallArrow"]
+[node name="TallInner" type="Polygon2D" parent="TallArrow" unique_id=1571917306]
 texture_filter = 2
 texture_repeat = 3
 position = Vector2(1, 1)
 texture = SubResource("GradientTexture2D_0xife")
 polygon = PackedVector2Array(3, 0, 4, 0, 4, 2, 5, 2, 5, 4, 6, 4, 6, 6, 5, 6, 5, 13, 2, 13, 2, 6, 1, 6, 1, 4, 2, 4, 2, 2, 3, 2)
 
-[node name="SlightSquishedArrow" type="Polygon2D" parent="."]
+[node name="SlightSquishedArrow" type="Polygon2D" parent="." unique_id=60438568]
 visible = false
 texture_filter = 2
 texture_repeat = 3
@@ -62,7 +62,7 @@ position = Vector2(30, 0)
 color = Color(0.231373, 0.152941, 0.12549, 1)
 polygon = PackedVector2Array(6, 0, 6, 1, 7, 1, 7, 2, 8, 2, 8, 3, 9, 3, 9, 5, 8, 5, 8, 8, 1, 8, 1, 5, 0, 5, 0, 3, 1, 3, 1, 2, 2, 2, 2, 1, 3, 1, 3, 0)
 
-[node name="SlightSquishedInner" type="Polygon2D" parent="SlightSquishedArrow"]
+[node name="SlightSquishedInner" type="Polygon2D" parent="SlightSquishedArrow" unique_id=2064933463]
 texture_filter = 2
 texture_repeat = 3
 position = Vector2(1, 1)

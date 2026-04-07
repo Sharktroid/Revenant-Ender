@@ -48,9 +48,9 @@ func _input(event: InputEvent) -> void:
 			_position_selected()
 		else:
 			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.INVALID)
+		get_tree().root.set_input_as_handled()
 	elif event.is_action_pressed("back"):
 		_canceled()
-	get_tree().root.set_input_as_handled()
 
 
 func _exit_tree() -> void:

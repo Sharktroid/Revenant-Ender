@@ -263,22 +263,22 @@ func _get_preset_rank(preset: _Presets) -> Ranks:
 
 func _get_preset_might(preset: _Presets) -> float:
 	match preset:
-		_Presets.IRON:
-			return 0
-		_Presets.SLIM:
-			return -2
 		_Presets.TRAINING, _Presets.MEME:
 			return -3
-		_Presets.BRONZE:
-			return 5
+		_Presets.SLIM:
+			return -2
+		_Presets.IRON:
+			return 0
 		_Presets.ANTI_MONSTER:
 			return 3
-		_Presets.STEEL:
-			return 8
 		_Presets.KILLER:
+			return 4
+		_Presets.BRONZE:
 			return 5
 		_Presets.REAVER, _Presets.BRAVE:
 			return 7
+		_Presets.STEEL:
+			return 8
 		_Presets.SILVER:
 			return 12
 		_Presets.MASTER:
@@ -291,16 +291,16 @@ func _get_preset_might(preset: _Presets) -> float:
 
 func _get_preset_weight(preset: _Presets) -> float:
 	match preset:
-		_Presets.IRON:
-			return 0
 		_Presets.SLIM:
 			return -2
 		_Presets.TRAINING, _Presets.MEME:
 			return -1
-		_Presets.BRONZE:
-			return 2
+		_Presets.IRON:
+			return 0
 		_Presets.STEEL, _Presets.KILLER:
 			return 1
+		_Presets.BRONZE:
+			return 2
 		_Presets.ANTI_MONSTER, _Presets.REAVER, _Presets.SILVER, _Presets.BRAVE:
 			return 3
 		_Presets.MASTER, _Presets.DIAMOND:
@@ -313,18 +313,18 @@ func _get_preset_weight(preset: _Presets) -> float:
 
 func _get_preset_hit(preset: _Presets) -> float:
 	match preset:
-		_Presets.IRON, _Presets.TRAINING, _Presets.ANTI_MONSTER, _Presets.STEEL:
-			return 0
-		_Presets.MEME, _Presets.BRONZE:
-			return -5
-		_Presets.SLIM:
-			return INF
-		_Presets.KILLER, _Presets.SILVER, _Presets.STATUS:
-			return 5
-		_Presets.BRAVE:
-			return -5
 		_Presets.REAVER, _Presets.MASTER, _Presets.DIAMOND:
 			return -10
+		_Presets.MEME, _Presets.BRONZE, _Presets.BRAVE:
+			return -5
+		_Presets.IRON, _Presets.TRAINING, _Presets.ANTI_MONSTER, _Presets.STEEL:
+			return 0
+		_Presets.SILVER, _Presets.STATUS:
+			return 5
+		_Presets.KILLER:
+			return 10
+		_Presets.SLIM:
+			return INF
 		_:
 			return 0
 
@@ -341,14 +341,14 @@ func _get_preset_crit(preset: _Presets) -> float:
 
 func _get_preset_price(preset: _Presets) -> int:
 	match preset:
+		_Presets.MEME:
+			return 4
+		_Presets.TRAINING:
+			return 7
 		_Presets.IRON:
 			return 10
 		_Presets.SLIM:
 			return 12
-		_Presets.TRAINING:
-			return 7
-		_Presets.MEME:
-			return 4
 		_Presets.BRONZE:
 			return 20
 		_Presets.ANTI_MONSTER:
@@ -373,20 +373,20 @@ func _get_preset_price(preset: _Presets) -> int:
 
 func _get_preset_durability(preset: _Presets) -> int:
 	match preset:
-		_Presets.IRON, _Presets.MEME:
-			return 20
-		_Presets.SLIM, _Presets.BRONZE, _Presets.MASTER:
-			return 30
-		_Presets.TRAINING, _Presets.DIAMOND:
-			return 50
-		_Presets.ANTI_MONSTER, _Presets.KILLER, _Presets.SILVER:
-			return 25
-		_Presets.STEEL:
-			return 40
-		_Presets.REAVER, _Presets.BRAVE:
-			return 15
 		_Presets.STATUS:
 			return 10
+		_Presets.REAVER, _Presets.BRAVE:
+			return 15
+		_Presets.IRON, _Presets.MEME:
+			return 20
+		_Presets.ANTI_MONSTER, _Presets.KILLER, _Presets.SILVER:
+			return 25
+		_Presets.SLIM, _Presets.BRONZE, _Presets.MASTER:
+			return 30
+		_Presets.STEEL:
+			return 40
+		_Presets.TRAINING, _Presets.DIAMOND:
+			return 50
 		_:
 			return 0
 

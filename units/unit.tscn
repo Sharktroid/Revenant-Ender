@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://klwwp0vjyw6"]
+[gd_scene format=4 uid="uid://klwwp0vjyw6"]
 
 [ext_resource type="Script" uid="uid://dni8eqk7vw67d" path="res://units/unit.gd" id="1"]
 [ext_resource type="Shader" uid="uid://bcq4v4cx3y05u" path="res://shaders/palette.gdshader" id="1_w0fnt"]
@@ -156,7 +156,7 @@ _data = {
 &"display": SubResource("Animation_ivfw2")
 }
 
-[node name="Unit" type="Sprite2D"]
+[node name="Unit" type="Sprite2D" unique_id=987086119]
 texture_filter = 1
 material = SubResource("ShaderMaterial_lgtg6")
 centered = false
@@ -165,41 +165,37 @@ hframes = 4
 vframes = 5
 script = ExtResource("1")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_ygx8q")
-}
-autoplay = "idle"
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=257636008]
+libraries/ = SubResource("AnimationLibrary_ygx8q")
+autoplay = &"idle"
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=2035020922]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=509140482]
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_xx66i")
 debug_color = Color(0, 0.6, 0.701961, 0)
 
-[node name="HealthBar" parent="." instance=ExtResource("2")]
+[node name="HealthBar" parent="." unique_id=412880024 instance=ExtResource("2")]
 visible = false
 offset_top = 12.0
 offset_bottom = 13.0
 max_value = 0.0
 value = 0.0
 
-[node name="Status" type="Sprite2D" parent="."]
+[node name="Status" type="Sprite2D" parent="." unique_id=1031007127]
 position = Vector2(0, -16)
 centered = false
 
-[node name="TravelerIcon" type="Sprite2D" parent="."]
+[node name="TravelerIcon" type="Sprite2D" parent="." unique_id=1134226840]
 visible = false
 position = Vector2(8, 8)
 texture = ExtResource("5_k1iet")
 centered = false
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="TravelerIcon"]
-libraries = {
-&"": SubResource("AnimationLibrary_6eaww")
-}
-autoplay = "RESET"
+[node name="AnimationPlayer" type="AnimationPlayer" parent="TravelerIcon" unique_id=1704361999]
+libraries/ = SubResource("AnimationLibrary_6eaww")
+autoplay = &"RESET"
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]

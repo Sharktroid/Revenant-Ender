@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://b7h3kn7yes57v"]
+[gd_scene format=3 uid="uid://b7h3kn7yes57v"]
 
 [ext_resource type="Shader" uid="uid://ctjxbrraqu7yj" path="res://backgrounds/scrolling_bg.gdshader" id="2_8b6pk"]
 [ext_resource type="Texture2D" uid="uid://dda11nhxypald" path="res://ui/theme/status_screen_background.png" id="2_g7y1c"]
@@ -16,14 +16,14 @@ shader_parameter/starting_offset = Vector2(0, 0)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pbu75"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
-[node name="ScrollingImage" type="ReferenceRect"]
+[node name="ScrollingImage" type="ReferenceRect" unique_id=1957707562]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="BaseColor" type="Panel" parent="."]
+[node name="BaseColor" type="Panel" parent="." unique_id=635419694]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -33,10 +33,10 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_hj53u")
 
-[node name="Features" type="CanvasGroup" parent="."]
+[node name="Features" type="CanvasGroup" parent="." unique_id=648495619]
 material = SubResource("ShaderMaterial_paan6")
 
-[node name="PlaceholderPanel" type="Panel" parent="Features"]
+[node name="PlaceholderPanel" type="Panel" parent="Features" unique_id=692228057]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -44,7 +44,7 @@ offset_right = 512.0
 offset_bottom = 288.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_pbu75")
 
-[node name="TextureRect" type="TextureRect" parent="Features"]
+[node name="TextureRect" type="TextureRect" parent="Features" unique_id=1885934321]
 offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("2_g7y1c")

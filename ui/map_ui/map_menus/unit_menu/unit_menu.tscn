@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://i3a0mes5l4au"]
+[gd_scene format=3 uid="uid://i3a0mes5l4au"]
 
 [ext_resource type="PackedScene" uid="uid://b4a6n61tdijwj" path="res://ui/map_ui/map_menus/map_menu.tscn" id="1_dy0ek"]
 [ext_resource type="Script" uid="uid://btfpruggnfugb" path="res://ui/map_ui/map_menus/unit_menu/unit_menu.gd" id="2_amlfl"]
 
-[node name="UnitMenu" instance=ExtResource("1_dy0ek")]
+[node name="UnitMenu" unique_id=1396588573 instance=ExtResource("1_dy0ek")]
 script = ExtResource("2_amlfl")

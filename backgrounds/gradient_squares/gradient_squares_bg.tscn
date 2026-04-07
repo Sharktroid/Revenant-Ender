@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://dnhly0ep5sh1c"]
+[gd_scene format=3 uid="uid://dnhly0ep5sh1c"]
 
 [ext_resource type="PackedScene" uid="uid://b5rhtmfvnnqvb" path="res://backgrounds/animated_background.tscn" id="1_okkpa"]
 [ext_resource type="Shader" uid="uid://bu241butcj7sk" path="res://backgrounds/horizontal_distortion.gdshader" id="2_vp38p"]
@@ -12,68 +12,68 @@ shader_parameter/time_frequency = 1.0
 shader_parameter/split = false
 shader_parameter/wrap_around = true
 
-[node name="GradientSquaresBG" instance=ExtResource("1_okkpa")]
+[node name="GradientSquaresBG" unique_id=1220468963 instance=ExtResource("1_okkpa")]
 script = ExtResource("3_0kjv6")
 
-[node name="Features" parent="." index="1"]
+[node name="Features" parent="." index="1" unique_id=392418706]
 material = SubResource("ShaderMaterial_1f5bo")
 
-[node name="Polygon2D" type="Polygon2D" parent="Features" index="0"]
+[node name="Polygon2D" type="Polygon2D" parent="Features" index="0" unique_id=1985008171]
 position = Vector2(32, 96)
-color = Color(0.782, 0, 1, 1)
+color = Color(0, 1, 0.829, 1)
 polygon = PackedVector2Array(0, 0, 32, 0, 32, 32, 0, 32)
 
-[node name="Polygon2D2" type="Polygon2D" parent="Features" index="1"]
+[node name="Polygon2D2" type="Polygon2D" parent="Features" index="1" unique_id=535940486]
 position = Vector2(176, 192)
-color = Color(0.782, 0, 1, 1)
+color = Color(0, 1, 0.829, 1)
 polygon = PackedVector2Array(0, 0, 32, 0, 32, 32, 0, 32)
 
-[node name="Polygon2D3" type="Polygon2D" parent="Features" index="2"]
+[node name="Polygon2D3" type="Polygon2D" parent="Features" index="2" unique_id=886381752]
 position = Vector2(224, 48)
-color = Color(0.782, 0, 1, 1)
+color = Color(0, 1, 0.829, 1)
 polygon = PackedVector2Array(0, 0, 32, 0, 32, 32, 0, 32)
 
-[node name="Polygon2D4" type="Polygon2D" parent="Features" index="3"]
+[node name="Polygon2D4" type="Polygon2D" parent="Features" index="3" unique_id=870324495]
 position = Vector2(128, 112)
-color = Color(0.782, 0, 1, 1)
+color = Color(0, 1, 0.829, 1)
 polygon = PackedVector2Array(0, 0, 32, 0, 32, 32, 0, 32)
 
-[node name="Polygon2D5" type="Polygon2D" parent="Features" index="4"]
+[node name="Polygon2D5" type="Polygon2D" parent="Features" index="4" unique_id=1608074453]
 position = Vector2(64, 224)
-color = Color(0.782, 0, 1, 1)
+color = Color(0, 1, 0.829, 1)
 polygon = PackedVector2Array(0, 0, 32, 0, 32, 32, 0, 32)
 
-[node name="Polygon2D6" type="Polygon2D" parent="Features" index="5"]
+[node name="Polygon2D6" type="Polygon2D" parent="Features" index="5" unique_id=853945563]
 position = Vector2(320, 240)
-color = Color(0.782, 0, 1, 1)
+color = Color(0, 1, 0.829, 1)
 polygon = PackedVector2Array(0, 0, 32, 0, 32, 32, 0, 32)
 
-[node name="Polygon2D7" type="Polygon2D" parent="Features" index="6"]
+[node name="Polygon2D7" type="Polygon2D" parent="Features" index="6" unique_id=1258307863]
 position = Vector2(256, 144)
-color = Color(0.782, 0, 1, 1)
+color = Color(0, 1, 0.829, 1)
 polygon = PackedVector2Array(0, 0, 32, 0, 32, 32, 0, 32)
 
-[node name="Polygon2D8" type="Polygon2D" parent="Features" index="7"]
+[node name="Polygon2D8" type="Polygon2D" parent="Features" index="7" unique_id=1351244947]
 position = Vector2(336, 64)
-color = Color(0.782, 0, 1, 1)
+color = Color(0, 1, 0.829, 1)
 polygon = PackedVector2Array(0, 0, 32, 0, 32, 32, 0, 32)
 
-[node name="Polygon2D9" type="Polygon2D" parent="Features" index="8"]
+[node name="Polygon2D9" type="Polygon2D" parent="Features" index="8" unique_id=762608820]
 position = Vector2(416, 208)
-color = Color(0.782, 0, 1, 1)
+color = Color(0, 1, 0.829, 1)
 polygon = PackedVector2Array(0, 0, 32, 0, 32, 32, 0, 32)
 
-[node name="Polygon2D10" type="Polygon2D" parent="Features" index="9"]
+[node name="Polygon2D10" type="Polygon2D" parent="Features" index="9" unique_id=2144156446]
 position = Vector2(448, 16)
-color = Color(0.782, 0, 1, 1)
+color = Color(0, 1, 0.829, 1)
 polygon = PackedVector2Array(0, 0, 32, 0, 32, 32, 0, 32)
 
-[node name="Polygon2D11" type="Polygon2D" parent="Features" index="10"]
+[node name="Polygon2D11" type="Polygon2D" parent="Features" index="10" unique_id=294671786]
 position = Vector2(400, 128)
-color = Color(0.782, 0, 1, 1)
+color = Color(0, 1, 0.829, 1)
 polygon = PackedVector2Array(0, 0, 32, 0, 32, 32, 0, 32)
 
-[node name="Polygon2D12" type="Polygon2D" parent="Features" index="11"]
+[node name="Polygon2D12" type="Polygon2D" parent="Features" index="11" unique_id=1275239767]
 position = Vector2(80, 32)
-color = Color(0.782, 0, 1, 1)
+color = Color(0, 1, 0.829, 1)
 polygon = PackedVector2Array(0, 0, 32, 0, 32, 32, 0, 32)

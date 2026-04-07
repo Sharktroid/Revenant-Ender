@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=4 uid="uid://ik2ok030xc12"]
+[gd_scene format=4 uid="uid://ik2ok030xc12"]
 
 [ext_resource type="Shader" uid="uid://bkolnjqkoxg7r" path="res://shaders/gba_palette.gdshader" id="1_niiq4"]
 [ext_resource type="Texture2D" uid="uid://cpgnstcm4ku5j" path="res://ui/combat_panel/attack_arrow/attack_arrow.png" id="1_o0yc7"]
@@ -10,37 +10,37 @@ shader_parameter/darken_screen = 0.5
 shader_parameter/old_colors = PackedVector4Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 shader_parameter/new_colors = PackedVector4Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
-[node name="AttackArrow" type="HBoxContainer"]
+[node name="AttackArrow" type="HBoxContainer" unique_id=719512621]
 offset_right = 157.0
 offset_bottom = 16.0
 size_flags_horizontal = 4
 theme_override_constants/separation = 2
 script = ExtResource("1_tb23t")
 
-[node name="LeftSymbol" type="TextureRect" parent="."]
+[node name="LeftSymbol" type="TextureRect" parent="." unique_id=1284972518]
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 
-[node name="LeftDamage" type="Label" parent="."]
+[node name="LeftDamage" type="Label" parent="." unique_id=243958010]
 custom_minimum_size = Vector2(18, 0)
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="ArrowCenterer" type="CenterContainer" parent="."]
+[node name="ArrowCenterer" type="CenterContainer" parent="." unique_id=2044956946]
 layout_mode = 2
 
-[node name="Arrow" type="TextureRect" parent="ArrowCenterer"]
+[node name="Arrow" type="TextureRect" parent="ArrowCenterer" unique_id=1062921375]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_fpdjf")
 layout_mode = 2
 texture = ExtResource("1_o0yc7")
 stretch_mode = 2
 
-[node name="RightDamage" type="Label" parent="."]
+[node name="RightDamage" type="Label" parent="." unique_id=1169910368]
 custom_minimum_size = Vector2(18, 0)
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="RightSymbol" type="TextureRect" parent="."]
+[node name="RightSymbol" type="TextureRect" parent="." unique_id=1324018684]
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2

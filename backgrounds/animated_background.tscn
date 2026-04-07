@@ -1,18 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://b5rhtmfvnnqvb"]
+[gd_scene format=3 uid="uid://b5rhtmfvnnqvb"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hj53u"]
 bg_color = Color(0, 0, 0.25098, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_774e6"]
 
-[node name="AnimatedBackground" type="ReferenceRect"]
+[node name="AnimatedBackground" type="ReferenceRect" unique_id=431129129]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="BaseColor" type="Panel" parent="."]
+[node name="BaseColor" type="Panel" parent="." unique_id=139035928]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,5 +21,5 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_hj53u")
 
-[node name="Features" type="CanvasGroup" parent="."]
+[node name="Features" type="CanvasGroup" parent="." unique_id=392418706]
 material = SubResource("ShaderMaterial_774e6")

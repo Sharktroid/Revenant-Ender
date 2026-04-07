@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dfm25r0ju5214"]
+[gd_scene format=3 uid="uid://dfm25r0ju5214"]
 
 [ext_resource type="Script" uid="uid://bukqqxqd0n5dt" path="res://ui/map_ui/status_screen/status_screen.gd" id="1_2pcwt"]
 [ext_resource type="PackedScene" uid="uid://b7h3kn7yes57v" path="res://backgrounds/scrolling_image/scrolling_image.tscn" id="1_fu38b"]
@@ -14,7 +14,7 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 anti_aliasing = false
 
-[node name="StatusScreen" type="ReferenceRect"]
+[node name="StatusScreen" type="ReferenceRect" unique_id=933592825]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -23,12 +23,12 @@ grow_vertical = 2
 focus_mode = 2
 script = ExtResource("1_2pcwt")
 
-[node name="ScrollingImage" parent="." instance=ExtResource("1_fu38b")]
+[node name="ScrollingImage" parent="." unique_id=720986443 instance=ExtResource("1_fu38b")]
 visible = false
 layout_mode = 1
 mouse_filter = 1
 
-[node name="MenuScreen" type="HBoxContainer" parent="."]
+[node name="MenuScreen" type="HBoxContainer" parent="." unique_id=780979040]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -36,23 +36,23 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Constant" type="VBoxContainer" parent="MenuScreen"]
+[node name="Constant" type="VBoxContainer" parent="MenuScreen" unique_id=1989819011]
 layout_mode = 2
 theme_override_constants/separation = 1
 
-[node name="PortraitBackgroundContainer" type="MarginContainer" parent="MenuScreen/Constant"]
+[node name="PortraitBackgroundContainer" type="MarginContainer" parent="MenuScreen/Constant" unique_id=1531295209]
 layout_mode = 2
 theme_override_constants/margin_left = 2
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 6
 
-[node name="PortraitBackground" type="TextureRect" parent="MenuScreen/Constant/PortraitBackgroundContainer"]
+[node name="PortraitBackground" type="TextureRect" parent="MenuScreen/Constant/PortraitBackgroundContainer" unique_id=386564853]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 texture = ExtResource("2_hydo1")
 
-[node name="UnitDescription" type="BoxContainer" parent="MenuScreen/Constant/PortraitBackgroundContainer/PortraitBackground"]
+[node name="UnitDescription" type="BoxContainer" parent="MenuScreen/Constant/PortraitBackgroundContainer/PortraitBackground" unique_id=1761558981]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 30.0
@@ -63,13 +63,13 @@ focus_neighbor_bottom = NodePath("../../../Container/HighStatsBackground/HighSta
 script = ExtResource("4_g30x5")
 help_description = "PLACEHOLDER"
 
-[node name="UnitName" type="Label" parent="MenuScreen/Constant/PortraitBackgroundContainer/PortraitBackground/UnitDescription"]
+[node name="UnitName" type="Label" parent="MenuScreen/Constant/PortraitBackgroundContainer/PortraitBackground/UnitDescription" unique_id=1047123894]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 horizontal_alignment = 1
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="MenuScreen/Constant/PortraitBackgroundContainer/PortraitBackground"]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="MenuScreen/Constant/PortraitBackgroundContainer/PortraitBackground" unique_id=693583577]
 layout_mode = 0
 offset_left = 6.0
 offset_top = 4.0
@@ -77,24 +77,24 @@ offset_right = 86.0
 offset_bottom = 76.0
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="MenuScreen/Constant/PortraitBackgroundContainer/PortraitBackground/SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="MenuScreen/Constant/PortraitBackgroundContainer/PortraitBackground/SubViewportContainer" unique_id=2145684712]
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(80, 72)
 render_target_update_mode = 4
 
-[node name="Portrait" type="Sprite2D" parent="MenuScreen/Constant/PortraitBackgroundContainer/PortraitBackground/SubViewportContainer/SubViewport"]
+[node name="Portrait" type="Sprite2D" parent="MenuScreen/Constant/PortraitBackgroundContainer/PortraitBackground/SubViewportContainer/SubViewport" unique_id=2051674644]
 unique_name_in_owner = true
 position = Vector2(0, 1)
 centered = false
 script = ExtResource("5_a0q8g")
 
-[node name="Container" type="ReferenceRect" parent="MenuScreen/Constant"]
+[node name="Container" type="ReferenceRect" parent="MenuScreen/Constant" unique_id=1602072386]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 1
 
-[node name="HighStatsBackground" type="PanelContainer" parent="MenuScreen/Constant/Container"]
+[node name="HighStatsBackground" type="PanelContainer" parent="MenuScreen/Constant/Container" unique_id=1703351349]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -104,19 +104,19 @@ size_flags_vertical = 3
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_8vmos")
 
-[node name="HighStatsMargins" type="MarginContainer" parent="MenuScreen/Constant/Container/HighStatsBackground"]
+[node name="HighStatsMargins" type="MarginContainer" parent="MenuScreen/Constant/Container/HighStatsBackground" unique_id=351225123]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="HighStatsContainer" type="VBoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins"]
+[node name="HighStatsContainer" type="VBoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins" unique_id=1130068102]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="ClassDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer"]
+[node name="ClassDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer" unique_id=1768645937]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_top = NodePath("../../../../../PortraitBackgroundContainer/PortraitBackground/UnitDescription")
@@ -124,13 +124,13 @@ focus_neighbor_bottom = NodePath("../LevelContainer")
 script = ExtResource("4_g30x5")
 help_description = "PLACEHOLDER"
 
-[node name="ClassName" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/ClassDescription"]
+[node name="ClassName" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/ClassDescription" unique_id=1930984639]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 1
 text = "Cavalier"
 
-[node name="LevelContainer" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer"]
+[node name="LevelContainer" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer" unique_id=570563853]
 layout_mode = 2
 size_flags_vertical = 4
 focus_neighbor_top = NodePath("../ClassDescription")
@@ -139,33 +139,33 @@ script = ExtResource("4_g30x5")
 help_description = "Determines a unit's Stats and whether they can promote.
 The first number is the current level, the second is the maximum level."
 
-[node name="LevelLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/LevelContainer"]
+[node name="LevelLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/LevelContainer" unique_id=1522193854]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Level"
 
-[node name="CurrentLevel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/LevelContainer"]
+[node name="CurrentLevel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/LevelContainer" unique_id=2015499944]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "1"
 
-[node name="Separator" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/LevelContainer"]
+[node name="Separator" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/LevelContainer" unique_id=2071707362]
 layout_mode = 2
 theme_type_variation = &"YellowLabel"
 text = "/"
 
-[node name="MaxLevel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/LevelContainer"]
+[node name="MaxLevel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/LevelContainer" unique_id=513643358]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "1"
 
-[node name="EXPContainer" type="HBoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer"]
+[node name="EXPContainer" type="HBoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer" unique_id=474612033]
 layout_mode = 2
 
-[node name="EXPDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/EXPContainer"]
+[node name="EXPDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/EXPContainer" unique_id=165797972]
 layout_mode = 2
 size_flags_horizontal = 2
 size_flags_vertical = 4
@@ -175,13 +175,13 @@ focus_neighbor_bottom = NodePath("../../HitPointsContainer/HitPointsDescription"
 script = ExtResource("4_g30x5")
 help_description = "Experience. Used to bring the unit's level up. The value is the percentage to the next level."
 
-[node name="EXPLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/EXPContainer/EXPDescription"]
+[node name="EXPLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/EXPContainer/EXPDescription" unique_id=1126117496]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "EXP"
 
-[node name="EXPStatHelp" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/EXPContainer"]
+[node name="EXPStatHelp" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/EXPContainer" unique_id=2039712208]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
@@ -191,21 +191,21 @@ focus_neighbor_bottom = NodePath("../../HitPointsContainer/HitPointsStatHelp")
 theme_override_constants/separation = 0
 script = ExtResource("4_g30x5")
 
-[node name="EXPPercent" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/EXPContainer/EXPStatHelp"]
+[node name="EXPPercent" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/EXPContainer/EXPStatHelp" unique_id=568519130]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "99"
 
-[node name="PercentLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/EXPContainer/EXPStatHelp"]
+[node name="PercentLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/EXPContainer/EXPStatHelp" unique_id=515569990]
 layout_mode = 2
 theme_type_variation = &"YellowLabel"
 text = "%"
 
-[node name="HitPointsContainer" type="HBoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer"]
+[node name="HitPointsContainer" type="HBoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer" unique_id=312495328]
 layout_mode = 2
 
-[node name="HitPointsDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/HitPointsContainer"]
+[node name="HitPointsDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/HitPointsContainer" unique_id=1384358976]
 layout_mode = 2
 size_flags_horizontal = 2
 focus_neighbor_top = NodePath("../../EXPContainer/EXPDescription")
@@ -215,13 +215,13 @@ script = ExtResource("4_g30x5")
 help_description = "When this value reaches 0, the unit dies.
 The first value is the current value, the second is the maximum."
 
-[node name="HPLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/HitPointsContainer/HitPointsDescription"]
+[node name="HPLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/HitPointsContainer/HitPointsDescription" unique_id=2007536009]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Hit Points"
 
-[node name="HitPointsStatHelp" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/HitPointsContainer"]
+[node name="HitPointsStatHelp" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/HitPointsContainer" unique_id=401073949]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath("../HitPointsDescription")
@@ -229,27 +229,27 @@ focus_neighbor_top = NodePath("../../EXPContainer/EXPStatHelp")
 focus_neighbor_bottom = NodePath("../../AttackContainer/AttackDescription")
 script = ExtResource("4_g30x5")
 
-[node name="Current" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/HitPointsContainer/HitPointsStatHelp"]
+[node name="Current" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/HitPointsContainer/HitPointsStatHelp" unique_id=1001190353]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "21"
 
-[node name="Separator" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/HitPointsContainer/HitPointsStatHelp"]
+[node name="Separator" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/HitPointsContainer/HitPointsStatHelp" unique_id=2050826741]
 layout_mode = 2
 theme_type_variation = &"YellowLabel"
 text = "/"
 
-[node name="MaxHitPoints" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/HitPointsContainer/HitPointsStatHelp"]
+[node name="MaxHitPoints" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/HitPointsContainer/HitPointsStatHelp" unique_id=1762804306]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "21"
 
-[node name="AttackContainer" type="HBoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer"]
+[node name="AttackContainer" type="HBoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer" unique_id=1502950916]
 layout_mode = 2
 
-[node name="AttackLabelDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/AttackContainer"]
+[node name="AttackLabelDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/AttackContainer" unique_id=1048286017]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 2
@@ -259,13 +259,13 @@ focus_neighbor_bottom = NodePath("../../ASContainer/ASLabelDescription")
 script = ExtResource("4_g30x5")
 help_description = "The unit's current attack."
 
-[node name="AttackLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/AttackContainer/AttackLabelDescription"]
+[node name="AttackLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/AttackContainer/AttackLabelDescription" unique_id=533023805]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Attack"
 
-[node name="AttackDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/AttackContainer"]
+[node name="AttackDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/AttackContainer" unique_id=1433714459]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath("../AttackLabelDescription")
@@ -273,16 +273,16 @@ focus_neighbor_top = NodePath("../../HitPointsContainer/HitPointsStatHelp")
 focus_neighbor_bottom = NodePath("../../ASContainer/ASDescription")
 script = ExtResource("4_g30x5")
 
-[node name="AttackValue" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/AttackContainer/AttackDescription"]
+[node name="AttackValue" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/AttackContainer/AttackDescription" unique_id=263307778]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "21"
 
-[node name="ASContainer" type="HBoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer"]
+[node name="ASContainer" type="HBoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer" unique_id=688582382]
 layout_mode = 2
 
-[node name="ASLabelDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/ASContainer"]
+[node name="ASLabelDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/ASContainer" unique_id=1726276863]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 2
@@ -292,13 +292,13 @@ focus_neighbor_bottom = NodePath("../../HitContainer/HitLabelDescription")
 script = ExtResource("4_g30x5")
 help_description = "The unit's speed after factoring in weapon weight."
 
-[node name="ASLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/ASContainer/ASLabelDescription"]
+[node name="ASLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/ASContainer/ASLabelDescription" unique_id=1214585784]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Attack Speed"
 
-[node name="ASDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/ASContainer"]
+[node name="ASDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/ASContainer" unique_id=1348931205]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath("../ASLabelDescription")
@@ -306,16 +306,16 @@ focus_neighbor_top = NodePath("../../AttackContainer/AttackDescription")
 focus_neighbor_bottom = NodePath("../../HitContainer/HitDescription")
 script = ExtResource("4_g30x5")
 
-[node name="ASValue" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/ASContainer/ASDescription"]
+[node name="ASValue" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/ASContainer/ASDescription" unique_id=139228247]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "21"
 
-[node name="HitContainer" type="HBoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer"]
+[node name="HitContainer" type="HBoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer" unique_id=726513208]
 layout_mode = 2
 
-[node name="HitLabelDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/HitContainer"]
+[node name="HitLabelDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/HitContainer" unique_id=957350292]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 2
@@ -325,13 +325,13 @@ focus_neighbor_bottom = NodePath("../../AvoidContainer/AvoidLabelDescription")
 script = ExtResource("4_g30x5")
 help_description = "The unit's current hit rate when attacking."
 
-[node name="HitLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/HitContainer/HitLabelDescription"]
+[node name="HitLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/HitContainer/HitLabelDescription" unique_id=258323082]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Hit"
 
-[node name="HitDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/HitContainer"]
+[node name="HitDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/HitContainer" unique_id=2035681882]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath("../HitLabelDescription")
@@ -339,16 +339,16 @@ focus_neighbor_top = NodePath("../../ASContainer/ASDescription")
 focus_neighbor_bottom = NodePath("../../AvoidContainer/AvoidDescription")
 script = ExtResource("4_g30x5")
 
-[node name="HitValue" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/HitContainer/HitDescription"]
+[node name="HitValue" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/HitContainer/HitDescription" unique_id=1579851052]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "21"
 
-[node name="AvoidContainer" type="HBoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer"]
+[node name="AvoidContainer" type="HBoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer" unique_id=1873954246]
 layout_mode = 2
 
-[node name="AvoidLabelDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/AvoidContainer"]
+[node name="AvoidLabelDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/AvoidContainer" unique_id=1288913075]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 2
@@ -358,13 +358,13 @@ focus_neighbor_bottom = NodePath("../../CritContainer/CritLabelDescription")
 script = ExtResource("4_g30x5")
 help_description = "The unit's current avoid rate. Decreases attacker's hit rate."
 
-[node name="AvoidLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/AvoidContainer/AvoidLabelDescription"]
+[node name="AvoidLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/AvoidContainer/AvoidLabelDescription" unique_id=1491244550]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Avoid"
 
-[node name="AvoidDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/AvoidContainer"]
+[node name="AvoidDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/AvoidContainer" unique_id=1102786625]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath("../AvoidLabelDescription")
@@ -372,16 +372,16 @@ focus_neighbor_top = NodePath("../../HitContainer/HitDescription")
 focus_neighbor_bottom = NodePath("../../CritContainer/CritDescription")
 script = ExtResource("4_g30x5")
 
-[node name="AvoidValue" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/AvoidContainer/AvoidDescription"]
+[node name="AvoidValue" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/AvoidContainer/AvoidDescription" unique_id=1381402563]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "21"
 
-[node name="CritContainer" type="HBoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer"]
+[node name="CritContainer" type="HBoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer" unique_id=1477953063]
 layout_mode = 2
 
-[node name="CritLabelDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/CritContainer"]
+[node name="CritLabelDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/CritContainer" unique_id=183466626]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 2
@@ -391,13 +391,13 @@ focus_neighbor_bottom = NodePath("../../CriticalAvoidContainer/CriticalAvoidLabe
 script = ExtResource("4_g30x5")
 help_description = "Chance to get a critical hit."
 
-[node name="CritLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/CritContainer/CritLabelDescription"]
+[node name="CritLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/CritContainer/CritLabelDescription" unique_id=1425173537]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Critical Hit"
 
-[node name="CritDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/CritContainer"]
+[node name="CritDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/CritContainer" unique_id=2124221087]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath("../CritLabelDescription")
@@ -405,16 +405,16 @@ focus_neighbor_top = NodePath("../../AvoidContainer/AvoidDescription")
 focus_neighbor_bottom = NodePath("../../CriticalAvoidContainer/CriticalAvoidDescription")
 script = ExtResource("4_g30x5")
 
-[node name="CritValue" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/CritContainer/CritDescription"]
+[node name="CritValue" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/CritContainer/CritDescription" unique_id=1870516140]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "21"
 
-[node name="CriticalAvoidContainer" type="HBoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer"]
+[node name="CriticalAvoidContainer" type="HBoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer" unique_id=2004147900]
 layout_mode = 2
 
-[node name="CriticalAvoidLabelDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/CriticalAvoidContainer"]
+[node name="CriticalAvoidLabelDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/CriticalAvoidContainer" unique_id=1282395147]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 2
@@ -425,13 +425,13 @@ script = ExtResource("4_g30x5")
 help_description = "Critical avoidRate: decreases enemy's critical hit chance.
 If the resulting rate is below 5%, a critical can not occur."
 
-[node name="CriticalAvoidLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/CriticalAvoidContainer/CriticalAvoidLabelDescription"]
+[node name="CriticalAvoidLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/CriticalAvoidContainer/CriticalAvoidLabelDescription" unique_id=1110977437]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Critical avoid"
 
-[node name="CriticalAvoidDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/CriticalAvoidContainer"]
+[node name="CriticalAvoidDescription" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/CriticalAvoidContainer" unique_id=664551171]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath("../CriticalAvoidLabelDescription")
@@ -439,25 +439,25 @@ focus_neighbor_top = NodePath("../../CritContainer/CritDescription")
 focus_neighbor_bottom = NodePath("../../RangeContainer")
 script = ExtResource("4_g30x5")
 
-[node name="CriticalAvoidValue" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/CriticalAvoidContainer/CriticalAvoidDescription"]
+[node name="CriticalAvoidValue" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/CriticalAvoidContainer/CriticalAvoidDescription" unique_id=1400732935]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "21"
 
-[node name="RangeContainer" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer"]
+[node name="RangeContainer" type="BoxContainer" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer" unique_id=502047245]
 layout_mode = 2
 focus_neighbor_top = NodePath("../CriticalAvoidContainer/CriticalAvoidLabelDescription")
 script = ExtResource("4_g30x5")
 help_description = "The current range the unit can attack from."
 
-[node name="RangeLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/RangeContainer"]
+[node name="RangeLabel" type="Label" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/RangeContainer" unique_id=1588808772]
 layout_mode = 2
 size_flags_horizontal = 2
 theme_type_variation = &"YellowLabel"
 text = "Range"
 
-[node name="RangeValue" type="RichTextLabel" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/RangeContainer"]
+[node name="RangeValue" type="RichTextLabel" parent="MenuScreen/Constant/Container/HighStatsBackground/HighStatsMargins/HighStatsContainer/RangeContainer" unique_id=1056891980]
 unique_name_in_owner = true
 layout_mode = 2
 bbcode_enabled = true
@@ -465,16 +465,16 @@ text = "1-2"
 fit_content = true
 autowrap_mode = 0
 
-[node name="MenuTabs" type="TabContainer" parent="MenuScreen"]
+[node name="MenuTabs" type="TabContainer" parent="MenuScreen" unique_id=1147631752]
 layout_mode = 2
 size_flags_horizontal = 3
 current_tab = 0
 
-[node name="Statistics" parent="MenuScreen/MenuTabs" instance=ExtResource("3_a0hin")]
+[node name="Statistics" parent="MenuScreen/MenuTabs" unique_id=1393182620 instance=ExtResource("3_a0hin")]
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="Items" parent="MenuScreen/MenuTabs" instance=ExtResource("5_ogdan")]
+[node name="Items" parent="MenuScreen/MenuTabs" unique_id=1220900379 instance=ExtResource("5_ogdan")]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1

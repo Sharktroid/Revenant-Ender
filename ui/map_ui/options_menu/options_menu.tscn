@@ -1,13 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://b4o82uca6ghni"]
+[gd_scene format=3 uid="uid://b4o82uca6ghni"]
 
 [ext_resource type="Script" uid="uid://dkk4gy8v3y388" path="res://ui/map_ui/options_menu/options_menu.gd" id="1_tm77p"]
 [ext_resource type="PackedScene" uid="uid://b7h3kn7yes57v" path="res://backgrounds/scrolling_image/scrolling_image.tscn" id="1_wjtl7"]
 [ext_resource type="Texture2D" uid="uid://ddqy3s2ya11s8" path="res://ui/map_ui/options_menu/banner.png" id="2_do551"]
 [ext_resource type="PackedScene" uid="uid://c66fkxgtp6bw6" path="res://ui/selection_hand/selection_hand.tscn" id="4_e6mfi"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l17h1"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b4viv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b4viv"]
 content_margin_left = 10.0
@@ -22,10 +18,14 @@ corner_detail = 1
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ul5wy"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b4viv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l17h1"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sjuts"]
 bg_color = Color(0, 0, 0, 0.74902)
 
-[node name="OptionsMenu" type="Control"]
+[node name="OptionsMenu" type="Control" unique_id=1786288633]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,7 +34,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_tm77p")
 
-[node name="ScrollingImage" parent="." instance=ExtResource("1_wjtl7")]
+[node name="ScrollingImage" parent="." unique_id=848401309 instance=ExtResource("1_wjtl7")]
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
@@ -42,23 +42,23 @@ anchor_bottom = 0.0
 grow_horizontal = 1
 grow_vertical = 1
 
-[node name="TabBar" type="TabBar" parent="."]
+[node name="TabBar" type="TabBar" parent="." unique_id=1547918]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 137.0
 offset_right = 511.0
 offset_bottom = 24.0
-theme_override_styles/button_highlight = SubResource("StyleBoxEmpty_l17h1")
-theme_override_styles/button_pressed = SubResource("StyleBoxEmpty_b4viv")
 theme_override_styles/tab_selected = SubResource("StyleBoxFlat_b4viv")
 theme_override_styles/tab_focus = SubResource("StyleBoxEmpty_ul5wy")
+theme_override_styles/button_pressed = SubResource("StyleBoxEmpty_b4viv")
+theme_override_styles/button_highlight = SubResource("StyleBoxEmpty_l17h1")
 current_tab = 0
 tab_count = 3
 tab_0/title = "Main"
 tab_1/title = "Game"
 tab_2/title = "Debug"
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1699456041]
 custom_minimum_size = Vector2(0, 240)
 layout_mode = 1
 anchors_preset = 14
@@ -71,46 +71,46 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_sjuts")
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer" unique_id=951807345]
 layout_mode = 2
 theme_override_constants/margin_left = 23
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="ReferenceRect" type="ReferenceRect" parent="PanelContainer/MarginContainer"]
+[node name="ReferenceRect" type="ReferenceRect" parent="PanelContainer/MarginContainer" unique_id=1784891589]
 layout_mode = 2
 border_width = 2.0
 editor_only = false
 
-[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer" unique_id=808083944]
 unique_name_in_owner = true
 layout_mode = 2
 vertical_scroll_mode = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/ScrollContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/ScrollContainer" unique_id=1818203681]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="IconsList" type="VBoxContainer" parent="PanelContainer/MarginContainer/ScrollContainer/HBoxContainer"]
+[node name="IconsList" type="VBoxContainer" parent="PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=615170260]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="NamesList" type="VBoxContainer" parent="PanelContainer/MarginContainer/ScrollContainer/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 0
-
-[node name="SettingsList" type="VBoxContainer" parent="PanelContainer/MarginContainer/ScrollContainer/HBoxContainer"]
+[node name="NamesList" type="VBoxContainer" parent="PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=430478372]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="DescriptionContainer" type="PanelContainer" parent="."]
+[node name="SettingsList" type="VBoxContainer" parent="PanelContainer/MarginContainer/ScrollContainer/HBoxContainer" unique_id=1491412373]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="DescriptionContainer" type="PanelContainer" parent="." unique_id=555604157]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.2
@@ -122,12 +122,12 @@ offset_top = -0.0640259
 offset_right = 0.0239868
 offset_bottom = 0.0319824
 
-[node name="DescriptionLabel" type="Label" parent="DescriptionContainer"]
+[node name="DescriptionLabel" type="Label" parent="DescriptionContainer" unique_id=1961714845]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Placeholder"
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1163383221]
 layout_mode = 0
 offset_left = 2.0
 offset_top = 4.0
@@ -136,10 +136,10 @@ offset_bottom = 31.0
 texture = ExtResource("2_do551")
 stretch_mode = 2
 
-[node name="RowHand" parent="." instance=ExtResource("4_e6mfi")]
+[node name="RowHand" parent="." unique_id=1643601136 instance=ExtResource("4_e6mfi")]
 position = Vector2(24, 35)
 
-[node name="ColumnHand" parent="." instance=ExtResource("4_e6mfi")]
+[node name="ColumnHand" parent="." unique_id=1612644272 instance=ExtResource("4_e6mfi")]
 position = Vector2(120, 35)
 
 [connection signal="tab_clicked" from="TabBar" to="." method="_on_tab_bar_tab_clicked"]

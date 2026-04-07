@@ -38,6 +38,18 @@ func _select_item(item: MapMenuItem) -> void:
 			)
 			MapController.get_ui().add_child(DebugMenu.instantiate(_offset, self))
 
+		"Test":
+			const TEST_MODE: PackedScene = preload(
+				"res://controllers/map_controller/test_mode/test_mode.tscn"
+			)
+			MapController.get_ui().add_child(TEST_MODE.instantiate())
+
+		"Measure":
+			const MEASURE_MODE: PackedScene = preload(
+				"res://controllers/map_controller/measure_mode/measure_mode.tscn"
+			)
+			MapController.get_ui().add_child(MEASURE_MODE.instantiate())
+
 		"Options":
 			AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
 			const OPTIONS_MENU: PackedScene = preload(

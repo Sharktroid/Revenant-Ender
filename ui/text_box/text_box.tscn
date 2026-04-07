@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://dno116i3j6du0"]
+[gd_scene format=3 uid="uid://dno116i3j6du0"]
 
 [ext_resource type="PackedScene" uid="uid://dvyyy1vag5her" path="res://ui/text_box/text_box_background.tscn" id="1_qynup"]
 
@@ -8,7 +8,7 @@ content_margin_top = 1.0
 content_margin_right = 4.0
 content_margin_bottom = 4.0
 
-[node name="TextBox" type="RichTextLabel"]
+[node name="TextBox" type="RichTextLabel" unique_id=1514182473]
 custom_minimum_size = Vector2(42, 0)
 anchors_preset = 5
 anchor_left = 0.5
@@ -22,5 +22,5 @@ bbcode_enabled = true
 fit_content = true
 visible_characters_behavior = 1
 
-[node name="PanelContainer" parent="." instance=ExtResource("1_qynup")]
+[node name="PanelContainer" parent="." unique_id=351464647 instance=ExtResource("1_qynup")]
 layout_mode = 1

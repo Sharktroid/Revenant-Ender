@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://8gwj2xxrhmht"]
+[gd_scene format=3 uid="uid://8gwj2xxrhmht"]
 
 [ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit.tscn" id="1_x0tds"]
 [ext_resource type="Shader" uid="uid://bcq4v4cx3y05u" path="res://shaders/palette.gdshader" id="2_42wgt"]
@@ -11,8 +11,8 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_i565i"]
 shader = ExtResource("2_42wgt")
-shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
-shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.65, 0.0455, 0.156325, 1), Color(0.37, 0.1406, 0.18648, 1)])
+shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.65882355, 0.65882355, 0.59607846, 1), Color(0.28235295, 0.28235295, 0.2509804, 1), Color(0.6901961, 0.8156863, 0.972549, 1), Color(0.2509804, 0.28235295, 0.972549, 1), Color(0.0627451, 0.09411765, 0.3137255, 1), Color(0.1254902, 0.1254902, 0.15686275, 1), Color(0.84705883, 0.72156864, 0.5647059, 1), Color(0.5019608, 0.3764706, 0.28235295, 1), Color(0.03137255, 0.0627451, 0.1254902, 1), Color(0.8156863, 0.4392157, 0.1882353, 1), Color(0.47058824, 0.1882353, 0.09411765, 1)])
+shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.65882355, 0.65882355, 0.59607846, 1), Color(0.28235295, 0.28235295, 0.2509804, 1), Color(0.6901961, 0.8156863, 0.972549, 1), Color(0.2509804, 0.28235295, 0.972549, 1), Color(0.0627451, 0.09411765, 0.3137255, 1), Color(0.1254902, 0.1254902, 0.15686275, 1), Color(0.84705883, 0.72156864, 0.5647059, 1), Color(0.5019608, 0.3764706, 0.28235295, 1), Color(0.03137255, 0.0627451, 0.1254902, 1), Color(0.65, 0.0455, 0.156325, 1), Color(0.37, 0.1406, 0.18648, 1)])
 shader_parameter/white_percentage = 0.0
 
 [sub_resource type="Resource" id="Resource_r84p6"]
@@ -25,7 +25,7 @@ script = ExtResource("6_ou60j")
 resource_name = "Knight"
 script = ExtResource("2_am6bc")
 
-[node name="Alen" instance=ExtResource("1_x0tds")]
+[node name="Alen" unique_id=1005837302 instance=ExtResource("1_x0tds")]
 material = SubResource("ShaderMaterial_i565i")
 texture = ExtResource("3_qjqc5")
 script = ExtResource("2_k3lvx")

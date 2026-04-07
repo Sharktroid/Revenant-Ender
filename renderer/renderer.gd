@@ -33,7 +33,7 @@ func _notification(what: int) -> void:
 
 
 func _get_pixel_scale() -> int:
-	var scale_vector: Vector2 = DisplayServer.window_get_size() / Utilities.get_screen_size()
+	var scale_vector: Vector2 = Vector2(DisplayServer.window_get_size()) / Vector2(Utilities.get_screen_size())
 	return floori(minf(scale_vector.x, scale_vector.y))
 
 

@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://biwism7j44rrm"]
+
+[ext_resource type="Script" uid="uid://cl70pbbu7v4qx" path="res://controllers/map_controller/measure_mode.gd" id="1_pwtxu"]
+[ext_resource type="Shader" uid="uid://bo88g3h3w3rer" path="res://shaders/vignette.gdshader" id="1_y30tw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y1qlb"]
+shader = ExtResource("1_y30tw")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7pjws"]
+bg_color = Color(4.428029e-06, 0.65365356, 0.876221, 1)
+
+[node name="MeasureMode" type="Panel" unique_id=459882642]
+material = SubResource("ShaderMaterial_y1qlb")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7pjws")
+script = ExtResource("1_pwtxu")
+
+[node name="CostPanel" type="PanelContainer" parent="." unique_id=2007049977]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -7.0
+offset_top = 2.0
+offset_right = 1.0
+offset_bottom = 10.0
+grow_horizontal = 0
+
+[node name="CostLabel" type="Label" parent="CostPanel" unique_id=365688523]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TypePanel" type="PanelContainer" parent="." unique_id=1213792977]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -4.5
+offset_top = -24.0
+offset_right = 4.5
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="TypeLabel" type="Label" parent="TypePanel" unique_id=384001990]
+unique_name_in_owner = true
+layout_mode = 2

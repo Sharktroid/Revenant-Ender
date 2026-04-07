@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bf0k8bk8enjl2"]
+[gd_scene format=3 uid="uid://bf0k8bk8enjl2"]
 
 [ext_resource type="Script" uid="uid://deeeeny46idk5" path="res://ui/exp_bar/exp_bar.gd" id="1_8yggw"]
 [ext_resource type="Shader" uid="uid://b351kpgtvl0w8" path="res://ui/exp_bar/exp_bar.gdshader" id="1_mpy12"]
@@ -44,7 +44,7 @@ texture_margin_top = 4.0
 texture_margin_right = 4.0
 texture_margin_bottom = 4.0
 
-[node name="EXPBar" type="ReferenceRect"]
+[node name="EXPBar" type="ReferenceRect" unique_id=1018506571]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -52,7 +52,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_8yggw")
 
-[node name="VisibilityPanel" type="Panel" parent="."]
+[node name="VisibilityPanel" type="Panel" parent="." unique_id=1603870540]
 unique_name_in_owner = true
 clip_children = 1
 material = SubResource("ShaderMaterial_c4han")
@@ -67,7 +67,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_2a7ic")
 
-[node name="PanelContainer" type="PanelContainer" parent="VisibilityPanel"]
+[node name="PanelContainer" type="PanelContainer" parent="VisibilityPanel" unique_id=1766714757]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 1
 anchors_preset = 15
@@ -77,20 +77,20 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_7hmn0")
 
-[node name="MarginContainer" type="MarginContainer" parent="VisibilityPanel/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VisibilityPanel/PanelContainer" unique_id=322415854]
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_right = 5
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VisibilityPanel/PanelContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VisibilityPanel/PanelContainer/MarginContainer" unique_id=890031165]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="ReferenceRect" type="ReferenceRect" parent="VisibilityPanel/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="ReferenceRect" type="ReferenceRect" parent="VisibilityPanel/PanelContainer/MarginContainer/HBoxContainer" unique_id=1441901680]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Panel" type="Panel" parent="VisibilityPanel/PanelContainer/MarginContainer/HBoxContainer/ReferenceRect"]
+[node name="Panel" type="Panel" parent="VisibilityPanel/PanelContainer/MarginContainer/HBoxContainer/ReferenceRect" unique_id=1496582051]
 custom_minimum_size = Vector2(0, 5)
 layout_mode = 1
 anchors_preset = 14
@@ -101,7 +101,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_lb6jr")
 
-[node name="EXPBar" type="ProgressBar" parent="VisibilityPanel/PanelContainer/MarginContainer/HBoxContainer/ReferenceRect"]
+[node name="EXPBar" type="ProgressBar" parent="VisibilityPanel/PanelContainer/MarginContainer/HBoxContainer/ReferenceRect" unique_id=84414378]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 7)
 layout_mode = 1
@@ -119,7 +119,7 @@ theme_override_styles/fill = SubResource("StyleBoxTexture_xe3xn")
 value = 15.0
 show_percentage = false
 
-[node name="FillPanel" type="Panel" parent="VisibilityPanel/PanelContainer/MarginContainer/HBoxContainer/ReferenceRect"]
+[node name="FillPanel" type="Panel" parent="VisibilityPanel/PanelContainer/MarginContainer/HBoxContainer/ReferenceRect" unique_id=405446168]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(0, 7)
@@ -132,15 +132,15 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_opmxk")
 
-[node name="ExpValue" type="Label" parent="VisibilityPanel/PanelContainer/MarginContainer/HBoxContainer"]
+[node name="ExpValue" type="Label" parent="VisibilityPanel/PanelContainer/MarginContainer/HBoxContainer" unique_id=43973839]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 text = "100%"
 horizontal_alignment = 2
 
-[node name="TextureRect" type="TextureRect" parent="VisibilityPanel"]
-layout_mode = 2
+[node name="TextureRect" type="TextureRect" parent="VisibilityPanel" unique_id=1535331322]
+layout_mode = 0
 offset_left = 7.6
 offset_right = 31.6
 offset_bottom = 8.0

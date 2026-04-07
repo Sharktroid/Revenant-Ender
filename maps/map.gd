@@ -33,7 +33,10 @@ var _current_faction_index: int = 0
 # The [AStarGrids] that are used to generate movement paths
 var _cost_grids: Dictionary[UnitClass.MovementTypes, AStarGrid2D] = {}
 # The faction that last used a grid.
-var _grid_current_faction: Faction
+var _grid_current_faction: Faction:
+	set(value):
+		_grid_current_faction = value
+		_update_grid_current_faction()
 # The current turn.
 var _current_turn: int = 1
 var _selected_unit: Unit
@@ -267,14 +270,15 @@ func display_highlighted_tiles(tiles: Set, unit: Unit, type: TileTypes) -> Node2
 ## Gets the movement path to navigate from the starting point to the destination.
 func get_movement_path(
 	movement_type: UnitClass.MovementTypes,
-	starting_point: Vector2i,
-	destination: Vector2i,
+	starting_point: Vector2,
+	destination: Vector2,
 	faction: Faction
 ) -> Array[Vector2i]:
 	if faction != _grid_current_faction:
 		_grid_current_faction = faction
-		_update_grid_current_faction()
 	var movement_grid: AStarGrid2D = _cost_grids[movement_type]
+	_update_grid_current_faction()
+	#@warning_ignore("integer_division")
 	if (
 		movement_grid.is_in_boundsv(starting_point / 16)
 		and movement_grid.is_in_boundsv(destination / 16)
@@ -291,10 +295,9 @@ func get_movement_path(
 func get_path_cost(movement_type: UnitClass.MovementTypes, path: Array[Vector2i]) -> float:
 	if path.is_empty():
 		return INF
-	path.remove_at(0)
 	var sum: Callable = func(accumulator: float, cell: Vector2i) -> float:
 		return accumulator + get_terrain_cost(movement_type, cell)
-	return path.reduce(sum, 0)
+	return path.slice(1).reduce(sum, 0)
 
 
 ## Gets all units.
@@ -307,7 +310,7 @@ func get_units() -> Array[Unit]:
 
 
 ## Updates the terrain cost at a position.
-func update_position_terrain_cost(pos: Vector2i) -> void:
+func update_position_terrain_cost(pos: Vector2) -> void:
 	for movement_type: UnitClass.MovementTypes in _cost_grids.keys():
 		var a_star_grid: AStarGrid2D = _cost_grids[movement_type]
 		var point_id: Vector2i = pos / 16
@@ -394,6 +397,15 @@ func get_unit_relative(unit: Unit, rel_index: int) -> Unit:
 	return faction_units[(faction_units.find(unit) + rel_index) % faction_units.size()]
 
 
+func draw_path(path: Array[Vector2i]) -> CanvasGroup:
+	var container := CanvasGroup.new()
+	if path.size() > 1:
+		for index: int in path.size():
+			container.add_child(MovementArrow.instantiate(path, index))
+		get_child(0).add_child(container)
+	return container
+
+
 ## Shows the status screen for the unit the cursor is hovering over.
 func _create_status_screen() -> void:
 	AudioPlayer.play_sound_effect(AudioPlayer.SoundEffects.MENU_SELECT)
@@ -436,7 +448,7 @@ func _intro() -> void:
 	await get_tree().process_frame
 
 
-func _get_terrain(coords: Vector2i) -> String:
+func _get_terrain(coords: Vector2) -> String:
 	## Gets the name of the terrain at the tile at position "coords"
 	if not borders.has_point(coords):
 		return "Blocked"
@@ -620,7 +632,7 @@ func _update_grid_current_faction() -> void:
 	for movement_type: UnitClass.MovementTypes in _cost_grids.keys():
 		for unit: Unit in get_units():
 			(_cost_grids[movement_type] as AStarGrid2D).set_point_solid(
-				unit.position / 16, not unit.faction.is_friend(_grid_current_faction)
+				unit.position / 16, not unit.faction.is_friend(_grid_current_faction) and unit.visible
 			)
 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://j17i2dfs4bgi"]
+[gd_scene format=3 uid="uid://j17i2dfs4bgi"]
 
 [ext_resource type="Texture2D" uid="uid://crfr0u4x5xmdw" path="res://ui/theme/stat_bar_background.png" id="1_8j7hy"]
 [ext_resource type="Script" uid="uid://ce30wypxkxigl" path="res://ui/progress_bar/numeric_progress_bar.gd" id="1_aics6"]
@@ -52,7 +52,7 @@ fill_to = Vector2(0, 1)
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_b7mme"]
 texture = SubResource("GradientTexture2D_7enxp")
 
-[node name="NumericProgressBar" type="ReferenceRect"]
+[node name="NumericProgressBar" type="ReferenceRect" unique_id=1920185608]
 custom_minimum_size = Vector2(0, 16)
 offset_right = 48.0
 offset_bottom = 16.0
@@ -60,7 +60,7 @@ size_flags_horizontal = 0
 mouse_filter = 1
 script = ExtResource("1_aics6")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1116284749]
 custom_minimum_size = Vector2(0, 2)
 layout_mode = 1
 anchors_preset = 14
@@ -78,7 +78,7 @@ theme_override_constants/margin_top = 1
 theme_override_constants/margin_right = 2
 theme_override_constants/margin_bottom = 1
 
-[node name="ProgressBarRed" type="ProgressBar" parent="MarginContainer"]
+[node name="ProgressBarRed" type="ProgressBar" parent="MarginContainer" unique_id=9513323]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 2)
 layout_mode = 2
@@ -90,7 +90,7 @@ max_value = 3.0
 value = 3.0
 show_percentage = false
 
-[node name="ProgressBarGreen" type="ProgressBar" parent="MarginContainer"]
+[node name="ProgressBarGreen" type="ProgressBar" parent="MarginContainer" unique_id=1065562670]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(0, 2)
@@ -103,7 +103,7 @@ max_value = 3.0
 value = 3.0
 show_percentage = false
 
-[node name="ProgressBarYellow" type="ProgressBar" parent="MarginContainer"]
+[node name="ProgressBarYellow" type="ProgressBar" parent="MarginContainer" unique_id=673085834]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 2)
 layout_mode = 2
@@ -114,7 +114,7 @@ theme_override_styles/fill = SubResource("StyleBoxTexture_b7mme")
 max_value = 3.0
 show_percentage = false
 
-[node name="ValueLabel" type="Label" parent="."]
+[node name="ValueLabel" type="Label" parent="." unique_id=871887247]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://wouoek0ybw4b"]
+[gd_scene format=3 uid="uid://wouoek0ybw4b"]
 
 [ext_resource type="Script" uid="uid://cblvw46p43n1a" path="res://controllers/attack controller/map_combat_subdisplay/map_hp_bar.gd" id="1_u2v3x"]
 
@@ -89,19 +89,19 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 anti_aliasing = false
 
-[node name="MapHPBar" type="ReferenceRect"]
+[node name="MapHPBar" type="ReferenceRect" unique_id=348164673]
 custom_minimum_size = Vector2(80, 31)
 size_flags_horizontal = 4
 size_flags_vertical = 8
 script = ExtResource("1_u2v3x")
 metadata/_edit_vertical_guides_ = [0.0]
 
-[node name="BGClipping" type="Polygon2D" parent="."]
+[node name="BGClipping" type="Polygon2D" parent="." unique_id=311913617]
 clip_children = 1
 position = Vector2(8, 0)
 polygon = PackedVector2Array(62, 1, 63, 2, 63, 9, 70, 9, 70, 29, -6, 29, -6, 9, 1, 9, 1, 2, 2, 1)
 
-[node name="BGGradient" type="Panel" parent="BGClipping"]
+[node name="BGGradient" type="Panel" parent="BGClipping" unique_id=1724991141]
 unique_name_in_owner = true
 anchors_preset = 15
 anchor_right = 1.0
@@ -114,11 +114,11 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_14saj")
 
-[node name="HPContainerClipping" type="Polygon2D" parent="."]
+[node name="HPContainerClipping" type="Polygon2D" parent="." unique_id=1713612346]
 clip_children = 1
 polygon = PackedVector2Array(0, 7, 8, 7, 8, 16, 72, 16, 72, 7, 80, 7, 80, 31, 0, 31)
 
-[node name="HPContainer" type="PanelContainer" parent="HPContainerClipping"]
+[node name="HPContainer" type="PanelContainer" parent="HPContainerClipping" unique_id=1697621037]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -131,21 +131,21 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_wj2m5")
 
-[node name="InnerBorder" type="PanelContainer" parent="HPContainerClipping/HPContainer"]
+[node name="InnerBorder" type="PanelContainer" parent="HPContainerClipping/HPContainer" unique_id=189140065]
 show_behind_parent = true
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_ytev7")
 
-[node name="MarginContainer" type="MarginContainer" parent="HPContainerClipping/HPContainer/InnerBorder"]
+[node name="MarginContainer" type="MarginContainer" parent="HPContainerClipping/HPContainer/InnerBorder" unique_id=1086676494]
 layout_mode = 2
 theme_override_constants/margin_left = 2
 theme_override_constants/margin_right = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HPContainerClipping/HPContainer/InnerBorder/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HPContainerClipping/HPContainer/InnerBorder/MarginContainer" unique_id=1959534826]
 layout_mode = 2
 size_flags_vertical = 8
 
-[node name="HPLabel" type="Label" parent="HPContainerClipping/HPContainer/InnerBorder/MarginContainer/HBoxContainer"]
+[node name="HPLabel" type="Label" parent="HPContainerClipping/HPContainer/InnerBorder/MarginContainer/HBoxContainer" unique_id=282314690]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(12, 0)
 layout_mode = 2
@@ -153,21 +153,21 @@ size_flags_vertical = 8
 text = "44"
 horizontal_alignment = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="HPContainerClipping/HPContainer/InnerBorder/MarginContainer/HBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="HPContainerClipping/HPContainer/InnerBorder/MarginContainer/HBoxContainer" unique_id=910876933]
 custom_minimum_size = Vector2(0, 6)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_vsdp4")
 
-[node name="MarginContainer" type="MarginContainer" parent="HPContainerClipping/HPContainer/InnerBorder/MarginContainer/HBoxContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="HPContainerClipping/HPContainer/InnerBorder/MarginContainer/HBoxContainer/PanelContainer" unique_id=57771802]
 layout_mode = 2
 theme_override_constants/margin_left = 1
 theme_override_constants/margin_top = 1
 theme_override_constants/margin_right = 1
 theme_override_constants/margin_bottom = 1
 
-[node name="HPBar" type="ProgressBar" parent="HPContainerClipping/HPContainer/InnerBorder/MarginContainer/HBoxContainer/PanelContainer/MarginContainer"]
+[node name="HPBar" type="ProgressBar" parent="HPContainerClipping/HPContainer/InnerBorder/MarginContainer/HBoxContainer/PanelContainer/MarginContainer" unique_id=1476650080]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 1
@@ -176,14 +176,14 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_7pxta")
 value = 50.0
 show_percentage = false
 
-[node name="NameContainer" type="PanelContainer" parent="."]
+[node name="NameContainer" type="PanelContainer" parent="." unique_id=486150604]
 layout_mode = 0
 offset_left = 8.0
 offset_right = 72.0
 offset_bottom = 16.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_w8jql")
 
-[node name="Name" type="Label" parent="NameContainer"]
+[node name="Name" type="Label" parent="NameContainer" unique_id=2096286073]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Wolt"

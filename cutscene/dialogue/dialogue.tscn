@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://hkir2r0iq8u7"]
+[gd_scene format=3 uid="uid://hkir2r0iq8u7"]
 
 [ext_resource type="Script" uid="uid://cbjortygtvn83" path="res://cutscene/dialogue/dialogue.gd" id="1_m6kta"]
 [ext_resource type="PackedScene" uid="uid://dvyyy1vag5her" path="res://ui/text_box/text_box_background.tscn" id="2_b8pm7"]
@@ -21,7 +21,7 @@ gradient = SubResource("Gradient_1paxs")
 texture = SubResource("GradientTexture1D_wjq6m")
 axis_stretch_horizontal = 1
 
-[node name="Dialogue" type="ReferenceRect"]
+[node name="Dialogue" type="ReferenceRect" unique_id=570811898]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -30,10 +30,10 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_m6kta")
 
-[node name="MarginContainerTop" type="MarginContainer" parent="."]
+[node name="MarginContainerTop" type="MarginContainer" parent="." unique_id=563731577]
 visible = false
 custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
+layout_mode = 0
 anchor_top = 0.326
 anchor_right = 1.0
 anchor_bottom = 0.326
@@ -44,31 +44,31 @@ size_flags_vertical = 3
 theme_override_constants/margin_left = 1
 theme_override_constants/margin_right = 1
 
-[node name="PanelContainer" parent="MarginContainerTop" instance=ExtResource("2_b8pm7")]
+[node name="PanelContainer" parent="MarginContainerTop" unique_id=633315591 instance=ExtResource("2_b8pm7")]
 layout_mode = 2
 mouse_filter = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainerTop/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainerTop/PanelContainer" unique_id=2001564407]
 layout_mode = 2
 theme_override_constants/margin_left = 2
 theme_override_constants/margin_top = 2
 theme_override_constants/margin_right = 2
 theme_override_constants/margin_bottom = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainerTop/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainerTop/PanelContainer/MarginContainer" unique_id=68144626]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="ClippingPanel" type="Panel" parent="MarginContainerTop/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="ClippingPanel" type="Panel" parent="MarginContainerTop/PanelContainer/MarginContainer/VBoxContainer" unique_id=503110022]
 clip_children = 1
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_jki18")
 
-[node name="TopTextBox" type="RichTextLabel" parent="MarginContainerTop/PanelContainer/MarginContainer/VBoxContainer/ClippingPanel"]
+[node name="TopTextBox" type="RichTextLabel" parent="MarginContainerTop/PanelContainer/MarginContainer/VBoxContainer/ClippingPanel" unique_id=609675940]
 unique_name_in_owner = true
-layout_mode = 2
+layout_mode = 0
 offset_right = 504.0
 offset_bottom = 90.0
 mouse_filter = 1
@@ -76,18 +76,18 @@ theme_override_constants/line_separation = -2
 fit_content = true
 scroll_active = false
 
-[node name="TopName" type="RichTextLabel" parent="MarginContainerTop/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="TopName" type="RichTextLabel" parent="MarginContainerTop/PanelContainer/MarginContainer/VBoxContainer" unique_id=619720771]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 8
 mouse_filter = 1
 
-[node name="ReferenceRect" type="ReferenceRect" parent="MarginContainerTop/PanelContainer/MarginContainer"]
+[node name="ReferenceRect" type="ReferenceRect" parent="MarginContainerTop/PanelContainer/MarginContainer" unique_id=868453972]
 layout_mode = 2
 mouse_filter = 1
 
-[node name="Line2D" type="Panel" parent="MarginContainerTop/PanelContainer/MarginContainer/ReferenceRect"]
+[node name="Line2D" type="Panel" parent="MarginContainerTop/PanelContainer/MarginContainer/ReferenceRect" unique_id=1592683346]
 material = SubResource("ShaderMaterial_mfi7y")
 custom_minimum_size = Vector2(0, 1)
 layout_mode = 1
@@ -103,10 +103,10 @@ offset_bottom = -0.0400009
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxTexture_u8lc8")
 
-[node name="MarginContainerBottom" type="MarginContainer" parent="."]
+[node name="MarginContainerBottom" type="MarginContainer" parent="." unique_id=850328492]
 visible = false
 custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
+layout_mode = 0
 anchor_top = 0.674
 anchor_right = 1.0
 anchor_bottom = 0.674
@@ -116,36 +116,36 @@ size_flags_vertical = 3
 theme_override_constants/margin_left = 1
 theme_override_constants/margin_right = 1
 
-[node name="PanelContainer" parent="MarginContainerBottom" instance=ExtResource("2_b8pm7")]
+[node name="PanelContainer" parent="MarginContainerBottom" unique_id=206292239 instance=ExtResource("2_b8pm7")]
 layout_mode = 2
 mouse_filter = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainerBottom/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainerBottom/PanelContainer" unique_id=221065235]
 layout_mode = 2
 theme_override_constants/margin_left = 2
 theme_override_constants/margin_top = 1
 theme_override_constants/margin_right = 2
 theme_override_constants/margin_bottom = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainerBottom/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainerBottom/PanelContainer/MarginContainer" unique_id=1744222133]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="BottomName" type="RichTextLabel" parent="MarginContainerBottom/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="BottomName" type="RichTextLabel" parent="MarginContainerBottom/PanelContainer/MarginContainer/VBoxContainer" unique_id=857201474]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 size_flags_vertical = 8
 mouse_filter = 1
 
-[node name="ClippingPanel" type="Panel" parent="MarginContainerBottom/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="ClippingPanel" type="Panel" parent="MarginContainerBottom/PanelContainer/MarginContainer/VBoxContainer" unique_id=1014740658]
 clip_children = 1
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_jki18")
 
-[node name="BottomTextBox" type="RichTextLabel" parent="MarginContainerBottom/PanelContainer/MarginContainer/VBoxContainer/ClippingPanel"]
+[node name="BottomTextBox" type="RichTextLabel" parent="MarginContainerBottom/PanelContainer/MarginContainer/VBoxContainer/ClippingPanel" unique_id=1348699910]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -157,11 +157,11 @@ mouse_filter = 1
 theme_override_constants/line_separation = -2
 scroll_active = false
 
-[node name="ReferenceRect" type="ReferenceRect" parent="MarginContainerBottom/PanelContainer/MarginContainer"]
+[node name="ReferenceRect" type="ReferenceRect" parent="MarginContainerBottom/PanelContainer/MarginContainer" unique_id=1446659589]
 layout_mode = 2
 mouse_filter = 1
 
-[node name="Line2D" type="Panel" parent="MarginContainerBottom/PanelContainer/MarginContainer/ReferenceRect"]
+[node name="Line2D" type="Panel" parent="MarginContainerBottom/PanelContainer/MarginContainer/ReferenceRect" unique_id=1775027839]
 material = SubResource("ShaderMaterial_mfi7y")
 custom_minimum_size = Vector2(0, 1)
 layout_mode = 1
@@ -176,16 +176,16 @@ mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxTexture_u8lc8")
 metadata/_edit_use_anchors_ = true
 
-[node name="Portraits" type="ReferenceRect" parent="."]
+[node name="Portraits" type="ReferenceRect" parent="." unique_id=2047373929]
 custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
+layout_mode = 0
 offset_top = 94.0
 offset_right = 512.0
 offset_bottom = 194.0
 size_flags_vertical = 4
 mouse_filter = 2
 
-[node name="TopBubblePoint" type="TextureRect" parent="."]
+[node name="TopBubblePoint" type="TextureRect" parent="." unique_id=2111743263]
 visible = false
 layout_mode = 1
 offset_left = 238.0
@@ -196,7 +196,7 @@ texture = ExtResource("4_fn0qd")
 stretch_mode = 2
 flip_v = true
 
-[node name="BottomBubblePoint" type="TextureRect" parent="."]
+[node name="BottomBubblePoint" type="TextureRect" parent="." unique_id=301913964]
 visible = false
 layout_mode = 1
 offset_left = 238.0

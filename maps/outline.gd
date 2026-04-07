@@ -35,14 +35,13 @@ func _create_outline_tile(
 	tile_color.a = 0.5
 	line_color.a = 0.5
 	draw_rect(Rect2(coords, Vector2i(16, 16)), tile_color, true)
-
-	if all_coords.has(coords + Vector2(-16, 0)):
+	if not all_coords.has(Vector2i(coords + Vector2(-16, 0))):
 		draw_line(Vector2(0.5, 0) + coords, Vector2(0.5, 16) + coords, line_color, 1)
-	if all_coords.has(coords + Vector2(0, -16)):
+	if not all_coords.has(Vector2i(coords + Vector2(0, -16))):
 		draw_line(Vector2(0, 0.5) + coords, Vector2(16, 0.5) + coords, line_color, 1)
-	if all_coords.has(coords + Vector2(16, 0)):
+	if not all_coords.has(Vector2i(coords + Vector2(16, 0))):
 		draw_line(Vector2(15.5, 0) + coords, Vector2(15.5, 16) + coords, line_color, 1)
-	if all_coords.has(coords + Vector2(16, 0)):
+	if not all_coords.has(Vector2i(coords + Vector2(0, 16))):
 		draw_line(Vector2(0, 15.5) + coords, Vector2(16, 15.5) + coords, line_color, 1)
 
 

@@ -1,151 +1,151 @@
-[gd_scene load_steps=4 format=3 uid="uid://dl5b1nrmjmryn"]
+[gd_scene format=3 uid="uid://dl5b1nrmjmryn"]
 
 [ext_resource type="Script" uid="uid://b10bygp37n6qe" path="res://ui/combat_panel/stats_panel/stats_panel.gd" id="1_7sbp3"]
 [ext_resource type="PackedScene" uid="uid://j17i2dfs4bgi" path="res://ui/progress_bar/numeric_progress_bar.tscn" id="1_mlmsi"]
 [ext_resource type="Script" uid="uid://bx56odjterwf1" path="res://ui/combat_panel/stats_panel/hp_progress_bar.gd" id="3_hp55l"]
 
-[node name="StatsPanel" type="PanelContainer"]
+[node name="StatsPanel" type="PanelContainer" unique_id=659882368]
 offset_right = 103.0
 offset_bottom = 72.0
 script = ExtResource("1_7sbp3")
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+[node name="VBoxContainer2" type="VBoxContainer" parent="." unique_id=2107145825]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="HPHBox" type="HBoxContainer" parent="VBoxContainer2"]
+[node name="HPHBox" type="HBoxContainer" parent="VBoxContainer2" unique_id=1913185130]
 layout_mode = 2
 
-[node name="HPNameLabel" type="Label" parent="VBoxContainer2/HPHBox"]
+[node name="HPNameLabel" type="Label" parent="VBoxContainer2/HPHBox" unique_id=89814864]
 layout_mode = 2
 theme_type_variation = &"YellowLabel"
 text = "HP:"
 
-[node name="HPLabel" type="Label" parent="VBoxContainer2/HPHBox"]
+[node name="HPLabel" type="Label" parent="VBoxContainer2/HPHBox" unique_id=763800239]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"BlueLabel"
 text = "25"
 
-[node name="HPProgressBar" parent="VBoxContainer2/HPHBox" instance=ExtResource("1_mlmsi")]
+[node name="HPProgressBar" parent="VBoxContainer2/HPHBox" unique_id=389425415 instance=ExtResource("1_mlmsi")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 script = ExtResource("3_hp55l")
 mode = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2" unique_id=2002069968]
 custom_minimum_size = Vector2(95, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/separation = 0
 
-[node name="DamageHBox" type="HBoxContainer" parent="VBoxContainer2/VBoxContainer"]
+[node name="DamageHBox" type="HBoxContainer" parent="VBoxContainer2/VBoxContainer" unique_id=526474953]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer2/VBoxContainer/DamageHBox"]
+[node name="Label" type="Label" parent="VBoxContainer2/VBoxContainer/DamageHBox" unique_id=1135573816]
 layout_mode = 2
 theme_type_variation = &"YellowLabel"
 text = "Damage:"
 
-[node name="DamageLabel" type="Label" parent="VBoxContainer2/VBoxContainer/DamageHBox"]
+[node name="DamageLabel" type="Label" parent="VBoxContainer2/VBoxContainer/DamageHBox" unique_id=1662316793]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
 theme_type_variation = &"BlueLabel"
 text = "25"
 
-[node name="AttackHBox" type="HBoxContainer" parent="VBoxContainer2/VBoxContainer"]
+[node name="AttackHBox" type="HBoxContainer" parent="VBoxContainer2/VBoxContainer" unique_id=1682920551]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Label" type="Label" parent="VBoxContainer2/VBoxContainer/AttackHBox"]
+[node name="Label" type="Label" parent="VBoxContainer2/VBoxContainer/AttackHBox" unique_id=1572538982]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"YellowLabel"
 text = "Attack:"
 
-[node name="AttackInitialLabel" type="Label" parent="VBoxContainer2/VBoxContainer/AttackHBox"]
+[node name="AttackInitialLabel" type="Label" parent="VBoxContainer2/VBoxContainer/AttackHBox" unique_id=936302986]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 theme_type_variation = &"BlueLabel"
 text = "25"
 
-[node name="AttackSlash" type="Label" parent="VBoxContainer2/VBoxContainer/AttackHBox"]
+[node name="AttackSlash" type="Label" parent="VBoxContainer2/VBoxContainer/AttackHBox" unique_id=1289921575]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 theme_type_variation = &"YellowLabel"
 text = "/"
 
-[node name="AttackSustainedLabel" type="Label" parent="VBoxContainer2/VBoxContainer/AttackHBox"]
+[node name="AttackSustainedLabel" type="Label" parent="VBoxContainer2/VBoxContainer/AttackHBox" unique_id=98421141]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 theme_type_variation = &"BlueLabel"
 text = "25"
 
-[node name="DefenseHBox" type="HBoxContainer" parent="VBoxContainer2/VBoxContainer"]
+[node name="DefenseHBox" type="HBoxContainer" parent="VBoxContainer2/VBoxContainer" unique_id=333205497]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer2/VBoxContainer/DefenseHBox"]
+[node name="Label" type="Label" parent="VBoxContainer2/VBoxContainer/DefenseHBox" unique_id=79827829]
 layout_mode = 2
 theme_type_variation = &"YellowLabel"
 text = "Defense:"
 
-[node name="DefenseLabel" type="Label" parent="VBoxContainer2/VBoxContainer/DefenseHBox"]
+[node name="DefenseLabel" type="Label" parent="VBoxContainer2/VBoxContainer/DefenseHBox" unique_id=1631971109]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
 theme_type_variation = &"BlueLabel"
 text = "25"
 
-[node name="HitHBox" type="HBoxContainer" parent="VBoxContainer2/VBoxContainer"]
+[node name="HitHBox" type="HBoxContainer" parent="VBoxContainer2/VBoxContainer" unique_id=1555708459]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer2/VBoxContainer/HitHBox"]
+[node name="Label" type="Label" parent="VBoxContainer2/VBoxContainer/HitHBox" unique_id=1969168447]
 layout_mode = 2
 theme_type_variation = &"YellowLabel"
 text = "Hit:"
 
-[node name="HitLabel" type="Label" parent="VBoxContainer2/VBoxContainer/HitHBox"]
+[node name="HitLabel" type="Label" parent="VBoxContainer2/VBoxContainer/HitHBox" unique_id=2139821961]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
 theme_type_variation = &"BlueLabel"
 text = "25"
 
-[node name="CriticalRateHBox" type="HBoxContainer" parent="VBoxContainer2/VBoxContainer"]
+[node name="CriticalRateHBox" type="HBoxContainer" parent="VBoxContainer2/VBoxContainer" unique_id=845048827]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer2/VBoxContainer/CriticalRateHBox"]
+[node name="Label" type="Label" parent="VBoxContainer2/VBoxContainer/CriticalRateHBox" unique_id=50197274]
 layout_mode = 2
 theme_type_variation = &"YellowLabel"
 text = "Critical Rate:"
 
-[node name="CriticalRateLabel" type="Label" parent="VBoxContainer2/VBoxContainer/CriticalRateHBox"]
+[node name="CriticalRateLabel" type="Label" parent="VBoxContainer2/VBoxContainer/CriticalRateHBox" unique_id=2142228728]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10
 theme_type_variation = &"BlueLabel"
 text = "25"
 
-[node name="AttackSpeedHBox" type="HBoxContainer" parent="VBoxContainer2/VBoxContainer"]
+[node name="AttackSpeedHBox" type="HBoxContainer" parent="VBoxContainer2/VBoxContainer" unique_id=1728773930]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer2/VBoxContainer/AttackSpeedHBox"]
+[node name="Label" type="Label" parent="VBoxContainer2/VBoxContainer/AttackSpeedHBox" unique_id=582341633]
 layout_mode = 2
 theme_type_variation = &"YellowLabel"
 text = "Attack Speed:"
 
-[node name="AttackSpeedLabel" type="Label" parent="VBoxContainer2/VBoxContainer/AttackSpeedHBox"]
+[node name="AttackSpeedLabel" type="Label" parent="VBoxContainer2/VBoxContainer/AttackSpeedHBox" unique_id=276585142]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10

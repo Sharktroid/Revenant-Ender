@@ -1,24 +1,24 @@
-[gd_scene load_steps=3 format=3 uid="uid://ci8e4u3byi58c"]
+[gd_scene format=3 uid="uid://ci8e4u3byi58c"]
 
 [ext_resource type="Script" uid="uid://c72fqalsgpd7p" path="res://ui/level_up_screen/stat_change.gd" id="1_gqxav"]
 [ext_resource type="PackedScene" uid="uid://bdjeg8jmudvyh" path="res://ui/level_up_screen/stat_arrow.tscn" id="1_txb0l"]
 
-[node name="StatChange" type="ReferenceRect"]
+[node name="StatChange" type="ReferenceRect" unique_id=1665048210]
 offset_right = 10.0
 offset_bottom = 16.0
 script = ExtResource("1_gqxav")
 
-[node name="Sign" type="Label" parent="."]
+[node name="Sign" type="Label" parent="." unique_id=44233051]
 z_index = 1
-layout_mode = 2
+layout_mode = 0
 offset_right = 6.0
 offset_bottom = 16.0
 theme_type_variation = &"YellowLabel"
 text = "+"
 
-[node name="Value" type="Label" parent="."]
+[node name="Value" type="Label" parent="." unique_id=711314723]
 z_index = 1
-layout_mode = 2
+layout_mode = 0
 offset_left = 6.0
 offset_right = 10.0
 offset_bottom = 16.0
@@ -26,7 +26,7 @@ theme_type_variation = &"YellowLabel"
 theme_override_colors/font_color = Color(1, 0.952941, 0.819608, 1)
 text = "1"
 
-[node name="ReferenceRect" type="ReferenceRect" parent="Value"]
+[node name="ReferenceRect" type="ReferenceRect" parent="Value" unique_id=1944999441]
 show_behind_parent = true
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 1
@@ -38,6 +38,6 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Arrow" parent="Value/ReferenceRect" instance=ExtResource("1_txb0l")]
+[node name="Arrow" parent="Value/ReferenceRect" unique_id=40350882 instance=ExtResource("1_txb0l")]
 show_behind_parent = true
 position = Vector2(-4, -10)

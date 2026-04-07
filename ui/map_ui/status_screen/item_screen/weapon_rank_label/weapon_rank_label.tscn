@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://xr2l7ndlhq6x"]
+[gd_scene format=3 uid="uid://xr2l7ndlhq6x"]
 
 [ext_resource type="Script" uid="uid://clednh61o0clx" path="res://ui/map_ui/status_screen/item_screen/weapon_rank_label/weapon_rank_label.gd" id="1_era26"]
 [ext_resource type="Texture2D" uid="uid://crfr0u4x5xmdw" path="res://ui/theme/stat_bar_background.png" id="2_0beyw"]
@@ -27,7 +27,7 @@ fill_to = Vector2(0, 1)
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bcb3e"]
 texture = SubResource("GradientTexture2D_stojy")
 
-[node name="WeaponRankLabel" type="BoxContainer"]
+[node name="WeaponRankLabel" type="BoxContainer" unique_id=1379216575]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -38,21 +38,21 @@ size_flags_vertical = 3
 script = ExtResource("1_era26")
 help_description = "This unit cannot wield weapons of this type"
 
-[node name="Icon" type="TextureRect" parent="."]
+[node name="Icon" type="TextureRect" parent="." unique_id=1816455961]
 custom_minimum_size = Vector2(17, 0)
 layout_mode = 2
 size_flags_vertical = 4
 texture = ExtResource("2_jrr1h")
 stretch_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1049325907]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 theme_override_constants/margin_left = 1
 theme_override_constants/margin_right = 1
 
-[node name="ProgressBar" type="ProgressBar" parent="MarginContainer"]
+[node name="ProgressBar" type="ProgressBar" parent="MarginContainer" unique_id=602504229]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -63,7 +63,7 @@ theme_override_styles/fill = SubResource("StyleBoxTexture_bcb3e")
 value = 10.0
 show_percentage = false
 
-[node name="Rank" type="Label" parent="MarginContainer/ProgressBar"]
+[node name="Rank" type="Label" parent="MarginContainer/ProgressBar" unique_id=1464505423]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8

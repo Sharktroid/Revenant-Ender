@@ -67,7 +67,10 @@ func set_diplomacy_stance(faction: Faction, new_stance: DiplomacyStances) -> voi
 
 ## Returns true if the other faction is friendly (is self or ally).
 func is_friend(other_faction: Faction) -> bool:
-	return get_diplomacy_stance(other_faction) in [DiplomacyStances.SELF, DiplomacyStances.ALLY]
+	if other_faction:
+		return get_diplomacy_stance(other_faction) in [DiplomacyStances.SELF, DiplomacyStances.ALLY]
+	else:
+		return true
 
 
 ## Gets the units that belong to the faction.

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bm8qo5r81mo2y"]
+[gd_scene format=3 uid="uid://bm8qo5r81mo2y"]
 
 [ext_resource type="PackedScene" uid="uid://b5rhtmfvnnqvb" path="res://backgrounds/animated_background.tscn" id="1_8xr0r"]
 [ext_resource type="Shader" uid="uid://bu241butcj7sk" path="res://backgrounds/horizontal_distortion.gdshader" id="2_fxdsw"]
@@ -35,21 +35,21 @@ shader_parameter/wrap_around = true
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ykwi7"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
-[node name="GradientLinesBG" instance=ExtResource("1_8xr0r")]
+[node name="GradientLinesBG" unique_id=270597665 instance=ExtResource("1_8xr0r")]
 
-[node name="Features" parent="." index="1"]
+[node name="Features" parent="." index="1" unique_id=392418706]
 material = SubResource("ShaderMaterial_vqmsm")
 
-[node name="LineContainer" type="Node2D" parent="Features" index="0"]
+[node name="LineContainer" type="Node2D" parent="Features" index="0" unique_id=2022496490]
 material = SubResource("ShaderMaterial_gfwqa")
 
-[node name="Line2D" type="Line2D" parent="Features/LineContainer" index="0"]
+[node name="Line2D" type="Line2D" parent="Features/LineContainer" index="0" unique_id=1019160992]
 use_parent_material = true
 points = PackedVector2Array(0, 0, 2, 2, 16, 16, 30, 30, 32, 32)
 width = 2.0
 gradient = SubResource("Gradient_tc1cb")
 
-[node name="Line2D2" type="Line2D" parent="Features/LineContainer" index="1"]
+[node name="Line2D2" type="Line2D" parent="Features/LineContainer" index="1" unique_id=1581692763]
 use_parent_material = true
 position = Vector2(64, 0)
 rotation = 1.5708
@@ -57,7 +57,7 @@ points = PackedVector2Array(0, 0, 2, 2, 16, 16, 30, 30, 32, 32)
 width = 2.0
 gradient = SubResource("Gradient_tc1cb")
 
-[node name="Line2D3" type="Line2D" parent="Features/LineContainer" index="2"]
+[node name="Line2D3" type="Line2D" parent="Features/LineContainer" index="2" unique_id=1206328649]
 use_parent_material = true
 position = Vector2(32, 32)
 rotation = 1.5708
@@ -65,14 +65,14 @@ points = PackedVector2Array(0, 0, 2, 2, 16, 16, 30, 30, 32, 32)
 width = 2.0
 gradient = SubResource("Gradient_tc1cb")
 
-[node name="Line2D4" type="Line2D" parent="Features/LineContainer" index="3"]
+[node name="Line2D4" type="Line2D" parent="Features/LineContainer" index="3" unique_id=722630951]
 use_parent_material = true
 position = Vector2(32, 32)
 points = PackedVector2Array(0, 0, 2, 2, 16, 16, 30, 30, 32, 32)
 width = 2.0
 gradient = SubResource("Gradient_tc1cb")
 
-[node name="PlaceholderPanel" type="Panel" parent="Features" index="1"]
+[node name="PlaceholderPanel" type="Panel" parent="Features" index="1" unique_id=871868757]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -82,7 +82,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_pbu75")
 
-[node name="Panel" type="Panel" parent="." index="2"]
+[node name="Panel" type="Panel" parent="." index="2" unique_id=783230453]
 material = SubResource("ShaderMaterial_ftjtc")
 layout_mode = 1
 anchors_preset = 15

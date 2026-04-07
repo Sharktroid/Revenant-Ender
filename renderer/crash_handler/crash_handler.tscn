@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://bdqknd8y6uw6s"]
+[gd_scene format=3 uid="uid://bdqknd8y6uw6s"]
 
 [ext_resource type="Script" uid="uid://bqol6c1lj8u2j" path="res://renderer/crash_handler/crash_handler.gd" id="1_g8cfs"]
 
-[node name="CrashHandler" type="Control"]
+[node name="CrashHandler" type="Control" unique_id=1831739024]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -13,7 +13,7 @@ grow_vertical = 2
 size_flags_vertical = 3
 script = ExtResource("1_g8cfs")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1778440623]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 5

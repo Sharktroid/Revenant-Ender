@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dvkbmwwrt5mmo"]
+[gd_scene format=3 uid="uid://dvkbmwwrt5mmo"]
 
 [ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit.tscn" id="1_lxmi0"]
 [ext_resource type="Script" uid="uid://b04733n3i2n5r" path="res://units/characters/binding blade/marcus/marcus.gd" id="2_716f4"]
@@ -11,9 +11,9 @@
 [ext_resource type="Script" uid="uid://ct5nf025t4s6l" path="res://items/weapons/spears/iron_spear/iron_spear.gd" id="9_a23ob"]
 [ext_resource type="Script" uid="uid://dya3s8phtivsv" path="res://skills/skill.gd" id="10_7dtq5"]
 [ext_resource type="Script" uid="uid://dlc4abqjrq8li" path="res://items/weapons/spears/heroic_spear/heroic_spear.gd" id="10_a23ob"]
-[ext_resource type="Script" uid="uid://cjno3p2bsnv14" path="res://skills/combat_art/sol.gd" id="12_hv3ym"]
+[ext_resource type="Script" uid="uid://b3ihvygrwfsog" path="res://skills/combat_art/dragonhaze.gd" id="11_7dtq5"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_7dtq5"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a23ob"]
 shader = ExtResource("2_r7bij")
 shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.65882355, 0.65882355, 0.59607846, 1), Color(0.28235295, 0.28235295, 0.2509804, 1), Color(0.6901961, 0.8156863, 0.972549, 1), Color(0.2509804, 0.28235295, 0.972549, 1), Color(0.0627451, 0.09411765, 0.3137255, 1), Color(0.1254902, 0.1254902, 0.15686275, 1), Color(0.84705883, 0.72156864, 0.5647059, 1), Color(0.5019608, 0.3764706, 0.28235295, 1), Color(0.03137255, 0.0627451, 0.1254902, 1), Color(0.8156863, 0.4392157, 0.1882353, 1), Color(0.47058824, 0.1882353, 0.09411765, 1)])
 shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.65882355, 0.65882355, 0.59607846, 1), Color(0.28235295, 0.28235295, 0.2509804, 1), Color(0.6901961, 0.8156863, 0.972549, 1), Color(0.2509804, 0.28235295, 0.972549, 1), Color(0.0627451, 0.09411765, 0.3137255, 1), Color(0.1254902, 0.1254902, 0.15686275, 1), Color(0.84705883, 0.72156864, 0.5647059, 1), Color(0.5019608, 0.3764706, 0.28235295, 1), Color(0.03137255, 0.0627451, 0.1254902, 1), Color(0.94768, 0.8544, 0.96, 1), Color(0.42075002, 0.4029, 0.51, 1)])
@@ -34,20 +34,15 @@ metadata/_custom_type_script = "uid://dlc4abqjrq8li"
 script = ExtResource("9_a23ob")
 metadata/_custom_type_script = "uid://ct5nf025t4s6l"
 
-[sub_resource type="GDScript" id="GDScript_a23ob"]
-
 [sub_resource type="Resource" id="Resource_hv3ym"]
-script = SubResource("GDScript_a23ob")
-
-[sub_resource type="Resource" id="Resource_quw5p"]
-script = ExtResource("12_hv3ym")
+script = ExtResource("11_7dtq5")
 
 [sub_resource type="Resource" id="Resource_udhl1"]
 resource_name = "Cavalier"
 script = ExtResource("5_eehvg")
 
-[node name="Marcus" instance=ExtResource("1_lxmi0")]
-material = SubResource("ShaderMaterial_7dtq5")
+[node name="Marcus" unique_id=738452452 instance=ExtResource("1_lxmi0")]
+material = SubResource("ShaderMaterial_a23ob")
 texture = ExtResource("3_b0khk")
 script = ExtResource("2_716f4")
 display_name = "Marcus"
@@ -55,7 +50,7 @@ unit_description = "A veteran paladin serving Pherae.
 Roy's instructor in combat."
 items = Array[ExtResource("6_gxow7")]([SubResource("Resource_co5aq"), SubResource("Resource_lfw4t"), SubResource("Resource_uc1xq"), SubResource("Resource_aii62")])
 _base_level = 5
-_personal_skills = Array[ExtResource("10_7dtq5")]([SubResource("Resource_hv3ym"), SubResource("Resource_quw5p")])
+_personal_skills = Array[ExtResource("10_7dtq5")]([SubResource("Resource_hv3ym")])
 unit_class = SubResource("Resource_udhl1")
 _custom_hair = true
 _hair_color_light = Color(0.94768, 0.8544, 0.96, 1)

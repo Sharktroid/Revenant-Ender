@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=4 uid="uid://bojpgvlm623qa"]
+[gd_scene format=4 uid="uid://bojpgvlm623qa"]
 
 [ext_resource type="Texture2D" uid="uid://c8787mfg6cymr" path="res://ui/combat_panel/name_panel/number_panel.png" id="1_1otkq"]
 [ext_resource type="Shader" uid="uid://bkolnjqkoxg7r" path="res://shaders/gba_palette.gdshader" id="1_dtftg"]
@@ -23,50 +23,50 @@ expand_margin_bottom = 1.0
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
-[node name="NamePanel" type="PanelContainer"]
+[node name="NamePanel" type="PanelContainer" unique_id=211194369]
 material = SubResource("ShaderMaterial_tk72q")
 offset_right = 81.0
 offset_bottom = 39.0
 theme_override_styles/panel = SubResource("StyleBoxTexture_ni8gi")
 script = ExtResource("2_axwhg")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1715399932]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/separation = 0
 
-[node name="UnitName" type="Label" parent="VBoxContainer"]
+[node name="UnitName" type="Label" parent="VBoxContainer" unique_id=1234327249]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Irashkalla"
 
-[node name="Item" type="HBoxContainer" parent="VBoxContainer"]
+[node name="Item" type="HBoxContainer" parent="VBoxContainer" unique_id=216888899]
 layout_mode = 2
 
-[node name="LeftArrow" type="Control" parent="VBoxContainer/Item"]
+[node name="LeftArrow" type="Control" parent="VBoxContainer/Item" unique_id=1427696317]
 custom_minimum_size = Vector2(8, 0)
 layout_mode = 2
 
-[node name="LeftArrow" parent="VBoxContainer/Item/LeftArrow" instance=ExtResource("3_tmfw0")]
+[node name="LeftArrow" parent="VBoxContainer/Item/LeftArrow" unique_id=222421780 instance=ExtResource("3_tmfw0")]
 unique_name_in_owner = true
 visible = false
 
-[node name="ItemIcon" type="TextureRect" parent="VBoxContainer/Item"]
+[node name="ItemIcon" type="TextureRect" parent="VBoxContainer/Item" unique_id=852269806]
 unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("2_xeovt")
 
-[node name="ItemNameLabel" type="Label" parent="VBoxContainer/Item"]
+[node name="ItemNameLabel" type="Label" parent="VBoxContainer/Item" unique_id=246504589]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Eclipse"
 
-[node name="RightArrow" type="Control" parent="VBoxContainer/Item"]
+[node name="RightArrow" type="Control" parent="VBoxContainer/Item" unique_id=1305294851]
 custom_minimum_size = Vector2(8, 0)
 layout_mode = 2
 
-[node name="RightArrow" parent="VBoxContainer/Item/RightArrow" instance=ExtResource("3_tmfw0")]
+[node name="RightArrow" parent="VBoxContainer/Item/RightArrow" unique_id=191239512 instance=ExtResource("3_tmfw0")]
 unique_name_in_owner = true
 visible = false
 flip_h = true

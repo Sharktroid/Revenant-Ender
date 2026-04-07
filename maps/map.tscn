@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bhm3c7lcoufva"]
+[gd_scene format=3 uid="uid://bhm3c7lcoufva"]
 
 [ext_resource type="Texture2D" uid="uid://danddgqa5wdg" path="res://maps/terrain.png" id="2_mr7yy"]
 [ext_resource type="Script" uid="uid://bovrnbni7v7gt" path="res://maps/outline.gd" id="3_iwlk5"]
@@ -54,50 +54,50 @@ tile_proxies/coords_level = [[0, Vector2i(0, 0)], [11, Vector2i(0, 0)], [1, Vect
 [sub_resource type="RectangleShape2D" id="9"]
 size = Vector2(7, 7)
 
-[node name="Map" type="ReferenceRect"]
+[node name="Map" type="ReferenceRect" unique_id=1479110684]
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="MapLayer" type="CanvasLayer" parent="."]
+[node name="MapLayer" type="CanvasLayer" parent="." unique_id=306909254]
 process_mode = 1
 layer = 0
 follow_viewport_enabled = true
 
-[node name="BaseLayer" type="TileMapLayer" parent="MapLayer"]
+[node name="BaseLayer" type="TileMapLayer" parent="MapLayer" unique_id=1926566585]
 
-[node name="TerrainLayer" type="TileMapLayer" parent="MapLayer"]
+[node name="TerrainLayer" type="TileMapLayer" parent="MapLayer" unique_id=1316415516]
 modulate = Color(1, 1, 1, 0.498039)
 tile_set = SubResource("10")
 
-[node name="Outline" type="Node2D" parent="MapLayer"]
+[node name="Outline" type="Node2D" parent="MapLayer" unique_id=1564247003]
 script = ExtResource("3_iwlk5")
 
-[node name="Units" type="Node2D" parent="MapLayer"]
+[node name="Units" type="Node2D" parent="MapLayer" unique_id=947176306]
 unique_name_in_owner = true
 y_sort_enabled = true
 
-[node name="CursorArea" type="Area2D" parent="MapLayer"]
+[node name="CursorArea" type="Area2D" parent="MapLayer" unique_id=1083613181]
 visible = false
 position = Vector2(-16, -16)
 script = ExtResource("3_qdi6q")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MapLayer/CursorArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapLayer/CursorArea" unique_id=639653277]
 visible = false
 position = Vector2(8, 8)
 shape = SubResource("9")
 
-[node name="DebugMapCursor" type="Polygon2D" parent="MapLayer/CursorArea"]
+[node name="DebugMapCursor" type="Polygon2D" parent="MapLayer/CursorArea" unique_id=472614420]
 color = Color(1, 1, 1, 0.498039)
 polygon = PackedVector2Array(0, 0, 16, 0, 16, 16, 0, 16)
 
-[node name="DebugBorderOverlayTileBase" type="Sprite2D" parent="MapLayer"]
+[node name="DebugBorderOverlayTileBase" type="Sprite2D" parent="MapLayer" unique_id=758426220]
 visible = false
 modulate = Color(0.95, 1, 0, 1)
 texture = ExtResource("5_6l8pp")
 centered = false
 
-[node name="DebugBorderOverlayContainer" type="CanvasGroup" parent="MapLayer"]
+[node name="DebugBorderOverlayContainer" type="CanvasGroup" parent="MapLayer" unique_id=177334468]
 
-[node name="MapCamera" type="Camera2D" parent="."]
+[node name="MapCamera" type="Camera2D" parent="." unique_id=897850494]
 anchor_mode = 0
 script = ExtResource("6_l2ruo")

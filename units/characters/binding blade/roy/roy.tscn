@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cuqamu0m16iep"]
+[gd_scene format=3 uid="uid://cuqamu0m16iep"]
 
 [ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit.tscn" id="1_334ru"]
 [ext_resource type="Shader" uid="uid://bcq4v4cx3y05u" path="res://shaders/palette.gdshader" id="2_fpafp"]
@@ -9,8 +9,10 @@
 [ext_resource type="Script" uid="uid://bs2ae61lglfoi" path="res://items/weapons/swords/runesword/runesword.gd" id="6_crnxp"]
 [ext_resource type="Script" uid="uid://cscx8hsvtodxd" path="res://items/weapons/swords/shadow_sword/shadow_sword.gd" id="7_bq2nc"]
 [ext_resource type="Script" uid="uid://ciiv3yqapeihw" path="res://items/weapons/swords/iron_sword/iron_sword.gd" id="8_64dns"]
+[ext_resource type="Script" uid="uid://dya3s8phtivsv" path="res://skills/skill.gd" id="9_crnxp"]
+[ext_resource type="Script" uid="uid://7twccdes3jy3" path="res://skills/warp.gd" id="10_bq2nc"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_mdtkw"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_87jdu"]
 shader = ExtResource("2_fpafp")
 shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.65882355, 0.65882355, 0.59607846, 1), Color(0.28235295, 0.28235295, 0.2509804, 1), Color(0.6901961, 0.8156863, 0.972549, 1), Color(0.2509804, 0.28235295, 0.972549, 1), Color(0.0627451, 0.09411765, 0.3137255, 1), Color(0.1254902, 0.1254902, 0.15686275, 1), Color(0.84705883, 0.72156864, 0.5647059, 1), Color(0.5019608, 0.3764706, 0.28235295, 1), Color(0.03137255, 0.0627451, 0.1254902, 1), Color(0.8156863, 0.4392157, 0.1882353, 1), Color(0.47058824, 0.1882353, 0.09411765, 1)])
 shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.65882355, 0.65882355, 0.59607846, 1), Color(0.28235295, 0.28235295, 0.2509804, 1), Color(0.6901961, 0.8156863, 0.972549, 1), Color(0.2509804, 0.28235295, 0.972549, 1), Color(0.0627451, 0.09411765, 0.3137255, 1), Color(0.1254902, 0.1254902, 0.15686275, 1), Color(0.84705883, 0.72156864, 0.5647059, 1), Color(0.5019608, 0.3764706, 0.28235295, 1), Color(0.03137255, 0.0627451, 0.1254902, 1), Color(0.89, 0.0445, 0.185417, 1), Color(0.49, 0.1078, 0.19061, 1)])
@@ -28,18 +30,22 @@ metadata/_custom_type_script = "uid://cscx8hsvtodxd"
 script = ExtResource("8_64dns")
 metadata/_custom_type_script = "uid://ciiv3yqapeihw"
 
+[sub_resource type="Resource" id="Resource_78gcb"]
+script = ExtResource("10_bq2nc")
+
 [sub_resource type="Resource" id="Resource_tt5sv"]
 resource_name = "Lord"
 script = ExtResource("5_uk2gd")
 
-[node name="Roy" instance=ExtResource("1_334ru")]
-material = SubResource("ShaderMaterial_mdtkw")
+[node name="Roy" unique_id=1070967761 instance=ExtResource("1_334ru")]
+material = SubResource("ShaderMaterial_87jdu")
 texture = ExtResource("3_1rpd5")
 script = ExtResource("4_cii6r")
 display_name = "Roy"
 unit_description = "The next heir to Pherae.
 The protagonist of this story."
 items = Array[ExtResource("5_mdtkw")]([SubResource("Resource_slbpq"), SubResource("Resource_iraxo"), SubResource("Resource_crnxp")])
+_personal_skills = Array[ExtResource("9_crnxp")]([SubResource("Resource_78gcb")])
 unit_class = SubResource("Resource_tt5sv")
 _custom_hair = true
 _hair_color_light = Color(0.89, 0.0445, 0.185417, 1)

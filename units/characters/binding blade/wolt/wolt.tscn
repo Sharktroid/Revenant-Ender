@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://8f0f7er5vqbo"]
+[gd_scene format=3 uid="uid://8f0f7er5vqbo"]
 
 [ext_resource type="PackedScene" uid="uid://klwwp0vjyw6" path="res://units/unit.tscn" id="1_7spn5"]
 [ext_resource type="Shader" uid="uid://bcq4v4cx3y05u" path="res://shaders/palette.gdshader" id="2_4nmmf"]
@@ -10,10 +10,10 @@
 [ext_resource type="Script" uid="uid://csxrbpmkcb6jk" path="res://items/weapons/bows/debug_bow/debug_bow.gd" id="7_yo3g6"]
 [ext_resource type="Script" uid="uid://yde8dwbgdj6c" path="res://items/weapons/bows/polis_sagittarii/polis_sagittarii.gd" id="8_svphs"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_4he0l"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_svphs"]
 shader = ExtResource("2_4nmmf")
-shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.815686, 0.439216, 0.188235, 1), Color(0.470588, 0.188235, 0.0941176, 1)])
-shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.658824, 0.658824, 0.596078, 1), Color(0.282353, 0.282353, 0.25098, 1), Color(0.690196, 0.815686, 0.972549, 1), Color(0.25098, 0.282353, 0.972549, 1), Color(0.0627451, 0.0941176, 0.313726, 1), Color(0.12549, 0.12549, 0.156863, 1), Color(0.847059, 0.721569, 0.564706, 1), Color(0.501961, 0.376471, 0.282353, 1), Color(0.0313726, 0.0627451, 0.12549, 1), Color(0.73, 0.715643, 0.2993, 1), Color(0.4, 0.3688, 0.296, 1)])
+shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.65882355, 0.65882355, 0.59607846, 1), Color(0.28235295, 0.28235295, 0.2509804, 1), Color(0.6901961, 0.8156863, 0.972549, 1), Color(0.2509804, 0.28235295, 0.972549, 1), Color(0.0627451, 0.09411765, 0.3137255, 1), Color(0.1254902, 0.1254902, 0.15686275, 1), Color(0.84705883, 0.72156864, 0.5647059, 1), Color(0.5019608, 0.3764706, 0.28235295, 1), Color(0.03137255, 0.0627451, 0.1254902, 1), Color(0.8156863, 0.4392157, 0.1882353, 1), Color(0.47058824, 0.1882353, 0.09411765, 1)])
+shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.65882355, 0.65882355, 0.59607846, 1), Color(0.28235295, 0.28235295, 0.2509804, 1), Color(0.6901961, 0.8156863, 0.972549, 1), Color(0.2509804, 0.28235295, 0.972549, 1), Color(0.0627451, 0.09411765, 0.3137255, 1), Color(0.1254902, 0.1254902, 0.15686275, 1), Color(0.84705883, 0.72156864, 0.5647059, 1), Color(0.5019608, 0.3764706, 0.28235295, 1), Color(0.03137255, 0.0627451, 0.1254902, 1), Color(0.73, 0.715643, 0.2993, 1), Color(0.4, 0.3688, 0.296, 1)])
 shader_parameter/white_percentage = 0.0
 
 [sub_resource type="Resource" id="Resource_4he0l"]
@@ -32,8 +32,8 @@ metadata/_custom_type_script = "uid://yde8dwbgdj6c"
 resource_name = "Archer"
 script = ExtResource("4_jlrml")
 
-[node name="Wolt" instance=ExtResource("1_7spn5")]
-material = SubResource("ShaderMaterial_4he0l")
+[node name="Wolt" unique_id=210700376 instance=ExtResource("1_7spn5")]
+material = SubResource("ShaderMaterial_svphs")
 texture = ExtResource("3_h3txp")
 script = ExtResource("2_xqfau")
 display_name = "Wolt"

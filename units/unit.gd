@@ -574,17 +574,12 @@ func get_all_attack_tiles() -> Set:
 			for x: int in range(0, _get_map().size.x, 16):
 				for y: int in range(0, _get_map().size.y, 16):
 					var tile := Vector2i(x, y)
-					if not basis_movement_tiles.has(tile):
-						#var range_tiles: Set = Utilities.get_tiles(
-						#tile, max_range, min_range, MapController.map.borders
-						#)
-						#var has_tile: Callable = func(current_tile: Vector2i) -> bool: return basis_movement_tiles.has(current_tile)
-						var is_tile_in_range: Callable = func(current_tile: Vector2i) -> bool:
-							return weapon.in_range(
-								roundi(Utilities.get_tile_distance(tile, current_tile))
-							)
-						if basis_movement_tiles.to_array().any(is_tile_in_range):
-							_attack_tiles.append(tile)
+					var is_tile_in_range: Callable = func(current_tile: Vector2i) -> bool:
+						return weapon.in_range(
+							roundi(Utilities.get_tile_distance(tile, current_tile))
+						)
+					if basis_movement_tiles.to_array().any(is_tile_in_range):
+						_attack_tiles.append(tile)
 		else:
 			for tile: Vector2i in basis_movement_tiles:
 				var attack_tiles := Utilities.get_tiles(
@@ -742,11 +737,7 @@ func update_path(destination: Vector2i) -> void:
 func show_path() -> void:
 	if is_instance_valid(_arrows_container):
 		_arrows_container.queue_free()
-	_arrows_container = CanvasGroup.new()
-	if get_unit_path().size() > 1:
-		for index: int in get_unit_path().size():
-			_arrows_container.add_child(MovementArrow.instantiate(get_unit_path(), index))
-		_get_map().get_child(0).add_child(_arrows_container)
+	_arrows_container = _get_map().draw_path(get_unit_path())
 
 
 ## Removes the unit's path

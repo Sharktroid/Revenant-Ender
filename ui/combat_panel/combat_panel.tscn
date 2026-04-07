@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://c6sx28dkpeclq"]
+[gd_scene format=4 uid="uid://c6sx28dkpeclq"]
 
 [ext_resource type="Script" uid="uid://d1sg2fmoct87x" path="res://ui/combat_panel/combat_panel.gd" id="1_1wwld"]
 [ext_resource type="PackedScene" uid="uid://bojpgvlm623qa" path="res://ui/combat_panel/name_panel/name_panel.tscn" id="2_yi715"]
@@ -24,7 +24,7 @@ expand_margin_bottom = 1.0
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
-[node name="CombatPanel" type="GridContainer"]
+[node name="CombatPanel" type="GridContainer" unique_id=871223328]
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
@@ -36,63 +36,63 @@ theme_override_constants/h_separation = 0
 columns = 3
 script = ExtResource("1_1wwld")
 
-[node name="LeftNamePanel" parent="." instance=ExtResource("2_yi715")]
+[node name="LeftNamePanel" parent="." unique_id=700820417 instance=ExtResource("2_yi715")]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1903374803]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 8
 
-[node name="CombatArtPanel" type="PanelContainer" parent="MarginContainer"]
+[node name="CombatArtPanel" type="PanelContainer" parent="MarginContainer" unique_id=1967756750]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_tk72q")
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxTexture_ni8gi")
 
-[node name="ArtLabel" type="Label" parent="MarginContainer/CombatArtPanel"]
+[node name="ArtLabel" type="Label" parent="MarginContainer/CombatArtPanel" unique_id=967507684]
 unique_name_in_owner = true
 layout_mode = 2
 text = "TEST"
 
-[node name="TopArrow" parent="MarginContainer/CombatArtPanel" instance=ExtResource("5_pv0nh")]
+[node name="TopArrow" parent="MarginContainer/CombatArtPanel" unique_id=1973476674 instance=ExtResource("5_pv0nh")]
 unique_name_in_owner = true
 rotation = 1.5707941
 scale = Vector2(1, -1)
 centered = true
 
-[node name="BottomArrow" parent="MarginContainer/CombatArtPanel" instance=ExtResource("5_pv0nh")]
+[node name="BottomArrow" parent="MarginContainer/CombatArtPanel" unique_id=1899346750 instance=ExtResource("5_pv0nh")]
 unique_name_in_owner = true
 rotation = 1.5707941
 scale = Vector2(1, -1)
 centered = true
 flip_h = true
 
-[node name="RightNamePanel" parent="." instance=ExtResource("2_yi715")]
+[node name="RightNamePanel" parent="." unique_id=1449961353 instance=ExtResource("2_yi715")]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="LeftStatsPanel" parent="." instance=ExtResource("3_vq7xu")]
+[node name="LeftStatsPanel" parent="." unique_id=1045793619 instance=ExtResource("3_vq7xu")]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="DamageScroll" type="ScrollContainer" parent="."]
+[node name="DamageScroll" type="ScrollContainer" parent="." unique_id=1415735539]
 custom_minimum_size = Vector2(178, 0)
 layout_mode = 2
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 3
 
-[node name="Damage" type="VBoxContainer" parent="DamageScroll"]
+[node name="Damage" type="VBoxContainer" parent="DamageScroll" unique_id=786145602]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 6
 theme_override_constants/separation = 0
 
-[node name="RightStatsPanel" parent="." instance=ExtResource("3_vq7xu")]
+[node name="RightStatsPanel" parent="." unique_id=350803418 instance=ExtResource("3_vq7xu")]
 layout_mode = 2
 size_flags_horizontal = 3

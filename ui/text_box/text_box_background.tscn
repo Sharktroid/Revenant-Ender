@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dvyyy1vag5her"]
+[gd_scene format=3 uid="uid://dvyyy1vag5her"]
 
 [ext_resource type="Texture2D" uid="uid://bd67r64uiekgk" path="res://ui/theme/text_box_background.png" id="1_us3xk"]
 
@@ -42,7 +42,7 @@ expand_margin_top = 3.0
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
-[node name="PanelContainer" type="PanelContainer"]
+[node name="PanelContainer" type="PanelContainer" unique_id=444272462]
 show_behind_parent = true
 anchors_preset = 15
 anchor_right = 1.0
@@ -51,15 +51,15 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_nws0a")
 
-[node name="PanelContainer3" type="PanelContainer" parent="."]
+[node name="PanelContainer3" type="PanelContainer" parent="." unique_id=1734685222]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_6ao2c")
 
-[node name="PanelContainer4" type="PanelContainer" parent="PanelContainer3"]
+[node name="PanelContainer4" type="PanelContainer" parent="PanelContainer3" unique_id=1574313010]
 clip_children = 1
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_oabfv")
 
-[node name="PanelContainer4" type="PanelContainer" parent="PanelContainer3/PanelContainer4"]
+[node name="PanelContainer4" type="PanelContainer" parent="PanelContainer3/PanelContainer4" unique_id=1980689241]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_0gfwe")

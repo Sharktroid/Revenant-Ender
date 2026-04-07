@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://8h4ym31xu44m"]
+[gd_scene format=3 uid="uid://8h4ym31xu44m"]
 
 [ext_resource type="Texture2D" uid="uid://ducmtx4iqvs5c" path="res://maps/map_tiles/movement_arrows.png" id="1_jc24t"]
 [ext_resource type="Script" uid="uid://dufv78ff710n4" path="res://maps/map_tiles/movement_arrow.gd" id="2_s5qfb"]
 
-[node name="MovementArrow" type="Sprite2D"]
+[node name="MovementArrow" type="Sprite2D" unique_id=1264828849]
 position = Vector2(-80, -32)
 texture = ExtResource("1_jc24t")
 centered = false

@@ -6,7 +6,7 @@ func _init() -> void:
 	_name = "Hexblade"
 
 
-func get_attack(unit: Unit) -> int:
+func get_attack(unit: Unit, _target: Unit) -> int:
 	return unit.get_intelligence()
 
 

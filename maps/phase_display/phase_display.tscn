@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bqw6iwqv47g7l"]
+[gd_scene format=3 uid="uid://bqw6iwqv47g7l"]
 
 [ext_resource type="Shader" uid="uid://bcq4v4cx3y05u" path="res://shaders/palette.gdshader" id="1_3uo04"]
 [ext_resource type="Script" uid="uid://d1g3ofp4eg76m" path="res://maps/phase_display/phase_display.gd" id="1_facvv"]
@@ -12,7 +12,7 @@ shader_parameter/old_colors = [Color(0.152941, 0.152941, 0.152941, 1)]
 shader_parameter/new_colors = [Color(0, 0, 0.380392, 0.262745)]
 shader_parameter/white_percentage = 0.0
 
-[node name="PhaseDisplay" type="ReferenceRect"]
+[node name="PhaseDisplay" type="ReferenceRect" unique_id=302955996]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -20,7 +20,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_facvv")
 
-[node name="DarkenPanel" type="Panel" parent="."]
+[node name="DarkenPanel" type="Panel" parent="." unique_id=922352517]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,10 +29,10 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_q7mto")
 
-[node name="CanvasGroup" type="CanvasGroup" parent="."]
+[node name="CanvasGroup" type="CanvasGroup" parent="." unique_id=720514386]
 position = Vector2(256, 144)
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasGroup" unique_id=1619282787]
 material = SubResource("ShaderMaterial_0ntf7")
 anchors_preset = 8
 anchor_left = 0.5
@@ -46,13 +46,13 @@ offset_bottom = 8.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="NameLabel" type="Label" parent="CanvasGroup/HBoxContainer"]
+[node name="NameLabel" type="Label" parent="CanvasGroup/HBoxContainer" unique_id=1638678865]
 unique_name_in_owner = true
 use_parent_material = true
 layout_mode = 2
 text = "Player"
 
-[node name="Label2" type="Label" parent="CanvasGroup/HBoxContainer"]
+[node name="Label2" type="Label" parent="CanvasGroup/HBoxContainer" unique_id=185958513]
 use_parent_material = true
 layout_mode = 2
 text = "Phase"

@@ -3,9 +3,6 @@
 class_name CombatPanel
 extends GridContainer
 
-## Emits true when the player presses select, and false when the player cancels out.
-#signal completed(proceed: bool)
-
 ## The unit being displayed on the bottom.
 var right_unit: Unit:
 	set = _set_right_unit
