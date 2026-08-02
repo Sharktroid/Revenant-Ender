@@ -34,6 +34,7 @@ func play_combat_animation(attacker: Unit, defender: Unit, combat_art: CombatArt
 
 ## Initiates combat between two units using map animations.
 func _map_combat(attacker: Unit, defender: Unit, combat: Combat) -> void:
+	print_debug(combat.get_outcomes())
 	var hp_bar := MapCombatDisplay.instantiate(attacker, defender)
 	MapController.get_ui().add_child(hp_bar)
 	var attacker_animation: MapAttack = await MapAttack.new(attacker, defender.position)

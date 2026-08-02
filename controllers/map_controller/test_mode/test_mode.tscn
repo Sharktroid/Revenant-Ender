@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://dhqsh0wj3bpt1"]
+
+[ext_resource type="Script" uid="uid://vjanearaovxg" path="res://controllers/map_controller/test_mode/test_mode.gd" id="1_j0f22"]
+[ext_resource type="Shader" uid="uid://bo88g3h3w3rer" path="res://shaders/vignette.gdshader" id="1_kyv73"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7idfx"]
+shader = ExtResource("1_kyv73")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kyv73"]
+bg_color = Color(0.20999998, 1, 0.42066664, 1)
+
+[node name="TestMode" type="Panel" unique_id=1347623482]
+material = SubResource("ShaderMaterial_7idfx")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kyv73")
+script = ExtResource("1_j0f22")

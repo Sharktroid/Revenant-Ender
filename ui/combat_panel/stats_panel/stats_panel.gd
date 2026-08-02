@@ -11,14 +11,27 @@ func _ready() -> void:
 
 
 ## Updates the stats that are on displayed.
-func update(unit: Unit, combat: Combat, distance: int) -> void:
+func update(unit: Unit, combat: Combat, distance: int, preview_mode: bool) -> void:
 	var weapon: Weapon = unit.get_weapon()
-	var in_range: bool = weapon and weapon.in_range(distance)
+	var in_range: bool = weapon and weapon.in_range(distance) or preview_mode
 	var is_attacker: bool = unit == combat.get_attacker()
 	_update_hp_display(unit, combat.get_total_damage(false, not(is_attacker)))
 
 	_update_rate_label(%HitLabel as Label, combat.get_hit_rate(unit), in_range)
 	_update_rate_label(%CriticalRateLabel as Label, combat.get_crit_rate(unit), in_range)
+
+	var list: Dictionary[int, float] = combat.get_outcomes()[unit]
+	var rate: int = roundi((list.get(0, 0) as float) * 100)
+	var label := %ChanceOfDeathLabel as Label
+	label.text = str(rate)
+	var get_type_variation: Callable = func() -> StringName:
+		if rate <= 0:
+			return &"GreenLabel"
+		elif rate >= 100:
+			return &"RedLabel"
+		else:
+			return &"BlueLabel"
+	label.theme_type_variation = get_type_variation.call()
 
 	if Options.COMBAT_PANEL.value == Options.COMBAT_PANEL.STRATEGIC:
 		if in_range:

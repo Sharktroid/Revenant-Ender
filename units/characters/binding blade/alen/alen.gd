@@ -18,4 +18,5 @@ func _enter_tree() -> void:
 		Stats.MOVEMENT: 0,
 		Stats.BUILD: 5,
 	}
+	_personal_skills.append(Adept.Alpha.new())
 	super()

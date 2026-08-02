@@ -83,7 +83,6 @@ func _get_all_general_coords(outline_faction: Faction) -> Set:
 			MapController.map.get_current_faction().get_diplomacy_stance(unit.faction) == ENEMY
 			and not unit.get_all_attack_tiles().is_empty()
 		)
-
 	var all_general_coords := Set.new()
 	var current_faction: Faction = MapController.map.get_current_faction()
 	if current_faction.full_outline and outline_faction != current_faction:

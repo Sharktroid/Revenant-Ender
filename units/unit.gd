@@ -575,9 +575,10 @@ func get_all_attack_tiles() -> Set:
 				for y: int in range(0, _get_map().size.y, 16):
 					var tile := Vector2i(x, y)
 					var is_tile_in_range: Callable = func(current_tile: Vector2i) -> bool:
-						return weapon.in_range(
+						var in_range: bool = weapon.in_range(
 							roundi(Utilities.get_tile_distance(tile, current_tile))
 						)
+						return in_range
 					if basis_movement_tiles.to_array().any(is_tile_in_range):
 						_attack_tiles.append(tile)
 		else:
@@ -586,8 +587,10 @@ func get_all_attack_tiles() -> Set:
 					tile, max_range, min_range, MapController.map.borders
 				)
 				var not_current_tile: Callable = func(attack_tile: Vector2i) -> bool:
-					return not (_attack_tiles.has(attack_tile))
+					var has_tile: bool = not (_attack_tiles.has(attack_tile))
+					return has_tile
 				_attack_tiles.append_set(attack_tiles.filter(not_current_tile))
+	#Utilities.finish_profiling()
 	return _attack_tiles
 
 

@@ -5,6 +5,7 @@ Before you commit
 * Make sure it all works
 
 # Minor
+* Tweens awaiting signals
 * Have hand in options menu for the bars be based on the cursor position.
 * Fix status menu scrolling while help menu is active.
 * Fix broken arrow key scrolling in Status Screen.

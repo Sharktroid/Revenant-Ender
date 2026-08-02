@@ -42,12 +42,6 @@ func _init(attacker: Unit, defender: Unit, distance: int, combat_art: CombatArt)
 		_strikes[StrikeTypes.DEFENDER_SECONDARY] += 1
 
 
-func _can_counter() -> bool:
-	if _defender.get_weapon() != null:
-		return _defender.get_weapon().in_range(_distance)
-	return false
-
-
 func get_attack_stages() -> Array[Strike]:
 	var attack_queue: Array[Strike] = []
 	for _round: int in _get_rounds():
@@ -58,12 +52,6 @@ func get_attack_stages() -> Array[Strike]:
 				var primary: bool = strike_type & StrikeFlags.PRIMARY
 				attack_queue.append(Strike.new(self, strike, attacker, primary, initial))
 	return attack_queue
-
-
-func _get_rounds() -> int:
-	if is_combat_art_active(get_attacker()):
-		return _combat_art.get_rounds()
-	return 1
 
 
 ## Gets the hit rate against an enemy
@@ -131,7 +119,8 @@ func create_attack_arrows() -> Array[AttackArrow]:
 					_get_displayed_damage(strike, attacker_strike, primary_strike, false),
 					_get_displayed_damage(strike, attacker_strike, primary_strike, true),
 					get_recoil(
-						attacker, _get_displayed_damage(strike, attacker_strike, primary_strike, false)
+						attacker,
+						_get_displayed_damage(strike, attacker_strike, primary_strike, false)
 					),
 					event,
 					attacker.faction.color
@@ -175,13 +164,6 @@ func get_attack(initiation: float, unit: Unit) -> float:
 	return 0
 
 
-func _get_base_attack(initiation: float, unit: Unit, target: Unit) -> float:
-	if is_combat_art_active(unit):
-		return _combat_art.get_attack(unit, target) + _combat_art.get_might(unit, initiation)
-	else:
-		return unit.get_attack(initiation)
-
-
 ## Gets the damage done with a normal attack
 func get_hit_damage(initiation: bool, unit: Unit) -> float:
 	return _get_base_damage(1, initiation, unit)
@@ -202,6 +184,107 @@ func get_recoil(unit: Unit, damage: float) -> float:
 		-(get_attacker().get_hit_points() - get_attacker().current_health),
 		get_attacker().current_health
 	)
+
+
+## Returns a key-value pair dictionary of the probabilities of the hp each unit will have at the end of combat.
+func get_outcomes() -> Dictionary[Unit, Dictionary]:
+	Utilities.start_profiling()
+	var attacker_probabilities: Dictionary[int, float] = {get_attacker().current_health: 1, 0:0}
+	var defender_probabilities: Dictionary[int, float] = {get_defender().current_health: 1, 0:0}
+	for stage: Strike in get_attack_stages():
+		var is_attacker: bool = stage.get_defender() == get_attacker()
+		var initial: bool = stage == get_attack_stages()[0]
+		var current_probabilities: Dictionary[int, float] = {}
+		#var chance_of_combat: float
+		#if is_attacker:
+			#chance_of_combat = 1 - defender_probabilities.get_or_add(0, 0)
+		#else:
+			#chance_of_combat = 1 - attacker_probabilities.get_or_add(0, 0)
+		#for hp: int in current_probabilities.keys():
+			#if hp == 0:
+				#new_probabilities[hp] = (
+					#new_probabilities.get_or_add(hp, 0) + current_probabilities[hp]
+				#)
+			#else:
+		var true_crit_rate: float = (
+			float(get_crit_rate(stage.get_attacker()) * get_hit_rate(stage.get_attacker()))
+			/ 100
+		)
+		var hp: int = (get_attacker() if is_attacker else get_defender()).get_hit_points()
+		var set_hp: Callable = func(reduction: int, probability: float) -> void:
+			if probability > 0:
+				var new_hp: int = maxi(hp - reduction, 0)
+				#var adjusted_probability: float = (
+					#current_probabilities[hp] * probability# * chance_of_combat
+				#)
+				current_probabilities[new_hp] = (
+					current_probabilities.get_or_add(new_hp, 0) + probability
+				)
+		set_hp.call(0, 1 - float(get_hit_rate(stage.get_attacker())) / 100)
+		#print_debug(1 - float(get_hit_rate(stage.get_attacker())) / 100)
+		set_hp.call(
+			get_hit_damage(initial, stage.get_attacker()),
+			(get_hit_rate(stage.get_attacker()) - true_crit_rate) / 100
+		)
+		set_hp.call(get_crit_damage(initial, stage.get_attacker()), true_crit_rate / 100)
+		#print_debug(attacker_probabilities)
+		#print_debug(defender_probabilities)
+		if is_attacker:
+			attacker_probabilities = combine_probabilities(
+				attacker_probabilities, current_probabilities, hp, 1 - defender_probabilities[0]
+			)
+		else:
+			defender_probabilities = combine_probabilities(
+				defender_probabilities, current_probabilities, hp, 1 - attacker_probabilities[0]
+			)
+		#breakpoint
+			#new_probabilities[hp] = new_probabilities.get_or_add(hp, 0) + (1 - chance_of_combat)
+		#if is_attacker:
+			#attacker_probabilities = new_probabilities
+		#else:
+			#defender_probabilities = new_probabilities
+	return {get_attacker(): attacker_probabilities, get_defender(): defender_probabilities}
+
+
+static func combine_probabilities(
+	probability_a: Dictionary[int, float],
+	probability_b: Dictionary[int, float],
+	starting_hp: int,
+	chance_of_combat: float = 1
+) -> Dictionary[int, float]:
+	var combined_probabilities: Dictionary[int, float] = {}
+	for hp_a: int in probability_a.keys():
+		combined_probabilities[hp_a] = combined_probabilities.get_or_add(hp_a, 0) + (1 - chance_of_combat) * probability_a[hp_a]
+		for hp_b: int in probability_b.keys():
+			var damage_a: int = starting_hp - hp_a
+			var damage_b: int = starting_hp - hp_b
+			var resulting_hp: int = maxi(starting_hp - damage_a - damage_b, 0)
+			var combined_probability: float = (
+				chance_of_combat * probability_a[hp_a] * probability_b[hp_b]
+			)
+			combined_probabilities[resulting_hp] = (
+				combined_probabilities.get_or_add(resulting_hp, 0) + combined_probability
+			)
+	return combined_probabilities
+
+
+func _can_counter() -> bool:
+	if _defender.get_weapon() != null:
+		return _defender.get_weapon().in_range(_distance)
+	return false
+
+
+func _get_rounds() -> int:
+	if is_combat_art_active(get_attacker()):
+		return _combat_art.get_rounds()
+	return 1
+
+
+func _get_base_attack(initiation: float, unit: Unit, target: Unit) -> float:
+	if is_combat_art_active(unit):
+		return _combat_art.get_attack(unit, target) + _combat_art.get_might(unit, initiation)
+	else:
+		return unit.get_attack(initiation)
 
 
 func _get_base_damage(multiplier: int, initiation: bool, unit: Unit) -> float:

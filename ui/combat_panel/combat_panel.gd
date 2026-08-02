@@ -10,6 +10,7 @@ var right_unit: Unit:
 var _left_unit: Unit
 var _distance: int
 var _focused: bool = false
+var _preview_mode: bool = false
 var _current_weapons: Array[Weapon] = []
 var _weapon_index: int = 0:
 	set(value):
@@ -18,6 +19,8 @@ var _weapon_index: int = 0:
 		_update()
 		if _focused:
 			_left_unit.display_current_attack_tiles()
+		if _preview_mode:
+			_distance = _left_unit.get_weapon().get_min_range()
 var _art_index: int = 0:
 	set(value):
 		_art_index = posmod(value, _left_unit.get_combat_arts(right_unit, _distance).size())
@@ -51,13 +54,15 @@ static func instantiate(
 	on_info_display_complete: Callable,
 	on_info_display_return: Callable,
 	bottom: Unit = null,
-	focused: bool = false
+	focused: bool = false,
+	preview: bool = false
 ) -> CombatPanel:
 	const PACKED_SCENE: PackedScene = preload("res://ui/combat_panel/combat_panel.tscn")
 	var scene := PACKED_SCENE.instantiate() as CombatPanel
 	scene._left_unit = top
 	scene._on_info_display_complete = on_info_display_complete
 	scene._on_info_display_return = on_info_display_return
+	scene._preview_mode = preview
 	if bottom:
 		scene.right_unit = bottom
 	# gdlint:ignore = private-method-call
@@ -133,8 +138,8 @@ func _update() -> void:
 		right_name_panel.unit = right_unit
 		right_name_panel.weapon = right_unit.get_weapon()
 		const StatsPanel: GDScript = preload("res://ui/combat_panel/stats_panel/stats_panel.gd")
-		($LeftStatsPanel as StatsPanel).update(_left_unit, combat, _distance)
-		($RightStatsPanel as StatsPanel).update(right_unit, combat, _distance)
+		($LeftStatsPanel as StatsPanel).update(_left_unit, combat, _distance, _preview_mode)
+		($RightStatsPanel as StatsPanel).update(right_unit, combat, _distance, _preview_mode)
 		_left_unit.position = old_position
 		var combat_art: CombatArt = _left_unit.get_combat_arts(right_unit, _distance)[_art_index]
 		_art_label.text = str(combat_art) if combat_art else "None"
@@ -143,10 +148,13 @@ func _update() -> void:
 
 func _set_right_unit(unit: Unit) -> void:
 	right_unit = unit
-	var path_end: Vector2i = _left_unit.get_unit_path().back()
-	_distance = roundi(Utilities.get_tile_distance(path_end, right_unit.position))
-	var is_in_range: Callable = func(weapon: Weapon) -> bool: return weapon.in_range(_distance)
-	_current_weapons = _left_unit.get_all_weapon_modes().filter(is_in_range)
+	if _preview_mode:
+		_current_weapons = _left_unit.get_all_weapon_modes()
+	else:
+		var path_end: Vector2i = _left_unit.get_unit_path().back()
+		_distance = roundi(Utilities.get_tile_distance(path_end, right_unit.position))
+		var is_in_range: Callable = func(weapon: Weapon) -> bool: return weapon.in_range(_distance)
+		_current_weapons = _left_unit.get_all_weapon_modes().filter(is_in_range)
 	_original_weapon = _left_unit.get_weapon()
 	_weapon_index = _get_index()
 	if not is_node_ready():

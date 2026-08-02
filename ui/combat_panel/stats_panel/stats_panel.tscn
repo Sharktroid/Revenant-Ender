@@ -58,6 +58,7 @@ text = "25"
 
 [node name="AttackHBox" type="HBoxContainer" parent="VBoxContainer2/VBoxContainer" unique_id=1682920551]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 0
 
@@ -146,6 +147,21 @@ theme_type_variation = &"YellowLabel"
 text = "Attack Speed:"
 
 [node name="AttackSpeedLabel" type="Label" parent="VBoxContainer2/VBoxContainer/AttackSpeedHBox" unique_id=276585142]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+theme_type_variation = &"BlueLabel"
+text = "25"
+
+[node name="ChanceOfDeathHBox" type="HBoxContainer" parent="VBoxContainer2/VBoxContainer" unique_id=795747355]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer2/VBoxContainer/ChanceOfDeathHBox" unique_id=1189393882]
+layout_mode = 2
+theme_type_variation = &"YellowLabel"
+text = "Chance of Death:"
+
+[node name="ChanceOfDeathLabel" type="Label" parent="VBoxContainer2/VBoxContainer/ChanceOfDeathHBox" unique_id=453513112]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 10

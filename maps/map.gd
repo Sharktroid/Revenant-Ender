@@ -276,8 +276,8 @@ func get_movement_path(
 ) -> Array[Vector2i]:
 	if faction != _grid_current_faction:
 		_grid_current_faction = faction
+		_update_grid_current_faction()
 	var movement_grid: AStarGrid2D = _cost_grids[movement_type]
-	_update_grid_current_faction()
 	#@warning_ignore("integer_division")
 	if (
 		movement_grid.is_in_boundsv(starting_point / 16)
@@ -629,10 +629,12 @@ func _update_ghost_unit() -> void:
 
 
 func _update_grid_current_faction() -> void:
-	for movement_type: UnitClass.MovementTypes in _cost_grids.keys():
-		for unit: Unit in get_units():
+	for unit: Unit in get_units():
+		var tile_position: Vector2 = unit.position / 16
+		var is_solid: bool = not unit.faction.is_friend(_grid_current_faction) and unit.visible
+		for movement_type: UnitClass.MovementTypes in _cost_grids.keys():
 			(_cost_grids[movement_type] as AStarGrid2D).set_point_solid(
-				unit.position / 16, not unit.faction.is_friend(_grid_current_faction) and unit.visible
+				tile_position, is_solid
 			)
 
 

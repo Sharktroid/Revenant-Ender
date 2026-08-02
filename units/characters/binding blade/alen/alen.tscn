@@ -6,32 +6,40 @@
 [ext_resource type="Script" uid="uid://86m1wvgsf31" path="res://units/characters/binding blade/alen/alen.gd" id="2_k3lvx"]
 [ext_resource type="Texture2D" uid="uid://dcbp6yac31ins" path="res://units/unit_classes/knight/map_sprite.png" id="3_qjqc5"]
 [ext_resource type="Script" uid="uid://oxuirych6txp" path="res://items/item.gd" id="5_i565i"]
-[ext_resource type="Script" uid="uid://ciiv3yqapeihw" path="res://items/weapons/swords/iron_sword/iron_sword.gd" id="5_v11hb"]
+[ext_resource type="Script" uid="uid://6mc11y0vd8th" path="res://items/weapons/swords/iron_blade/iron_blade.gd" id="6_i565i"]
 [ext_resource type="Script" uid="uid://ct5nf025t4s6l" path="res://items/weapons/spears/iron_spear/iron_spear.gd" id="6_ou60j"]
+[ext_resource type="Script" uid="uid://dya3s8phtivsv" path="res://skills/skill.gd" id="8_82v3r"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_i565i"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d7sn4"]
 shader = ExtResource("2_42wgt")
 shader_parameter/old_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.65882355, 0.65882355, 0.59607846, 1), Color(0.28235295, 0.28235295, 0.2509804, 1), Color(0.6901961, 0.8156863, 0.972549, 1), Color(0.2509804, 0.28235295, 0.972549, 1), Color(0.0627451, 0.09411765, 0.3137255, 1), Color(0.1254902, 0.1254902, 0.15686275, 1), Color(0.84705883, 0.72156864, 0.5647059, 1), Color(0.5019608, 0.3764706, 0.28235295, 1), Color(0.03137255, 0.0627451, 0.1254902, 1), Color(0.8156863, 0.4392157, 0.1882353, 1), Color(0.47058824, 0.1882353, 0.09411765, 1)])
 shader_parameter/new_colors = Array[Color]([Color(0.972549, 0.972549, 0.972549, 1), Color(0.65882355, 0.65882355, 0.59607846, 1), Color(0.28235295, 0.28235295, 0.2509804, 1), Color(0.6901961, 0.8156863, 0.972549, 1), Color(0.2509804, 0.28235295, 0.972549, 1), Color(0.0627451, 0.09411765, 0.3137255, 1), Color(0.1254902, 0.1254902, 0.15686275, 1), Color(0.84705883, 0.72156864, 0.5647059, 1), Color(0.5019608, 0.3764706, 0.28235295, 1), Color(0.03137255, 0.0627451, 0.1254902, 1), Color(0.65, 0.0455, 0.156325, 1), Color(0.37, 0.1406, 0.18648, 1)])
 shader_parameter/white_percentage = 0.0
 
-[sub_resource type="Resource" id="Resource_r84p6"]
-script = ExtResource("5_v11hb")
+[sub_resource type="Resource" id="Resource_i565i"]
+script = ExtResource("6_i565i")
+metadata/_custom_type_script = "uid://6mc11y0vd8th"
 
 [sub_resource type="Resource" id="Resource_u1gbs"]
 script = ExtResource("6_ou60j")
+
+[sub_resource type="GDScript" id="GDScript_hh618"]
+
+[sub_resource type="Resource" id="Resource_8g43n"]
+script = SubResource("GDScript_hh618")
 
 [sub_resource type="Resource" id="Resource_ms2vb"]
 resource_name = "Knight"
 script = ExtResource("2_am6bc")
 
 [node name="Alen" unique_id=1005837302 instance=ExtResource("1_x0tds")]
-material = SubResource("ShaderMaterial_i565i")
+material = SubResource("ShaderMaterial_d7sn4")
 texture = ExtResource("3_qjqc5")
 script = ExtResource("2_k3lvx")
 display_name = "Alen"
 unit_description = "A knight serving Pherae. Passionate and hot-headed."
-items = Array[ExtResource("5_i565i")]([SubResource("Resource_r84p6"), SubResource("Resource_u1gbs")])
+items = Array[ExtResource("5_i565i")]([SubResource("Resource_i565i"), SubResource("Resource_u1gbs")])
+_personal_skills = Array[ExtResource("8_82v3r")]([SubResource("Resource_8g43n")])
 unit_class = SubResource("Resource_ms2vb")
 _custom_hair = true
 _hair_color_light = Color(0.65, 0.0455, 0.156325, 1)
